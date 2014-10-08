@@ -15,25 +15,25 @@ namespace App.Score
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new StyleBundle("~/content/css/app").Include(
-                "~/content/app.css",
                 "~/content/css/bootstrap-theme.min.css",
                 "~/content/css/bootstrap.min.css",
                 "~/content/css/datepicker/css/datepicker3.css",
                 "~/content/css/angular-ui-tree.min.css",
+                "~/content/app.css",
                 "~/content/menu.css"
             ));
 
             bundles.Add(new ScriptBundle("~/js/vendor").Include(
                 "~/scripts/vendor/jquery-2.0.3.min.js",
-                "~/Scripts/Content/js/bootstrap.min.js",
-                 "~/content/Content/js/bootstrap-datepicker.js",
-                 "~/content/Content/js/locales/bootstrap-datepicker.zh-CN.js",
+                "~/content/js/bootstrap.min.js",
+                "~/content/js/bootstrap-datepicker.js",
+                "~/content/js/locales/bootstrap-datepicker.zh-CN.js",
                 "~/scripts/vendor/angular.min.js",
-                 "~/scripts/vendor/angular-animate.js",
-                 "~/scripts/vendor/angular-ui-router.js",
-                 "~/scripts/vendor/angular-cookies.min.js",
-                 "~/scripts/vendor/angular-ui-tree.min.js",
-                 "~/scripts/vendor/checklist-model.js"
+                "~/scripts/vendor/angular-animate.js",
+                "~/scripts/vendor/angular-ui-router.js",
+                "~/scripts/vendor/angular-cookies.min.js",
+                "~/scripts/vendor/angular-ui-tree.min.js",
+                "~/scripts/vendor/checklist-model.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/js/app").Include(
