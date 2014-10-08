@@ -97,6 +97,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.2\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
@@ -130,6 +134,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\datepicker\css\datepicker.css" />
     <Content Include="Content\datepicker\css\datepicker3.css" />
     <Content Include="Content\datepicker\js\bootstrap-datepicker.js" />
@@ -140,15 +146,19 @@
     </Content>
     <Content Include="Content\app.less" />
     <Content Include="Content\menu.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\tree\angular-ui-tree.min.css" />
     <Content Include="Content\variables.less" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Images\arrow1.gif" />
     <Content Include="Images\arrow_over.gif" />
     <Content Include="Images\subli_bg.gif" />
     <Content Include="Images\three1.gif" />
     <Content Include="Images\three1a.gif" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\common.js" />
     <Content Include="Scripts\controllers\controllers.js" />
     <Content Include="Scripts\controllers\controllers.spec.js">
@@ -163,6 +173,12 @@
     <Content Include="Scripts\filters\filters.spec.js">
       <DependentUpon>filters.js</DependentUpon>
     </Content>
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\services\services.js" />
     <Content Include="Scripts\services\services.spec.js">
       <DependentUpon>services.js</DependentUpon>
@@ -492,8 +508,11 @@
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Scripts\vendor\jquery-1.11.1.min.js" />
-    <Content Include="Resource\menu.json" />
-    <Content Include="Resource\menubak.json" />
+    <Content Include="Asset\menu.json" />
+    <Content Include="Asset\menubak.json" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Scripts\_references.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Services\SystemService.aspx" />
@@ -516,6 +535,10 @@
     <Content Include="Views\_PageStart.cshtml" />
     <Content Include="Views\About.cshtml" />
     <Content Include="Views\System\user.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -543,8 +566,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Views\aaa\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

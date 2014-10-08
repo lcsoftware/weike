@@ -51,5 +51,6 @@ namespace App.ScoreAnalyze.Services
                 return bll.GetFuncs(teacherID);
             }
         }
+
     }
 }

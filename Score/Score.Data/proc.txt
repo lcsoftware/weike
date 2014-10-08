@@ -1,0 +1,56 @@
+﻿-- =============================================
+-- Author:		zhaotianyu
+-- Create date: 2014-10-01
+-- Description:	用户验证
+/* 
+	exec [USP_System_Verify] @User='System', @Pwd='888'
+*/
+-- =============================================
+ALTER proc [dbo].[USP_System_Verify]
+(
+	@User VARCHAR(100),	
+	@Pwd varchar(200)
+)	
+AS
+begin
+	SELECT TeacherID, cast(ltrim(rtrim(Name)) as varchar) as Name, [Description] 
+	FROM tbUserGroupInfo 
+	WHERE userorgroup='1' 
+	AND Name=@User
+	AND [Password]=@Pwd
+end
+
+
+
+/*
+	exec s_p_getTeacherRight @TeacherID ='99999999991001'
+*/
+ALTER  PROCEDURE dbo.s_p_getTeacherRight(@TeacherID Char(14))
+AS
+
+/*
+根据教师号得到其所有的权限
+*/
+
+Declare @GroupID As Char(14)
+
+Begin
+-- 创建临时表
+ Create Table #TableName(FuncID char(8),FuncName varchar(20))
+--自己的权限
+  Insert into #TableName select a.FuncID,b.FuncName from s_tb_rights as a,s_tb_function as b        where a.FuncID=b.FuncID and a.TeacherID=@TeacherID 
+-- 属于那几个组
+ Declare C1 Cursor For
+   select Groupid from tbgroupinfo where teacherid=@TeacherID
+ Open C1
+	Fetch Next From C1 Into @GroupID
+  While @@Fetch_Status=0 
+  begin  
+     Insert into #TableName select a.FuncID,b.FuncName from s_tb_rights as a,s_tb_function as b        where a.FuncID=b.FuncID and a.TeacherID=@GroupID 
+     Fetch Next From C1 Into @GroupID
+  End
+  Close C1
+  DEALLOCATE C1
+  Select FuncID, cast(ltrim(FuncName) as varchar) as FuncName From #TableName Where FuncID<>'0000' group by FuncID, FuncName order by FuncID
+  Drop Table #TableName
+End
