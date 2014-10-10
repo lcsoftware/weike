@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Score", "Score\Score.csproj", "{54A8CB9F-184F-47B2-B93B-B1013D638AA1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Score.Web", "Score\Score.Web.csproj", "{54A8CB9F-184F-47B2-B93B-B1013D638AA1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Score.entry", "Score.entry\Score.entry.csproj", "{4C22720D-0DF3-4D51-B84A-939B38261A85}"
 EndProject

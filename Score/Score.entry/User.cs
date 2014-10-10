@@ -8,7 +8,7 @@
 ******************************************************************/ 
 [assembly: System.CLSCompliant(true)] 
 
-namespace Score.Entry
+namespace Nevupo.Entry
 { 
     using System;
     using System.Collections.Generic;

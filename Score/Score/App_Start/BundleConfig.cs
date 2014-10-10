@@ -24,7 +24,7 @@ namespace App.Score
             ));
 
             bundles.Add(new ScriptBundle("~/js/vendor").Include(
-                "~/scripts/vendor/jquery-2.0.3.min.js",
+                "~/scripts/vendor/jquery-1.11.1.min.js",
                 "~/content/js/bootstrap.min.js",
                 "~/content/js/bootstrap-datepicker.js",
                 "~/content/js/locales/bootstrap-datepicker.zh-CN.js",

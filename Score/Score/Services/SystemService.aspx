@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SystemService.aspx.cs" Inherits="App.ScoreAnalyze.Services.SystemService" %> 

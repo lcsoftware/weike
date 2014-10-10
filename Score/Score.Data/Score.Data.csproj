@@ -55,9 +55,9 @@
     <Compile Include="SystemBLL.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Score.entry\Score.Entry.csproj">
+    <ProjectReference Include="..\Score.entry\Score.entry.csproj">
       <Project>{4c22720d-0df3-4d51-b84a-939b38261a85}</Project>
-      <Name>Score.Entry</Name>
+      <Name>Score.entry</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
