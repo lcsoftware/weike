@@ -125,14 +125,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\jasmine\jasmine.css" />
-    <Content Include="Content\jasmine\jasmine_favicon.png" />
-    <Content Include="Content\app.css">
-      <DependentUpon>app.less</DependentUpon>
-    </Content>
-    <Content Include="Content\app.less" />
-    <Content Include="Content\variables.less" />
+    <Content Include="Content\app.css" />
+    <Content Include="Content\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\bootstrap\js\bootstrap.min.js" />
+    <Content Include="DataProvider\DataProvider.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\controllers.js" />
     <Content Include="Scripts\controllers.spec.js">
@@ -150,6 +148,7 @@
     <Content Include="Scripts\services.spec.js">
       <DependentUpon>services.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\utils.js" />
     <Content Include="Scripts\vendor\angular-csp.css" />
     <Content Include="Scripts\vendor\angular-ui-router.js" />
     <Content Include="Scripts\vendor\angular-ui-router.min.js" />
@@ -428,57 +427,22 @@
     <Content Include="Scripts\vendor\jasmine-html.js" />
     <Content Include="Scripts\vendor\jasmine.js" />
     <Content Include="Scripts\.jshintrc" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap\wells.less" />
-    <Content Include="Content\bootstrap\variables.less" />
-    <Content Include="Content\bootstrap\utilities.less" />
-    <Content Include="Content\bootstrap\type.less" />
-    <Content Include="Content\bootstrap\tooltip.less" />
-    <Content Include="Content\bootstrap\thumbnails.less" />
-    <Content Include="Content\bootstrap\theme.less" />
-    <Content Include="Content\bootstrap\tables.less" />
-    <Content Include="Content\bootstrap\scaffolding.less" />
-    <Content Include="Content\bootstrap\responsive-utilities.less" />
-    <Content Include="Content\bootstrap\progress-bars.less" />
-    <Content Include="Content\bootstrap\print.less" />
-    <Content Include="Content\bootstrap\popovers.less" />
-    <Content Include="Content\bootstrap\panels.less" />
-    <Content Include="Content\bootstrap\pagination.less" />
-    <Content Include="Content\bootstrap\pager.less" />
-    <Content Include="Content\bootstrap\normalize.less" />
-    <Content Include="Content\bootstrap\navs.less" />
-    <Content Include="Content\bootstrap\navbar.less" />
-    <Content Include="Content\bootstrap\modals.less" />
-    <Content Include="Content\bootstrap\mixins.less" />
-    <Content Include="Content\bootstrap\media.less" />
-    <Content Include="Content\bootstrap\list-group.less" />
-    <Content Include="Content\bootstrap\labels.less" />
-    <Content Include="Content\bootstrap\jumbotron.less" />
-    <Content Include="Content\bootstrap\input-groups.less" />
-    <Content Include="Content\bootstrap\grid.less" />
-    <Content Include="Content\bootstrap\glyphicons.less" />
-    <Content Include="Content\bootstrap\forms.less" />
-    <Content Include="Content\bootstrap\dropdowns.less" />
-    <Content Include="Content\bootstrap\component-animations.less" />
-    <Content Include="Content\bootstrap\code.less" />
-    <Content Include="Content\bootstrap\close.less" />
-    <Content Include="Content\bootstrap\carousel.less" />
-    <Content Include="Content\bootstrap\buttons.less" />
-    <Content Include="Content\bootstrap\button-groups.less" />
-    <Content Include="Content\bootstrap\breadcrumbs.less" />
-    <Content Include="Content\bootstrap\bootstrap.less" />
-    <Content Include="Content\bootstrap\badges.less" />
-    <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Assets\menu.json" />
     <Content Include="Assets\menubak.json" />
-    <None Include="Scripts\vendor\jquery-2.0.3.intellisense.js" />
-    <Content Include="Scripts\vendor\jquery-2.0.3.js" />
-    <Content Include="Scripts\vendor\jquery-2.0.3.min.js" />
-    <Content Include="Scripts\vendor\jquery-2.0.3.min.map" />
+    <Content Include="Content\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Scripts\app.base.js" />
+    <Content Include="Scripts\app.exam.js" />
+    <Content Include="Scripts\app.score.js" />
+    <Content Include="Scripts\app.query.js" />
+    <Content Include="Scripts\app.statistic.js" />
+    <Content Include="Scripts\app.admin.js" />
     <None Include="Scripts\_references.js" />
     <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\vendor\jquery-1.11.1.min.js" />
     <Content Include="Views\Jasmine\SpecRunner.cshtml" />
     <Content Include="apple-touch-icon-precomposed.png" />
     <Content Include="crossdomain.xml" />
@@ -494,7 +458,7 @@
     <Content Include="Views\Login.cshtml" />
     <Content Include="Views\Index.cshtml" />
     <Content Include="Views\404.cshtml" />
-    <Content Include="Views\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_PageStart.cshtml" />
     <Content Include="Views\About.cshtml" />
     <None Include="Web.Debug.config">
@@ -508,6 +472,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="DataProvider\DataProvider.aspx.cs">
+      <DependentUpon>DataProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\DataProvider.aspx.designer.cs">
+      <DependentUpon>DataProvider.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -518,10 +489,23 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
-    <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Score.Business\Score.Business.csproj">
+      <Project>{070d183a-2261-41f7-b4a6-c935bdd41ffb}</Project>
+      <Name>Score.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Score.Db\Score.Db.csproj">
+      <Project>{09e2a1e2-a2e0-4c70-b727-fb338a0721b3}</Project>
+      <Name>Score.Db</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Score.Entity\Score.Entity.csproj">
+      <Project>{58872250-10ae-4282-b8d3-6592ebf90b62}</Project>
+      <Name>Score.Entity</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

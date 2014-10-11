@@ -6,7 +6,7 @@
   * Created          : 2014-09-25
   * Revision History : 
 ******************************************************************/
-namespace Nevupo.Data
+namespace App.Score.Data
 {
     using System;
     using System.Collections.Generic;
@@ -51,7 +51,7 @@ namespace Nevupo.Data
 
             //// 手动提交要编译加载器的数据实体类型。
             //// 说明：手动提交与自动编译不冲突，不论是同步还是异步。
-            Type[] models = BuildManager.FindModelTypesFromCurrentApplication(t => t.FullName.StartsWith("Score.entry."));
+            Type[] models = BuildManager.FindModelTypesFromCurrentApplication(t => t.FullName.StartsWith("Score.Entity."));
             ////BuildManager.CompileModelTypesSync(models, true);
             BuildManager.CompileModelTypesAsync(models);
         }

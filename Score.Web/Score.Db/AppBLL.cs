@@ -6,7 +6,7 @@
   * Created          : 2014-09-25
   * Revision History : 
 ******************************************************************/
-namespace Nevupo.Data
+namespace App.Score.Data
 {
     using System;
     using System.Collections.Generic;

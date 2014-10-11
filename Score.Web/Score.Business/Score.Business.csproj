@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClownFish">
+      <HintPath>..\..\Lib\ClownFish.dll</HintPath>
+    </Reference>
+    <Reference Include="ClownFishProfilerLib">
+      <HintPath>..\..\Lib\ClownFishProfilerLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,8 +45,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="AdminBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Score.Db\Score.Db.csproj">
+      <Project>{09e2a1e2-a2e0-4c70-b727-fb338a0721b3}</Project>
+      <Name>Score.Db</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Score.Entity\Score.Entity.csproj">
+      <Project>{58872250-10ae-4282-b8d3-6592ebf90b62}</Project>
+      <Name>Score.Entity</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

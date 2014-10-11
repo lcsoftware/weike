@@ -5,9 +5,8 @@
   * Author           : Fenglujian 
   * Created          : 2014-10-01  
   * Revision History : 
-******************************************************************/
-
-namespace Score.Entity
+******************************************************************/ 
+namespace App.Score.Entity
 {
     using System;
     using System.Collections.Generic;

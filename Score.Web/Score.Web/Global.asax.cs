@@ -16,6 +16,7 @@ namespace App.Score.Web
         {
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            App.Score.Data.AppHelper.Init();
         }
     }
 }
