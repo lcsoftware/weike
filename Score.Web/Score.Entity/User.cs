@@ -5,7 +5,8 @@
   * Author           : Fenglujian 
   * Created          : 2014-10-01  
   * Revision History : 
-******************************************************************/ 
+******************************************************************/
+[assembly: System.CLSCompliant(true)] 
 namespace App.Score.Entity
 {
     using System;
