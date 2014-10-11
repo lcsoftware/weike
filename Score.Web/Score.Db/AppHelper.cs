@@ -1,5 +1,5 @@
 ﻿/* **************************************************************
-  * Copyright(c) 2014 Nevupo, All Rights Reserved.    
+  * Copyright(c) 2014 Score.web, All Rights Reserved.    
   * File             : AppHelper.cs
   * Description      : 初始化数据库连接，配置数据底层访问{ ClownFish }                    
   * Author           : zhaotianyu

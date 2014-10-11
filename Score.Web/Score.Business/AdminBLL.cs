@@ -1,5 +1,5 @@
 ﻿/* **************************************************************
-* Copyright(c) 2014 ScoreAnalyze, All Rights Reserved.   
+* Copyright(c) 2014 Score.web, All Rights Reserved.   
 * File             : SystemBLL.cs
 * Description      : 系统数据访问
 * Author           : Fenglujian 

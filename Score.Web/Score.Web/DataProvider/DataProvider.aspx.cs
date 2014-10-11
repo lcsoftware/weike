@@ -1,5 +1,5 @@
 ﻿/* **************************************************************
-  * Copyright(c) 2014 ScoreAnalyze, All Rights Reserved.   
+  * Copyright(c) 2014 Score.web, All Rights Reserved.   
   * File             : DataProvider.aspx.cs
   * Description      : 系统级别的服务器处理程序
   * Author           : zhaotianyu 

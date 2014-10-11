@@ -1,5 +1,5 @@
 ﻿/* **************************************************************
-  * Copyright(c) 2014 ScoreAnalyze, All Rights Reserved.   
+  * Copyright(c) 2014 Score.web, All Rights Reserved.   
   * File             : User.cs
   * Description      : 用户相关实体类定义
   * Author           : Fenglujian 
