@@ -8,7 +8,7 @@ var app = angular.module('app', [
     'app.controllers'
 ]);
 
-app.config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) { 
+app.config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
     $stateProvider
         .state('home', {
             url: '/',

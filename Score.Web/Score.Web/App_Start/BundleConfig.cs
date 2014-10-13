@@ -7,13 +7,15 @@ namespace App.Score.Web
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new StyleBundle("/content/css/app").Include(
+            bundles.Add(new StyleBundle("~/content/css/app").Include(
+                    "~/content/bootstrap/css/bootstrap.min.css",
+                    "~/content/bootstrap/css/bootstrap-theme.min.css",
                     "~/content/app.css",
-                    "~/content/bootstrap/bootstrap.min.css",
-                    "~/content/bootstrap/bootstrap-theme.min.css"
+                    "~/content/menu.css",
+                    "~/content/font-awesome.css"
                 ));
 
-            bundles.Add(new ScriptBundle("/js/vendor").Include(
+            bundles.Add(new ScriptBundle("~/js/vendor").Include(
                     "~/scripts/vendor/jquery-1.11.1.min.js",
                     "~/content/bootstrap/js/bootstrap.min.js",
                     "~/scripts/vendor/angular.min.js",
@@ -21,7 +23,7 @@ namespace App.Score.Web
                     "~/scripts/vendor/angular-cookies.min.js"
                 ));
 
-            bundles.Add(new ScriptBundle("/js/app").Include(
+            bundles.Add(new ScriptBundle("~/js/app").Include(
                     "~/scripts/filters.js",
                     "~/scripts/services.js",
                     "~/scripts/directives.js",
@@ -30,7 +32,7 @@ namespace App.Score.Web
                     "~/scripts/app.admin.js",
                     "~/scripts/app.base.js",
                     "~/scripts/app.exam.js",
-                    "~/scripts/app.query.jy",
+                    "~/scripts/app.query.js",
                     "~/scripts/app.score.js",
                     "~/scripts/app.statistic.js",
                     "~/scripts/app.js"

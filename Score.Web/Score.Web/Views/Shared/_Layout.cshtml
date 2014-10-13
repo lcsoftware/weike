@@ -9,44 +9,60 @@
     @Styles.Render("/content/css/app")
 </head>
 <body>
-    <!--[if lt IE 9]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2">
 
-    <header class="navbar navbar-inverse" role="banner" ng-if=" !layout ">@* The 'layout' property is set inside the app.run(..) method on '$stateChangeSuccess' *@
-        <div class="container">
-            <div class="navbar-header">
-                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".spa-navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="./" class="navbar-brand">AngularJS SPA Template</a>
-            </div>
-            <nav class="collapse navbar-collapse spa-navbar-collapse" role="navigation">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="./about">About</a>
-                    </li>
-                    <li>
-                        <a href="./contacts">Contacts</a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="./login">Sign In</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+                <!-- -----------------------------------------
+                Demo 3 -->
+                <section id="skin2">
+
+                    <div class="navbar">
+                        <div class="navbar-inner">
+                            <div class="container">
+                                <a class="brand" href="#"><img src="images/logo.png" alt="Logo" /></a>
+                                <div class="nav-collapse collapse navbar-responsive-collapse">
+                                    <ul class="nav">
+                                        <li class="active"><a href="#"><i class="icon-home"></i> Home</a></li>
+                                        <li><a href="#"><i class="icon-cog"></i> Plugins</a></li>
+                                        <li><a href="#"><i class="icon-magic"></i> Graphics</a></li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-desktop"></i> Templates <i class="icon-angle-down"></i></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#"><i class="icon-heart"></i> Free Templates</a></li>
+                                                <li><a href="#"><i class="icon-credit-card"></i> Premium Templates</a></li>
+
+                                                <li class="dropdown-submenu">
+                                                    <a tabindex="-1" href="#"><i class="icon-desktop"></i> WordPress Themes</a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#"><i class="icon-heart"></i> Free WordPress Themes</a></li>
+                                                        <li><a href="#"><i class="icon-credit-card"></i> Premium WordPress Themes</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+
+
+
+                                </div><!-- /.nav-collapse -->
+                            </div>
+                        </div><!-- /navbar-inner -->
+                    </div><!-- /navbar -->
+
+
+                </section>
+
+
+            </div><!-- /span12 -->
+        </div><!-- /row-fluid -->
+    </div><!-- /container -->
 
     <div id="ui-view" class="container" ui-view data-tmpl-url="@Request.RequestContext.RouteData.DataTokens["templateUrl"]">
         @RenderBody()
     </div>
 
-    @Scripts.Render("/js/vendor"); 
-    @Scripts.Render("/js/app"); 
+    @Scripts.Render("/js/vendor");
+    @Scripts.Render("/js/app");
 </body>
 </html>

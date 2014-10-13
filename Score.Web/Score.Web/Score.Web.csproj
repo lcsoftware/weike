@@ -138,6 +138,9 @@
     <Content Include="Content\bootstrap\css\bootstrap.min.css" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\images\logo.png" />
+    <Content Include="Content\menu.css" />
     <Content Include="DataProvider\DataProvider.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\controllers.js" />
@@ -468,7 +471,6 @@
     <Content Include="Views\404.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_PageStart.cshtml" />
-    <Content Include="Views\About.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -495,9 +497,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
