@@ -17,3 +17,66 @@
         ("00" + o[k]).substr(("" + o[k]).length));
     return format;
 }
+
+
+var aService = angular.module('app.utils', ['app.services']); 
+
+aService.factory('dialogUtils', ['softname', function () {
+
+    var dialogService = {};
+
+    dialogService.info = function (message, okFn) {
+        BootstrapDialog.show({
+            title: softname,
+            message: message,
+            buttons: [{
+                id: 'btn-ok',
+                icon: 'glyphicon glyphicon-ok',
+                label: '确定',
+                cssClass: 'btn-primary',
+                autospin: false,
+                action: function (dialogRef) {
+                    if (okFn) {
+                        okFn();
+                    }
+                    dialogRef.close();
+                }
+            }]
+        });
+    }
+
+    dialogService.confirm = function (message, okFn, cancelFn) {
+        BootstrapDialog.show({
+            title: softname,
+            message: message,
+            buttons: [{
+                id: 'btn-ok',
+                icon: 'glyphicon glyphicon-ok',
+                label: '确定',
+                cssClass: 'btn-primary',
+                autospin: false,
+                action: function (dialogRef) {
+                    if (okFn) {
+                        okFn();
+                    }
+                    dialogRef.close();
+                }
+            }, {
+                id: 'btn-cancel',
+                icon: 'glyphicon glyphicon-remove',
+                label: '取消',
+                cssClass: 'btn-default',
+                autospin: false,
+                action: function (dialogRef) {
+                    if (cancelFn) {
+                        cancelFn();
+                    }
+                    dialogRef.close();
+                }
+            }]
+        });
+    }
+
+    return dialogService;
+}]);
+

@@ -13,38 +13,36 @@ app.config(['$stateProvider', '$locationProvider', function ($stateProvider, $lo
         .state('home', {
             url: '/',
             templateUrl: '/views/index',
-            controller: 'HomeCtrl'
-
-        })
-        .state('about', {
-            url: '/about',
-            templateUrl: '/views/about',
-            controller: 'AboutCtrl'
-        })
+            controller: 'HomeController' 
+        }) 
         .state('login', {
             url: '/login',
             layout: 'basic',
             templateUrl: '/views/login',
-            controller: 'LoginCtrl'
+            controller: 'LoginController'
         })
         .state('otherwise', {
             url: '*path',
             templateUrl: '/views/404',
             controller: 'Error404Ctrl'
         });
-
     $locationProvider.html5Mode(true);
-
 }]);
 
-app.run(['$templateCache', '$rootScope', '$state', '$stateParams',
-    function ($templateCache, $rootScope, $state, $stateParams) {
+app.run(['$templateCache', '$rootScope', '$state', '$stateParams','cookieService',
+    function ($templateCache, $rootScope, $state, $stateParams, cookieService) {
 
         var view = angular.element('#ui-view');
         $templateCache.put(view.data('tmpl-url'), view.html());
 
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
+
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+            if (!cookieService.isAuthorize()) {
+                $state.go('login');
+            }
+        });
 
         $rootScope.$on('$stateChangeSuccess', function (event, toState) {
 

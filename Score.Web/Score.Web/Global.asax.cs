@@ -14,6 +14,7 @@ namespace App.Score.Web
     {
         protected void Application_Start()
         {
+            BundleTable.EnableOptimizations = false;
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             App.Score.Data.AppHelper.Init();

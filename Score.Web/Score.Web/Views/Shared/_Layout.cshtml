@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en" ng-app="app">
+<html lang="en" id="ng-app" ng-app="app">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,54 +9,46 @@
     @Styles.Render("/content/css/app")
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-2">
+    <!-- Static navbar -->
+    <div class="navbar navbar-default navbar-static-top" role="navigation" ng-controller="HomeController">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Project name</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{test}}<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header">Nav header</li>
+                            <li><a href="#">Separated link</a></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrator<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">修改口令</a></li>
+                            <li><a href="#">退出系统</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
 
-                <!-- -----------------------------------------
-                Demo 3 -->
-                <section id="skin2">
-
-                    <div class="navbar">
-                        <div class="navbar-inner">
-                            <div class="container">
-                                <a class="brand" href="#"><img src="images/logo.png" alt="Logo" /></a>
-                                <div class="nav-collapse collapse navbar-responsive-collapse">
-                                    <ul class="nav">
-                                        <li class="active"><a href="#"><i class="icon-home"></i> Home</a></li>
-                                        <li><a href="#"><i class="icon-cog"></i> Plugins</a></li>
-                                        <li><a href="#"><i class="icon-magic"></i> Graphics</a></li>
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-desktop"></i> Templates <i class="icon-angle-down"></i></a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#"><i class="icon-heart"></i> Free Templates</a></li>
-                                                <li><a href="#"><i class="icon-credit-card"></i> Premium Templates</a></li>
-
-                                                <li class="dropdown-submenu">
-                                                    <a tabindex="-1" href="#"><i class="icon-desktop"></i> WordPress Themes</a>
-                                                    <ul class="dropdown-menu">
-                                                        <li><a href="#"><i class="icon-heart"></i> Free WordPress Themes</a></li>
-                                                        <li><a href="#"><i class="icon-credit-card"></i> Premium WordPress Themes</a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-
-
-
-                                </div><!-- /.nav-collapse -->
-                            </div>
-                        </div><!-- /navbar-inner -->
-                    </div><!-- /navbar -->
-
-
-                </section>
-
-
-            </div><!-- /span12 -->
-        </div><!-- /row-fluid -->
-    </div><!-- /container -->
 
     <div id="ui-view" class="container" ui-view data-tmpl-url="@Request.RequestContext.RouteData.DataTokens["templateUrl"]">
         @RenderBody()

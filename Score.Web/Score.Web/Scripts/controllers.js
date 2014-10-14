@@ -1,12 +1,15 @@
 ﻿'use strict';
 
-angular.module('app.controllers', [])
+angular.module('app.controllers', ['app.services', 'app.utils'])
 
     // Path: /
-    .controller('HomeCtrl', ['$scope', '$location', '$window', function ($scope, $location, $window) {
-        $scope.$root.title = 'AngularJS SPA Template for Visual Studio';
-        $scope.$on('$viewContentLoaded', function () {
-        });
+    .controller('HomeController', ['$scope', 'softname', 'userService', '$rootScope', function ($scope, softname, userService, $rootScope) {
+        $scope.$root.title = softname;
+        $scope.test = 'sssss';
+      
+        $scope.menus = {};
+
+
     }])
 
     // Path: /about
