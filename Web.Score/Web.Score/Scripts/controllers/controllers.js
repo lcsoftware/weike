@@ -3,10 +3,10 @@
 angular.module('app.controllers', ['app.utils'])
 
     // Path: /
-    .controller('HomeController', ['$scope', '$location', '$window', function ($scope, $location, $window) {
+    .controller('HomeController', ['$scope', '$location', 'menuService', function ($scope, $location, menuService) {
         $scope.$root.title = 'AngularJS SPA Template for Visual Studio';
-        $scope.test = 'sssss';
         $scope.menus = {};
+        menuService.
     }])
 
     // Path: /login

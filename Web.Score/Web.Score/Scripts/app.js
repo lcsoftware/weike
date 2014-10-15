@@ -14,8 +14,7 @@ angular.module('app', [
             .state('home', {
                 url: '/',
                 templateUrl: '/views/index',
-                controller: 'HomeController'
-
+                controller: 'HomeController' 
             })
             .state('login', {
                 url: '/login',
