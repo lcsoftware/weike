@@ -6,7 +6,12 @@ angular.module('app.controllers', ['app.utils'])
     .controller('HomeController', ['$scope', '$location', 'menuService', function ($scope, $location, menuService) {
         $scope.$root.title = 'AngularJS SPA Template for Visual Studio';
         $scope.menus = {};
-        menuService.
+        $scope.$on('$viewContentLoaded', function () {
+            menuService.getMenus(function (data) {
+                console.log(data);
+            });
+        });
+        
     }])
 
     // Path: /login

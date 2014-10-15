@@ -447,6 +447,7 @@
     <Content Include="Assets\menu.json" />
     <Content Include="Assets\menubak.json" />
     <Content Include="Assets\test.json" />
+    <None Include="Properties\PublishProfiles\score.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\vendor\jquery-1.11.1.min.js" />
