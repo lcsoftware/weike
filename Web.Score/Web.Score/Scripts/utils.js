@@ -21,7 +21,7 @@
 
 var aService = angular.module('app.utils', ['app.services']); 
 
-aService.factory('dialogUtils', ['softname', function () {
+aService.factory('dialogUtils', ['softname', function (softname) {
 
     var dialogService = {};
 

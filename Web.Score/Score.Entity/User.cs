@@ -35,11 +35,9 @@ namespace App.Score.Entity
         /// </summary>
         public string Description;
 
-        public string Token {
-            get
-            {
-                return Guid.NewGuid().ToString().Replace("-", "");
-            }
+        public override string ToString()
+        {
+            return string.Format("id:{0}, name:{1}", this.TeacherID, this.Name);
         }
     }
 

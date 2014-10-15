@@ -9,8 +9,7 @@ angular.module('app', [
 ])
 
     .config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
-
-
+ 
         $stateProvider
             .state('home', {
                 url: '/',
@@ -34,8 +33,8 @@ angular.module('app', [
 
     }])
 
-    .run(['$templateCache', '$rootScope', '$state', '$stateParams', 'cookieService',
-        function ($templateCache, $rootScope, $state, $stateParams, cookieService) {
+    .run(['$templateCache', '$rootScope', '$state', '$stateParams', '$location', 'userService',
+        function ($templateCache, $rootScope, $state, $stateParams, $location, userService) {
 
         var view = angular.element('#ui-view');
         $templateCache.put(view.data('tmpl-url'), view.html());
@@ -43,17 +42,20 @@ angular.module('app', [
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
 
-        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-            if (!cookieService.isAuthorized()) {
-                $location.path('/login');
-            }
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+         
             $rootScope.layout = toState.layout;
         });
 
-        $rootScope.$on('$stateChangeSuccess', function (event, toState) {
-            if (!cookieService.isAuthorized()) {
-                $location.path('/login').replace();
-            }
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            if (toState.name !== 'login'){
+                userService.isAuthorized(function (data) {
+                    if (!data.d)
+                    {
+                        $location.path('/login').replace();
+                    }
+                });
+            } 
             $rootScope.layout = toState.layout;
         });
     }]);

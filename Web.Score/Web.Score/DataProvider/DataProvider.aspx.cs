@@ -17,12 +17,33 @@ namespace App.Web.Score.DataProvider
     using System.Web.UI.WebControls;
     using App.Score.Entity;
     using App.Score.Business;
+    using App.Score.Util;
 
     /// <summary>
-    /// 数据提供器 
+    /// 数据提供者
     /// </summary>
     public partial class DataProvider : System.Web.UI.Page
     {
+        private const string COOKIE_NAME = "ScoreUser";
+
+        /// <summary>
+        /// 读取cookie
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod]
+        public static string GetCookieInfo()
+        {
+            return CookieHelper.GetCookieValue(COOKIE_NAME);
+        }
+
+        /// <summary>
+        /// 退出登录
+        /// </summary>
+        [WebMethod]
+        public static void Logout()
+        {
+            CookieHelper.RemoveCookie(COOKIE_NAME);
+        }
         /// <summary>
         /// 用户验证
         /// </summary>
@@ -34,12 +55,17 @@ namespace App.Web.Score.DataProvider
         {
             using (AdminBLL bll = new AdminBLL())
             {
-                return bll.Verify(user, pwd);
+                UserEntry userEntry = bll.Verify(user, pwd);
+                if (userEntry != null)
+                {
+                    CookieHelper.SetCookie(COOKIE_NAME, userEntry.ToString(), DateTime.Now.AddDays(1));
+                }
+                return userEntry;
             }
         }
 
         /// <summary>
-        /// 用户权限 
+        /// 获取用户功能 
         /// </summary>
         /// <param name="teacherID">用户编号</param>
         /// <returns></returns>

@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace App.Score.Web.DataProvider {
+namespace App.Web.Score.DataProvider {
     
     
     public partial class DataProvider {

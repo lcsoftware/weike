@@ -1,26 +1,31 @@
 ﻿'use strict';
 
-// Google Analytics Collection APIs Reference:
-// https://developers.google.com/analytics/devguides/collection/analyticsjs/
-
-angular.module('app.controllers', [])
+angular.module('app.controllers', ['app.utils'])
 
     // Path: /
     .controller('HomeController', ['$scope', '$location', '$window', function ($scope, $location, $window) {
         $scope.$root.title = 'AngularJS SPA Template for Visual Studio';
         $scope.test = 'sssss';
-
         $scope.menus = {};
     }])
 
     // Path: /login
-    .controller('LoginController', ['$scope', '$location', '$window', function ($scope, $location, $window) {
-        $scope.$root.title = 'AngularJS SPA | Sign In';
-        $scope.login = function () {
-            $location.path('/');
-            return false;
-        };
-    }])
+    .controller('LoginController', ['$scope', '$location', '$window', 'userService', 'dialogUtils',
+        function ($scope, $location, $window, userService, dialogUtils) {
+            $scope.$root.title = 'AngularJS SPA | Sign In';
+            $scope.userName = 'system';
+            $scope.password = '888';
+            $scope.login = function (userName, password) {
+                userService.verify(userName, password, function (data) {
+                    if (data.d != null) {
+                        $location.path('/').replace();
+                    }
+                    else {
+                        dialogUtils.info('用户名密码错误，请重试！');
+                    }
+                })
+            };
+        }])
 
     // Path: /error/404
     .controller('Error404Ctrl', ['$scope', '$location', '$window', function ($scope, $location, $window) {

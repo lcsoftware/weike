@@ -16,63 +16,19 @@ aService.factory('baseService', ['$http', function ($http) {
 
     service.post = function (url, param, success) {
         $http.post(url, param).success(function (data) {
-            success(data);
+            if (success) {
+                success(data);
+            }
         });
     }
 
     return service;
 }]);
 
-aService.factory('cookieService', ['$cookies', function ($cookies) {
-
-    var service = {};
-
-    service.getUser = function () {
-        return $cookies.user !== '' ? JSON.parse($cookies.user) : {};
-    }
-
-    service.setUser = function (user) {
-        $cookies.user = JSON.stringify(user);
-    }
-
-    service.logout = function () {
-        $cookies.user = '';
-    }
-
-    service.isAuthorize = function () {
-        return $cookies.user !== '';
-    }
-
-    return service;
-}]);
-
-aService.factory('cookieService', ['$cookies', function ($cookies) {
-
-    var service = {};
-
-    service.getUser = function () {
-        return $cookies.user !== '' ? JSON.parse($cookies.user) : {};
-    }
-
-    service.setUser = function (user) {
-        $cookies.user = JSON.stringify(user);
-    }
-
-    service.logout = function () {
-        $cookies.user = '';
-    }
-
-    service.isAuthorize = function () {
-        return $cookies.user !== '';
-    }
-
-    return service;
-}]); 
-
 aService.factory('menuService', ['baseService', function (baseService) {
     var service = {};
 
-    service.getMenus = function (callback) { 
+    service.getMenus = function (callback) {
         var url = '/Assets/menu.json';
         baseService.get(url, callback);
     }
@@ -89,10 +45,21 @@ aService.factory('userService', ['baseService', function (baseService) {
 
     service.verify = function (userName, pwd, callback) {
         var url = '/DataProvider/DataProvider.aspx/Verify';
-        var param = { user: userName, password: pwd };
+        var param = { user: userName, pwd: pwd };
         baseService.post(url, param, callback);
     }
 
+    service.logout = function (callback) {
+        var url = '/DataProvider/DataProvider.aspx/Logout';
+        var param = null;
+        baseService.post(url, param, callback);
+    }
+
+    service.isAuthorized = function (callback) {
+        var url = '/DataProvider/DataProvider.aspx/GetCookieInfo';
+        var param = null;
+        baseService.post(url, param, callback);
+    }
     service.getFuncs = function (teacher, callback) {
         var url = '/DataProvider/DataProvider.aspx/GetFuncs';
         var param = { teacherID: teacher };

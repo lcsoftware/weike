@@ -14,7 +14,7 @@
     <![endif]-->
 
     <!-- Static navbar -->
-    <div class="navbar navbar-default navbar-static-top" role="navigation" ng-controller="HomeController">
+    <div class="navbar navbar-default navbar-static-top" role="navigation" ng-if=" !layout " ng-controller="HomeController">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -45,7 +45,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrator<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#">修改口令</a></li>
-                            <li><a href="#">退出系统</a></li>
+                            <li><a href="" ui-sref="login">退出系统</a></li>
                         </ul>
                     </li>
                 </ul>

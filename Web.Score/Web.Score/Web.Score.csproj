@@ -510,6 +510,10 @@
       <Project>{58872250-10ae-4282-b8d3-6592ebf90b62}</Project>
       <Name>Score.Entity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Score.Util\Score.Util.csproj">
+      <Project>{ffa10259-fa2d-4ed0-94ce-5d02e5ad2956}</Project>
+      <Name>Score.Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -526,7 +530,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>8080</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:8080/</IISUrl>
+          <IISUrl>http://localhost:8060/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

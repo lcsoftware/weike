@@ -24,7 +24,7 @@ namespace App.Web.Score
             bundles.Add(new ScriptBundle("~/js/vendor").Include(
                     "~/scripts/vendor/jquery-1.11.1.min.js",
                     "~/content/bootstrap/js/bootstrap.min.js",
-                    "~/content/bootstrap-dialog/js/bootstrap.dialog.min.js",
+                    "~/content/bootstrap-dialog/js/bootstrap-dialog.min.js",
                     "~/content/datepicker/js/bootstrap-datepicker.js",
                     "~/scripts/vendor/angular.min.js",
                     "~/scripts/vendor/angular-ui-router.min.js",
