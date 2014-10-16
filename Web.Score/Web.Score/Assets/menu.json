@@ -1,6 +1,6 @@
 { 
 	"FuncID":"0000","FuncName":"Score","FuncType":"2", 
-	"Description":"成绩统计及辅助分析系统",
+	"Description":"成绩统计及辅助分析系统","url": "home", "header":"true",
 	"children": [
  		{
  			"FuncID":"1000","FuncName":"nBasicinfo","FuncType":"3", "FuncParent":"0000",

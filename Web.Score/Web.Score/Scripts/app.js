@@ -32,8 +32,8 @@ angular.module('app', [
 
     }])
 
-    .run(['$templateCache', '$rootScope', '$state', '$stateParams', '$location', 'userService',
-        function ($templateCache, $rootScope, $state, $stateParams, $location, userService) {
+    .run(['$templateCache', '$rootScope', '$state', '$stateParams', '$location', 'userService','menuService',
+        function ($templateCache, $rootScope, $state, $stateParams, $location, userService, menuService) {
 
         var view = angular.element('#ui-view');
         $templateCache.put(view.data('tmpl-url'), view.html());
@@ -41,20 +41,31 @@ angular.module('app', [
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
 
-        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-         
+        $rootScope.logout = function () {
+            userService.logout(function (data) {
+                $location.path('login').replace();
+            });
+        }
+
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            menuService.readMenu(function (data) {
+                $rootScope.menus = JSON.parse(data.d);
+            });
+
+            userService.getUser(function (data) {
+                if (data.d !== '') {
+                    var user = JSON.parse(data.d);
+                    $rootScope.name = user.Name;
+                }
+            })
             $rootScope.layout = toState.layout;
         });
 
-        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-            if (toState.name !== 'login'){
-                userService.isAuthorized(function (data) {
-                    if (!data.d)
-                    {
-                        $location.path('/login').replace();
-                    }
-                });
-            } 
-            $rootScope.layout = toState.layout;
-        });
+        $rootScope.$on('$locationChangeStart', function (event) {
+            userService.isAuthorized(function (data) {
+                if (data.d === '') {
+                    $location.path('/login').replace();
+                }
+            });
+        })
     }]);

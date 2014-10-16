@@ -5,7 +5,7 @@
   * Author           : zhaotianyu 
   * Created          : 2014-10-02  
   * Revision History : 
-******************************************************************/ 
+******************************************************************/
 namespace App.Web.Score.DataProvider
 {
     using System;
@@ -18,6 +18,7 @@ namespace App.Web.Score.DataProvider
     using App.Score.Entity;
     using App.Score.Business;
     using App.Score.Util;
+    using System.IO;
 
     /// <summary>
     /// 数据提供者
@@ -42,7 +43,7 @@ namespace App.Web.Score.DataProvider
         [WebMethod]
         public static void Logout()
         {
-            CookieHelper.RemoveCookie(COOKIE_NAME);
+            CookieHelper.CookieExpired(COOKIE_NAME);
         }
         /// <summary>
         /// 用户验证
@@ -58,7 +59,7 @@ namespace App.Web.Score.DataProvider
                 UserEntry userEntry = bll.Verify(user, pwd);
                 if (userEntry != null)
                 {
-                    CookieHelper.SetCookie(COOKIE_NAME, userEntry.ToString(), DateTime.Now.AddDays(1));
+                    CookieHelper.SetCookie(COOKIE_NAME, Newtonsoft.Json.JsonConvert.SerializeObject(userEntry), DateTime.Now.AddDays(1));
                 }
                 return userEntry;
             }
@@ -75,6 +76,31 @@ namespace App.Web.Score.DataProvider
             using (AdminBLL bll = new AdminBLL())
             {
                 return bll.GetFuncs(teacherID);
+            }
+        }
+
+        /// <summary>
+        /// 读取菜单内容 
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod]
+        public static string GetMenuFromFile()
+        {
+            string fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets/menu.json");
+            FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            try
+            {
+                StreamReader sr = new StreamReader(fs);
+                sr.BaseStream.Seek(0, SeekOrigin.Begin);
+                return sr.ReadToEnd();
+            }
+            catch
+            {
+                return "";
+            }
+            finally
+            {
+                fs.Close();
             }
         }
     }

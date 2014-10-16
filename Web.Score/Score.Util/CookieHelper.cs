@@ -75,7 +75,17 @@ namespace App.Score.Util
                 }
             }
         }
-
+        /// <summary> 
+        /// 使Cookie无效
+        /// </summary> 
+        /// <param name="cookieName"></param> 
+        public static void CookieExpired(string cookieName)
+        {
+            HttpResponse response = HttpContext.Current.Response;
+            HttpCookie myCookie = new HttpCookie(cookieName);
+            myCookie.Expires = DateTime.Now.AddDays(-1d);
+            response.Cookies.Add(myCookie);
+        }
         #endregion
 
         #region 设置/修改Cookie

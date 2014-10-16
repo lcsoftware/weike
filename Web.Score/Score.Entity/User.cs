@@ -33,12 +33,7 @@ namespace App.Score.Entity
         /// <summary>
         /// 描述
         /// </summary>
-        public string Description;
-
-        public override string ToString()
-        {
-            return string.Format("id:{0}, name:{1}", this.TeacherID, this.Name);
-        }
+        public string Description; 
     }
 
     /// <summary>

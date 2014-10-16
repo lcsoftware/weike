@@ -5,13 +5,7 @@ angular.module('app.controllers', ['app.utils'])
     // Path: /
     .controller('HomeController', ['$scope', '$location', 'menuService', function ($scope, $location, menuService) {
         $scope.$root.title = 'AngularJS SPA Template for Visual Studio';
-        $scope.menus = {};
-
-        $scope.$on('$viewContentLoaded', function () {
-            menuService.getMenus(function (data) {
-                console.log(data);
-            });
-        }); 
+       
     }])
 
     // Path: /login
@@ -19,7 +13,7 @@ angular.module('app.controllers', ['app.utils'])
         function ($scope, $location, $window, userService, dialogUtils) {
             $scope.$root.title = 'AngularJS SPA | Sign In';
             $scope.userName = 'system';
-            $scope.password = '888';
+            $scope.password = '888'; 
             $scope.login = function (userName, password) {
                 userService.verify(userName, password, function (data) {
                     if (data.d != null) {

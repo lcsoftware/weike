@@ -33,6 +33,12 @@ aService.factory('menuService', ['baseService', function (baseService) {
         baseService.get(url, callback);
     }
 
+    service.readMenu = function (callback) {
+        var url = '/DataProvider/DataProvider.aspx/GetMenuFromFile';
+        var param = null;
+        baseService.post(url, param, callback);
+    }
+
     service.filterMenus = function (funcs, callback) {
 
     }
@@ -60,6 +66,15 @@ aService.factory('userService', ['baseService', function (baseService) {
         var param = null;
         baseService.post(url, param, callback);
     }
+
+    service.getUser = function (callback) {
+        var url = '/DataProvider/DataProvider.aspx/GetCookieInfo';
+        var param = null;
+        baseService.post(url, param, function (data) {
+            callback(data);
+        });
+    }
+
     service.getFuncs = function (teacher, callback) {
         var url = '/DataProvider/DataProvider.aspx/GetFuncs';
         var param = { teacherID: teacher };
