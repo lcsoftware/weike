@@ -29,7 +29,7 @@ aService.factory('menuService', ['baseService', function (baseService) {
     var service = {};
 
     service.getMenus = function (callback) {
-        var url = '/Assets/menu.json';
+        var url = '../Assets/menu.json';
         baseService.get(url, callback);
     }
 

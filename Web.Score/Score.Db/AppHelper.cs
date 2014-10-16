@@ -16,6 +16,7 @@ namespace App.Score.Data
     using System.Text;
     using System.Threading.Tasks;
     using ClownFish;
+    using System.Net;
 
     /// <summary>
     /// 数据底层访问
@@ -37,15 +38,19 @@ namespace App.Score.Data
             ////Profiler.ApplicationName = "ScoreAnalyze";
             ////Profiler.TryStartClownFishProfiler();
 
-            //// 注册SQLSERVER数据库连接字符串
+            //// 注册SQLSERVER数据库连接字符串 
             ConnectionStringSettings setting = ConfigurationManager.ConnectionStrings["iSchoolConnectionString"];
+            IPHostEntry IpEntry = Dns.GetHostEntry(Dns.GetHostName());
+            if (IpEntry.HostName.Equals("devWin-PC"))
+            {
+                setting = ConfigurationManager.ConnectionStrings["iSchoolConnectionStringF"]; 
+            }
             DbContext.RegisterDbConnectionInfo("Sqlserver", setting.ProviderName, "@", setting.ConnectionString);
 
             //// 启动自动编译数据实体加载器的工作模式。
             //// 编译的触发条件：请求实体加载器超过2000次，或者，等待编译的类型数量超过100次
             BuildManager.StartAutoCompile(() => BuildManager.RequestCount > 2000 || BuildManager.WaitTypesCount > 100);
 
-            //// 启动自动编译数据实体加载器的工作模式。每10秒【固定】启动一个编译过程。
             //// 注意：StartAutoCompile只能调用一次，第二次调用时，会引发异常。
             ////BuildManager.StartAutoCompile(() => true, 10000);
 
