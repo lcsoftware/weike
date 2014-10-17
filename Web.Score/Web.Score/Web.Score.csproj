@@ -446,8 +446,6 @@
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Assets\menu.json" />
-    <Content Include="Assets\menubak.json" />
-    <Content Include="Assets\test.json" />
     <None Include="Properties\PublishProfiles\score.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Scripts\app.js" />
@@ -469,6 +467,13 @@
     <Content Include="Views\404.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_PageStart.cshtml" />
+    <Content Include="Views\admin\UserEdit.cshtml" />
+    <Content Include="Views\admin\RightQuery.cshtml" />
+    <Content Include="Views\admin\SendMail.cshtml" />
+    <Content Include="Views\admin\LogUser.cshtml" />
+    <Content Include="Views\admin\DBbackup.cshtml" />
+    <Content Include="Views\admin\XJtoCJ.cshtml" />
+    <Content Include="Views\admin\CJtoXJ.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

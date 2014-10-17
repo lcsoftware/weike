@@ -32,7 +32,7 @@
                         <ul class="dropdown-menu" role="menu" >
                             <li ng-repeat="subItem in item.children">
                                 <a ng-if="subItem.header=='true'" class="dropdown-header">{{subItem.Description}}</a>
-                                <a ng-if="subItem.header=='false'" ui-sref="{{subItem.url}}" >{{subItem.Description}}</a>
+                                <a ng-if="subItem.header=='false'" ui-sref="{{subItem.FuncName}}">{{subItem.Description}}</a>
                             </li>
                         </ul>
                     </li>

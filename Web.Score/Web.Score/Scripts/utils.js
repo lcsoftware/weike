@@ -21,6 +21,31 @@
 
 var aService = angular.module('app.utils', ['app.services']); 
 
+aService.factory('appUtils', ['$http', '$q', function ($http, $q) {
+
+    var service = {};
+
+    service.createPromise = function (url, param) {
+        var deferred = $q.defer();
+        $http.post(url, param)
+            .success(function (data) {
+                deferred.resolve(data);
+            })
+            .error(function (reason) {
+                deferred.reject(reason);
+            });
+        return deferred.promise;
+    }
+
+    service.runPromises = function (obj, thenFn) {
+        $q.all(obj).then(function (results) {
+            thenFn(results);
+        });
+    }
+
+    return service;
+}]);
+
 aService.factory('dialogUtils', ['softname', function (softname) {
 
     var dialogService = {};

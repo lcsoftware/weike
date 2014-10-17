@@ -5,11 +5,12 @@ angular.module('app', [
     'app.filters',
     'app.services',
     'app.directives',
-    'app.controllers'
+    'app.controllers',
+    'app.admin'
 ])
 
     .config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
- 
+
         $stateProvider
             //index 
             .state('home', { url: '/', templateUrl: '/views/index', controller: 'HomeController' })
@@ -19,19 +20,19 @@ angular.module('app', [
             /**************************系统管理***********************/
 
             //用户(组)维护
-            .state('nUserEdit', { url: '/UserEdit', templateUrl: '/views/UserEdit', controller: 'UserEditController' })
+            .state('nUserEdit', { url: '/UserEdit', templateUrl: '/views/admin/UserEdit', controller: 'UserEditController' })
             //升留级处理
-            .state('nRightQuery', { url: '/RightQuery', templateUrl: '/views/RightQuery', controller: 'RightQueryController' })
+            .state('nRightQuery', { url: '/RightQuery', templateUrl: '/views/admin/RightQuery', controller: 'RightQueryController' })
             //转换为学籍成绩
-            .state('nCJtoXJ', { url: '/CJtoXJ', templateUrl: '/views/CJtoXJ', controller: 'CJtoXJController' })
+            .state('nCJtoXJ', { url: '/CJtoXJ', templateUrl: '/views/admin/CJtoXJ', controller: 'CJtoXJController' })
             //从学籍成绩转换过来
-            .state('nXJtoCJ', { url: '/XJtoCJ', templateUrl: '/views/XJtoCJ', controller: 'XJtoCJController' })
+            .state('nXJtoCJ', { url: '/XJtoCJ', templateUrl: '/views/admin/XJtoCJ', controller: 'XJtoCJController' })
             //数据备份与恢复
-            .state('nDBbackup', { url: '/DBbackup', templateUrl: '/views/DBbackup', controller: 'DBbackupController' })
+            .state('nDBbackup', { url: '/DBbackup', templateUrl: '/views/admin/DBbackup', controller: 'DBbackupController' })
             //学生编号导入
-            .state('nLogUser', { url: '/LogUser', templateUrl: '/views/LogUser', controller: 'LogUserController' })
+            .state('nLogUser', { url: '/LogUser', templateUrl: '/views/admin/LogUser', controller: 'LogUserController' })
             //生成上传数据文件
-            .state('nSendMail', { url: '/SendMail', templateUrl: '/views/SendMail', controller: 'SendMailController' })
+            .state('nSendMail', { url: '/SendMail', templateUrl: '/views/admin/SendMail', controller: 'SendMailController' })
             /**************************End 系统管理***********************/
 
             /**************************在线查询***********************/
@@ -74,9 +75,9 @@ angular.module('app', [
             .state('n_Student_Score', { url: '/StudentScore', templateUrl: '/views/StudentScore', controller: 'StudentScoreController' })
             //打印学生名条
             .state('n_Student_MT', { url: '/StudentMT', templateUrl: '/views/StudentMT', controller: 'StudentMTController' })
-          
+
             /**************************End 教师学生统计***********************/
-            
+
 
             /**************************年级班级统计***********************/
 
@@ -134,40 +135,42 @@ angular.module('app', [
 
     }])
 
-    .run(['$templateCache', '$rootScope', '$state', '$stateParams', '$location', 'userService','menuService',
+    .run(['$templateCache', '$rootScope', '$state', '$stateParams', '$location', 'userService', 'menuService',
         function ($templateCache, $rootScope, $state, $stateParams, $location, userService, menuService) {
 
-        var view = angular.element('#ui-view');
-        $templateCache.put(view.data('tmpl-url'), view.html());
+            var view = angular.element('#ui-view');
+            $templateCache.put(view.data('tmpl-url'), view.html());
 
-        $rootScope.$state = $state;
-        $rootScope.$stateParams = $stateParams;
+            $rootScope.$state = $state;
+            $rootScope.$stateParams = $stateParams;
 
-        $rootScope.logout = function () {
-            userService.logout(function (data) {
-                $location.path('login').replace();
+            $rootScope.logout = function () {
+                userService.logout(function (data) {
+                    $location.path('login').replace();
+                });
+            }
+
+            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+                userService.getUser(function (data) {
+                    if (data.d !== '') {
+                        var user = JSON.parse(data.d);
+                        $rootScope.name = user.Name; 
+                        menuService.initMenus(user.TeacherID, function (data) {
+                            $rootScope.menus = data;
+                        });
+                    }
+                })
+                //menuService.readMenu(function (data) {
+                //    $rootScope.menus = JSON.parse(data.d);
+                //});
+                $rootScope.layout = toState.layout;
             });
-        }
 
-        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-            menuService.readMenu(function (data) {
-                $rootScope.menus = JSON.parse(data.d);
-            });
-
-            userService.getUser(function (data) {
-                if (data.d !== '') {
-                    var user = JSON.parse(data.d);
-                    $rootScope.name = user.Name;
-                }
+            $rootScope.$on('$locationChangeStart', function (event) {
+                userService.isAuthorized(function (data) {
+                    if (data.d === '') {
+                        $location.path('/login').replace();
+                    }
+                });
             })
-            $rootScope.layout = toState.layout;
-        });
-
-        $rootScope.$on('$locationChangeStart', function (event) {
-            userService.isAuthorized(function (data) {
-                if (data.d === '') {
-                    $location.path('/login').replace();
-                }
-            });
-        })
-    }]);
+        }]);

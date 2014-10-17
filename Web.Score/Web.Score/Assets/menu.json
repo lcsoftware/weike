@@ -236,10 +236,7 @@
 					"Description":"转换为学籍成绩", "header":"false"},
 				{
 					"FuncID":"7400","FuncName":"nXJtoCJ","FuncType":"0","FuncParent":"7000",
-					"Description":"从学籍成绩转换过来", "header":"false"},
-				{
-					"FuncID":"7600","FuncName":"nDBrestore","FuncType":"3","FuncParent":"7000",
-					"Description":"修改口令", "header":"false"},
+					"Description":"从学籍成绩转换过来", "header":"false"}, 
 				{
 					"FuncID":"7700","FuncName":"nDBbackup","FuncType":"0","FuncParent":"7000",
 					"Description":"数据备份与恢复", "header":"false"}, 
