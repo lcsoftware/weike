@@ -1,221 +1,221 @@
 { 
 	"FuncID":"0000","FuncName":"Score","FuncType":"2", 
-	"Description":"成绩统计及辅助分析系统","url": "home", "header":"true",
+	"Description":"成绩统计及辅助分析系统", "header":"true",
 	"children": [
  		{
  			"FuncID":"1000","FuncName":"nBasicinfo","FuncType":"3", "FuncParent":"0000",
- 			"Description":"基本信息","url": "home", "header":"true",
+ 			"Description":"基本信息", "header":"true",
  			"children": [
  				{
  					"FuncID":"1100","FuncName":"nschoolInfo","FuncType":"0","FuncParent":"1000",
- 					"Description":"学校信息","url": "home", "header":"false"},
+ 					"Description":"学校信息", "header":"false"},
 				{
 					"FuncID":"1200","FuncName":"nClassInfo","FuncType":"0","FuncParent":"1000",
-					"Description":"班级信息","url": "home", "header":"false"},
+					"Description":"班级信息", "header":"false"},
 				{
 					"FuncID":"1300","FuncName":"nTeacherInfo","FuncType":"0","FuncParent":"1000",
-					"Description":"教师信息","url": "home", "header":"false"},
+					"Description":"教师信息", "header":"false"},
 				{
 					"FuncID":"1400","FuncName":"nStudentInfo","FuncType":"0","FuncParent":"1000",
-					"Description":"学生信息","url": "home", "header":"false"},
+					"Description":"学生信息", "header":"false"},
 				{
 					"FuncID":"1500","FuncName":"nClassSN","FuncType":"0","FuncParent":"1000",
-					"Description":"分班调班","url": "home", "header":"false"}
+					"Description":"分班调班", "header":"false"}
  			]
  		},
 		{
 			"FuncID":"2000","FuncName":"nTestAndOther","FuncType":"0", "FuncParent":"0000",
-			"Description":"考试管理","url": "home", "header":"true",
+			"Description":"考试管理", "header":"true",
 			"children":[
 				{
 					"FuncID":"2100","FuncName":"nJiFenFSDJ","FuncType":"0","FuncParent":"2000",
-					"Description":"记分方式管理","url": "home", "header":"false"},
+					"Description":"记分方式管理", "header":"false"},
 				{
 					"FuncID":"2200","FuncName":"nCourseInfo","FuncType":"0","FuncParent":"2000",
-					"Description":"课程信息管理","url": "home", "header":"false"},
+					"Description":"课程信息管理", "header":"false"},
 				{
 					"FuncID":"2300","FuncName":"ncourseUse","FuncType":"0","FuncParent":"2000",
-					"Description":"开课信息管理","url": "home", "header":"false"},
+					"Description":"开课信息管理", "header":"false"},
 				{
 					"FuncID":"2400","FuncName":"nLevelScore","FuncType":"0","FuncParent":"2000",
-					"Description":"等第级别设置","url": "home", "header":"false"},
+					"Description":"等第级别设置", "header":"false"},
 				{
 					"FuncID":"2500","FuncName":"nMinutiaSet","FuncType":"0","FuncParent":"2000",
-					"Description":"细目设置","url": "home", "header":"false"},
+					"Description":"细目设置", "header":"false"},
 				{
 					"FuncID":"2600","FuncName":"nClassPlus","FuncType":"0","FuncParent":"2000",
-					"Description":"3+1班级","url": "home", "header":"false"},
+					"Description":"3+1班级", "header":"false"},
 				{
 					"FuncID":"2700","FuncName":"nTeacherClass","FuncType":"0","FuncParent":"2000",
-					"Description":"任课教师安排","url": "home", "header":"false"}
+					"Description":"任课教师安排", "header":"false"}
 			]
 		},
 		{
 			"FuncID":"3000","FuncName":"nChengJi","FuncType":"0", "FuncParent":"0000",
-			"Description":"成绩管理","url": "home", "header":"true",
+			"Description":"成绩管理", "header":"true",
 			"children":[
 				{
 					"FuncID":"3100","FuncName":"nKaoShiDJ","FuncType":"0","FuncParent":"3000",
-					"Description":"考试登记管理","url": "home", "header":"false"},
+					"Description":"考试登记管理", "header":"false"},
 				{
 					"FuncID":"3300","FuncName":"nMinutiaScoreSet","FuncType":"0","FuncParent":"3000",
-					"Description":"细目分数设定","url": "home", "header":"false"},
+					"Description":"细目分数设定", "header":"false"},
 				{
 					"FuncID":"3400","FuncName":"nBiXiuKe","FuncType":"0","FuncParent":"3000",
-					"Description":"必修课成绩输入","url": "home", "header":"false"},
+					"Description":"必修课成绩输入", "header":"false"},
 				{
 					"FuncID":"3200","FuncName":"nXuanXiuKe","FuncType":"0","FuncParent":"3000",
-					"Description":"选修课成绩输入","url": "home", "header":"false"},
+					"Description":"选修课成绩输入", "header":"false"},
 				{
 					"FuncID":"3500","FuncName":"nMinutiaScore","FuncType":"0","FuncParent":"3000",
-					"Description":"细目成绩输入","url": "home", "header":"false"}
+					"Description":"细目成绩输入", "header":"false"}
 			]
 		},
 		{
 			"FuncID":"4000","FuncName":"nViewQuery","FuncType":"0","FuncParent":"0000",
-			"Description":"在线查询","url": "home", "header":"true",
+			"Description":"在线查询", "header":"true",
 			"children":[
 				{
 					"FuncID":"4200","FuncName":"nTeacherQuery","FuncType":"0","FuncParent":"4000",
-					"Description":"任课教师查询","url": "home", "header":"false"},
+					"Description":"任课教师查询", "header":"false"},
 				{
 					"FuncID":"4300","FuncName":"nClassQuery","FuncType":"0","FuncParent":"4000",
-					"Description":"班主任查询","url": "home", "header":"false"},
+					"Description":"班主任查询", "header":"false"},
 				{
 					"FuncID":"4400","FuncName":"nGradeManager","FuncType":"0","FuncParent":"4000",
-					"Description":"年级领导查询","url": "home", "header":"false"},
+					"Description":"年级领导查询", "header":"false"},
 				{
 					"FuncID":"4500","FuncName":"nSchoolmanagerQuery","FuncType":"0","FuncParent":"4000",
-					"Description":"教务员查询","url": "home", "header":"false"},
+					"Description":"教务员查询", "header":"false"},
 				{
 					"FuncID":"4600","FuncName":"nSchoolHead","FuncType":"0","FuncParent":"4000",
-					"Description":"校领导查询","url": "home", "header":"false"},
+					"Description":"校领导查询", "header":"false"},
 				{
 					"FuncID":"4700","FuncName":"AdvQuery","FuncType":"0","FuncParent":"4000",
-					"Description":"常用查询","url": "home", "header":"false"},
+					"Description":"常用查询", "header":"false"},
 				{
 					"FuncID":"4800","FuncName":"AdvQuery1","FuncType":"0","FuncParent":"4000",
-					"Description":"组合查询","url": "home", "header":"false"}
+					"Description":"组合查询", "header":"false"}
 			]
 		},
 		{
 			"FuncID":"4000","FuncName":"nViewQuery","FuncType":"0","FuncParent":"0000",
-			"Description":"教师学生统计","url": "home", "header":"true",
+			"Description":"教师学生统计", "header":"true",
 			"children": [				
 				{
 					"FuncID":"6400","FuncName":"n_Student_stat","FuncType":"0","FuncParent":"6100",
-					"Description":"教师统计","url": "home", "header":"true"},
+					"Description":"教师统计", "header":"true"},
 				{
 					"FuncID":"6401","FuncName":"n_Teacher_Rep1","FuncType":"0","FuncParent":"6400",
-					"Description":"教学情况报表(不分班)","url": "home", "header":"false"},
+					"Description":"教学情况报表(不分班)", "header":"false"},
 				{
 					"FuncID":"6401","FuncName":"n_Teacher_Rep2","FuncType":"0","FuncParent":"6400",
-					"Description":"教学情况报表(分班)","url": "home", "header":"false"},
+					"Description":"教学情况报表(分班)", "header":"false"},
 				{
 					"FuncID":"6401","FuncName":"n_Teacher_Style","FuncType":"0","FuncParent":"6400",
-					"Description":"教学情况比较图表(历次)","url": "home", "header":"false"},
+					"Description":"教学情况比较图表(历次)", "header":"false"},
 				{
 					"FuncID":"6401","FuncName":"n_Teacher_Style1","FuncType":"0","FuncParent":"6400",
-					"Description":"教学情况比较图2(历次)","url": "home", "header":"false"},
+					"Description":"教学情况比较图2(历次)", "header":"false"},
 				{
 					"FuncID":"6401","FuncName":"n_Teacher_PJ","FuncType":"0","FuncParent":"6400",
-					"Description":"横向纵向比较","url": "home", "header":"false"},
+					"Description":"横向纵向比较", "header":"false"},
 				{
 					"FuncID":"6100","FuncName":"n_Student_stat","FuncType":"0","FuncParent":"6100",
-					"Description":"学生统计","url": "home", "header":"true"},
+					"Description":"学生统计", "header":"true"},
 				{
 					"FuncID":"6101","FuncName":"n_Student_stat","FuncType":"0","FuncParent":"6100",
-					"Description":"考试情况统计","url": "home", "header":"false"},
+					"Description":"考试情况统计", "header":"false"},
 				{
 					"FuncID":"6102","FuncName":"n_Student_style","FuncType":"0","FuncParent":"6100",
-					"Description":"年级排名趋势图","url": "home", "header":"false"},
+					"Description":"年级排名趋势图", "header":"false"},
 				{
 					"FuncID":"6103","FuncName":"n_Student_YSW","FuncType":"0","FuncParent":"6100",
-					"Description":"语数外排名曲线","url": "home", "header":"false"},
+					"Description":"语数外排名曲线", "header":"false"},
 				{
 					"FuncID":"6104","FuncName":"n_Student_Score","FuncType":"0","FuncParent":"6100",
-					"Description":"打印成绩单","url": "home", "header":"false"},
+					"Description":"打印成绩单", "header":"false"},
 				{
 					"FuncID":"6105","FuncName":"n_Student_MT","FuncType":"0","FuncParent":"6100",
-					"Description":"打印学生名条","url": "home", "header":"false"}
+					"Description":"打印学生名条", "header":"false"}
 			]
 		},
 		{
 			"FuncID":"6000","FuncName":"nQueryFenXi","FuncType":"0","FuncParent":"0000",
-			"Description":"年级班级统计","url": "home", "header":"true",
+			"Description":"年级班级统计", "header":"true",
 			"children":[
 				{
 					"FuncID":"6300","FuncName":"n_Grade","FuncType":"0","FuncParent":"6000",
 					"Description":"年级统计",
-					"url": "home", "header":"true"},
+					 "header":"true"},
 				{
 					"FuncID":"6301","FuncName":"n_Grade_Style","FuncType":"0","FuncParent":"6300",
-					"Description":"年级等级分布图","url": "home", "header":"false"},
+					"Description":"年级等级分布图", "header":"false"},
 				{
 					"FuncID":"6301","FuncName":"n_Grade_ClassComp","FuncType":"0","FuncParent":"6300",
-					"Description":"班级间比较","url": "home", "header":"false"},
+					"Description":"班级间比较", "header":"false"},
 				{
 					"FuncID":"6301","FuncName":"n_Grade_Order","FuncType":"0","FuncParent":"6300",
-					"Description":"年级排名","url": "home", "header":"false"},
+					"Description":"年级排名", "header":"false"},
 				{
 					"FuncID":"6301","FuncName":"n_Grade_Score","FuncType":"0","FuncParent":"6300",
-					"Description":"年级学科成绩正态","url": "home", "header":"false"},
+					"Description":"年级学科成绩正态", "header":"false"},
 				{
 					"FuncID":"6301","FuncName":"n_Grade_Minutia","FuncType":"0","FuncParent":"6300",
-					"Description":"班级细目成绩报表","url": "home", "header":"false"},
+					"Description":"班级细目成绩报表", "header":"false"},
 				{
 					"FuncID":"6301","FuncName":"n_Gradestat","FuncType":"0","FuncParent":"6300",
-					"Description":"年级成绩统计(并表)","url": "home", "header":"false"},
+					"Description":"年级成绩统计(并表)", "header":"false"},
 				{
 					"FuncID":"6301","FuncName":"n_Grade_StdPJ","FuncType":"0","FuncParent":"6300",
-					"Description":"学生成绩纵向比较","url": "home", "header":"false"},
+					"Description":"学生成绩纵向比较", "header":"false"},
 
 				{
 					"FuncID":"6200","FuncName":"n_Class","FuncType":"0","FuncParent":"6000",
 					"Description":"班级",
-					"url": "home", "header":"true"},
+					 "header":"true"},
 				{
 					"FuncID":"6201","FuncName":"n_Class_Stat","FuncType":"0","FuncParent":"6200",
-					"Description":"考试统计分析","url": "home", "header":"false"},
+					"Description":"考试统计分析", "header":"false"},
 				{
 					"FuncID":"6202","FuncName":"n_Class_Course","FuncType":"0","FuncParent":"6200",
-					"Description":"学科相关分析","url": "home", "header":"false"},
+					"Description":"学科相关分析", "header":"false"},
 				{
 					"FuncID":"6203","FuncName":"n_Class_Score","FuncType":"0","FuncParent":"6200",
-					"Description":"学科成绩清单","url": "home", "header":"false"},
+					"Description":"学科成绩清单", "header":"false"},
 				{
 					"FuncID":"6204","FuncName":"n_Class_Minutia","FuncType":"0","FuncParent":"6200",
-					"Description":"细目成绩清单","url": "home", "header":"false"},
+					"Description":"细目成绩清单", "header":"false"},
 				{
 					"FuncID":"6205","FuncName":"n_Class_Amin","FuncType":"0","FuncParent":"6200",
-					"Description":"班级学期总评","url": "home", "header":"false"},
+					"Description":"班级学期总评", "header":"false"},
 				{
 					"FuncID":"6206","FuncName":"n_Class_Order","FuncType":"0","FuncParent":"6200",
-					"Description":"班级排名","url": "home", "header":"false"},
+					"Description":"班级排名", "header":"false"},
 				{
 					"FuncID":"6207","FuncName":"n_Class_Rep","FuncType":"0","FuncParent":"6200",
-					"Description":"多学科成绩报表","url": "home", "header":"false"},
+					"Description":"多学科成绩报表", "header":"false"},
 				{
 					"FuncID":"6208","FuncName":"n_Class_ND","FuncType":"0","FuncParent":"6200",
-					"Description":"学生多门清单","url": "home", "header":"false"}  
+					"Description":"学生多门清单", "header":"false"}  
 				]
 		},
 		{
 			"FuncID":"6000","FuncName":"nQueryFenXi","FuncType":"0","FuncParent":"0000",
-			"Description":"统计分析","url": "home", "header":"true",
+			"Description":"统计分析", "header":"true",
 			"children":[
 				{
 					"FuncID":"6601","FuncName":"nshujuchuli1","FuncType":"0","FuncParent":"6600",
-					"Description":"统一型数据处理","url": "home", "header":"false"},
+					"Description":"统一型数据处理", "header":"false"},
 				{
 					"FuncID":"6602","FuncName":"nshujuchuli2","FuncType":"0","FuncParent":"6600",
-					"Description":"超级型数据处理","url": "home", "header":"false"},					 
+					"Description":"超级型数据处理", "header":"false"},					 
 				{
 					"FuncID":"6500","FuncName":"nMinutiaAnalyse","FuncType":"0","FuncParent":"6000",
-					"Description":"细目分析","url": "home", "header":"false"},
+					"Description":"细目分析", "header":"false"},
 				{
 					"FuncID":"6900","FuncName":"nThirdOrder","FuncType":"0","FuncParent":"6000",
-					"Description":"高三选课排名","url": "home", "header":"false"}
+					"Description":"高三选课排名", "header":"false"}
 			]
 		},
 		{
@@ -224,31 +224,31 @@
 			"children":[
 				{
 					"FuncID":"7100","FuncName":"nUserEdit","FuncType":"0","FuncParent":"7000",
-					"Description":"用户(组)维护", "navMethod":"go()","url": "home", "header":"false"},
+					"Description":"用户(组)维护", "url": "UserEdit", "header":"false"},
 				{
 					"FuncID":"7200","FuncName":"nRightQuery","FuncType":"0","FuncParent":"7000",
-					"Description":"升留级处理","url": "home", "header":"false"},
+					"Description":"升留级处理", "header":"false"},
 				{
 					"FuncID":"7300","FuncName":"nSendMail1","FuncType":"0","FuncParent":"7000",
-					"Description":"发送成绩邮件","url": "home", "header":"false"},
+					"Description":"发送成绩邮件", "header":"false"},
 				{
 					"FuncID":"7400","FuncName":"nCJtoXJ","FuncType":"0","FuncParent":"7000",
-					"Description":"转换为学籍成绩","url": "home", "header":"false"},
+					"Description":"转换为学籍成绩", "header":"false"},
 				{
 					"FuncID":"7400","FuncName":"nXJtoCJ","FuncType":"0","FuncParent":"7000",
-					"Description":"从学籍成绩转换过来","url": "home", "header":"false"},
+					"Description":"从学籍成绩转换过来", "header":"false"},
 				{
 					"FuncID":"7600","FuncName":"nDBrestore","FuncType":"3","FuncParent":"7000",
-					"Description":"修改口令","url": "home", "header":"false"},
+					"Description":"修改口令", "header":"false"},
 				{
 					"FuncID":"7700","FuncName":"nDBbackup","FuncType":"0","FuncParent":"7000",
-					"Description":"数据备份与恢复","url": "home", "header":"false"}, 
+					"Description":"数据备份与恢复", "header":"false"}, 
 				{
 					"FuncID":"7800","FuncName":"nLogUser","FuncType":"0","FuncParent":"7000",
-					"Description":"学生编号导入","url": "home", "header":"false"}, 
+					"Description":"学生编号导入", "header":"false"}, 
 				{
 					"FuncID":"8000","FuncName":"nSendMail","FuncType":"0","FuncParent":"7000",
-					"Description":"生成上传数据文件","url": "home", "header":"false"}
+					"Description":"生成上传数据文件", "header":"false"}
 			]
 		}
 	]
