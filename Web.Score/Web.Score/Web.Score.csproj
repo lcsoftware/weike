@@ -161,7 +161,7 @@
     <Content Include="Content\images\node-opened-2.png" />
     <Content Include="Content\images\node-opened-light.png" />
     <Content Include="Content\images\node-opened.png" />
-    <Content Include="DataProvider\DataProvider.aspx" />
+    <Content Include="DataProvider\Admin.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\controllers\admin.js" />
     <Content Include="Scripts\controllers\controllers.js" />
@@ -496,12 +496,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="DataProvider\DataProvider.aspx.cs">
-      <DependentUpon>DataProvider.aspx</DependentUpon>
+    <Compile Include="DataProvider\Admin.aspx.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="DataProvider\DataProvider.aspx.designer.cs">
-      <DependentUpon>DataProvider.aspx</DependentUpon>
+    <Compile Include="DataProvider\Admin.aspx.designer.cs">
+      <DependentUpon>Admin.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -516,10 +516,6 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Score.Business\Score.Business.csproj">
-      <Project>{070d183a-2261-41f7-b4a6-c935bdd41ffb}</Project>
-      <Name>Score.Business</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Score.Db\Score.Db.csproj">
       <Project>{09e2a1e2-a2e0-4c70-b727-fb338a0721b3}</Project>
       <Name>Score.Db</Name>

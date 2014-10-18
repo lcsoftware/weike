@@ -6,7 +6,7 @@ aService.value('version', '0.1');
 
 aService.constant('softname', '成绩分析系统');
 
-aService.constant('dataProviderUrl', '/DataProvider/DataProvider.aspx');
+aService.constant('adminProviderUrl', '/DataProvider/Admin.aspx');
 
 aService.factory('baseService', ['$http', function ($http) {
 
@@ -32,7 +32,7 @@ aService.factory('baseService', ['$http', function ($http) {
     return service;
 }]);
 
-aService.factory('menuService', ['baseService', 'dataProviderUrl', 'appUtils', function (baseService, dataProviderUrl, appUtils) {
+aService.factory('menuService', ['baseService', 'adminProviderUrl', 'appUtils', function (baseService, adminProviderUrl, appUtils) {
     var service = {};
 
     service.getMenus = function (callback) {
@@ -41,13 +41,13 @@ aService.factory('menuService', ['baseService', 'dataProviderUrl', 'appUtils', f
     }
 
     service.readMenu = function (callback) {
-        var url = dataProviderUrl + '/GetMenuFromFile';
+        var url = adminProviderUrl + '/GetMenuFromFile';
         var param = null;
         baseService.post(url, param, callback);
     }
 
     service.getFuncs = function (teacher, callback) {
-        var url = dataProviderUrl + '/GetFuncs';
+        var url = adminProviderUrl + '/GetFuncs';
         var param = { teacherID: teacher };
         baseService.post(url, param, callback);
     }
@@ -65,11 +65,11 @@ aService.factory('menuService', ['baseService', 'dataProviderUrl', 'appUtils', f
     }
 
     service.initMenus = function (teacher, callback) {
-        var url = dataProviderUrl + '/GetFuncs';
+        var url = adminProviderUrl + '/GetFuncs';
         var param = { teacherID: teacher };
         var funcPromise = appUtils.createPromise(url, param);
 
-        url = dataProviderUrl + '/GetMenuFromFile';
+        url = adminProviderUrl + '/GetMenuFromFile';
         param = null;
         var menuPromise = appUtils.createPromise(url, param);
 
@@ -95,29 +95,29 @@ aService.factory('menuService', ['baseService', 'dataProviderUrl', 'appUtils', f
     return service;
 }]);
 
-aService.factory('userService', ['baseService', 'dataProviderUrl', function (baseService, dataProviderUrl) {
+aService.factory('userService', ['baseService', 'adminProviderUrl', function (baseService, adminProviderUrl) {
     var service = {};
 
     service.verify = function (userName, pwd, callback) {
-        var url = dataProviderUrl + '/Verify';
+        var url = adminProviderUrl + '/Verify';
         var param = { user: userName, pwd: pwd };
         baseService.post(url, param, callback);
     }
 
     service.logout = function (callback) {
-        var url = dataProviderUrl + '/Logout';
+        var url = adminProviderUrl + '/Logout';
         var param = null;
         baseService.post(url, param, callback);
     }
 
     service.isAuthorized = function (callback) {
-        var url = dataProviderUrl + '/GetCookieInfo';
+        var url = adminProviderUrl + '/GetCookieInfo';
         var param = null;
         baseService.post(url, param, callback);
     }
 
     service.getUser = function (callback) {
-        var url = dataProviderUrl + '/GetCookieInfo';
+        var url = adminProviderUrl + '/GetCookieInfo';
         var param = null;
         baseService.post(url, param, function (data) {
             callback(data.d !== '' ? JSON.parse(data.d) : null);
@@ -125,22 +125,33 @@ aService.factory('userService', ['baseService', 'dataProviderUrl', function (bas
     }
 
     service.getFuncs = function (teacher, callback) {
-        var url = dataProviderUrl + '/GetFuncs';
+        var url = adminProviderUrl + '/GetFuncs';
         var param = { teacherID: teacher };
         baseService.post(url, param, callback);
     }
 
     service.changePwd = function (teacher, oldPwd, newPwd, status, callback) {
-        var url = dataProviderUrl + '/ChangePwd';
+        var url = adminProviderUrl + '/ChangePwd';
         var param = { teacherID: teacher, oldPwd: oldPwd, newPwd: newPwd, status: status };
         baseService.post(url, param, callback);
     }
 
     service.getUserGroup = function (callback) { 
-        var url = dataProviderUrl + '/GetUserGroup';
+        var url = adminProviderUrl + '/GetUserGroup';
         var param = null;
         baseService.post(url, param, callback);
     }
 
+    service.getGroupUsers = function (teacher, callback) {
+        var url = adminProviderUrl + '/GetGroupUsers';
+        var param = { teacher: teacher };
+        baseService.post(url, param, callback); 
+    }
+
+    service.saveUserGroup = function (userGroup, callback) {
+        var url = adminProviderUrl + '/AddUserGroup';
+        var param = userGroup;
+        baseService.post(url, param, callback); 
+    }
     return service;
 }]);

@@ -12,13 +12,19 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
             nodeChildren: "children",
             dirSelectable: false
         };
+        $scope.userGroups = [];
+        $scope.UserGroupEntity = {};
         $scope.showSelected = function (node) {
             console.log(node);
             $scope.tpl = node.UserOrGroup === '0' ? 'group.html' : 'user.html';
             $scope.UserGroupEntity = node;
+            userService.getGroupUsers($scope.UserGroupEntity.TeacherID, function (data) {
+                if (data.d !== null) {
+                    $scope.groupUsers = data.d;
+                }
+            });
         }
 
-        $scope.userGroups = [];
         userService.getUserGroup(function (data) {
             if (data.d !== null) {
                 var userGroups = data.d;
@@ -38,6 +44,21 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
             }
         });
 
+        $scope.saveUserGroup = function () {
+            userService.saveUserGroup(null, function (data) {
+                dialogUtils.info(data.d === 0? '添加用户(组)失败，请重试！' : '添加用户(组)成功');
+            });
+        } 
+
+        $scope.addUserGroup = function () {
+            $scope.UserGroupEntity = { Name: '', Description: '' };
+        }
+
+        $scope.removeUserGroup = function () {
+        }
+
+        $scope.
+        
     }]);
 
 // Path: /UserEdit  升留级处理

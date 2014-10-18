@@ -79,4 +79,14 @@ namespace App.Score.Entity
         public string Status { get; set; }
         public string Remark { get; set; }
     }
+
+    public class GroupUser
+    {
+        public string GroupID;
+        public string GroupName;
+        public string Description;
+        public string teacherID;
+        public string UserName;
+        public string manager;
+    }
 }

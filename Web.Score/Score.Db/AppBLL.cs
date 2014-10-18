@@ -19,7 +19,21 @@ namespace App.Score.Data
     /// 数据底层访问定义
     /// </summary>
     public class AppBLL : DbContextHolderBase
-    {        
+    {
+        private static AppBLL _BLL = null;
+
+        private AppBLL() { }
+
+        public static AppBLL Instance()
+        {
+            if (_BLL == null)
+            {
+                _BLL = new AppBLL();
+            }
+            return _BLL;
+        }
+
+
         /// <summary>
         /// ExecuteNonQuery
         /// </summary>
