@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DataProvider.aspx.cs" Inherits="App.Web.Score.DataProvider.DataProvider" %> 
