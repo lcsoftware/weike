@@ -137,6 +137,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\angular-tree-controll\angular-tree-controll.js" />
+    <Content Include="Content\angular-tree-controll\tree-controll.css" />
     <Content Include="Content\app.css" />
     <Content Include="Content\bootstrap-dialog\css\bootstrap-dialog.css" />
     <Content Include="Content\bootstrap-dialog\css\bootstrap-dialog.min.css" />
@@ -148,9 +150,17 @@
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\datepicker\css\datepicker.css" />
     <Content Include="Content\datepicker\css\datepicker3.css" />
-    <Content Include="Content\datepicker\datepicker.css" />
     <Content Include="Content\datepicker\js\bootstrap-datepicker.js" />
     <Content Include="Content\datepicker\js\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="Content\images\file.png" />
+    <Content Include="Content\images\folder-closed.png" />
+    <Content Include="Content\images\folder.png" />
+    <Content Include="Content\images\node-closed-2.png" />
+    <Content Include="Content\images\node-closed-light.png" />
+    <Content Include="Content\images\node-closed.png" />
+    <Content Include="Content\images\node-opened-2.png" />
+    <Content Include="Content\images\node-opened-light.png" />
+    <Content Include="Content\images\node-opened.png" />
     <Content Include="DataProvider\DataProvider.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\controllers\admin.js" />
@@ -474,6 +484,7 @@
     <Content Include="Views\admin\DBbackup.cshtml" />
     <Content Include="Views\admin\XJtoCJ.cshtml" />
     <Content Include="Views\admin\CJtoXJ.cshtml" />
+    <Content Include="Views\admin\ChangePwd.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

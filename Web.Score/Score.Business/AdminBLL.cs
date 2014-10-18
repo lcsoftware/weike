@@ -42,6 +42,25 @@ namespace App.Score.Business
         {
             return this.FillList<FuncEntry>("s_p_getTeacherRight", new { TeacherID = teacherID });
         }
+
+        /// <summary>
+        /// 修改口令
+        /// </summary>
+        /// <param name="entity">参数</param>
+        /// <returns></returns>
+        public void ChangePwd(ChangePwdEntity entity)
+        {
+            this.ExecuteNonQuery("USP_System_ChangePwd", entity);
+        }
+        /// <summary>
+        /// 获取用户(组)
+        /// </summary>
+        /// <returns></returns>
+        public IList<UserGroupInfo> GetUserGroup()
+        {
+            string sql = "Select * from tbUserGroupInfo Order by Userorgroup,substring(TeacherID,1,4)";
+            return this.FillListByText<UserGroupInfo>(sql, null);
+        }
     }
 }
 

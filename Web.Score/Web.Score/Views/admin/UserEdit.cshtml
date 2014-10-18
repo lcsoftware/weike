@@ -1,3 +1,180 @@
-﻿ <div>
-   EditUser
+﻿<div class="row">
+    <div class="col-sm-3">
+        <h3>用户(组)</h3>
+        <div class="tree-border">
+            <treecontrol class="tree-light" tree-model="userGroups" options="opt" on-selection="showSelected(node)" >
+                {{node.Name}}
+            </treecontrol>
+        </div>
+    </div>
+    <div class="col-sm-8" ng-include="tpl">
+
+    </div>
 </div>
+
+<script type="text/ng-template" id="group.html">
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>用户组</h3>
+            <div class="row">
+                <div class="col-sm-12">
+                    <form class="col-sm-12">
+                        <div class="form-box">
+                            <div class="form-group">
+                                <input ng-model="UserGroupEntity.Name" type="text" class="form-control" placeholder="用户组" required autofocus />
+                            </div>
+                            <div class="form-group">
+                                <input ng-model="UserGroupEntity.Description" type="text" class="form-control" placeholder="描述" required />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" style="text-align:center">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>新增</button>
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>删除</button>
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-ok"></span>保存</button>
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-print"></span>打印</button>
+                        @*<button type="button" class="btn btn-default">权限编辑</button>
+                            <button type="button" class="btn btn-default">权限查询</button>
+                            <button type="button" class="btn btn-default">组管理</button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <h3>组内用户</h3>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr class="table-header">
+                        <th class="th-center">用户</th>
+                        <th class="th-center">描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="th-center">用户</th>
+                        <th class="th-center">描述</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="user.html">
+    <div class="row">
+        <div class="col-sm-8" style="text-align:center">
+            <h3>用户信息</h3>
+            <div class="row">
+                <div class="col-sm-12">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">用户名称</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" ng-model="UserGroupEntity.Name" placeholder="用户名称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">性别</label>
+                            <div class="col-sm-9" style="text-align:left;">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" ng-model="UserGroupEntity.Sex" value="1" checked>男
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" ng-model="UserGroupEntity.Sex" value="2">女
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">用户口令</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" ng-model="UserGroupEntity.Password" placeholder=" 用户口令">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">验证口令</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" ng-model="UserGroupEntity.ConfirmPwd" placeholder="验证口令">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">出生日期</label>
+                            <div class="input-group date col-sm-9" style="padding-left:1em;">
+                                <input type="text" class="form-control" ng-model="UserGroupEntity.Birthday"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">婚否</label>
+                            <div class="col-sm-9" style="text-align:left;">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" ng-model="UserGroupEntity.IsMarry" value="0" checked>未婚
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" ng-model="UserGroupEntity.IsMarry" value="1">已婚
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">民族</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" ng-model="I_Custom" ng-options="custom.C_Name for custom in customs"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">政治面貌</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" ng-model="I_Custom" ng-options="custom.C_Name for custom in customs"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">户口类别</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" ng-model="I_Custom" ng-options="custom.C_Name for custom in customs"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">用户描述</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" maxlength="2000" ng-model="UserGroupEntity.Description"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" style="text-align:center">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span>新增</button>
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>删除</button>
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-ok"></span>保存</button>
+                        <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-print"></span>打印</button>
+                        @*<button type="button" class="btn btn-default">权限编辑</button>
+                            <button type="button" class="btn btn-default">权限查询</button>
+                            <button type="button" class="btn btn-default">组管理</button>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $('.input-group.date').datepicker({
+                format: "yyyy-mm-dd",
+                todayBtn: "linked",
+                language: 'zh-CN'
+            });
+        });
+    </script>
+</script>

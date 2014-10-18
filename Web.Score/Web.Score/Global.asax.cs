@@ -6,6 +6,7 @@
 
 namespace App.Web.Score
 {
+    using System;
     using System.Web;
     using System.Web.Optimization;
     using System.Web.Routing;
@@ -18,6 +19,16 @@ namespace App.Web.Score
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             App.Score.Data.AppHelper.Init();
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception ex = this.Context.Server.GetLastError();
+            log4net.ILog ErrLog = log4net.LogManager.GetLogger("ErrLog");
+            ErrLog.Error(ex);
+
+            //this.Context.Response.Clear();
+            //this.Context.Server.Transfer("/Error.aspx");
         }
     }
 }

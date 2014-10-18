@@ -27,6 +27,7 @@ namespace App.Web.Score.DataProvider
     {
         private const string COOKIE_NAME = "ScoreUser";
 
+        #region 系统管理
         /// <summary>
         /// 读取cookie
         /// </summary>
@@ -62,6 +63,17 @@ namespace App.Web.Score.DataProvider
                     CookieHelper.SetCookie(COOKIE_NAME, Newtonsoft.Json.JsonConvert.SerializeObject(userEntry), DateTime.Now.AddDays(1));
                 }
                 return userEntry;
+            }
+        }
+
+        [WebMethod]
+        public static int ChangePwd(string teacherID, string oldPwd, string newPwd, int status)
+        {
+            using (AdminBLL bll = new AdminBLL())
+            {
+                ChangePwdEntity entity = new ChangePwdEntity() { TeacherID = teacherID, OldPwd = oldPwd, NewPwd = newPwd, Status = status, Result = 0 };
+                bll.ChangePwd(entity);
+                return entity.Result;
             }
         }
 
@@ -103,5 +115,16 @@ namespace App.Web.Score.DataProvider
                 fs.Close();
             }
         }
+
+        [WebMethod]
+        public static IList<UserGroupInfo> GetUserGroup()
+        {
+            using (AdminBLL bll = new AdminBLL())
+            {
+                return bll.GetUserGroup();
+            }
+        }
+
+        #endregion
     }
 }

@@ -53,8 +53,12 @@ aService.factory('menuService', ['baseService', 'dataProviderUrl', 'appUtils', f
     }
 
     var filterMenus = function (funcs, menus) {
-        for (var func in funcs) {
-            for (var menu in menus) {
+        var length = funcs.length;
+        for (var i = 0; i < length; i++) {
+            var func = funcs[i];
+            var count = menus.length;
+            for (var j = 0; j < count; j++) {
+                var menu = menus[j];
                 menu.visable = func.FuncID === menu.FuncID;
             }
         }
@@ -91,38 +95,50 @@ aService.factory('menuService', ['baseService', 'dataProviderUrl', 'appUtils', f
     return service;
 }]);
 
-aService.factory('userService', ['baseService', function (baseService) {
+aService.factory('userService', ['baseService', 'dataProviderUrl', function (baseService, dataProviderUrl) {
     var service = {};
 
     service.verify = function (userName, pwd, callback) {
-        var url = '/DataProvider/DataProvider.aspx/Verify';
+        var url = dataProviderUrl + '/Verify';
         var param = { user: userName, pwd: pwd };
         baseService.post(url, param, callback);
     }
 
     service.logout = function (callback) {
-        var url = '/DataProvider/DataProvider.aspx/Logout';
+        var url = dataProviderUrl + '/Logout';
         var param = null;
         baseService.post(url, param, callback);
     }
 
     service.isAuthorized = function (callback) {
-        var url = '/DataProvider/DataProvider.aspx/GetCookieInfo';
+        var url = dataProviderUrl + '/GetCookieInfo';
         var param = null;
         baseService.post(url, param, callback);
     }
 
     service.getUser = function (callback) {
-        var url = '/DataProvider/DataProvider.aspx/GetCookieInfo';
+        var url = dataProviderUrl + '/GetCookieInfo';
         var param = null;
         baseService.post(url, param, function (data) {
-            callback(data);
+            callback(data.d !== '' ? JSON.parse(data.d) : null);
         });
     }
 
     service.getFuncs = function (teacher, callback) {
-        var url = '/DataProvider/DataProvider.aspx/GetFuncs';
+        var url = dataProviderUrl + '/GetFuncs';
         var param = { teacherID: teacher };
+        baseService.post(url, param, callback);
+    }
+
+    service.changePwd = function (teacher, oldPwd, newPwd, status, callback) {
+        var url = dataProviderUrl + '/ChangePwd';
+        var param = { teacherID: teacher, oldPwd: oldPwd, newPwd: newPwd, status: status };
+        baseService.post(url, param, callback);
+    }
+
+    service.getUserGroup = function (callback) { 
+        var url = dataProviderUrl + '/GetUserGroup';
+        var param = null;
         baseService.post(url, param, callback);
     }
 

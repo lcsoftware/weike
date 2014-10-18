@@ -62,4 +62,21 @@ namespace App.Score.Entity
         /// </summary>
         public string FuncID0;
     }
+
+    public class UserGroupInfo
+    {
+        public string TeacherID { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Password { get; set; }
+        public string UserOrGroup { get; set; }
+        public string Sex { get; set; }
+        public string Birthday { get; set; }
+        public string IsMarry { get; set; }
+        public string NationNo { get; set; }
+        public string PoliticCode { get; set; }
+        public string ResidentNo { get; set; }
+        public string Status { get; set; }
+        public string Remark { get; set; }
+    }
 }

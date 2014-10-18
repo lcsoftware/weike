@@ -63,7 +63,7 @@
 				this.push.apply(this, new_array);
 			},
 			clear: function(){
-				this.length = 0;
+				this.splice(0);
 			},
 			copy: function(){
 				var a = new DateArray();
@@ -1400,7 +1400,6 @@
 		format: 'yyyy-mm-dd',
 		keyboardNavigation: true,
 		language: 'en',
-		//language: 'zh-CN',
 		minViewMode: 0,
 		multidate: false,
 		multidateSeparator: ',',
@@ -1408,8 +1407,7 @@
 		rtl: false,
 		startDate: -Infinity,
 		startView: 0,
-		//todayBtn: false,
-		todayBtn: "linked",
+		todayBtn: false,
 		todayHighlight: false,
 		weekStart: 0
 	};

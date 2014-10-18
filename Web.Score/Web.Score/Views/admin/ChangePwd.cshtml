@@ -1,0 +1,45 @@
+﻿<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">用户名</label>
+                <div class="col-sm-10">
+                    <p class="form-control-static">{{userName}}</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">原口令</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" placeholder="原口令" maxlength="10" ng-model="oldPwd">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">新口令</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" placeholder="新口令" maxlength="10" ng-model="newPwd">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">确认口令</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" placeholder="确认口令" maxlength="10" ng-model="confirmPwd">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="status" ng-true-value="1" ng-false-value="null"> 不让系统管理员知道我的密码
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button class="btn btn-primary" ng-click="changePwd();">确定</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

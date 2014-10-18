@@ -18,6 +18,7 @@ namespace App.Web.Score
                     "~/content/bootstrap/css/bootstrap-theme.min.css",
                     "~/content/bootstrap-dialog/css/bootstrap-dialog.min.css",
                     "~/content/datepicker/css/datepicker3.css",
+                    "~/content/angular-tree-controll/tree-controll.css",
                     "~/content/app.css"
                 ));
 
@@ -26,8 +27,10 @@ namespace App.Web.Score
                     "~/content/bootstrap/js/bootstrap.min.js",
                     "~/content/bootstrap-dialog/js/bootstrap-dialog.min.js",
                     "~/content/datepicker/js/bootstrap-datepicker.js",
+                    "~/content/datepicker/js/locales/bootstrap-datepicker.zh-CN.js",
                     "~/scripts/vendor/angular.min.js",
                     "~/scripts/vendor/angular-ui-router.min.js",
+                    "~/content/angular-tree-controll/angular-tree-controll.js",
                     "~/scripts/vendor/angular-cookies.min.js"
                 ));
 

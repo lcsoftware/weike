@@ -2,6 +2,7 @@
 
 angular.module('app', [
     'ui.router',
+    'treeControl',
     'app.filters',
     'app.services',
     'app.directives',
@@ -33,6 +34,8 @@ angular.module('app', [
             .state('nLogUser', { url: '/LogUser', templateUrl: '/views/admin/LogUser', controller: 'LogUserController' })
             //生成上传数据文件
             .state('nSendMail', { url: '/SendMail', templateUrl: '/views/admin/SendMail', controller: 'SendMailController' })
+            //修改口令
+            .state('nChangePwd', { url: '/ChangePwd', templateUrl: '/views/admin/ChangePwd', controller: 'ChangePwdController' })
             /**************************End 系统管理***********************/
 
             /**************************在线查询***********************/
@@ -151,18 +154,17 @@ angular.module('app', [
             }
 
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-                userService.getUser(function (data) {
-                    if (data.d !== '') {
-                        var user = JSON.parse(data.d);
+                userService.getUser(function (user) {
+                    if (user !== null) {
                         $rootScope.name = user.Name; 
-                        menuService.initMenus(user.TeacherID, function (data) {
-                            $rootScope.menus = data;
-                        });
+                        //menuService.initMenus(user.TeacherID, function (data) {
+                        //    $rootScope.menus = data;
+                        //});
                     }
                 })
-                //menuService.readMenu(function (data) {
-                //    $rootScope.menus = JSON.parse(data.d);
-                //});
+                menuService.readMenu(function (data) {
+                    $rootScope.menus = JSON.parse(data.d);
+                });
                 $rootScope.layout = toState.layout;
             });
 
