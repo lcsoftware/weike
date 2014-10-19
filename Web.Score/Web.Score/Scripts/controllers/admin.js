@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var appAdmin = angular.module('app.admin', []);
+var appAdmin = angular.module('app.admin', ['ui.tree']);
 
 // Path: /UserEdit  用户(组)维护
 appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'softname', 'userService',
@@ -12,10 +12,13 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
             nodeChildren: "children",
             dirSelectable: false
         };
+        $scope.query = "";
         $scope.userGroups = [];
         $scope.UserGroupEntity = {};
+
         $scope.showSelected = function (node) {
             console.log(node);
+            optionType = -1;
             $scope.tpl = node.UserOrGroup === '0' ? 'group.html' : 'user.html';
             $scope.UserGroupEntity = node;
             userService.getGroupUsers($scope.UserGroupEntity.TeacherID, function (data) {
@@ -25,40 +28,75 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
             });
         }
 
-        userService.getUserGroup(function (data) {
-            if (data.d !== null) {
-                var userGroups = data.d;
-                var group = { Name: '用户组', UserOrGroup: -1, children: [] };
-                var user = { Name: '用户', UserOrGroup: -1, children: [] };
-                var length = userGroups.length;
+        //userService.getUserGroup(function (data) {
+        //    if (data.d !== null) {
+        //        var userGroups = data.d;
+        //        var group = { Name: '用户组', UserOrGroup: -1, children: [] };
+        //        var user = { Name: '用户', UserOrGroup: -1, children: [] };
+        //        var length = userGroups.length;
+        //        for (var i = 0; i < length; i++) {
+        //            var userGroup = userGroups[i];
+        //            if (userGroup.UserOrGroup === '0') {
+        //                group.children.push(userGroup);
+        //            } else {
+        //                user.children.push(userGroup);
+        //            }
+        //        }
+        //        $scope.userGroups.push(group);
+        //        $scope.userGroups.push(user);
+        //    }
+        //});
+        //var addUserToGroup = function (userGroup) {
+        //    userService.getGroupUsers(userGroup.TeacherID, function (data) {
+        //        if (data.d !== null) {
+        //            userGroup.children.push(data.d);
+        //        }
+        //    });
+        //}
+
+        userService.buildGroupUserTree(function (groupAndUsers, users) {
+            var group = { Name: '用户组', UserOrGroup: -1, Children: [] };
+            var user = { Name: '所有用户', UserOrGroup: -2, Children: [] };
+            if (groupAndUsers !== null) {
+                var length = groupAndUsers.length;
                 for (var i = 0; i < length; i++) {
-                    var userGroup = userGroups[i];
-                    if (userGroup.UserOrGroup === '0') {
-                        group.children.push(userGroup);
-                    } else {
-                        user.children.push(userGroup);
-                    }
+                    group.Children.push(groupAndUsers[i]);
                 }
-                $scope.userGroups.push(group);
-                $scope.userGroups.push(user);
             }
+            if (users !== null) {
+                var length = users.length;
+                for (var i = 0; i < length; i++) {
+                    users[i].Children = [];
+                    user.Children.push(users[i]);
+                }
+            }
+            $scope.userGroups.push(group);
+            $scope.userGroups.push(user);
         });
 
+        $scope.addUserGroup = function (userGroup) { 
+            console.log(userGroup);
+        }
+
+        $scope.removeUserGroup = function (userGroup) {
+            console.log(userGroup);
+        }
+
+        $scope.editUserGroup = function (userGroup) {
+            console.log(userGroup);
+            $scope.tpl = userGroup.UserOrGroup === '0' ? 'group.html' : 'user.html';
+            $scope.UserGroupEntity = userGroup; 
+        }
+
+        $scope.changed = function () {
+            console.log($scope.query);
+        }
+
         $scope.saveUserGroup = function () {
-            userService.saveUserGroup(null, function (data) {
-                dialogUtils.info(data.d === 0? '添加用户(组)失败，请重试！' : '添加用户(组)成功');
+            userService.saveUserGroup($scope.UserGroupEntity, function (data) {
+                dialogUtils.info(data.d === 0 ? '添加用户(组)失败，请重试！' : '添加用户(组)成功');
             });
         } 
-
-        $scope.addUserGroup = function () {
-            $scope.UserGroupEntity = { Name: '', Description: '' };
-        }
-
-        $scope.removeUserGroup = function () {
-        }
-
-        $scope.
-        
     }]);
 
 // Path: /UserEdit  升留级处理

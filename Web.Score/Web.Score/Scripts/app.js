@@ -3,6 +3,7 @@
 angular.module('app', [
     'ui.router',
     'treeControl',
+    'ui.tree',
     'app.filters',
     'app.services',
     'app.directives',

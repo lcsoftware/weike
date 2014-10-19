@@ -9,6 +9,7 @@
 namespace App.Web.Score.DataProvider
 {
     using App.Score.Data;
+    using App.Score.Db;
     using App.Score.Entity;
     using App.Score.Util;
     using System;
@@ -48,23 +49,23 @@ namespace App.Web.Score.DataProvider
         /// <param name="pwd">密码</param>
         /// <returns></returns>
         [WebMethod]
-        public static UserEntry Verify(string user, string pwd)
+        public static UserInfo Verify(string user, string pwd)
         {
-            using (AppBLL bll = AppBLL.Instance())
+            using (AppBLL bll = new AppBLL())
             {
-                UserEntry userEntry = bll.GetDataItem<UserEntry>("USP_System_Verify", new { User = user, Pwd = pwd });
-                if (userEntry != null)
+                UserInfo userInfo = bll.GetDataItem<UserInfo>("USP_System_Verify", new { User = user, Pwd = pwd });
+                if (userInfo != null)
                 {
-                    CookieHelper.SetCookie(COOKIE_NAME, Newtonsoft.Json.JsonConvert.SerializeObject(userEntry), DateTime.Now.AddDays(1));
+                    CookieHelper.SetCookie(COOKIE_NAME, Newtonsoft.Json.JsonConvert.SerializeObject(userInfo), DateTime.Now.AddDays(1));
                 }
-                return userEntry;
+                return userInfo;
             }
         }
 
         [WebMethod]
         public static int ChangePwd(string teacherID, string oldPwd, string newPwd, int status)
         {
-            using (AppBLL bll = AppBLL.Instance())
+            using (AppBLL bll = new AppBLL())
             {
                 ChangePwdEntity entity = new ChangePwdEntity() { TeacherID = teacherID, OldPwd = oldPwd, NewPwd = newPwd, Status = status, Result = 0 };
                 bll.ExecuteNonQuery("USP_System_ChangePwd", entity);
@@ -80,7 +81,7 @@ namespace App.Web.Score.DataProvider
         [WebMethod]
         public static List<App.Score.Entity.FuncEntry> GetFuncs(string teacherID)
         {
-            using (AppBLL bll = AppBLL.Instance())
+            using (AppBLL bll = new AppBLL())
             {
                 return bll.FillList<FuncEntry>("s_p_getTeacherRight", new { TeacherID = teacherID });
             }
@@ -112,30 +113,20 @@ namespace App.Web.Score.DataProvider
         }
 
         [WebMethod]
-        public static IList<UserGroupInfo> GetUserGroup()
+        public static IList<UserInfo> GetUsers()
         {
-            using (AppBLL bll = AppBLL.Instance())
+            using (AppBLL bll = new AppBLL())
             {
-                string sql = "Select * from tbUserGroupInfo Order by Userorgroup,substring(TeacherID,1,4)";
-                return bll.FillListByText<UserGroupInfo>(sql, null);
+                string sql = "Select * from tbUserGroupInfo where UserOrGroup='1' Order by Userorgroup,substring(TeacherID,1,4)";
+                return bll.FillListByText<UserInfo>(sql, null);
             }
         }
         [WebMethod]
-        public static IList<GroupUser> GetGroupUsers(string teacher)
+        public static IList<GroupUser> GetGroupAndUsers()
         {
-            using (AppBLL bll = AppBLL.Instance())
-            {
-                return bll.FillList<GroupUser>("p_GetGroupUser", new { TeacherID = teacher, Flag = 2 });
-            }
+            return UtilBLL.GetGroupUsers();
         }
 
-        [WebMethod]
-        public static int AddUserGroup(UserGroupInfo userGroup)
-        {
-            using (AppBLL bll = AppBLL.Instance())
-            {
-                return bll.ExecuteNonQuery("USP_System_InsertUserGroup", userGroup);
-            }
-        }
+       
     }
 }

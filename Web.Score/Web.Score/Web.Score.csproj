@@ -137,8 +137,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\angular-tree-controll\angular-tree-controll.js" />
-    <Content Include="Content\angular-tree-controll\tree-controll.css" />
+    <Content Include="Content\angular-tree-control\angular-tree-control.js" />
+    <Content Include="Content\angular-tree-control\tree-control.css" />
+    <Content Include="Content\angularTree\angular-ui-tree.min.css" />
+    <Content Include="Content\angularTree\angular-ui-tree.min.js" />
     <Content Include="Content\app.css" />
     <Content Include="Content\bootstrap-dialog\css\bootstrap-dialog.css" />
     <Content Include="Content\bootstrap-dialog\css\bootstrap-dialog.min.css" />

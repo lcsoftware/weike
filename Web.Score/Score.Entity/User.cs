@@ -16,27 +16,6 @@ namespace App.Score.Entity
     using System.Threading.Tasks;
     
     /// <summary>
-    /// 用户实体类
-    /// </summary>
-    public class UserEntry
-    {
-        /// <summary>
-        /// string 类型编号 
-        /// </summary>
-        public string TeacherID;
-
-        /// <summary>
-        /// 登录名
-        /// </summary>
-        public string Name;
-
-        /// <summary>
-        /// 描述
-        /// </summary>
-        public string Description; 
-    }
-
-    /// <summary>
     /// 功能
     /// </summary>
     public class FuncEntry
@@ -63,7 +42,7 @@ namespace App.Score.Entity
         public string FuncID0;
     }
 
-    public class UserGroupInfo
+    public class UserInfo
     {
         public string TeacherID { get; set; }
         public string Name { get; set; }
@@ -77,16 +56,16 @@ namespace App.Score.Entity
         public string PoliticCode { get; set; }
         public string ResidentNo { get; set; }
         public string Status { get; set; }
-        public string Remark { get; set; }
+        public string Remark { get; set; } 
+        public string GroupID { get; set; }
     }
 
     public class GroupUser
-    {
+    { 
         public string GroupID;
-        public string GroupName;
+        public string Name;
         public string Description;
-        public string teacherID;
-        public string UserName;
-        public string manager;
+        public string UserOrGroup;
+        public IList<UserInfo> Children = new List<UserInfo>();
     }
 }

@@ -19,21 +19,7 @@ namespace App.Score.Data
     /// 数据底层访问定义
     /// </summary>
     public class AppBLL : DbContextHolderBase
-    {
-        private static AppBLL _BLL = null;
-
-        private AppBLL() { }
-
-        public static AppBLL Instance()
-        {
-            if (_BLL == null)
-            {
-                _BLL = new AppBLL();
-            }
-            return _BLL;
-        }
-
-
+    { 
         /// <summary>
         /// ExecuteNonQuery
         /// </summary>
@@ -100,6 +86,28 @@ namespace App.Score.Data
             this.DbContext.CreateCommand(sqlText, System.Data.CommandType.Text);
             this.DbContext.SetCommandParameters(inputParams);
             return this.DbContext.FillList<T>();
+        }
+        /// <summary>
+        /// 返回数据表
+        /// </summary>
+        /// <param name="sqlText"></param>
+        /// <param name="inputParams"></param>
+        /// <returns></returns>
+        public System.Data.DataTable FillDataTableByText(string sqlText, object inputParams)
+        {
+            this.DbContext.CreateCommand(sqlText, System.Data.CommandType.Text);
+            this.DbContext.SetCommandParameters(inputParams);
+            return this.DbContext.FillDataTable();
+        }
+        /// <summary>
+        /// 返回数据表
+        /// </summary>
+        /// <param name="sqlText"></param>
+        /// <returns></returns>
+        public System.Data.DataTable FillDataTableByText(string sqlText)
+        {
+            this.DbContext.CreateCommand(sqlText, System.Data.CommandType.Text);
+            return this.DbContext.FillDataTable();
         }
 
         /// <summary>

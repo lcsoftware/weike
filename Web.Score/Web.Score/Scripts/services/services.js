@@ -18,16 +18,8 @@ aService.factory('baseService', ['$http', function ($http) {
 
     service.post = function (url, param, thenFn, errFn) {
         $http.post(url, param)
-            .success(function (data) {
-                if (thenFn) {
-                    thenFn(data);
-                }
-            })
-            .error(function (reason) {
-                if (errFn) {
-                    errFn(reason);
-                }
-            });
+            .success(function (data) { if (thenFn) { thenFn(data); } })
+            .error(function (reason) { if (errFn) { errFn(reason); } });
     }
     return service;
 }]);
@@ -95,7 +87,7 @@ aService.factory('menuService', ['baseService', 'adminProviderUrl', 'appUtils', 
     return service;
 }]);
 
-aService.factory('userService', ['baseService', 'adminProviderUrl', function (baseService, adminProviderUrl) {
+aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', function (baseService, adminProviderUrl, appUtils) {
     var service = {};
 
     service.verify = function (userName, pwd, callback) {
@@ -142,9 +134,9 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', function (ba
         baseService.post(url, param, callback);
     }
 
-    service.getGroupUsers = function (teacher, callback) {
-        var url = adminProviderUrl + '/GetGroupUsers';
-        var param = { teacher: teacher };
+    service.getGroupAndUsers = function (teacher, callback) {
+        var url = adminProviderUrl + '/GetGroupAndUsers';
+        var param = null;
         baseService.post(url, param, callback); 
     }
 
@@ -153,5 +145,29 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', function (ba
         var param = userGroup;
         baseService.post(url, param, callback); 
     }
+
+    service.addGroup = function (userGroup, callback) {
+        var url = adminProviderUrl + '/AddUserGroup';
+        var param = userGroup;
+        baseService.post(url, param, callback); 
+    }
+
+    service.buildGroupUserTree = function (callback) {
+        var url = adminProviderUrl + '/GetGroupAndUsers';
+        var param = null;
+        var groupAndUserPromise = appUtils.createPromise(url, param);
+
+        var url = adminProviderUrl + '/GetUsers';
+        var param = null;
+        var userPromise = appUtils.createPromise(url, param);
+
+        appUtils.runPromises({
+            GroupAndUsers: groupAndUserPromise,
+            Users: userPromise
+        }, function (results) {
+            callback(results.GroupAndUsers.d, results.Users.d);
+        });
+    }
+
     return service;
 }]);

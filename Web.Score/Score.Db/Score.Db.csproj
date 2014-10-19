@@ -50,6 +50,13 @@
     <Compile Include="AppBLL.cs" />
     <Compile Include="AppHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UtilBLL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Score.Entity\Score.Entity.csproj">
+      <Project>{58872250-10ae-4282-b8d3-6592ebf90b62}</Project>
+      <Name>Score.Entity</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
