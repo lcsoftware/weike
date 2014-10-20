@@ -163,16 +163,16 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
         var url = adminProviderUrl + '/GetGroupAndUsers';
         var param = null;
         baseService.post(url, param, callback); 
-    }
+    } 
 
-    service.saveUserGroup = function (userGroup, callback) {
+    service.addUserGroup = function (category, callback) {
         var url = adminProviderUrl + '/AddUserGroup';
-        var param = userGroup;
+        var param = { category: category };
         baseService.post(url, param, callback); 
     }
 
-    service.addGroup = function (userGroup, callback) {
-        var url = adminProviderUrl + '/AddUserGroup';
+    service.saveUserGroup = function (userGroup, callback) {
+        var url = adminProviderUrl + '/SaveUserGroup';
         var param = userGroup;
         baseService.post(url, param, callback); 
     }

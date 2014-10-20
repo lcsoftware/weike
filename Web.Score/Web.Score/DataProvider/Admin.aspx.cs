@@ -14,6 +14,7 @@ namespace App.Web.Score.DataProvider
     using App.Score.Util;
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.IO;
     using System.Linq;
     using System.Web;
@@ -127,6 +128,29 @@ namespace App.Web.Score.DataProvider
             return UtilBLL.GetGroupUsers();
         }
 
-       
+        /// <summary>
+        /// 帮前端生成实体对象
+        /// </summary>
+        /// <param name="category">类别</param>
+        /// <returns></returns>
+        [WebMethod]
+        public static UserInfo AddUserGroup(string category)
+        {
+            return new UserInfo() { UserOrGroup = category };
+        }
+
+        [WebMethod]
+        public static int SaveUserGroup(UserInfo userGroup)
+        {
+
+            var sql = "Select * from tbUserGroupInfo Where Name=:UserName";
+            using (AppBLL bll = new AppBLL())
+            {
+                DataTable table = bll.FillDataTableByText(sql, new { UserName = userGroup.Name });
+                if (table.Rows.Count > 0) return -1; //数据库中已经存在名称为{0}的用户或组
+
+                return bll.ExecuteNonQuery("USP_System_InsertUserGroup", userGroup); 
+            }
+        }
     }
 }

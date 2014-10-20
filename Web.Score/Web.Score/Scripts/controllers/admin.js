@@ -3,8 +3,8 @@
 var appAdmin = angular.module('app.admin', ['ui.tree']);
 
 // Path: /UserEdit  用户(组)维护
-appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'softname', 'userService', 'utilService',
-    function ($scope, $location, $window, softname, userService, utilService) {
+appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'softname', 'userService', 'utilService','dialogUtils',
+    function ($scope, $location, $window, softname, userService, utilService, dialogUtils) {
 
         $scope.$root.title = softname + ' | 用户(组)维护';
 
@@ -22,7 +22,7 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
 
         $scope.showSelected = function (node) {
             $scope.tpl = node.UserOrGroup === '0' ? 'group.html' : 'user.html';
-            $scope.UserGroupEntity = node; 
+            $scope.UserGroupEntity = node;
         } 
 
         userService.buildGroupUserTree(function (groupAndUsers, users) {
@@ -49,6 +49,7 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
             if (data.d !== null)
             {
                 $scope.Nations = data.d;
+                $scope.NationNo = $scope.Nations[0];
             }
         });
         //政治面貌
@@ -64,9 +65,11 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
             }
         });
 
-        $scope.addUserGroup = function (userGroup) { 
-            console.log(userGroup);
-            userGroup.UserOrGroup = userGroup.UserOrGroup === '-1' ? '0' : '1';
+        $scope.addUserGroup = function (category) { 
+            $scope.tpl = category === 0 ? 'group.html' : 'user.html';
+            userService.addUserGroup(category === 0 ? '0' : '1', function(data){
+                $scope.UserGroupEntity = data.d;
+            });
         }
 
         $scope.removeUserGroup = function (userGroup) {
@@ -74,7 +77,6 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
         }
 
         $scope.editUserGroup = function (userGroup) {
-            console.log(userGroup);
             $scope.tpl = userGroup.UserOrGroup === '0' ? 'group.html' : 'user.html';
             $scope.UserGroupEntity = userGroup; 
         }
@@ -84,8 +86,14 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
         }
 
         $scope.saveUserGroup = function () {
+            console.log($scope.NationNo );
+            return;
             userService.saveUserGroup($scope.UserGroupEntity, function (data) {
-                dialogUtils.info(data.d === 0 ? '添加用户(组)失败，请重试！' : '添加用户(组)成功');
+                if (data.d === -1) {
+                    dialogUtils.info("数据库中已经存在名称为" + $scope.UserGroupEntity.Name + "的用户或组");
+                } else {
+                    dialogUtils.info(data.d === 0 ? '添加用户(组)失败，请重试！' : '添加用户(组)成功');
+                }
             }); 
         } 
 
