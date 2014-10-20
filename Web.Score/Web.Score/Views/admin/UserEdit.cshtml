@@ -160,19 +160,19 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">民族</label>
                             <div class="col-sm-9">
-                                <select class="form-control" ng-model="I_Custom" ng-options="custom.C_Name for custom in customs"></select>
+                                <select class="form-control" ng-model="userNation" ng-options="nation.NationName for nation in Nations"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">政治面貌</label>
                             <div class="col-sm-9">
-                                <select class="form-control" ng-model="I_Custom" ng-options="custom.C_Name for custom in customs"></select>
+                                <select class="form-control" ng-model="userPolitic" ng-options="politic.PoliticsName for politic in Politics"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">户口类别</label>
                             <div class="col-sm-9">
-                                <select class="form-control" ng-model="I_Custom" ng-options="custom.C_Name for custom in customs"></select>
+                                <select class="form-control" ng-model="userResidenceType" ng-options="residenceType.ResidenceTypeName for residenceType in ResidenceTypes"></select>
                             </div>
                         </div>
                         <div class="form-group">

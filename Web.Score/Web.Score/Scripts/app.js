@@ -157,12 +157,12 @@ angular.module('app', [
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
                 userService.getUser(function (user) {
                     if (user !== null) {
-                        $rootScope.name = user.Name; 
+                        $rootScope.name = user.Name;
                         //menuService.initMenus(user.TeacherID, function (data) {
                         //    $rootScope.menus = data;
                         //});
                     }
-                })
+                });
                 menuService.readMenu(function (data) {
                     $rootScope.menus = JSON.parse(data.d);
                 });

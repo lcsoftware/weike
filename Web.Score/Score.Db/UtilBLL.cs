@@ -75,6 +75,6 @@ namespace App.Score.Db
 
                 return groups;
             }
-        }
+        } 
     }
 }

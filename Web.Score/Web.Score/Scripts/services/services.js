@@ -6,6 +6,7 @@ aService.value('version', '0.1');
 
 aService.constant('softname', '成绩分析系统');
 
+aService.constant('utilProviderUrl', '/DataProvider/Util.aspx');
 aService.constant('adminProviderUrl', '/DataProvider/Admin.aspx');
 
 aService.factory('baseService', ['$http', function ($http) {
@@ -20,6 +21,30 @@ aService.factory('baseService', ['$http', function ($http) {
         $http.post(url, param)
             .success(function (data) { if (thenFn) { thenFn(data); } })
             .error(function (reason) { if (errFn) { errFn(reason); } });
+    }
+    return service;
+}]);
+
+aService.factory('utilService', ['baseService', 'utilProviderUrl', function (baseService, utilProviderUrl) {
+    var service = {};
+
+    service.GetNations = function (callback)
+    {
+        var url = utilProviderUrl + '/GetNations';
+        var param = null;
+        baseService.post(url, param, callback);
+    }
+
+    service.GetPolitics = function (callback) {
+        var url = utilProviderUrl + '/GetPolitics';
+        var param = null;
+        baseService.post(url, param, callback);
+    }
+
+    service.GetResidenceType = function (callback) {
+        var url = utilProviderUrl + '/GetResidenceType';
+        var param = null;
+        baseService.post(url, param, callback);
     }
     return service;
 }]);

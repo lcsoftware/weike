@@ -3,8 +3,8 @@
 var appAdmin = angular.module('app.admin', ['ui.tree']);
 
 // Path: /UserEdit  用户(组)维护
-appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'softname', 'userService',
-    function ($scope, $location, $window, softname, userService) {
+appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'softname', 'userService', 'utilService',
+    function ($scope, $location, $window, softname, userService, utilService) {
 
         $scope.$root.title = softname + ' | 用户(组)维护';
 
@@ -16,17 +16,79 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
         $scope.userGroups = [];
         $scope.UserGroupEntity = {};
 
+        $scope.Nations = [];
+        $scope.Politics = [];
+        $scope.ResidenceTypes = [];
+
         $scope.showSelected = function (node) {
-            console.log(node);
-            optionType = -1;
             $scope.tpl = node.UserOrGroup === '0' ? 'group.html' : 'user.html';
-            $scope.UserGroupEntity = node;
-            userService.getGroupUsers($scope.UserGroupEntity.TeacherID, function (data) {
-                if (data.d !== null) {
-                    $scope.groupUsers = data.d;
+            $scope.UserGroupEntity = node; 
+        } 
+
+        userService.buildGroupUserTree(function (groupAndUsers, users) {
+            var group = { Name: '用户组', UserOrGroup: -1, Children: [] };
+            var user = { Name: '所有用户', UserOrGroup: -2, Children: [] };
+            if (groupAndUsers !== null) {
+                var length = groupAndUsers.length;
+                for (var i = 0; i < length; i++) {
+                    group.Children.push(groupAndUsers[i]);
                 }
-            });
+            }
+            if (users !== null) {
+                var length = users.length;
+                for (var i = 0; i < length; i++) {
+                    users[i].Children = [];
+                    user.Children.push(users[i]);
+                }
+            }
+            $scope.userGroups.push(group);
+            $scope.userGroups.push(user);
+        });
+        //民族
+        utilService.GetNations(function (data) {
+            if (data.d !== null)
+            {
+                $scope.Nations = data.d;
+            }
+        });
+        //政治面貌
+        utilService.GetPolitics(function (data) {
+            if (data.d !== null) {
+                $scope.Politics = data.d;
+            }
+        });
+        //户口类别
+        utilService.GetResidenceType(function (data) {
+            if (data.d !== null) {
+                $scope.ResidenceTypes = data.d;
+            }
+        });
+
+        $scope.addUserGroup = function (userGroup) { 
+            console.log(userGroup);
+            userGroup.UserOrGroup = userGroup.UserOrGroup === '-1' ? '0' : '1';
         }
+
+        $scope.removeUserGroup = function (userGroup) {
+            console.log(userGroup);
+        }
+
+        $scope.editUserGroup = function (userGroup) {
+            console.log(userGroup);
+            $scope.tpl = userGroup.UserOrGroup === '0' ? 'group.html' : 'user.html';
+            $scope.UserGroupEntity = userGroup; 
+        }
+
+        $scope.changed = function () {
+            console.log($scope.query);
+        }
+
+        $scope.saveUserGroup = function () {
+            userService.saveUserGroup($scope.UserGroupEntity, function (data) {
+                dialogUtils.info(data.d === 0 ? '添加用户(组)失败，请重试！' : '添加用户(组)成功');
+            }); 
+        } 
+
 
         //userService.getUserGroup(function (data) {
         //    if (data.d !== null) {
@@ -53,50 +115,6 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
         //        }
         //    });
         //}
-
-        userService.buildGroupUserTree(function (groupAndUsers, users) {
-            var group = { Name: '用户组', UserOrGroup: -1, Children: [] };
-            var user = { Name: '所有用户', UserOrGroup: -2, Children: [] };
-            if (groupAndUsers !== null) {
-                var length = groupAndUsers.length;
-                for (var i = 0; i < length; i++) {
-                    group.Children.push(groupAndUsers[i]);
-                }
-            }
-            if (users !== null) {
-                var length = users.length;
-                for (var i = 0; i < length; i++) {
-                    users[i].Children = [];
-                    user.Children.push(users[i]);
-                }
-            }
-            $scope.userGroups.push(group);
-            $scope.userGroups.push(user);
-        });
-
-        $scope.addUserGroup = function (userGroup) { 
-            console.log(userGroup);
-        }
-
-        $scope.removeUserGroup = function (userGroup) {
-            console.log(userGroup);
-        }
-
-        $scope.editUserGroup = function (userGroup) {
-            console.log(userGroup);
-            $scope.tpl = userGroup.UserOrGroup === '0' ? 'group.html' : 'user.html';
-            $scope.UserGroupEntity = userGroup; 
-        }
-
-        $scope.changed = function () {
-            console.log($scope.query);
-        }
-
-        $scope.saveUserGroup = function () {
-            userService.saveUserGroup($scope.UserGroupEntity, function (data) {
-                dialogUtils.info(data.d === 0 ? '添加用户(组)失败，请重试！' : '添加用户(组)成功');
-            });
-        } 
     }]);
 
 // Path: /UserEdit  升留级处理

@@ -164,6 +164,7 @@
     <Content Include="Content\images\node-opened-light.png" />
     <Content Include="Content\images\node-opened.png" />
     <Content Include="DataProvider\Admin.aspx" />
+    <Content Include="DataProvider\Util.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\controllers\admin.js" />
     <Content Include="Scripts\controllers\controllers.js" />
@@ -504,6 +505,13 @@
     </Compile>
     <Compile Include="DataProvider\Admin.aspx.designer.cs">
       <DependentUpon>Admin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\Util.aspx.cs">
+      <DependentUpon>Util.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Util.aspx.designer.cs">
+      <DependentUpon>Util.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
