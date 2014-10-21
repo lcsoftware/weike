@@ -20,9 +20,9 @@ angular.module('app', [
             .state('login', { url: '/login', layout: 'basic', templateUrl: '/views/login', controller: 'LoginController' })
 
             /**************************系统管理***********************/
-
+            .state('admin', {url: '/admin', abstract: true, templateUrl: '/views/admin/main' })
             //用户(组)维护
-            .state('nUserEdit', { url: '/UserEdit', templateUrl: '/views/admin/UserEdit', controller: 'UserEditController' })
+            .state('admin.UserEdit', { url: '/UserEdit', templateUrl: '/views/admin/UserEdit', controller: 'UserEditController' })
             //升留级处理
             .state('nRightQuery', { url: '/RightQuery', templateUrl: '/views/admin/RightQuery', controller: 'RightQueryController' })
             //转换为学籍成绩

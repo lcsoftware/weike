@@ -7,6 +7,7 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
     function ($scope, $location, $window, softname, userService, utilService, dialogUtils) {
 
         $scope.$root.title = softname + ' | 用户(组)维护';
+        $scope.$root.moduleName = '用户(组)管理';
 
         $scope.opt = {
             nodeChildren: "children",
@@ -20,6 +21,7 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
         $scope.Nations = [];
         $scope.Politics = [];
         $scope.ResidenceTypes = [];
+        $scope.userNation = {};
 
         $scope.showSelected = function (node) {
             $scope.tpl = node.UserOrGroup === '0' ? 'group.html' : 'user.html';
@@ -60,7 +62,7 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
             if (data.d !== null) {
                 $scope.Politics = data.d;
                 if ($scope.Politics.length > 0) {
-                    $scope.userForm.userPolitic = $scope.Politics[0];
+                    $scope.userForm.userPolitic = $scope.Politics[1];
                 }
             }
         });
@@ -88,6 +90,7 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
         $scope.editUserGroup = function (userGroup) {
             $scope.UserGroupEntity = userGroup; 
             if ($scope.UserGroupEntity.UserOrGroup === '1') {
+                $scope.UserGroupEntity.ConfirmPwd = $scope.UserGroupEntity.Password;
                 $scope.tpl = 'user.html';
                 $scope.userForm.userNation = utilService.locate($scope.Nations, 'NationNo', $scope.UserGroupEntity.NationNo);
                 $scope.userForm.userResident = utilService.locate($scope.ResidenceTypes, 'ResidenceType', $scope.UserGroupEntity.ResidentNo);
@@ -104,15 +107,34 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
 
         $scope.saveUserGroup = function () {
             if ($scope.UserGroupEntity.UserOrGroup === '1')
-            {
+            { 
+                if ($scope.UserGroupEntity.Password === undefined || !$scope.UserGroupEntity.ConfirmPwd === undefined)
+                {
+                    dialogUtils.info('必须输入密码！'); 
+                    return;
+                }
+                if ($scope.UserGroupEntity.ConfirmPwd !== $scope.UserGroupEntity.Password) {
+                    $scope.UserGroupEntity.Password = '';
+                    $scope.UserGroupEntity.ConfirmPwd = '';
+                    dialogUtils.info('两次密码输入不一致，请重新输入！'); 
+                    return;
+                }
                 $scope.UserGroupEntity.NationNo = $scope.userForm.userNation.NationNo;
                 $scope.UserGroupEntity.PoliticCode = $scope.userForm.userPolitic.PoliticsCode;
                 $scope.UserGroupEntity.ResidentNo = $scope.userForm.userResident.ResidenceType;
             }
+            var isAdd = $scope.UserGroupEntity.TeacherID === '-1';
             userService.saveUserGroup($scope.UserGroupEntity, function (data) {
                 if (data.d === -1) {
                     dialogUtils.info("数据库中已经存在名称为" + $scope.UserGroupEntity.Name + "的用户或组");
                 } else {
+                    if (data.d === 1 && isAdd) {
+                        if ($scope.UserGroupEntity.UserOrGroup === '0') {
+                            $scope.userGroups[0].Children.push($scope.UserGroupEntity);
+                        } else {
+                            $scope.userGroups[1].Children.push($scope.UserGroupEntity); 
+                        }
+                    }
                     dialogUtils.info(data.d === 0 ? '用户(组)操作失败，请重试！' : '用户(组)操作成功');
                 }
             }); 

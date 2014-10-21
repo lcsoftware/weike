@@ -1,202 +1,169 @@
-﻿<div class="row" ng-form="userForm">
-    <div class="col-sm-12">
-        <div class="row">
-            <div class="col-sm-12" style="text-align:center">
-                <h3><b>用户(组)管理</b></h3>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="row">
-                    @*<div class="col-sm-12">
-                            <form class="form-horizontal" role="form">
-                                <div class="form-group">
-                                    <div class="col-sm-9">
-                                        <input class="form-control" style="display:none;" ng-model="query" placeholder="搜索用户(组)" ng-change="changed();">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>*@
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div ui-tree id="tree-root">
-                            <ol ui-tree-nodes="" ng-model="userGroups">
-                                <li ng-repeat="userGroup in userGroups" ui-tree-node collapsed="$index==1" nodrag>
+﻿<div class="row">
+    <div class="col-sm-6">
+        <div ui-tree id="tree-root">
+            <ol ui-tree-nodes="" ng-model="userGroups">
+                <li ng-repeat="userGroup in userGroups" ui-tree-node collapsed="$index==1" nodrag>
+                    <div ui-tree-handle class="tree-node tree-node-content">
+                        <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+                        {{userGroup.Name}}
+                        <a class="btn btn-primary btn-xs pull-right" nodrag ng-click="addUserGroup($index)" style="margin-right: 8px;"><span class="glyphicon glyphicon-plus"></span></a>
+                    </div>
+                    <ol ui-tree-nodes="" ng-model="userGroup.Children" ng-class="{hidden: collapsed}">
+                        <li ng-repeat="item in userGroup.Children" ui-tree-node collapsed="true">
+                            <div ui-tree-handle class="tree-node tree-node-content">
+                                <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)" ng-class="{hidden:item.Children.length == 0}"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+                                {{item.Name}}
+                                <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="removeUserGroup(item)"><span class="glyphicon glyphicon-remove"></span></a>
+                                <a class="btn btn-primary btn-xs pull-right" nodrag ng-click="editUserGroup(item)"><span class="glyphicon glyphicon-pencil"></span></a>
+                            </div>
+                            <ol ui-tree-nodes="" ng-model="item.Children" ng-class="{hidden: collapsed}">
+                                <li ng-repeat="user in item.Children" ui-tree-node>
                                     <div ui-tree-handle class="tree-node tree-node-content">
-                                        <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
-                                        {{userGroup.Name}}
-                                        <a class="btn btn-primary btn-xs pull-right" nodrag ng-click="addUserGroup($index)" style="margin-right: 8px;"><span class="glyphicon glyphicon-plus"></span></a>
+                                        {{user.Name}}
+                                        @*<a class="btn btn-danger btn-xs pull-right " nodrag ng-click="removeUserGroup(user)"><span class="glyphicon glyphicon-remove"></span></a>
+                                            <a class="btn btn-primary btn-xs pull-right" nodrag ng-click="editUserGroup(user)"><span class="glyphicon glyphicon-pencil"></span></a>*@
                                     </div>
-                                    <ol ui-tree-nodes="" ng-model="userGroup.Children" ng-class="{hidden: collapsed}">
-                                        <li ng-repeat="item in userGroup.Children" ui-tree-node collapsed="true">
-                                            <div ui-tree-handle class="tree-node tree-node-content">
-                                                <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)" ng-class="{hidden:item.Children.length == 0}"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
-                                                {{item.Name}}
-                                                <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="removeUserGroup(item)"><span class="glyphicon glyphicon-remove"></span></a>
-                                                <a class="btn btn-primary btn-xs pull-right" nodrag ng-click="editUserGroup(item)"><span class="glyphicon glyphicon-pencil"></span></a>
-                                            </div>
-                                            <ol ui-tree-nodes="" ng-model="item.Children" ng-class="{hidden: collapsed}">
-                                                <li ng-repeat="user in item.Children" ui-tree-node>
-                                                    <div ui-tree-handle class="tree-node tree-node-content">
-                                                        {{user.Name}}
-                                                        @*<a class="btn btn-danger btn-xs pull-right " nodrag ng-click="removeUserGroup(user)"><span class="glyphicon glyphicon-remove"></span></a>
-                                                            <a class="btn btn-primary btn-xs pull-right" nodrag ng-click="editUserGroup(user)"><span class="glyphicon glyphicon-pencil"></span></a>*@
-                                                    </div>
-                                                </li>
-                                            </ol>
-                                        </li>
-                                    </ol>
                                 </li>
                             </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6" ng-include="tpl">
-
-            </div>
+                        </li>
+                    </ol>
+                </li>
+            </ol>
         </div>
+    </div>
+    <div class="col-sm-6" ng-include="tpl">
 
     </div>
 </div>
 
 <script type="text/ng-template" id="group.html">
-    <div class="row">
-        <div class="col-sm-12">
-            <h3>编辑用户组</h3>
-            <div class="row">
-                <div class="col-sm-12">
-                    <form class="col-sm-12" >
-                        <div class="form-box">
-                            <div class="form-group">
-                                <input ng-model="UserGroupEntity.Name" type="text" class="form-control" placeholder="输入用户组" required autofocus />
-                            </div>
-                            <div class="form-group">
-                                <input ng-model="UserGroupEntity.Description" type="text" class="form-control" placeholder="用户组描述" />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12" style="text-align:right">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default" ng-click="saveUserGroup();"><span class="glyphicon glyphicon-ok"></span>保存</button>
-                        @*<button type="button" class="btn btn-default" ng-click="print();"><span class="glyphicon glyphicon-print"></span>打印</button>*@
-                        @*<button type="button" class="btn btn-default">权限编辑</button>
-                            <button type="button" class="btn btn-default">权限查询</button>
-                            <button type="button" class="btn btn-default">组管理</button>*@
+
+    <form role="form" ng-submit="saveUserGroup();">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-box">
+                    <div class="form-group">
+                        <input ng-model="UserGroupEntity.Name" type="text" class="form-control" placeholder="输入用户组" required autofocus />
+                    </div>
+                    <div class="form-group">
+                        <input ng-model="UserGroupEntity.Description" type="text" class="form-control" placeholder="用户组描述" />
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-sm-12" style="text-align:right">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>保存</button>
+                    @*<button type="button" class="btn btn-default" ng-click="print();"><span class="glyphicon glyphicon-print"></span>打印</button>*@
+                    @*<button type="button" class="btn btn-default">权限编辑</button>
+                        <button type="button" class="btn btn-default">权限查询</button>
+                        <button type="button" class="btn btn-default">组管理</button>*@
+                </div>
+            </div>
+        </div>
+    </form>
 </script>
 
 <script type="text/ng-template" id="user.html">
-    <div class="row">
-        <div class="col-sm-12" style="text-align:center">
-            <h3>用户信息</h3>
-            <div class="row">
-                <div class="col-sm-12">
-                    <form class="form-horizontal" role="form" >
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">用户名称</label>
-                            <div class="col-sm-9">
-                                <input class="form-control" ng-model="UserGroupEntity.Name" placeholder="用户名称">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">性别</label>
-                            <div class="col-sm-9" style="text-align:left;">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" ng-model="UserGroupEntity.Sex" value="1" checked>男
-                                    </label>
-                                </div>
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" ng-model="UserGroupEntity.Sex" value="2">女
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">用户口令</label>
-                            <div class="col-sm-9">
-                                <input type="password" class="form-control" ng-model="UserGroupEntity.Password" placeholder=" 用户口令">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">验证口令</label>
-                            <div class="col-sm-9">
-                                <input type="password" class="form-control" ng-model="UserGroupEntity.ConfirmPwd" placeholder="验证口令">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">出生日期</label>
-                            <div class="input-group date col-sm-9" style="padding-left:1em;">
-                                <input type="text" class="form-control" ng-model="UserGroupEntity.Birthday"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">婚否</label>
-                            <div class="col-sm-9" style="text-align:left;">
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" ng-model="UserGroupEntity.IsMarry" value="0" checked>未婚
-                                    </label>
-                                </div>
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" ng-model="UserGroupEntity.IsMarry" value="1">已婚
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">民族</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" ng-model="userForm.userNation" ng-options="(m.NationNo  + '=' + m.NationName) for m in Nations"></select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">政治面貌</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" ng-model="userForm.userPolitic" ng-options="(m.PoliticsCode + '=' + m.PoliticsName) for m in Politics"></select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">户口类别</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" ng-model="userForm.userResident" ng-options="(m.ResidenceType + '=' + m.ResidenceTypeName) for m in ResidenceTypes"></select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">用户描述</label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" maxlength="2000" ng-model="UserGroupEntity.Description"></textarea>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12" style="text-align:right">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default" ng-click="saveUserGroup();"><span class="glyphicon glyphicon-ok"></span>保存</button>
-                        @*<button type="button" class="btn btn-default" ng-click="print();"><span class="glyphicon glyphicon-print"></span>打印</button>*@
-                        @*<button type="button" class="btn btn-default">权限编辑</button>
-                            <button type="button" class="btn btn-default">权限查询</button>
-                            <button type="button" class="btn btn-default">组管理</button>*@
+
+    <form class="form-horizontal" role="form" name="from1" ng-submit="saveUserGroup();" >
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">用户名称</label>
+                    <div class="col-sm-9">
+                        <input class="form-control" style="font-weight:bold;" ng-model="UserGroupEntity.Name" placeholder="用户名称" required autofocus>
                     </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">性别</label>
+                    <div class="col-sm-9" style="text-align:left;">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" ng-model="UserGroupEntity.Sex" value="1" checked>男
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" ng-model="UserGroupEntity.Sex" value="2">女
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">用户口令</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" ng-model="UserGroupEntity.Password" placeholder=" 用户口令" required ng-minlength=5>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">验证口令</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" ng-model="UserGroupEntity.ConfirmPwd" placeholder="验证口令" required ng-minlength=5>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">出生日期</label>
+                    <div class="input-group date col-sm-9" style="padding-left:1em;">
+                        <input type="text" class="form-control" ng-model="UserGroupEntity.Birthday"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">婚否</label>
+                    <div class="col-sm-9" style="text-align:left;">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" ng-model="UserGroupEntity.IsMarry" value="0" checked>未婚
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" ng-model="UserGroupEntity.IsMarry" value="1">已婚
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">民族</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" ng-model="userForm.userNation" ng-options="(m.NationNo  + '=' + m.NationName) for m in Nations"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">政治面貌</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" ng-model="userForm.userPolitic" ng-options="(m.PoliticsCode + '=' + m.PoliticsName) for m in Politics"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">户口类别</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" ng-model="userForm.userResident" ng-options="(m.ResidenceType + '=' + m.ResidenceTypeName) for m in ResidenceTypes"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">用户描述</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" maxlength="2000" ng-model="UserGroupEntity.Description"></textarea>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" style="text-align:right">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>保存</button>
+                    @*<button type="button" class="btn btn-default" ng-click="print();"><span class="glyphicon glyphicon-print"></span>打印</button>*@
+                    @*<button type="button" class="btn btn-default">权限编辑</button>
+                        <button type="button" class="btn btn-default">权限查询</button>
+                        <button type="button" class="btn btn-default">组管理</button>*@
                 </div>
             </div>
         </div>
-    </div>
+    </form>
+
     <script type="text/javascript">
         $(function () {
             $('.input-group.date').datepicker({

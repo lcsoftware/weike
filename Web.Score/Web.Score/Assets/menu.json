@@ -105,7 +105,7 @@
 		{
 			"FuncID":"7000","FuncName":"nSystemGL","FuncType":"3", "Description":"系统管理",
 			"children":[
-				{ "FuncID":"7100","FuncName":"nUserEdit","FuncType":"0", "Description":"用户(组)维护","children":[]},
+				{ "FuncID":"7100","FuncName":"admin.UserEdit","FuncType":"0", "Description":"用户(组)维护","children":[]},
 				{ "FuncID":"7200","FuncName":"nRightQuery","FuncType":"0", "Description":"升留级处理","children":[]},
 				{ "FuncID":"7300","FuncName":"nSendMail1","FuncType":"0", "Description":"发送成绩邮件","children":[]},
 				{ "FuncID":"7400","FuncName":"nCJtoXJ","FuncType":"0", "Description":"转换为学籍成绩","children":[]},
