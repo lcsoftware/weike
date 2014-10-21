@@ -95,9 +95,7 @@ namespace App.Score.Data
         /// <returns></returns>
         public System.Data.DataTable FillDataTableByText(string sqlText, object inputParams)
         {
-            this.DbContext.CreateCommand(sqlText, System.Data.CommandType.Text);
-            this.DbContext.SetCommandParameters(inputParams);
-            return this.DbContext.FillDataTable();
+            return DbHelper.FillDataTable(sqlText, inputParams, CommandKind.SqlTextWithParams);
         }
         /// <summary>
         /// 返回数据表
@@ -106,8 +104,7 @@ namespace App.Score.Data
         /// <returns></returns>
         public System.Data.DataTable FillDataTableByText(string sqlText)
         {
-            this.DbContext.CreateCommand(sqlText, System.Data.CommandType.Text);
-            return this.DbContext.FillDataTable();
+            return DbHelper.FillDataTable(sqlText, null, CommandKind.SqlTextNoParams);
         }
 
         /// <summary>

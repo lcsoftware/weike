@@ -1,23 +1,23 @@
-﻿<div class="row">
+﻿<div class="row" ng-form="userForm">
     <div class="col-sm-12">
         <div class="row">
             <div class="col-sm-12" style="text-align:center">
-                <h3><b>用户(组)管理</b></h3> 
+                <h3><b>用户(组)管理</b></h3>
             </div>
         </div>
- 
+
         <div class="row">
             <div class="col-sm-6">
                 <div class="row">
                     @*<div class="col-sm-12">
-                        <form class="form-horizontal" role="form">
-                            <div class="form-group">
-                                <div class="col-sm-9">
-                                    <input class="form-control" style="display:none;" ng-model="query" placeholder="搜索用户(组)" ng-change="changed();">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <div class="col-sm-9">
+                                        <input class="form-control" style="display:none;" ng-model="query" placeholder="搜索用户(组)" ng-change="changed();">
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                    </div>*@
+                            </form>
+                        </div>*@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -42,7 +42,7 @@
                                                     <div ui-tree-handle class="tree-node tree-node-content">
                                                         {{user.Name}}
                                                         @*<a class="btn btn-danger btn-xs pull-right " nodrag ng-click="removeUserGroup(user)"><span class="glyphicon glyphicon-remove"></span></a>
-                                                        <a class="btn btn-primary btn-xs pull-right" nodrag ng-click="editUserGroup(user)"><span class="glyphicon glyphicon-pencil"></span></a>*@
+                                                            <a class="btn btn-primary btn-xs pull-right" nodrag ng-click="editUserGroup(user)"><span class="glyphicon glyphicon-pencil"></span></a>*@
                                                     </div>
                                                 </li>
                                             </ol>
@@ -59,7 +59,7 @@
 
             </div>
         </div>
- 
+
     </div>
 </div>
 
@@ -69,7 +69,7 @@
             <h3>编辑用户组</h3>
             <div class="row">
                 <div class="col-sm-12">
-                    <form class="col-sm-12">
+                    <form class="col-sm-12" >
                         <div class="form-box">
                             <div class="form-group">
                                 <input ng-model="UserGroupEntity.Name" type="text" class="form-control" placeholder="输入用户组" required autofocus />
@@ -102,7 +102,7 @@
             <h3>用户信息</h3>
             <div class="row">
                 <div class="col-sm-12">
-                    <form class="form-horizontal" role="form">
+                    <form class="form-horizontal" role="form" >
                         <div class="form-group">
                             <label class="col-sm-3 control-label">用户名称</label>
                             <div class="col-sm-9">
@@ -160,19 +160,19 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">民族</label>
                             <div class="col-sm-9">
-                                <select class="form-control" ng-model="UserGroupEntity.NationNo" ng-options="nation.NationName for nation in Nations"></select>
+                                <select class="form-control" ng-model="userForm.userNation" ng-options="(m.NationNo  + '=' + m.NationName) for m in Nations"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">政治面貌</label>
                             <div class="col-sm-9">
-                                <select class="form-control" ng-model="userPolitic" ng-options="politic.PoliticsName for politic in Politics"></select>
+                                <select class="form-control" ng-model="userForm.userPolitic" ng-options="(m.PoliticsCode + '=' + m.PoliticsName) for m in Politics"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">户口类别</label>
                             <div class="col-sm-9">
-                                <select class="form-control" ng-model="userResidenceType" ng-options="residenceType.ResidenceTypeName for residenceType in ResidenceTypes"></select>
+                                <select class="form-control" ng-model="userForm.userResident" ng-options="(m.ResidenceType + '=' + m.ResidenceTypeName) for m in ResidenceTypes"></select>
                             </div>
                         </div>
                         <div class="form-group">

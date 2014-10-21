@@ -49,31 +49,31 @@ namespace App.Score.Db
             }
         }
 
-        public static IList<GroupUser> GetGroupUsers()
+        public static IList<UserGroupInfo> GetGroupUsers()
         {
             using (AppBLL bll = new AppBLL())
             {
-                SortedList<string, GroupUser> sortedList = new SortedList<string, GroupUser>();
+                SortedList<string, UserGroupInfo> sortedList = new SortedList<string, UserGroupInfo>();
 
-                string sql = "select TeacherID as GroupID, Name, [Description], UserOrGroup from tbUserGroupInfo where UserOrGroup='0'";
-                IList<GroupUser> groups = bll.FillListByText<GroupUser>(sql, null); 
-                foreach (var groupUser in groups)
+                string sql = "select * from tbUserGroupInfo where UserOrGroup='0'";
+                IList<UserGroupInfo> userGroups = bll.FillListByText<UserGroupInfo>(sql, null);
+                foreach (var userGroup in userGroups)
                 {
-                    sortedList.Add(groupUser.GroupID, groupUser); 
+                    sortedList.Add(userGroup.TeacherID, userGroup); 
                 }
 
                 sql = "select a.GroupID, b.*  from tbGroupInfo a, tbUserGroupInfo b where a.TeacherID=b.TeacherID";
-                IList<UserInfo> users = bll.FillListByText<UserInfo>(sql, null);
+                IList<UserGroupInfo> users = bll.FillListByText<UserGroupInfo>(sql, null);
                 foreach (var userInfo in users)
                 {
-                    if (!string.IsNullOrEmpty(userInfo.GroupID))
+                    if (!string.IsNullOrEmpty(userInfo.TeacherID) && sortedList.ContainsKey(userInfo.GroupID))
                     {
-                        GroupUser group = sortedList[userInfo.GroupID];
+                        UserGroupInfo group = sortedList[userInfo.GroupID];
                         group.Children.Add(userInfo);
                     }
                 }
 
-                return groups;
+                return userGroups;
             }
         } 
     }

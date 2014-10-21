@@ -13,6 +13,7 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
             dirSelectable: false
         };
         $scope.query = "";
+        $scope.userForm = {};
         $scope.userGroups = [];
         $scope.UserGroupEntity = {};
 
@@ -49,19 +50,27 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
             if (data.d !== null)
             {
                 $scope.Nations = data.d;
-                $scope.NationNo = $scope.Nations[0];
+                if ($scope.Nations.length > 0) {
+                    $scope.userForm.userNation = $scope.Nations[0];
+                }
             }
         });
         //政治面貌
         utilService.GetPolitics(function (data) {
             if (data.d !== null) {
                 $scope.Politics = data.d;
+                if ($scope.Politics.length > 0) {
+                    $scope.userForm.userPolitic = $scope.Politics[0];
+                }
             }
         });
         //户口类别
         utilService.GetResidenceType(function (data) {
             if (data.d !== null) {
                 $scope.ResidenceTypes = data.d;
+                if ($scope.ResidenceTypes.length > 0) {
+                    $scope.userForm.userResident = $scope.ResidenceTypes[0];
+                }
             }
         });
 
@@ -75,24 +84,36 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
         $scope.removeUserGroup = function (userGroup) {
             console.log(userGroup);
         }
-
+ 
         $scope.editUserGroup = function (userGroup) {
-            $scope.tpl = userGroup.UserOrGroup === '0' ? 'group.html' : 'user.html';
             $scope.UserGroupEntity = userGroup; 
+            if ($scope.UserGroupEntity.UserOrGroup === '1') {
+                $scope.tpl = 'user.html';
+                $scope.userForm.userNation = utilService.locate($scope.Nations, 'NationNo', $scope.UserGroupEntity.NationNo);
+                $scope.userForm.userResident = utilService.locate($scope.ResidenceTypes, 'ResidenceType', $scope.UserGroupEntity.ResidentNo);
+                $scope.userForm.userPolitic = utilService.locate($scope.Politics, 'PoliticsCode', $scope.UserGroupEntity.PoliticCode); 
+            } else {
+                $scope.tpl = 'group.html';
+            }
         }
+
 
         $scope.changed = function () {
             console.log($scope.query);
         }
 
         $scope.saveUserGroup = function () {
-            console.log($scope.NationNo );
-            return;
+            if ($scope.UserGroupEntity.UserOrGroup === '1')
+            {
+                $scope.UserGroupEntity.NationNo = $scope.userForm.userNation.NationNo;
+                $scope.UserGroupEntity.PoliticCode = $scope.userForm.userPolitic.PoliticsCode;
+                $scope.UserGroupEntity.ResidentNo = $scope.userForm.userResident.ResidenceType;
+            }
             userService.saveUserGroup($scope.UserGroupEntity, function (data) {
                 if (data.d === -1) {
                     dialogUtils.info("数据库中已经存在名称为" + $scope.UserGroupEntity.Name + "的用户或组");
                 } else {
-                    dialogUtils.info(data.d === 0 ? '添加用户(组)失败，请重试！' : '添加用户(组)成功');
+                    dialogUtils.info(data.d === 0 ? '用户(组)操作失败，请重试！' : '用户(组)操作成功');
                 }
             }); 
         } 

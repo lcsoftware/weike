@@ -50,11 +50,11 @@ namespace App.Web.Score.DataProvider
         /// <param name="pwd">密码</param>
         /// <returns></returns>
         [WebMethod]
-        public static UserInfo Verify(string user, string pwd)
+        public static UserGroupInfo Verify(string user, string pwd)
         {
             using (AppBLL bll = new AppBLL())
             {
-                UserInfo userInfo = bll.GetDataItem<UserInfo>("USP_System_Verify", new { User = user, Pwd = pwd });
+                UserGroupInfo userInfo = bll.GetDataItem<UserGroupInfo>("USP_System_Verify", new { User = user, Pwd = pwd });
                 if (userInfo != null)
                 {
                     CookieHelper.SetCookie(COOKIE_NAME, Newtonsoft.Json.JsonConvert.SerializeObject(userInfo), DateTime.Now.AddDays(1));
@@ -114,16 +114,16 @@ namespace App.Web.Score.DataProvider
         }
 
         [WebMethod]
-        public static IList<UserInfo> GetUsers()
+        public static IList<UserGroupInfo> GetUsers()
         {
             using (AppBLL bll = new AppBLL())
             {
                 string sql = "Select * from tbUserGroupInfo where UserOrGroup='1' Order by Userorgroup,substring(TeacherID,1,4)";
-                return bll.FillListByText<UserInfo>(sql, null);
+                return bll.FillListByText<UserGroupInfo>(sql, null);
             }
         }
         [WebMethod]
-        public static IList<GroupUser> GetGroupAndUsers()
+        public static IList<UserGroupInfo> GetGroupAndUsers()
         {
             return UtilBLL.GetGroupUsers();
         }
@@ -134,23 +134,25 @@ namespace App.Web.Score.DataProvider
         /// <param name="category">类别</param>
         /// <returns></returns>
         [WebMethod]
-        public static UserInfo AddUserGroup(string category)
+        public static UserGroupInfo AddUserGroup(string category)
         {
-            return new UserInfo() { UserOrGroup = category };
+            return new UserGroupInfo() { UserOrGroup = category, TeacherID = "-1" };
         }
 
         [WebMethod]
-        public static int SaveUserGroup(UserInfo userGroup)
+        public static int SaveUserGroup(UserGroupInfo userGroup)
         {
-
-            var sql = "Select * from tbUserGroupInfo Where Name=:UserName";
             using (AppBLL bll = new AppBLL())
             {
-                DataTable table = bll.FillDataTableByText(sql, new { UserName = userGroup.Name });
-                if (table.Rows.Count > 0) return -1; //数据库中已经存在名称为{0}的用户或组
-
-                return bll.ExecuteNonQuery("USP_System_InsertUserGroup", userGroup); 
-            }
+                if (userGroup.TeacherID.Trim().Equals("-1"))
+                {
+                    //新增查重
+                    var sql = "Select * from tbUserGroupInfo Where Name=@UserName";
+                    DataTable table = bll.FillDataTableByText(sql, new { UserName = userGroup.Name });
+                    if (table.Rows.Count > 0) return -1; //数据库中已经存在名称为{0}的用户或组
+                }
+                return bll.ExecuteNonQuery("USP_System_InsertUserGroup", userGroup);
+            } 
         }
     }
 }

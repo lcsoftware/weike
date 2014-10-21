@@ -42,7 +42,7 @@ namespace App.Score.Entity
         public string FuncID0;
     }
 
-    public class UserInfo
+    public class UserGroupInfo
     {
         public string TeacherID { get; set; }
         public string Name { get; set; }
@@ -56,16 +56,18 @@ namespace App.Score.Entity
         public string PoliticCode { get; set; }
         public string ResidentNo { get; set; }
         public string Status { get; set; }
-        public string Remark { get; set; } 
+        public string Remark { get; set; }
         public string GroupID { get; set; }
+
+        public IList<UserGroupInfo> Children = new List<UserGroupInfo>();
     }
 
-    public class GroupUser
-    { 
-        public string GroupID;
-        public string Name;
-        public string Description;
-        public string UserOrGroup;
-        public IList<UserInfo> Children = new List<UserInfo>();
-    }
+    //public class GroupUser
+    //{ 
+    //    public string GroupID;
+    //    public string Name;
+    //    public string Description;
+    //    public string UserOrGroup;
+    //    public IList<UserInfo> Children = new List<UserInfo>();
+    //}
 }
