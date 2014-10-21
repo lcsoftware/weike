@@ -81,10 +81,16 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
             userService.addUserGroup(category === 0 ? '0' : '1', function(data){
                 $scope.UserGroupEntity = data.d;
             });
-        }
+        } 
 
-        $scope.removeUserGroup = function (userGroup) {
+        $scope.removeUserGroup = function (userGroup, e) {
             console.log(userGroup);
+            console.log(e);
+            return false;
+        }
+        $scope.remove = function (node) {
+            console.log('****************************');
+            console.log(node);
         }
  
         $scope.editUserGroup = function (userGroup) {
