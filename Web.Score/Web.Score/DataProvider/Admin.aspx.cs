@@ -163,7 +163,7 @@ namespace App.Web.Score.DataProvider
         {
             using (AppBLL bll = new AppBLL()) {
                 var sql = "delete from tbGroupInfo Where teacherID=@teacherID and Groupid=@GroupID";
-                return bll.ExecuteNonQuery(sql, new { teacherID = teacher, GroupID = groupID }, );
+                return bll.ExecuteNonQueryByText(sql, new { teacherID = teacher, GroupID = groupID });
             }
         }
 
@@ -173,7 +173,7 @@ namespace App.Web.Score.DataProvider
             using (AppBLL bll = new AppBLL())
             {
                 var sql = "insert into tbGroupInfo(teacherID, groupID) Values(@teacherID, @GroupID)";
-                return bll.ExecuteNonQuery(sql, new { teacherID = teacher, GroupID = groupID });
+                return bll.ExecuteNonQueryByText(sql, new { teacherID = teacher, GroupID = groupID });
             }
         }
 
