@@ -3,7 +3,7 @@
 var appAdmin = angular.module('app.admin', ['ui.tree']);
 
 // Path: /UserEdit  用户(组)维护
-appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'softname', 'userService', 'utilService','dialogUtils',
+appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'softname', 'userService', 'utilService', 'dialogUtils',
     function ($scope, $location, $window, softname, userService, utilService, dialogUtils) {
 
         $scope.$root.title = softname + ' | 用户(组)维护';
@@ -26,31 +26,35 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
         $scope.showSelected = function (node) {
             $scope.tpl = node.UserOrGroup === '0' ? 'group.html' : 'user.html';
             $scope.UserGroupEntity = node;
-        } 
+        }
+        var init = function () {
+            $scope.userGroups = [];
+            userService.buildGroupUserTree(function (groupAndUsers, users) {
+                var group = { Name: '用户组', UserOrGroup: -1, Children: [] };
+                var user = { Name: '所有用户', UserOrGroup: -2, Children: [] };
+                if (groupAndUsers !== null) {
+                    var length = groupAndUsers.length;
+                    for (var i = 0; i < length; i++) {
+                        group.Children.push(groupAndUsers[i]);
+                    }
+                }
+                if (users !== null) {
+                    var length = users.length;
+                    for (var i = 0; i < length; i++) {
+                        users[i].Children = [];
+                        user.Children.push(users[i]);
+                    }
+                }
+                $scope.userGroups.push(group);
+                $scope.userGroups.push(user);
+            });
+        }
 
-        userService.buildGroupUserTree(function (groupAndUsers, users) {
-            var group = { Name: '用户组', UserOrGroup: -1, Children: [] };
-            var user = { Name: '所有用户', UserOrGroup: -2, Children: [] };
-            if (groupAndUsers !== null) {
-                var length = groupAndUsers.length;
-                for (var i = 0; i < length; i++) {
-                    group.Children.push(groupAndUsers[i]);
-                }
-            }
-            if (users !== null) {
-                var length = users.length;
-                for (var i = 0; i < length; i++) {
-                    users[i].Children = [];
-                    user.Children.push(users[i]);
-                }
-            }
-            $scope.userGroups.push(group);
-            $scope.userGroups.push(user);
-        });
+        init();
+
         //民族
         utilService.GetNations(function (data) {
-            if (data.d !== null)
-            {
+            if (data.d !== null) {
                 $scope.Nations = data.d;
                 if ($scope.Nations.length > 0) {
                     $scope.userForm.userNation = $scope.Nations[0];
@@ -76,31 +80,32 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
             }
         });
 
-        $scope.addUserGroup = function (category) { 
+        $scope.addUserGroup = function (category) {
             $scope.tpl = category === 0 ? 'group.html' : 'user.html';
-            userService.addUserGroup(category === 0 ? '0' : '1', function(data){
+            userService.addUserGroup(category === 0 ? '0' : '1', function (data) {
                 $scope.UserGroupEntity = data.d;
             });
-        } 
+        }
 
-        $scope.removeUserGroup = function (userGroup, e) {
-            console.log(userGroup);
-            console.log(e);
-            return false;
+        $scope.removeUserGroup = function (userGroup) {
+            dialogUtils.confirm('你真的要删除吗？', function () {
+                userService.removeUserGroup(userGroup, function (data) {
+                    dialogUtils.info(data.d.Context);
+                    if (data.d.State === 1) {
+                        init();
+                    }
+                })
+            });
         }
-        $scope.remove = function (node) {
-            console.log('****************************');
-            console.log(node);
-        }
- 
+
         $scope.editUserGroup = function (userGroup) {
-            $scope.UserGroupEntity = userGroup; 
+            $scope.UserGroupEntity = userGroup;
             if ($scope.UserGroupEntity.UserOrGroup === '1') {
                 $scope.UserGroupEntity.ConfirmPwd = $scope.UserGroupEntity.Password;
                 $scope.tpl = 'user.html';
                 $scope.userForm.userNation = utilService.locate($scope.Nations, 'NationNo', $scope.UserGroupEntity.NationNo);
                 $scope.userForm.userResident = utilService.locate($scope.ResidenceTypes, 'ResidenceType', $scope.UserGroupEntity.ResidentNo);
-                $scope.userForm.userPolitic = utilService.locate($scope.Politics, 'PoliticsCode', $scope.UserGroupEntity.PoliticCode); 
+                $scope.userForm.userPolitic = utilService.locate($scope.Politics, 'PoliticsCode', $scope.UserGroupEntity.PoliticCode);
             } else {
                 $scope.tpl = 'group.html';
             }
@@ -112,17 +117,15 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
         }
 
         $scope.saveUserGroup = function () {
-            if ($scope.UserGroupEntity.UserOrGroup === '1')
-            { 
-                if ($scope.UserGroupEntity.Password === undefined || !$scope.UserGroupEntity.ConfirmPwd === undefined)
-                {
-                    dialogUtils.info('必须输入密码！'); 
+            if ($scope.UserGroupEntity.UserOrGroup === '1') {
+                if ($scope.UserGroupEntity.Password === undefined || !$scope.UserGroupEntity.ConfirmPwd === undefined) {
+                    dialogUtils.info('必须输入密码！');
                     return;
                 }
                 if ($scope.UserGroupEntity.ConfirmPwd !== $scope.UserGroupEntity.Password) {
                     $scope.UserGroupEntity.Password = '';
                     $scope.UserGroupEntity.ConfirmPwd = '';
-                    dialogUtils.info('两次密码输入不一致，请重新输入！'); 
+                    dialogUtils.info('两次密码输入不一致，请重新输入！');
                     return;
                 }
                 $scope.UserGroupEntity.NationNo = $scope.userForm.userNation.NationNo;
@@ -138,13 +141,14 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
                         if ($scope.UserGroupEntity.UserOrGroup === '0') {
                             $scope.userGroups[0].Children.push($scope.UserGroupEntity);
                         } else {
-                            $scope.userGroups[1].Children.push($scope.UserGroupEntity); 
+                            $scope.userGroups[1].Children.push($scope.UserGroupEntity);
                         }
                     }
                     dialogUtils.info(data.d === 0 ? '用户(组)操作失败，请重试！' : '用户(组)操作成功');
+                    init();
                 }
-            }); 
-        } 
+            });
+        }
 
 
         //userService.getUserGroup(function (data) {

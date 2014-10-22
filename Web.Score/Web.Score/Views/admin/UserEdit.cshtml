@@ -13,7 +13,7 @@
                             <div ui-tree-handle class="tree-node tree-node-content">
                                 <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)" ng-class="{hidden:item.Children.length == 0}"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
                                 {{item.Name}}
-                                <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="removeUserGroup(item, this);"><span class="glyphicon glyphicon-remove"></span></a>
+                                <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="removeUserGroup(item);"><span class="glyphicon glyphicon-remove"></span></a>
                                 <a class="btn btn-primary btn-xs pull-right" nodrag ng-click="editUserGroup(item)"><span class="glyphicon glyphicon-pencil"></span></a>
                             </div>
                             <ol ui-tree-nodes="" ng-model="item.Children" ng-class="{hidden: collapsed}">
@@ -67,7 +67,7 @@
 
 <script type="text/ng-template" id="user.html">
 
-    <form class="form-horizontal" role="form" name="from1" ng-submit="saveUserGroup();" >
+    <form class="form-horizontal" role="form" ng-submit="saveUserGroup();">
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group">
@@ -94,13 +94,13 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">用户口令</label>
                     <div class="col-sm-9">
-                        <input type="password" class="form-control" ng-model="UserGroupEntity.Password" placeholder=" 用户口令" required ng-minlength=5>
+                        <input type="password" class="form-control" ng-model="UserGroupEntity.Password" placeholder=" 用户口令" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">验证口令</label>
                     <div class="col-sm-9">
-                        <input type="password" class="form-control" ng-model="UserGroupEntity.ConfirmPwd" placeholder="验证口令" required ng-minlength=5>
+                        <input type="password" class="form-control" ng-model="UserGroupEntity.ConfirmPwd" placeholder="验证口令" required>
                     </div>
                 </div>
                 <div class="form-group">

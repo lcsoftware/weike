@@ -36,4 +36,11 @@ namespace App.Score.Entity
         public string ResidenceTypeName { get; set; }
         public string ResidenceType { get; set; }
     }
+
+
+    public class ResultEntity
+    {
+        public int State;
+        public string Context;
+    }
 }

@@ -136,6 +136,12 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
         baseService.post(url, param, callback);
     }
 
+    service.removeUserGroup = function (userGroup, callback) { 
+        var url = adminProviderUrl + '/RemoveUserGroup';
+        var param = { userGroup: userGroup };
+        baseService.post(url, param, callback);
+    }
+
     service.saveUserGroup = function (userGroup, callback) {
         var url = adminProviderUrl + '/SaveUserGroup';
         var param = { userGroup: userGroup };

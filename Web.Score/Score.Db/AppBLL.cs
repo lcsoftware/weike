@@ -97,6 +97,13 @@ namespace App.Score.Data
         {
             return DbHelper.FillDataTable(sqlText, inputParams, CommandKind.SqlTextWithParams);
         }
+
+        public int ExecuteNonQueryByText(string sqlText, object inputParams) {
+            return DbHelper.ExecuteNonQuery(sqlText, inputParams, CommandKind.SqlTextWithParams);
+        }
+        public int ExecuteNonQueryByText(string sqlText) {
+            return DbHelper.ExecuteNonQuery(sqlText, null, CommandKind.SqlTextNoParams);
+        }
         /// <summary>
         /// 返回数据表
         /// </summary>

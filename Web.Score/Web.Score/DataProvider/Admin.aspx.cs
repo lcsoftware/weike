@@ -152,7 +152,68 @@ namespace App.Web.Score.DataProvider
                     if (table.Rows.Count > 0) return -1; //数据库中已经存在名称为{0}的用户或组
                 }
                 return bll.ExecuteNonQuery("USP_System_InsertUserGroup", userGroup);
-            } 
+            }
+        }
+
+        [WebMethod]
+        public static ResultEntity RemoveUserGroup(UserGroupInfo userGroup)
+        {
+            try
+            {
+                using (AppBLL bll = new AppBLL())
+                {
+                    var sql = "";
+                    DataTable table;
+                    sql = "Select Count(*) as iCount from tbLog where TeacherID=@p";
+                    table = bll.FillDataTableByText(sql, new { p = userGroup.TeacherID });
+                    if (int.Parse(table.Rows[0][0].ToString()) > 0)
+                        return new ResultEntity() { State = -1, Context = "发现此用户有日志信息！" };
+
+                    sql = "Select * from tbRights where TeacherID=@p";
+                    table = bll.FillDataTableByText(sql, new { p = userGroup.TeacherID });
+                    if (table.Rows.Count > 0)
+                        return new ResultEntity() { State = -2, Context = "请先去除用户(组)权限！" };
+
+                    if (userGroup.UserOrGroup.Equals("1"))
+                    {
+                        //用户
+                        sql = "Select * from tbTeacherClass where TeacherID=@p and AcademicYear=(Select top 1 AcadEmicYear from tbSchoolBaseInfo)";
+                        table = bll.FillDataTableByText(sql, new { p = userGroup.TeacherID });
+                        if (table.Rows.Count > 0)
+                            return new ResultEntity() { State = -3, Context = "老师本学年有课！" };
+
+                        sql = "Select * from tbGroupInfo where TeacherID=@p";
+                        table = bll.FillDataTableByText(sql, new { p = userGroup.TeacherID });
+                        if (table.Rows.Count > 0)
+                            return new ResultEntity() { State = -4, Context = string.Format("把({0})从组去除！", userGroup.Name) };
+                    }
+                    else
+                    {
+                        sql = "Select * from tbGroupInfo where GroupID=@p";
+                        table = bll.FillDataTableByText(sql, new { p = userGroup.TeacherID });
+                        if (table.Rows.Count > 0)
+                            return new ResultEntity() { State = -5, Context = string.Format("请把组({0})的所有用户去除！", userGroup.Name) };
+                    }
+                    var strTemp = userGroup.TeacherID.Substring(10, 4);
+                    if (strTemp.Equals("0001") || strTemp.Equals("0002") || strTemp.Equals("0003")
+                        || strTemp.Equals("1001") || strTemp.Equals("0888"))
+                    {
+                        return new ResultEntity() { State = -6, Context = "系统保留用户(组)！" };
+                    }
+                    sql = "Select TeacherID,Name from tbUserGroupInfo Where TeacherID=@p";
+                    table = bll.FillDataTableByText(sql, new { p = userGroup.TeacherID });
+                    if (table.Rows.Count == 0)
+                        return new ResultEntity() { State = -7, Context = "数据库错误！" };
+
+                    sql = "Delete  from tbUserGroupinfo Where TeacherID=@p";
+                    bll.ExecuteNonQueryByText(sql, new { p = userGroup.TeacherID });
+                }
+                return new ResultEntity() { State = 1, Context = string.Format("用户(组)<{0}>已经删除！", userGroup.Name) };
+            }
+            catch (Exception ex)
+            {
+                return new ResultEntity() { State = -8, Context = string.Format("用户(组)删除失败！", userGroup.Name) }; 
+            }
         }
     }
 }
