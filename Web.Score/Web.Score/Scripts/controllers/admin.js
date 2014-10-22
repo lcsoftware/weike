@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var appAdmin = angular.module('app.admin', ['ui.tree']);
+var appAdmin = angular.module('app.admin', ['ui.tree', 'checklist-model']);
 
 // Path: /UserEdit  用户(组)维护
 appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'softname', 'userService', 'utilService', 'dialogUtils',
@@ -178,6 +178,57 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
         //}
     }]);
 
+// Path: /UserEdit  用户(组)维护
+appAdmin.controller('GroupEditController', ['$scope', function ($scope) {
+    $scope.$root.moduleName = '用户组管理';
+
+    $scope.Groups = [];
+    $scope.selectedGroup = {};
+
+    $scope.allUsers = [];
+    $scope.usersOfGroup = [];
+
+    $scope.userService.getUserGroups('0', function (data) {
+        if (data.d !== null) {
+            $scope.Groups = [];
+            angular.extend($scope.Groups, data.d);
+        }
+    });
+
+    $scope.userService.getAllUsers(function (data) {
+        if (data.d !== null) {
+            $scope.allUsers = data.d;
+        }
+    });
+
+    $scope.groupChanged = function (userGroup) {
+        $scope.userService.getUsersOfGroup(userGroup.TeacherID, function (data) {
+            $scope.usersOfGroup.length = 0;
+            if (data.d !== null) {
+                var length = data.d.length;
+                for (var i = 0; i < length; i++) {
+                    $scope.usersOfGroup.push(data.d[i].TeacherID);
+                }
+            }
+        });
+    }
+
+    $scope.doChanged = function (userCheck) {
+        var groupID = $scope.selectedGroup.TeacherID;
+        var teacher = userCheck.$parent.user.TeacherID;
+        if (groupID === undefined) {
+            userCheck.checked = !userCheck.checked;
+            $scope.dialogUtils.info('请选择用户组！');
+            return;
+        }
+        if (userCheck.checked) { 
+            $scope.userService.joinGroup(teacher, groupID);
+        } else { 
+            $scope.userService.leaveGroup(teacher, groupID);
+        }
+    }
+
+}]);
 // Path: /UserEdit  升留级处理
 appAdmin.controller('RightQueryController', ['$scope', '$location', '$window', function ($scope, $location, $window) {
     $scope.$root.title = 'AngularJS SPA Template for Visual Studio';

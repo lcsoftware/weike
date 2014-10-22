@@ -114,12 +114,12 @@ namespace App.Web.Score.DataProvider
         }
 
         [WebMethod]
-        public static IList<UserGroupInfo> GetUsers()
+        public static IList<UserGroupInfo> GetUserGroups(string userOrGroup)
         {
             using (AppBLL bll = new AppBLL())
             {
-                string sql = "Select * from tbUserGroupInfo where UserOrGroup='1' Order by Userorgroup,substring(TeacherID,1,4)";
-                return bll.FillListByText<UserGroupInfo>(sql, null);
+                string sql = "Select * from tbUserGroupInfo where UserOrGroup=@userOrGroup Order by Userorgroup,substring(TeacherID,1,4)";
+                return bll.FillListByText<UserGroupInfo>(sql, new { userOrGroup = userOrGroup });
             }
         }
         [WebMethod]
@@ -128,6 +128,25 @@ namespace App.Web.Score.DataProvider
             return UtilBLL.GetGroupUsers();
         }
 
+        [WebMethod]
+        public static IList<UserGroupInfo> GetUsersOfGroup(string groupID)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "select a.GroupID, b.*  from tbGroupInfo a, tbUserGroupInfo b where a.TeacherID=b.TeacherID and a.GroupID=@p";
+                return bll.FillListByText<UserGroupInfo>(sql, new { p = groupID});
+            }
+        }
+
+        [WebMethod]
+        public static IList<UserGroupInfo> GetAllUsers()
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "select *  from tbUserGroupInfo where UserOrGroup='1'";
+                return bll.FillListByText<UserGroupInfo>(sql, null);
+            }
+        }
         /// <summary>
         /// 帮前端生成实体对象
         /// </summary>
@@ -137,6 +156,25 @@ namespace App.Web.Score.DataProvider
         public static UserGroupInfo AddUserGroup(string category)
         {
             return new UserGroupInfo() { UserOrGroup = category, TeacherID = "-1" };
+        }
+
+        [WebMethod]
+        public static int LeaveGroup(string teacher, string groupID)
+        {
+            using (AppBLL bll = new AppBLL()) {
+                var sql = "delete from tbGroupInfo Where teacherID=@teacherID and Groupid=@GroupID";
+                return bll.ExecuteNonQuery(sql, new { teacherID = teacher, GroupID = groupID }, );
+            }
+        }
+
+        [WebMethod]
+        public static int JoinGroup(string teacher, string groupID)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "insert into tbGroupInfo(teacherID, groupID) Values(@teacherID, @GroupID)";
+                return bll.ExecuteNonQuery(sql, new { teacherID = teacher, GroupID = groupID });
+            }
         }
 
         [WebMethod]

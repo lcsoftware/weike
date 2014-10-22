@@ -489,6 +489,7 @@
     <Content Include="Views\admin\CJtoXJ.cshtml" />
     <Content Include="Views\admin\ChangePwd.cshtml" />
     <Content Include="Views\admin\main.cshtml" />
+    <Content Include="Views\admin\GroupEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -33,7 +33,8 @@ namespace App.Web.Score
                     "~/scripts/vendor/angular-ui-router.min.js",
                     "~/content/angular-tree-control/angular-tree-control.js",
                     "~/content/angularTree/angular-ui-tree.min.js",
-                    "~/scripts/vendor/angular-cookies.min.js"
+                    "~/scripts/vendor/angular-cookies.min.js",
+                    "~/scripts/vendor/checklist-model.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/js/app").Include(

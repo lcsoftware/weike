@@ -20,9 +20,15 @@ angular.module('app', [
             .state('login', { url: '/login', layout: 'basic', templateUrl: '/views/login', controller: 'LoginController' })
 
             /**************************系统管理***********************/
-            .state('admin', {url: '/admin', abstract: true, templateUrl: '/views/admin/main' })
+            .state('admin', { url: '/admin', abstract: true, templateUrl: '/views/admin/main' })
             //用户(组)维护
             .state('admin.UserEdit', { url: '/UserEdit', templateUrl: '/views/admin/UserEdit', controller: 'UserEditController' })
+            //用户(组)维护
+            .state('admin.GroupEdit', { url: '/GroupEdit', templateUrl: '/views/admin/GroupEdit', controller: 'GroupEditController' })
+            //用户(组)维护
+            .state('admin.AuthEdit', { url: '/AuthEdit', templateUrl: '/views/admin/AuthEdit', controller: 'AuthEditController' })
+            //用户(组)维护
+            .state('admin.AuthView', { url: '/AuthView', templateUrl: '/views/admin/AuthView', controller: 'AuthViewController' })
             //升留级处理
             .state('nRightQuery', { url: '/RightQuery', templateUrl: '/views/admin/RightQuery', controller: 'RightQueryController' })
             //转换为学籍成绩
@@ -139,11 +145,21 @@ angular.module('app', [
 
     }])
 
-    .run(['$templateCache', '$rootScope', '$state', '$stateParams', '$location', 'userService', 'menuService',
-        function ($templateCache, $rootScope, $state, $stateParams, $location, userService, menuService) {
+    .run(['$templateCache', '$rootScope', '$state', '$stateParams', '$location', 'menuService',
+        'dialogUtils', 'softname', 'baseService', 'userService', 'utilService',
+        function ($templateCache, $rootScope, $state, $stateParams, $location, menuService,
+            dialogUtils, sfotname, baseService, userService, utilService) {
 
             var view = angular.element('#ui-view');
             $templateCache.put(view.data('tmpl-url'), view.html());
+
+            $rootScope.$location = $location;
+
+            $rootScope.baseService = baseService;
+            $rootScope.utilService = utilService;
+            $rootScope.dialogUtils = dialogUtils;
+            $rootScope.sfotname = sfotname;
+            $rootScope.userService = userService;
 
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;

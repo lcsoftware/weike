@@ -116,17 +116,41 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
         var url = adminProviderUrl + '/ChangePwd';
         var param = { teacherID: teacher, oldPwd: oldPwd, newPwd: newPwd, status: status };
         baseService.post(url, param, callback);
-    }
+    } 
 
-    service.getUserGroup = function (callback) {
-        var url = adminProviderUrl + '/GetUserGroup';
-        var param = null;
+    service.getUserGroups = function (userOrGroup, callback) {
+        var url = adminProviderUrl + '/GetUserGroups';
+        var param = { userOrGroup: userOrGroup };
         baseService.post(url, param, callback);
-    }
+    } 
 
     service.getGroupAndUsers = function (teacher, callback) {
         var url = adminProviderUrl + '/GetGroupAndUsers';
         var param = null;
+        baseService.post(url, param, callback);
+    }
+
+    service.getAllUsers = function (callback) {
+        var url = adminProviderUrl + '/GetAllUsers';
+        var param = null;
+        baseService.post(url, param, callback); 
+    }
+
+    service.getUsersOfGroup = function (groupID, callback) {
+        var url = adminProviderUrl + '/GetUsersOfGroup';
+        var param = { groupID: groupID };
+        baseService.post(url, param, callback); 
+    }
+
+    service.joinGroup = function (teacher, groupID, callback) {
+        var url = adminProviderUrl + '/JoinGroup';
+        var param = { teacher: teacher, groupID: groupID };
+        baseService.post(url, param, callback); 
+    }
+
+    service.leaveGroup = function (teacher, groupID, callback) {
+        var url = adminProviderUrl + '/LeaveGroup';
+        var param = { teacher: teacher, groupID: groupID };
         baseService.post(url, param, callback);
     }
 
@@ -153,8 +177,8 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
         var param = null;
         var groupAndUserPromise = appUtils.createPromise(url, param);
 
-        var url = adminProviderUrl + '/GetUsers';
-        var param = null;
+        var url = adminProviderUrl + '/GetUserGroups';
+        var param = { userOrGroup: '1' };
         var userPromise = appUtils.createPromise(url, param);
 
         appUtils.runPromises({

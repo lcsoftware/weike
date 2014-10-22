@@ -1,0 +1,28 @@
+﻿<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="row">
+            <div class="form-group" style="margin-bottom:3em;">
+                <label class="col-sm-3 control-label">请选择用户组</label>
+                <div class="col-sm-9">
+                    <select class="form-control" ng-model="selectedGroup" ng-options="m.Name for m in Groups" ng-change="groupChanged(selectedGroup);">
+                        <option value="">-- 请选择用户组 --</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" style="overflow-y: scroll;max-height:42em;">
+                <table>
+                    <tr ng-repeat="user in allUsers">
+                        <td>
+                            <label style="line-height:2.5em;">
+                                <input type="checkbox" checklist-model="usersOfGroup" checklist-value="user.TeacherID" value="{{user.TeacherID}}" ng-change="doChanged(this);"> {{user.Name}}
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
