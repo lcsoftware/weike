@@ -23,11 +23,11 @@ angular.module('app', [
             .state('admin', { url: '/admin', abstract: true, templateUrl: '/views/admin/main' })
             //用户(组)维护
             .state('admin.UserEdit', { url: '/UserEdit', templateUrl: '/views/admin/UserEdit', controller: 'UserEditController' })
-            //用户(组)维护
+            //用户组管理
             .state('admin.GroupEdit', { url: '/GroupEdit', templateUrl: '/views/admin/GroupEdit', controller: 'GroupEditController' })
             //用户(组)维护
             .state('admin.AuthEdit', { url: '/AuthEdit', templateUrl: '/views/admin/AuthEdit', controller: 'AuthEditController' })
-            //用户(组)维护
+            //权限查询
             .state('admin.AuthView', { url: '/AuthView', templateUrl: '/views/admin/AuthView', controller: 'AuthViewController' })
             //升留级处理
             .state('nRightQuery', { url: '/RightQuery', templateUrl: '/views/admin/RightQuery', controller: 'RightQueryController' })

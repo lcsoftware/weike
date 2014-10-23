@@ -221,14 +221,39 @@ appAdmin.controller('GroupEditController', ['$scope', function ($scope) {
             $scope.dialogUtils.info('请选择用户组！');
             return;
         }
-        if (userCheck.checked) { 
+        if (userCheck.checked) {
             $scope.userService.joinGroup(teacher, groupID);
-        } else { 
+        } else {
             $scope.userService.leaveGroup(teacher, groupID);
         }
     }
 
 }]);
+
+// Path: /AuthView 权限查询 
+appAdmin.controller('AuthViewController', ['$scope', function ($scope) {
+    $scope.$root.moduleName = '权限查询';
+
+    $scope.userFuncs = [];
+    $scope.userGroups = [];
+    $scope.selectedUserGroup = {};
+
+    $scope.userService.getAllUserGroups(function (data) {
+        if (data.d !== null) {
+            $scope.userGroups = data.d;
+        }
+    });
+
+    $scope.userGroupChanged = function (userGroup) {
+        $scope.userFuncs.length = 0;
+        $scope.userService.getUserAuths(userGroup.TeacherID, function (data) {
+            if (data.d !== null) {
+                $scope.userFuncs = data.d;
+            }
+        });
+    }
+}]);
+
 // Path: /UserEdit  升留级处理
 appAdmin.controller('RightQueryController', ['$scope', '$location', '$window', function ($scope, $location, $window) {
     $scope.$root.title = 'AngularJS SPA Template for Visual Studio';

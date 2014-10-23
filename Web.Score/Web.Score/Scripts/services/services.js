@@ -136,6 +136,18 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
         baseService.post(url, param, callback); 
     }
 
+    service.getAllUserGroups = function (callback) {
+        var url = adminProviderUrl + '/GetAllUserGroups';
+        var param = null;
+        baseService.post(url, param, callback); 
+    }
+
+    service.getUserAuths = function (teacher, callback) {
+        var url = adminProviderUrl + '/GetUserAuths';
+        var param = { teacher: teacher };
+        baseService.post(url, param, callback); 
+    }
+
     service.getUsersOfGroup = function (groupID, callback) {
         var url = adminProviderUrl + '/GetUsersOfGroup';
         var param = { groupID: groupID };

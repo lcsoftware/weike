@@ -490,6 +490,7 @@
     <Content Include="Views\admin\ChangePwd.cshtml" />
     <Content Include="Views\admin\main.cshtml" />
     <Content Include="Views\admin\GroupEdit.cshtml" />
+    <Content Include="Views\admin\AuthView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

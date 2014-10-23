@@ -6,7 +6,7 @@
   * Created          : 2014-10-01  
   * Revision History : 
 ******************************************************************/
-[assembly: System.CLSCompliant(true)] 
+[assembly: System.CLSCompliant(true)]
 namespace App.Score.Entity
 {
     using System;
@@ -14,7 +14,7 @@ namespace App.Score.Entity
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    
+
     /// <summary>
     /// 功能
     /// </summary>
@@ -60,6 +60,26 @@ namespace App.Score.Entity
         public string GroupID { get; set; }
 
         public IList<UserGroupInfo> Children = new List<UserGroupInfo>();
+    }
+
+    public class UserAuth
+    {
+        public string FuncId;
+        public string FuncName;
+        public string Description;
+        public int FuncType;
+        public string FuncTypeName
+        {
+            get
+            {
+                switch (FuncType)
+                {
+                    case 0: return "菜单";
+                    case 2: return "系统";
+                    default: return "保留";
+                }
+            }
+        }
     }
 
     //public class GroupUser

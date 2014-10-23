@@ -140,13 +140,35 @@ namespace App.Web.Score.DataProvider
 
         [WebMethod]
         public static IList<UserGroupInfo> GetAllUsers()
+        { 
+            IList<UserGroupInfo> allUserGroups = GetAllUserGroups();
+            var allUsers = from v in allUserGroups where v.UserOrGroup.Equals("1") select v;
+            return allUsers.ToList<UserGroupInfo>();
+        }
+
+        [WebMethod]
+        public static IList<UserGroupInfo> GetAllUserGroups()
         {
             using (AppBLL bll = new AppBLL())
             {
-                var sql = "select *  from tbUserGroupInfo where UserOrGroup='1'";
+                var sql = "select *  from tbUserGroupInfo Order by Userorgroup,substring(TeacherID,1,4)";
                 return bll.FillListByText<UserGroupInfo>(sql, null);
             }
         }
+
+        [WebMethod]
+        public static IList<UserAuth> GetUserAuths(string teacher)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "SELECT a.FuncId, b.FuncName, b.Description, b.FuncType" +   
+                          " FROM  s_tb_Rights a INNER JOIN   s_tb_Function b ON a.FuncId = b.FuncID" + 
+                          " where a.TeacherID in (select @teacherID" +
+                          " union Select GroupID from tbGroupInfo where teacherID=@teacherID)";
+                return bll.FillListByText<UserAuth>(sql, new { teacherID = teacher });
+            }
+        }
+
         /// <summary>
         /// 帮前端生成实体对象
         /// </summary>
