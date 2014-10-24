@@ -491,6 +491,7 @@
     <Content Include="Views\admin\main.cshtml" />
     <Content Include="Views\admin\GroupEdit.cshtml" />
     <Content Include="Views\admin\AuthView.cshtml" />
+    <Content Include="Views\admin\AuthEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

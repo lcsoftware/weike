@@ -275,5 +275,30 @@ namespace App.Web.Score.DataProvider
                 return new ResultEntity() { State = -8, Context = string.Format("用户(组)删除失败！", userGroup.Name) }; 
             }
         }
+
+        private static void BuildChild(FuncEntry func, IList<FuncEntry> funcs)
+        {
+            var functions = from v in funcs where v.Parent == func.FuncID select v;
+            foreach (var entry in functions)
+            {
+                func.Children.Add(entry);
+                BuildChild(entry, funcs);
+            }
+        }
+
+        [WebMethod]
+        public static FuncEntry GetFuncTree()
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo from s_tb_Function order by FuncID";
+                IList<FuncEntry> funcs = bll.FillListByText<FuncEntry>(sql, null);
+                var functions = from v in funcs where v.Parent == null select v;
+                if (!functions.Any()) return null;
+                var rootFunc = functions.First();
+                BuildChild(rootFunc, funcs);
+                return rootFunc;
+            }
+        }
     }
 }

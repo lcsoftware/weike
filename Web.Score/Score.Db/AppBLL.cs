@@ -83,10 +83,14 @@ namespace App.Score.Data
         /// <returns>数据列表</returns>
         public List<T> FillListByText<T>(string sqlText, object inputParams) where T : class, new()
         {
-            return DbHelper.FillList<T>(sqlText, inputParams, CommandKind.SqlTextWithParams);
-            //this.DbContext.CreateCommand(sqlText, System.Data.CommandType.Text);
-            //this.DbContext.SetCommandParameters(inputParams);
-            //return this.DbContext.FillList<T>();
+            if (inputParams != null)
+            {
+                return DbHelper.FillList<T>(sqlText, inputParams, CommandKind.SqlTextWithParams);
+            }
+            else
+            {
+                return DbHelper.FillList<T>(sqlText, inputParams, CommandKind.SqlTextNoParams);
+            }
         }
         /// <summary>
         /// 返回数据表

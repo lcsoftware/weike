@@ -3,8 +3,7 @@
 var appAdmin = angular.module('app.admin', ['ui.tree', 'checklist-model']);
 
 // Path: /UserEdit  用户(组)维护
-appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'softname', 'userService', 'utilService', 'dialogUtils',
-    function ($scope, $location, $window, softname, userService, utilService, dialogUtils) {
+appAdmin.controller('UserEditController', ['$scope', function ($scope) {
 
         $scope.$root.title = softname + ' | 用户(组)维护';
         $scope.$root.moduleName = '用户(组)管理';
@@ -29,7 +28,7 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
         }
         var init = function () {
             $scope.userGroups = [];
-            userService.buildGroupUserTree(function (groupAndUsers, users) {
+            $scope.userService.buildGroupUserTree(function (groupAndUsers, users) {
                 var group = { Name: '用户组', UserOrGroup: -1, Children: [] };
                 var user = { Name: '所有用户', UserOrGroup: -2, Children: [] };
                 if (groupAndUsers !== null) {
@@ -53,7 +52,7 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
         init();
 
         //民族
-        utilService.GetNations(function (data) {
+        $scope.utilService.GetNations(function (data) {
             if (data.d !== null) {
                 $scope.Nations = data.d;
                 if ($scope.Nations.length > 0) {
@@ -62,7 +61,7 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
             }
         });
         //政治面貌
-        utilService.GetPolitics(function (data) {
+        $scope.utilService.GetPolitics(function (data) {
             if (data.d !== null) {
                 $scope.Politics = data.d;
                 if ($scope.Politics.length > 0) {
@@ -71,7 +70,7 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
             }
         });
         //户口类别
-        utilService.GetResidenceType(function (data) {
+        $scope.utilService.GetResidenceType(function (data) {
             if (data.d !== null) {
                 $scope.ResidenceTypes = data.d;
                 if ($scope.ResidenceTypes.length > 0) {
@@ -82,15 +81,15 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
 
         $scope.addUserGroup = function (category) {
             $scope.tpl = category === 0 ? 'group.html' : 'user.html';
-            userService.addUserGroup(category === 0 ? '0' : '1', function (data) {
+            $scope.userService.addUserGroup(category === 0 ? '0' : '1', function (data) {
                 $scope.UserGroupEntity = data.d;
             });
         }
 
         $scope.removeUserGroup = function (userGroup) {
-            dialogUtils.confirm('你真的要删除吗？', function () {
-                userService.removeUserGroup(userGroup, function (data) {
-                    dialogUtils.info(data.d.Context);
+            $scope.dialogUtils.confirm('你真的要删除吗？', function () {
+                $scope.userService.removeUserGroup(userGroup, function (data) {
+                    $scope.dialogUtils.info(data.d.Context);
                     if (data.d.State === 1) {
                         init();
                     }
@@ -133,7 +132,7 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
                 $scope.UserGroupEntity.ResidentNo = $scope.userForm.userResident.ResidenceType;
             }
             var isAdd = $scope.UserGroupEntity.TeacherID === '-1';
-            userService.saveUserGroup($scope.UserGroupEntity, function (data) {
+            $scope.userService.saveUserGroup($scope.UserGroupEntity, function (data) {
                 if (data.d === -1) {
                     dialogUtils.info("数据库中已经存在名称为" + $scope.UserGroupEntity.Name + "的用户或组");
                 } else {
@@ -144,38 +143,11 @@ appAdmin.controller('UserEditController', ['$scope', '$location', '$window', 'so
                             $scope.userGroups[1].Children.push($scope.UserGroupEntity);
                         }
                     }
-                    dialogUtils.info(data.d === 0 ? '用户(组)操作失败，请重试！' : '用户(组)操作成功');
+                    $scope.dialogUtils.info(data.d === 0 ? '用户(组)操作失败，请重试！' : '用户(组)操作成功');
                     init();
                 }
             });
-        }
-
-
-        //userService.getUserGroup(function (data) {
-        //    if (data.d !== null) {
-        //        var userGroups = data.d;
-        //        var group = { Name: '用户组', UserOrGroup: -1, children: [] };
-        //        var user = { Name: '用户', UserOrGroup: -1, children: [] };
-        //        var length = userGroups.length;
-        //        for (var i = 0; i < length; i++) {
-        //            var userGroup = userGroups[i];
-        //            if (userGroup.UserOrGroup === '0') {
-        //                group.children.push(userGroup);
-        //            } else {
-        //                user.children.push(userGroup);
-        //            }
-        //        }
-        //        $scope.userGroups.push(group);
-        //        $scope.userGroups.push(user);
-        //    }
-        //});
-        //var addUserToGroup = function (userGroup) {
-        //    userService.getGroupUsers(userGroup.TeacherID, function (data) {
-        //        if (data.d !== null) {
-        //            userGroup.children.push(data.d);
-        //        }
-        //    });
-        //}
+        } 
     }]);
 
 // Path: /UserEdit  用户(组)维护
@@ -252,6 +224,40 @@ appAdmin.controller('AuthViewController', ['$scope', function ($scope) {
             }
         });
     }
+}]);
+
+// Path: /AuthView 权限查询 
+appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
+    $scope.$root.moduleName = '权限编辑';
+
+    $scope.allFuncs = [];
+    $scope.userGroups = [];
+
+    $scope.userService.buildGroupUserTree(function (groupAndUsers, users) {
+        var group = { Name: '用户组', UserOrGroup: -1, Children: [] };
+        var user = { Name: '所有用户', UserOrGroup: -2, Children: [] };
+        if (groupAndUsers !== null) {
+            var length = groupAndUsers.length;
+            for (var i = 0; i < length; i++) {
+                group.Children.push(groupAndUsers[i]);
+            }
+        }
+        if (users !== null) {
+            var length = users.length;
+            for (var i = 0; i < length; i++) {
+                users[i].Children = [];
+                user.Children.push(users[i]);
+            }
+        }
+        $scope.userGroups.push(group);
+        $scope.userGroups.push(user);
+    });
+
+    $scope.userService.getFuncTree(function (data) {
+        if (data.d !== null) {
+            $scope.allFuncs.push(data.d);
+        }
+    }); 
 }]);
 
 // Path: /UserEdit  升留级处理

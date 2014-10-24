@@ -39,7 +39,15 @@ namespace App.Score.Entity
         /// <summary>
         /// 父功能
         /// </summary>
-        public string FuncID0;
+        public string Parent;
+        /// <summary>
+        /// 系统编号
+        /// </summary>
+        public int SysNo;
+        /// <summary>
+        /// 子功能
+        /// </summary>
+        public IList<FuncEntry> Children = new List<FuncEntry>();
     }
 
     public class UserGroupInfo

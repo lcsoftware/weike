@@ -112,6 +112,12 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
         baseService.post(url, param, callback);
     }
 
+    service.getFuncTree = function (callback) {
+        var url = adminProviderUrl + '/GetFuncTree';
+        var param = null;
+        baseService.post(url, param, callback);
+    }
+
     service.changePwd = function (teacher, oldPwd, newPwd, status, callback) {
         var url = adminProviderUrl + '/ChangePwd';
         var param = { teacherID: teacher, oldPwd: oldPwd, newPwd: newPwd, status: status };
