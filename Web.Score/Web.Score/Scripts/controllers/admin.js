@@ -5,7 +5,7 @@ var appAdmin = angular.module('app.admin', ['ui.tree', 'checklist-model']);
 // Path: /UserEdit  用户(组)维护
 appAdmin.controller('UserEditController', ['$scope', function ($scope) {
 
-        $scope.$root.title = softname + ' | 用户(组)维护';
+        $scope.$root.title = $scope.softname + ' | 用户(组)维护';
         $scope.$root.moduleName = '用户(组)管理';
 
         $scope.opt = {
@@ -226,7 +226,7 @@ appAdmin.controller('AuthViewController', ['$scope', function ($scope) {
     }
 }]);
 
-// Path: /AuthView 权限查询 
+// Path: /AuthView 权限编辑
 appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
     $scope.$root.moduleName = '权限编辑';
 

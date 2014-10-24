@@ -1,5 +1,5 @@
 ﻿<div class="row">
-    <div class="col-sm-6" ng-include="tpl">
+    <div class="col-sm-6" style="overflow-y: auto;max-height:45em;">
         <div ui-tree id="tree-root">
             <ol ui-tree-nodes="" ng-model="userGroups">
                 <li ng-repeat="userGroup in userGroups" ui-tree-node nodrag>
@@ -28,25 +28,26 @@
             </ol>
         </div>
     </div>
-    <div class="col-sm-6" style="overflow-y: scroll;max-height:45em;">
+    <div class="col-sm-6" style="overflow-y: auto;max-height:45em;">
         <div ui-tree id="tree-root">
             <ol ui-tree-nodes="" ng-model="allFuncs">
                 <li ng-repeat="root in allFuncs" ui-tree-node nodrag>
                     <div ui-tree-handle class="tree-node tree-node-content">
                         <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
-                        {{root.FuncName}}
+                        {{root.Description}}
                     </div>
                     <ol ui-tree-nodes="" ng-model="root.Children" ng-class="{hidden: collapsed}">
                         <li ng-repeat="firstFunc in root.Children" ui-tree-node collapsed="true">
                             <div ui-tree-handle class="tree-node tree-node-content">
-                                {{firstFunc .FuncName}}
+                                <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+                                {{firstFunc.Description}}
                                 <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="grant(firstFunc);"><span class="glyphicon glyphicon-ok"></span></a>
                                 <a class="btn btn-primary btn-xs pull-right" nodrag ng-click="revoke(firstFunc)"><span class="glyphicon glyphicon-remove"></span></a>
                             </div>
                             <ol ui-tree-nodes="" ng-model="firstFunc.Children" ng-class="{hidden: collapsed}">
                                 <li ng-repeat="secondFunc in firstFunc.Children" ui-tree-node collapsed="true">
                                     <div ui-tree-handle class="tree-node tree-node-content">
-                                        {{secondFunc.FuncName}}
+                                        {{secondFunc.Description}}
                                         <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="grant(secondFunc);"><span class="glyphicon glyphicon-ok"></span></a>
                                         <a class="btn btn-primary btn-xs pull-right" nodrag ng-click="revoke(secondFunc)"><span class="glyphicon glyphicon-remove"></span></a>
                                     </div>
