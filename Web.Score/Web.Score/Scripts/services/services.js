@@ -196,6 +196,18 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
         baseService.post(url, param, callback);
     }
 
+    service.grant = function (teacher, func, rtype, sysNo, callback) {
+        var url = adminProviderUrl + '/Grant';
+        var param = { teacher: teacher, funcID: func, rtype: rtype, sysNo: sysNo };
+        baseService.post(url, param, callback);
+    }
+
+    service.revoke = function (teacher, funcEntry, callback) {
+        var url = adminProviderUrl + '/Revoke';
+        var param = { teacher: teacher, funcEntry: funcEntry };
+        baseService.post(url, param, callback);
+    }
+
     service.buildGroupUserTree = function (callback) {
         var url = adminProviderUrl + '/GetGroupAndUsers';
         var param = null;

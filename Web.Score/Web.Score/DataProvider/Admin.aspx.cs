@@ -107,7 +107,7 @@ namespace App.Web.Score.DataProvider
                                 " where c.TeacherID=@teacher and a.SYSNO = 2 " +
                                 " union all" +
                                 " SELECT TeacherID, '-1' As GroupID, FuncId from s_tb_Rights where TeacherID=@teacher and SYSNO = 2";
-                    return bll.FillListByText<UserGroupFunc>(sql, new { teacher = teacher.TeacherID}); 
+                    return bll.FillListByText<UserGroupFunc>(sql, new { teacher = teacher.TeacherID });
                 }
             }
             catch (Exception ex)
@@ -317,6 +317,55 @@ namespace App.Web.Score.DataProvider
                 BuildChild(rootFunc, funcs);
                 return rootFunc;
             }
+        }
+
+        /// <summary>
+        /// 赋予权限
+        /// </summary>
+        /// <param name="teacher"></param>
+        /// <param name="funcID"></param>
+        /// <param name="rtype"></param>
+        /// <param name="sysNo"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static int Grant(string teacher, string funcID, int rtype, int sysNo)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Insert Into s_tb_rights(teacherID,FuncID,Rtype,SYSNO) Values(@UserID,@FuncID,@rtype,@sysNo)";
+                return bll.ExecuteNonQueryByText(sql, new { UserID = teacher, FuncID = funcID, rtype = rtype, sysNo = sysNo });
+            }
+        }
+
+        public static void Revoke(AppBLL bll, string teacher, FuncEntry funcEntry)
+        {
+            if (funcEntry.Kind > 0)
+            {
+                var sql = "Delete from s_tb_rights Where TeacherID=:UserID and FuncID=:FuncID and SYSNO=2";
+                bll.ExecuteNonQueryByText(sql, new { UserID = teacher, FuncID = funcEntry.FuncID });
+            }
+            if (funcEntry.Children.Any())
+            {
+                foreach (var func in funcEntry.Children)
+                {
+                    Revoke(bll, teacher, func); 
+                }
+            }
+        }
+        /// <summary>
+        /// 权限回收
+        /// </summary>
+        /// <param name="teacher"></param>
+        /// <param name="funcEntry"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static int Revoke(string teacher, FuncEntry funcEntry)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                Revoke(bll, teacher, funcEntry);
+            }
+            return 1;
         }
     }
 }

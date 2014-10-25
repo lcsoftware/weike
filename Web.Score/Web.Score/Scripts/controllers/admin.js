@@ -5,150 +5,150 @@ var appAdmin = angular.module('app.admin', ['ui.tree', 'checklist-model']);
 // Path: /UserEdit  用户(组)维护
 appAdmin.controller('UserEditController', ['$scope', function ($scope) {
 
-        $scope.$root.title = $scope.softname + ' | 用户(组)维护';
-        $scope.$root.moduleName = '用户(组)管理';
+    $scope.$root.title = $scope.softname + ' | 用户(组)维护';
+    $scope.$root.moduleName = '用户(组)管理';
 
-        $scope.opt = {
-            nodeChildren: "children",
-            dirSelectable: false
-        };
-        $scope.query = "";
-        $scope.userForm = {};
+    $scope.opt = {
+        nodeChildren: "children",
+        dirSelectable: false
+    };
+    $scope.query = "";
+    $scope.userForm = {};
+    $scope.userGroups = [];
+    $scope.UserGroupEntity = {};
+
+    $scope.Nations = [];
+    $scope.Politics = [];
+    $scope.ResidenceTypes = [];
+    $scope.userNation = {};
+
+    $scope.showSelected = function (node) {
+        $scope.tpl = node.UserOrGroup === '0' ? 'group.html' : 'user.html';
+        $scope.UserGroupEntity = node;
+    }
+    var init = function () {
         $scope.userGroups = [];
-        $scope.UserGroupEntity = {};
-
-        $scope.Nations = [];
-        $scope.Politics = [];
-        $scope.ResidenceTypes = [];
-        $scope.userNation = {};
-
-        $scope.showSelected = function (node) {
-            $scope.tpl = node.UserOrGroup === '0' ? 'group.html' : 'user.html';
-            $scope.UserGroupEntity = node;
-        }
-        var init = function () {
-            $scope.userGroups = [];
-            $scope.userService.buildGroupUserTree(function (groupAndUsers, users) {
-                var group = { Name: '用户组', UserOrGroup: -1, Children: [] };
-                var user = { Name: '所有用户', UserOrGroup: -2, Children: [] };
-                if (groupAndUsers !== null) {
-                    var length = groupAndUsers.length;
-                    for (var i = 0; i < length; i++) {
-                        group.Children.push(groupAndUsers[i]);
-                    }
-                }
-                if (users !== null) {
-                    var length = users.length;
-                    for (var i = 0; i < length; i++) {
-                        users[i].Children = [];
-                        user.Children.push(users[i]);
-                    }
-                }
-                $scope.userGroups.push(group);
-                $scope.userGroups.push(user);
-            });
-        }
-
-        init();
-
-        //民族
-        $scope.utilService.GetNations(function (data) {
-            if (data.d !== null) {
-                $scope.Nations = data.d;
-                if ($scope.Nations.length > 0) {
-                    $scope.userForm.userNation = $scope.Nations[0];
+        $scope.userService.buildGroupUserTree(function (groupAndUsers, users) {
+            var group = { Name: '用户组', UserOrGroup: -1, Children: [] };
+            var user = { Name: '所有用户', UserOrGroup: -2, Children: [] };
+            if (groupAndUsers !== null) {
+                var length = groupAndUsers.length;
+                for (var i = 0; i < length; i++) {
+                    group.Children.push(groupAndUsers[i]);
                 }
             }
+            if (users !== null) {
+                var length = users.length;
+                for (var i = 0; i < length; i++) {
+                    users[i].Children = [];
+                    user.Children.push(users[i]);
+                }
+            }
+            $scope.userGroups.push(group);
+            $scope.userGroups.push(user);
         });
-        //政治面貌
-        $scope.utilService.GetPolitics(function (data) {
-            if (data.d !== null) {
-                $scope.Politics = data.d;
-                if ($scope.Politics.length > 0) {
-                    $scope.userForm.userPolitic = $scope.Politics[1];
-                }
+    }
+
+    init();
+
+    //民族
+    $scope.utilService.GetNations(function (data) {
+        if (data.d !== null) {
+            $scope.Nations = data.d;
+            if ($scope.Nations.length > 0) {
+                $scope.userForm.userNation = $scope.Nations[0];
             }
+        }
+    });
+    //政治面貌
+    $scope.utilService.GetPolitics(function (data) {
+        if (data.d !== null) {
+            $scope.Politics = data.d;
+            if ($scope.Politics.length > 0) {
+                $scope.userForm.userPolitic = $scope.Politics[1];
+            }
+        }
+    });
+    //户口类别
+    $scope.utilService.GetResidenceType(function (data) {
+        if (data.d !== null) {
+            $scope.ResidenceTypes = data.d;
+            if ($scope.ResidenceTypes.length > 0) {
+                $scope.userForm.userResident = $scope.ResidenceTypes[0];
+            }
+        }
+    });
+
+    $scope.addUserGroup = function (category) {
+        $scope.tpl = category === 0 ? 'group.html' : 'user.html';
+        $scope.userService.addUserGroup(category === 0 ? '0' : '1', function (data) {
+            $scope.UserGroupEntity = data.d;
         });
-        //户口类别
-        $scope.utilService.GetResidenceType(function (data) {
-            if (data.d !== null) {
-                $scope.ResidenceTypes = data.d;
-                if ($scope.ResidenceTypes.length > 0) {
-                    $scope.userForm.userResident = $scope.ResidenceTypes[0];
-                }
-            }
-        });
+    }
 
-        $scope.addUserGroup = function (category) {
-            $scope.tpl = category === 0 ? 'group.html' : 'user.html';
-            $scope.userService.addUserGroup(category === 0 ? '0' : '1', function (data) {
-                $scope.UserGroupEntity = data.d;
-            });
-        }
-
-        $scope.removeUserGroup = function (userGroup) {
-            $scope.dialogUtils.confirm('你真的要删除吗？', function () {
-                $scope.userService.removeUserGroup(userGroup, function (data) {
-                    $scope.dialogUtils.info(data.d.Context);
-                    if (data.d.State === 1) {
-                        init();
-                    }
-                })
-            });
-        }
-
-        $scope.editUserGroup = function (userGroup) {
-            $scope.UserGroupEntity = userGroup;
-            if ($scope.UserGroupEntity.UserOrGroup === '1') {
-                $scope.UserGroupEntity.ConfirmPwd = $scope.UserGroupEntity.Password;
-                $scope.tpl = 'user.html';
-                $scope.userForm.userNation = $scope.utilService.locate($scope.Nations, 'NationNo', $scope.UserGroupEntity.NationNo);
-                $scope.userForm.userResident = $scope.utilService.locate($scope.ResidenceTypes, 'ResidenceType', $scope.UserGroupEntity.ResidentNo);
-                $scope.userForm.userPolitic = $scope.utilService.locate($scope.Politics, 'PoliticsCode', $scope.UserGroupEntity.PoliticCode);
-            } else {
-                $scope.tpl = 'group.html';
-            }
-        }
-
-
-        $scope.changed = function () {
-            console.log($scope.query);
-        }
-
-        $scope.saveUserGroup = function () {
-            if ($scope.UserGroupEntity.UserOrGroup === '1') {
-                if ($scope.UserGroupEntity.Password === undefined || !$scope.UserGroupEntity.ConfirmPwd === undefined) {
-                    dialogUtils.info('必须输入密码！');
-                    return;
-                }
-                if ($scope.UserGroupEntity.ConfirmPwd !== $scope.UserGroupEntity.Password) {
-                    $scope.UserGroupEntity.Password = '';
-                    $scope.UserGroupEntity.ConfirmPwd = '';
-                    dialogUtils.info('两次密码输入不一致，请重新输入！');
-                    return;
-                }
-                $scope.UserGroupEntity.NationNo = $scope.userForm.userNation.NationNo;
-                $scope.UserGroupEntity.PoliticCode = $scope.userForm.userPolitic.PoliticsCode;
-                $scope.UserGroupEntity.ResidentNo = $scope.userForm.userResident.ResidenceType;
-            }
-            var isAdd = $scope.UserGroupEntity.TeacherID === '-1';
-            $scope.userService.saveUserGroup($scope.UserGroupEntity, function (data) {
-                if (data.d === -1) {
-                    dialogUtils.info("数据库中已经存在名称为" + $scope.UserGroupEntity.Name + "的用户或组");
-                } else {
-                    if (data.d === 1 && isAdd) {
-                        if ($scope.UserGroupEntity.UserOrGroup === '0') {
-                            $scope.userGroups[0].Children.push($scope.UserGroupEntity);
-                        } else {
-                            $scope.userGroups[1].Children.push($scope.UserGroupEntity);
-                        }
-                    }
-                    $scope.dialogUtils.info(data.d === 0 ? '用户(组)操作失败，请重试！' : '用户(组)操作成功');
+    $scope.removeUserGroup = function (userGroup) {
+        $scope.dialogUtils.confirm('你真的要删除吗？', function () {
+            $scope.userService.removeUserGroup(userGroup, function (data) {
+                $scope.dialogUtils.info(data.d.Context);
+                if (data.d.State === 1) {
                     init();
                 }
-            });
-        } 
-    }]);
+            })
+        });
+    }
+
+    $scope.editUserGroup = function (userGroup) {
+        $scope.UserGroupEntity = userGroup;
+        if ($scope.UserGroupEntity.UserOrGroup === '1') {
+            $scope.UserGroupEntity.ConfirmPwd = $scope.UserGroupEntity.Password;
+            $scope.tpl = 'user.html';
+            $scope.userForm.userNation = $scope.utilService.locate($scope.Nations, 'NationNo', $scope.UserGroupEntity.NationNo);
+            $scope.userForm.userResident = $scope.utilService.locate($scope.ResidenceTypes, 'ResidenceType', $scope.UserGroupEntity.ResidentNo);
+            $scope.userForm.userPolitic = $scope.utilService.locate($scope.Politics, 'PoliticsCode', $scope.UserGroupEntity.PoliticCode);
+        } else {
+            $scope.tpl = 'group.html';
+        }
+    }
+
+
+    $scope.changed = function () {
+        console.log($scope.query);
+    }
+
+    $scope.saveUserGroup = function () {
+        if ($scope.UserGroupEntity.UserOrGroup === '1') {
+            if ($scope.UserGroupEntity.Password === undefined || !$scope.UserGroupEntity.ConfirmPwd === undefined) {
+                dialogUtils.info('必须输入密码！');
+                return;
+            }
+            if ($scope.UserGroupEntity.ConfirmPwd !== $scope.UserGroupEntity.Password) {
+                $scope.UserGroupEntity.Password = '';
+                $scope.UserGroupEntity.ConfirmPwd = '';
+                dialogUtils.info('两次密码输入不一致，请重新输入！');
+                return;
+            }
+            $scope.UserGroupEntity.NationNo = $scope.userForm.userNation.NationNo;
+            $scope.UserGroupEntity.PoliticCode = $scope.userForm.userPolitic.PoliticsCode;
+            $scope.UserGroupEntity.ResidentNo = $scope.userForm.userResident.ResidenceType;
+        }
+        var isAdd = $scope.UserGroupEntity.TeacherID === '-1';
+        $scope.userService.saveUserGroup($scope.UserGroupEntity, function (data) {
+            if (data.d === -1) {
+                dialogUtils.info("数据库中已经存在名称为" + $scope.UserGroupEntity.Name + "的用户或组");
+            } else {
+                if (data.d === 1 && isAdd) {
+                    if ($scope.UserGroupEntity.UserOrGroup === '0') {
+                        $scope.userGroups[0].Children.push($scope.UserGroupEntity);
+                    } else {
+                        $scope.userGroups[1].Children.push($scope.UserGroupEntity);
+                    }
+                }
+                $scope.dialogUtils.info(data.d === 0 ? '用户(组)操作失败，请重试！' : '用户(组)操作成功');
+                init();
+            }
+        });
+    }
+}]);
 
 // Path: /UserEdit  用户(组)维护
 appAdmin.controller('GroupEditController', ['$scope', function ($scope) {
@@ -260,7 +260,7 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
         if (data.d !== null) {
             $scope.allFuncs.push(data.d);
         }
-    }); 
+    });
 
     var BindFunc = function (userFunc, treeFunc) {
         if (treeFunc.FuncID === userFunc.FuncID) {
@@ -285,28 +285,34 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
         });
     }
 
-    var BindFuncs = function(userFuncs, allFuncs){
+    var BindFuncs = function (userFuncs, allFuncs) {
         var length = userFuncs.length;
         for (var i = 0; i < length; i++) {
             var userFunc = userFuncs[i];
             var count = allFuncs.length;
-            BindFunc(userFunc, allFuncs[0]); 
+            BindFunc(userFunc, allFuncs[0]);
         }
     }
 
     $scope.authView = function (teacher) {
+        ClearFuncState($scope.allFuncs[0]);
+        var sysKeep = teacher.TeacherID.substr(10, 4);
+        if (sysKeep === '1001' || sysKeep === '0001' || sysKeep === '0888' || sysKeep === '0002') {
+            $scope.dialogUtils.info('系统保留用户(组),不允许进行权限编辑');
+            return;
+        }
+
         $scope.selectedTeacher.Selected = false;
         $scope.selectedTeacher = teacher;
         $scope.userService.getUserFuncs(teacher, function (data) {
             if (data.d !== null) {
-                ClearFuncState($scope.allFuncs[0]);
                 var userFuncs = data.d;
                 BindFuncs(userFuncs, $scope.allFuncs);
             }
             teacher.Selected = true;
-        }); 
+        });
     }
-        
+
 
     var findParent = function (treeFunc, func) {
         if (treeFunc.Parent === func.FuncID) return func;
@@ -314,17 +320,33 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
         for (var i = 0; i < length; i++) {
             if (findParent(treeFunc, func.Children[i]))
                 return func.Children[i];
-        }        
+        }
     }
 
     $scope.grant = function (treeFunc) {
         var p = findParent(treeFunc, $scope.allFuncs[0]);
-        if (p.Kind == 0) {
-            var context = '请先授予' + p.Description + '功能';
+        if (p !== null && p.Kind == 0) {
+            var context = '请先授予 <' + p.Description + '> 功能';
             $scope.dialogUtils.info(context);
-        } else {
-            console.log(p);
+            return;
+        } 
+        var rtype = treeFunc.FuncID === '0000    ' ? 1 : 0;
+        $scope.userService.grant($scope.selectedTeacher.TeacherID, treeFunc.FuncID, rtype, 2, function (data) {
+            if (data.d > 0) {
+                treeFunc.Kind = 1;
+            }
+        });
+    }
+
+    $scope.revoke = function (treeFunc) {
+        if (treeFunc.Kind === 1) {
+            $scope.dialogUtils.info('权限从组中继承!不能撤消!');
+            return;
         }
+
+        $scope.userService.revoke($scope.selectedTeacher.TeacherID, treeFunc, function (data) {
+            if (data.d > 0) treeFunc.Kind = 0;
+        });
     }
 }]);
 
