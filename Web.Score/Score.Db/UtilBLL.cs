@@ -75,6 +75,40 @@ namespace App.Score.Db
 
                 return userGroups;
             }
-        } 
+        }
+
+        private static void BuildFuncTree(FuncEntry root, IList<FuncEntry> funcs)
+        {
+            try
+            {
+                var children = from v in funcs where v.Parent == root.FuncID select v;
+                foreach (var child in children)
+                {
+                    root.Children.Add(child);
+                    BuildFuncTree(child, funcs);
+                }
+            }
+            catch (Exception ex)
+            { 
+            }
+        }
+        /// <summary>
+        /// 获取功能树(菜单)
+        /// </summary>
+        /// <returns></returns>
+        public static FuncEntry GetFunc()
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo from s_tb_Function order by FuncID";
+                IList<FuncEntry> funcs = bll.FillListByText<FuncEntry>(sql, null);
+
+                var roots = from v in funcs where v.Parent == null select v;
+                if (!roots.Any()) return null;
+                FuncEntry root = roots.First();
+                BuildFuncTree(root, funcs);
+                return root;
+            }
+        }
     }
 }

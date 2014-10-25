@@ -116,6 +116,12 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
         var url = adminProviderUrl + '/GetFuncTree';
         var param = null;
         baseService.post(url, param, callback);
+    } 
+
+    service.getUserFuncs = function (teacher, callback) {
+        var url = adminProviderUrl + '/GetUserFuncs';
+        var param = { teacher: teacher };
+        baseService.post(url, param, callback); 
     }
 
     service.changePwd = function (teacher, oldPwd, newPwd, status, callback) {
@@ -215,9 +221,14 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
 aService.factory('menuService', ['baseService', 'adminProviderUrl', 'appUtils', function (baseService, adminProviderUrl, appUtils) {
     var service = {};
 
+    //service.getMenus = function (callback) {
+    //    var url = '../Assets/menu.json';
+    //    baseService.get(url, callback);
+    //}
     service.getMenus = function (callback) {
-        var url = '../Assets/menu.json';
-        baseService.get(url, callback);
+        var url = adminProviderUrl + '/GetMenus';
+        var param = null;
+        baseService.post(url, param, callback);
     }
 
     service.readMenu = function (callback) {

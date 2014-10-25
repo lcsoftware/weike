@@ -26,14 +26,14 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown" ng-repeat="firstMenu in menus.children">
+                    <li class="dropdown" ng-repeat="firstMenu in menus.Children">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            {{firstMenu.Description}}<span class="caret" ng-if="firstMenu.children.length > 0"></span>
+                            {{firstMenu.Description}}<span class="caret" ng-if="firstMenu.Children.length > 0"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="secondMenu in firstMenu.children">
-                                <a ng-if="secondMenu.children.length>0" class="dropdown-header" style="font-weight:bold;font-size:14px;">{{secondMenu.Description}}</a>
-                                <a ng-if="secondMenu.children.length==0" ui-sref="{{secondMenu.FuncName}}">{{secondMenu.Description}}</a>
+                            <li ng-repeat="secondMenu in firstMenu.Children">
+                                <a ng-if="secondMenu.FuncName=='-'" class="dropdown-header:secondMenu.FuncName=='-'" style="font-weight:bold;font-size:14px;">{{secondMenu.Description}}</a>
+                                <a ng-if="secondMenu.Children.length==0" ui-sref="{{secondMenu.FuncName}}">{{secondMenu.Description}}</a>
                                 <a ng-repeat="thirdMenu in secondMenu.children" ng-if="thirdMenu.children.length==0" ui-sref="{{thirdMenu.FuncName}}">{{thirdMenu.Description}}</a>
                             </li>
                         </ul>

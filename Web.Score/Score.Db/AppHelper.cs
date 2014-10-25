@@ -56,7 +56,7 @@ namespace App.Score.Data
 
             //// 手动提交要编译加载器的数据实体类型。
             //// 说明：手动提交与自动编译不冲突，不论是同步还是异步。
-            Type[] models = BuildManager.FindModelTypesFromCurrentApplication(t => t.FullName.StartsWith("Score.Entity."));
+            Type[] models = BuildManager.FindModelTypesFromCurrentApplication(t => t.FullName.StartsWith(" App.Score.Entity."));
             ////BuildManager.CompileModelTypesSync(models, true);
             BuildManager.CompileModelTypesAsync(models);
         }

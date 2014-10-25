@@ -102,9 +102,9 @@ appAdmin.controller('UserEditController', ['$scope', function ($scope) {
             if ($scope.UserGroupEntity.UserOrGroup === '1') {
                 $scope.UserGroupEntity.ConfirmPwd = $scope.UserGroupEntity.Password;
                 $scope.tpl = 'user.html';
-                $scope.userForm.userNation = utilService.locate($scope.Nations, 'NationNo', $scope.UserGroupEntity.NationNo);
-                $scope.userForm.userResident = utilService.locate($scope.ResidenceTypes, 'ResidenceType', $scope.UserGroupEntity.ResidentNo);
-                $scope.userForm.userPolitic = utilService.locate($scope.Politics, 'PoliticsCode', $scope.UserGroupEntity.PoliticCode);
+                $scope.userForm.userNation = $scope.utilService.locate($scope.Nations, 'NationNo', $scope.UserGroupEntity.NationNo);
+                $scope.userForm.userResident = $scope.utilService.locate($scope.ResidenceTypes, 'ResidenceType', $scope.UserGroupEntity.ResidentNo);
+                $scope.userForm.userPolitic = $scope.utilService.locate($scope.Politics, 'PoliticsCode', $scope.UserGroupEntity.PoliticCode);
             } else {
                 $scope.tpl = 'group.html';
             }
@@ -228,10 +228,13 @@ appAdmin.controller('AuthViewController', ['$scope', function ($scope) {
 
 // Path: /AuthView 权限编辑
 appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
-    $scope.$root.moduleName = '权限编辑';
+    var moduleName = '权限编辑';
+    $scope.$root.moduleName = moduleName;
+    $scope.$root.title = $scope.softname + ' | ' + moduleName;
 
     $scope.allFuncs = [];
     $scope.userGroups = [];
+    $scope.selectedTeacher = {};
 
     $scope.userService.buildGroupUserTree(function (groupAndUsers, users) {
         var group = { Name: '用户组', UserOrGroup: -1, Children: [] };
@@ -258,6 +261,71 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
             $scope.allFuncs.push(data.d);
         }
     }); 
+
+    var BindFunc = function (userFunc, treeFunc) {
+        if (treeFunc.FuncID === userFunc.FuncID) {
+            if (userFunc.UserOrGroup === '1') {
+                treeFunc.Kind = userFunc.GroupID === "-1" ? 1 : 2;
+            } else {
+                treeFunc.Kind = 2;
+            }
+        }
+        if (treeFunc.Children.length > 0) {
+            var length = treeFunc.Children.length;
+            for (var i = 0; i < length; i++) {
+                BindFunc(userFunc, treeFunc.Children[i]);
+            }
+        }
+    }
+    //清除功能树状态
+    var ClearFuncState = function (treeFunc) {
+        treeFunc.Kind = 0;
+        angular.forEach(treeFunc.Children, function (v) {
+            ClearFuncState(v);
+        });
+    }
+
+    var BindFuncs = function(userFuncs, allFuncs){
+        var length = userFuncs.length;
+        for (var i = 0; i < length; i++) {
+            var userFunc = userFuncs[i];
+            var count = allFuncs.length;
+            BindFunc(userFunc, allFuncs[0]); 
+        }
+    }
+
+    $scope.authView = function (teacher) {
+        $scope.selectedTeacher.Selected = false;
+        $scope.selectedTeacher = teacher;
+        $scope.userService.getUserFuncs(teacher, function (data) {
+            if (data.d !== null) {
+                ClearFuncState($scope.allFuncs[0]);
+                var userFuncs = data.d;
+                BindFuncs(userFuncs, $scope.allFuncs);
+            }
+            teacher.Selected = true;
+        }); 
+    }
+        
+
+    var findParent = function (treeFunc, func) {
+        if (treeFunc.Parent === func.FuncID) return func;
+        var length = func.Children.length;
+        for (var i = 0; i < length; i++) {
+            if (findParent(treeFunc, func.Children[i]))
+                return func.Children[i];
+        }        
+    }
+
+    $scope.grant = function (treeFunc) {
+        var p = findParent(treeFunc, $scope.allFuncs[0]);
+        if (p.Kind == 0) {
+            var context = '请先授予' + p.Description + '功能';
+            $scope.dialogUtils.info(context);
+        } else {
+            console.log(p);
+        }
+    }
 }]);
 
 // Path: /UserEdit  升留级处理

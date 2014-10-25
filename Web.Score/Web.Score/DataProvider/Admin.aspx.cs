@@ -75,7 +75,7 @@ namespace App.Web.Score.DataProvider
         }
 
         /// <summary>
-        /// 获取用户功能 
+        /// 获取用户功能 用于系统初始化菜单
         /// </summary>
         /// <param name="teacherID">用户编号</param>
         /// <returns></returns>
@@ -89,28 +89,41 @@ namespace App.Web.Score.DataProvider
         }
 
         /// <summary>
+        /// 获得用户功能 用于权限编辑
+        /// </summary>
+        /// <param name="teacher"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static IList<UserGroupFunc> GetUserFuncs(UserGroupInfo teacher)
+        {
+            try
+            {
+                using (AppBLL bll = new AppBLL())
+                {
+                    //用户从组所获得的功能(权限)
+                    var sql = "SELECT c.TeacherID, cast(b.GroupID as varchar) as GroupID, a.FuncID FROM  tbGroupInfo b INNER JOIN" +
+                                " tbUserGroupInfo c ON b.TeacherID = c.TeacherID INNER JOIN " +
+                                " s_tb_Rights a ON b.GroupID = a.TeacherID " +
+                                " where c.TeacherID=@teacher and a.SYSNO = 2 " +
+                                " union all" +
+                                " SELECT TeacherID, '-1' As GroupID, FuncId from s_tb_Rights where TeacherID=@teacher and SYSNO = 2";
+                    return bll.FillListByText<UserGroupFunc>(sql, new { teacher = teacher.TeacherID}); 
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
         /// 读取菜单内容 
         /// </summary>
         /// <returns></returns>
         [WebMethod]
-        public static string GetMenuFromFile()
+        public static FuncEntry GetMenus()
         {
-            string fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets/menu.json");
-            FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-            try
-            {
-                StreamReader sr = new StreamReader(fs);
-                sr.BaseStream.Seek(0, SeekOrigin.Begin);
-                return sr.ReadToEnd();
-            }
-            catch
-            {
-                return "";
-            }
-            finally
-            {
-                fs.Close();
-            }
+            return UtilBLL.GetFunc();
         }
 
         [WebMethod]
@@ -134,13 +147,13 @@ namespace App.Web.Score.DataProvider
             using (AppBLL bll = new AppBLL())
             {
                 var sql = "select a.GroupID, b.*  from tbGroupInfo a, tbUserGroupInfo b where a.TeacherID=b.TeacherID and a.GroupID=@p";
-                return bll.FillListByText<UserGroupInfo>(sql, new { p = groupID});
+                return bll.FillListByText<UserGroupInfo>(sql, new { p = groupID });
             }
         }
 
         [WebMethod]
         public static IList<UserGroupInfo> GetAllUsers()
-        { 
+        {
             IList<UserGroupInfo> allUserGroups = GetAllUserGroups();
             var allUsers = from v in allUserGroups where v.UserOrGroup.Equals("1") select v;
             return allUsers.ToList<UserGroupInfo>();
@@ -161,8 +174,8 @@ namespace App.Web.Score.DataProvider
         {
             using (AppBLL bll = new AppBLL())
             {
-                var sql = "SELECT a.FuncId, b.FuncName, b.Description, b.FuncType" +   
-                          " FROM  s_tb_Rights a INNER JOIN   s_tb_Function b ON a.FuncId = b.FuncID" + 
+                var sql = "SELECT a.FuncId, b.FuncName, b.Description, b.FuncType" +
+                          " FROM  s_tb_Rights a INNER JOIN   s_tb_Function b ON a.FuncId = b.FuncID" +
                           " where a.TeacherID in (select @teacherID" +
                           " union Select GroupID from tbGroupInfo where teacherID=@teacherID)";
                 return bll.FillListByText<UserAuth>(sql, new { teacherID = teacher });
@@ -183,7 +196,8 @@ namespace App.Web.Score.DataProvider
         [WebMethod]
         public static int LeaveGroup(string teacher, string groupID)
         {
-            using (AppBLL bll = new AppBLL()) {
+            using (AppBLL bll = new AppBLL())
+            {
                 var sql = "delete from tbGroupInfo Where teacherID=@teacherID and Groupid=@GroupID";
                 return bll.ExecuteNonQueryByText(sql, new { teacherID = teacher, GroupID = groupID });
             }
@@ -272,7 +286,7 @@ namespace App.Web.Score.DataProvider
             }
             catch (Exception ex)
             {
-                return new ResultEntity() { State = -8, Context = string.Format("用户(组)删除失败！", userGroup.Name) }; 
+                return new ResultEntity() { State = -8, Context = string.Format("用户(组)删除失败！", userGroup.Name) };
             }
         }
 
@@ -286,12 +300,16 @@ namespace App.Web.Score.DataProvider
             }
         }
 
+        /// <summary>
+        /// 获得功能树 权限编辑
+        /// </summary>
+        /// <returns></returns>
         [WebMethod]
         public static FuncEntry GetFuncTree()
         {
             using (AppBLL bll = new AppBLL())
             {
-                var sql = "Select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo from s_tb_Function order by FuncID";
+                var sql = "Select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo from s_tb_Function Where FuncName!='-' order by FuncID";
                 IList<FuncEntry> funcs = bll.FillListByText<FuncEntry>(sql, null);
                 var functions = from v in funcs where v.Parent == null select v;
                 if (!functions.Any()) return null;

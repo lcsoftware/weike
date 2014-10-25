@@ -22,13 +22,13 @@ angular.module('app', [
             /**************************系统管理***********************/
             .state('admin', { url: '/admin', abstract: true, templateUrl: '/views/admin/main' })
             //用户(组)维护
-            .state('admin.UserEdit', { url: '/UserEdit', templateUrl: '/views/admin/UserEdit', controller: 'UserEditController' })
+            .state('admin.nSysMenu0', { url: '/UserEdit', templateUrl: '/views/admin/UserEdit', controller: 'UserEditController' })
             //用户组管理
-            .state('admin.GroupEdit', { url: '/GroupEdit', templateUrl: '/views/admin/GroupEdit', controller: 'GroupEditController' })
+            .state('admin.nSysMenu1', { url: '/GroupEdit', templateUrl: '/views/admin/GroupEdit', controller: 'GroupEditController' })
             //用户(组)维护
-            .state('admin.AuthEdit', { url: '/AuthEdit', templateUrl: '/views/admin/AuthEdit', controller: 'AuthEditController' })
+            .state('admin.nSysMenu3', { url: '/AuthEdit', templateUrl: '/views/admin/AuthEdit', controller: 'AuthEditController' })
             //权限查询
-            .state('admin.AuthView', { url: '/AuthView', templateUrl: '/views/admin/AuthView', controller: 'AuthViewController' })
+            .state('admin.nSysMenu2', { url: '/AuthView', templateUrl: '/views/admin/AuthView', controller: 'AuthViewController' })
             //升留级处理
             .state('nRightQuery', { url: '/RightQuery', templateUrl: '/views/admin/RightQuery', controller: 'RightQueryController' })
             //转换为学籍成绩
@@ -148,7 +148,7 @@ angular.module('app', [
     .run(['$templateCache', '$rootScope', '$state', '$stateParams', '$location', 'menuService',
         'dialogUtils', 'softname', 'baseService', 'userService', 'utilService',
         function ($templateCache, $rootScope, $state, $stateParams, $location, menuService,
-            dialogUtils, sfotname, baseService, userService, utilService) {
+            dialogUtils, softname, baseService, userService, utilService) {
 
             var view = angular.element('#ui-view');
             $templateCache.put(view.data('tmpl-url'), view.html());
@@ -158,7 +158,7 @@ angular.module('app', [
             $rootScope.baseService = baseService;
             $rootScope.utilService = utilService;
             $rootScope.dialogUtils = dialogUtils;
-            $rootScope.sfotname = sfotname;
+            $rootScope.softname = softname;
             $rootScope.userService = userService;
 
             $rootScope.$state = $state;
@@ -179,9 +179,12 @@ angular.module('app', [
                         //});
                     }
                 });
-                menuService.readMenu(function (data) {
-                    $rootScope.menus = JSON.parse(data.d);
+                menuService.getMenus(function (data) {
+                    $rootScope.menus = data.d;
                 });
+                //menuService.readMenu(function (data) {
+                //    $rootScope.menus = data.d;
+                //});
                 $rootScope.layout = toState.layout;
             });
 

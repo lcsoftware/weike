@@ -9,16 +9,16 @@
                     </div>
                     <ol ui-tree-nodes="" ng-model="userGroup.Children" ng-class="{hidden: collapsed}">
                         <li ng-repeat="item in userGroup.Children" ui-tree-node collapsed="true">
-                            <div ui-tree-handle class="tree-node tree-node-content">
+                            <div ui-tree-handle class="tree-node tree-node-content" ng-class="{'selected':item.Selected}">
                                 <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)" ng-class="{hidden:item.Children.length == 0}"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
                                 {{item.Name}}
-                                <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="viewAuth(item);"><span class="glyphicon glyphicon-chevron-right"></span></a>
+                                <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="authView(item);"><span class="glyphicon glyphicon-chevron-right"></span></a>
                             </div>
                             <ol ui-tree-nodes="" ng-model="item.Children" ng-class="{hidden: collapsed}">
                                 <li ng-repeat="user in item.Children" ui-tree-node>
-                                    <div ui-tree-handle class="tree-node tree-node-content">
+                                    <div ui-tree-handle class="tree-node tree-node-content" ng-class="{'selected':user.Selected}">
                                         {{user.Name}}
-                                        <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="viewAuth(item);"><span class="glyphicon glyphicon-chevron-right"></span></a>
+                                        <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="authView(user);"><span class="glyphicon glyphicon-chevron-right"></span></a>
                                     </div>
                                 </li>
                             </ol>
@@ -29,34 +29,51 @@
         </div>
     </div>
     <div class="col-sm-6" style="overflow-y: auto;max-height:45em;">
-        <div ui-tree id="tree-root">
-            <ol ui-tree-nodes="" ng-model="allFuncs">
-                <li ng-repeat="root in allFuncs" ui-tree-node nodrag>
-                    <div ui-tree-handle class="tree-node tree-node-content">
-                        <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
-                        {{root.Description}}
-                    </div>
-                    <ol ui-tree-nodes="" ng-model="root.Children" ng-class="{hidden: collapsed}">
-                        <li ng-repeat="firstFunc in root.Children" ui-tree-node collapsed="true">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-4" style="margin-bottom:1em;">
+                 <b>用户（组）{{selectedTeacher.Name}}权限</b>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div ui-tree id="tree-root">
+                    <ol ui-tree-nodes="" ng-model="allFuncs">
+                        <li ng-repeat="root in allFuncs" ui-tree-node nodrag>
                             <div ui-tree-handle class="tree-node tree-node-content">
-                                <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
-                                {{firstFunc.Description}}
-                                <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="grant(firstFunc);"><span class="glyphicon glyphicon-ok"></span></a>
-                                <a class="btn btn-primary btn-xs pull-right" nodrag ng-click="revoke(firstFunc)"><span class="glyphicon glyphicon-remove"></span></a>
+                                <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)">
+                                    <span class="glyphicon" ng-class="{'glyphicon-remove':root.Kind==0, 'glyphicon-flag':root.Kind==1,'glyphicon-user':root.Kind==2}"></span>
+                                    <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
+                                </a>
+                                {{root.Description}}
+                                <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="grant(root);"><span class="glyphicon" ng-class="{'glyphicon-plus':root.Kind==0, 'glyphicon-minus':root.Kind>0}"></span></a>
                             </div>
-                            <ol ui-tree-nodes="" ng-model="firstFunc.Children" ng-class="{hidden: collapsed}">
-                                <li ng-repeat="secondFunc in firstFunc.Children" ui-tree-node collapsed="true">
+                            <ol ui-tree-nodes="" ng-model="root.Children" ng-class="{hidden: collapsed}">
+                                <li ng-repeat="firstFunc in root.Children" ui-tree-node collapsed="true">
                                     <div ui-tree-handle class="tree-node tree-node-content">
-                                        {{secondFunc.Description}}
-                                        <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="grant(secondFunc);"><span class="glyphicon glyphicon-ok"></span></a>
-                                        <a class="btn btn-primary btn-xs pull-right" nodrag ng-click="revoke(secondFunc)"><span class="glyphicon glyphicon-remove"></span></a>
+                                        <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)">
+                                            <span class="glyphicon" ng-class="{'glyphicon-remove':firstFunc.Kind==0, 'glyphicon-flag':firstFunc.Kind==1,'glyphicon-user':firstFunc.Kind==2}"></span>
+                                            <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
+                                        </a>
+                                        {{firstFunc.Description}}
+                                        <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="grant(firstFunc);"><span class="glyphicon" ng-class="{'glyphicon-plus': firstFunc.Kind==0, 'glyphicon-minus': firstFunc.Kind>0}"></span></a>
                                     </div>
+                                    <ol ui-tree-nodes="" ng-model="firstFunc.Children" ng-class="{hidden: collapsed}">
+                                        <li ng-repeat="secondFunc in firstFunc.Children" ui-tree-node collapsed="true">
+                                            <div ui-tree-handle class="tree-node tree-node-content">
+                                                <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)">
+                                                    <span class="glyphicon" ng-class="{'glyphicon-remove':secondFunc.Kind==0, 'glyphicon-flag':secondFunc.Kind==1,'glyphicon-user':secondFunc.Kind==2}"></span>
+                                                </a>
+                                                {{secondFunc.Description}}
+                                                <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="grant(secondFunc);"><span class="glyphicon" ng-class="{'glyphicon-plus': secondFunc.Kind==0, 'glyphicon-minus': secondFunc.Kind>0}"></span></a>
+                                            </div>
+                                        </li>
+                                    </ol>
                                 </li>
                             </ol>
-                        </li> 
+                        </li>
                     </ol>
-                </li>
-            </ol>
+                </div>
+            </div>
         </div>
     </div>
 

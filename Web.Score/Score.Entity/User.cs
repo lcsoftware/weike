@@ -15,6 +15,13 @@ namespace App.Score.Entity
     using System.Text;
     using System.Threading.Tasks;
 
+    public enum FuncKind
+    {
+        Group = 1,              //用户权限来源于所属组
+        SuperUser = 2,          //超级用户赋予的权限
+        None = 0,               //无此权限
+    }
+
     /// <summary>
     /// 功能
     /// </summary>
@@ -44,6 +51,12 @@ namespace App.Score.Entity
         /// 系统编号
         /// </summary>
         public int SysNo;
+
+        /// <summary>
+        /// 分类 用于权限编辑
+        /// </summary>
+        public FuncKind Kind = FuncKind.None;
+
         /// <summary>
         /// 子功能
         /// </summary>
@@ -67,7 +80,16 @@ namespace App.Score.Entity
         public string Remark { get; set; }
         public string GroupID { get; set; }
 
+        public bool Selected { get; set; }
+
         public IList<UserGroupInfo> Children = new List<UserGroupInfo>();
+    }
+
+    public class UserGroupFunc
+    {
+        public string TeacherID { get; set; }
+        public string GroupID { get; set; }
+        public string FuncID { get; set; }
     }
 
     public class UserAuth
