@@ -1,6 +1,6 @@
 ﻿/* **************************************************************
   * Copyright(c) 2014 Score.web, All Rights Reserved.   
-  * File             : DataProvider.aspx.cs
+  * File             : Admin.aspx.cs
   * Description      : 系统级别的服务器处理程序
   * Author           : zhaotianyu 
   * Created          : 2014-10-02  
@@ -338,11 +338,11 @@ namespace App.Web.Score.DataProvider
             }
         }
 
-        public static void Revoke(AppBLL bll, string teacher, FuncEntry funcEntry)
+        private static void Revoke(AppBLL bll, string teacher, FuncEntry funcEntry)
         {
             if (funcEntry.Kind > 0)
             {
-                var sql = "Delete from s_tb_rights Where TeacherID=:UserID and FuncID=:FuncID and SYSNO=2";
+                var sql = "Delete from s_tb_rights Where TeacherID=@UserID and FuncID=@FuncID and SYSNO=2";
                 bll.ExecuteNonQueryByText(sql, new { UserID = teacher, FuncID = funcEntry.FuncID });
             }
             if (funcEntry.Children.Any())
@@ -368,5 +368,8 @@ namespace App.Web.Score.DataProvider
             }
             return 1;
         }
+
+
+       
     }
 }

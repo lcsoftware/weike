@@ -98,16 +98,23 @@ namespace App.Score.Db
         /// <returns></returns>
         public static FuncEntry GetFunc()
         {
-            using (AppBLL bll = new AppBLL())
+            try
             {
-                var sql = "Select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo from s_tb_Function order by FuncID";
-                IList<FuncEntry> funcs = bll.FillListByText<FuncEntry>(sql, null);
+                using (AppBLL bll = new AppBLL())
+                {
+                    var sql = "Select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo from s_tb_Function order by FuncID";
+                    IList<FuncEntry> funcs = bll.FillListByText<FuncEntry>(sql, null);
 
-                var roots = from v in funcs where v.Parent == null select v;
-                if (!roots.Any()) return null;
-                FuncEntry root = roots.First();
-                BuildFuncTree(root, funcs);
-                return root;
+                    var roots = from v in funcs where v.Parent == -1 select v;
+                    if (!roots.Any()) return null;
+                    FuncEntry root = roots.First();
+                    BuildFuncTree(root, funcs);
+                    return root;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

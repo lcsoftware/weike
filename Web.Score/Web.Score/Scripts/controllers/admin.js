@@ -22,6 +22,8 @@ appAdmin.controller('UserEditController', ['$scope', function ($scope) {
     $scope.ResidenceTypes = [];
     $scope.userNation = {};
 
+    $scope.schoolName = $scope.schoolService.schoolInfo.SchoolName;
+
     $scope.showSelected = function (node) {
         $scope.tpl = node.UserOrGroup === '0' ? 'group.html' : 'user.html';
         $scope.UserGroupEntity = node;
@@ -148,6 +150,14 @@ appAdmin.controller('UserEditController', ['$scope', function ($scope) {
             }
         });
     }
+
+    //导出用户清单 
+    $scope.ExportExcel = function () {
+        var url = '/DataProvider/Export.aspx/ExportUserGroup';
+        var param = { schoolName: $scope.schoolService.schoolInfo.SchoolName };
+        $scope.baseService.post(url, param, function (data) { 
+        });
+    }
 }]);
 
 // Path: /UserEdit  用户(组)维护
@@ -262,24 +272,6 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
         }
     });
 
-    var BindFunc = function (userFunc, treeFunc) {
-        if (treeFunc.FuncID === userFunc.FuncID) {
-            if (treeFunc.FuncID === 4400) {
-                var v = 'ssss';
-            }
-            if (userFunc.UserOrGroup === 1) {
-                treeFunc.Kind = userFunc.GroupID === "-1" ? 1 : 2;
-            } else {
-                treeFunc.Kind = 2;
-            }
-        }
-        if (treeFunc.Children.length > 0) {
-            var length = treeFunc.Children.length;
-            for (var i = 0; i < length; i++) {
-                BindFunc(userFunc, treeFunc.Children[i]);
-            }
-        }
-    }
     //清除功能树状态
     var ClearFuncState = function (treeFunc) {
         treeFunc.Kind = 0;
@@ -287,6 +279,18 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
             ClearFuncState(v);
         });
     }
+
+    var BindFunc = function (userFunc, treeFunc) {
+        if (treeFunc.FuncID === userFunc.FuncID) {
+            treeFunc.Kind = userFunc.GroupID === "-1" ? 2 : 1; 
+        }
+        if (treeFunc.Children.length > 0) {
+            var length = treeFunc.Children.length;
+            for (var i = 0; i < length; i++) {
+                BindFunc(userFunc, treeFunc.Children[i]);
+            }
+        }
+    } 
 
     var BindFuncs = function (userFuncs, allFuncs) {
         var length = userFuncs.length;
@@ -349,14 +353,14 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
         var rtype = treeFunc.FuncID === 0 ? 1 : 0;
         $scope.userService.grant($scope.selectedTeacher.TeacherID, treeFunc.FuncID, rtype, 2, function (data) {
             if (data.d > 0) {
-                treeFunc.Kind = 1;
+                treeFunc.Kind = 2;
             }
         });
     }
 
     var revoke = function (treeFunc) {
         if (treeFunc.Kind === 1) {
-            $scope.dialogUtils.info('权限从组中继承!不能撤消!');
+            $scope.dialogUtils.info('权限从组中继承不能撤消!');
             return;
         }
 

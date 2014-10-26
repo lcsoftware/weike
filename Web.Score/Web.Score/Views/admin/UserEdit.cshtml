@@ -7,6 +7,7 @@
                         <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
                         {{userGroup.Name}}
                         <a class="btn btn-primary btn-xs pull-right" nodrag ng-click="addUserGroup($index)" style="margin-right: 8px;"><span class="glyphicon glyphicon-plus"></span></a>
+                        <a class="btn btn-success btn-xs pull-right" nodrag href="/DataProvider/Down.aspx?type=1&school={{schoolName}}" target="_blank" style="margin-right: 8px;" ng-if="$index==1">导出用户<span class="glyphicon glyphicon-download-alt"></span></a>
                     </div>
                     <ol ui-tree-nodes="" ng-model="userGroup.Children" ng-class="{hidden: collapsed}">
                         <li ng-repeat="item in userGroup.Children" ui-tree-node collapsed="true">

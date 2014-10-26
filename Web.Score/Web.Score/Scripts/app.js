@@ -6,6 +6,7 @@ angular.module('app', [
     'ui.tree',
     'app.filters',
     'app.services',
+    'app.school',
     'app.directives',
     'app.controllers',
     'app.admin'
@@ -146,9 +147,9 @@ angular.module('app', [
     }])
 
     .run(['$templateCache', '$rootScope', '$state', '$stateParams', '$location', 'menuService',
-        'dialogUtils', 'softname', 'baseService', 'userService', 'utilService',
+        'dialogUtils', 'softname', 'baseService', 'userService', 'utilService','schoolService',
         function ($templateCache, $rootScope, $state, $stateParams, $location, menuService,
-            dialogUtils, softname, baseService, userService, utilService) {
+            dialogUtils, softname, baseService, userService, utilService, schoolService) {
 
             var view = angular.element('#ui-view');
             $templateCache.put(view.data('tmpl-url'), view.html());
@@ -160,6 +161,8 @@ angular.module('app', [
             $rootScope.dialogUtils = dialogUtils;
             $rootScope.softname = softname;
             $rootScope.userService = userService;
+            $rootScope.schoolService = schoolService;
+            $rootScope.schoolService.loadSchool();
 
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;

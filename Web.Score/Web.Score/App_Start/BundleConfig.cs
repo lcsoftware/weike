@@ -40,6 +40,7 @@ namespace App.Web.Score
             bundles.Add(new ScriptBundle("~/js/app").Include(
                     "~/scripts/filters/filters.js",
                     "~/scripts/services/services.js",
+                    "~/scripts/services/school.js",
                     "~/scripts/directives/directives.js",
                     "~/scripts/controllers/controllers.js",
                     //"~/scripts/controllers/base.js",

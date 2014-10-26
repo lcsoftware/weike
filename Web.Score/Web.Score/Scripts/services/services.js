@@ -8,6 +8,7 @@ aService.constant('softname', '成绩分析系统');
 
 aService.constant('utilProviderUrl', '/DataProvider/Util.aspx');
 aService.constant('adminProviderUrl', '/DataProvider/Admin.aspx');
+aService.constant('schoolProviderUrl', '/DataProvider/School.aspx');
 
 aService.factory('baseService', ['$http', '$q', function ($http, $q) {
 
@@ -227,6 +228,7 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
 
     return service;
 }]);
+
 
 
 

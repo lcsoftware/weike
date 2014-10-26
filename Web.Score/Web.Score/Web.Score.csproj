@@ -164,6 +164,8 @@
     <Content Include="Content\images\node-opened-light.png" />
     <Content Include="Content\images\node-opened.png" />
     <Content Include="DataProvider\Admin.aspx" />
+    <Content Include="DataProvider\Down.aspx" />
+    <Content Include="DataProvider\School.aspx" />
     <Content Include="DataProvider\Util.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\controllers\admin.js" />
@@ -172,6 +174,7 @@
     <Content Include="Scripts\controllers\statistic.js" />
     <Content Include="Scripts\directives\directives.js" />
     <Content Include="Scripts\filters\filters.js" />
+    <Content Include="Scripts\services\school.js" />
     <Content Include="Scripts\services\services.js" />
     <Content Include="Scripts\utils.js" />
     <Content Include="Scripts\vendor\angular-csp.css" />
@@ -509,6 +512,20 @@
     </Compile>
     <Compile Include="DataProvider\Admin.aspx.designer.cs">
       <DependentUpon>Admin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\Down.aspx.cs">
+      <DependentUpon>Down.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Down.aspx.designer.cs">
+      <DependentUpon>Down.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\School.aspx.cs">
+      <DependentUpon>School.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\School.aspx.designer.cs">
+      <DependentUpon>School.aspx</DependentUpon>
     </Compile>
     <Compile Include="DataProvider\Util.aspx.cs">
       <DependentUpon>Util.aspx</DependentUpon>
