@@ -371,9 +371,33 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
 }]);
 
 // Path: /UserEdit  升留级处理
-appAdmin.controller('RightQueryController', ['$scope', '$location', '$window', function ($scope, $location, $window) {
-    $scope.$root.title = 'AngularJS SPA Template for Visual Studio';
-}]);
+appAdmin.controller('StayGradeController', ['$scope', '$location', '$window', function ($scope, $location, $window) {
+    var moduleName = '升留级处理';
+    $scope.$root.moduleName = moduleName;
+    $scope.$root.title = $scope.softname + ' | ' + moduleName;
+
+    $scope.treedata = [{ "label": "New Node A", "id": "id A", "children": [{ "label": "New Node A", "id": "id A", "children": [] }] }];
+    $scope.students = [];
+    $scope.numberOfPeople = 22;
+    $scope.clsName = "初三一班";
+
+    $scope.expandedNodes = [$scope.treedata[0]]
+
+    $scope.treeOptions = {
+        nodeChildren: "children",
+        dirSelectable: true,
+        injectClasses: {
+            ul: "a1",
+            li: "a2",
+            liSelected: "a7",
+            iExpanded: "a3",
+            iCollapsed: "a4",
+            iLeaf: "a5",
+            label: "a6",
+            labelSelected: "a8"
+        }
+    }
+    }]);
 
 // Path: /UserEdit  转换为学籍成绩
 appAdmin.controller('CJtoXJController', ['$scope', '$location', '$window', function ($scope, $location, $window) {

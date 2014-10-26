@@ -484,7 +484,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_PageStart.cshtml" />
     <Content Include="Views\admin\UserEdit.cshtml" />
-    <Content Include="Views\admin\RightQuery.cshtml" />
+    <Content Include="Views\admin\StayGrade.cshtml" />
     <Content Include="Views\admin\SendMail.cshtml" />
     <Content Include="Views\admin\LogUser.cshtml" />
     <Content Include="Views\admin\DBbackup.cshtml" />

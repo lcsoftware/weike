@@ -31,7 +31,7 @@ angular.module('app', [
             //权限查询
             .state('admin.nSysMenu2', { url: '/AuthView', templateUrl: '/views/admin/AuthView', controller: 'AuthViewController' })
             //升留级处理
-            .state('nRightQuery', { url: '/RightQuery', templateUrl: '/views/admin/RightQuery', controller: 'RightQueryController' })
+            .state('admin.nSysMenu5', { url: '/StayGrade', templateUrl: '/views/admin/StayGrade', controller: 'StayGradeController' })
             //转换为学籍成绩
             .state('nCJtoXJ', { url: '/CJtoXJ', templateUrl: '/views/admin/CJtoXJ', controller: 'CJtoXJController' })
             //从学籍成绩转换过来
