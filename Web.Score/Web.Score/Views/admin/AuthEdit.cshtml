@@ -16,7 +16,7 @@
                             </div>
                             <ol ui-tree-nodes="" ng-model="item.Children" ng-class="{hidden: collapsed}">
                                 <li ng-repeat="user in item.Children" ui-tree-node>
-                                    <div ui-tree-handle class="tree-node tree-node-content" ng-class="{'selected':user.Selected}">
+                                    <div ui-tree-handle class="tree-node tree-node-content" ng-class="{'selected':user.Selected}"> 
                                         {{user.Name}}
                                         <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="authView(user);"><span class="glyphicon glyphicon-chevron-right"></span></a>
                                     </div>

@@ -29,5 +29,43 @@ namespace App.Web.Score.DataProvider
                 return schools.Any() ? schools.First() : null;
             }
         }
+
+        [WebMethod]
+        public static GradeCode LoadGradeClass(int academicYear)
+        {
+            GradeCode grade = new GradeCode();
+            using (AppBLL bll = new AppBLL()) { 
+                var sql = "select a.GradeNo,a.GradeName, b.ClassNo,a.GradeBriefName ShortName" +
+                          " from tdGradeCode a left join tbGradeClass b on a.GradeNo=b.GradeNo" +
+                          " and b.AcademicYear=@academicYear AND b.ClassType='0'" +
+                          " ORDER BY a.GradeNo, b.ClassNo";
+                bll.FillDataTable(sql, new { academicYear = academicYear });
+            }
+            return grade;
+        }
+        SELECT GradeNo,GradeName FROM tdGradeCode ORDER BY GradeNo ASC
+
+
+select a.SystemID GradeSystem, a.GradeNo,a.GradeName, a.GradeBriefName ShortName,
+b.SystemID as ClassSystem, b.ClassNo, b.AcadEmicYear,b.ClassNo,
+from tdGradeCode a left join tbGradeClass b on a.GradeNo=b.GradeNo and b.AcademicYear='2013' AND b.ClassType='0' 
+ORDER BY a.GradeNo, b.ClassNo
+
+
+SELECT tbStudentClass.SRID StudentId,
+            tbStudentBaseInfo.StdName StdName,
+            CASE tbStudentBaseInfo.Sex WHEN 1 THEN '男' WHEN 2 THEN '女' END Sex,
+            tbStudentClass.ClassCode ClassCode,
+            tbStudentClass.ClassSN ClassSN 
+	        FROM tbStudentClass LEFT JOIN tbStudentBaseInfo ON 
+             tbStudentClass.SRID = tbStudentBaseInfo.SRID 
+             LEFT JOIN tbStudentStatus ON 
+             tbStudentClass.SRID = tbStudentStatus.SRID AND 
+             tbStudentClass.AcademicYear = tbStudentStatus.AcademicYear 
+	        WHERE tbStudentClass.AcademicYear = '2013' 
+      		AND tbStudentClass.ClassCode =2301
+      		AND tbStudentStatus.Status IN ('01','02','03') 
+      		AND tbStudentBaseInfo.IsDelete = '0' 
+
     }
 }
