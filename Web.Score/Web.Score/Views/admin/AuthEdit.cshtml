@@ -30,8 +30,22 @@
     </div>
     <div class="col-sm-6" style="overflow-y: auto;max-height:45em;">
         <div class="row">
-            <div class="col-sm-6 col-sm-offset-4" style="margin-bottom:1em;">
-                 <b>用户（组）{{selectedTeacher.Name}}权限</b>
+            <div class="col-sm-4" style="margin-bottom:1em;">
+                <b>用户（组）{{selectedTeacher.Name}}权限</b>
+            </div>
+            <div class="col-sm-8">
+                <label class="btn-success btn-xs" nodrag style="cursor:default">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    未获得权限
+                </label> 
+                <label class="btn-success btn-xs" nodrag style="cursor:default">
+                    <span class="glyphicon glyphicon-flag"></span>
+                   所属组赋予 
+                </label> 
+                <label class="btn-success btn-xs" nodrag style="cursor:default">
+                    <span class="glyphicon glyphicon-user"></span>
+                    超级用户赋予 
+                </label> 
             </div>
         </div>
         <div class="row">
@@ -45,7 +59,7 @@
                                     <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
                                 </a>
                                 {{root.Description}}
-                                <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="grant(root);"><span class="glyphicon" ng-class="{'glyphicon-plus':root.Kind==0, 'glyphicon-minus':root.Kind>0}"></span></a>
+                                <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="assignFunc(root);"><span class="glyphicon" ng-class="{'glyphicon-plus':root.Kind==0, 'glyphicon-minus':root.Kind>0}"></span></a>
                             </div>
                             <ol ui-tree-nodes="" ng-model="root.Children" ng-class="{hidden: collapsed}">
                                 <li ng-repeat="firstFunc in root.Children" ui-tree-node collapsed="true">
@@ -55,7 +69,7 @@
                                             <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
                                         </a>
                                         {{firstFunc.Description}}
-                                        <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="grant(firstFunc);"><span class="glyphicon" ng-class="{'glyphicon-plus': firstFunc.Kind==0, 'glyphicon-minus': firstFunc.Kind>0}"></span></a>
+                                        <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="assignFunc(firstFunc);"><span class="glyphicon" ng-class="{'glyphicon-plus': firstFunc.Kind==0, 'glyphicon-minus': firstFunc.Kind>0}"></span></a>
                                     </div>
                                     <ol ui-tree-nodes="" ng-model="firstFunc.Children" ng-class="{hidden: collapsed}">
                                         <li ng-repeat="secondFunc in firstFunc.Children" ui-tree-node collapsed="true">
@@ -64,7 +78,7 @@
                                                     <span class="glyphicon" ng-class="{'glyphicon-remove':secondFunc.Kind==0, 'glyphicon-flag':secondFunc.Kind==1,'glyphicon-user':secondFunc.Kind==2}"></span>
                                                 </a>
                                                 {{secondFunc.Description}}
-                                                <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="grant(secondFunc);"><span class="glyphicon" ng-class="{'glyphicon-plus': secondFunc.Kind==0, 'glyphicon-minus': secondFunc.Kind>0}"></span></a>
+                                                <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="assignFunc(secondFunc);"><span class="glyphicon" ng-class="{'glyphicon-plus': secondFunc.Kind==0, 'glyphicon-minus': secondFunc.Kind>0}"></span></a>
                                             </div>
                                         </li>
                                     </ol>

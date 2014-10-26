@@ -30,7 +30,7 @@ namespace App.Score.Entity
         /// <summary>
         /// 编号
         /// </summary>
-        public string FuncID;
+        public int FuncID;
         /// <summary>
         /// 名称
         /// </summary>
@@ -46,7 +46,7 @@ namespace App.Score.Entity
         /// <summary>
         /// 父功能
         /// </summary>
-        public string Parent;
+        public int Parent;
         /// <summary>
         /// 系统编号
         /// </summary>
@@ -89,7 +89,9 @@ namespace App.Score.Entity
     {
         public string TeacherID { get; set; }
         public string GroupID { get; set; }
-        public string FuncID { get; set; }
+        public int FuncID { get; set; }
+
+        public int UserOrGroup {get; set;}
     }
 
     public class UserAuth

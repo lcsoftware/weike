@@ -101,12 +101,13 @@ namespace App.Web.Score.DataProvider
                 using (AppBLL bll = new AppBLL())
                 {
                     //用户从组所获得的功能(权限)
-                    var sql = "SELECT c.TeacherID, cast(b.GroupID as varchar) as GroupID, a.FuncID FROM  tbGroupInfo b INNER JOIN" +
+                    var sql = "SELECT c.TeacherID, cast(b.GroupID as varchar) as GroupID, a.FuncID, c.UserOrGroup FROM  tbGroupInfo b INNER JOIN" +
                                 " tbUserGroupInfo c ON b.TeacherID = c.TeacherID INNER JOIN " +
                                 " s_tb_Rights a ON b.GroupID = a.TeacherID " +
                                 " where c.TeacherID=@teacher and a.SYSNO = 2 " +
                                 " union all" +
-                                " SELECT TeacherID, '-1' As GroupID, FuncId from s_tb_Rights where TeacherID=@teacher and SYSNO = 2";
+                                " SELECT a.TeacherID, '-1' As GroupID, a.FuncId, b.UserOrGroup from s_tb_Rights a, tbUserGroupInfo b" +
+                                " where a.TeacherID=@teacher and a.TeacherID=b.TeacherID and SYSNO = 2";
                     return bll.FillListByText<UserGroupFunc>(sql, new { teacher = teacher.TeacherID });
                 }
             }
@@ -309,9 +310,9 @@ namespace App.Web.Score.DataProvider
         {
             using (AppBLL bll = new AppBLL())
             {
-                var sql = "Select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo from s_tb_Function Where FuncName!='-' order by FuncID";
+                var sql = "Select Cast(FuncId as int) as FuncId, FuncName, Description, FuncType, Cast(FuncID0 as int) As Parent, SysNo from s_tb_Function Where FuncName!='-' order by FuncID";
                 IList<FuncEntry> funcs = bll.FillListByText<FuncEntry>(sql, null);
-                var functions = from v in funcs where v.Parent == null select v;
+                var functions = from v in funcs where v.Parent == -1 select v;
                 if (!functions.Any()) return null;
                 var rootFunc = functions.First();
                 BuildChild(rootFunc, funcs);

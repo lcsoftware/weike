@@ -264,7 +264,10 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
 
     var BindFunc = function (userFunc, treeFunc) {
         if (treeFunc.FuncID === userFunc.FuncID) {
-            if (userFunc.UserOrGroup === '1') {
+            if (treeFunc.FuncID === 4400) {
+                var v = 'ssss';
+            }
+            if (userFunc.UserOrGroup === 1) {
                 treeFunc.Kind = userFunc.GroupID === "-1" ? 1 : 2;
             } else {
                 treeFunc.Kind = 2;
@@ -323,14 +326,27 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
         }
     }
 
-    $scope.grant = function (treeFunc) {
+    $scope.assignFunc = function (treeFunc) {
+        if ($scope.selectedTeacher === null) {
+            $scope.dialogUtils.info('请选择需要授予权限的用户(组)');
+            return;
+        }
+        var v = treeFunc;
+        if (treeFunc.Kind == 0) {
+            grant(treeFunc);
+        } else {
+            revoke(treeFunc);
+        }
+    }
+
+    var grant = function (treeFunc) {
         var p = findParent(treeFunc, $scope.allFuncs[0]);
         if (p !== null && p.Kind == 0) {
             var context = '请先授予 <' + p.Description + '> 功能';
             $scope.dialogUtils.info(context);
             return;
-        } 
-        var rtype = treeFunc.FuncID === '0000    ' ? 1 : 0;
+        }
+        var rtype = treeFunc.FuncID === 0 ? 1 : 0;
         $scope.userService.grant($scope.selectedTeacher.TeacherID, treeFunc.FuncID, rtype, 2, function (data) {
             if (data.d > 0) {
                 treeFunc.Kind = 1;
@@ -338,7 +354,7 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
         });
     }
 
-    $scope.revoke = function (treeFunc) {
+    var revoke = function (treeFunc) {
         if (treeFunc.Kind === 1) {
             $scope.dialogUtils.info('权限从组中继承!不能撤消!');
             return;
