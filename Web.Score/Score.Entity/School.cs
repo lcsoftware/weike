@@ -54,12 +54,65 @@ namespace App.Score.Entity
         public string ClassNo;
         public string ClassType;
         public string IsDelete;
+        public IList<Student> Students = new List<Student>();
         public override bool Equals(object obj)
         {
             var other = (GradeClass)obj;
             return  this.GradeNo.Equals(other.GradeNo) &&
                     this.AcadEmicYear.Equals(other.AcadEmicYear) &&
                     this.ClassNo.Equals(other.ClassNo);
+        }
+    }
+
+    public class Student
+    {
+        public string StudentId;
+        public string StdName;
+        public int Sex;
+        public string ClassCode;
+        public string ClassSN;
+    }
+
+    public class GradeAndClass
+    {
+        public string GradeSystemID ;
+        public string GradeName;
+        public string GradeBriefName;
+        public string GradeNo;
+
+        public string ClassSystemID;
+        public string AcadEmicYear;
+        public string ClassNo;
+        public string ClassType;
+        public string IsDelete;
+
+        public GradeCode Grade
+        {
+            get
+            {
+                return new GradeCode() { 
+                    GradeBriefName = this.GradeBriefName, 
+                    GradeName = this.GradeName, 
+                    GradeNo = this.GradeNo, 
+                    SystemID = this.GradeSystemID 
+                };
+            }
+        }
+
+        public GradeClass GClass
+        {
+            get
+            {
+                return new GradeClass()
+                {
+                    AcadEmicYear = this.AcadEmicYear,
+                    ClassNo = this.ClassNo,
+                    IsDelete = this.IsDelete,
+                    SystemID = this.ClassSystemID,
+                    ClassType = this.ClassType,
+                    GradeNo = this.GradeNo 
+                };
+            }
         }
     }
 

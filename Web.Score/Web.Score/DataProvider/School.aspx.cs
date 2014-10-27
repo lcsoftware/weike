@@ -5,7 +5,7 @@
   * Author           : shujianhua 
   * Created          : 2014-10-05  
   * Revision History : 
-******************************************************************/ 
+******************************************************************/
 namespace App.Web.Score.DataProvider
 {
     using App.Score.Data;
@@ -30,42 +30,99 @@ namespace App.Web.Score.DataProvider
             }
         }
 
-        [WebMethod]
-        public static GradeCode LoadGradeClass(int academicYear)
+        private static IList<GradeCode> BuildGrades(IList<GradeAndClass> ClassList)
         {
-            GradeCode grade = new GradeCode();
-            using (AppBLL bll = new AppBLL()) { 
-                var sql = "select a.GradeNo,a.GradeName, b.ClassNo,a.GradeBriefName ShortName" +
-                          " from tdGradeCode a left join tbGradeClass b on a.GradeNo=b.GradeNo" +
-                          " and b.AcademicYear=@academicYear AND b.ClassType='0'" +
-                          " ORDER BY a.GradeNo, b.ClassNo";
-                bll.FillDataTable(sql, new { academicYear = academicYear });
+            IList<GradeCode> gradeList = new List<GradeCode>();
+            foreach (var gradeAndClass in ClassList)
+            {
+                if (!gradeList.Contains(gradeAndClass.Grade))
+                {
+                    gradeList.Add(gradeAndClass.Grade);
+                }
             }
-            return grade;
+            return gradeList;
         }
-        SELECT GradeNo,GradeName FROM tdGradeCode ORDER BY GradeNo ASC
 
+        private static void BuildGradeClass(GradeCode grade, IList<GradeAndClass> ClassList)
+        {
+            var gradeClasses = from v in ClassList where v.GradeNo == grade.GradeNo select v;
+            foreach (var gradeClass in gradeClasses)
+            {
+                if (!grade.GradeClasses.Contains(gradeClass.GClass))
+                {
+                    grade.GradeClasses.Add(gradeClass.GClass);
+                }
+            }
+        }
 
-select a.SystemID GradeSystem, a.GradeNo,a.GradeName, a.GradeBriefName ShortName,
-b.SystemID as ClassSystem, b.ClassNo, b.AcadEmicYear,b.ClassNo,
-from tdGradeCode a left join tbGradeClass b on a.GradeNo=b.GradeNo and b.AcademicYear='2013' AND b.ClassType='0' 
-ORDER BY a.GradeNo, b.ClassNo
+        [WebMethod]
+        public static IList<GradeCode> LoadGradeClass(int academicYear, bool andStudent)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "select a.SystemID GradeSystemID, a.GradeNo,a.GradeName, a.GradeBriefName," +
+                            " b.SystemID as ClassSystemID, b.ClassNo, b.AcadEmicYear, b.ClassType, b.IsDelete" +
+                            " from tdGradeCode a left join tbGradeClass b on a.GradeNo=b.GradeNo and b.AcademicYear=@Year AND b.ClassType='0'" +
+                            " ORDER BY a.GradeNo, b.ClassNo";
+                IList<GradeAndClass> ClassList = bll.FillListByText<GradeAndClass>(sql, new { Year = academicYear });
+                IList<GradeCode> gradeList = BuildGrades(ClassList);
+                foreach (var grade in gradeList)
+                {
+                    BuildGradeClass(grade, ClassList);
+                }
+                if (andStudent)
+                {
+                    sql = "SELECT tbStudentClass.SRID StudentId," +
+                        " tbStudentBaseInfo.StdName StdName," +
+                        " CASE tbStudentBaseInfo.Sex" +
+                        " tbStudentClass.ClassCode ClassCode," +
+                        " tbStudentClass.ClassSN ClassSN " +
+                        " FROM tbStudentClass LEFT JOIN tbStudentBaseInfo ON " +
+                        " tbStudentClass.SRID = tbStudentBaseInfo.SRID " +
+                        " LEFT JOIN tbStudentStatus ON " +
+                        " tbStudentClass.SRID = tbStudentStatus.SRID AND " +
+                        " tbStudentClass.AcademicYear = tbStudentStatus.AcademicYear " +
+                        " WHERE tbStudentClass.AcademicYear =@Year" +
+                        " AND tbStudentStatus.Status IN ('01','02','03') " +
+                        " AND tbStudentBaseInfo.IsDelete = '0' ";
+                    IList<Student> allStudents = bll.FillListByText<Student>(sql, new { Year = academicYear });
+                    BuildClassStudent(gradeList, allStudents);
+                }
+                return gradeList;
+            }
+        }
 
+        public static void BuildClassStudent(IList<GradeCode> gradeList, IList<Student> allStudents)
+        {
+            foreach (var grade in gradeList)
+            {
+                foreach (var gradeClass in grade.GradeClasses)
+                {
+                    var classStudents = from v in allStudents where v.ClassCode.Equals(gradeClass.ClassNo) select v;
+                    foreach (var student in classStudents)
+                    {
+                        gradeClass.Students.Add(student);
+                    }
+                }
+            }
+        }
 
-SELECT tbStudentClass.SRID StudentId,
-            tbStudentBaseInfo.StdName StdName,
-            CASE tbStudentBaseInfo.Sex WHEN 1 THEN '男' WHEN 2 THEN '女' END Sex,
-            tbStudentClass.ClassCode ClassCode,
-            tbStudentClass.ClassSN ClassSN 
-	        FROM tbStudentClass LEFT JOIN tbStudentBaseInfo ON 
-             tbStudentClass.SRID = tbStudentBaseInfo.SRID 
-             LEFT JOIN tbStudentStatus ON 
-             tbStudentClass.SRID = tbStudentStatus.SRID AND 
-             tbStudentClass.AcademicYear = tbStudentStatus.AcademicYear 
-	        WHERE tbStudentClass.AcademicYear = '2013' 
-      		AND tbStudentClass.ClassCode =2301
-      		AND tbStudentStatus.Status IN ('01','02','03') 
-      		AND tbStudentBaseInfo.IsDelete = '0' 
+        //SELECT GradeNo,GradeName FROM tdGradeCode ORDER BY GradeNo ASC 
+
+        //SELECT tbStudentClass.SRID StudentId,
+        //            tbStudentBaseInfo.StdName StdName,
+        //            CASE tbStudentBaseInfo.Sex WHEN 1 THEN '男' WHEN 2 THEN '女' END Sex,
+        //            tbStudentClass.ClassCode ClassCode,
+        //            tbStudentClass.ClassSN ClassSN 
+        //            FROM tbStudentClass LEFT JOIN tbStudentBaseInfo ON 
+        //             tbStudentClass.SRID = tbStudentBaseInfo.SRID 
+        //             LEFT JOIN tbStudentStatus ON 
+        //             tbStudentClass.SRID = tbStudentStatus.SRID AND 
+        //             tbStudentClass.AcademicYear = tbStudentStatus.AcademicYear 
+        //            WHERE tbStudentClass.AcademicYear = '2013' 
+        //            AND tbStudentClass.ClassCode =2301
+        //            AND tbStudentStatus.Status IN ('01','02','03') 
+        //            AND tbStudentBaseInfo.IsDelete = '0' 
 
     }
 }
