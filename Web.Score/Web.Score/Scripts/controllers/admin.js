@@ -376,28 +376,36 @@ appAdmin.controller('StayGradeController', ['$scope', '$location', '$window', fu
     $scope.$root.moduleName = moduleName;
     $scope.$root.title = $scope.softname + ' | ' + moduleName;
 
-    $scope.treedata = [{ "label": "New Node A", "id": "id A", "children": [{ "label": "New Node A", "id": "id A", "children": [] }] }];
-    $scope.students = [];
-    $scope.numberOfPeople = 22;
-    $scope.clsName = "初三一班";
+    $scope.grades = [];
+    $scope.keeps = [];
 
-    $scope.expandedNodes = [$scope.treedata[0]]
+    var year = $scope.schoolService.schoolInfo.AcademicYear; 
+    $scope.schoolService.loadGradeClass(year, function (data) {
+        $scope.grades = data.d;
+    })
 
-    $scope.treeOptions = {
-        nodeChildren: "children",
-        dirSelectable: true,
-        injectClasses: {
-            ul: "a1",
-            li: "a2",
-            liSelected: "a7",
-            iExpanded: "a3",
-            iCollapsed: "a4",
-            iLeaf: "a5",
-            label: "a6",
-            labelSelected: "a8"
-        }
+    var findStudent = function (student) {
     }
-    }]);
+
+    $scope.keep = function (student) {
+        student.Hidden = !student.Hidden;
+        $scope.keeps.push(student);
+    }
+
+    $scope.upgrade = function (student) {
+        student.Hidden = !student.Hidden;
+        var tmpKeeps = [];
+        var length = $scope.keeps.length;
+        for (var i = 0; i < length; i++) {
+            var st = $scope.keeps[i];
+            if (st.StudentId != student.StudentId) {
+                tmpKeeps.push(st);
+            }
+        }
+        $scope.keeps.length = 0;
+        $scope.keeps = tmpKeeps;
+    }
+}]);
 
 // Path: /UserEdit  转换为学籍成绩
 appAdmin.controller('CJtoXJController', ['$scope', '$location', '$window', function ($scope, $location, $window) {

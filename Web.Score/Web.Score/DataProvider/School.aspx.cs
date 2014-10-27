@@ -74,7 +74,7 @@ namespace App.Web.Score.DataProvider
                 {
                     sql = "SELECT tbStudentClass.SRID StudentId," +
                         " tbStudentBaseInfo.StdName StdName," +
-                        " CASE tbStudentBaseInfo.Sex" +
+                        " tbStudentBaseInfo.Sex," +
                         " tbStudentClass.ClassCode ClassCode," +
                         " tbStudentClass.ClassSN ClassSN " +
                         " FROM tbStudentClass LEFT JOIN tbStudentBaseInfo ON " +

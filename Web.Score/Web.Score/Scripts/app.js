@@ -177,17 +177,15 @@ angular.module('app', [
                 userService.getUser(function (user) {
                     if (user !== null) {
                         $rootScope.name = user.Name;
-                        //menuService.initMenus(user.TeacherID, function (data) {
-                        //    $rootScope.menus = data;
-                        //});
+                        
                     }
                 });
                 menuService.getMenus(function (data) {
                     $rootScope.menus = data.d;
-                });
-                //menuService.readMenu(function (data) {
-                //    $rootScope.menus = data.d;
-                //});
+                    //menuService.initMenus(user.TeacherID, function (data) {
+                    //    $rootScope.menus = data;
+                    //});
+                }); 
                 $rootScope.layout = toState.layout;
             });
 

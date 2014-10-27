@@ -10,7 +10,7 @@
                     <ol ui-tree-nodes="" ng-model="userGroup.Children" ng-class="{hidden: collapsed}">
                         <li ng-repeat="item in userGroup.Children" ui-tree-node collapsed="true">
                             <div ui-tree-handle class="tree-node tree-node-content" ng-class="{'selected':item.Selected}">
-                                <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)" ng-class="{hidden:item.Children.length == 0}"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+                                <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)" ng-class="{'hidden': userGroup.UserOrGroup==-2}"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
                                 {{item.Name}}
                                 <a class="btn btn-danger btn-xs pull-right " nodrag ng-click="authView(item);"><span class="glyphicon glyphicon-chevron-right"></span></a>
                             </div>

@@ -20,7 +20,7 @@ aService.factory('schoolService', ['baseService', 'schoolProviderUrl', function 
 
     service.loadGradeClass = function (AcademicYear, callback) {
         var url = schoolProviderUrl + '/LoadGradeClass';
-        var param = { academicYear: AcademicYear };
+        var param = { academicYear: AcademicYear, andStudent: true };
         baseService.post(url, param, function (data) {
             service.gradeClass = data.d;
             if (callback) callback(data);
