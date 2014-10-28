@@ -182,7 +182,17 @@ namespace App.Score.Db
         {
             using (AppBLL bll = new AppBLL())
             {
-                var sql = "Select SchoolCode,AcadEmicYear from tbSchoolBaseInfo";
+                DataTable table = bll.FillDataTableByText("Select SchoolCode,AcadEmicYear from tbSchoolBaseInfo");
+                if (table.Rows.Count == 0) return "-1";
+                var SchoolNo = table.Rows[0]["SchoolCode"].ToString();
+                string CurrentYear  = table.Rows[0]["AcadEmicYear"].ToString();
+                if (string.IsNullOrEmpty(CurrentYear.Trim())) return "-2";
+                table = bll.FillDataTableByText("Select * from " + tableName);
+                if (table.Rows.Count == 0) return string.Format("{0}{1}00000001", SchoolNo, CurrentYear);
+                table = bll.FillDataTableByText("select Max(Cast(Right(SystemID,8) as Integer )) as MaxID  from " + tableName);
+                var MaxSysID = int.Parse(table.Rows[0]["MaxID"].ToString())+1;
+                var i = ("0000000" + MaxSysID.ToString()).Length-7;
+                return SchoolNo+CurrentYear+("0000000" + MaxSysID.ToString()).Substring(i,8);
             }
         }
 
