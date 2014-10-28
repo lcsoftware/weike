@@ -22,7 +22,7 @@ appAdmin.controller('UserEditController', ['$scope', function ($scope) {
     $scope.ResidenceTypes = [];
     $scope.userNation = {};
 
-    $scope.schoolName = $scope.schoolService.schoolInfo.SchoolName;
+    $scope.schoolName = $scope.schoolService.school.SchoolName;
 
     $scope.showSelected = function (node) {
         $scope.tpl = node.UserOrGroup === '0' ? 'group.html' : 'user.html';
@@ -154,8 +154,8 @@ appAdmin.controller('UserEditController', ['$scope', function ($scope) {
     //导出用户清单 
     $scope.ExportExcel = function () {
         var url = '/DataProvider/Export.aspx/ExportUserGroup';
-        var param = { schoolName: $scope.schoolService.schoolInfo.SchoolName };
-        $scope.baseService.post(url, param, function (data) { 
+        var param = { schoolName: $scope.schoolService.school.SchoolName };
+        $scope.baseService.post(url, param, function (data) {
         });
     }
 }]);
@@ -282,7 +282,7 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
 
     var BindFunc = function (userFunc, treeFunc) {
         if (treeFunc.FuncID === userFunc.FuncID) {
-            treeFunc.Kind = userFunc.GroupID === "-1" ? 2 : 1; 
+            treeFunc.Kind = userFunc.GroupID === "-1" ? 2 : 1;
         }
         if (treeFunc.Children.length > 0) {
             var length = treeFunc.Children.length;
@@ -290,7 +290,7 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
                 BindFunc(userFunc, treeFunc.Children[i]);
             }
         }
-    } 
+    }
 
     var BindFuncs = function (userFuncs, allFuncs) {
         var length = userFuncs.length;
@@ -379,8 +379,7 @@ appAdmin.controller('StayGradeController', ['$scope', '$location', '$window', fu
     $scope.grades = [];
     $scope.keeps = [];
 
-    var year = $scope.schoolService.schoolInfo.AcademicYear; 
-    $scope.schoolService.loadGradeClass(year, function (data) {
+    $scope.schoolService.loadGradeClass($scope.schoolService.school.AcademicYear, function (data) {
         $scope.grades = data.d;
     })
 
@@ -388,12 +387,12 @@ appAdmin.controller('StayGradeController', ['$scope', '$location', '$window', fu
     }
 
     $scope.keep = function (student) {
-        student.Hidden = !student.Hidden;
+        student.Keep = !student.Keep;
         $scope.keeps.push(student);
     }
 
     $scope.upgrade = function (student) {
-        student.Hidden = !student.Hidden;
+        student.Keep = !student.Keep;
         var tmpKeeps = [];
         var length = $scope.keeps.length;
         for (var i = 0; i < length; i++) {
@@ -404,6 +403,15 @@ appAdmin.controller('StayGradeController', ['$scope', '$location', '$window', fu
         }
         $scope.keeps.length = 0;
         $scope.keeps = tmpKeeps;
+    }
+
+    $scope.upDown = function () {
+        var year = $scope.schoolService.school.AcademicYear;
+        $scope.schoolService.upDown(year, $scope.keeps, $scope.grades, function (data) {
+            if (data.d == 1) {
+                $scope.dialogUtils.info('升留级执行完毕！');
+            }
+        });
     }
 }]);
 

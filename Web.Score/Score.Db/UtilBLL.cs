@@ -116,82 +116,24 @@ namespace App.Score.Db
             {
                 throw ex;
             }
-        }
+        } 
 
-
-
-        //var
-        //        i : integer;
-        //        MaxSysID : Integer;//存放所查找的最大SystemID号
-        //        SchoolNo : String; //存放学校代码
-        //begin
-        //  with DataBDE.qryComm do
-        //  begin//with begin
-        //    {先查找学校编号}
-        //    Close;    SQL.Clear;  Unprepare;
-        //    SQL.Add('Select SchoolCode,AcadEmicYear from tbSchoolBaseInfo');
-        //    prepare;
-        //    try
-        //      Open;
-        //    except
-        //      MessageBox(Application.Handle,DataError,'模块310010之fCreateSystemID',MB_ICONWarning+mb_OK);
-        //      Result := DataError;
-        //      exit;
-        //    end;//try
-        //    if RecordCount = 0 then
-        //    begin
-        //      Result := DataError;
-        //      MessageBox(Application.Handle,NoInitErr,'模块310010之fCreateSystemID',MB_ICONWarning+mb_OK);
-        //      exit;
-        //    end; //if begin
-        //    SchoolNo := FieldByName('SchoolCode').asString;
-        //    CurrentYear := FieldByName('AcadEmicYear').asString;
-        //    if trim(CurrentYear)='' then  Result := DataError;
-
-        //    {判断表是否为空}
-        //    Close;  SQL.Clear;  Unprepare;
-        //    SQL.Add('Select * from '+TableName);
-        //    try
-        //      Prepare;
-        //      Open;
-        //    except
-        //      MessageBox(Application.Handle,DataError,'模块310010之fCreateSystemID',MB_ICONWarning+mb_OK);
-        //      Result := DataError;
-        //      exit;
-        //    end;
-        //    if RecordCount = 0 then Result := SchoolNo+CurrentYear+'00000001';
-
-        //    {表不为空时则返回最大加1的SystemID}
-        //    Close; SQL.Clear;  Unprepare;
-        //    SQL.Add('select Max(Cast(Right(SystemID,8) as Integer )) as MaxID  from '+TableName);
-        //    //SQL.Add('select Max(Int(Right(SystemID,8))) as MaxID  from '+TableName);
-        //    try
-        //      Prepare;
-        //      Open;
-        //    except
-        //      MessageBox(Application.Handle,'连接表时','模块310010之fCreateSystemID',MB_ICONWarning+mb_OK);
-        //      Result := DataError;
-        //      exit;
-        //    end;
-        //    MaxSysID := FieldByName('MaxID').asInteger+1;
-        //    i := Length('0000000'+InttoStr(MaxSysID))-7;
-        //    Result := SchoolNo+CurrentYear+copy('0000000'+InttoStr(MaxSysID),i,8);
-        //  end;//with end
-        //end;
         public static string CreateSystemID(string tableName)
         {
             using (AppBLL bll = new AppBLL())
             {
                 DataTable table = bll.FillDataTableByText("Select SchoolCode,AcadEmicYear from tbSchoolBaseInfo");
-                if (table.Rows.Count == 0) return "-1";
+                if (table.Rows.Count == 0) 
+                    return "-1";
                 var SchoolNo = table.Rows[0]["SchoolCode"].ToString();
                 string CurrentYear  = table.Rows[0]["AcadEmicYear"].ToString();
-                if (string.IsNullOrEmpty(CurrentYear.Trim())) return "-2";
+                if (string.IsNullOrEmpty(CurrentYear.Trim())) 
+                    return "-2";
                 table = bll.FillDataTableByText("Select * from " + tableName);
                 if (table.Rows.Count == 0) return string.Format("{0}{1}00000001", SchoolNo, CurrentYear);
                 table = bll.FillDataTableByText("select Max(Cast(Right(SystemID,8) as Integer )) as MaxID  from " + tableName);
                 var MaxSysID = int.Parse(table.Rows[0]["MaxID"].ToString())+1;
-                var i = ("0000000" + MaxSysID.ToString()).Length-7;
+                var i = ("0000000" + MaxSysID.ToString()).Length-8;
                 return SchoolNo+CurrentYear+("0000000" + MaxSysID.ToString()).Substring(i,8);
             }
         }

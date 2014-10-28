@@ -58,7 +58,7 @@ namespace App.Score.Entity
         public override bool Equals(object obj)
         {
             var other = (GradeClass)obj;
-            return  this.GradeNo.Equals(other.GradeNo) &&
+            return this.GradeNo.Equals(other.GradeNo) &&
                     this.AcadEmicYear.Equals(other.AcadEmicYear) &&
                     this.ClassNo.Equals(other.ClassNo);
         }
@@ -74,9 +74,19 @@ namespace App.Score.Entity
         public bool Keep = false; //留级为true
     }
 
+    public class StudentClass
+    {
+        public string SystemID;
+        public string SRID;
+        public string ClassSN;
+        public string ClassCode;
+        public int AcademicYear;
+        public int IsDelete;
+    }
+
     public class GradeAndClass
     {
-        public string GradeSystemID ;
+        public string GradeSystemID;
         public string GradeName;
         public string GradeBriefName;
         public string GradeNo;
@@ -91,11 +101,12 @@ namespace App.Score.Entity
         {
             get
             {
-                return new GradeCode() { 
-                    GradeBriefName = this.GradeBriefName, 
-                    GradeName = this.GradeName, 
-                    GradeNo = this.GradeNo, 
-                    SystemID = this.GradeSystemID 
+                return new GradeCode()
+                {
+                    GradeBriefName = this.GradeBriefName,
+                    GradeName = this.GradeName,
+                    GradeNo = this.GradeNo,
+                    SystemID = this.GradeSystemID
                 };
             }
         }
@@ -111,7 +122,7 @@ namespace App.Score.Entity
                     IsDelete = this.IsDelete,
                     SystemID = this.ClassSystemID,
                     ClassType = this.ClassType,
-                    GradeNo = this.GradeNo 
+                    GradeNo = this.GradeNo
                 };
             }
         }
