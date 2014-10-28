@@ -71,7 +71,7 @@ namespace App.Score.Entity
         public int Sex;
         public string ClassCode;
         public string ClassSN;
-        public bool Hidden = false;
+        public bool Keep = false; //留级为true
     }
 
     public class GradeAndClass

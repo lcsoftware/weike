@@ -27,7 +27,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="student in gradeClass.Students" ng-if="!student.Hidden">
+                                                <tr ng-repeat="student in gradeClass.Students" ng-if="!student.Keep">
                                                     <td>{{student.ClassSN}}</td>
                                                     <td>{{student.StdName}}</td>
                                                     <td>{{student.Sex == 1 ? '男' : '女'}}</td>
