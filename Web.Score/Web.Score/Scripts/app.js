@@ -147,7 +147,7 @@ angular.module('app', [
     }])
 
     .run(['$templateCache', '$rootScope', '$state', '$stateParams', '$location', 'menuService',
-        'dialogUtils', 'softname', 'baseService', 'userService', 'utilService','schoolService',
+        'dialogUtils', 'softname', 'baseService', 'userService', 'utilService', 'schoolService',
         function ($templateCache, $rootScope, $state, $stateParams, $location, menuService,
             dialogUtils, softname, baseService, userService, utilService, schoolService) {
 
@@ -156,6 +156,7 @@ angular.module('app', [
 
             $rootScope.$location = $location;
 
+            $rootScope.user = {};
             $rootScope.baseService = baseService;
             $rootScope.utilService = utilService;
             $rootScope.dialogUtils = dialogUtils;
@@ -176,16 +177,17 @@ angular.module('app', [
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
                 userService.getUser(function (user) {
                     if (user !== null) {
-                        $rootScope.name = user.Name;
-                        
+                        $rootScope.user = user;
+                        menuService.getMenus(function (data) {
+                            $rootScope.menus = data.d;
+                            var length = menus.Children.length;
+                            for (var i = 0; i < length; i++) {
+                                $rootScope.menus[i].Visibled = true;
+                            } 
+                        });
                     }
                 });
-                menuService.getMenus(function (data) {
-                    $rootScope.menus = data.d;
-                    //menuService.initMenus(user.TeacherID, function (data) {
-                    //    $rootScope.menus = data;
-                    //});
-                }); 
+
                 $rootScope.layout = toState.layout;
             });
 

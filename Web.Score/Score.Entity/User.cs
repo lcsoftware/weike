@@ -53,6 +53,10 @@ namespace App.Score.Entity
         public int SysNo;
 
         /// <summary>
+        /// 控制功能显隐
+        /// </summary>
+        public bool Visibled = false;
+        /// <summary>
         /// 分类 用于权限编辑
         /// </summary>
         public FuncKind Kind = FuncKind.None;

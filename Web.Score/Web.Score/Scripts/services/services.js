@@ -241,11 +241,11 @@ aService.factory('menuService', ['baseService', 'adminProviderUrl', 'appUtils', 
         baseService.post(url, param, callback);
     }
 
-    service.readMenu = function (callback) {
-        var url = adminProviderUrl + '/GetMenuFromFile';
-        var param = null;
-        baseService.post(url, param, callback);
-    }
+    //service.readMenu = function (callback) {
+    //    var url = adminProviderUrl + '/GetMenuFromFile';
+    //    var param = null;
+    //    baseService.post(url, param, callback);
+    //}
 
     service.getFuncs = function (teacher, callback) {
         var url = adminProviderUrl + '/GetFuncs';
@@ -270,9 +270,9 @@ aService.factory('menuService', ['baseService', 'adminProviderUrl', 'appUtils', 
         var param = { teacherID: teacher };
         var funcPromise = appUtils.createPromise(url, param);
 
-        url = adminProviderUrl + '/GetMenuFromFile';
+        url = adminProviderUrl + '/GetMenus';
         param = null;
-        var menuPromise = appUtils.createPromise(url, param);
+        var menuPromise = baseService.post(url, param, callback);
 
         appUtils.runPromises({ funcs: funcPromise, menus: menuPromise }, function (results) {
             var aMenus = [];
