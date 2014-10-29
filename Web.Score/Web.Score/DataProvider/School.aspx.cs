@@ -60,7 +60,7 @@ namespace App.Web.Score.DataProvider
 
         private static void BuildGradeClass(GradeCode grade, IList<GradeAndClass> ClassList)
         {
-            var gradeClasses = from v in ClassList where v.GradeNo == grade.GradeNo select v;
+            var gradeClasses = from v in ClassList where v.GradeNo == grade.GradeNo && v.ClassNo != null select v;
             foreach (var gradeClass in gradeClasses)
             {
                 if (!grade.GradeClasses.Contains(gradeClass.GClass))
@@ -134,6 +134,10 @@ namespace App.Web.Score.DataProvider
             {
                 using (AppBLL bll = new AppBLL())
                 {
+                    var systemIdBegin = UtilBLL.BuildSystemIdBegin();
+                    var indexForStudentClass = UtilBLL.GetStartIndex("tbStudentClass");
+                    var indexForGradeClass = UtilBLL.GetStartIndex("tbGradeClass");
+                    var indexForStudentStatus = UtilBLL.GetStartIndex("tbStudentStatus");
                     var sql = "";
                     object inputParams = null;
                     DataTable table;
@@ -148,7 +152,7 @@ namespace App.Web.Score.DataProvider
                         if ((classCode > 3000 && classCode < 3400) || (classCode >= 2000 && classCode < 2400) || (classCode > 1000 && classCode < 1600))
                         {
                             var classSN = "00";
-                            var sysID = UtilBLL.CreateSystemID("tbStudentClass");
+                            var sysID = UtilBLL.CreateSystemID(systemIdBegin, indexForStudentClass++);
                             var SRID = student.StudentId;
                             sql = " if not exists (select * from tbStudentClass where SRID=@SRID";
                             sql += " and Academicyear=@S_Academicyear) Begin";
@@ -171,7 +175,7 @@ namespace App.Web.Score.DataProvider
                     table = bll.FillDataTableByText(sql, new { S_Academicyear = nextAcademicYear });
                     for (int i = 0; i < table.Rows.Count; i++)
                     {
-                        var sysID = UtilBLL.CreateSystemID("tbGradeClass");
+                        var sysID = UtilBLL.CreateSystemID(systemIdBegin, indexForGradeClass++);
                         var classCode = table.Rows[i][0].ToString();
 
                         sql = " if not exists (select * from tbGradeClass where Academicyear=@S_Academicyear and Classno=@ClassCode)";
@@ -195,41 +199,45 @@ namespace App.Web.Score.DataProvider
                     int length = clsStudents.Count();
                     for (int i = 0; i < length; i++)
                     {
-                        var sysID = UtilBLL.CreateSystemID("tbStudentClass");
                         var studentClass = clsStudents[i];
                         string sRID = studentClass.SRID;
                         int downLength = downStudents.Count();
                         var isKeep = false;
-                        for (int j = 0; j < downLength; j ++)
+                        for (int j = 0; j < downLength; j++)
                         {
-                             if (downStudents[j].StudentId.Equals(sRID))
-                             { 
-                                 isKeep = true;
-                                 break;
-                             } 
+                            if (downStudents[j].StudentId.Equals(sRID))
+                            {
+                                isKeep = true;
+                                break;
+                            }
                         }
                         if (isKeep) continue;
-                        sql = " if not exists (select * from tbStudentClass where SRID=@SRID and Academicyear=@S_Academicyear)"
-                                    + " Insert Into tbStudentClass(systemID,SRID,Academicyear,ClassCode,ClassSN)"
-                                    + " values(@SYSID, @SRID, @S_Academicyear, @s_ClassCode,@s_ClassSN)";
-
-                        inputParams = new
+                        var sysID = UtilBLL.CreateSystemID(systemIdBegin, indexForStudentClass++);
+                        var classCode = int.Parse(studentClass.ClassCode) + 100;
+                        if ((classCode > 3000 && classCode < 3400) || (classCode >= 2000 && classCode < 2400) || (classCode > 1000 && classCode < 1600))
                         {
-                            SRID = sRID,
-                            SYSID = sysID,
-                            S_Academicyear = nextAcademicYear,
-                            s_ClassCode = studentClass.ClassCode,
-                            s_ClassSN = studentClass.ClassSN
-                        };
-                        bll.ExecuteNonQueryByText(sql, inputParams);
-                    } 
+                            sql = " if not exists (select * from tbStudentClass where SRID=@SRID and Academicyear=@S_Academicyear)"
+                                        + " Insert Into tbStudentClass(systemID,SRID,Academicyear,ClassCode,ClassSN)"
+                                        + " values(@SYSID, @SRID, @S_Academicyear, @s_ClassCode,@s_ClassSN)";
+
+                            inputParams = new
+                            {
+                                SRID = sRID,
+                                SYSID = sysID,
+                                S_Academicyear = nextAcademicYear,
+                                s_ClassCode = classCode,
+                                s_ClassSN = studentClass.ClassSN
+                            };
+                            bll.ExecuteNonQueryByText(sql, inputParams);
+                        }
+                    }
 
                     //改变状态
                     sql = "Select * from tbstudentClass where Isdelete=0 and Academicyear=@CurrentYear";
                     table = bll.FillDataTableByText(sql, new { CurrentYear = acadeMicYear });
                     for (int i = 0; i < table.Rows.Count; i++)
                     {
-                        var sysID = UtilBLL.CreateSystemID("tbStudentStatus");
+                        var sysID = UtilBLL.CreateSystemID(systemIdBegin, indexForStudentStatus++);
                         sql = "if not exists (select * from tbStudentStatus where Academicyear=@S_Academicyear and SRID=@SRID)";
                         sql += " Insert Into tbStudentStatus(SystemID,Academicyear,SRID,status)";
                         sql += " values(@s_SYSID,@S_Academicyear,@SRID,'01')";
@@ -247,11 +255,11 @@ namespace App.Web.Score.DataProvider
                     table = bll.FillDataTableByText(sql, new { CurrentYear = acadeMicYear });
                     for (int i = 0; i < table.Rows.Count; i++)
                     {
-                        var classCode = int.Parse(table.Rows[i]["ClassCode"].ToString());
+                        var classCode = int.Parse(table.Rows[i]["ClassCode"].ToString()) + 100;
                         var subClassCode = classCode.ToString().Substring(0, 2);
                         if ((classCode > 3000 && classCode < 3400) || (classCode >= 2000 && classCode < 2400) || (classCode > 1000 && classCode < 1600))
                         {
-                            var sysID = UtilBLL.CreateSystemID("tbGradeClass");
+                            var sysID = UtilBLL.CreateSystemID(systemIdBegin, indexForGradeClass++);
                             sql = "if not exists (select * from tbGradeClass where Academicyear=@S_Academicyear and classno=@s_ClassCode)";
                             sql += " Insert into tbGradeClass(systemid,Academicyear,Gradeno,classno,classType)";
                             sql += " values(@s_SYSID,@S_Academicyear,@subClassCode,@s_ClassCode,'0')";
@@ -279,6 +287,6 @@ namespace App.Web.Score.DataProvider
             {
                 throw ex;
             }
-        }       
+        }
     }
 }

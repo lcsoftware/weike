@@ -409,6 +409,7 @@ appAdmin.controller('StayGradeController', ['$scope', '$location', '$window', fu
         var year = $scope.schoolService.school.AcademicYear;
         $scope.schoolService.upDown(year, $scope.keeps, $scope.grades, function (data) {
             if (data.d == 1) {
+                $scope.schoolService.loadSchool();
                 $scope.dialogUtils.info('升留级执行完毕！');
             }
         });

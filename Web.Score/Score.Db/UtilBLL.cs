@@ -116,26 +116,37 @@ namespace App.Score.Db
             {
                 throw ex;
             }
-        } 
+        }
 
-        public static string CreateSystemID(string tableName)
+        public static string BuildSystemIdBegin()
         {
             using (AppBLL bll = new AppBLL())
             {
                 DataTable table = bll.FillDataTableByText("Select SchoolCode,AcadEmicYear from tbSchoolBaseInfo");
-                if (table.Rows.Count == 0) 
+                if (table.Rows.Count == 0)
                     return "-1";
                 var SchoolNo = table.Rows[0]["SchoolCode"].ToString();
-                string CurrentYear  = table.Rows[0]["AcadEmicYear"].ToString();
-                if (string.IsNullOrEmpty(CurrentYear.Trim())) 
+                string CurrentYear = table.Rows[0]["AcadEmicYear"].ToString();
+                if (string.IsNullOrEmpty(CurrentYear.Trim()))
                     return "-2";
-                table = bll.FillDataTableByText("Select * from " + tableName);
-                if (table.Rows.Count == 0) return string.Format("{0}{1}00000001", SchoolNo, CurrentYear);
-                table = bll.FillDataTableByText("select Max(Cast(Right(SystemID,8) as Integer )) as MaxID  from " + tableName);
-                var MaxSysID = int.Parse(table.Rows[0]["MaxID"].ToString())+1;
-                var i = ("0000000" + MaxSysID.ToString()).Length-8;
-                return SchoolNo+CurrentYear+("0000000" + MaxSysID.ToString()).Substring(i,8);
+                return string.Format("{0}{1}", SchoolNo, CurrentYear);
             }
+        }
+
+        public static int GetStartIndex(string tableName)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                DataTable table = bll.FillDataTableByText("Select * from " + tableName);
+                if (table.Rows.Count == 0) return 1;
+                table = bll.FillDataTableByText("select Max(Cast(Right(SystemID,8) as Integer )) as MaxID  from " + tableName);
+                return int.Parse(table.Rows[0]["MaxID"].ToString()) + 1;
+            } 
+        } 
+
+        public static string CreateSystemID(string systemIdbegin, int index)
+        {
+            return systemIdbegin + String.Format("{0:00000000}", index); 
         }
 
 

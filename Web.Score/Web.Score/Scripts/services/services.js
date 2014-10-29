@@ -76,8 +76,7 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
 
     return service;
 }]);
-
-
+ 
 aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', function (baseService, adminProviderUrl, appUtils) {
     var service = {};
 
@@ -228,10 +227,7 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
 
     return service;
 }]);
-
-
-
-
+ 
 aService.factory('menuService', ['baseService', 'adminProviderUrl', 'appUtils', function (baseService, adminProviderUrl, appUtils) {
     var service = {};
 

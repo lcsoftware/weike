@@ -1,0 +1,127 @@
+--s_tb_function 表数据需要完全拷贝
+
+-- =============================================
+-- Author:		zhaotianyu
+-- Create date: 2014-10-18
+-- Description:	修改口令
+-- =============================================
+create proc [dbo].[USP_System_ChangePwd]
+(
+	@TeacherID VARCHAR(100),	
+	@OldPwd varchar(20),
+	@NewPwd varchar(20),
+	@Status int,
+	@Result int output -- 0 原密码错误 1 修改成功
+)	
+AS
+begin 
+    SET @Result = 0;
+    IF EXISTS(SELECT 1 FROM tbUserGroupInfo WHERE TeacherID=@TeacherID AND [Password]=@OldPwd) BEGIN
+		UPDATE tbUserGroupInfo set [Password]=@NewPwd, [Status]=case when @Status=0 then null else @Status end  
+		WHERE TeacherID=@TeacherID 
+		SET @Result = 1;
+    END
+end
+GO
+
+-- =============================================
+-- Author:		zhaotianyu
+-- Create date: 2014-10-15
+-- Description:	编辑用户(组)
+-- =============================================
+CREATE proc [dbo].[USP_System_InsertUserGroup]( 
+           @TeacherID varchar(50),
+           @Name varchar(50),
+           @Description varchar(50),
+           @Password varchar(50),
+           @UserOrGroup varchar(50),
+           @Sex varchar(50),
+           @Birthday varchar(50),
+           @IsMarry varchar(50),
+           @NationNo varchar(50),
+           @PoliticCode varchar(50),
+           @ResidentNo varchar(50),
+           @Status varchar(50),
+           @Remark varchar(255)
+)
+as 
+begin 
+if exists(select 1 from tbUserGroupInfo where TeacherID=@TeacherID) begin
+	UPDATE [tbUserGroupInfo]
+	   SET [Name] = @Name
+		  ,[Description] = @Description
+		  ,[Password] = @Password
+		  ,[UserOrGroup] = @UserOrGroup
+		  ,[Sex] = @Sex
+		  ,[Birthday] = @Birthday 
+		  ,[IsMarry] = @IsMarry 
+		  ,[NationNo] = @NationNo 
+		  ,[PoliticCode] = @PoliticCode 
+		  ,[ResidentNo] = @ResidentNo 
+		  ,[Status] = @Status 
+		  ,[Remark] = @Remark 
+	 WHERE TeacherID=@TeacherID
+end else begin
+	declare @SchoolCode varchar(50)
+	declare @MaxID int
+	Select @SchoolCode=SchoolCode from tbschoolBaseInfo 
+	Select  @MaxID=isnull(Max(substring(TeacherID,11,4)), 0) from tbUserGroupInfo where 
+	SUBSTRING(TeacherID, 1, 10)=@SchoolCode  
+	Select @TeacherID=cast(SchoolCode as bigint)* 10000 + 1 + @MaxID from tbschoolBaseInfo
+
+	INSERT INTO tbUserGroupInfo
+			   ([TeacherID]
+			   ,[Name]
+			   ,[Description]
+			   ,[Password]
+			   ,[UserOrGroup]
+			   ,[Sex]
+			   ,[Birthday]
+			   ,[IsMarry]
+			   ,[NationNo]
+			   ,[PoliticCode]
+			   ,[ResidentNo]
+			   ,[Status]
+			   ,[Remark])
+		 VALUES
+			   (@TeacherID,
+			   @Name,
+			   @Description,
+			   @Password,
+			   @UserOrGroup,
+			   @Sex,
+			   @Birthday,
+			   @IsMarry,
+			   @NationNo,
+			   @PoliticCode,
+			   @ResidentNo,
+			   @Status,
+			   @Remark);
+  end
+end
+GO
+
+-- =============================================
+-- Author:		zhaotianyu
+-- Create date: 2014-10-01
+-- Description:	用户验证
+/* 
+	exec [USP_System_Verify] @User='System', @Pwd='888'
+*/
+-- =============================================
+Create proc [dbo].[USP_System_Verify]
+(
+	@User VARCHAR(100),	
+	@Pwd varchar(200)
+)	
+AS
+begin
+	SELECT TeacherID, Name, [Description] 
+	FROM tbUserGroupInfo 
+	WHERE userorgroup='1' 
+	AND Name=@User
+	AND [Password]=@Pwd 
+end
+GO
+
+
