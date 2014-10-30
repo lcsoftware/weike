@@ -88,43 +88,20 @@ namespace App.Web.Score.DataProvider
             }
         }
 
-        /// <summary>
-        /// 获得用户功能 用于权限编辑
-        /// </summary>
-        /// <param name="teacher"></param>
-        /// <returns></returns>
         [WebMethod]
-        public static IList<UserGroupFunc> GetUserFuncs(UserGroupInfo teacher)
+        public static FuncEntry GetMenus()
         {
-            try
-            {
-                using (AppBLL bll = new AppBLL())
-                {
-                    //用户从组所获得的功能(权限)
-                    var sql = "SELECT c.TeacherID, cast(b.GroupID as varchar) as GroupID, a.FuncID, c.UserOrGroup FROM  tbGroupInfo b INNER JOIN" +
-                                " tbUserGroupInfo c ON b.TeacherID = c.TeacherID INNER JOIN " +
-                                " s_tb_Rights a ON b.GroupID = a.TeacherID " +
-                                " where c.TeacherID=@teacher and a.SYSNO = 2 " +
-                                " union all" +
-                                " SELECT a.TeacherID, '-1' As GroupID, a.FuncId, b.UserOrGroup from s_tb_Rights a, tbUserGroupInfo b" +
-                                " where a.TeacherID=@teacher and a.TeacherID=b.TeacherID and SYSNO = 2";
-                    return bll.FillListByText<UserGroupFunc>(sql, new { teacher = teacher.TeacherID });
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+            return UtilBLL.GetFunc();
+        }       
 
         /// <summary>
         /// 读取菜单内容 
         /// </summary>
         /// <returns></returns>
         [WebMethod]
-        public static FuncEntry GetMenus()
+        public static FuncEntry GetUserFuncs(string teacher)
         {
-            return UtilBLL.GetFunc();
+            return UtilBLL.GetUserFuncs(teacher);
         }
 
         [WebMethod]

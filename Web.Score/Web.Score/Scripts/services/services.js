@@ -118,11 +118,7 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
         baseService.post(url, param, callback);
     } 
 
-    service.getUserFuncs = function (teacher, callback) {
-        var url = adminProviderUrl + '/GetUserFuncs';
-        var param = { teacher: teacher };
-        baseService.post(url, param, callback); 
-    }
+   
 
     service.changePwd = function (teacher, oldPwd, newPwd, status, callback) {
         var url = adminProviderUrl + '/ChangePwd';
@@ -231,27 +227,24 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
 aService.factory('menuService', ['baseService', 'adminProviderUrl', 'appUtils', function (baseService, adminProviderUrl, appUtils) {
     var service = {};
 
-    //service.getMenus = function (callback) {
-    //    var url = '../Assets/menu.json';
-    //    baseService.get(url, callback);
-    //}
     service.getMenus = function (callback) {
         var url = adminProviderUrl + '/GetMenus';
         var param = null;
         baseService.post(url, param, callback);
     }
 
-    //service.readMenu = function (callback) {
-    //    var url = adminProviderUrl + '/GetMenuFromFile';
-    //    var param = null;
-    //    baseService.post(url, param, callback);
-    //}
 
     service.getFuncs = function (teacher, callback) {
         var url = adminProviderUrl + '/GetFuncs';
         var param = { teacherID: teacher };
         baseService.post(url, param, callback);
     }
+
+    service.getUserFuncs = function (teacher, callback) {
+        var url = adminProviderUrl + '/GetUserFuncs';
+        var param = { teacher: teacher };
+        baseService.post(url, param, callback);
+    } 
 
     var filterMenus = function (funcs, menus) {
         var length = funcs.length;

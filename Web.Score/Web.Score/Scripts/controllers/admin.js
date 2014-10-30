@@ -213,7 +213,7 @@ appAdmin.controller('GroupEditController', ['$scope', function ($scope) {
 }]);
 
 // Path: /AuthView 权限查询 
-appAdmin.controller('AuthViewController', ['$scope', function ($scope) {
+appAdmin.controller('AuthViewController', ['$scope', 'menuService', function ($scope, menuService) {
     $scope.$root.moduleName = '权限查询';
 
     $scope.userFuncs = [];
@@ -237,7 +237,7 @@ appAdmin.controller('AuthViewController', ['$scope', function ($scope) {
 }]);
 
 // Path: /AuthView 权限编辑
-appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
+appAdmin.controller('AuthEditController', ['$scope', 'menuService', function ($scope, menuService) {
     var moduleName = '权限编辑';
     $scope.$root.moduleName = moduleName;
     $scope.$root.title = $scope.softname + ' | ' + moduleName;
@@ -280,25 +280,29 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
         });
     }
 
-    var BindFunc = function (userFunc, treeFunc) {
-        if (treeFunc.FuncID === userFunc.FuncID) {
-            treeFunc.Kind = userFunc.GroupID === "-1" ? 2 : 1;
+    //var BindFunc = function (userFunc, treeFunc) {
+    //    if (treeFunc.FuncID === userFunc.FuncID) {
+    //        treeFunc.Kind = userFunc.GroupID === "-1" ? 2 : 1;
+    //    }
+    //    if (treeFunc.Children.length > 0) {
+    //        var length = treeFunc.Children.length;
+    //        for (var i = 0; i < length; i++) {
+    //            BindFunc(userFunc, treeFunc.Children[i]);
+    //        }
+    //    }
+    //}
+
+    var BindFuncs = function (userFuncs, treeFunc) {
+
+        if (treeFunc.FuncID === userFuncs.FuncID) {
+            treeFunc.Kind = userFuncs.Kind;
         }
-        if (treeFunc.Children.length > 0) {
+        angular.forEach(userFuncs.Children, function (userFunc) {
             var length = treeFunc.Children.length;
             for (var i = 0; i < length; i++) {
-                BindFunc(userFunc, treeFunc.Children[i]);
+                BindFuncs(userFunc, treeFunc.Children[i]);
             }
-        }
-    }
-
-    var BindFuncs = function (userFuncs, allFuncs) {
-        var length = userFuncs.length;
-        for (var i = 0; i < length; i++) {
-            var userFunc = userFuncs[i];
-            var count = allFuncs.length;
-            BindFunc(userFunc, allFuncs[0]);
-        }
+        });
     }
 
     $scope.authView = function (teacher) {
@@ -311,10 +315,10 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
 
         $scope.selectedTeacher.Selected = false;
         $scope.selectedTeacher = teacher;
-        $scope.userService.getUserFuncs(teacher, function (data) {
+        menuService.getUserFuncs(teacher.TeacherID, function (data) {
             if (data.d !== null) {
                 var userFuncs = data.d;
-                BindFuncs(userFuncs, $scope.allFuncs);
+                BindFuncs(userFuncs, $scope.allFuncs[0]);
             }
             teacher.Selected = true;
         });
@@ -344,11 +348,13 @@ appAdmin.controller('AuthEditController', ['$scope', function ($scope) {
     }
 
     var grant = function (treeFunc) {
-        var p = findParent(treeFunc, $scope.allFuncs[0]);
-        if (p !== null && p.Kind == 0) {
-            var context = '请先授予 <' + p.Description + '> 功能';
-            $scope.dialogUtils.info(context);
-            return;
+        if (treeFunc.FuncID > 0) {
+            var p = findParent(treeFunc, $scope.allFuncs[0]);
+            if (p !== null && p.Kind == 0) {
+                var context = '请先授予 <' + p.Description + '> 功能';
+                $scope.dialogUtils.info(context);
+                return;
+            }
         }
         var rtype = treeFunc.FuncID === 0 ? 1 : 0;
         $scope.userService.grant($scope.selectedTeacher.TeacherID, treeFunc.FuncID, rtype, 2, function (data) {

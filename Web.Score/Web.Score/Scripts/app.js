@@ -174,21 +174,47 @@ angular.module('app', [
                 });
             }
 
+            var initMenu = function (user) {
+                var url = "/DataProvider/Admin.aspx/GetMenus";
+                var param = null;
+                var funcsPromise = baseService.postPromise(url, param);
+                url = "/DataProvider/Admin.aspx/GetUserFuncs";
+                param = { teacher: user.TeacherID };
+                var userFuncsPromise = baseService.postPromise(url, param);
+                baseService.runPromises({
+                    allFuncs: funcsPromise,
+                    userFuncs: userFuncsPromise
+                }, function (results) {
+                    if (results.allFuncs.d != null) {
+                        $rootScope.menus = results.allFuncs.d;
+                        angular.forEach($rootScope.menus, function(menu){
+                            var visibleFuncs = results.userFuncs.d;
+                            var length = visibleFuncs.length;
+                            for (var i = 0; i < length; i++) {
+                                var visibleFunc = visibleFuncs[i]; 
+                                if (menu.FuncID === visibleFunc.FuncID) {
+                                    menu.Visibled = true;
+                                    break;
+                                } 
+                            }
+                        }); 
+                    }
+                })
+            }
+
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+                $rootScope.layout = toState.layout;
                 userService.getUser(function (user) {
                     if (user !== null) {
                         $rootScope.user = user;
-                        menuService.getMenus(function (data) {
+                        //menuService.getMenus(function (data) {
+                        //    $rootScope.menus = data.d;
+                        //});
+                        menuService.getUserFuncs($rootScope.user.TeacherID, function (data) {
                             $rootScope.menus = data.d;
-                            var length = menus.Children.length;
-                            for (var i = 0; i < length; i++) {
-                                $rootScope.menus[i].Visibled = true;
-                            } 
                         });
                     }
-                });
-
-                $rootScope.layout = toState.layout;
+                }); 
             });
 
             $rootScope.$on('$locationChangeStart', function (event) {
