@@ -36,5 +36,24 @@ aService.factory('schoolService', ['baseService', 'schoolProviderUrl', function 
         baseService.post(url, param, callback);
     }
 
+    service.tryCalculate = function (micYear, gradeNo, courseCode, testType, callback) {
+        var url = schoolProviderUrl + '/TryCalculate';
+        var param = { micYear: micYear, gradeNo: gradeNo, courseCode: courseCode, testType: testType };
+        baseService.post(url, param, callback);
+    }
+
+    service.TryCalculateAgain = function (c, k, micYear, gradeNo, courseCode, testType, callback) {
+        var url = schoolProviderUrl + '/TryCalculate';
+        var param = { c: c, k: k, micYear: micYear, gradeNo: gradeNo, courseCode: courseCode, testType: testType };
+        baseService.post(url, param, callback);
+    }
+
+    service.tryOk = function (c, k, calcK,micYear, gradeNo, courseCode, testType, callback) {
+        var url = schoolProviderUrl + '/TryOk';
+        var param = { c: c, K:k, micYear: micYear, gradeNo: gradeNo, courseCode: courseCode, testType: testType };
+        baseService.post(url, param, callback);
+    }
+
+    
     return service;
 }]);

@@ -423,8 +423,189 @@ appAdmin.controller('StayGradeController', ['$scope', '$location', '$window', fu
 }]);
 
 // Path: /UserEdit  转换为学籍成绩
-appAdmin.controller('CJtoXJController', ['$scope', '$location', '$window', function ($scope, $location, $window) {
-    $scope.$root.title = 'AngularJS SPA Template for Visual Studio';
+appAdmin.controller('CJtoXJController', ['$scope', function ($scope) {
+    var moduleName = '转换为学籍成绩';
+    $scope.$root.moduleName = moduleName;
+    $scope.$root.title = $scope.softname + ' | ' + moduleName;
+
+    $scope.conditionData = {};
+    $scope.sumDecEntry = {};
+    $scope.studentScores = [];
+
+    $scope.AcademicYears = [];
+    $scope.GradeCodes = [];
+    $scope.GradeCourses = [];
+    $scope.TestTypes = [];
+    $scope.TestLogins = [];
+    $scope.ScoreSorts = $scope.utilService.ScoreSorts;
+
+    $scope.canTryOk = false;
+
+    $scope.utilService.GetAcademicYears(function (data) {
+        $scope.AcademicYears = data.d;
+    });
+
+    $scope.utilService.GetGradeCodes(function (data) {
+        $scope.GradeCodes = data.d;
+    });
+
+    $scope.utilService.GetTestType(function (data) {
+        $scope.TestTypes = data.d;
+    });
+
+    $scope.$watch('conditionData.GradeCode', function (gradeCode) {
+        if (gradeCode) {
+            $scope.utilService.GetGradeCourse(gradeCode, -1, function (data) {
+                $scope.GradeCourses = data.d;
+            });
+        }
+    });
+
+    $scope.$watch('conditionData.TestType', function (testType) {
+        if (testType && $scope.conditionData.MicYear) {
+            var micYear = $scope.conditionData.MicYear;
+            var gradeCode = $scope.conditionData.GradeCode ? $scope.conditionData.GradeCode.GradeNo : '';
+            var gradeCourse = $scope.conditionData.GradeCourse ? $scope.conditionData.GradeCourse.CourseCode : '';
+            $scope.utilService.GetTestLogin(micYear.MicYear, gradeCode, gradeCourse, testType.Type, function (data) {
+                $scope.TestLogins = data.d;
+            });
+        }
+    });
+    //试算
+    $scope.tryCalculate = function (cv, kv) {
+        if (!$scope.conditionData.GradeCode) {
+            $scope.dialogUtils.info("请选择年级");
+            return;
+        }
+        if (!$scope.conditionData.GradeCourse) {
+            $scope.dialogUtils.info("请选择课程");
+            return;
+        }
+        if (!$scope.conditionData.TestType) {
+            $scope.dialogUtils.info("请选择考试类型");
+            return;
+        }
+        if (cv < 30 || cv > 90) {
+            $scope.dialogUtils.info('平移量不能太小或太大！');
+            return;
+        }
+
+        var micYear = $scope.conditionData.MicYear.MicYear;
+        var gradeNo = $scope.conditionData.GradeCode.GradeNo;
+        var courseCode = $scope.conditionData.GradeCourse.CourseCode;
+        var testType = $scope.conditionData.TestType.Type;
+        $scope.schoolService.tryCalculate(micYear, gradeNo, courseCode, testType, function (data) {
+            var result = data.d;
+            if (result === -1) {
+                $scope.dialogUtils.info('您选择的考试无人参加');
+                return;
+            }
+
+            if (result === -2) {
+                $scope.dialogUtils.info('您对本次考试还未进行统计！');
+                return;
+            }
+
+            if (result === -3) {
+                $scope.dialogUtils.info('在您统计本次考试后有可能有新成绩录入，请再次统计！');
+                return;
+            }
+            var info = "有标准分的人数与总人数不一致！相差" + result.toString() + " 人，您继续吗?";
+            $scope.dialogUtils.confirm(info,
+                function () {
+                    var cv = $scope.cValue;
+                    var kv = $scope.kValue;
+                    $scope.schoolService.tryCalculateAgain(cv, kv, micYear, gradeNo, courseCode, testType, function (data) {
+                        $scope.kValue = data.d;
+                        $scope.canTryOk = true;
+                    });
+                },
+                function () { });
+        });
+    }
+
+    //试算确定
+    $scope.tryOk = function () {
+        var cv = $scope.cValue;
+        var kv = $scope.kValue;
+        var micYear = $scope.conditionData.MicYear.MicYear;
+        var gradeNo = $scope.conditionData.GradeCode.GradeNo;
+        var courseCode = $scope.conditionData.GradeCourse.CourseCode;
+        var testType = $scope.conditionData.TestType.Type;
+        $scope.schoolService.tryOk(cv, kv, micYear, gradeNo, courseCode, testType, function (data) {
+            var result = data.d;
+            if (result == -1) {
+                $scope.dialogUtils.info('您设置K值不能大于试算的K值！');
+                return;
+            }
+            $scope.canTryOk = false;
+            $scope.kValue = '';
+        });
+    }
+    //查看转换前数据
+    $scope.viewOriginData = function () {
+        if (!$scope.conditionData.GradeCode) {
+            $scope.dialogUtils.info("请选择年级");
+            return;
+        }
+        if (!$scope.conditionData.GradeCourse) {
+            $scope.dialogUtils.info("请选择课程");
+            return;
+        }
+        if (!$scope.conditionData.TestLogin) {
+            $scope.dialogUtils.info("请选择考试号");
+            return;
+        }
+        var micYear = $scope.conditionData.MicYear.MicYear;
+        var semester = $scope.school.Semester;
+        var gradeNo = $scope.conditionData.GradeCode.GradeNo;
+        var courseCode = $scope.conditionData.GradeCourse.CourseCode;
+        var testType = $scope.conditionData.TestType.Type;
+        var testNo = $scope.conditionData.TestLogin.TestLoginNo;
+
+        var url = schoolProviderUrl + '/ViewOriginData';
+        var param = {
+            micYear: micYear,
+            semester: $scope.schoolService.school.Semester,
+            gradeNo: gradeNo,
+            courseCode: courseCode,
+            testType: testType,
+            testNo: testNo
+        };
+        $scope.baseService.post(url, param, callback);
+
+        url = schoolProviderUrl + '/SumDec';
+        param = {
+            micYear: micYear,
+            semester: $scope.schoolService.school.Semester,
+            gradeNo: gradeNo,
+            courseCode: courseCode,
+            testType: testType,
+            testNo: testNo
+        };
+        $scope.baseService.post(url, param, callback); 
+    }
+    //转入学籍系统
+    $scope.convertToXJ = function () {
+        if (!$scope.conditionData.GradeCode) {
+            $scope.dialogUtils.info("请选择年级");
+            return;
+        }
+        if (!$scope.conditionData.GradeCourse) {
+            $scope.dialogUtils.info("请选择课程");
+            return;
+        }
+        if (!$scope.conditionData.TestLogin) {
+            $scope.dialogUtils.info("请选择考试号");
+            return;
+        }
+        if (!$scope.conditionData.ScoreSort) {
+            $scope.dialogUtils.info("请选择将哪种成绩转换？");
+            return;
+        }
+
+    }
+
 }]);
 
 // Path: /UserEdit  从学籍成绩转换过来

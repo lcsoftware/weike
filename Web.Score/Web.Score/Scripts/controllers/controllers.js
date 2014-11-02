@@ -12,8 +12,8 @@ angular.module('app.controllers', ['app.utils'])
     .controller('LoginController', ['$scope', '$location', '$window', 'userService', 'dialogUtils',
         function ($scope, $location, $window, userService, dialogUtils) {
             $scope.$root.title = 'AngularJS SPA | Sign In';
-            $scope.userName = 'system';
-            $scope.password = '888'; 
+            $scope.userName = '张玲';
+            $scope.password = '12311'; 
             $scope.login = function (userName, password) {
                 userService.verify(userName, password, function (data) {
                     if (data.d != null) {

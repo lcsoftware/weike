@@ -1,3 +1,144 @@
-﻿<div>
-   ddddddddddddddd 
+﻿<div class="row">
+    <div class="col-sm-3">
+        <form class="form-horizontal" role="form" ng-submit="saveUserGroup();">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.MicYear" ng-options="m.MicYear for m in AcademicYears">
+                        <option value="">-- 请选择学年/学期 --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="checkbox" value="1" />同时转入教师评语
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.GradeCode" ng-options="m.GradeName for m in GradeCodes">
+                        <option value="">-- 请选择年级--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.GradeCourse" ng-options="m.FullName for m in GradeCourses">
+                        <option value="">-- 请选择课程--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                @*<label class="col-sm-3 control-label sr-only"></label>*@
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.TestType" ng-options="m.Name for m in TestTypes">
+                        <option value="">-- 请选择考试类型 --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.TestLogin" ng-options="m.TestLoginNo for m in TestLogins">
+                        <option value="">-- 请选择考试号 --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.ScoreSort" ng-options="m.name for m in ScoreSorts">
+                        <option value="">-- 请选择要转换的成绩 --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                @*<label class="col-sm-4 control-label">平移量值</label>*@
+                <div class="col-sm-12">
+                    <input type="number" ng-model="cValue" placeholder="平移量值(C)">
+                </div>
+            </div>
+            <div class="form-group">
+                @*<label class="col-sm-4 control-label">转换系数</label>*@
+                <div class="col-sm-12">
+                    <input type="number" ng-model="kValue" placeholder="转换系数(K)">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" ng-click="tryCalculate();"><span class="glyphicon glyphicon-ok"></span>试 算</button>
+                    <button type="submit" class="btn btn-primary" ng-class="{'disabled': !canTryOk}" ng-click="tryOk();"><span class="glyphicon glyphicon-ok"></span>确 定</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="checkbox" value="1" />转换为百分制
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-8">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" ng-click="viewOriginData();"><span class="glyphicon glyphicon-ok"></span>查看转换前数据</button>
+                        <button type="submit" class="btn btn-primary" ng-click="convertToXJ();"><span class="glyphicon glyphicon-ok"></span>转入学籍系统</button>
+                        <button type="submit" class="btn btn-primary" ng-click="exportToExcel();"><span class="glyphicon glyphicon-ok"></span>导出Excel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <label class="control-label">
+                    原始分无成绩人数 {{sumDecEntry.Count1}} 原始分不及格人数 {{sumDecEntry.Count3}} 原始分平均分 {{sumDecEntry.Avg1}} 原始分缺考人数 {{sumDecEntry.Count5}}
+                </label>
+                <label class="control-label">
+                    转换分无成绩人数 {{sumDecEntry.Count2}} 转换分不及格人数 {{sumDecEntry.Count4}} 转换分平均分 {{sumDecEntry.Avg2}} 转换分缺考人数 {{sumDecEntry.Count6}}
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr style="background-color:#808080">
+                            <th style="width:10%;text-align:center">学号</th>
+                            <th style="width:10%;text-align:center">班级</th>
+                            <th style="width:10%;text-align:center">学生姓名</th>
+                            <th style="width:10%;text-align:center">课程代码</th>
+                            <th style="width:10%;text-align:center">课程名</th>
+                            <th style="width:15%;text-align:center">原始分数</th>
+                            <th style="width:15%;text-align:center">转换成绩</th>
+                            <th style="width:20%;text-align:center">记分方式</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="score in studentScores">
+                        <td>
+                            {{score.SRID}}
+                        </td>
+                        <td>
+                            {{score.GradeName}}{{score.ClassCode}}
+                        </td>
+                        <td>
+                            {{score.StdName}}
+                        </td>
+                        <td>
+                            {{score.Coursecode}}
+                        </td>
+                        <td>
+                            {{score.CourseName}}
+                        </td>
+                        <td>
+                            {{score.NumScore}}
+                        </td>
+                        <td>
+                            {{score.StandardScore}}
+                        </td>
+                        <td>
+                            {{score.MarkName}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div> 
+    </div>
 </div>

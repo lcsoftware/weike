@@ -33,7 +33,7 @@ angular.module('app', [
             //升留级处理
             .state('admin.nSysMenu5', { url: '/StayGrade', templateUrl: '/views/admin/StayGrade', controller: 'StayGradeController' })
             //转换为学籍成绩
-            .state('nCJtoXJ', { url: '/CJtoXJ', templateUrl: '/views/admin/CJtoXJ', controller: 'CJtoXJController' })
+            .state('admin.nSysMenu6', { url: '/CJtoXJ', templateUrl: '/views/admin/CJtoXJ', controller: 'CJtoXJController' })
             //从学籍成绩转换过来
             .state('nXJtoCJ', { url: '/XJtoCJ', templateUrl: '/views/admin/XJtoCJ', controller: 'XJtoCJController' })
             //数据备份与恢复

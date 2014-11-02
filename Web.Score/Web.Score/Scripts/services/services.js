@@ -22,7 +22,7 @@ aService.factory('baseService', ['$http', '$q', function ($http, $q) {
         $http.post(url, param)
             .success(function (data) { if (thenFn) { thenFn(data); } })
             .error(function (reason) { if (errFn) { errFn(reason); } });
-    }
+    } 
 
     service.postPromise = function (url, param) {
         var deferred = $q.defer();
@@ -45,6 +45,11 @@ aService.factory('baseService', ['$http', '$q', function ($http, $q) {
 
 aService.factory('utilService', ['baseService', 'utilProviderUrl', function (baseService, utilProviderUrl) {
     var service = {};
+
+    service.ScoreSorts = [
+        {code: 1, name: '原始成绩'},
+        {code: 2, name: '转换成绩'}
+    ]
 
     service.GetNations = function (callback) {
         var url = utilProviderUrl + '/GetNations';
@@ -73,7 +78,38 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         }
         return null;
     }
+    //获得学年 Academicyear 
+    service.GetAcademicYears = function (callback) {
+        var url = utilProviderUrl + '/GetAcademicyear';
+        var param = null;
+        baseService.post(url, param, callback);
+    }
+    //获得年级代码 GradeCode
+    service.GetGradeCodes = function (callback) {
+        var url = utilProviderUrl + '/GetGradeCodes';
+        var param = null;
+        baseService.post(url, param, callback);
+    }
 
+    //获得年级代码 GradeCourse flag = -1 全部
+    service.GetGradeCourse = function (gradeCode, flag, callback) {
+        var url = utilProviderUrl + '/GetGradeCourse';
+        var param = { gradeCode: gradeCode, flag: flag };
+        baseService.post(url, param, callback);
+    }
+    //获得考试类型 TestType
+    service.GetTestType = function (callback) {
+        var url = utilProviderUrl + '/GetTestType';
+        var param = null;
+        baseService.post(url, param, callback); 
+    }
+
+    //获得考试号 TestLogin
+    service.GetTestLogin = function (academicyear, gradeNo, courseCode, testType, callback) {
+        var url = utilProviderUrl + '/GetTestLogin';
+        var param = { academicyear: academicyear, gradeNo: gradeNo, courseCode: courseCode, testType: testType };
+        baseService.post(url, param, callback);
+    } 
     return service;
 }]);
  

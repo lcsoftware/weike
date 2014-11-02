@@ -133,7 +133,7 @@ namespace App.Score.Db
                     sql += " union all ";
                     sql += " select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo, 2 as Kind from s_tb_Function where CAST(FuncID as Int) in";
                     sql += " (SELECT cast(a.FuncId as Int) from s_tb_Rights a, tbUserGroupInfo b ";
-                    sql += " where a.TeacherID=@teacher and a.TeacherID=b.TeacherID and SYSNO = 2)"; 
+                    sql += " where a.TeacherID=@teacher and a.TeacherID=b.TeacherID and SYSNO = 2)";
                     IList<FuncEntry> funcs = bll.FillListByText<FuncEntry>(sql, new { teacher = teacher });
 
                     var roots = from v in funcs where v.Parent == -1 select v;
@@ -178,7 +178,6 @@ namespace App.Score.Db
         {
             return systemIdbegin + String.Format("{0:00000000}", index);
         }
-
-
+        
     }
 }

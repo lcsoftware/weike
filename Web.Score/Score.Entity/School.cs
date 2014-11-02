@@ -33,6 +33,10 @@ namespace App.Score.Entity
 
 
     }
+    public class Academicyear
+    {
+        public int MicYear;
+    }
     public class GradeCode
     {
         public string SystemID;
@@ -43,6 +47,11 @@ namespace App.Score.Entity
         public override bool Equals(object obj)
         {
             return this.GradeNo.Equals(((GradeCode)obj).GradeNo);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 
@@ -62,6 +71,12 @@ namespace App.Score.Entity
                     this.AcadEmicYear.Equals(other.AcadEmicYear) &&
                     this.ClassNo.Equals(other.ClassNo);
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        } 
+
     }
 
     public class Student
@@ -129,11 +144,56 @@ namespace App.Score.Entity
     }
 
 
-    public class GradCourse
+    public class GradeCourse
     {
-        public string SystemID;
-        public string GradCourseCode;
-        public string GradCourseName;
+        public int Academicyear;
+        public string GradeNo;
+        public string CourseCode;
+        public string FullName;
     }
 
+    public class TestType
+    {
+        public int Type;
+        public string Name;
+    }
+
+
+    public class TestLogin
+    {
+        public int TestLoginNo;
+        public int AcademicYear;
+        public int Semester;
+        public int TestType;
+        public int TestNo;
+        public string GradeNo;
+        public string Coursecode;
+        public int MarkTypeCode;
+    }
+
+    public class StudentScore
+    {
+        public string SRID; 
+        public string GradeName;
+        public string ClassCode;
+        public string ClassSN;
+        public string StdName;
+        public string Coursecode;
+        public string CourseName; 
+        public string NumScore; 
+        public string StandardScore;
+        public string MarkName;
+    }
+
+    public class SumDecEntry
+    {
+        public string Avg1;
+        public string Avg2;
+        public int Count1;
+        public int Count2;
+        public int Count3; 
+        public int Count4;
+        public int Count5; 
+        public int Count6;
+    }
 }

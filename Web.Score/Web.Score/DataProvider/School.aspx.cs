@@ -288,5 +288,223 @@ namespace App.Web.Score.DataProvider
                 throw ex;
             }
         }
+
+
+        /// <summary>
+        /// 试算
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod]
+        public static float TryCalculate(int micYear, string gradeNo, string courseCode, int testType)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sumRen = 0;
+                var stdRen = 0;
+
+                var sql = "select count(*) as SumRen from s_vw_ClassScoreNum"
+                             + " where GradeNo=@gradeno"
+                             + " and AcademicYear=@micYear"
+                             + " and coursecode=@courseCode"
+                             + " and testno=@testno"
+                             + " and State is null";
+                DataTable table = bll.FillDataTableByText(sql, new { gradeno = gradeNo, micYear = micYear, courseCode = courseCode, testno = testType });
+                sumRen = int.Parse(table.Rows[0][0].ToString());
+                if (sumRen == 0) return -1; //您选择的考试无人参加！
+                //看标准分
+                sql = "select count(*) as SumRen from s_vw_ClassScoreNum"
+                             + " where GradeNo=@gradeno"
+                             + " and AcademicYear=@micYear"
+                             + " and normalscore is not null"
+                             + " and coursecode=@CourseCode"
+                             + " and testno=@testno"
+                             + " and State is null";
+                table = bll.FillDataTableByText(sql, new { gradeno = gradeNo, micYear = micYear, courseCode = courseCode, testno = testType });
+                stdRen = int.Parse(table.Rows[0][0].ToString());
+                if (stdRen == 0) return -2; //您对本次考试还未进行统计！
+
+                if (sumRen - stdRen > 25) return -3; //在您统计本次考试后有可能有新成绩录入，请再次统计！
+
+                return Math.Abs(sumRen - stdRen); //有标准分的人数与总人数不一致！相差 abs(sumRen - stdRen) 人，您继续吗?
+            }
+        }
+
+        [WebMethod]
+        public static float TryCalculateAgain(float c, float k, int micYear, string gradeNo, string courseCode, int testType)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Select Max(normalscore) as MaxScore, min(normalscore) as MinScore from s_vw_ClassScoreNum"
+                   + " where GradeNo=@gradeno"
+                   + " and AcademicYear=@micYear"
+                   + " and normalscore is not null"
+                   + " and coursecode=@CourseCode"
+                   + " and testno=@testno"
+                   + " and State is null";
+                DataTable table = bll.FillDataTableByText(sql, new { gradeno = gradeNo, micYear = micYear, courseCode = courseCode, testno = testType });
+                var maxScore = float.Parse(table.Rows[0]["MaxScore"].ToString());
+                var minScore = float.Parse(table.Rows[0]["MinScore"].ToString());
+
+                float K1, K2;
+                int K;
+                if (maxScore > 0)
+                    K1 = (100 - c) / maxScore;
+                else
+                    K1 = 9999;
+                if (minScore < 0)
+                    K2 = c / Math.Abs(minScore);
+                else
+                    K2 = 9999;
+
+                return K1 > K2 ? (float)Math.Round(K2) : (float)Math.Round(K1);
+            }
+        }
+
+        /// <summary>
+        /// 执行试算
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod]
+        public static int TryOk(float c, float K, int micYear, string gradeNo, string courseCode, int testType)
+        {
+            int iK = (int)Math.Truncate(K);
+            if (iK > K) return -1; //您设置K值不能大于试算的K值！
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Update s_tb_Normalscore set StandardScore=b.NormalScore*(@K)+(@C)"
+                    + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
+                    + " ON a.SRID = b.SRID"
+                    + " and a.Academicyear=b.Academicyear"
+                    + " and a.TestNo=b.testno"
+                    + " and a.coursecode=b.coursecode"
+                    + " where a.gradeno=@gradeNo"
+                    + "` and b.Academicyear=@micYear"
+                    + " and b.TestNo=@TestNo"
+                    + " and b.CourseCode=@CourseCode"
+                    + " and a.Normalscore is not Null"
+                    + " and State is null";
+
+                return bll.ExecuteNonQueryByText(sql, new { gradeno = gradeNo, micYear = micYear, courseCode = courseCode, testno = testType, C = c, K = iK });
+            }
+        }
+        [WebMethod]
+        public static IList<StudentScore> viewOriginData(int micYear, string semester, string gradeNo, string courseCode, int testType, int testNo)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "";
+                if (testType == 0)
+                {
+                    sql = " Select  SRID, GradeName, ClassCode, ClassSN, StdName, Coursecode, CourseName, avg(NumScore) NumScore, avg(StandardScore) as StandardScore, MarkName"
+                   + " from s_vw_ClassScoreNum"
+                   + " where GradeNo=@GradeNo"
+                   + " and Academicyear=@micYear"
+                   + " and Semester=@Semester"
+                   + " and CourseCode=@CourseCode"
+                   + " and Testtype=@Testtype"
+                   + " and STATE is NULL"
+                   + " Group by SRID,GradeName,ClassCode,ClassSN,stdName,coursecode,CourseName,MarkName";
+                    return bll.FillListByText<StudentScore>(sql, new { gradeno = gradeNo, micYear = micYear, courseCode = courseCode, Testtype = testType });
+                }
+                else
+                {
+                    sql = " Select  SRID, GradeName, ClassCode, ClassSN, StdName, Coursecode, CourseName, NumScore, StandardScore, MarkName"
+                   + " from s_vw_ClassScoreNum"
+                   + " where GradeNo=@gradeno"
+                   + " and AcademicYear=@micYear"
+                   + " and coursecode=@courseCode"
+                   + " and testno=@testno"
+                   + " and STATE is Null";
+                }
+                return bll.FillListByText<StudentScore>(sql, new { gradeno = gradeNo, micYear = micYear, courseCode = courseCode, testno = testNo });
+            }
+        }
+
+        [WebMethod]
+        public static SumDecEntry SumDec(int micYear, string semester, string gradeNo, string courseCode, int testType, int testNo)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                SumDecEntry entry = new SumDecEntry();
+                var sql = "";
+                var whereSql = "";
+                var param = new object { };
+                if (testType == 0)
+                {
+                    whereSql = " Where AcademicYear=@micYear and GradeNo=@gradeno and Testtype=@testtype and CourseCode=@courseCode and STATE is NULL";
+                    param = new { gradeno = gradeNo, micYear = micYear, courseCode = courseCode, Testtype = testType };
+                }
+                else
+                {
+                    whereSql = " Where AcademicYear=@micYear and GradeNo=@gradeno and Testno=@testtype and CourseCode=@courseCode and STATE is NULL";
+                    param = new { gradeno = gradeNo, micYear = micYear, courseCode = courseCode, testno = testNo };
+                }
+                sql = "Select Avg(NumScore) as Avg1,Avg(StandardScore) as Avg2 from s_vw_ClassScoreNum";
+                DataTable table = bll.FillDataTableByText(sql + whereSql, param);
+                if (table.Rows.Count > 0)
+                {
+                    entry.Avg1 = string.IsNullOrEmpty(table.Rows[0]["avg1"].ToString()) ? "无" : table.Rows[0]["avg1"].ToString();
+                    entry.Avg2 = string.IsNullOrEmpty(table.Rows[0]["avg2"].ToString()) ? "无" : table.Rows[0]["avg2"].ToString();
+                }
+                sql = "Select Count(*) as Cunt1 from s_vw_ClassScoreNum";
+                table = bll.FillDataTableByText(sql + whereSql + " and Numscore is Null", param);
+                entry.Count1 = int.Parse(table.Rows[0]["cunt1"].ToString());
+                
+                sql = "Select Count(*) as Cunt1 from s_vw_ClassScoreNum";
+                table = bll.FillDataTableByText(sql + whereSql + " and StandardScore is Null", param);
+                entry.Count2 = int.Parse(table.Rows[0]["cunt1"].ToString());
+
+                sql = "Select Count(*) as Cunt1 from s_vw_ClassScoreNum";
+                table = bll.FillDataTableByText(sql + whereSql + " and NumScore < 60", param);
+                entry.Count3 = int.Parse(table.Rows[0]["cunt1"].ToString());
+
+                sql = "Select Count(*) as Cunt1 from s_vw_ClassScoreNum";
+                table = bll.FillDataTableByText(sql + whereSql + " and Standardscore < 60", param);
+                entry.Count4 = int.Parse(table.Rows[0]["cunt1"].ToString());
+
+                sql = "Select Count(*) as Cunt1 from s_vw_ClassScoreNum";
+                table = bll.FillDataTableByText(sql + whereSql + " and NumScore >= 200", param);
+                entry.Count5 = int.Parse(table.Rows[0]["cunt1"].ToString());
+
+                sql = "Select Count(*) as Cunt1 from s_vw_ClassScoreNum";
+                table = bll.FillDataTableByText(sql + whereSql + " and Standardscore >= 200", param);
+                entry.Count6 = int.Parse(table.Rows[0]["cunt1"].ToString());
+                return entry;
+            }
+        }
+        
+        [WebMethod]
+        public static int ConvertToXJ(int micYear, string semester, string gradeNo, string courseCode, int testType, int testNo, int scoreSort)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Select Academicyear,SRID,CourseCode,TeacherID,MarkCode";
+                if (testType == 1)
+                {
+                    sql += scoreSort == 1 ? ",avg(Numscore) as Score,operator" : ",avg(standardscore) as Score,operator";
+                    sql += " from s_vw_ClassScoreNum "
+                           + " where Gradeno=@gradeNo"
+                           + " and Academicyear=@micYear"
+                           + " and semester=@semester"
+                           + " and CourseCode=@courseCode"
+                           + " and TestType=@testType"
+                           + " and STATE is NULL"
+                           + " group by Academicyear,SRID,CourseCode,Teacherid,MarkCode,operator";
+                }
+                else
+                {
+                    sql += scoreSort == 1 ? ",Numscore as Score,operator" : ",standardscore as Score,operator"; 
+                    sql += " from s_vw_ClassScoreNum" 
+                           + " Where GradeNo=@gradeNo"
+                           + " and Academicyear=@micYear"
+                           + " and CourseCode=@courseCode"
+                           + " and TestNo=@testNo"
+                           + " and STATE is NULL";
+                }
+
+            }
+
+            return 1;
+        }
     }
 }

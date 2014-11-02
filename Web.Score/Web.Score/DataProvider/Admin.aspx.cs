@@ -346,7 +346,6 @@ namespace App.Web.Score.DataProvider
             return 1;
         }
 
-
-       
+        
     }
 }
