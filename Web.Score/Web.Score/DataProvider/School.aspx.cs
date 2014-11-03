@@ -476,132 +476,139 @@ namespace App.Web.Score.DataProvider
         [WebMethod]
         public static int ConvertToXJ(int micYear, string semester, string gradeNo, string courseCode, int testType, int testNo, int scoreSort, bool ckTeacherOp)
         {
-            using (AppBLL bll = new AppBLL())
+            try
             {
-                IList<XjEntry> xjEntries = null;
-                var sql = "Select Academicyear,SRID,CourseCode, CourseName,TeacherID,MarkCode";
-                if (testType == 1)
+                using (AppBLL bll = new AppBLL())
                 {
-                    sql += scoreSort == 1 ? ",avg(Numscore) as Score,operator" : ",avg(standardscore) as Score,operator";
-                    sql += " from s_vw_ClassScoreNum "
-                           + " where Gradeno=@gradeNo"
-                           + " and Academicyear=@micYear"
-                           + " and semester=@semester"
-                           + " and CourseCode=@courseCode"
-                           + " and TestType=@testType"
-                           + " and STATE is NULL"
-                           + " group by Academicyear,SRID,CourseCode,Teacherid,MarkCode,operator";
-                    xjEntries = bll.FillListByText<XjEntry>(sql, new { gradeno = gradeNo, micYear = micYear, semester = semester, courseCode = courseCode, testType = testType });
-                }
-                else
-                {
-                    sql += scoreSort == 1 ? ",Numscore as Score,operator" : ",standardscore as Score,operator";
-                    sql += " from s_vw_ClassScoreNum"
-                           + " Where GradeNo=@gradeNo"
-                           + " and Academicyear=@micYear"
-                           + " and CourseCode=@courseCode"
-                           + " and TestNo=@testNo"
-                           + " and STATE is NULL";
-                    xjEntries = bll.FillListByText<XjEntry>(sql, new { gradeno = gradeNo, micYear = micYear, courseCode = courseCode, testno = testNo });
-                }
-                var systemIdBegin = UtilBLL.BuildSystemIdBegin();
-                var indexForScore = UtilBLL.GetStartIndex("tbScore");
-                var MinSysID = UtilBLL.CreateSystemID(systemIdBegin, indexForScore);
-                foreach (var xjEntry in xjEntries)
-                {
-                    var sysID = UtilBLL.CreateSystemID(systemIdBegin, indexForScore++);
-                    var tempTeacher = xjEntry.TeacherID;
-                    var tempScore = xjEntry.Score;
-                    var strOperator = xjEntry.Operator;
+                    IList<XjEntry> xjEntries = null;
+                    var sql = "Select Academicyear,SRID,CourseCode, CourseName,TeacherID,MarkCode";
+                    if (testType == 1)
+                    {
+                        sql += scoreSort == 1 ? ",avg(Numscore) as Score,operator" : ",avg(standardscore) as Score,operator";
+                        sql += " from s_vw_ClassScoreNum "
+                               + " where Gradeno=@gradeNo"
+                               + " and Academicyear=@micYear"
+                               + " and semester=@semester"
+                               + " and CourseCode=@courseCode"
+                               + " and TestType=@testType"
+                               + " and STATE is NULL"
+                               + " group by Academicyear,SRID,CourseCode,Teacherid,MarkCode,operator";
+                        xjEntries = bll.FillListByText<XjEntry>(sql, new { gradeno = gradeNo, micYear = micYear, semester = semester, courseCode = courseCode, testType = testType });
+                    }
+                    else
+                    {
+                        sql += scoreSort == 1 ? ",Numscore as Score,operator" : ",standardscore as Score,operator";
+                        sql += " from s_vw_ClassScoreNum"
+                               + " Where GradeNo=@gradeNo"
+                               + " and Academicyear=@micYear"
+                               + " and CourseCode=@courseCode"
+                               + " and TestNo=@testNo"
+                               + " and STATE is NULL";
+                        xjEntries = bll.FillListByText<XjEntry>(sql, new { gradeno = gradeNo, micYear = micYear, courseCode = courseCode, testno = testNo });
+                    }
+                    var systemIdBegin = UtilBLL.BuildSystemIdBegin();
+                    var indexForScore = UtilBLL.GetStartIndex("tbScore");
+                    var MinSysID = UtilBLL.CreateSystemID(systemIdBegin, indexForScore);
+                    foreach (var xjEntry in xjEntries)
+                    {
+                        var sysID = UtilBLL.CreateSystemID(systemIdBegin, indexForScore++);
+                        var tempTeacher = xjEntry.TeacherID;
+                        var tempScore = xjEntry.Score;
+                        var strOperator = xjEntry.Operator;
 
-                    sql = "if exists(select * from tbScore where Academicyear=@micYear and CourseCode=@courseCode and SRID=@srid)"
-                            + " Update tbScore set ";
-                    switch (testType)
-                    {
-                        case 0:
-                            sql += semester.Equals("1") ? "FstAverageScore=" : " SndAverageScore=";
-                            break;
-                        case 1:
-                            sql += semester.Equals("1") ? "FstMidScore=" : " SndMidScore=";
-                            break;
-                        default:
-                            sql += semester.Equals("1") ? "FstEndScore=" : " SndEndScore=";
-                            break;
-                    }
-                    sql += tempScore;
-                    sql += " where Academicyear=@micYear"
-                           + " and SRID=@srid"
-                           + " and CourseCode=@courseCode"
-                           + " else"
-                           + " Insert Into tbscore(SystemID,AcademicYear,srid,ScoreTypeCode, Coursecode,CourseName,TeacherID,";
-                    switch (testType)
-                    {
-                        case 0:
-                            sql += semester.Equals("1") ? "FstAverageScore, operator)" : " SndAverageScore, operator)";
-                            break;
-                        case 1:
-                            sql += semester.Equals("1") ? "FstMidScore, operator)" : " SndMidScore, operator)";
-                            break;
-                        default:
-                            sql += semester.Equals("1") ? "FstEndScore, operator)" : " SndEndScore, operator)";
-                            break;
-                    }
-                    sql += " values(@sysID,@micYear,@srid,'1100',@courseCode,@courseName,@teacher,@score, @Operator)";
-                    bll.ExecuteNonQueryByText(sql, new
-                    {
-                        sysID = @sysID,
-                        srid = xjEntry.SRID,
-                        micYear = micYear,
-                        courseCode = courseCode,
-                        courseName = xjEntry.CourseName,
-                        teacher = xjEntry.TeacherID,
-                        score = xjEntry.Score,
-                        Operator = xjEntry.Operator
-                    });
-                }
-                var indexForMoraCol = UtilBLL.GetStartIndex("tbMoralCol");
-                var minSysId1 = UtilBLL.CreateSystemID(systemIdBegin, indexForMoraCol);
-                if (ckTeacherOp)
-                {
-                    sql = " SELECT b.SRID, b.AcademicYear, a.TeacherOP FROM s_tb_TeacherOption a INNER JOIN"
-                         + " tbStudentClass b ON a.srid = b.SRID AND "
-                         + " a.Academicyear = b.AcademicYear"
-                         + " WHERE b.AcademicYear = @micYear"
-                         + " AND LEFT(b.ClassCode, 2) = @gradeNo"
-                         + " and a.semester=@semester";
-                    IList<TeacherOption> teacherOptions = bll.FillListByText<TeacherOption>(sql, new { micYear = micYear, gradeNo = gradeNo, semester = semester });
-                    foreach (var teacherOption in teacherOptions)
-                    {
-                        sql = "select count(*) as cnt from tbMoralCol where academicyear =@micYear and semester=@semester and srid =@srid";
-                        DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear, semester = semester, srid = teacherOption.SRID });
-                        if (table.Rows.Count > 0)
+                        sql = "if exists(select * from tbScore where Academicyear=@micYear and CourseCode=@courseCode and SRID=@srid)"
+                                + " Update tbScore set ";
+                        switch (testType)
                         {
-                            sql = " UPDATE tbMoralCol set Remark =@remark where Academicyear=@micYear, srid=@srid and semester=@semester";
-                            bll.ExecuteNonQueryByText(sql, new { remark = teacherOption.TeacherOP, micYear = micYear, semester = semester });
+                            case 0:
+                                sql += semester.Equals("1") ? "FstAverageScore=" : " SndAverageScore=";
+                                break;
+                            case 1:
+                                sql += semester.Equals("1") ? "FstMidScore=" : " SndMidScore=";
+                                break;
+                            default:
+                                sql += semester.Equals("1") ? "FstEndScore=" : " SndEndScore=";
+                                break;
                         }
-                        else
+                        sql += tempScore;
+                        sql += " where Academicyear=@micYear"
+                               + " and SRID=@srid"
+                               + " and CourseCode=@courseCode"
+                               + " else"
+                               + " Insert Into tbscore(SystemID,AcademicYear,srid,ScoreTypeCode, Coursecode,CourseName,TeacherID,";
+                        switch (testType)
                         {
-                            var sysID = UtilBLL.CreateSystemID(systemIdBegin, indexForMoraCol++);
-                            sql = " insert into tbMoralCol(SystemID,SRID,AcademicYear,Semester,MoralRank,Remark)"
-                               + " values(@sysID, @srid, @micYear, @semester,'良好', @remark)";
-                            bll.ExecuteNonQueryByText(sql, new { sysID = sysID, srid = teacherOption.SRID, remark = teacherOption.TeacherOP, micYear = micYear, semester = semester });
+                            case 0:
+                                sql += semester.Equals("1") ? "FstAverageScore, operator)" : " SndAverageScore, operator)";
+                                break;
+                            case 1:
+                                sql += semester.Equals("1") ? "FstMidScore, operator)" : " SndMidScore, operator)";
+                                break;
+                            default:
+                                sql += semester.Equals("1") ? "FstEndScore, operator)" : " SndEndScore, operator)";
+                                break;
+                        }
+                        sql += " values(@sysID,@micYear,@srid,'1100',@courseCode,@courseName,@teacher,@score, @Operator)";
+                        bll.ExecuteNonQueryByText(sql, new
+                        {
+                            sysID = @sysID,
+                            srid = xjEntry.SRID,
+                            micYear = micYear,
+                            courseCode = courseCode,
+                            courseName = xjEntry.CourseName,
+                            teacher = xjEntry.TeacherID,
+                            score = xjEntry.Score,
+                            Operator = xjEntry.Operator
+                        });
+                    }
+                    var indexForMoraCol = UtilBLL.GetStartIndex("tbMoralCol");
+                    var minSysId1 = UtilBLL.CreateSystemID(systemIdBegin, indexForMoraCol);
+                    if (ckTeacherOp)
+                    {
+                        sql = " SELECT b.SRID, b.AcademicYear, a.TeacherOP FROM s_tb_TeacherOption a INNER JOIN"
+                             + " tbStudentClass b ON a.srid = b.SRID AND "
+                             + " a.Academicyear = b.AcademicYear"
+                             + " WHERE b.AcademicYear = @micYear"
+                             + " AND LEFT(b.ClassCode, 2) = @gradeNo"
+                             + " and a.semester=@semester";
+                        IList<TeacherOption> teacherOptions = bll.FillListByText<TeacherOption>(sql, new { micYear = micYear, gradeNo = gradeNo, semester = semester });
+                        foreach (var teacherOption in teacherOptions)
+                        {
+                            sql = "select count(*) as cnt from tbMoralCol where academicyear =@micYear and semester=@semester and srid =@srid";
+                            DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear, semester = semester, srid = teacherOption.SRID });
+                            if (table.Rows.Count > 0)
+                            {
+                                sql = " UPDATE tbMoralCol set Remark =@remark where Academicyear=@micYear, srid=@srid and semester=@semester";
+                                bll.ExecuteNonQueryByText(sql, new { remark = teacherOption.TeacherOP, micYear = micYear, semester = semester });
+                            }
+                            else
+                            {
+                                var sysID = UtilBLL.CreateSystemID(systemIdBegin, indexForMoraCol++);
+                                sql = " insert into tbMoralCol(SystemID,SRID,AcademicYear,Semester,MoralRank,Remark)"
+                                   + " values(@sysID, @srid, @micYear, @semester,'良好', @remark)";
+                                bll.ExecuteNonQueryByText(sql, new { sysID = sysID, srid = teacherOption.SRID, remark = teacherOption.TeacherOP, micYear = micYear, semester = semester });
+                            }
                         }
                     }
-                }
 
-                sql = " Insert into tbSchoolOutBox(TableCode,SystemID,RequestDatetime,ThresholdDatetime)"
-                        + " Select 'tbscore',SystemID, GETDATE(), DATEADD(day, 1, GETDATE()) from tbscore "
-                        + " where systemid>=@minSysID order by SystemID ";
-                bll.ExecuteNonQueryByText(sql, new { minSysID = MinSysID });
-                if (ckTeacherOp)
-                {
                     sql = " Insert into tbSchoolOutBox(TableCode,SystemID,RequestDatetime,ThresholdDatetime)"
-                           + " Select 'tbMoralCol',SystemID, GETDATE(), DATEADD(day, 1, GETDATE()) from tbMoralCol"
-                           + " where systemid>=@MinSysID order by SystemID";
-                    bll.ExecuteNonQueryByText(sql, new { minSysID = minSysId1 });
-                }
-            }//using 
-            return 1;
+                            + " Select 'tbscore',SystemID, GETDATE(), DATEADD(day, 1, GETDATE()) from tbscore "
+                            + " where systemid>=@minSysID order by SystemID ";
+                    bll.ExecuteNonQueryByText(sql, new { minSysID = MinSysID });
+                    if (ckTeacherOp)
+                    {
+                        sql = " Insert into tbSchoolOutBox(TableCode,SystemID,RequestDatetime,ThresholdDatetime)"
+                               + " Select 'tbMoralCol',SystemID, GETDATE(), DATEADD(day, 1, GETDATE()) from tbMoralCol"
+                               + " where systemid>=@MinSysID order by SystemID";
+                        bll.ExecuteNonQueryByText(sql, new { minSysID = minSysId1 });
+                    }
+                }//using 
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [WebMethod]
