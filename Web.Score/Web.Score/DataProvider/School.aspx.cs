@@ -612,16 +612,38 @@ namespace App.Web.Score.DataProvider
         }
 
         [WebMethod]
-        public static int Export()
+        public static int Export(int micYear, string semester, string gradeNo, string courseCode, int testType, int testNo, int scoreSort)
         {
-//            var sql = "Select ClassNo,GradeName,GradeName+'('+substring(ClassNo,3,2)+')班' as 班级,CourseName as 课程,
-//    Count( Case When Numscore = 224 then StudentID end ) as '准假缺考',
-//    Count( Case When Numscore = 225 then StudentID end ) as '免考',
-//    Count( Case When Numscore = 225 then StudentID end ) as '无故缺考'
-//from ViewScoreNum
-//Where Year='2001' and testno='6' and Semester='1' and CourseCode in ('21010','21020','21030','21060')
-//Group by ClassNo,GradeName,CourseName"
-            return 1;
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "";
+                DataTable table = null;
+                if (testType == 1)
+                {
+                    sql += scoreSort == 1 ? ",avg(Numscore) as Score,operator" : ",avg(standardscore) as Score,operator";
+                    sql += " from s_vw_ClassScoreNum "
+                           + " where Gradeno=@gradeNo"
+                           + " and Academicyear=@micYear"
+                           + " and semester=@semester"
+                           + " and CourseCode=@courseCode"
+                           + " and TestType=@testType"
+                           + " and STATE is NULL"
+                           + " group by Academicyear,SRID,CourseCode,Teacherid,MarkCode,operator";
+                    table = bll.FillDataTableByText(sql, new { gradeno = gradeNo, micYear = micYear, semester = semester, courseCode = courseCode, testType = testType });
+                }
+                else
+                {
+                    sql += scoreSort == 1 ? ",Numscore as Score,operator" : ",standardscore as Score,operator";
+                    sql += " from s_vw_ClassScoreNum"
+                           + " Where GradeNo=@gradeNo"
+                           + " and Academicyear=@micYear"
+                           + " and CourseCode=@courseCode"
+                           + " and TestNo=@testNo"
+                           + " and STATE is NULL";
+                    table = bll.FillDataTableByText(sql, new { gradeno = gradeNo, micYear = micYear, courseCode = courseCode, testno = testNo });
+                }
+                return 1;
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -23,6 +24,9 @@ namespace App.Web.Score.DataProvider
                 {
                     case 1:
                         this.ExportUserGroup();
+                        break;
+                    case 2:
+                        this.ExportXJ();
                         break;
                     default:
                         break;
@@ -49,6 +53,50 @@ namespace App.Web.Score.DataProvider
                 UtilHelper.DownToExcel(fileName, excelHtml);
             }
         }
+
+        protected void ExportXJ()
+        {
+            int micYear = int.Parse(Request["micYear"]);
+            string semester = Request["semester"];
+            string gradeNo = Request["gradeNo"];
+            string courseCode = Request["courseCode"];
+            int testType = int.Parse(Request["testType"]);
+            int testNo = int.Parse(Request["testNo"]);
+            int scoreSort = int.Parse(Request["scoreSort"]);
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "";
+                DataTable table = null;
+                if (testType == 1)
+                {
+                    sql += scoreSort == 1 ? ",avg(Numscore) as Score,operator" : ",avg(standardscore) as Score,operator";
+                    sql += " from s_vw_ClassScoreNum "
+                           + " where Gradeno=@gradeNo"
+                           + " and Academicyear=@micYear"
+                           + " and semester=@semester"
+                           + " and CourseCode=@courseCode"
+                           + " and TestType=@testType"
+                           + " and STATE is NULL"
+                           + " group by Academicyear,SRID,CourseCode,Teacherid,MarkCode,operator";
+                    table = bll.FillDataTableByText(sql, new { gradeno = gradeNo, micYear = micYear, semester = semester, courseCode = courseCode, testType = testType });
+                }
+                else
+                {
+                    sql += scoreSort == 1 ? ",Numscore as Score,operator" : ",standardscore as Score,operator";
+                    sql += " from s_vw_ClassScoreNum"
+                           + " Where GradeNo=@gradeNo"
+                           + " and Academicyear=@micYear"
+                           + " and CourseCode=@courseCode"
+                           + " and TestNo=@testNo"
+                           + " and STATE is NULL";
+                    table = bll.FillDataTableByText(sql, new { gradeno = gradeNo, micYear = micYear, courseCode = courseCode, testno = testNo });
+                } 
+                string fileName = string.Format("{0}.xls", "学籍数据");
+                string excelHtml = DataTableToHtml(table, "学 籍");
+                UtilHelper.DownToExcel(fileName, excelHtml);
+            }
+        }
+
         public static string DataTableToHtml(DataTable table, string title)
         {
             //命名导出表格的StringBuilder变量
