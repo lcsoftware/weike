@@ -196,4 +196,23 @@ namespace App.Score.Entity
         public int Count5; 
         public int Count6;
     }
+
+    public class XjEntry
+    {
+        public int MicYear;
+        public string SRID;
+        public string CourseCode;
+        public string CourseName;
+        public string TeacherID;
+        public string MarkCode;
+        public float Score;
+        public string Operator;
+    }
+
+    public class TeacherOption
+    {
+        public string SRID;
+        public int AcademicYear;
+        public string TeacherOP;
+    }
 }
