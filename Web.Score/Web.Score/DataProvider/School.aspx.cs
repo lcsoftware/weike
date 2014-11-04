@@ -404,7 +404,7 @@ namespace App.Web.Score.DataProvider
                    + " and Testtype=@Testtype"
                    + " and STATE is NULL"
                    + " Group by SRID,GradeName,ClassCode,ClassSN,stdName,coursecode,CourseName,MarkName";
-                    return bll.FillListByText<StudentScore>(sql, new { gradeno = gradeNo, micYear = micYear, courseCode = courseCode, Testtype = testType });
+                    return bll.FillListByText<StudentScore>(sql, new { gradeno = gradeNo, Semester = semester, micYear = micYear, courseCode = courseCode, Testtype = testType });
                 }
                 else
                 {
@@ -558,7 +558,7 @@ namespace App.Web.Score.DataProvider
                             courseName = xjEntry.CourseName,
                             teacher = xjEntry.TeacherID,
                             score = xjEntry.Score,
-                            Operator = xjEntry.Operator
+                            Operator = string.IsNullOrEmpty(xjEntry.Operator) ? "" : xjEntry.Operator
                         });
                     }
                     var indexForMoraCol = UtilBLL.GetStartIndex("tbMoralCol");

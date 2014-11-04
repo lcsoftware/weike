@@ -112,15 +112,6 @@ appAdmin.controller('UserEditController', ['$scope', function ($scope) {
         }
     }
 
-    $scope.ExportExcel = function () {
-        return "http://www.baidu.com";
-    }
-
-
-    $scope.changed = function () {
-        console.log($scope.query);
-    }
-
     $scope.saveUserGroup = function () {
         if ($scope.UserGroupEntity.UserOrGroup === '1') {
             if ($scope.UserGroupEntity.Password === undefined || !$scope.UserGroupEntity.ConfirmPwd === undefined) {
@@ -153,7 +144,7 @@ appAdmin.controller('UserEditController', ['$scope', function ($scope) {
                 init();
             }
         });
-    } 
+    }
 }]);
 
 // Path: /UserEdit  用户(组)维护
@@ -419,10 +410,13 @@ appAdmin.controller('StayGradeController', ['$scope', '$location', '$window', fu
 }]);
 
 // Path: /UserEdit  转换为学籍成绩
-appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', function ($scope, schoolProviderUrl) {
+appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', 'pageService', function ($scope, schoolProviderUrl, pageService) {
     var moduleName = '转换为学籍成绩';
     $scope.$root.moduleName = moduleName;
     $scope.$root.title = $scope.softname + ' | ' + moduleName;
+
+    $scope.pageService = pageService;
+    $scope.pageService.reset();
 
     $scope.conditionData = {};
     $scope.sumDecEntry = {};
@@ -450,6 +444,7 @@ appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', function
     });
 
     $scope.$watch('conditionData.GradeCode', function (gradeCode) {
+        $scope.GradeCourses = null;
         if (gradeCode) {
             $scope.utilService.GetGradeCourse(gradeCode, -1, function (data) {
                 $scope.GradeCourses = data.d;
@@ -462,7 +457,7 @@ appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', function
             var micYear = $scope.conditionData.MicYear;
             var gradeCode = $scope.conditionData.GradeCode ? $scope.conditionData.GradeCode.GradeNo : '';
             var gradeCourse = $scope.conditionData.GradeCourse ? $scope.conditionData.GradeCourse.CourseCode : '';
-            $scope.utilService.GetTestLogin(micYear.MicYear, gradeCode, gradeCourse, testType.Type, function (data) {
+            $scope.utilService.GetTestLogin(micYear.MicYear, gradeCode, gradeCourse, testType.Code, function (data) {
                 $scope.TestLogins = data.d;
             });
         }
@@ -493,7 +488,7 @@ appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', function
         var micYear = $scope.conditionData.MicYear.MicYear;
         var gradeNo = $scope.conditionData.GradeCode.GradeNo;
         var courseCode = $scope.conditionData.GradeCourse.CourseCode;
-        var testType = $scope.conditionData.TestType.Type;
+        var testType = $scope.conditionData.TestType.Code;
         $scope.schoolService.tryCalculate(micYear, gradeNo, courseCode, testType, function (data) {
             var result = data.d;
             if (result === -1) {
@@ -531,7 +526,7 @@ appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', function
         var micYear = $scope.conditionData.MicYear.MicYear;
         var gradeNo = $scope.conditionData.GradeCode.GradeNo;
         var courseCode = $scope.conditionData.GradeCourse.CourseCode;
-        var testType = $scope.conditionData.TestType.Type;
+        var testType = $scope.conditionData.TestType.Code;
         $scope.schoolService.tryOk(cv, kv, micYear, gradeNo, courseCode, testType, function (data) {
             var result = data.d;
             if (result == -1) {
@@ -564,7 +559,7 @@ appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', function
         var semester = $scope.schoolService.school.Semester;
         var gradeNo = $scope.conditionData.GradeCode.GradeNo;
         var courseCode = $scope.conditionData.GradeCourse.CourseCode;
-        var testType = $scope.conditionData.TestType.Type;
+        var testType = $scope.conditionData.TestType.Code;
         var testNo = $scope.conditionData.TestLogin.TestLoginNo;
 
         var url = schoolProviderUrl + '/ViewOriginData';
@@ -577,7 +572,9 @@ appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', function
             testNo: testNo
         };
         $scope.baseService.post(url, param, function (data) {
-            $s.dialogUtils.info('DDDDDDDDDDDDDD');
+            $scope.pageService.init(data.d, 10, function (data) {
+                $scope.studentScores = data;
+            });
         });
 
         url = schoolProviderUrl + '/SumDec';
@@ -589,7 +586,9 @@ appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', function
             testType: testType,
             testNo: testNo
         };
-        $scope.baseService.post(url, param, callback); 
+        $scope.baseService.post(url, param, function (data) {
+            $scope.sumDecEntry = data.d;
+        });
     }
     //转入学籍系统
     $scope.convertToXJ = function () {
@@ -610,35 +609,65 @@ appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', function
             return;
         }
         var micYear = $scope.conditionData.MicYear.MicYear;
-        var semester = $scope.school.Semester;
         var gradeNo = $scope.conditionData.GradeCode.GradeNo;
         var courseCode = $scope.conditionData.GradeCourse.CourseCode;
-        var testType = $scope.conditionData.TestType.Type;
+        var testType = $scope.conditionData.TestType.Code;
         var testNo = $scope.conditionData.TestLogin.TestLoginNo;
         var scoreSort = $scope.conditionData.ScoreSort.code;
-        url = schoolProviderUrl + '/ConvertToXJ';
-        param = {
+        var teachOption = $scope.teacherOption || false;
+        var url = schoolProviderUrl + '/ConvertToXJ';
+        var param = {
             micYear: micYear,
             semester: $scope.schoolService.school.Semester,
             gradeNo: gradeNo,
             courseCode: courseCode,
             testType: testType,
             testNo: testNo,
-            scoreSort: conditionData.ScoreSort,
-            ckTeacherOp: teacherOption
+            scoreSort: scoreSort,
+            ckTeacherOp: $scope.teacherOption === '1'
         };
         $scope.baseService.post(url, param, function (data) {
+            $scope.dialogUtils.info('转换操作完成！');
         });
     }
 
+    $scope.exportDisabled = function () {
+        if (!$scope.conditionData.TestType) return true;
+
+        if ($scope.conditionData.TestType.Code === 0) {
+            return !$scope.conditionData.MicYear ||
+                    !$scope.conditionData.GradeCode ||
+                    !$scope.conditionData.GradeCourse ||
+                    !$scope.conditionData.ScoreSort ||
+                    !$scope.schoolService.school.Semester;
+
+        } else {
+            return !$scope.conditionData.MicYear ||
+                   !$scope.conditionData.GradeCode ||
+                   !$scope.conditionData.GradeCourse ||
+                    !$scope.conditionData.ScoreSort ||
+                   !$scope.conditionData.TestLogin;
+        }
+
+        return true;
+    }
+
+    //$scope.downUrl = '/DataProvider/Down.aspx?type=1'
+    //               + '&micYear=' + $scope.conditionData.MicYear.MicYear
+    //               + '&semester=' + $scope.school.Semester
+    //               + '&gradeNo=' + $scope.conditionData.GradeCode.GradeNo
+    //               + '&courseCode=' + $scope.conditionData.GradeCourse.CourseCode
+    //               + '&testType=' + $scope.conditionData.TestType.Code
+    //               + '&testNo=' + $scope.conditionData.TestLogin.TestLoginNo
+    //               + '&scoreSort=' + $scope.conditionData.ScoreSort.code;
+
     ///导出Excel
-    $scope.exportToExcel = function ()
-    {
+    $scope.exportToExcel = function () {
         var micYear = $scope.conditionData.MicYear.MicYear;
         var semester = $scope.school.Semester;
         var gradeNo = $scope.conditionData.GradeCode.GradeNo;
         var courseCode = $scope.conditionData.GradeCourse.CourseCode;
-        var testType = $scope.conditionData.TestType.Type;
+        var testType = $scope.conditionData.TestType.Code;
         var testNo = $scope.conditionData.TestLogin.TestLoginNo;
         var scoreSort = $scope.conditionData.ScoreSort.code;
 

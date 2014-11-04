@@ -10,7 +10,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-12">
-                    <input type="checkbox" value="1" ng-model="teacherOption" />同时转入教师评语
+                    <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="teacherOption" />同时转入教师评语
                 </div>
             </div>
             <div class="form-group">
@@ -45,7 +45,6 @@
             <div class="form-group">
                 <div class="col-sm-12">
                     <select class="form-control" ng-model="conditionData.ScoreSort" ng-options="m.name for m in ScoreSorts">
-                        <option value="">-- 请选择要转换的成绩 --</option>
                     </select>
                 </div>
             </div>
@@ -74,14 +73,14 @@
             </div>
         </form>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-9">
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" ng-click="viewOriginData();"><span class="glyphicon glyphicon-ok"></span>查看转换前数据</button>
-                        <button type="submit" class="btn btn-primary" ng-click="convertToXJ();"><span class="glyphicon glyphicon-ok"></span>转入学籍系统</button>
-                        <button type="submit" class="btn btn-primary" ng-href="exportToExcel();"><span class="glyphicon glyphicon-ok"></span>导出Excel</button>
+                        <button type="button" class="btn btn-primary" ng-click="convertToXJ();"><span class="glyphicon glyphicon-ok"></span>转入学籍系统</button>
+                        <button type="button" class="btn btn-primary" ng-class="{disabled:exportDisabled()}" ng-href="exportToExcel"><span class="glyphicon glyphicon-ok"></span>导出Excel</button>
                     </div>
                 </div>
             </div>
@@ -89,7 +88,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <label class="control-label">
-                    原始分无成绩人数 {{sumDecEntry.Count1}} 原始分不及格人数 {{sumDecEntry.Count3}} 原始分平均分 {{sumDecEntry.Avg1}} 原始分缺考人数 {{sumDecEntry.Count5}}
+                    原始分无成绩人数 <b>{{sumDecEntry.Count1}}</b> 原始分不及格人数 {{sumDecEntry.Count3}} 原始分平均分 {{sumDecEntry.Avg1}} 原始分缺考人数 {{sumDecEntry.Count5}}
                 </label>
                 <label class="control-label">
                     转换分无成绩人数 {{sumDecEntry.Count2}} 转换分不及格人数 {{sumDecEntry.Count4}} 转换分平均分 {{sumDecEntry.Avg2}} 转换分缺考人数 {{sumDecEntry.Count6}}
@@ -102,21 +101,25 @@
                     <thead>
                         <tr style="background-color:#808080">
                             <th style="width:10%;text-align:center">学号</th>
-                            <th style="width:10%;text-align:center">班级</th>
-                            <th style="width:10%;text-align:center">学生姓名</th>
+                            <th style="width:15%;text-align:center">班级</th>
+                            <th style="width:10%;text-align:center">序号</th>
+                            <th style="width:10%;text-align:center">姓名</th>
                             <th style="width:10%;text-align:center">课程代码</th>
                             <th style="width:10%;text-align:center">课程名</th>
-                            <th style="width:15%;text-align:center">原始分数</th>
-                            <th style="width:15%;text-align:center">转换成绩</th>
-                            <th style="width:20%;text-align:center">记分方式</th>
+                            <th style="width:10%;text-align:center">原始分数</th>
+                            <th style="width:10%;text-align:center">转换成绩</th>
+                            <th style="width:15%;text-align:center">记分方式</th>
                         </tr>
                     </thead>
-                    <tr ng-repeat="score in studentScores">
+                    <tr ng-repeat="score in pageService.data">
                         <td>
                             {{score.SRID}}
                         </td>
                         <td>
-                            {{score.GradeName}}{{score.ClassCode}}
+                            {{score.GradeName}}({{score.ClassCode.substr(2,2)}})班
+                        </td>
+                        <td>
+                            {{score.ClassSN}}
                         </td>
                         <td>
                             {{score.StdName}}
@@ -140,5 +143,14 @@
                 </table>
             </div>
         </div> 
+        <div class="row">
+            <div class="col-sm-12" ng-class="{hidden:pageService.pages==1}" style="background-color: #434a54;">
+                <ul class="pager">
+                    <li class="previous"><a style="cursor:pointer" ng-click="pageService.previous()">&larr; 上一页</a></li>
+                    <li><a href="#">{{pageService.index}} / {{pageService.pages}}</a></li>
+                    <li class="next"><a style="cursor:pointer" ng-click="pageService.next()">下一页 &rarr;</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>

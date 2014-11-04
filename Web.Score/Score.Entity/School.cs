@@ -154,7 +154,7 @@ namespace App.Score.Entity
 
     public class TestType
     {
-        public int Type;
+        public int Code;
         public string Name;
     }
 

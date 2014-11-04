@@ -112,6 +112,58 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
     } 
     return service;
 }]);
+
+///分页
+aService.factory('pageService', function () {
+    var service = {};
+
+    service.pages = 1;
+
+    service.allData = [];
+
+    service.data = [];
+ 
+    service.index = 1;
+
+    service.size = 20;
+    
+    var navToPage = function (index) {
+        if (index > 0 && index <= service.pages) {
+            service.data.length = 0;
+            service.index = index; 
+            var start = (service.index - 1) * service.size;
+            var end = service.index * service.size;
+            end = service.allData.length < end ? service.allData.length : end;
+            var d = service.allData.slice(start, end);
+            service.data = service.allData.slice(start, end);
+        }
+    }
+
+    service.reset = function () {
+        service.index = 1;
+        service.size = 20;
+        service.allData.length = 0;
+        service.data.length = 0;
+    }
+
+    service.init = function (data, size) {
+        service.index = 1;
+        service.size = size;
+        service.allData = data;
+        service.pages = Math.ceil(service.allData.length / service.size);
+        navToPage(1);
+    }
+
+    service.next = function () {
+        navToPage(service.index + 1);
+    }
+
+    service.previous = function () {
+        navToPage(service.index - 1);
+    }
+
+    return service;
+});
  
 aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', function (baseService, adminProviderUrl, appUtils) {
     var service = {};
