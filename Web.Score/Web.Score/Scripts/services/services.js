@@ -22,7 +22,7 @@ aService.factory('baseService', ['$http', '$q', function ($http, $q) {
         $http.post(url, param)
             .success(function (data) { if (thenFn) { thenFn(data); } })
             .error(function (reason) { if (errFn) { errFn(reason); } });
-    } 
+    }
 
     service.postPromise = function (url, param) {
         var deferred = $q.defer();
@@ -43,13 +43,25 @@ aService.factory('baseService', ['$http', '$q', function ($http, $q) {
     return service;
 }]);
 
-aService.factory('utilService', ['baseService', 'utilProviderUrl', function (baseService, utilProviderUrl) {
+aService.factory('constService', function () {
     var service = {};
 
     service.ScoreSorts = [
-        {code: 1, name: '原始成绩'},
-        {code: 2, name: '转换成绩'}
-    ]
+      { code: 1, name: '原始成绩' },
+      { code: 2, name: '转换成绩' }
+    ];
+
+    service.Terms = [
+       { Code: 0, Name: '上学期期中' },
+       { Code: 1, Name: '上学期期末' },
+       { Code: 2, Name: '下学期期中' },
+       { Code: 3, Name: '下学期期末' }
+    ];
+    return service;
+});
+
+aService.factory('utilService', ['baseService', 'utilProviderUrl', function (baseService, utilProviderUrl) {
+    var service = {}; 
 
     service.GetNations = function (callback) {
         var url = utilProviderUrl + '/GetNations';
@@ -101,7 +113,7 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
     service.GetTestType = function (callback) {
         var url = utilProviderUrl + '/GetTestType';
         var param = null;
-        baseService.post(url, param, callback); 
+        baseService.post(url, param, callback);
     }
 
     //获得考试号 TestLogin
@@ -109,7 +121,7 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         var url = utilProviderUrl + '/GetTestLogin';
         var param = { academicyear: academicyear, gradeNo: gradeNo, courseCode: courseCode, testType: testType };
         baseService.post(url, param, callback);
-    } 
+    }
     return service;
 }]);
 
@@ -122,15 +134,15 @@ aService.factory('pageService', function () {
     service.allData = [];
 
     service.data = [];
- 
+
     service.index = 1;
 
     service.size = 20;
-    
+
     var navToPage = function (index) {
         if (index > 0 && index <= service.pages) {
             service.data.length = 0;
-            service.index = index; 
+            service.index = index;
             var start = (service.index - 1) * service.size;
             var end = service.index * service.size;
             end = service.allData.length < end ? service.allData.length : end;
@@ -164,7 +176,7 @@ aService.factory('pageService', function () {
 
     return service;
 });
- 
+
 aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', function (baseService, adminProviderUrl, appUtils) {
     var service = {};
 
@@ -204,21 +216,21 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
         var url = adminProviderUrl + '/GetFuncTree';
         var param = null;
         baseService.post(url, param, callback);
-    } 
+    }
 
-   
+
 
     service.changePwd = function (teacher, oldPwd, newPwd, status, callback) {
         var url = adminProviderUrl + '/ChangePwd';
         var param = { teacherID: teacher, oldPwd: oldPwd, newPwd: newPwd, status: status };
         baseService.post(url, param, callback);
-    } 
+    }
 
     service.getUserGroups = function (userOrGroup, callback) {
         var url = adminProviderUrl + '/GetUserGroups';
         var param = { userOrGroup: userOrGroup };
         baseService.post(url, param, callback);
-    } 
+    }
 
     service.getGroupAndUsers = function (teacher, callback) {
         var url = adminProviderUrl + '/GetGroupAndUsers';
@@ -229,31 +241,31 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
     service.getAllUsers = function (callback) {
         var url = adminProviderUrl + '/GetAllUsers';
         var param = null;
-        baseService.post(url, param, callback); 
+        baseService.post(url, param, callback);
     }
 
     service.getAllUserGroups = function (callback) {
         var url = adminProviderUrl + '/GetAllUserGroups';
         var param = null;
-        baseService.post(url, param, callback); 
+        baseService.post(url, param, callback);
     }
 
     service.getUserAuths = function (teacher, callback) {
         var url = adminProviderUrl + '/GetUserAuths';
         var param = { teacher: teacher };
-        baseService.post(url, param, callback); 
+        baseService.post(url, param, callback);
     }
 
     service.getUsersOfGroup = function (groupID, callback) {
         var url = adminProviderUrl + '/GetUsersOfGroup';
         var param = { groupID: groupID };
-        baseService.post(url, param, callback); 
+        baseService.post(url, param, callback);
     }
 
     service.joinGroup = function (teacher, groupID, callback) {
         var url = adminProviderUrl + '/JoinGroup';
         var param = { teacher: teacher, groupID: groupID };
-        baseService.post(url, param, callback); 
+        baseService.post(url, param, callback);
     }
 
     service.leaveGroup = function (teacher, groupID, callback) {
@@ -268,7 +280,7 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
         baseService.post(url, param, callback);
     }
 
-    service.removeUserGroup = function (userGroup, callback) { 
+    service.removeUserGroup = function (userGroup, callback) {
         var url = adminProviderUrl + '/RemoveUserGroup';
         var param = { userGroup: userGroup };
         baseService.post(url, param, callback);
@@ -311,7 +323,7 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
 
     return service;
 }]);
- 
+
 aService.factory('menuService', ['baseService', 'adminProviderUrl', 'appUtils', function (baseService, adminProviderUrl, appUtils) {
     var service = {};
 
@@ -332,7 +344,7 @@ aService.factory('menuService', ['baseService', 'adminProviderUrl', 'appUtils', 
         var url = adminProviderUrl + '/GetUserFuncs';
         var param = { teacher: teacher };
         baseService.post(url, param, callback);
-    } 
+    }
 
     var filterMenus = function (funcs, menus) {
         var length = funcs.length;

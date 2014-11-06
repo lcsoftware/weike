@@ -1,3 +1,78 @@
-﻿<div>
-   dddddddddddddddddd 
+﻿<div class="row">
+    <div class="col-sm-3">
+        <form class="form-horizontal" role="form" ng-submit="saveUserGroup();">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.MicYear" ng-options="m.MicYear for m in AcademicYears">
+                        <option value="">-- 请选择学年/学期 --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.Team" ng-options="m.Name for m in Teams">
+                        <option value="">-- 请选择考试 --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="allTeam" />本学年全部考试
+                </div>
+            </div> 
+        </form>
+    </div>
+    <div class="col-sm-9">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default" ng-click="viewData();"><span class="glyphicon glyphicon-ok"></span>预览学籍成绩</button>
+                        <button type="button" class="btn btn-primary" ng-click="ConvertToCJ();"><span class="glyphicon glyphicon-ok"></span>转入本系统</button>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr style="background-color:#808080">
+                            <th style="width:20%;text-align:center">学年</th>
+                            <th style="width:20%;text-align:center">学生</th>
+                            <th style="width:20%;text-align:center">课程</th>
+                            <th style="width:20%;text-align:center">{{teamName}}</th>
+                            <th style="width:20%;text-align:center">教师</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="score in pageService.data">
+                        <td>
+                            {{score.MicYear}}
+                        </td> 
+                        <td>
+                            {{score.StdName}}
+                        </td>
+                        <td>
+                            {{score.CourseName}}
+                        </td>
+                        <td>
+                            {{score.Score}}
+                        </td>
+                        <td>
+                            {{score.Teacher}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" ng-class="{hidden:pageService.pages==1}" style="background-color: #434a54;">
+                <ul class="pager">
+                    <li class="previous"><a style="cursor:pointer" ng-click="pageService.previous()">&larr; 上一页</a></li>
+                    <li><a href="#">{{pageService.index}} / {{pageService.pages}}</a></li>
+                    <li class="next"><a style="cursor:pointer" ng-click="pageService.next()">下一页 &rarr;</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>

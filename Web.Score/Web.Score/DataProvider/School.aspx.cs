@@ -649,7 +649,7 @@ namespace App.Web.Score.DataProvider
 
         /****************************************从学籍转换过来*****************************/
         [WebMethod]
-        public static DataTable ViewData(int micYear, int chkAll, int testType)
+        public static DataTable ViewData(int micYear, int chkAll, int cbTestType)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -668,7 +668,7 @@ namespace App.Web.Score.DataProvider
                 else
                 {
                     var ScoreField = "";
-                    switch (testType)
+                    switch (cbTestType)
                     {
                         case 0:
                             ScoreField = "FstMidScore as Score";
@@ -696,7 +696,7 @@ namespace App.Web.Score.DataProvider
             }
         }
 
-        private static int ConvertAll(int micYear, int testType, bool canContinue)
+        private static int ConvertAll(int micYear, bool canContinue)
         {
             var teacherId = "99999999990888";
             int testLoginNo, micYear1, testNo1, testNo2, testNo3, testNo4, testNo5;
@@ -729,7 +729,7 @@ namespace App.Web.Score.DataProvider
                 sql = " Insert Into s_tb_Testlogin(TestloginNo,TestNo,AcademicYear,Semester,TestType,Gradeno,CourseCode,TestTime,MarkTypeCode)"
                         + " Values(@testloginNo,@testNo1,@micYear,'1','1','00','00000',@testTime,'1100')";
                 var testTime = new DateTime(micYear, 1, 15);
-                bll.ExecuteNonQueryByText(sql, new {testloginNo = testLoginNo, testNo1 = testNo1, @micYear = micYear, testTime = testTime });
+                bll.ExecuteNonQueryByText(sql, new { testloginNo = testLoginNo, testNo1 = testNo1, @micYear = micYear, testTime = testTime });
 
                 sql = "insert into s_tb_TestloginUser(TestloginNo,Teacherid) values(@testloginNo,@teacherid)";
                 bll.ExecuteNonQueryByText(sql, new { testloginNo = testLoginNo, teacherid = teacherId });
@@ -740,18 +740,18 @@ namespace App.Web.Score.DataProvider
                 testTime = new DateTime(micYear1, 4, 15);
                 sql = "Insert Into s_tb_Testlogin(TestloginNo,TestNo,AcademicYear,Semester,TestType,Gradeno,CourseCode,TestTime,marktypecode)"
                         + " Values(@testloginNo,@testNo1,@micYear,'1','2','00','00000',@testTime,'1100')";
-                bll.ExecuteNonQueryByText(sql, new {testloginNo = testLoginNo, testNo1 = testNo1, @micYear = micYear, testTime = testTime });
+                bll.ExecuteNonQueryByText(sql, new { testloginNo = testLoginNo, testNo1 = testNo1, @micYear = micYear, testTime = testTime });
 
                 sql = "insert into s_tb_TestloginUser(TestloginNo,Teacherid) values(@testloginNo,@teacherid)";
                 bll.ExecuteNonQueryByText(sql, new { testloginNo = testLoginNo, teacherid = teacherId });
 
                 testLoginNo++;
-                testNo1++; 
+                testNo1++;
                 testTime = new DateTime(micYear1, 6, 15);
 
                 sql = "Insert Into s_tb_Testlogin(TestloginNo,TestNo,AcademicYear,Semester,TestType,Gradeno,CourseCode,TestTime,MarkTypeCode)"
                         + " Values(@testloginNo,@testNo1,@micYear,'2','2','00','00000',@testTime,'1100')";
-                bll.ExecuteNonQueryByText(sql, new {testloginNo = testLoginNo, testNo1 = testNo1, @micYear = micYear, testTime = testTime });
+                bll.ExecuteNonQueryByText(sql, new { testloginNo = testLoginNo, testNo1 = testNo1, @micYear = micYear, testTime = testTime });
 
                 sql = "insert into s_tb_TestloginUser(TestloginNo,Teacherid) values(@testloginNo,@teacherid)";
                 bll.ExecuteNonQueryByText(sql, new { testloginNo = testLoginNo, teacherid = teacherId });
@@ -760,25 +760,91 @@ namespace App.Web.Score.DataProvider
                         + " from tbScore"
                         + " where AcademicYear=@micYear and substring(CourseCode,2,1)='1'";
                 table = bll.FillDataTableByText(sql, new { micYear = micYear });
+                //以下这段在delphi程序中未看懂，猜测应为如下实现方式
+                sql = "Insert Into s_tb_normalscore(AcademicYear,Semester,srid,CourseCode,TeacherID,MarkCode,TestType,TestNo,NumScore,Operator)"
+                             + " Values(@YEAR,@SEMESTER,@srid,@COURSECODE,@TEACHERID,@MARKTYPECODE,@TESTTYPE,@TESTNO,@NUMSCORE,@OPERATOR)";
                 var length = table.Rows.Count;
                 for (int i = 0; i < length; i++)
                 {
+                    var YEAR = table.Rows[i]["AcademicYear"].ToString();
+                    var srid = table.Rows[i]["srid"].ToString();
+                    var COURSECODE = table.Rows[i]["CourseCode"].ToString();
+                    var TEACHERID = string.IsNullOrEmpty(table.Rows[i]["Teacherid"].ToString()) ? teacherId : table.Rows[i]["Teacherid"].ToString();
+                    var OPERATOR = string.IsNullOrEmpty(table.Rows[i]["Operator"].ToString()) ? teacherId : table.Rows[i]["Operator"].ToString();
+                    var TESTTYPE = "1";
+                    var TESTNO = testNo5;
+                    var MARKTYPECODE = "1100";
+                    var NUMSCORE = 1.0f;
+                    var SEMESTER = "1";
+
                     string score = table.Rows[i]["FstMidScore"].ToString();
                     if (!string.IsNullOrEmpty(score))
                     {
-                        sql = "Insert Into s_tb_normalscore(AcademicYear,Semester,srid,CourseCode,TeacherID,MarkCode,TestType,TestNo,NumScore,Operator)"
-                              + " Values(@YEAR,@SEMESTER,@srid,@COURSECODE,@TEACHERID,@MARKTYPECODE,@TESTTYPE,@TESTNO,@NUMSCORE,@OPERATOR)";
-                              
-                        var YEAR = table.Rows[i]["AcademicYear"].ToString(); 
-                        var SEMESTER = table.Rows[i]["semester"].ToString(); 
-                        var srid = table.Rows[i]["srid"].ToString(); 
-                        var COURSECODE = table.Rows[i]["CourseCode"].ToString(); 
-                        var TEACHERID = string.IsNullOrEmpty(table.Rows[i]["Teacherid"].ToString()) ? teacherId : table.Rows[i]["Teacherid"].ToString(); 
-                        var MARKTYPECODE = table.Rows[i]["Marktypecode"].ToString(); 
-                        var TESTTYPE = table.Rows[i]["TestType"].ToString(); 
-                        var TESTNO = table.Rows[i]["TestNo"].ToString(); 
-                        var NUMSCORE = table.Rows[i]["FstMidScore"].ToString();
-                        var OPERATOR = string.IsNullOrEmpty(table.Rows[i]["Operator"].ToString()) ? teacherId : table.Rows[i]["Operator"].ToString();
+                        NUMSCORE = float.Parse(table.Rows[i]["FstMidScore"].ToString());
+                        bll.ExecuteNonQueryByText(sql, new
+                        {
+                            YEAR = YEAR,
+                            SEMESTER = SEMESTER,
+                            srid = srid,
+                            COURSECODE = COURSECODE,
+                            TEACHERID = TEACHERID,
+                            MARKTYPECODE = MARKTYPECODE,
+                            TESTTYPE = TESTTYPE,
+                            TESTNO = TESTNO,
+                            NUMSCORE = NUMSCORE,
+                            OPERATOR = OPERATOR
+                        });
+                    }
+
+                    score = table.Rows[i]["FstEndScore"].ToString();
+                    if (!string.IsNullOrEmpty(score))
+                    {
+                        TESTTYPE = "2";
+                        TESTNO = testNo2;
+                        NUMSCORE = float.Parse(table.Rows[i]["FstEndScore"].ToString());
+                        bll.ExecuteNonQueryByText(sql, new
+                        {
+                            YEAR = YEAR,
+                            SEMESTER = SEMESTER,
+                            srid = srid,
+                            COURSECODE = COURSECODE,
+                            TEACHERID = TEACHERID,
+                            MARKTYPECODE = MARKTYPECODE,
+                            TESTTYPE = TESTTYPE,
+                            TESTNO = TESTNO,
+                            NUMSCORE = NUMSCORE,
+                            OPERATOR = OPERATOR
+                        });
+                    }
+                    score = table.Rows[i]["SndMidScore"].ToString();
+                    if (!string.IsNullOrEmpty(score))
+                    {
+                        TESTTYPE = "1";
+                        TESTNO = testNo3;
+                        SEMESTER = "2";
+                        NUMSCORE = float.Parse(table.Rows[i]["SndMidScore"].ToString());
+                        bll.ExecuteNonQueryByText(sql, new
+                        {
+                            YEAR = YEAR,
+                            SEMESTER = SEMESTER,
+                            srid = srid,
+                            COURSECODE = COURSECODE,
+                            TEACHERID = TEACHERID,
+                            MARKTYPECODE = MARKTYPECODE,
+                            TESTTYPE = TESTTYPE,
+                            TESTNO = TESTNO,
+                            NUMSCORE = NUMSCORE,
+                            OPERATOR = OPERATOR
+                        });
+                    }
+
+                    score = table.Rows[i]["SndEndScore"].ToString();
+                    if (!string.IsNullOrEmpty(score))
+                    {
+                        TESTTYPE = "2";
+                        TESTNO = testNo4;
+                        SEMESTER = "2";
+                        NUMSCORE = float.Parse(table.Rows[i]["SndEndScore"].ToString());
                         bll.ExecuteNonQueryByText(sql, new
                         {
                             YEAR = YEAR,
@@ -794,19 +860,108 @@ namespace App.Web.Score.DataProvider
                         });
                     }
                 }
-
                 return 1;
             }
         }
 
-        private static int Convert(int micYear, int testType, bool canContinue)
+        private static int Convert(int micYear, int cbTestType, bool canContinue)
         {
+            var teacherId = "99999999990888";
+            int testLoginNo, testNo1;
             using (AppBLL bll = new AppBLL())
             {
-                string TestNo1, Testno2, testNo3, testNo4, testno5;
-                var sql = "";
-                DataTable table = null;
+                var changeScore = "";
+                var Semester = 1;
+                var testType = 1;
+                var partSql = "";
+                switch (cbTestType)
+                {
+                    case 0:
+                        Semester = 1;
+                        testType = 1;
+                        changeScore = " FstMidScore as scorexj ";
+                        partSql = " and FstMidScore is not null and FstMidScore<>''''";
+                        break;
+                    case 1:
+                        Semester = 1;
+                        testType = 1;
+                        changeScore = " FstEndScore as scorexj ";
+                        partSql = " and FstEndScore is not null and FstMidScore<>''''";
+                        break;
+                    case 2:
+                        Semester = 1;
+                        testType = 2;
+                        changeScore = " SndMidScore as scorexj ";
+                        partSql = " and SndMidScore is not null and FstMidScore<>''''";
+                        break;
+                    default:
+                        Semester = 1;
+                        testType = 2;
+                        changeScore = " SndEndScore as scorexj ";
+                        partSql = " and SndEndScore is not null and FstMidScore<>''''";
+                        break;
+                }
 
+                var sql = "Select Max(cast(testNo as int)) as testnum from  s_tb_TestLogin where AcademicYear=@micYear";
+                DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear });
+                testNo1 = table.Rows.Count == 0 || string.IsNullOrEmpty(table.Rows[0][0].ToString()) ? 1 : int.Parse(table.Rows[0][0].ToString());
+                sql = "select Max(convert(integer,testloginNo)) as testnum from  s_tb_Testlogin";
+                table = bll.FillDataTableByText(sql);
+                testLoginNo = table.Rows.Count == 0 || string.IsNullOrEmpty(table.Rows[0][0].ToString()) ? 1 : int.Parse(table.Rows[0][0].ToString());
+
+                sql = " Insert Into s_tb_Testlogin(TestloginNo,TestNo,AcademicYear,Semester,"
+                       + " TestType,Gradeno,CourseCode,testtime,MarkTypeCode,startdate,enddate)"
+                       + " Values(@testLoginNo,@testNo,@micYear,@semester,@testType,@gradeNo,@courseCode,@testTime,'1100',@startDate,@endDate)";
+
+                bll.ExecuteNonQueryByText(sql, new
+                {
+                    testLoginNo = testLoginNo,
+                    testNo = testNo1,
+                    micYear = micYear,
+                    semester = Semester,
+                    testType = testType,
+                    gradeNo = "00",
+                    courseCode = "00000",
+                    testTime = new DateTime(micYear, 12, 15),
+                    startDate = new DateTime(micYear, 12, 16),
+                    endDate = new DateTime(micYear, 12, 25)
+                });
+
+                sql = "insert into s_tb_testloginUser(TestloginNo,Teacherid) values(:TestloginNo,:Teacherid)";
+                bll.ExecuteNonQueryByText(sql, new { TestloginNo = testLoginNo, Teacherid = teacherId });
+
+                sql = "Select AcademicYEAR,srid,COURSECODE,TEACHERID,Operator," + changeScore + " from tbScore where AcademicYear=@micYear and substring(coursecode,2,1)='1'";
+                sql += partSql;
+                table = bll.FillDataTableByText(sql, new { micYear = micYear });
+                sql = "Insert Into s_tb_normalscore(AcademicYear,Semester,srid,CourseCode,TeacherID,MarkCode,TestType,TestNo,NumScore,Operator)"
+                             + " Values(@YEAR,@SEMESTER,@srid,@COURSECODE,@TEACHERID,@MARKTYPECODE,@TESTTYPE,@TESTNO,@NUMSCORE,@OPERATOR)";
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    var YEAR = table.Rows[i]["AcademicYear"].ToString();
+                    var srid = table.Rows[i]["srid"].ToString();
+                    var COURSECODE = table.Rows[i]["CourseCode"].ToString();
+                    var TEACHERID = string.IsNullOrEmpty(table.Rows[i]["Teacherid"].ToString()) ? teacherId : table.Rows[i]["Teacherid"].ToString();
+                    var OPERATOR = string.IsNullOrEmpty(table.Rows[i]["Operator"].ToString()) ? teacherId : table.Rows[i]["Operator"].ToString();
+                    var TESTTYPE = testType;
+                    var TESTNO = testNo1;
+                    var MARKTYPECODE = "1100";
+                    var SEMESTER = Semester;
+                    var NUMSCORE = string.IsNullOrEmpty(table.Rows[i]["scorexj"].ToString()) ? 0 : float.Parse(table.Rows[i]["scorexj"].ToString());
+
+                    bll.ExecuteNonQueryByText(sql, new
+                    {
+                        YEAR = YEAR,
+                        SEMESTER = SEMESTER,
+                        srid = srid,
+                        COURSECODE = COURSECODE,
+                        TEACHERID = TEACHERID,
+                        MARKTYPECODE = MARKTYPECODE,
+                        TESTTYPE = TESTTYPE,
+                        TESTNO = TESTNO,
+                        NUMSCORE = NUMSCORE,
+                        OPERATOR = OPERATOR
+                    });
+                }
                 return 1;
             }
         }
@@ -819,17 +974,17 @@ namespace App.Web.Score.DataProvider
         /// <param name="canContinue">默认false</param>
         /// <returns></returns>
         [WebMethod]
-        public static int ConvertToCJ(int micYear, int chkAll, int testType, bool canContinue)
+        public static int ConvertToCJ(int micYear, int chkAll, int cbTestType, bool canContinue)
         {
             using (AppBLL bll = new AppBLL())
             {
                 if (chkAll == 1)
                 {
-                    return ConvertAll(micYear, testType);
+                    return ConvertAll(micYear, canContinue);
                 }
                 else
                 {
-                    return Convert(micYear, testType);
+                    return Convert(micYear, cbTestType, canContinue);
                 }
             }
         }

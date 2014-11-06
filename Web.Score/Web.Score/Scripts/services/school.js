@@ -3,7 +3,9 @@
 aService.factory('schoolService', ['baseService', 'schoolProviderUrl', function (baseService, schoolProviderUrl) {
     var service = {};
 
-    service.logonUser = {}
+   
+   
+    service.logonUser = {};
 
     service.school = {};
 

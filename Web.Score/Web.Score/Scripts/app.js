@@ -35,7 +35,7 @@ angular.module('app', [
             //转换为学籍成绩
             .state('admin.nSysMenu6', { url: '/CJtoXJ', templateUrl: '/views/admin/CJtoXJ', controller: 'CJtoXJController' })
             //从学籍成绩转换过来
-            .state('nXJtoCJ', { url: '/XJtoCJ', templateUrl: '/views/admin/XJtoCJ', controller: 'XJtoCJController' })
+            .state('admin.nSysMenu8', { url: '/XJtoCJ', templateUrl: '/views/admin/XJtoCJ', controller: 'XJtoCJController' })
             //数据备份与恢复
             .state('nDBbackup', { url: '/DBbackup', templateUrl: '/views/admin/DBbackup', controller: 'DBbackupController' })
             //学生编号导入
@@ -148,8 +148,10 @@ angular.module('app', [
 
     .run(['$templateCache', '$rootScope', '$state', '$stateParams', '$location', 'menuService',
         'dialogUtils', 'softname', 'baseService', 'userService', 'utilService', 'schoolService',
+        'constService',
         function ($templateCache, $rootScope, $state, $stateParams, $location, menuService,
-            dialogUtils, softname, baseService, userService, utilService, schoolService) {
+            dialogUtils, softname, baseService, userService, utilService, schoolService,
+            constService) {
 
             var view = angular.element('#ui-view');
             $templateCache.put(view.data('tmpl-url'), view.html());
@@ -159,6 +161,7 @@ angular.module('app', [
             $rootScope.user = {};
             $rootScope.baseService = baseService;
             $rootScope.utilService = utilService;
+            $rootScope.constService = constService;
             $rootScope.dialogUtils = dialogUtils;
             $rootScope.softname = softname;
             $rootScope.userService = userService;
