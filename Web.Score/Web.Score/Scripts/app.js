@@ -3,13 +3,14 @@
 angular.module('app', [
     'ui.router',
     'treeControl',
+    'angularFileUpload',
     'ui.tree',
     'app.filters',
     'app.services',
     'app.school',
     'app.directives',
     'app.controllers',
-    'app.admin'
+    'app.admin' 
 ])
 
     .config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
@@ -26,7 +27,7 @@ angular.module('app', [
             .state('admin.nSysMenu0', { url: '/UserEdit', templateUrl: '/views/admin/UserEdit', controller: 'UserEditController' })
             //用户组管理
             .state('admin.nSysMenu1', { url: '/GroupEdit', templateUrl: '/views/admin/GroupEdit', controller: 'GroupEditController' })
-            //用户(组)维护
+            //权限编辑
             .state('admin.nSysMenu3', { url: '/AuthEdit', templateUrl: '/views/admin/AuthEdit', controller: 'AuthEditController' })
             //权限查询
             .state('admin.nSysMenu2', { url: '/AuthView', templateUrl: '/views/admin/AuthView', controller: 'AuthViewController' })
@@ -35,11 +36,9 @@ angular.module('app', [
             //转换为学籍成绩
             .state('admin.nSysMenu6', { url: '/CJtoXJ', templateUrl: '/views/admin/CJtoXJ', controller: 'CJtoXJController' })
             //从学籍成绩转换过来
-            .state('nXJtoCJ', { url: '/XJtoCJ', templateUrl: '/views/admin/XJtoCJ', controller: 'XJtoCJController' })
-            //数据备份与恢复
-            .state('nDBbackup', { url: '/DBbackup', templateUrl: '/views/admin/DBbackup', controller: 'DBbackupController' })
+            .state('admin.nSysMenu8', { url: '/XJtoCJ', templateUrl: '/views/admin/XJtoCJ', controller: 'XJtoCJController' }) 
             //学生编号导入
-            .state('nLogUser', { url: '/LogUser', templateUrl: '/views/admin/LogUser', controller: 'LogUserController' })
+            .state('admin.nSysMenu9', { url: '/StudentImport', templateUrl: '/views/admin/StudentImport', controller: 'StdImportController' })
             //生成上传数据文件
             .state('nSendMail', { url: '/SendMail', templateUrl: '/views/admin/SendMail', controller: 'SendMailController' })
             //修改口令
