@@ -13,6 +13,7 @@ namespace App.Web.Score.DataProvider
 
         public void ProcessRequest(HttpContext context)
         {
+            string filePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Uploads");
             //context.Response.ContentType = "text/plain";
             //try
             //{
