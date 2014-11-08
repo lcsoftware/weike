@@ -684,7 +684,6 @@ appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', 'pageSer
 
 }]);
 
-<<<<<<< HEAD
 // Path: /UserEdit  从学籍成绩转换过来
 appAdmin.controller('XJtoCJController', ['$scope', 'schoolProviderUrl', 'pageService', function ($scope, schoolProviderUrl, pageService) {
     var moduleName = '从学籍转换过来';
@@ -700,12 +699,7 @@ appAdmin.controller('XJtoCJController', ['$scope', 'schoolProviderUrl', 'pageSer
 
     $scope.utilService.GetGradeCodes(function (data) {
         $scope.GradeCodes = data.d;
-    });
-=======
-// Path: /XJtoCJ  从学籍成绩转换过来
-appAdmin.controller('XJtoCJController', ['$scope', '$location', '$window', function ($scope, $location, $window) {
-    $scope.$root.title = 'AngularJS SPA Template for Visual Studio';
->>>>>>> ed532f4d98455bec95cfd877b6065ae2c963b473
+    }); 
 }]);
 // Path: /StudentImport 学生编号导入
 appAdmin.controller('StdImportController', ['$scope', function ($scope) {
