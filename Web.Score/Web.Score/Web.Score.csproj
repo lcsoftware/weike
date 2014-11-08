@@ -163,6 +163,7 @@
     <Content Include="Content\images\node-opened-2.png" />
     <Content Include="Content\images\node-opened-light.png" />
     <Content Include="Content\images\node-opened.png" />
+    <Content Include="Content\uploader\angular-file-upload.min.js" />
     <Content Include="DataProvider\Admin.aspx" />
     <Content Include="DataProvider\Down.aspx" />
     <Content Include="DataProvider\School.aspx" />
@@ -462,6 +463,7 @@
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Assets\menu.json" />
+    <Content Include="DataProvider\UploadHandler.ashx" />
     <None Include="Properties\PublishProfiles\score.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Scripts\app.js" />
@@ -495,6 +497,7 @@
     <Content Include="Views\admin\GroupEdit.cshtml" />
     <Content Include="Views\admin\AuthView.cshtml" />
     <Content Include="Views\admin\AuthEdit.cshtml" />
+    <Content Include="Views\admin\StudentImport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -527,6 +530,9 @@
     <Compile Include="DataProvider\School.aspx.designer.cs">
       <DependentUpon>School.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DataProvider\UploadHandler.ashx.cs">
+      <DependentUpon>UploadHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="DataProvider\Util.aspx.cs">
       <DependentUpon>Util.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -542,7 +548,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Uploads\" />
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>

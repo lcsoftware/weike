@@ -223,7 +223,7 @@ appAdmin.controller('AuthViewController', ['$scope', 'menuService', function ($s
     }
 }]);
 
-// Path: /AuthView 权限编辑
+// Path: /AuthEdit 权限编辑
 appAdmin.controller('AuthEditController', ['$scope', 'menuService', function ($scope, menuService) {
     var moduleName = '权限编辑';
     $scope.$root.moduleName = moduleName;
@@ -363,7 +363,7 @@ appAdmin.controller('AuthEditController', ['$scope', 'menuService', function ($s
     }
 }]);
 
-// Path: /UserEdit  升留级处理
+// Path: /StayGrade  升留级处理
 appAdmin.controller('StayGradeController', ['$scope', '$location', '$window', function ($scope, $location, $window) {
     var moduleName = '升留级处理';
     $scope.$root.moduleName = moduleName;
@@ -409,7 +409,7 @@ appAdmin.controller('StayGradeController', ['$scope', '$location', '$window', fu
     }
 }]);
 
-// Path: /UserEdit  转换为学籍成绩
+// Path: /CJtoXJ  转换为学籍成绩
 appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', 'pageService', function ($scope, schoolProviderUrl, pageService) {
     var moduleName = '转换为学籍成绩';
     $scope.$root.moduleName = moduleName;
@@ -684,6 +684,7 @@ appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', 'pageSer
 
 }]);
 
+<<<<<<< HEAD
 // Path: /UserEdit  从学籍成绩转换过来
 appAdmin.controller('XJtoCJController', ['$scope', 'schoolProviderUrl', 'pageService', function ($scope, schoolProviderUrl, pageService) {
     var moduleName = '从学籍转换过来';
@@ -700,6 +701,60 @@ appAdmin.controller('XJtoCJController', ['$scope', 'schoolProviderUrl', 'pageSer
     $scope.utilService.GetGradeCodes(function (data) {
         $scope.GradeCodes = data.d;
     });
+=======
+// Path: /XJtoCJ  从学籍成绩转换过来
+appAdmin.controller('XJtoCJController', ['$scope', '$location', '$window', function ($scope, $location, $window) {
+    $scope.$root.title = 'AngularJS SPA Template for Visual Studio';
+>>>>>>> ed532f4d98455bec95cfd877b6065ae2c963b473
+}]);
+// Path: /StudentImport 学生编号导入
+appAdmin.controller('StdImportController', ['$scope', function ($scope) {
+    var moduleName = '学生编号导入';
+    $scope.$root.moduleName = moduleName;
+    $scope.$root.title = $scope.softname + ' | ' + moduleName;
+}]);
+
+appAdmin.controller('UploadController', ['$scope', 'FileUploader', function ($scope, FileUploader) {
+    var uploader = $scope.uploader = new FileUploader({
+        url: '/DataProvider/UploadHandler.ashx'
+    });
+
+    uploader.onWhenAddingFileFailed = function (item /*{ Excel| *.xls}*/, filter, options) {
+        console.info('onWhenAddingFileFailed', item, filter, options);
+    };
+    uploader.onAfterAddingFile = function (fileItem) {
+        console.info('onAfterAddingFile', fileItem);
+    };
+    uploader.onAfterAddingAll = function (addedFileItems) {
+        console.info('onAfterAddingAll', addedFileItems);
+    };
+    uploader.onBeforeUploadItem = function (item) {
+        console.info('onBeforeUploadItem', item);
+    };
+    uploader.onProgressItem = function (fileItem, progress) {
+        console.info('onProgressItem', fileItem, progress);
+    };
+    uploader.onProgressAll = function (progress) {
+        console.info('onProgressAll', progress);
+    };
+    uploader.onSuccessItem = function (fileItem, response, status, headers) {
+        console.info('onSuccessItem', fileItem, response, status, headers);
+    };
+    uploader.onErrorItem = function (fileItem, response, status, headers) {
+        console.info('onErrorItem', fileItem, response, status, headers);
+    };
+    uploader.onCancelItem = function (fileItem, response, status, headers) {
+        console.info('onCancelItem', fileItem, response, status, headers);
+    };
+    uploader.onCompleteItem = function (fileItem, response, status, headers) {
+        console.info('onCompleteItem', fileItem, response, status, headers);
+    };
+    uploader.onCompleteAll = function () {
+        console.info('onCompleteAll');
+    };
+
+    console.info('uploader', uploader);
+
 }]);
 
 // Path: /UserEdit  数据备份与恢复
