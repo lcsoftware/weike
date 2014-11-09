@@ -41,7 +41,7 @@ namespace App.Score.Data
             //// 注册SQLSERVER数据库连接字符串 
             ConnectionStringSettings setting = ConfigurationManager.ConnectionStrings["iSchoolConnectionString"];
             IPHostEntry IpEntry = Dns.GetHostEntry(Dns.GetHostName());
-            if (IpEntry.HostName.Equals("devWin-PC"))
+            if (IpEntry.HostName.Equals("devWin-PC") || IpEntry.HostName.Equals("shujianhua"))
             {
                 setting = ConfigurationManager.ConnectionStrings["iSchoolConnectionStringF"]; 
             }
