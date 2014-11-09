@@ -36,13 +36,7 @@ angular.module('app', [
             //转换为学籍成绩
             .state('admin.nSysMenu6', { url: '/CJtoXJ', templateUrl: '/views/admin/CJtoXJ', controller: 'CJtoXJController' })
             //从学籍成绩转换过来
-<<<<<<< HEAD
-            .state('admin.nSysMenu8', { url: '/XJtoCJ', templateUrl: '/views/admin/XJtoCJ', controller: 'XJtoCJController' })
-            //数据备份与恢复
-            .state('nDBbackup', { url: '/DBbackup', templateUrl: '/views/admin/DBbackup', controller: 'DBbackupController' })
-=======
             .state('admin.nSysMenu8', { url: '/XJtoCJ', templateUrl: '/views/admin/XJtoCJ', controller: 'XJtoCJController' }) 
->>>>>>> ed532f4d98455bec95cfd877b6065ae2c963b473
             //学生编号导入
             .state('admin.nSysMenu9', { url: '/StudentImport', templateUrl: '/views/admin/StudentImport', controller: 'StdImportController' })
             //生成上传数据文件

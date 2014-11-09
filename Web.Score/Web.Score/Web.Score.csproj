@@ -163,6 +163,7 @@
     <Content Include="Content\images\node-opened-2.png" />
     <Content Include="Content\images\node-opened-light.png" />
     <Content Include="Content\images\node-opened.png" />
+    <Content Include="Content\uploader\angular-file-upload.js" />
     <Content Include="Content\uploader\angular-file-upload.min.js" />
     <Content Include="DataProvider\Admin.aspx" />
     <Content Include="DataProvider\Down.aspx" />
