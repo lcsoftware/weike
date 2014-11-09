@@ -649,50 +649,58 @@ namespace App.Web.Score.DataProvider
 
         /****************************************从学籍转换过来*****************************/
         [WebMethod]
-        public static DataTable ViewData(int micYear, int chkAll, int cbTestType)
+        public static string ViewData(int micYear, int chkAll, int cbTestType)
         {
-            using (AppBLL bll = new AppBLL())
+            try
             {
-                var sql = "";
-                if (chkAll == 1)
+                using (AppBLL bll = new AppBLL())
                 {
-                    sql = "SELECT a.Academicyear, b.StdName, c.BriefName, d.Name,"
-                           + " a.FstMidScore, a.FstEndScore, a.SndMidScore, a.SndEndScore"
-                           + " FROM  TbScore a INNER JOIN"
-                           + " tdCourseCode c ON a.Coursecode = c.CourseCode INNER JOIN"
-                           + " tbStudentBaseInfo b ON a.SRID = b.SRID LEFT OUTER JOIN"
-                           + " tbUserGroupInfo d ON a.TeacherID = d.TeacherID"
-                           + " WHERE SUBSTRING(a.Coursecode, 2, 1) = '1'"
-                           + " AND (a.Academicyear =@micYear";
-                }
-                else
-                {
-                    var ScoreField = "";
-                    switch (cbTestType)
+                    var sql = "";
+                    if (chkAll == 1)
                     {
-                        case 0:
-                            ScoreField = "FstMidScore as Score";
-                            break;
-                        case 1:
-                            ScoreField = "FstEndScore as Score";
-                            break;
-                        case 2:
-                            ScoreField = "SndMidScore as Score";
-                            break;
-                        default:
-                            ScoreField = "SndEndScore as Score";
-                            break;
+                        sql = "SELECT a.Academicyear as MicYear, b.StdName, c.BriefName as CourseName, d.Name as Teacher,"
+                               + " a.FstMidScore, a.FstEndScore, a.SndMidScore, a.SndEndScore"
+                               + " FROM  TbScore a INNER JOIN"
+                               + " tdCourseCode c ON a.Coursecode = c.CourseCode INNER JOIN"
+                               + " tbStudentBaseInfo b ON a.SRID = b.SRID LEFT OUTER JOIN"
+                               + " tbUserGroupInfo d ON a.TeacherID = d.TeacherID"
+                               + " WHERE SUBSTRING(a.Coursecode, 2, 1) = '1'"
+                               + " AND (a.Academicyear =@micYear";
                     }
+                    else
+                    {
+                        var ScoreField = "";
+                        switch (cbTestType)
+                        {
+                            case 0:
+                                ScoreField = "FstMidScore as Score";
+                                break;
+                            case 1:
+                                ScoreField = "FstEndScore as Score";
+                                break;
+                            case 2:
+                                ScoreField = "SndMidScore as Score";
+                                break;
+                            default:
+                                ScoreField = "SndEndScore as Score";
+                                break;
+                        }
 
-                    sql = "SELECT a.Academicyear, b.StdName, c.BriefName," + ScoreField + ",d.Name"
-                           + " FROM  TbScore a INNER JOIN"
-                           + " tdCourseCode c ON a.Coursecode = c.CourseCode INNER JOIN"
-                           + " tbStudentBaseInfo b ON a.SRID = b.SRID LEFT OUTER JOIN"
-                           + " tbUserGroupInfo d ON a.TeacherID = d.TeacherID"
-                           + " WHERE SUBSTRING(a.Coursecode, 2, 1) = '1'"
-                           + " AND (a.Academicyear =@micYear)";
+                        sql = "SELECT a.Academicyear as MicYear, b.StdName, c.BriefName as CourseName," + ScoreField + ",d.Name as Teacher"
+                               + " FROM  TbScore a INNER JOIN"
+                               + " tdCourseCode c ON a.Coursecode = c.CourseCode INNER JOIN"
+                               + " tbStudentBaseInfo b ON a.SRID = b.SRID LEFT OUTER JOIN"
+                               + " tbUserGroupInfo d ON a.TeacherID = d.TeacherID"
+                               + " WHERE SUBSTRING(a.Coursecode, 2, 1) = '1'"
+                               + " AND (a.Academicyear =@micYear)";
+                    }
+                    DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear });
+                    return Newtonsoft.Json.JsonConvert.SerializeObject(table);
                 }
-                return bll.FillDataTableByText(sql, new { micYear = micYear });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -988,6 +996,18 @@ namespace App.Web.Score.DataProvider
                 }
             }
         }
+
+        [WebMethod]
+        public static int CanSelectAll()
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Select count(*) as Pcount from s_tb_Normalscore Where AcademicYear=(select academicYear from tbSchoolBaseInfo)";
+                DataTable table = bll.FillDataTableByText(sql);
+                return int.Parse(table.Rows[0][0].ToString());
+            } 
+        }
+
         /****************************************end 从学籍转换过来*****************************/
     }
 }

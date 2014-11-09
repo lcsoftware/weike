@@ -10,14 +10,14 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-12">
-                    <select class="form-control" ng-model="conditionData.Team" ng-options="m.Name for m in Teams">
+                    <select class="form-control" ng-model="conditionData.Terms" ng-options="m.Name for m in Terms">
                         <option value="">-- 请选择考试 --</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-12">
-                    <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="allTeam" />本学年全部考试
+                    <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="selectedAll" ng-disabled="canSelectAll" />本学年全部考试
                 </div>
             </div> 
         </form>
@@ -35,20 +35,20 @@
         </div> 
         <div class="row">
             <div class="col-sm-12">
-                <table class="table table-striped table-bordered" style="width:100%">
+                <table class="table table-striped table-bordered" style="width:100%" ng-if="selectedAll==0">
                     <thead>
                         <tr style="background-color:#808080">
                             <th style="width:20%;text-align:center">学年</th>
                             <th style="width:20%;text-align:center">学生</th>
                             <th style="width:20%;text-align:center">课程</th>
-                            <th style="width:20%;text-align:center">{{teamName}}</th>
+                            <th style="width:20%;text-align:center">{{conditionData.Terms.Name}}</th>
                             <th style="width:20%;text-align:center">教师</th>
                         </tr>
                     </thead>
                     <tr ng-repeat="score in pageService.data">
                         <td>
                             {{score.MicYear}}
-                        </td> 
+                        </td>
                         <td>
                             {{score.StdName}}
                         </td>
@@ -60,6 +60,47 @@
                         </td>
                         <td>
                             {{score.Teacher}}
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="table table-striped table-bordered" style="width:100%" ng-if="selectedAll==1">
+                    <thead>
+                        <tr style="background-color:#808080">
+                            <th style="width:10%;text-align:center">学年</th>
+                            <th style="width:10%;text-align:center">学生</th>
+                            <th style="width:10%;text-align:center">课程</th>
+                            <th style="width:10%;text-align:center">教师</th>
+                            <th style="width:10%;text-align:center">上学期期中</th>
+                            <th style="width:10%;text-align:center">上学期期末</th>
+                            <th style="width:20%;text-align:center">下学期期中</th>
+                            <th style="width:20%;text-align:center">下学期期末</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="score in pageService.data">
+                        <td>
+                            {{score.MicYear}}
+                        </td>
+                        <td>
+                            {{score.StdName}}
+                        </td>
+                        <td>
+                            {{score.CourseName}}
+                        </td> 
+                        <td>
+                            {{score.Teacher}}
+                        </td>
+                        <td>
+                            {{score.FstMidScore}}
+                        </td>
+                        <td>
+                            {{score.FstEndScore}}
+                        </td>
+                        <td>
+                            {{score.SndMidScore}}
+                        </td>
+                        <td>
+                            {{score.SndEndScore}}
                         </td>
                     </tr>
                 </table>
