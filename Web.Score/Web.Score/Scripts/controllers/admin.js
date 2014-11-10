@@ -722,25 +722,32 @@ appAdmin.controller('XJtoCJController', ['$scope', 'schoolProviderUrl', 'pageSer
     }
 
     $scope.convertToCJ = function () {
-        var url = "/DataProvider/School.aspx/ViewData";
-        var param = { micYear: $scope.conditionData.MicYear.MicYear, chkAll: $scope.selectedAll, cbTestType: $scope.conditionData.Terms.Code, canContinue: false };
+
+        if (!$scope.conditionData.MicYear || !$scope.conditionData.Terms) {
+            $scope.dialogUtils.info('请选择学年及考试！');
+            return;
+        }
+
+        var url = "/DataProvider/School.aspx/ConvertToCJ";
+
+        var param = {
+            micYear: $scope.conditionData.MicYear.MicYear,
+            chkAll: $scope.selectedAll,
+            cbTestType: $scope.conditionData.Terms.Code,
+            canContinue: false
+        };
+
         $scope.baseService.post(url, param, function (data) {
             if (data.d === -1) {
-                $scope.dialogUtils.info('发现本学年已经登记过考试，您要继续吗?', function () {
-                    url = "/DataProvider/School.aspx/ViewData";
-                    param = {
-                        micYear: $scope.conditionData.MicYear.MicYear,
-                        chkAll: $scope.selectedAll,
-                        cbTestType: $scope.conditionData.Terms.Code,
-                        canContinue: true 
-                    };
+                $scope.dialogUtils.confirm('发现本学年已经登记过考试，您要继续吗?', function () { 
+                    param.canContinue = true;
                     $scope.baseService.post(url, param, function (data) {
-                        $scope.dialogUtils.info('转入本系统完成！');
+                        $scope.dialogUtils.info('转入本系统操作完成！');
                     });
                 });
                
             } else {
-                $scope.dialogUtils.info('转入本系统完成！');
+                $scope.dialogUtils.info('转入本系统操作完成！');
             }
         });
     }
@@ -789,9 +796,9 @@ appAdmin.controller('StdImportController', ['$scope', 'FileUploader', function (
     //uploader.onCancelItem = function (fileItem, response, status, headers) {
     //    console.info('onCancelItem', fileItem, response, status, headers);
     //};
-    //uploader.onCompleteItem = function (fileItem, response, status, headers) {
-    //    console.info('onCompleteItem', fileItem, response, status, headers);
-    //};
+    $scope.fileUploader.onCompleteItem = function (fileItem, response, status, headers) {
+        console.info('onCompleteItem', fileItem, response, status, headers);
+    };
     //uploader.onCompleteAll = function () {
     //    console.info('onCompleteAll');
     //};

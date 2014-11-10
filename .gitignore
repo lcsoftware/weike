@@ -5,7 +5,7 @@
 *.suo
 *.user
 *.sln.docstates
-
+Uploads
 # Build results
 
 [Dd]ebug/

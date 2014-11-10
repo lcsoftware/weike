@@ -10,10 +10,16 @@ namespace App.Web.Score.DataProvider
     /// </summary>
     public class UploadHandler : IHttpHandler
     {
-
+        private string _UploaderPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Uploads");
         public void ProcessRequest(HttpContext context)
         {
-            string filePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Uploads");
+            string newFileName = Guid.NewGuid().ToString().Replace("-", "");
+            int index = context.Request.Files[0].FileName.LastIndexOf('.');
+            if (index == -1) { index = 0; }
+            newFileName += context.Request.Files[0].FileName.Substring(index);
+            context.Response.Write(newFileName);
+            context.Request.Files[0].SaveAs(System.IO.Path.Combine(_UploaderPath, newFileName));
+
             //context.Response.ContentType = "text/plain";
             //try
             //{
@@ -59,6 +65,18 @@ namespace App.Web.Score.DataProvider
             {
                 return false;
             }
+        }
+
+        private System.Data.DataTable ReadFromExcel(string fileName)
+        {
+            int index = fileName.LastIndexOf('.');
+            if (index == -1) { index = 0; }
+            string ext = fileName.Substring(index);
+            string connStr = "";
+            if (ext == ".xls")
+                connStr = "Provider=Microsoft.Jet.OLEDB.4.0;" + "Data Source=" + fileName + ";" + ";Extended Properties=\"Excel 8.0;HDR=YES;IMEX=1\"";
+            else
+                connStr = "Provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=" + fileName + ";" + ";Extended Properties=\"Excel 12.0;HDR=YES;IMEX=1\"";
         }
     }
 }

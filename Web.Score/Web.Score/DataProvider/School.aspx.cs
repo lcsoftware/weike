@@ -725,18 +725,18 @@ namespace App.Web.Score.DataProvider
                     table = bll.FillDataTableByText(sql, new { micYear = micYear });
                     testNo1 = table.Rows.Count == 0 ? 1 : int.Parse(table.Rows[0][0].ToString()) + 1;
                 }
-                testNo2 = testNo1 + 1;
-                testNo3 = testNo1 + 1;
-                testNo4 = testNo1 + 1;
                 testNo5 = testNo1;
+                testNo2 = testNo1 + 1;
+                testNo3 = testNo1 + 2;
+                testNo4 = testNo1 + 3;
 
                 sql = "select Max(convert(integer,testloginNo)) as testnum from  s_tb_Testlogin";
                 table = bll.FillDataTableByText(sql, null);
-                testLoginNo = table.Rows.Count == 0 ? 1 : int.Parse(table.Rows[0][0].ToString());
+                testLoginNo = table.Rows.Count == 0 ? 1 : int.Parse(table.Rows[0][0].ToString()) + 1;
                 //判断是否有上学期的期中考试
                 sql = " Insert Into s_tb_Testlogin(TestloginNo,TestNo,AcademicYear,Semester,TestType,Gradeno,CourseCode,TestTime,MarkTypeCode)"
                         + " Values(@testloginNo,@testNo1,@micYear,'1','1','00','00000',@testTime,'1100')";
-                var testTime = new DateTime(micYear, 1, 15);
+                var testTime = new DateTime(micYear, 11, 15);
                 bll.ExecuteNonQueryByText(sql, new { testloginNo = testLoginNo, testNo1 = testNo1, @micYear = micYear, testTime = testTime });
 
                 sql = "insert into s_tb_TestloginUser(TestloginNo,Teacherid) values(@testloginNo,@teacherid)";
@@ -745,9 +745,20 @@ namespace App.Web.Score.DataProvider
                 testLoginNo++;
                 testNo1++;
                 micYear1 = micYear + 1;
-                testTime = new DateTime(micYear1, 4, 15);
+                testTime = new DateTime(micYear1, 1, 15);
                 sql = "Insert Into s_tb_Testlogin(TestloginNo,TestNo,AcademicYear,Semester,TestType,Gradeno,CourseCode,TestTime,marktypecode)"
                         + " Values(@testloginNo,@testNo1,@micYear,'1','2','00','00000',@testTime,'1100')";
+                bll.ExecuteNonQueryByText(sql, new { testloginNo = testLoginNo, testNo1 = testNo1, @micYear = micYear, testTime = testTime });
+
+                sql = "insert into s_tb_TestloginUser(TestloginNo,Teacherid) values(@testloginNo,@teacherid)";
+                bll.ExecuteNonQueryByText(sql, new { testloginNo = testLoginNo, teacherid = teacherId });
+
+                testLoginNo++;
+                testNo1++;
+                testTime = new DateTime(micYear1, 4, 15);
+
+                sql = "Insert Into s_tb_Testlogin(TestloginNo,TestNo,AcademicYear,Semester,TestType,Gradeno,CourseCode,TestTime,MarkTypeCode)"
+                        + " Values(@testloginNo,@testNo1,@micYear,'2','2','00','00000',@testTime,'1100')";
                 bll.ExecuteNonQueryByText(sql, new { testloginNo = testLoginNo, testNo1 = testNo1, @micYear = micYear, testTime = testTime });
 
                 sql = "insert into s_tb_TestloginUser(TestloginNo,Teacherid) values(@testloginNo,@teacherid)";
@@ -764,11 +775,12 @@ namespace App.Web.Score.DataProvider
                 sql = "insert into s_tb_TestloginUser(TestloginNo,Teacherid) values(@testloginNo,@teacherid)";
                 bll.ExecuteNonQueryByText(sql, new { testloginNo = testLoginNo, teacherid = teacherId });
 
+                //开始导入学籍成绩
                 sql = "Select AcademicYear,srid,Coursecode,Teacherid,FstMidScore,FstEndScore,SndMidScore,SndEndScore,Operator"
                         + " from tbScore"
                         + " where AcademicYear=@micYear and substring(CourseCode,2,1)='1'";
                 table = bll.FillDataTableByText(sql, new { micYear = micYear });
-                //以下这段在delphi程序中未看懂，猜测应为如下实现方式
+
                 sql = "Insert Into s_tb_normalscore(AcademicYear,Semester,srid,CourseCode,TeacherID,MarkCode,TestType,TestNo,NumScore,Operator)"
                              + " Values(@YEAR,@SEMESTER,@srid,@COURSECODE,@TEACHERID,@MARKTYPECODE,@TESTTYPE,@TESTNO,@NUMSCORE,@OPERATOR)";
                 var length = table.Rows.Count;
@@ -912,10 +924,10 @@ namespace App.Web.Score.DataProvider
 
                 var sql = "Select Max(cast(testNo as int)) as testnum from  s_tb_TestLogin where AcademicYear=@micYear";
                 DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear });
-                testNo1 = table.Rows.Count == 0 || string.IsNullOrEmpty(table.Rows[0][0].ToString()) ? 1 : int.Parse(table.Rows[0][0].ToString());
+                testNo1 = table.Rows.Count == 0 || string.IsNullOrEmpty(table.Rows[0][0].ToString()) ? 1 : int.Parse(table.Rows[0][0].ToString()) + 1;
                 sql = "select Max(convert(integer,testloginNo)) as testnum from  s_tb_Testlogin";
                 table = bll.FillDataTableByText(sql);
-                testLoginNo = table.Rows.Count == 0 || string.IsNullOrEmpty(table.Rows[0][0].ToString()) ? 1 : int.Parse(table.Rows[0][0].ToString());
+                testLoginNo = table.Rows.Count == 0 || string.IsNullOrEmpty(table.Rows[0][0].ToString()) ? 1 : int.Parse(table.Rows[0][0].ToString()) + 1;
 
                 sql = " Insert Into s_tb_Testlogin(TestloginNo,TestNo,AcademicYear,Semester,"
                        + " TestType,Gradeno,CourseCode,testtime,MarkTypeCode,startdate,enddate)"
@@ -935,7 +947,7 @@ namespace App.Web.Score.DataProvider
                     endDate = new DateTime(micYear, 12, 25)
                 });
 
-                sql = "insert into s_tb_testloginUser(TestloginNo,Teacherid) values(:TestloginNo,:Teacherid)";
+                sql = "insert into s_tb_testloginUser(TestloginNo,Teacherid) values(@TestloginNo,@Teacherid)";
                 bll.ExecuteNonQueryByText(sql, new { TestloginNo = testLoginNo, Teacherid = teacherId });
 
                 sql = "Select AcademicYEAR,srid,COURSECODE,TEACHERID,Operator," + changeScore + " from tbScore where AcademicYear=@micYear and substring(coursecode,2,1)='1'";
@@ -984,16 +996,21 @@ namespace App.Web.Score.DataProvider
         [WebMethod]
         public static int ConvertToCJ(int micYear, int chkAll, int cbTestType, bool canContinue)
         {
-            using (AppBLL bll = new AppBLL())
+            try
             {
-                if (chkAll == 1)
-                {
-                    return ConvertAll(micYear, canContinue);
-                }
-                else
-                {
-                    return Convert(micYear, cbTestType, canContinue);
-                }
+                return ConvertAll(micYear, canContinue);
+                //if (chkAll == 1)
+                //{
+                //    return ConvertAll(micYear, canContinue);
+                //}
+                //else
+                //{
+                //    return Convert(micYear, cbTestType, canContinue);
+                //}
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
@@ -1005,7 +1022,7 @@ namespace App.Web.Score.DataProvider
                 var sql = "Select count(*) as Pcount from s_tb_Normalscore Where AcademicYear=(select academicYear from tbSchoolBaseInfo)";
                 DataTable table = bll.FillDataTableByText(sql);
                 return int.Parse(table.Rows[0][0].ToString());
-            } 
+            }
         }
 
         /****************************************end 从学籍转换过来*****************************/
