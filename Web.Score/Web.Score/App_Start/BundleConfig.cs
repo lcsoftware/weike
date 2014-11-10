@@ -42,6 +42,7 @@ namespace App.Web.Score
                     "~/scripts/filters/filters.js",
                     "~/scripts/services/services.js",
                     "~/scripts/services/school.js",
+                    "~/scripts/services/query.js",
                     "~/scripts/directives/directives.js",
                     "~/scripts/controllers/controllers.js",
                     //"~/scripts/controllers/base.js",

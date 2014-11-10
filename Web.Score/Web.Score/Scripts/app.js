@@ -8,9 +8,11 @@ angular.module('app', [
     'app.filters',
     'app.services',
     'app.school',
+    'app.queryService',
     'app.directives',
     'app.controllers',
-    'app.admin' 
+    'app.admin',
+    'app.query'
 ])
 
     .config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
@@ -46,21 +48,21 @@ angular.module('app', [
             /**************************End 系统管理***********************/
 
             /**************************在线查询***********************/
-
+            .state('query', { url: '/query', abstract: true, templateUrl: '/views/admin/main' })
             //任课教师查询
-            .state('nTeacherQuery', { url: '/TeacherQuery', templateUrl: '/views/TeacherQuery', controller: 'TeacherQueryController' })
+            .state('query.nQuery0', { url: '/TeacherQuery', templateUrl: '/views/query/TeacherQuery', controller: 'TeacherQueryController' })
             //班主任查询
-            .state('nClassQuery', { url: '/ClassQuery', templateUrl: '/views/ClassQuery', controller: 'ClassQueryController' })
+            .state('query.nQuery1', { url: '/ClassQuery', templateUrl: '/views/query/ClassQuery', controller: 'ClassQueryController' })
             //年级领导查询
-            .state('nGradeManager', { url: '/GradeManager', templateUrl: '/views/GradeManager', controller: 'GradeManagerController' })
+            .state('query.nQuery2', { url: '/GradeManager', templateUrl: '/views/query/GradeManager', controller: 'GradeManagerController' })
             //教务员查询
-            .state('nSchoolmanagerQuery', { url: '/SchoolmanagerQuery', templateUrl: '/views/SchoolmanagerQuery', controller: 'SchoolmanagerQueryController' })
+            .state('query.nQuery3', { url: '/SchoolmanagerQuery', templateUrl: '/views/query/SchoolmanagerQuery', controller: 'SchoolmanagerQueryController' })
             //校领导查询
-            .state('nSchoolHead', { url: '/SchoolHead', templateUrl: '/views/SchoolHead', controller: 'SchoolHeadController' })
+            .state('query.nQuery4', { url: '/SchoolHead', templateUrl: '/views/query/SchoolHead', controller: 'SchoolHeadController' })
             //常用查询
-            .state('nAdvQuery', { url: '/AdvQuery', templateUrl: '/views/AdvQuery', controller: 'AdvQueryController' })
+            .state('query.nQuery5', { url: '/AdvQuery', templateUrl: '/views/query/AdvQuery', controller: 'AdvQueryController' })
             //组合查询
-            .state('nAdvQuery1', { url: '/AdvQuery1', templateUrl: '/views/AdvQuery1', controller: 'AdvQuery1Controller' })
+            .state('query.nQuery6', { url: '/AdvQuery1', templateUrl: '/views/query/AdvQuery1', controller: 'AdvQuery1Controller' })
             /**************************End 在线查询***********************/
 
             /**************************教师学生统计***********************/
@@ -147,10 +149,10 @@ angular.module('app', [
 
     .run(['$templateCache', '$rootScope', '$state', '$stateParams', '$location', 'menuService',
         'dialogUtils', 'softname', 'baseService', 'userService', 'utilService', 'schoolService',
-        'constService',
+        'constService','queryService',
         function ($templateCache, $rootScope, $state, $stateParams, $location, menuService,
             dialogUtils, softname, baseService, userService, utilService, schoolService,
-            constService) {
+            constService, queryService) {
 
             var view = angular.element('#ui-view');
             $templateCache.put(view.data('tmpl-url'), view.html());
@@ -165,6 +167,7 @@ angular.module('app', [
             $rootScope.softname = softname;
             $rootScope.userService = userService;
             $rootScope.schoolService = schoolService;
+            $rootScope.queryService = queryService;
             $rootScope.schoolService.loadSchool();
 
             $rootScope.$state = $state;

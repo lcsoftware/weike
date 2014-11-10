@@ -9,6 +9,7 @@ aService.constant('softname', '成绩分析系统');
 aService.constant('utilProviderUrl', '/DataProvider/Util.aspx');
 aService.constant('adminProviderUrl', '/DataProvider/Admin.aspx');
 aService.constant('schoolProviderUrl', '/DataProvider/School.aspx');
+aService.constant('queryProviderUrl', '/DataProvider/Query.aspx');
 
 aService.factory('baseService', ['$http', '$q', function ($http, $q) {
 
@@ -120,6 +121,13 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
     service.GetTestLogin = function (academicyear, gradeNo, courseCode, testType, callback) {
         var url = utilProviderUrl + '/GetTestLogin';
         var param = { academicyear: academicyear, gradeNo: gradeNo, courseCode: courseCode, testType: testType };
+        baseService.post(url, param, callback);
+    }
+
+    //获得学生 StdName
+    service.GetStudent = function (academicyear, classcode,callback) {
+        var url = utilProviderUrl + '/GetStudent';
+        var param = { academicyear: academicyear, classcode: classcode };
         baseService.post(url, param, callback);
     }
     return service;

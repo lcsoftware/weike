@@ -167,6 +167,7 @@
     <Content Include="Content\uploader\angular-file-upload.min.js" />
     <Content Include="DataProvider\Admin.aspx" />
     <Content Include="DataProvider\Down.aspx" />
+    <Content Include="DataProvider\Query.aspx" />
     <Content Include="DataProvider\School.aspx" />
     <Content Include="DataProvider\Util.aspx" />
     <Content Include="Global.asax" />
@@ -176,6 +177,7 @@
     <Content Include="Scripts\controllers\statistic.js" />
     <Content Include="Scripts\directives\directives.js" />
     <Content Include="Scripts\filters\filters.js" />
+    <Content Include="Scripts\services\query.js" />
     <Content Include="Scripts\services\school.js" />
     <Content Include="Scripts\services\services.js" />
     <Content Include="Scripts\utils.js" />
@@ -499,6 +501,7 @@
     <Content Include="Views\admin\AuthView.cshtml" />
     <Content Include="Views\admin\AuthEdit.cshtml" />
     <Content Include="Views\admin\StudentImport.cshtml" />
+    <Content Include="Views\query\TeacherQuery.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -523,6 +526,13 @@
     </Compile>
     <Compile Include="DataProvider\Down.aspx.designer.cs">
       <DependentUpon>Down.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\Query.aspx.cs">
+      <DependentUpon>Query.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Query.aspx.designer.cs">
+      <DependentUpon>Query.aspx</DependentUpon>
     </Compile>
     <Compile Include="DataProvider\School.aspx.cs">
       <DependentUpon>School.aspx</DependentUpon>

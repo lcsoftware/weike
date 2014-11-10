@@ -89,6 +89,23 @@
         }
 
         /// <summary>
+        /// 获得学生
+        /// </summary>
+        /// <param name="academicyear">学年</param>
+        /// <param name="classcode">班级</param>
+        /// <returns></returns>
+        [WebMethod]
+        public static IList<Student> GetStudent(int academicyear,int classcode)
+        {
+            using(AppBLL bll = new AppBLL())
+            {
+                var sql = "Select SRID,StdName from s_vw_ClassStudent" +
+                    "Where Academicyear=@academicyear and ClassCode=@classcode";
+                return bll.FillListByText<Student>(sql, new { academicyear = academicyear, classcode = classcode });
+            }
+        }
+
+        /// <summary>
         /// 考试类型
         /// </summary>
         /// <returns></returns>
