@@ -572,9 +572,7 @@ appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', 'pageSer
             testNo: testNo
         };
         $scope.baseService.post(url, param, function (data) {
-            $scope.pageService.init(data.d, 10, function (data) {
-                $scope.studentScores = data;
-            });
+            $scope.pageService.init(data.d, 10);
         });
 
         url = schoolProviderUrl + '/SumDec';
@@ -692,14 +690,60 @@ appAdmin.controller('XJtoCJController', ['$scope', 'schoolProviderUrl', 'pageSer
 
     $scope.conditionData = {};
     $scope.GradeCodes = [];
+    $scope.AcademicYears = [];
     $scope.Terms = $scope.constService.Terms;
+    $scope.selectedAll = 0;
 
     $scope.pageService = pageService;
     $scope.pageService.reset();
 
     $scope.utilService.GetGradeCodes(function (data) {
         $scope.GradeCodes = data.d;
-    }); 
+    });
+
+    $scope.baseService.post("/DataProvider/School.aspx/CanSelectAll", null, function (data) {
+        $scope.canSelectAll = data.d > 0;
+    });
+
+    $scope.utilService.GetAcademicYears(function (data) {
+        $scope.AcademicYears = data.d;
+    });
+
+    $scope.viewData = function () {
+        var url = "/DataProvider/School.aspx/ViewData";
+        var param = { micYear: $scope.conditionData.MicYear.MicYear, chkAll: $scope.selectedAll, cbTestType: $scope.conditionData.Terms.Code };
+        $scope.baseService.post(url, param, function (data) {
+            if (data.d !== '') {
+                $scope.pageService.init(angular.fromJson(data.d), 10);
+            } else {
+                $scope.pageService.reset();
+            }
+        });
+    }
+
+    $scope.convertToCJ = function () {
+        var url = "/DataProvider/School.aspx/ViewData";
+        var param = { micYear: $scope.conditionData.MicYear.MicYear, chkAll: $scope.selectedAll, cbTestType: $scope.conditionData.Terms.Code, canContinue: false };
+        $scope.baseService.post(url, param, function (data) {
+            if (data.d === -1) {
+                $scope.dialogUtils.info('发现本学年已经登记过考试，您要继续吗?', function () {
+                    url = "/DataProvider/School.aspx/ViewData";
+                    param = {
+                        micYear: $scope.conditionData.MicYear.MicYear,
+                        chkAll: $scope.selectedAll,
+                        cbTestType: $scope.conditionData.Terms.Code,
+                        canContinue: true 
+                    };
+                    $scope.baseService.post(url, param, function (data) {
+                        $scope.dialogUtils.info('转入本系统完成！');
+                    });
+                });
+               
+            } else {
+                $scope.dialogUtils.info('转入本系统完成！');
+            }
+        });
+    }
 }]);
 // Path: /StudentImport 学生编号导入
 appAdmin.controller('StdImportController', ['$scope', 'FileUploader', function ($scope, FileUploader) {
