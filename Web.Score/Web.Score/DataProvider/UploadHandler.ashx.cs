@@ -44,8 +44,7 @@ namespace App.Web.Score.DataProvider
             int index = fileName.LastIndexOf('.');
             if (index == -1) { index = 0; }
             string ext = fileName.Substring(index);
-            //string connStr = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};HDR=YES;IMEX=1;Extended Properties=\"{1}\"", fileName, ext == ".xls" ? "8.0" : "12.0");
-            string connStr = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=True;Extended Properties=\"{1}\";", fileName, ext == ".xls" ? "8.0" : "12.0");
+            string connStr = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};HDR=YES;IMEX=1;Extended Properties=\"{1}\"", fileName, ext == ".xls" ? "8.0" : "12.0");
             System.Data.OleDb.OleDbConnection conn = new System.Data.OleDb.OleDbConnection(connStr);
             conn.Open();
             System.Data.DataTable dtSheetName = conn.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
