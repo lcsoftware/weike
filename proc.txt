@@ -123,4 +123,5 @@ begin
 end
 GO
 
-
+UPDATE dbo.s_tb_Function SET FuncName='query.'+FuncName 
+WHERE FuncID IN(4200,4300,4400,4500,4600,4800,4801)
