@@ -739,13 +739,13 @@ appAdmin.controller('XJtoCJController', ['$scope', 'schoolProviderUrl', 'pageSer
 
         $scope.baseService.post(url, param, function (data) {
             if (data.d === -1) {
-                $scope.dialogUtils.confirm('发现本学年已经登记过考试，您要继续吗?', function () { 
+                $scope.dialogUtils.confirm('发现本学年已经登记过考试，您要继续吗?', function () {
                     param.canContinue = true;
                     $scope.baseService.post(url, param, function (data) {
                         $scope.dialogUtils.info('转入本系统操作完成！');
                     });
                 });
-               
+
             } else {
                 $scope.dialogUtils.info('转入本系统操作完成！');
             }
@@ -753,57 +753,32 @@ appAdmin.controller('XJtoCJController', ['$scope', 'schoolProviderUrl', 'pageSer
     }
 }]);
 // Path: /StudentImport 学生编号导入
-appAdmin.controller('StdImportController', ['$scope', 'FileUploader', function ($scope, FileUploader) {
+appAdmin.controller('StdImportController', ['$scope', 'FileUploader', 'uploadService', function ($scope, FileUploader, uploadService) {
     var moduleName = '学生编号导入';
     $scope.$root.moduleName = moduleName;
     $scope.$root.title = $scope.softname + ' | ' + moduleName;
 
-    $scope.fileUploader = new FileUploader({
-        url: '/DataProvider/UploadHandler.ashx'
-    });
-
-    $scope.fileUploader.filters.push({
-        name: 'customFilter',
-        fn: function (item /*{File|FileLikeObject}*/, options) {
-            return this.queue.length < 10;
+    $scope.fileUploader = uploadService.create({ type: 1 }, function (fileItem, response, status, headers) {
+        if (response === '-1') {
+            $scope.dialogUtils.info('未发现可导入的学生数据');
+        } else {
+            $scope.students = angular.fromJson(response);
         }
+        console.log($scope.fileUploader.queue);
     });
 
-    //uploader.onWhenAddingFileFailed = function (item /*{ Excel| *.xls}*/, filter, options) {
-    //    console.info('onWhenAddingFileFailed', item, filter, options);
-    //};
-    //uploader.onAfterAddingFile = function (fileItem) {
-    //    console.info('onAfterAddingFile', fileItem);
-    //};
-    //uploader.onAfterAddingAll = function (addedFileItems) {
-    //    console.info('onAfterAddingAll', addedFileItems);
-    //};
-    //uploader.onBeforeUploadItem = function (item) {
-    //    console.info('onBeforeUploadItem', item);
-    //};
-    //uploader.onProgressItem = function (fileItem, progress) {
-    //    console.info('onProgressItem', fileItem, progress);
-    //};
-    //uploader.onProgressAll = function (progress) {
-    //    console.info('onProgressAll', progress);
-    //};
-    //uploader.onSuccessItem = function (fileItem, response, status, headers) {
-    //    console.info('onSuccessItem', fileItem, response, status, headers);
-    //};
-    //uploader.onErrorItem = function (fileItem, response, status, headers) {
-    //    console.info('onErrorItem', fileItem, response, status, headers);
-    //};
-    //uploader.onCancelItem = function (fileItem, response, status, headers) {
-    //    console.info('onCancelItem', fileItem, response, status, headers);
-    //};
-    $scope.fileUploader.onCompleteItem = function (fileItem, response, status, headers) {
-        console.info('onCompleteItem', fileItem, response, status, headers);
-    };
-    //uploader.onCompleteAll = function () {
-    //    console.info('onCompleteAll');
-    //};
+    $scope.fileChanged = function () {
+        if ($scope.fileUploader.queue.length > 0) {
+            $scope.fileUploader.queue[0].upload();
+        }
+    }
 
-    console.info('fileUploader', $scope.fileUploader);
+    $scope.writeToDb = function () {
+        if ($scope.students && $scope.students.length > 0) {
+            var url = '/DataProvider/';
+            var param = { students: $scope.students };
+        }
+    }
 }]);
 
 appAdmin.controller('UploadController', ['$scope', 'FileUploader', function ($scope, FileUploader) {

@@ -11,6 +11,7 @@ aService.constant('adminProviderUrl', '/DataProvider/Admin.aspx');
 aService.constant('schoolProviderUrl', '/DataProvider/School.aspx');
 aService.constant('queryProviderUrl', '/DataProvider/Query.aspx');
 
+///XHR调用
 aService.factory('baseService', ['$http', '$q', function ($http, $q) {
 
     var service = {};
@@ -44,6 +45,7 @@ aService.factory('baseService', ['$http', '$q', function ($http, $q) {
     return service;
 }]);
 
+//常量
 aService.factory('constService', function () {
     var service = {};
 
@@ -61,6 +63,7 @@ aService.factory('constService', function () {
     return service;
 });
 
+///工具类
 aService.factory('utilService', ['baseService', 'utilProviderUrl', function (baseService, utilProviderUrl) {
     var service = {}; 
 
@@ -241,6 +244,7 @@ aService.factory('pageService', function () {
     return service;
 });
 
+/// 用户
 aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', function (baseService, adminProviderUrl, appUtils) {
     var service = {};
 
@@ -388,6 +392,66 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
     return service;
 }]);
 
+aService.factory('uploadService', ['FileUploader', function (FileUploader) {
+    var service = {};
+
+    service.create = function (param, onCompleteItem) {
+        var queryString = "?name='upload'";
+        if (param) {
+            angular.forEach(param, function (v, k) {
+                queryString += '&' + k + '=' + v;
+            });
+        }
+        var uploader = new FileUploader({ url: '/DataProvider/UploadHandler.ashx' + queryString });
+
+        uploader.onCompleteItem = function (fileItem, response, status, headers) {
+            if (onCompleteItem) onCompleteItem(fileItem, response, status, headers);
+        };
+        return uploader;
+    }
+
+    //$scope.fileUploader.filters.push({
+    //    name: 'customFilter',
+    //    fn: function (item /*{File|FileLikeObject}*/, options) {
+    //        return this.queue.length < 10;
+    //    }
+    //});
+
+    //uploader.onWhenAddingFileFailed = function (item /*{ Excel| *.xls}*/, filter, options) {
+    //    console.info('onWhenAddingFileFailed', item, filter, options);
+    //};
+    //uploader.onAfterAddingFile = function (fileItem) {
+    //    console.info('onAfterAddingFile', fileItem);
+    //};
+    //uploader.onAfterAddingAll = function (addedFileItems) {
+    //    console.info('onAfterAddingAll', addedFileItems);
+    //};
+    //uploader.onBeforeUploadItem = function (item) {
+    //    console.info('onBeforeUploadItem', item);
+    //};
+    //uploader.onProgressItem = function (fileItem, progress) {
+    //    console.info('onProgressItem', fileItem, progress);
+    //};
+    //uploader.onProgressAll = function (progress) {
+    //    console.info('onProgressAll', progress);
+    //};
+    //uploader.onSuccessItem = function (fileItem, response, status, headers) {
+    //    console.info('onSuccessItem', fileItem, response, status, headers);
+    //};
+    //uploader.onErrorItem = function (fileItem, response, status, headers) {
+    //    console.info('onErrorItem', fileItem, response, status, headers);
+    //};
+    //uploader.onCancelItem = function (fileItem, response, status, headers) {
+    //    console.info('onCancelItem', fileItem, response, status, headers);
+    //};
+    //$scope.fileUploader.onCompleteItem = function (fileItem, response, status, headers) {
+    //    console.info('onCompleteItem', fileItem, response, status, headers);
+    //};
+    //uploader.onCompleteAll = function () {
+    //    console.info('onCompleteAll');
+    //};
+    return service;
+}]);
 aService.factory('menuService', ['baseService', 'adminProviderUrl', 'appUtils', function (baseService, adminProviderUrl, appUtils) {
     var service = {};
 

@@ -215,4 +215,21 @@ namespace App.Score.Entity
         public int AcademicYear;
         public string TeacherOP;
     }
+
+    public class StudentImportEntry
+    {
+        public string MicYear;
+        public string SchoolNo;
+        public string Grade;
+        public string GradeClass;
+        public string ClassN;
+        public string Name;
+        public string Sex;
+    }
+
+    public class ParamStudentImport1
+    {
+        public string YearCode;
+        public string SRID;
+    }
 }

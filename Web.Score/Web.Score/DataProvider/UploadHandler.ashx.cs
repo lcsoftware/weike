@@ -14,31 +14,44 @@ namespace App.Web.Score.DataProvider
         public void ProcessRequest(HttpContext context)
         {
             try
-            {
-                //string newFileName = Guid.NewGuid().ToString().Replace("-", "");
-                //int index = context.Request.Files[0].FileName.LastIndexOf('.');
-                //if (index == -1) { index = 0; }
-                //newFileName += context.Request.Files[0].FileName.Substring(index);
-                //context.Request.Files[0].SaveAs(System.IO.Path.Combine(_UploaderPath, newFileName));
-                //context.Response.Write(newFileName);
-<<<<<<< HEAD
-
-                ReadFromExcel(@"C:\Users\devWin\Desktop\ff.xls");
-
-            }
-            catch(Exception ex)
-=======
-
-                ReadFromExcel(@"f:\fff.xls");
-
-
-
+            {                
+                var type = !string.IsNullOrEmpty(context.Request.QueryString["type"]) ? int.Parse(context.Request.QueryString["type"]) : -1;
+                switch (type)
+                {
+                    case 1:  //学生编号导入
+                        StdImport(context);
+                        break;
+                    default:
+                        break;
+                } 
             }
             catch (Exception ex)
->>>>>>> c437ce16a8362157adc306f57390cb14a56f3dd6
             {
                 context.Response.Write("-1");
             }
+        }
+
+        private void StdImport(HttpContext context)
+        {
+            string newFileName = Guid.NewGuid().ToString().Replace("-", "");
+            int index = context.Request.Files[0].FileName.LastIndexOf('.');
+            if (index == -1) { index = 0; }
+            newFileName += context.Request.Files[0].FileName.Substring(index);
+            newFileName = System.IO.Path.Combine(_UploaderPath, newFileName);
+            context.Request.Files[0].SaveAs(newFileName);
+            System.Data.DataTable table = this.ReadStudents(newFileName);
+            if (System.IO.File.Exists(newFileName))
+            {
+                System.IO.File.Delete(newFileName);
+            }
+            if (table.Rows.Count == 0)
+            {
+                context.Response.Write("-1");
+            }
+            else
+            {
+                context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(table));
+            } 
         }
 
         public bool IsReusable
@@ -49,21 +62,40 @@ namespace App.Web.Score.DataProvider
             }
         }
 
-        private System.Data.DataTable ReadFromExcel(string fileName)
+        private IList<App.Score.Entity.StudentImportEntry> ReadStudents(string fileName)
         {
             int index = fileName.LastIndexOf('.');
             if (index == -1) { index = 0; }
             string ext = fileName.Substring(index);
-<<<<<<< HEAD
-            string connStr = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};HDR=YES;IMEX=1;Extended Properties=\"{1}\"", fileName, ext == ".xls" ? "8.0" : "12.0");
-=======
-            //string connStr = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};HDR=YES;IMEX=1;Extended Properties=\"{1}\"", fileName, ext == ".xls" ? "8.0" : "12.0");
-            string connStr = string.Format("Provider=Microsoft.Jet.Oledb.4.0;Data Source={0};Extended Properties='Excel {1};HDR=no;IMEX=1';", fileName, ext == ".xls" ? "8.0" : "12.0");
->>>>>>> c437ce16a8362157adc306f57390cb14a56f3dd6
+            string connStr = string.Format("Provider=Microsoft.Jet.Oledb.4.0;Data Source={0};Extended Properties='Excel {1};HDR=YES;IMEX=1';", fileName, ext == ".xls" ? "8.0" : "12.0");
             System.Data.OleDb.OleDbConnection conn = new System.Data.OleDb.OleDbConnection(connStr);
             conn.Open();
-            System.Data.DataTable dtSheetName = conn.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
-            return dtSheetName;
+            try
+            {
+                //System.Data.DataTable dtSheetName = conn.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
+                var sql = "Select 学年 as MicYear, 学校编号 as SchoolNo, 年级 as Grade,	班级 as GradeClass, 班内序号 as ClassN,	姓名 as Name, 性别 as Sex from [学生编号$]";
+                System.Data.OleDb.OleDbDataAdapter adapter = new System.Data.OleDb.OleDbDataAdapter(sql, conn);
+                System.Data.DataTable table = new System.Data.DataTable();
+                adapter.Fill(table);
+                IList<App.Score.Entity.StudentImportEntry> students = new List<App.Score.Entity.StudentImportEntry>();
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    App.Score.Entity.StudentImportEntry student = new App.Score.Entity.StudentImportEntry();
+                    student.MicYear = table.Rows[i]["MicYear"].ToString();
+                    student.SchoolNo = table.Rows[i]["SchoolNo"].ToString();
+                    student.Grade = table.Rows[i]["Grade"].ToString();
+                    student.GradeClass = table.Rows[i]["GradeClass"].ToString();
+                    student.ClassN = table.Rows[i]["ClassN"].ToString();
+                    student.Name = table.Rows[i]["Name"].ToString();
+                    student.Sex = table.Rows[i]["Sex"].ToString();
+                    students.Add(student);
+                }
+                return students;
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
     }
 }
