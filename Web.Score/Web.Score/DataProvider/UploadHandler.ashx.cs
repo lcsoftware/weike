@@ -21,23 +21,13 @@ namespace App.Web.Score.DataProvider
                 //newFileName += context.Request.Files[0].FileName.Substring(index);
                 //context.Request.Files[0].SaveAs(System.IO.Path.Combine(_UploaderPath, newFileName));
                 //context.Response.Write(newFileName);
-<<<<<<< HEAD
 
                 ReadFromExcel(@"C:\Users\devWin\Desktop\ff.xls");
 
             }
-            catch(Exception ex)
-=======
-
-                ReadFromExcel(@"f:\fff.xls");
-
-
-
-            }
             catch (Exception ex)
->>>>>>> c437ce16a8362157adc306f57390cb14a56f3dd6
             {
-                context.Response.Write("-1");
+                ReadFromExcel(@"f:\fff.xls");
             }
         }
 
@@ -54,12 +44,12 @@ namespace App.Web.Score.DataProvider
             int index = fileName.LastIndexOf('.');
             if (index == -1) { index = 0; }
             string ext = fileName.Substring(index);
-<<<<<<< HEAD
+
             string connStr = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};HDR=YES;IMEX=1;Extended Properties=\"{1}\"", fileName, ext == ".xls" ? "8.0" : "12.0");
-=======
+
             //string connStr = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};HDR=YES;IMEX=1;Extended Properties=\"{1}\"", fileName, ext == ".xls" ? "8.0" : "12.0");
-            string connStr = string.Format("Provider=Microsoft.Jet.Oledb.4.0;Data Source={0};Extended Properties='Excel {1};HDR=no;IMEX=1';", fileName, ext == ".xls" ? "8.0" : "12.0");
->>>>>>> c437ce16a8362157adc306f57390cb14a56f3dd6
+            //string connStr = string.Format("Provider=Microsoft.Jet.Oledb.4.0;Data Source={0};Extended Properties='Excel {1};HDR=no;IMEX=1';", fileName, ext == ".xls" ? "8.0" : "12.0");
+
             System.Data.OleDb.OleDbConnection conn = new System.Data.OleDb.OleDbConnection(connStr);
             conn.Open();
             System.Data.DataTable dtSheetName = conn.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });

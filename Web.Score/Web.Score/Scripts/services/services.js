@@ -186,6 +186,20 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         }
         return rs.length;
     }
+    //获得复选框值
+    service.getlist = function (value) {
+        var selected = "";
+        for (var i = 0; i < value.length ; i++) {
+            if (value[i].checked) {
+                selected += value[i].value + ",";
+            }
+        }
+        selected = selected.substring(0, selected.length - 1);
+        if (selected.length == 0) {
+            selected = "";
+        }
+        return selected;
+    }
     return service;
 }]);
 

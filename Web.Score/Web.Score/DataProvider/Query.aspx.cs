@@ -117,5 +117,26 @@ namespace App.Web.Score.DataProvider
                     }));
             }
         }
+        //获得班主任年级
+        [WebMethod]
+        public static string GetScope(string teacherId)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "select * from s_tb_teacherscope where teacherid=@teacherId and teachertype=2";
+                return JsonConvert.SerializeObject(bll.FillDataTableByText(sql, new { teacherId = teacherId }));
+            }
+        }
+        //获得班主任课程
+        [WebMethod]
+        public static IList<GradeCourse> GetBCourse(int teacherScope)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "select a.Coursecode as CourseCode,b.BriefName as FullName from tbCourseUse a,tdCourseCode b " +
+                    "Where a.coursecode=b.coursecode and SubString(a.CourseCode,2,1) =1 and a.GradeNo=@teacherScope group by a.Coursecode,BriefName";
+                return bll.FillListByText<GradeCourse>(sql, new { teacherScope = teacherScope });
+            }
+        }
     }
 }

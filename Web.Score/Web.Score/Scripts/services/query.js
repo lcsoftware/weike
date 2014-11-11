@@ -2,7 +2,7 @@
 
 aService.factory('queryService', ['baseService', 'queryProviderUrl', function (baseService, queryProviderUrl) {
     var service = {};
-    //获得课程
+    //获得任教老师课程
     service.GetGradeCourseByTeacherId = function (micyear, teacherid, callback) {
         var url = queryProviderUrl + '/GetGradeCourseByTeacherId';
         var param = { micyear: micyear, teacherid: teacherid };
@@ -29,6 +29,21 @@ aService.factory('queryService', ['baseService', 'queryProviderUrl', function (b
         var url = queryProviderUrl + '/GetTestNo';
         var param = { micyear: micyear, testtype: testtype };
         baseService.post(url, param, callback);
-    }    
+    }
+    //获得班主任年级
+    service.GetScope = function(teacherId,callback)
+    {
+        var url = queryProviderUrl + '/GetScope';
+        var param = { teacherId: teacherId };
+        baseService.post(url, param, callback);
+    }
+    //获得班主任课程
+    service.GetBCourse = function(teacherScope,callback)
+    {
+        var url = queryProviderUrl + '/GetBCourse';
+        var param = { teacherScope: teacherScope };
+        baseService.post(url, param, callback);
+    }
+
     return service;
 }]);
