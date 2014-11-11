@@ -56,7 +56,29 @@ namespace App.Web.Score.DataProvider
         }
 
         [WebMethod]
-        public static string GetQueryTeacher(int? micyear, string teacherid, int? gradeCourse, int? gradecode, int? testtypes, int? testno)
+        public static IList<TestLogin> GetTestNo(int micyear,int testtype)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Select testno from s_tb_Testlogin where Academicyear=@micyear" +
+                           " and testtype=@testtype ";                           
+                return bll.FillListByText<TestLogin>(sql, new { micyear = micyear, testtype = testtype });
+            }
+        }
+
+        /// <summary>
+        /// 获得成绩
+        /// </summary>
+        /// <param name="micyear">学年</param>
+        /// <param name="teacherid">教师ID</param>
+        /// <param name="gradeCourse">课程</param>
+        /// <param name="gradecode">年级</param>
+        /// <param name="testtypes">考试类型</param>
+        /// <param name="testno">考试号</param>
+        /// <param name="stuId">学生ID</param>
+        /// <returns></returns>
+        [WebMethod]
+        public static string GetQueryTeacher(int? micyear, string teacherid, int? gradeCourse, int? gradecode, int? testtypes, int? testno, string stuId)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -72,14 +94,19 @@ namespace App.Web.Score.DataProvider
                             "TypeName ," +
                             "testno ," +
                             "SchoolID ," +
-                            "courseName " +
+                            "courseName, " +
+                            "markcode " +
                             " from s_vw_ClassScoreNum left join S_tb_SchoolID on s_vw_ClassScoreNum.SRID=S_tb_SchoolID.SRID" +
                             " Where AcademicYear=@micyear" +
                             " and ClassCode=@gradecode and CourseCode=@gradeCourse" +
                             " and  TeacherID=@teacherid";
                 if (testtypes != null) sql += " and TestType=" + testtypes + " ";
-                if (testno != null) sql += " and TestNo=" + testtypes + "";
-                sql += " Order By Testno,NumScore DESC";
+                if (testno != null) sql += " and TestNo=" + testno + "";
+                if (stuId != "") sql += " and s_vw_ClassScoreNum.SRID in(" + stuId + ")";
+                if (stuId != "")
+                    sql += " Order By ClassCode,ClassSN";
+                else
+                    sql += " Order By Testno,NumScore DESC";                
                 return JsonConvert.SerializeObject(bll.FillDataTableByText(sql,
                     new
                     {

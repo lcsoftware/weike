@@ -502,6 +502,7 @@
     <Content Include="Views\admin\AuthEdit.cshtml" />
     <Content Include="Views\admin\StudentImport.cshtml" />
     <Content Include="Views\query\TeacherQuery.cshtml" />
+    <Content Include="Views\query\BTeacherQuery.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

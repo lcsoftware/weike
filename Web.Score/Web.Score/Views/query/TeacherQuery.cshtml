@@ -20,14 +20,7 @@
                 <div class="col-sm-3">
                     <button type="button" class="btn btn-primary" ng-click="query()"><span class="glyphicon glyphicon-ok"></span>查询</button>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-12">
-                    <div ng-repeat="student in Students" class="checkbox-inline" >
-                        <input type="checkbox" value="{{student.SRID}}" name="selected" />{{student.StdName}}
-                    </div>
-                </div>
-            </div>
+            </div>            
             <div class="form-group" ng-show="testShow">
                 <div class="col-sm-4">
                     <select class="form-control" ng-model="TestType" ng-options="m.Name for m in TestTypes">
@@ -35,9 +28,37 @@
                     </select>
                 </div>
                 <div class="col-sm-4">
-                    <select class="form-control" ng-model="TestLogin" ng-options="m.TestLoginNo for m in TestLogins">
+                    <select class="form-control" ng-model="TestNo" ng-options="m.TestNo for m in TestLogins">
                         <option value="">-- 请选择考试号 --</option>
                     </select>
+                </div>
+            </div>         
+            <div class="form-group" ng-show="testShow">
+                <div class="col-sm-12">
+                    <div ng-repeat="student in Students" class="checkbox-inline">
+                        <input type="checkbox" value="{{student.StudentId}}" name="selected" />{{student.StdName}}
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="form-group" ng-show="testShow">                
+                <div class="col-sm-2">
+                    最高分：<font style="color:blue;">{{maxNumScore}}</font>
+                </div>
+                <div class="col-sm-2">
+                    最低分：<font style="color:blue;">{{minNumScore}}</font>
+                </div>
+                <div class="col-sm-2">
+                    单/多次平均分：<font style="color:blue;">{{aveNumScore}}</font>
+                </div>
+                <div class="col-sm-2">
+                    合计人次：<font style="color:blue;">{{couNumScore}}</font>
+                </div>
+                <div class="col-sm-2">
+                    优良人次：<font style="color:blue;">{{goodNumScore}}</font>
+                </div>
+                <div class="col-sm-2">
+                    不及格人次：<font style="color:blue;">{{failNumScore}}</font>
                 </div>
             </div>
         </form>
@@ -63,7 +84,7 @@
                     <th style="width:5%;text-align:center">课程</th>
                 </tr>
             </thead>
-            <tr ng-repeat="item in studentsGrid">
+            <tr ng-repeat="item in pageService.data">
                 <td>
                     {{item.class}}
                 </td>
@@ -105,5 +126,14 @@
                 </td>
             </tr>
         </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12" ng-class="{hidden:pageService.pages==1}" style="background-color: #434a54;">
+        <ul class="pager">
+            <li class="previous"><a style="cursor:pointer" ng-click="pageService.previous()">&larr; 上一页</a></li>
+            <li><a href="#">{{pageService.index}} / {{pageService.pages}}</a></li>
+            <li class="next"><a style="cursor:pointer" ng-click="pageService.next()">下一页 &rarr;</a></li>
+        </ul>
     </div>
 </div>

@@ -130,6 +130,62 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         var param = { academicyear: academicyear, classcode: classcode };
         baseService.post(url, param, callback);
     }
+
+    //获取数组中最大值
+    service.getMax = function (value) {
+        var max = value[0].NumScore;
+        var len = value.length;
+        for (var i = 1; i < len; i++) {
+            if (value[i].NumScore > max) {
+                max = value[i].NumScore;
+            }
+        }
+        return max;
+    }
+    //获取数组中最大值
+    service.getMin = function (value) {
+        var min = value[0].NumScore;
+        var len = value.length;
+        for (var i = 1; i < len; i++) {
+            if (value[i].NumScore < min) {
+                min = value[i].NumScore;
+            }
+        }
+        return min;
+    }
+    //获取数组中平均分
+    service.getAve = function(value)
+    {
+        var count = 0;
+        for (var i = 0; i < value.length; i++) {
+            count += value[i].NumScore
+        }
+        return (count / value.length).toFixed(2);
+    }
+    //获得数组中优良人次
+    service.getGood = function(value,a)
+    {
+        var rs = [];
+        for (var i = 0; i < value.length; i++) {
+            var markcode = value[i].markcode.substr(1, 3) * a;
+            if(value[i].NumScore >= markcode)
+            {
+                rs.push(value[i].NumScore);
+            }
+        }
+        return rs.length;
+    }
+    //获得数组中不及格人次
+    service.getFail = function (value, a) {
+        var rs = [];
+        for (var i = 0; i < value.length; i++) {
+            var markcode = value[i].markcode.substr(1, 3) * a;
+            if (value[i].NumScore < markcode) {
+                rs.push(value[i].NumScore);
+            }
+        }
+        return rs.length;
+    }
     return service;
 }]);
 
