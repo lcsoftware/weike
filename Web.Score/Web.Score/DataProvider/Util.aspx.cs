@@ -100,7 +100,7 @@
             using(AppBLL bll = new AppBLL())
             {
                 var sql = "Select SRID,StdName from s_vw_ClassStudent" +
-                    "Where Academicyear=@academicyear and ClassCode=@classcode";
+                          " Where Academicyear=@academicyear and ClassCode=@classcode";
                 return bll.FillListByText<Student>(sql, new { academicyear = academicyear, classcode = classcode });
             }
         }
