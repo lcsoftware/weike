@@ -70,7 +70,7 @@ appQuery.controller('TeacherQueryController', ['$scope', 'pageService', function
     });
 
     $scope.query = function () {
-        $scope.student = getlist($('input[name=selected]'));
+        $scope.student = $scope.utilService.getlist($('input[name=selected]'));
         if ($scope.MicYear == null) {
             $scope.dialogUtils.info('请选择学年/学期');
             return;
@@ -105,21 +105,7 @@ appQuery.controller('TeacherQueryController', ['$scope', 'pageService', function
                 $scope.Students = data.d;
             });
         }
-    });
-    //获得复选框值
-    var getlist = function (value) {
-        var selected = "";
-        for (var i = 0; i < value.length ; i++) {
-            if (value[i].checked) {
-                selected += value[i].value + ",";
-            }
-        }
-        selected = selected.substring(0, selected.length - 1);
-        if (selected.length == 0) {
-            selected = "";
-        }
-        return selected;
-    }
+    });   
     
 }]);
 
@@ -127,6 +113,59 @@ appQuery.controller('TeacherQueryController', ['$scope', 'pageService', function
 appQuery.controller('BTeacherQueryController', ['$scope', 'pageService', function ($scope, pageService) {
     $scope.$root.title = $scope.softname + ' | 班主任查询';
     $scope.$root.moduleName = '班主任查询';    
-
+    $scope.AcademicYears = [];
+    $scope.TestLogins = [];
+    $scope.TestTypes = [];
+    $scope.GradeCourses = [];
+    $scope.Students = [];
+    $scope.testShow = false;
+    //获得学年
+    $scope.utilService.GetAcademicYears(function (data) {
+        $scope.AcademicYears = data.d;
+    });
+    //绑定考试类型，考试号
+    $scope.utilService.GetTestType(function (data) {
+        $scope.TestTypes = data.d;
+    });
+    //获得用户id
+    $scope.userService.getUser(function (data) {
+        $scope.user = data;
+        //获得班主任年级
+        $scope.queryService.GetScope($scope.user.TeacherID, function (data) {
+            var rs = JSON.parse(data.d);
+            $scope.teacherScope = rs[0].scope.substring(0, 2);
+            $scope.classCode = rs[0].scope;
+            $scope.queryService.GetBCourse($scope.teacherScope, function (data) {
+                $scope.GradeCourses = data.d;
+            });
+        });
+    });
+    //监控考试类型，绑定考试号
+    $scope.$watch('TestType', function (testType) {
+        $scope.TestLogins.length = 0;
+        if (testType != null) {
+            if (testType.Code == null) $scope.TestType = null;
+            $scope.queryService.GetTestNo($scope.MicYear.MicYear, testType.Code, function (data) {
+                $scope.TestLogins = data.d;
+            });
+        }
+    });
+    $scope.$watch('MicYear', function (micyear) {
+        $scope.Students.length = 0;
+        if (micyear) {
+            $scope.testShow = true;
+            $scope.utilService.GetStudent($scope.MicYear.MicYear, $scope.classCode, function (data) {
+                $scope.Students = data.d;
+            });
+        }
+    });
+    $scope.query = function () {
+        $scope.student = $scope.utilService.getlist($('input[name=selected]'));
+        if ($scope.MicYear == null) {
+            $scope.dialogUtils.info('请选择学年/学期');
+            return;
+        }
+        
+    }
 }]);
 

@@ -27,6 +27,7 @@ namespace App.Web.Score.DataProvider
             }
             catch (Exception ex)
             {
+<<<<<<< HEAD
                 context.Response.Write("-1");
             }
         }
@@ -45,8 +46,21 @@ namespace App.Web.Score.DataProvider
                 System.IO.File.Delete(newFileName);
             }
             if (table.Rows.Count == 0)
+=======
+                //string newFileName = Guid.NewGuid().ToString().Replace("-", "");
+                //int index = context.Request.Files[0].FileName.LastIndexOf('.');
+                //if (index == -1) { index = 0; }
+                //newFileName += context.Request.Files[0].FileName.Substring(index);
+                //context.Request.Files[0].SaveAs(System.IO.Path.Combine(_UploaderPath, newFileName));
+                //context.Response.Write(newFileName);
+
+                ReadFromExcel(@"C:\Users\devWin\Desktop\ff.xls");
+
+            }
+            catch (Exception ex)
+>>>>>>> 323be6226fdb7a303de60d9a30704df0c1adb877
             {
-                context.Response.Write("-1");
+                ReadFromExcel(@"f:\fff.xls");
             }
             else
             {
@@ -67,7 +81,16 @@ namespace App.Web.Score.DataProvider
             int index = fileName.LastIndexOf('.');
             if (index == -1) { index = 0; }
             string ext = fileName.Substring(index);
+<<<<<<< HEAD
             string connStr = string.Format("Provider=Microsoft.Jet.Oledb.4.0;Data Source={0};Extended Properties='Excel {1};HDR=YES;IMEX=1';", fileName, ext == ".xls" ? "8.0" : "12.0");
+=======
+
+            string connStr = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};HDR=YES;IMEX=1;Extended Properties=\"{1}\"", fileName, ext == ".xls" ? "8.0" : "12.0");
+
+            //string connStr = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};HDR=YES;IMEX=1;Extended Properties=\"{1}\"", fileName, ext == ".xls" ? "8.0" : "12.0");
+            //string connStr = string.Format("Provider=Microsoft.Jet.Oledb.4.0;Data Source={0};Extended Properties='Excel {1};HDR=no;IMEX=1';", fileName, ext == ".xls" ? "8.0" : "12.0");
+
+>>>>>>> 323be6226fdb7a303de60d9a30704df0c1adb877
             System.Data.OleDb.OleDbConnection conn = new System.Data.OleDb.OleDbConnection(connStr);
             conn.Open();
             try
