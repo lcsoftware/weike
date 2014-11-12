@@ -128,7 +128,7 @@
         </table>
     </div>
 </div>
-<div class="row">
+<div class="row" ng-show="pageService.data.length>0">
     <div class="col-sm-12" ng-class="{hidden:pageService.pages==1}" style="background-color: #434a54;">
         <ul class="pager">
             <li class="previous"><a style="cursor:pointer" ng-click="pageService.previous()">&larr; 上一页</a></li>

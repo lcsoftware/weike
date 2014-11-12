@@ -128,11 +128,11 @@ namespace App.Web.Score.DataProvider
         /// <param name="stuId">学生ID</param>
         /// <returns></returns>
         [WebMethod]
-        public static string GetQueryBTeacher(int? micyear, string gradeCourse, int? gradecode, int? testtypes, int? testno, string stuId)
+        public static string GetQueryBTeacher(int? micyear, string gradeCourse, int? gradecode, int? testtypes, int? testno, string stuId, int? order)
         {
             using (AppBLL bll = new AppBLL())
             {
-                var sql = "Select GradeName+'('+substring(classCode,3,2)+')班'," +
+                var sql = "Select GradeName+'('+substring(classCode,3,2)+')班' as class," +
                             "ClassSN," +
                             "CourseName," +
                             "TypeName," +
@@ -144,18 +144,21 @@ namespace App.Web.Score.DataProvider
                             "GradeOrder," +
                             "ClassOrder," +
                             "markName, " +
-                            "markcode " +
+                            "markcode, " +
+                            "teacherName,ClassCode,Testno " +
                             "from s_vw_ClassScoreNum " +
                             " Where ClassCode=@gradecode " +
                             " and Academicyear=@micyear";
-                if (!string.IsNullOrEmpty(gradeCourse)) sql += " and CourseCode in" + gradeCourse + " ";
+                if (!string.IsNullOrEmpty(gradeCourse)) sql += " and CourseCode in (" + gradeCourse + ")";
                 if (testtypes != null) sql += " and TestType=" + testtypes + " ";
                 if (testno != null) sql += " and TestNo=" + testno + "";
                 if (stuId != "") sql += " and SRID in(" + stuId + ")";
-                if (stuId != "")
-                    sql += " Order By ClassCode,ClassSN";
+                if (order == null)
+                    sql += " Order By Testno,NumScore desc";
+                else if (order == 0)
+                    sql += " Order By classSN";
                 else
-                    sql += " Order By Testno,NumScore DESC";
+                    sql += " Order By NumScore desc";
                 return JsonConvert.SerializeObject(bll.FillDataTableByText(sql,
                     new
                     {

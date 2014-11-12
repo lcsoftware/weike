@@ -42,9 +42,12 @@ appQuery.controller('TeacherQueryController', ['$scope', 'pageService', function
                 $scope.failNumScore = $scope.utilService.getFail($scope.studentsGrid, fail);                
             } else {
                 $scope.pageService.data.length = 0;
-                $scope.pageService.pages.length = 0;
                 $scope.maxNumScore = 0;
                 $scope.minNumScore = 0;
+                $scope.aveNumScore = 0;
+                $scope.couNumScore = 0;
+                $scope.goodNumScore = 0;
+                $scope.failNumScore = 0;
             }
         });
         $scope.testShow = true;
@@ -158,7 +161,7 @@ appQuery.controller('BTeacherQueryController', ['$scope', 'pageService', functio
             });
         }
     });
-    $scope.query = function () {
+    $scope.query = function () {        
         $scope.student = $scope.utilService.getlist($('input[name=selected]'));
         $scope.courseCode = $scope.utilService.getlist($('input[name=grades]'));
         if ($scope.MicYear == null) {
@@ -171,7 +174,7 @@ appQuery.controller('BTeacherQueryController', ['$scope', 'pageService', functio
         var good = 0.75;
         var fail = 0.6
         //成绩列表
-        $scope.queryService.GetQueryBTeacher($scope.MicYear.MicYear, $scope.courseCode, $scope.classCode, $scope.TestType, $scope.TestNo, $scope.student, function (data) {
+        $scope.queryService.GetQueryBTeacher($scope.MicYear.MicYear, $scope.courseCode, $scope.classCode, $scope.TestType, $scope.TestNo, $scope.student,null, function (data) {
             $scope.studentsGrid = JSON.parse(data.d);
             if ($scope.studentsGrid.length > 0) {
                 $scope.pageService.init($scope.studentsGrid, 10);
@@ -183,11 +186,20 @@ appQuery.controller('BTeacherQueryController', ['$scope', 'pageService', functio
                 $scope.failNumScore = $scope.utilService.getFail($scope.studentsGrid, fail);
             } else {
                 $scope.pageService.data.length = 0;
-                $scope.pageService.pages.length = 0;
                 $scope.maxNumScore = 0;
                 $scope.minNumScore = 0;
+                $scope.aveNumScore = 0;
+                $scope.couNumScore = 0;
+                $scope.goodNumScore = 0;
+                $scope.failNumScore = 0;
             }
             $scope.testShow = true;
+        });
+    }
+    $scope.order = function (orderNum) {
+        $scope.queryService.GetQueryBTeacher($scope.MicYear.MicYear, $scope.courseCode, $scope.classCode, $scope.TestType, $scope.TestNo, $scope.student, orderNum, function (data) {
+            $scope.studentsGrid = JSON.parse(data.d);
+            $scope.pageService.init($scope.studentsGrid, 10);
         });
     }
 }]);
