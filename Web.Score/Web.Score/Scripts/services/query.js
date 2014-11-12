@@ -31,26 +31,25 @@ aService.factory('queryService', ['baseService', 'queryProviderUrl', function (b
         baseService.post(url, param, callback);
     }
     //获得班主任年级
-    service.GetScope = function(teacherId,callback)
-    {
+    service.GetScope = function (teacherId, callback) {
         var url = queryProviderUrl + '/GetScope';
         var param = { teacherId: teacherId };
         baseService.post(url, param, callback);
     }
     //获得班主任课程
-    service.GetBCourse = function(teacherScope,callback)
-    {
+    service.GetBCourse = function (teacherScope, callback) {
         var url = queryProviderUrl + '/GetBCourse';
         var param = { teacherScope: teacherScope };
         baseService.post(url, param, callback);
     }
     //获取班主任成绩列表
-    service.GetQueryBTeacher = function (micyear, gradeCourse, gradecode, testtypes, testno, stuId, callback) {
+    service.GetQueryBTeacher = function (micyear, gradeCourse, gradecode, testtypes, testno, stuId, order, callback) {
         var url = queryProviderUrl + '/GetQueryBTeacher';
         var param = {
             micyear: micyear, gradeCourse: gradeCourse,
             gradecode: gradecode, testtypes: testtypes == null ? null : testtypes.Code,
-            testno: testno == null ? null : testno.TestNo, stuId: stuId
+            testno: testno == null ? null : testno.TestNo, stuId: stuId,
+            order: order == null ? null : order
         };
         baseService.post(url, param, callback);
     }

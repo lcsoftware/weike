@@ -7,7 +7,7 @@
                         <option value="">-- 请选择学年/学期 --</option>
                     </select>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                     <div ng-repeat="grade in GradeCourses" class="checkbox-inline">
                         <input type="checkbox" value="{{grade.CourseCode}}" name="grades" />{{grade.FullName}}
                     </div>
@@ -26,6 +26,14 @@
                     <select class="form-control" ng-model="TestNo" ng-options="m.TestNo for m in TestLogins">
                         <option value="">-- 请选择考试号 --</option>
                     </select>
+                </div>
+                <div class="col-sm-2">
+                    <input type="checkbox" value="1" ng-model="teacherName"/>显示任课教师                    
+                </div>
+                <div class="col-sm-3">
+                    排序条件：
+                    <a ng-click="order(0)" style="cursor:pointer;">序号</a>&nbsp;&nbsp;
+                    <a ng-click="order(1)" style="cursor:pointer;">成绩</a>                    
                 </div>
             </div>
             <div class="form-group" ng-show="testShow">
@@ -64,21 +72,25 @@
         <table class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr style="background-color:#808080">
+                    <th style="width:8%;text-align:center" ng-show="teacherName>0">任课教师</th>
                     <th style="width:10%;text-align:center">班级</th>
-                    <th style="width:10%;text-align:center">班级序号</th>
-                    <th style="width:5%;text-align:center">课程</th>
-                    <th style="width:5%;text-align:center">考试类型</th>
+                    <th style="width:8%;text-align:center">班级序号</th>
+                    <th style="width:8%;text-align:center">课程</th>
+                    <th style="width:10%;text-align:center">考试类型</th>
                     <th style="width:5%;text-align:center">学号</th>
-                    <th style="width:5%;text-align:center">姓名</th>
-                    <th style="width:10%;text-align:center">成绩</th>
-                    <th style="width:10%;text-align:center">等第</th>
-                    <th style="width:10%;text-align:center">T分</th>
-                    <th style="width:10%;text-align:center">年级排名</th>
-                    <th style="width:10%;text-align:center">班级排名</th>
-                    <th style="width:5%;text-align:center">记分方式</th>
+                    <th style="width:8%;text-align:center">姓名</th>
+                    <th style="width:5%;text-align:center">成绩</th>
+                    <th style="width:5%;text-align:center">等第</th>
+                    <th style="width:5%;text-align:center">T分</th>
+                    <th style="width:8%;text-align:center">年级排名</th>
+                    <th style="width:8%;text-align:center">班级排名</th>
+                    <th style="width:10%;text-align:center">记分方式</th>
                 </tr>
             </thead>
             <tr ng-repeat="item in pageService.data">
+                <td ng-show="teacherName>0">
+                    {{item.teacherName}}
+                </td>
                 <td>
                     {{item.class}}
                 </td>
@@ -119,7 +131,7 @@
         </table>
     </div>
 </div>
-<div class="row">
+<div class="row" ng-show="pageService.data.length>0">
     <div class="col-sm-12" ng-class="{hidden:pageService.pages==1}" style="background-color: #434a54;">
         <ul class="pager">
             <li class="previous"><a style="cursor:pointer" ng-click="pageService.previous()">&larr; 上一页</a></li>
