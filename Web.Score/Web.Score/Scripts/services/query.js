@@ -14,7 +14,7 @@ aService.factory('queryService', ['baseService', 'queryProviderUrl', function (b
         var param = { micyear: micyear, teacherid: teacherid };
         baseService.post(url, param, callback);
     }
-    //获取成绩列表
+    //获取任课教师成绩列表
     service.GetQueryTeacher = function (micyear, teacherid, gradeCourse, gradecode, testtypes, testno, stuId, callback) {
         var url = queryProviderUrl + '/GetQueryTeacher';
         var param = {
@@ -42,6 +42,16 @@ aService.factory('queryService', ['baseService', 'queryProviderUrl', function (b
     {
         var url = queryProviderUrl + '/GetBCourse';
         var param = { teacherScope: teacherScope };
+        baseService.post(url, param, callback);
+    }
+    //获取班主任成绩列表
+    service.GetQueryBTeacher = function (micyear, gradeCourse, gradecode, testtypes, testno, stuId, callback) {
+        var url = queryProviderUrl + '/GetQueryBTeacher';
+        var param = {
+            micyear: micyear, gradeCourse: gradeCourse,
+            gradecode: gradecode, testtypes: testtypes == null ? null : testtypes.Code,
+            testno: testno == null ? null : testno.TestNo, stuId: stuId
+        };
         baseService.post(url, param, callback);
     }
 

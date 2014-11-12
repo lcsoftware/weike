@@ -26,9 +26,6 @@ appQuery.controller('TeacherQueryController', ['$scope', 'pageService', function
         $scope.AcademicYears = data.d;
     });
 
-
-
-
     var load = function () {
         var good = 0.75;
         var fail = 0.6
@@ -119,6 +116,9 @@ appQuery.controller('BTeacherQueryController', ['$scope', 'pageService', functio
     $scope.GradeCourses = [];
     $scope.Students = [];
     $scope.testShow = false;
+    $scope.pageService = pageService;
+    $scope.pageService.reset();
+
     //获得学年
     $scope.utilService.GetAcademicYears(function (data) {
         $scope.AcademicYears = data.d;
@@ -152,8 +152,7 @@ appQuery.controller('BTeacherQueryController', ['$scope', 'pageService', functio
     });
     $scope.$watch('MicYear', function (micyear) {
         $scope.Students.length = 0;
-        if (micyear) {
-            $scope.testShow = true;
+        if (micyear) {            
             $scope.utilService.GetStudent($scope.MicYear.MicYear, $scope.classCode, function (data) {
                 $scope.Students = data.d;
             });
@@ -161,11 +160,35 @@ appQuery.controller('BTeacherQueryController', ['$scope', 'pageService', functio
     });
     $scope.query = function () {
         $scope.student = $scope.utilService.getlist($('input[name=selected]'));
+        $scope.courseCode = $scope.utilService.getlist($('input[name=grades]'));
         if ($scope.MicYear == null) {
             $scope.dialogUtils.info('请选择学年/学期');
             return;
         }
-        
+        load();
+    }
+    var load = function () {
+        var good = 0.75;
+        var fail = 0.6
+        //成绩列表
+        $scope.queryService.GetQueryBTeacher($scope.MicYear.MicYear, $scope.courseCode, $scope.classCode, $scope.TestType, $scope.TestNo, $scope.student, function (data) {
+            $scope.studentsGrid = JSON.parse(data.d);
+            if ($scope.studentsGrid.length > 0) {
+                $scope.pageService.init($scope.studentsGrid, 10);
+                $scope.maxNumScore = $scope.utilService.getMax($scope.studentsGrid);
+                $scope.minNumScore = $scope.utilService.getMin($scope.studentsGrid);
+                $scope.aveNumScore = $scope.utilService.getAve($scope.studentsGrid);
+                $scope.couNumScore = $scope.studentsGrid.length;
+                $scope.goodNumScore = $scope.utilService.getGood($scope.studentsGrid, good);
+                $scope.failNumScore = $scope.utilService.getFail($scope.studentsGrid, fail);
+            } else {
+                $scope.pageService.data.length = 0;
+                $scope.pageService.pages.length = 0;
+                $scope.maxNumScore = 0;
+                $scope.minNumScore = 0;
+            }
+            $scope.testShow = true;
+        });
     }
 }]);
 

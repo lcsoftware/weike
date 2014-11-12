@@ -56,18 +56,18 @@ namespace App.Web.Score.DataProvider
         }
 
         [WebMethod]
-        public static IList<TestLogin> GetTestNo(int micyear,int testtype)
+        public static IList<TestLogin> GetTestNo(int micyear, int testtype)
         {
             using (AppBLL bll = new AppBLL())
             {
                 var sql = "Select testno from s_tb_Testlogin where Academicyear=@micyear" +
-                           " and testtype=@testtype ";                           
+                           " and testtype=@testtype ";
                 return bll.FillListByText<TestLogin>(sql, new { micyear = micyear, testtype = testtype });
             }
         }
 
         /// <summary>
-        /// 获得成绩
+        /// 获得任课教师成绩
         /// </summary>
         /// <param name="micyear">学年</param>
         /// <param name="teacherid">教师ID</param>
@@ -106,7 +106,7 @@ namespace App.Web.Score.DataProvider
                 if (stuId != "")
                     sql += " Order By ClassCode,ClassSN";
                 else
-                    sql += " Order By Testno,NumScore DESC";                
+                    sql += " Order By Testno,NumScore DESC";
                 return JsonConvert.SerializeObject(bll.FillDataTableByText(sql,
                     new
                     {
@@ -117,6 +117,54 @@ namespace App.Web.Score.DataProvider
                     }));
             }
         }
+        /// <summary>
+        /// 获得班主任成绩
+        /// </summary>
+        /// <param name="micyear">学年</param>
+        /// <param name="gradeCourse">课程</param>
+        /// <param name="gradecode">年级</param>
+        /// <param name="testtypes">考试类型</param>
+        /// <param name="testno">考试号</param>
+        /// <param name="stuId">学生ID</param>
+        /// <returns></returns>
+        [WebMethod]
+        public static string GetQueryBTeacher(int? micyear, string gradeCourse, int? gradecode, int? testtypes, int? testno, string stuId)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Select GradeName+'('+substring(classCode,3,2)+')班'," +
+                            "ClassSN," +
+                            "CourseName," +
+                            "TypeName," +
+                            "SRID," +
+                            "StdName," +
+                            "NumScore," +
+                            "LevelScore," +
+                            "StandardScore," +
+                            "GradeOrder," +
+                            "ClassOrder," +
+                            "markName, " +
+                            "markcode " +
+                            "from s_vw_ClassScoreNum " +
+                            " Where ClassCode=@gradecode " +
+                            " and Academicyear=@micyear";
+                if (!string.IsNullOrEmpty(gradeCourse)) sql += " and CourseCode in" + gradeCourse + " ";
+                if (testtypes != null) sql += " and TestType=" + testtypes + " ";
+                if (testno != null) sql += " and TestNo=" + testno + "";
+                if (stuId != "") sql += " and SRID in(" + stuId + ")";
+                if (stuId != "")
+                    sql += " Order By ClassCode,ClassSN";
+                else
+                    sql += " Order By Testno,NumScore DESC";
+                return JsonConvert.SerializeObject(bll.FillDataTableByText(sql,
+                    new
+                    {
+                        gradecode = gradecode,
+                        micyear = micyear
+                    }));
+            }
+        }
+
         //获得班主任年级
         [WebMethod]
         public static string GetScope(string teacherId)
