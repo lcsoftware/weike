@@ -12,7 +12,8 @@ angular.module('app', [
     'app.directives',
     'app.controllers',
     'app.admin',
-    'app.query'
+    'app.query',
+    'app.stat'
 ])
 
     .config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
@@ -66,7 +67,7 @@ angular.module('app', [
             /**************************End 在线查询***********************/
 
             /**************************教师学生统计***********************/
-
+            .state('stat', { url: '/personstat', abstract: true, templateUrl: '/views/admin/main' })
             //教学情况报表(不分班)
             .state('n_Teacher_Rep1', { url: '/TeacherRep1', templateUrl: '/views/TeacherRep1', controller: 'TeacherRep1Controller' })
             //教学情况报表(分班)
@@ -78,9 +79,9 @@ angular.module('app', [
             //横向纵向比较
             .state('n_Teacher_PJ', { url: '/TeacherPJ', templateUrl: '/views/TeacherPJ', controller: 'TeacherPJController' })
             //考试情况统计
-            .state('n_Student_stat', { url: '/StudentStat', templateUrl: '/views/StudentStat', controller: 'StudentStatController' })
+            .state('stat.Stat07', { url: '/StudentStat', templateUrl: '/views/stat/StudentStat', controller: 'StudentStatController' })
             //年级排名趋势图
-            .state('n_Student_style', { url: '/StudentStyle', templateUrl: '/views/StudentStyle', controller: 'StudentStyleController' })
+            .state('n_Student_style', { url: '/StudentStyle', templateUrl: '/views/stat/StudentStyle', controller: 'StudentStyleController' })
             //语数外排名曲线
             .state('n_Student_YSW', { url: '/StudentYSW', templateUrl: '/views/StudentYSW', controller: 'StudentYSWController' })
             //打印成绩单
@@ -92,7 +93,7 @@ angular.module('app', [
 
 
             /**************************年级班级统计***********************/
-
+            .state('GradeClass', { url: '/GradeClass', abstract: true, templateUrl: '/views/admin/main' })
             //年级等级分布图
             .state('n_Grade_Style', { url: '/GradeStyle', templateUrl: '/views/GradeStyle', controller: 'GradeStyleController' })
             //班级间比较
@@ -192,15 +193,20 @@ angular.module('app', [
                 }, function (results) {
                     if (results.allFuncs.d != null) {
                         $rootScope.menus = results.allFuncs.d;
+                        console.log($rootScope.menus);
                         angular.forEach($rootScope.menus, function(menu){
-                            var visibleFuncs = results.userFuncs.d;
-                            var length = visibleFuncs.length;
-                            for (var i = 0; i < length; i++) {
-                                var visibleFunc = visibleFuncs[i]; 
-                                if (menu.FuncID === visibleFunc.FuncID) {
-                                    menu.Visibled = true;
-                                    break;
-                                } 
+                            if (menu.FuncID !== 1701) {
+                                var visibleFuncs = results.userFuncs.d;
+                                var length = visibleFuncs.length;
+                                for (var i = 0; i < length; i++) {
+                                    var visibleFunc = visibleFuncs[i];
+                                    if (menu.FuncID === visibleFunc.FuncID) {
+                                        menu.Visibled = true;
+                                        break;
+                                    }
+                                }
+                            } else {
+                                menu.Visibled = true;
                             }
                         }); 
                     }

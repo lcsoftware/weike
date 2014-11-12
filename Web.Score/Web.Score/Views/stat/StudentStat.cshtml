@@ -1,0 +1,61 @@
+﻿<div class="row">
+    <div class="col-sm-6 col-sm-offset-3" style="overflow-y: auto;max-height:45em;">
+        <form class="form-horizontal" role="form" ng-submit="saveUserGroup();">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.MicYear" ng-options="m.MicYear for m in AcademicYears">
+                        <option value="">-- 请选择学年--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.GradeCode" ng-options="m.GradeName for m in GradeCodes">
+                        <option value="">-- 请选择年级--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.GradeCourse" ng-options="m.FullName for m in GradeCourses">
+                        <option value="">-- 请选择课程--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.GradeCourse" ng-options="m.FullName for m in GradeCourses">
+                        <option value="">-- 请选择班级--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.TestType" ng-options="m.Name for m in TestTypes">
+                        <option value="">-- 请选择考试类型 --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.TestLogin" ng-options="m.TestLoginNo for m in TestLogins">
+                        <option value="">-- 请选择考试号 --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.ScoreSort" ng-options="m.name for m in ScoreSorts">
+                        <option value="">-- 请选择学生 --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-primary" ng-click="tryOk();"><span class="glyphicon glyphicon-ok"></span>统 计</button>
+                    <button type="button" class="btn btn-default" ng-click="tryCalculate();"><span class="glyphicon glyphicon-print"></span>打 印</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -125,3 +125,10 @@ GO
 
 UPDATE dbo.s_tb_Function SET FuncName='query.'+FuncName 
 WHERE FuncID IN(4200,4300,4400,4500,4600,4800,4801)
+
+
+update s_tb_Function set FuncName = 'stat.Stat' + CAST(funcid-1701 as varchar) 
+where FuncID in (1711,, 1712)
+
+update s_tb_Function set FuncName = 'stat.Stat0' + CAST(funcid-1701 as varchar) 
+where FuncID in (1708,1709,1710,1702,1703,1704,1705,1706)        

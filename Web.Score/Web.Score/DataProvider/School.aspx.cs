@@ -1030,7 +1030,7 @@ namespace App.Web.Score.DataProvider
         /****************************************学生编号导入*****************************/
 
         [WebMethod]
-        public static int WriteToDb(int micYear, IList<StudentImportEntry> students)
+        public static int WriteToDb(int micYear, IList<App.Score.Entity.StudentImportEntry> students)
         {
             try
             {

@@ -503,6 +503,7 @@
     <Content Include="Views\admin\StudentImport.cshtml" />
     <Content Include="Views\query\TeacherQuery.cshtml" />
     <Content Include="Views\query\BTeacherQuery.cshtml" />
+    <Content Include="Views\stat\StudentStat.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
