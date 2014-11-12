@@ -27,7 +27,6 @@ namespace App.Web.Score.DataProvider
             }
             catch (Exception ex)
             {
-<<<<<<< HEAD
                 context.Response.Write("-1");
             }
         }
@@ -40,31 +39,19 @@ namespace App.Web.Score.DataProvider
             newFileName += context.Request.Files[0].FileName.Substring(index);
             newFileName = System.IO.Path.Combine(_UploaderPath, newFileName);
             context.Request.Files[0].SaveAs(newFileName);
+            //IList<App.Score.Entity.StudentImportEntry> students = this.ReadStudents(newFileName);
             System.Data.DataTable table = this.ReadStudents(newFileName);
             if (System.IO.File.Exists(newFileName))
             {
                 System.IO.File.Delete(newFileName);
             }
-            if (table.Rows.Count == 0)
-=======
-                //string newFileName = Guid.NewGuid().ToString().Replace("-", "");
-                //int index = context.Request.Files[0].FileName.LastIndexOf('.');
-                //if (index == -1) { index = 0; }
-                //newFileName += context.Request.Files[0].FileName.Substring(index);
-                //context.Request.Files[0].SaveAs(System.IO.Path.Combine(_UploaderPath, newFileName));
-                //context.Response.Write(newFileName);
-
-                ReadFromExcel(@"C:\Users\devWin\Desktop\ff.xls");
-
-            }
-            catch (Exception ex)
->>>>>>> 323be6226fdb7a303de60d9a30704df0c1adb877
+            if (table.Rows.Count > 0)
             {
-                ReadFromExcel(@"f:\fff.xls");
+                context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(table));
             }
             else
             {
-                context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(table));
+                context.Response.Write("-1");
             } 
         }
 
@@ -76,21 +63,12 @@ namespace App.Web.Score.DataProvider
             }
         }
 
-        private IList<App.Score.Entity.StudentImportEntry> ReadStudents(string fileName)
+        private System.Data.DataTable ReadStudents(string fileName)
         {
             int index = fileName.LastIndexOf('.');
             if (index == -1) { index = 0; }
             string ext = fileName.Substring(index);
-<<<<<<< HEAD
-            string connStr = string.Format("Provider=Microsoft.Jet.Oledb.4.0;Data Source={0};Extended Properties='Excel {1};HDR=YES;IMEX=1';", fileName, ext == ".xls" ? "8.0" : "12.0");
-=======
-
-            string connStr = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};HDR=YES;IMEX=1;Extended Properties=\"{1}\"", fileName, ext == ".xls" ? "8.0" : "12.0");
-
-            //string connStr = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};HDR=YES;IMEX=1;Extended Properties=\"{1}\"", fileName, ext == ".xls" ? "8.0" : "12.0");
-            //string connStr = string.Format("Provider=Microsoft.Jet.Oledb.4.0;Data Source={0};Extended Properties='Excel {1};HDR=no;IMEX=1';", fileName, ext == ".xls" ? "8.0" : "12.0");
-
->>>>>>> 323be6226fdb7a303de60d9a30704df0c1adb877
+            string connStr = string.Format("Provider=Microsoft.Jet.Oledb.4.0;Data Source={0};Extended Properties='Excel {1};HDR=YES;IMEX=1';", fileName, ext == ".xls" ? "8.0" : "12.0"); 
             System.Data.OleDb.OleDbConnection conn = new System.Data.OleDb.OleDbConnection(connStr);
             conn.Open();
             try
@@ -100,20 +78,21 @@ namespace App.Web.Score.DataProvider
                 System.Data.OleDb.OleDbDataAdapter adapter = new System.Data.OleDb.OleDbDataAdapter(sql, conn);
                 System.Data.DataTable table = new System.Data.DataTable();
                 adapter.Fill(table);
-                IList<App.Score.Entity.StudentImportEntry> students = new List<App.Score.Entity.StudentImportEntry>();
-                for (int i = 0; i < table.Rows.Count; i++)
-                {
-                    App.Score.Entity.StudentImportEntry student = new App.Score.Entity.StudentImportEntry();
-                    student.MicYear = table.Rows[i]["MicYear"].ToString();
-                    student.SchoolNo = table.Rows[i]["SchoolNo"].ToString();
-                    student.Grade = table.Rows[i]["Grade"].ToString();
-                    student.GradeClass = table.Rows[i]["GradeClass"].ToString();
-                    student.ClassN = table.Rows[i]["ClassN"].ToString();
-                    student.Name = table.Rows[i]["Name"].ToString();
-                    student.Sex = table.Rows[i]["Sex"].ToString();
-                    students.Add(student);
-                }
-                return students;
+                return table;
+                //IList<App.Score.Entity.StudentImportEntry> students = new List<App.Score.Entity.StudentImportEntry>();
+                //for (int i = 0; i < table.Rows.Count; i++)
+                //{
+                //    App.Score.Entity.StudentImportEntry student = new App.Score.Entity.StudentImportEntry();
+                //    student.MicYear = table.Rows[i]["MicYear"].ToString();
+                //    student.SchoolNo = table.Rows[i]["SchoolNo"].ToString();
+                //    student.Grade = table.Rows[i]["Grade"].ToString();
+                //    student.GradeClass = table.Rows[i]["GradeClass"].ToString();
+                //    student.ClassN = table.Rows[i]["ClassN"].ToString();
+                //    student.Name = table.Rows[i]["Name"].ToString();
+                //    student.Sex = table.Rows[i]["Sex"].ToString();
+                //    students.Add(student);
+                //}
+                //return students;
             }
             finally
             {

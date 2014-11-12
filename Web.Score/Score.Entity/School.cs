@@ -229,7 +229,7 @@ namespace App.Score.Entity
 
     public class ParamStudentImport1
     {
-        public string YearCode;
-        public string SRID;
+        public string YEARCODE;
+        public string ST_SRID;
     }
 }

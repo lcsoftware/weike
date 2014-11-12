@@ -757,17 +757,21 @@ appAdmin.controller('StdImportController', ['$scope', 'FileUploader', 'uploadSer
     var moduleName = '学生编号导入';
     $scope.$root.moduleName = moduleName;
     $scope.$root.title = $scope.softname + ' | ' + moduleName;
+    $scope.students = [];
 
     $scope.fileUploader = uploadService.create({ type: 1 }, function (fileItem, response, status, headers) {
+        $scope.students.length = 0;
         if (response === '-1') {
             $scope.dialogUtils.info('未发现可导入的学生数据');
         } else {
             $scope.students = angular.fromJson(response);
         }
-        console.log($scope.fileUploader.queue);
     });
 
     $scope.fileChanged = function () {
+        if ($scope.fileUploader.queue.length === 2) {
+            $scope.fileUploader.queue = $scope.fileUploader.queue.slice(-1);
+        }
         if ($scope.fileUploader.queue.length > 0) {
             $scope.fileUploader.queue[0].upload();
         }
@@ -775,8 +779,20 @@ appAdmin.controller('StdImportController', ['$scope', 'FileUploader', 'uploadSer
 
     $scope.writeToDb = function () {
         if ($scope.students && $scope.students.length > 0) {
-            var url = '/DataProvider/';
-            var param = { students: $scope.students };
+            var micYear = $scope.schoolService.school.AcademicYear;
+            var url = '/DataProvider/School.aspx/WriteToDb';
+            var param = { micYear: micYear, students: $scope.students };
+            $scope.baseService.post(url, param, function (data) {
+                switch (data.d)
+                {
+                    case -1:
+                        $scope.dialogUtils.info('系统发现您的Excel学年与系统设置不一样!');
+                        break;
+                    default:
+                        $scope.dialogUtils.info('学生编号导入完成！');
+                        break;
+                } 
+            });
         }
     }
 }]);

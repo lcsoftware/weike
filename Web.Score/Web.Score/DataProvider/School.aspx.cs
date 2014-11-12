@@ -1032,61 +1032,69 @@ namespace App.Web.Score.DataProvider
         [WebMethod]
         public static int WriteToDb(int micYear, IList<StudentImportEntry> students)
         {
-            using (AppBLL bll = new AppBLL())
+            try
             {
-                var systemIdBegin = UtilBLL.BuildSystemIdBegin();
-                var indexForStudentBase = UtilBLL.GetStartIndex("tbStudentBaseInfo");
-                var indexForStudentStatus = UtilBLL.GetStartIndex("tbStudentStatus");
-                var indexForStudentClass = UtilBLL.GetStartIndex("tbStudentClass");
-
-                foreach (var student in students)
+                using (AppBLL bll = new AppBLL())
                 {
-                    if (string.IsNullOrEmpty(student.MicYear) || micYear != int.Parse(student.MicYear)) return -1; //系统发现您的Excel学年与系统设置不一样!
-                    student.Sex = student.Sex.Equals("男") ? "1" : "2";
-                    //查是否系统中有此学生
-                    var sql = "Select * from s_vw_ClassStudent"
-                       + " where Academicyear=@micYear and ClassCode=@classCode"
-                       + " and StdName=@name and Sex=@sex";
-                    DataTable table = bll.FillDataTableByText(sql, new { micYear = student.MicYear, classCode = student.GradeClass, name = student.Name, sex = student.Sex });
-                    var mmSRID = table.Rows[0]["srid"].ToString();
-                    if (table.Rows.Count > 0)
+                    var systemIdBegin = UtilBLL.BuildSystemIdBegin();
+                    var indexForStudentBase = UtilBLL.GetStartIndex("tbStudentBaseInfo");
+                    var indexForStudentStatus = UtilBLL.GetStartIndex("tbStudentStatus");
+                    var indexForStudentClass = UtilBLL.GetStartIndex("tbStudentClass");
+
+                    foreach (var student in students)
                     {
-                        sql = " if exists(Select * from s_tb_SchoolID where SRID=@srid)"
-                          + " update s_tb_SchoolID set SCHOOLID=@schoolNo where SRID=@srid"
-                          + " else Insert into s_tb_SchoolID(SRID,SCHOOLID) values(@srid, @schoolNo)";
-                        bll.ExecuteNonQueryByText(sql, new { srid = mmSRID, schoolNo = student.SchoolNo });
+                        if (string.IsNullOrEmpty(student.MicYear) || micYear != int.Parse(student.MicYear)) return -1; //系统发现您的Excel学年与系统设置不一样!
+                        student.Sex = student.Sex.Equals("男") ? "1" : "2";
+                        //查是否系统中有此学生
+                        var sql = "Select * from s_vw_ClassStudent"
+                           + " where Academicyear=@micYear and ClassCode=@classCode"
+                           + " and StdName=@name and Sex=@sex";
+                        DataTable table = bll.FillDataTableByText(sql, new { micYear = student.MicYear, classCode = student.GradeClass, name = student.Name, sex = student.Sex });
+                        var mmSRID = "";
+                        if (table.Rows.Count > 0)
+                        {
+                            mmSRID = table.Rows[0]["srid"].ToString();
+                            sql = " if exists(Select * from s_tb_SchoolID where SRID=@srid)"
+                              + " update s_tb_SchoolID set SCHOOLID=@schoolNo where SRID=@srid"
+                              + " else Insert into s_tb_SchoolID(SRID,SCHOOLID) values(@srid, @schoolNo)";
+                            bll.ExecuteNonQueryByText(sql, new { srid = mmSRID, schoolNo = student.SchoolNo });
+                        }
+                        else
+                        {
+                            ParamStudentImport1 param1 = new ParamStudentImport1() { ST_SRID = "", YEARCODE = student.MicYear };
+                            bll.ExecuteNonQuery("p_CreateSRID", param1);
+                            mmSRID = param1.ST_SRID;
+                            var mmSystemId = UtilBLL.CreateSystemID(systemIdBegin, indexForStudentBase++);
+                            var stdStatusID = UtilBLL.CreateSystemID(systemIdBegin, indexForStudentStatus++); 
+                            var mClassID = UtilBLL.CreateSystemID(systemIdBegin, indexForStudentClass++);
+
+                            sql = "Insert Into tbStudentBaseInfo(SystemId,SRID,StdName,sex,ISdelete)"
+                                 + " values(@mmSystemId, @mmSRID, @mmStdName, @mmSex,'0')";
+                            bll.ExecuteNonQueryByText(sql, new { mmSystemId = mmSystemId, mmSRID = mmSRID, mmStdName = student.Name, mmSex = student.Sex });
+
+                            //状态
+                            sql = "insert into tbstudentstatus(systemid,AcademicYear,SRID,status,isDelete)"
+                                  + " values(@mmSystemId,@mmYear,@mmSRID,'01','0')";
+                            bll.ExecuteNonQueryByText(sql, new { mmSystemId = stdStatusID, mmYear = student.MicYear, mmSRID = mmSRID });
+
+                            //班级
+                            sql = "insert into tbStudentClass(systemid,AcademicYear,SRID,ClassCode,ClassSN,isDelete)"
+                                    + " values(@mmSystemId, @mmYear, @mmSRID, @mmClassCode, @mmClassSN,'0')";
+                            bll.ExecuteNonQueryByText(sql, new { mmSystemId = mClassID, mmYear = student.MicYear, mmSRID = mmSRID, mmClassCode = student.GradeClass, mmClassSN = student.ClassN });
+
+                            //学生编号
+                            sql = "if exists(Select * from s_tb_SchoolID where SRID=@mmSRID)"
+                                    + " update s_tb_SchoolID set SCHOOLID=@mmSchoolNo where SRID=@mmSRID "
+                                    + " else Insert into s_tb_SchoolID(SRID,SCHOOLID) values(@mmSRID,@mmSchoolNo)";
+                            bll.ExecuteNonQueryByText(sql, new { mmSRID = mmSRID, mmSchoolNo = student.SchoolNo });
+                        }
                     }
-                    else
-                    {
-                        ParamStudentImport1 param1 = new ParamStudentImport1() { SRID = "", YearCode = student.MicYear };
-                        bll.ExecuteNonQuery("p_CreateSRID", param1);
-                        mmSRID = param1.SRID;
-                        var mmSystemId = UtilBLL.CreateSystemID(systemIdBegin, indexForStudentBase++);
-                        var stdStatusID = UtilBLL.CreateSystemID(systemIdBegin, indexForStudentStatus++);
-
-                        sql ="Insert Into tbStudentBaseInfo(SystemId,SRID,StdName,sex,ISdelete)"
-                             +" values(@mmSystemId, @mmSRID, @mmStdName, @mmSex,'0')";
-                        bll.ExecuteNonQueryByText(sql, new { mmSystemId = mmSystemId, mmSRID = mmSRID, mmStdName = student.Name, mmSex = student.Sex });
-
-                        //状态
-                        sql = "insert into tbstudentstatus(systemid,AcademicYear,SRID,status,isDelete)"
-                              + " values(@mSystemId,@mmYear,@mmSRID,'01','0')";
-                        bll.ExecuteNonQueryByText(sql, new { mmSystemId = mmSystemId, mmYear = student.MicYear, mmSRID = mmSRID });
-
-                        mmSystemId = UtilBLL.CreateSystemID(systemIdBegin, indexForStudentClass++); 
-                        //班级
-                        sql = "insert into tbStudentClass(systemid,AcademicYear,SRID,ClassCode,ClassSN,isDelete)"
-                                + " values('@mmSystemId, @mmYear, @mmSRID, mmClassCode, @mmClassSN,'0')";
-                        bll.ExecuteNonQueryByText(sql, new { mmSystemId = mmSystemId, mmYear = student.MicYear, mmSRID = mmSRID, mmClassCode=student.GradeClass, mmStdName = student.Name, mmSex = student.Sex });
-
-                        //学生编号
-                        sql = "if exists(Select * from s_tb_SchoolID where SRID=@mmSRID)"
-                                + " update s_tb_SchoolID set SCHOOLID=@mmSchoolNo where SRID=@mmSRID "
-                                + " else Insert into s_tb_SchoolID(SRID,SCHOOLID) values(@mmSRID,@mmSchoolNo)";
-                        bll.ExecuteNonQueryByText(sql, new { mmSRID = mmSRID, mmSchoolNo = student.SchoolNo });
-                    }
+                    return 1;
                 }
-                return 1;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 

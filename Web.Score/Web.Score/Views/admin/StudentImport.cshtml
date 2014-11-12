@@ -1,48 +1,53 @@
 ﻿<div class="row">
-    <div class="col-sm-11">
-        <input type="file" nv-file-select="" uploader="fileUploader" ng-model="aa" ng-change="fileChanged()" /> 
-    </div>
-    <div class="col-sm-1">
-        <button type="button" class="btn btn-primary" ng-click="writeToDb();">写入数据库</button>
-    </div>
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-10">
+                <input type="file" nv-file-select="" uploader="fileUploader" ng-model="aa" ng-change="fileChanged()" />
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-primary pull-right" ng-click="writeToDb();">写入数据库</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" style="margin-top:1em;">
+                <table class="table table-striped table-bordered" >
+                    <thead>
+                        <tr style="background-color:#808080">
+                            <th style="width:10%;text-align:center">学年</th>
+                            <th style="width:15%;text-align:center">学校编号</th>
+                            <th style="width:10%;text-align:center">年级</th>
+                            <th style="width:10%;text-align:center">班级</th>
+                            <th style="width:10%;text-align:center">班内序号</th>
+                            <th style="width:25%;text-align:center">姓名</th>
+                            <th style="width:20%;text-align:center">性别</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="student in students">
+                        <td>
+                            {{student.MicYear}}
+                        </td>
+                        <td>
+                            {{student.SchoolNo}}
+                        </td>
+                        <td>
+                            {{student.Grade}}
+                        </td>
+                        <td>
+                            {{student.GradeClass}}
+                        </td>
+                        <td>
+                            {{student.ClassN}}
+                        </td>
+                        <td>
+                            {{student.Name}}
+                        </td>
+                        <td>
+                            {{student.Sex}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div> 
 </div>
-<div class="row">
-    <div class="col-sm-12" style="margin-top:1em;">
-        <table class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr style="background-color:#808080">
-                    <th style="width:10%;text-align:center">学年</th>
-                    <th style="width:15%;text-align:center">学校编号</th>
-                    <th style="width:10%;text-align:center">年级</th>
-                    <th style="width:10%;text-align:center">班级</th>
-                    <th style="width:10%;text-align:center">班内序号</th>
-                    <th style="width:25%;text-align:center">姓名</th>
-                    <th style="width:20%;text-align:center">性别</th>
-                </tr>
-            </thead>
-            <tr ng-repeat="student in students">
-                <td>
-                    {{student.MicYear}}
-                </td>
-                <td>
-                    {{student.SchoolNo}}
-                </td>
-                <td>
-                    {{student.Grade}}
-                </td>
-                <td>
-                    {{student.GradeClass}}
-                </td>
-                <td>
-                    {{student.ClassN}}
-                </td>
-                <td>
-                    {{student.Name}}
-                </td>
-                <td>
-                    {{student.Sex}}
-                </td>
-            </tr>
-        </table>
-    </div>
-</div>
+
