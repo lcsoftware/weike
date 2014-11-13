@@ -57,7 +57,7 @@ angular.module('app', [
             //年级领导查询
             .state('query.nQuery2', { url: '/GradeManager', templateUrl: '/views/query/GradeManager', controller: 'GradeManagerController' })
             //教务员查询
-            .state('query.nQuery3', { url: '/SchoolmanagerQuery', templateUrl: '/views/query/SchoolmanagerQuery', controller: 'SchoolmanagerQueryController' })
+            .state('query.nQuery3', { url: '/SchoolManagerQuery', templateUrl: '/views/query/SchoolManagerQuery', controller: 'SchoolManagerQueryController' })
             //校领导查询
             .state('query.nQuery4', { url: '/SchoolHead', templateUrl: '/views/query/SchoolHead', controller: 'SchoolHeadController' })
             //常用查询

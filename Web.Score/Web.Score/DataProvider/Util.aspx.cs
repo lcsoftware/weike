@@ -97,7 +97,7 @@
         {
             using (AppBLL bll = new AppBLL())
             {
-                var sql = "Select SRID,stdName from tbStudentBaseInfo where ISdelete=0 order by SRID DESC";
+                var sql = "Select SRID as StudentId,stdName from tbStudentBaseInfo where ISdelete=0 order by SRID DESC";
                 return bll.FillListByText<Student>(sql, new {});
             }
         }
