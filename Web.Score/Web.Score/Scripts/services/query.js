@@ -36,6 +36,12 @@ aService.factory('queryService', ['baseService', 'queryProviderUrl', function (b
         var param = { teacherId: teacherId };
         baseService.post(url, param, callback);
     }
+    //获得年级领导年级
+    service.GetGradeScope = function (teacherId, callback) {
+        var url = queryProviderUrl + '/GetGradeScope';
+        var param = { teacherId: teacherId };
+        baseService.post(url, param, callback);
+    }
     //获得班主任课程
     service.GetBCourse = function (teacherScope, callback) {
         var url = queryProviderUrl + '/GetBCourse';
@@ -53,6 +59,22 @@ aService.factory('queryService', ['baseService', 'queryProviderUrl', function (b
         };
         baseService.post(url, param, callback);
     }
-
+    //获得年级领导成绩
+    service.GetQueryGradeManager = function (micyear, gradeCourse, gradecode, testtypes, testno, classCode, stuId, order, callback) {
+        var url = queryProviderUrl + '/GetQueryGradeManager';
+        var param = {
+            micyear: micyear, gradeCourse: gradeCourse,
+            gradecode: gradecode, testtypes: testtypes == null ? null : testtypes.Code,
+            testno: testno == null ? null : testno.TestNo, classCode: classCode,
+            stuId: stuId, order: order == null ? null : order
+        };
+        baseService.post(url, param, callback);
+    }
+    //根据年级获得该年级的所有班级
+    service.GetGradeByGradeNo = function (micyear, gradeNo, callback) {
+        var url = queryProviderUrl + '/GetGradeByGradeNo';
+        var param = { micyear: micyear, gradeNo: gradeNo };
+        baseService.post(url, param, callback);
+    }
     return service;
 }]);

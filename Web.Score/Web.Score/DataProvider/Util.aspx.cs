@@ -89,7 +89,21 @@
         }
 
         /// <summary>
-        /// 获得学生
+        /// 获得所有学生
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod]
+        public static IList<Student> GetStudents()
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Select SRID,stdName from tbStudentBaseInfo where ISdelete=0 order by SRID DESC";
+                return bll.FillListByText<Student>(sql, new {});
+            }
+        }
+
+        /// <summary>
+        /// 根据班级获得学生
         /// </summary>
         /// <param name="academicyear">学年</param>
         /// <param name="classcode">班级</param>
@@ -102,6 +116,17 @@
                 var sql = "Select SRID AS StudentId,StdName from s_vw_ClassStudent" +
                           " Where Academicyear=@academicyear and ClassCode=@classcode";
                 return bll.FillListByText<Student>(sql, new { academicyear = academicyear, classcode = classcode });
+            }
+        }
+
+        [WebMethod]
+        public static IList<Student> GetStudentsByGrade(int academicyear, string classNo)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Select SRID AS StudentId,StdName from s_vw_ClassStudent" +
+                          " Where Academicyear=@academicyear and ClassCode in (" + classNo + ")";
+                return bll.FillListByText<Student>(sql, new { academicyear = academicyear });
             }
         }
 

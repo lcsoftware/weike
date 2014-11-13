@@ -133,6 +133,19 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         var param = { academicyear: academicyear, classcode: classcode };
         baseService.post(url, param, callback);
     }
+    //获得所有学生
+    service.GetStudents = function (callback) {
+        var url = utilProviderUrl + '/GetStudents';
+        var param = {};
+        baseService.post(url, param, callback);
+    }
+    //根据班级获得学生
+    service.GetStudentsByGrade = function (academicyear,classNo, callback) {
+        var url = utilProviderUrl + '/GetStudentsByGrade';
+        var param = { academicyear:academicyear,classNo: classNo };
+        baseService.post(url, param, callback);
+    }
+    
 
     //获取数组中最大值
     service.getMax = function (value) {
