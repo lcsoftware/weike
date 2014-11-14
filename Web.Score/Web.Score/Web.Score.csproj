@@ -169,6 +169,7 @@
     <Content Include="DataProvider\Down.aspx" />
     <Content Include="DataProvider\Query.aspx" />
     <Content Include="DataProvider\School.aspx" />
+    <Content Include="DataProvider\Statistic.aspx" />
     <Content Include="DataProvider\Util.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\controllers\admin.js" />
@@ -544,6 +545,13 @@
     </Compile>
     <Compile Include="DataProvider\School.aspx.designer.cs">
       <DependentUpon>School.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\Statistic.aspx.cs">
+      <DependentUpon>Statistic.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Statistic.aspx.designer.cs">
+      <DependentUpon>Statistic.aspx</DependentUpon>
     </Compile>
     <Compile Include="DataProvider\UploadHandler.ashx.cs">
       <DependentUpon>UploadHandler.ashx</DependentUpon>

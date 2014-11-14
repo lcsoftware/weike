@@ -51,7 +51,13 @@
             using (AppBLL bll = new AppBLL())
             {
                 var sql = "select academicyear as MicYear from tbGradeClass group by academicyear";
-                return bll.FillListByText<Academicyear>(sql, null);
+                IList<Academicyear> years = bll.FillListByText<Academicyear>(sql, null);
+                if (years == null || !years.Any())
+                {
+                    sql = "SELECT AcademicYear as MicYear FROM tbSchoolBaseInfo";
+                    years = bll.FillListByText<Academicyear>(sql, null); 
+                } 
+                return years;
             }
         }
         /// <summary>
@@ -69,7 +75,7 @@
         }
 
         /// <summary>
-        /// 获得GradeCourse
+        /// 课程
         /// </summary>
         /// <param name="flag">-1 全部， 其它值：IsDownLoad=flag</param>
         /// <returns></returns> 
@@ -87,6 +93,44 @@
                 return bll.FillListByText<GradeCourse>(sql, new { gradeNo = gradeCode.GradeNo, flag = flag });
             }
         }
+
+        /// <summary>
+        /// 课程 
+        /// </summary>
+        /// <param name="teacherId"></param>
+        /// <returns></returns> 
+        [WebMethod]
+        public static IList<GradeCourse> GetGradeCourse(int micYear, GradeCode gradeCode)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "SELECT a.Academicyear,a.GradeNo, a.CourseCode, b.FullName"
+                            + " FROM  tbCourseUse a LEFT OUTER JOIN"
+                            + " tdCourseCode b ON a.coursecode = b.CourseCode"
+                            + " where a.Academicyear=@micYear"
+                            + " and a.GradeNo=@gradeNo";
+                return bll.FillListByText<GradeCourse>(sql, new { micYear = micYear, gradeNo = gradeCode.GradeNo });
+            }
+        }
+        [WebMethod]
+        public static IList<GradeClass> GetGradeClass(int academicYear, GradeCode gradeCode)
+        {
+            try
+            {
+                using (AppBLL bll = new AppBLL())
+                {
+                    var sql = "select a.SystemID, a.GradeNo, AcadEmicYear, ClassNo, ClassType, IsDelete from tbGradeClass a, tdGradeCode b" +
+                                " where a.Gradeno=b.GradeNO" +
+                                " and a.GradeNO=@gradeCode" +
+                                " and a.AcadEmicYear=@micYear";
+                    return bll.FillListByText<GradeClass>(sql, new { micYear = academicYear, gradeCode = gradeCode.GradeNo });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        } 
 
         /// <summary>
         /// 获得所有学生
@@ -127,6 +171,27 @@
                 var sql = "Select SRID AS StudentId,StdName from s_vw_ClassStudent" +
                           " Where Academicyear=@academicyear and ClassCode in (" + classNo + ")";
                 return bll.FillListByText<Student>(sql, new { academicyear = academicyear });
+            }
+        }
+
+        /// <summary>
+        /// 考试类型
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod]
+        public static IList<TestType> GetTestTypeByCourse(int micYear, GradeCourse gradeCourse, GradeCode gradeCode)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = " SELECT a.TestType as Code, b.TypeName as Name"
+                            + " FROM s_tb_testlogin a INNER JOIN"
+                            + " s_tb_TestTypeInfo b ON a.TestType = b.TestType"
+                            + " where a.AcademicYear=@micYear"
+                            + " and a.coursecode in ('00000', @courseCode)"
+                            + " and a.GradeNo in ('00',@gradeNo)"
+                            + " group by a.testtype,b.typename "
+                            + " order by a.testtype ";
+                return bll.FillListByText<TestType>(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, gradeNo = gradeCode.GradeNo });
             }
         }
 

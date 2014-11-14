@@ -17,15 +17,15 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-12">
-                    <select class="form-control" ng-model="conditionData.GradeCourse" ng-options="m.FullName for m in GradeCourses">
-                        <option value="">-- 请选择课程--</option>
+                    <select class="form-control" ng-model="conditionData.GradeClass" ng-options="(conditionData.GradeCode.GradeBriefName + '(' + m.ClassNo.substr(2) + ')班') for m in GradeClasses">
+                        <option value="">-- 请选择班级--</option>
                     </select>
                 </div>
-            </div>
+            </div> 
             <div class="form-group">
                 <div class="col-sm-12">
                     <select class="form-control" ng-model="conditionData.GradeCourse" ng-options="m.FullName for m in GradeCourses">
-                        <option value="">-- 请选择班级--</option>
+                        <option value="">-- 请选择课程--</option>
                     </select>
                 </div>
             </div>
@@ -45,11 +45,19 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-12">
-                    <select class="form-control" ng-model="conditionData.ScoreSort" ng-options="m.name for m in ScoreSorts">
+                    <select class="form-control" ng-model="conditionData.ScoreType" ng-options="m.name for m in ScoreTypes">
+                        <option value="">-- 请选择分数类型 --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <select class="form-control" ng-model="conditionData.Student" ng-options="m.StdName for m in Students">
                         <option value="">-- 请选择学生 --</option>
                     </select>
                 </div>
             </div>
+
             <div class="form-group">
                 <div class="btn-group pull-right">
                     <button type="button" class="btn btn-primary" ng-click="tryOk();"><span class="glyphicon glyphicon-ok"></span>统 计</button>
