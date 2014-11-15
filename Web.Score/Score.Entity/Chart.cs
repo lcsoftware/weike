@@ -9,26 +9,35 @@ namespace App.Score.Entity
 
     public class Legend
     {
-        public string[] data;
+        public IList<string> data = new List<string>();
     }
 
     public class XAxis
+    { 
+        public string type = "category";
+        public IList<string> data = new List<string>();
+    }
+
+    public class YAxis
     {
-        public string type;
-        public string[] data;
+        public string name = "";
+        public string type = "value";
+        public bool splitArea = true;
+        public int min = 0;
     }
 
     public class SeriesItem
     {
         public string name;
         public string type;
-        public string[] data;
+        public IList<string> data = new List<string>();
     }
 
     public class ChartOption
     {
-        public Legend legend;
-        public XAxis xAxis;
-        public SeriesItem[] series;
+        public Legend legend = new Legend();
+        public XAxis xAxis = new XAxis();
+        public YAxis yAxis = new YAxis();
+        public IList<SeriesItem> series = new List<SeriesItem>();
     }
 }

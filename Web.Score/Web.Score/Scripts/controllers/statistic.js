@@ -8,6 +8,11 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
     $scope.$root.moduleName = moduleName;
     $scope.$root.title = $scope.softname + ' | ' + moduleName;
 
+    //统计结果
+    $scope.base = {};
+    $scope.chartOptions = [];
+    $scope.data = [];
+
     $scope.conditionData = {};
 
     $scope.AcademicYears = [];
@@ -49,11 +54,69 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
         }
     });
 
-    var chart1 = {};
 
-    $scope.chartService.chartCreate('main', function (data) {
-        chart1 = data;
-    });
+
+    var statChart1 = function () {
+
+    }
+
+    var chart1 = {};
+    var chart2 = {};
+    var chart3 = {};
+
+    $scope.chartService.chartCreate('main1', function (data) { chart1 = data; });
+    $scope.chartService.chartCreate('main2', function (data) { chart2 = data; });
+    $scope.chartService.chartCreate('main3', function (data) { chart3 = data; });
+
+    var statBase = function () {
+        var micYear = $scope.conditionData.MicYear;
+        var testNo = $scope.conditionData.TestLogin;
+        var gradeCourse = $scope.conditionData.GradeCourse;
+        var gradeClass = $scope.conditionData.GradeClass;
+        var student = $scope.conditionData.Student;
+
+        var url = "/DataProvider/Statistic.aspx/GetStatBase";
+        var param = { micYear: micYear.MicYear, testNo: testNo, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student };
+        $scope.baseService.post(url, param, function (data) {
+            $scope.base = angular.fromJson(data.d);
+        });
+    }
+
+    var statCharts = function () {
+        var micYear = $scope.conditionData.MicYear.MicYear;
+        var testNo = $scope.conditionData.TestLogin;
+        var gradeCourse = $scope.conditionData.GradeCourse;
+        var gradeClass = $scope.conditionData.GradeClass;
+        var student = $scope.conditionData.Student;
+        var scoreType = $scope.conditionData.ScoreType.code;
+
+        var url = "/DataProvider/Statistic.aspx/GetStat07Charts";
+        var param = { micYear: micYear, testNo: testNo, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student, scoreType: scoreType };
+        $scope.baseService.post(url, param, function (data) {
+            $scope.chartService.changeOption(chart1, data.d[0]);
+            $scope.chartService.changeOption(chart2, data.d[1]);
+            $scope.chartService.changeOption(chart3, data.d[2]);
+        });
+    }
+
+    var statData = function () {
+        var micYear = $scope.conditionData.MicYear.MicYear;
+        var gradeCourse = $scope.conditionData.GradeCourse;
+        var gradeClass = $scope.conditionData.GradeClass;
+        var student = $scope.conditionData.Student;
+
+        var url = "/DataProvider/Statistic.aspx/GetStat07Data";
+        var param = { micYear: micYear, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student };
+        $scope.baseService.post(url, param, function (data) {
+            $scope.data = angular.fromJson(data.d);
+        });
+    }
+
+    $scope.stat = function () {
+        statBase();
+        statCharts();
+        //statData();
+    }
 
     $scope.changeOption = function () {
         var legend = { legend: { data: ['蒸发量1', '降水量'] } };
@@ -81,17 +144,6 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
         };
         $scope.chartService.refresh(chart1, legend, xAxis, series);
     }
-
-    $scope.$watch('conditionData.GradeCourse', function (testType) {
-        if (testType && $scope.conditionData.MicYear) {
-            var micYear = $scope.conditionData.MicYear;
-            var gradeCode = $scope.conditionData.GradeCode ? $scope.conditionData.GradeCode.GradeNo : '';
-            var gradeCourse = $scope.conditionData.GradeCourse ? $scope.conditionData.GradeCourse.CourseCode : '';
-            $scope.utilService.GetTestLogin(micYear.MicYear, gradeCode, gradeCourse, testType.Code, function (data) {
-                $scope.TestLogins = data.d;
-            });
-        }
-    });
 
     $scope.$watch('conditionData.GradeClass', function (gradeClass) {
         $scope.Students.length = 0;
