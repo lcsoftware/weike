@@ -65,7 +65,7 @@ aService.factory('constService', function () {
 
 ///工具类
 aService.factory('utilService', ['baseService', 'utilProviderUrl', function (baseService, utilProviderUrl) {
-    var service = {}; 
+    var service = {};
 
     service.GetNations = function (callback) {
         var url = utilProviderUrl + '/GetNations';
@@ -128,7 +128,7 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
     }
 
     //获得学生 StdName
-    service.GetStudent = function (academicyear, classcode,callback) {
+    service.GetStudent = function (academicyear, classcode, callback) {
         var url = utilProviderUrl + '/GetStudent';
         var param = { academicyear: academicyear, classcode: classcode };
         baseService.post(url, param, callback);
@@ -140,12 +140,12 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         baseService.post(url, param, callback);
     }
     //根据班级获得学生
-    service.GetStudentsByGrade = function (academicyear,classNo, callback) {
+    service.GetStudentsByGrade = function (academicyear, classNo, callback) {
         var url = utilProviderUrl + '/GetStudentsByGrade';
-        var param = { academicyear:academicyear,classNo: classNo };
+        var param = { academicyear: academicyear, classNo: classNo };
         baseService.post(url, param, callback);
     }
-    
+
 
     //获取数组中最大值
     service.getMax = function (value) {
@@ -170,8 +170,7 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         return min;
     }
     //获取数组中平均分
-    service.getAve = function(value)
-    {
+    service.getAve = function (value) {
         var count = 0;
         for (var i = 0; i < value.length; i++) {
             count += value[i].NumScore
@@ -179,13 +178,11 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         return (count / value.length).toFixed(2);
     }
     //获得数组中优良人次
-    service.getGood = function(value,a)
-    {
+    service.getGood = function (value, a) {
         var rs = [];
         for (var i = 0; i < value.length; i++) {
             var markcode = value[i].markcode.substr(1, 3) * a;
-            if(value[i].NumScore >= markcode)
-            {
+            if (value[i].NumScore >= markcode) {
                 rs.push(value[i].NumScore);
             }
         }
@@ -479,6 +476,51 @@ aService.factory('uploadService', ['FileUploader', function (FileUploader) {
     //};
     return service;
 }]);
+
+aService.factory('chartService', ['baseService', function (baseService) {
+    var service = {};
+
+    var option = {
+        tooltip: {
+            trigger: 'axis'
+        },
+
+        toolbox: {
+            show: true,
+            feature: {
+                mark: { show: false },
+                dataView: { show: true, readOnly: false },
+                magicType: { show: true, type: ['line', 'bar'] },
+                restore: { show: false },
+                saveAsImage: { show: false }
+            }
+        },
+        yAxis: [
+            {
+                type: 'value',
+                splitArea: { show: true }
+            }
+        ],
+        calculable: true
+    };
+
+    service.chartCreate = function (id, callback) {
+        require(['echarts', 'echarts/chart/line', 'echarts/chart/bar'], function (ec) {
+            var myChart = ec.init(document.getElementById('main'));
+            if (callback) callback(myChart); 
+        });
+    }
+
+    service.refresh = function (chart, legend, xAxis, series) {
+        var newOption = {};
+        angular.extend(newOption, option, legend, xAxis, series);
+        chart.setOption(newOption);
+    }
+
+
+    return service;
+}]);
+
 aService.factory('menuService', ['baseService', 'adminProviderUrl', 'appUtils', function (baseService, adminProviderUrl, appUtils) {
     var service = {};
 

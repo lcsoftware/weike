@@ -35,7 +35,8 @@ namespace App.Web.Score
                     "~/content/angularTree/angular-ui-tree.min.js",
                     "~/scripts/vendor/angular-cookies.min.js",
                     "~/scripts/vendor/checklist-model.js",
-                    "~/content/uploader/angular-file-upload.js"
+                    "~/content/uploader/angular-file-upload.js",
+                    "~/content/charts/esl/esl.js"
                 ));
 
             bundles.Add(new ScriptBundle("~/js/app").Include(
