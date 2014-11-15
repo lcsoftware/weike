@@ -1,0 +1,150 @@
+﻿<div class="row">
+    <div class="col-sm-12">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="MicYear" ng-options="m.MicYear for m in AcademicYears">
+                        <option value="">-- 请选择学年/学期 --</option>
+                    </select>
+                </div>
+                <div class="col-sm-7">
+                    <div ng-repeat="grade in GradeCourses" class="checkbox-inline">
+                        <input type="checkbox" value="{{grade.CourseCode}}" name="courses" />{{grade.FullName}}
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-primary" ng-click="query()"><span class="glyphicon glyphicon-ok"></span>查询</button>
+                </div>
+            </div>
+            <div class="form-group" ng-show="testShow">
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="TestType" ng-options="m.Name for m in TestTypes">
+                        <option value="">-- 请选择考试类型 --</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="TestNo" ng-options="m.TestNo for m in TestLogins">
+                        <option value="">-- 请选择考试号 --</option>
+                    </select>
+                </div>
+                <div class="col-sm-6">
+                    <input type="checkbox" value="1" ng-model="teacherName" />显示任课教师&nbsp;&nbsp;&nbsp;
+                    排序条件：
+                    <input type="radio" value="0" ng-model="orderNum" ng-change="order(orderNum)" />按班级序号排序&nbsp;
+                    <input type="radio" value="1" ng-model="orderNum" ng-change="order(orderNum)" />按考试成绩排序
+                </div>
+            </div>
+            <div class="form-group" ng-show="testShow">
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="GradeCode" ng-options="m.GradeName for m in GradeCodes">
+                        <option value="">-- 请选择年级 --</option>
+                    </select>
+                </div>
+                <div class="col-sm-9">
+                    <div ng-repeat="grade in Grades" class="checkbox-inline">
+                        <input type="checkbox" value="{{grade.classNo}}" name="grades" ng-click="bindStudents()" />{{grade.GradeBriefName}}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-show="testShow">
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="stu" ng-options="s.StdName for s in Students | filter:serchStu">
+                        <option value="">-- 请选择学生 --</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <input type="text" ng-model="serchStu" class="form-control" placeholder="输入学生名称或学号搜索" />
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="teacher" ng-options="t.Name for t in Teachers | filter:serchTea">
+                        <option value="">-- 请选择教师 --</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <input type="text" ng-model="serchTea" class="form-control" placeholder="输入学生名称或学号搜索" />
+                </div>
+            </div>
+            <div class="form-group" ng-show="testShow">
+                <div class="col-sm-2">
+                    最高分：<font style="color:blue;">{{maxNumScore}}</font>
+                </div>
+                <div class="col-sm-2">
+                    最低分：<font style="color:blue;">{{minNumScore}}</font>
+                </div>
+                <div class="col-sm-2">
+                    单/多次平均分：<font style="color:blue;">{{aveNumScore}}</font>
+                </div>
+                <div class="col-sm-2">
+                    合计人次：<font style="color:blue;">{{couNumScore}}</font>
+                </div>
+                <div class="col-sm-2">
+                    优良人次：<font style="color:blue;">{{goodNumScore}}</font>
+                </div>
+                <div class="col-sm-2">
+                    不及格人次：<font style="color:blue;">{{failNumScore}}</font>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr style="background-color:#808080">
+                    <th style="width:10%;text-align:center">班级</th>
+                    <th style="width:8%;text-align:center">班级序号</th>
+                    <th style="width:8%;text-align:center">姓名</th>
+                    <th style="width:8%;text-align:center">课程</th>
+                    <th style="width:10%;text-align:center">考试类型</th>
+                    <th style="width:5%;text-align:center">考试号</th>
+                    <th style="width:5%;text-align:center">分数</th>
+                    <th style="width:8%;text-align:center">年级排名</th>
+                    <th style="width:8%;text-align:center">班级排名</th>
+                    <th style="width:10%;text-align:center" ng-show="teacherName>0">教师</th>
+                </tr>
+            </thead>
+            <tr ng-repeat="item in pageService.data">
+                <td align="center">
+                    {{item.class}}
+                </td>
+                <td align="center">
+                    {{item.ClassSN}}
+                </td>
+                <td align="center">
+                    {{item.stdName}}
+                </td>
+                <td align="center">
+                    {{item.CourseName}}
+                </td>
+                <td align="center">
+                    {{item.TypeName}}
+                </td>
+                <td align="center">
+                    {{item.TestNo}}
+                </td>
+                <td align="center">
+                    {{item.NumScore}}
+                </td>
+                <td align="center">
+                    {{item.GradeOrder}}
+                </td>
+                <td align="center">
+                    {{item.ClassOrder}}
+                </td>
+                <td align="center" ng-show="teacherName>0">
+                    {{item.teacherName}}
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="row" ng-show="pageService.data.length>0">
+    <div class="col-sm-12" ng-class="{hidden:pageService.pages==1}" style="background-color: #434a54;">
+        <ul class="pager">
+            <li class="previous"><a style="cursor:pointer" ng-click="pageService.previous()">&larr; 上一页</a></li>
+            <li><a href="#">{{pageService.index}} / {{pageService.pages}}</a></li>
+            <li class="next"><a style="cursor:pointer" ng-click="pageService.next()">下一页 &rarr;</a></li>
+        </ul>
+    </div>
+</div>

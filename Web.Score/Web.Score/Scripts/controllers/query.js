@@ -29,6 +29,7 @@ appQuery.controller('TeacherQueryController', ['$scope', 'pageService', function
     var load = function () {
         var good = 0.75;
         var fail = 0.6
+        $scope.utilService.showBg();
         //成绩列表
         $scope.queryService.GetQueryTeacher($scope.MicYear.MicYear, $scope.user.TeacherID, $scope.GradeCourse.CourseCode, $scope.GradeCode.GradeNo, $scope.TestType, $scope.TestNo, $scope.student, function (data) {
             $scope.studentsGrid = JSON.parse(data.d);
@@ -49,6 +50,7 @@ appQuery.controller('TeacherQueryController', ['$scope', 'pageService', function
                 $scope.goodNumScore = 0;
                 $scope.failNumScore = 0;
             }
+            $scope.utilService.closeBg();
         });
         $scope.testShow = true;
         //绑定考试类型，考试号
@@ -174,6 +176,7 @@ appQuery.controller('BTeacherQueryController', ['$scope', 'pageService', functio
     var load = function () {
         var good = 0.75;
         var fail = 0.6
+        $scope.utilService.showBg();
         //成绩列表
         $scope.queryService.GetQueryBTeacher($scope.MicYear.MicYear, $scope.courseCode, $scope.classCode, $scope.TestType, $scope.TestNo, $scope.student, null, function (data) {
             $scope.studentsGrid = JSON.parse(data.d);
@@ -194,13 +197,16 @@ appQuery.controller('BTeacherQueryController', ['$scope', 'pageService', functio
                 $scope.goodNumScore = 0;
                 $scope.failNumScore = 0;
             }
+            $scope.utilService.closeBg();
             $scope.testShow = true;
         });
     }
     $scope.order = function (orderNum) {
+        $scope.utilService.showBg();
         $scope.queryService.GetQueryBTeacher($scope.MicYear.MicYear, $scope.courseCode, $scope.classCode, $scope.TestType, $scope.TestNo, $scope.student, orderNum, function (data) {
             $scope.studentsGrid = JSON.parse(data.d);
             $scope.pageService.init($scope.studentsGrid, 10);
+            $scope.utilService.closeBg();
         });
     }
 }]);
@@ -279,6 +285,7 @@ appQuery.controller('GradeManagerController', ['$scope', 'pageService', function
     var load = function () {
         var good = 0.75;
         var fail = 0.6
+        $scope.utilService.showBg();
         //根据班级获得学生
         if ($scope.Students.length <= 0) {
             $scope.utilService.GetStudents(function (data) {
@@ -306,13 +313,16 @@ appQuery.controller('GradeManagerController', ['$scope', 'pageService', function
                 $scope.goodNumScore = 0;
                 $scope.failNumScore = 0;
             }
+            $scope.utilService.closeBg();
             $scope.testShow = true;
         });
     }
     $scope.order = function (orderNum) {
+        $scope.utilService.showBg();
         $scope.queryService.GetQueryGradeManager($scope.MicYear.MicYear, $scope.courseCode, $scope.classCode, $scope.TestType, $scope.TestNo, $scope.gradeCode, $scope.stu, orderNum, function (data) {
             $scope.studentsGrid = JSON.parse(data.d);
             $scope.pageService.init($scope.studentsGrid, 10);
+            $scope.utilService.closeBg();
         });
     }
     //$scope.bindStudents = function () {
@@ -418,8 +428,151 @@ appQuery.controller('SchoolManagerQueryController', ['$scope', 'pageService', fu
     var load = function () {
         var good = 0.75;
         var fail = 0.6
+        $scope.utilService.showBg();
+        //成绩列表
+        $scope.queryService.GetQuerySchoolManager($scope.MicYear.MicYear, $scope.courseCode, $scope.GradeCode, $scope.TestType, $scope.TestNo, $scope.classNo, $scope.stu, $scope.teacher, $scope.orderNum, function (data) {
+            $scope.studentsGrid = JSON.parse(data.d);
+            if ($scope.studentsGrid.length > 0) {
+                $scope.pageService.init($scope.studentsGrid, 10);
+                $scope.maxNumScore = $scope.utilService.getMax($scope.studentsGrid);
+                $scope.minNumScore = $scope.utilService.getMin($scope.studentsGrid);
+                $scope.aveNumScore = $scope.utilService.getAve($scope.studentsGrid);
+                $scope.couNumScore = $scope.studentsGrid.length;
+                $scope.goodNumScore = $scope.utilService.getGood($scope.studentsGrid, good);
+                $scope.failNumScore = $scope.utilService.getFail($scope.studentsGrid, fail);                
+            } else {
+                $scope.pageService.data.length = 0;
+                $scope.maxNumScore = 0;
+                $scope.minNumScore = 0;
+                $scope.aveNumScore = 0;
+                $scope.couNumScore = 0;
+                $scope.goodNumScore = 0;
+                $scope.failNumScore = 0;
+            }
+            $scope.utilService.closeBg();
+            $scope.testShow = true;
+        });
+    }
+    $scope.order = function (orderNum) {
+        $scope.utilService.showBg();
+        $scope.queryService.GetQuerySchoolManager($scope.MicYear.MicYear, $scope.courseCode, $scope.GradeCode, $scope.TestType, $scope.TestNo, $scope.classNo, $scope.stu, $scope.teacher, $scope.orderNum, function (data) {
+            $scope.studentsGrid = JSON.parse(data.d);
+            $scope.pageService.init($scope.studentsGrid, 10);
+            $scope.utilService.closeBg();
+        });
+    }
+    $scope.bindStudents = function () {
+        var classNo = $scope.utilService.getlist($('input[name=grades]'));
+        $scope.Students.length = 0;
+        if (classNo) {
+            //根据班级获得学生
+            $scope.utilService.GetStudentsByGrade($scope.MicYear.MicYear, classNo, function (data) {
+                $scope.Students = data.d;
+            });
+        }
+        else {
+            //获得所有学生
+            if ($scope.Students.length <= 0) {
+                $scope.utilService.GetStudents(function (data) {
+                    $scope.Students = data.d;
+                });
+            }
+        }
+    }
+}]);
 
+// Path: /
+appQuery.controller('SchoolHeadController', ['$scope', 'pageService', function ($scope, pageService) {
+    $scope.$root.title = $scope.softname + ' | 校领导查询';
+    $scope.$root.moduleName = '校领导查询';
+    $scope.AcademicYears = [];
+    $scope.TestLogins = [];
+    $scope.TestTypes = [];
+    $scope.GradeCourses = [];
+    $scope.Grades = [];
+    $scope.GradeCodes = [];
+    $scope.Students = [];
+    $scope.Teachers = [];
+    $scope.testShow = false;
+    $scope.orderNum = 0;
+    $scope.pageService = pageService;
+    $scope.pageService.reset();
 
+    //获得学年
+    $scope.utilService.GetAcademicYears(function (data) {
+        $scope.AcademicYears = data.d;
+    });
+    //获得所有年级
+    $scope.utilService.GetGradeAll(function (data) {
+        $scope.GradeCodes = data.d;
+    });
+    //绑定考试类型，考试号
+    $scope.utilService.GetTestType(function (data) {
+        $scope.TestTypes = data.d;
+    });
+    //获得所有课程
+    $scope.utilService.GetCourseCodeAll(function (data) {
+        $scope.GradeCourses = data.d;
+    });
+    //获得所有学生    
+    $scope.utilService.GetStudents(function (data) {
+        $scope.Students = data.d;
+    });
+    //获得所有教师    
+    $scope.utilService.GerTeacherAll(function (data) {
+        $scope.Teachers = data.d;
+    });
+
+    //获得用户id
+    $scope.userService.getUser(function (data) {
+        $scope.user = data;
+        //获得年级领导年级
+        $scope.queryService.GetGradeScope($scope.user.TeacherID, function (data) {
+            if (data.d == '') return;
+            var rs = JSON.parse(data.d);
+            $scope.classCode = rs[0].scope;
+        });
+    });
+    $scope.$watch('MicYear', function (micyear) {
+        if (micyear)
+            $scope.testShow = true;
+    });
+
+    //监控考试类型，绑定考试号
+    $scope.$watch('TestType', function (testType) {
+        $scope.TestLogins.length = 0;
+        if (testType != null) {
+            if (testType.Code == null) $scope.TestType = null;
+            $scope.utilService.GetTestLogin($scope.MicYear.MicYear, $scope.classCode, '', testType.Code, function (data) {
+                $scope.TestLogins = data.d;
+            });
+        }
+    });
+    $scope.$watch('GradeCode', function (gradecode) {
+        $scope.Grades.length = 0;
+        if (gradecode) {
+            //获得班级
+            $scope.queryService.GetGradeByGradeNo($scope.MicYear.MicYear, gradecode.GradeNo, function (data) {
+                if (data.d != '') {
+                    $scope.Grades = JSON.parse(data.d);
+                }
+            });
+        }
+    });
+    $scope.query = function () {
+        $scope.classNo = $scope.utilService.getlist($('input[name=grades]'));
+        $scope.courseCode = $scope.utilService.getlist($('input[name=courses]'));
+        $scope.student = $scope.utilService.getlist($('input[name=students]'));
+        if ($scope.MicYear == null) {
+            $scope.dialogUtils.info('请选择学年/学期');
+            return;
+        }
+        load();
+    }
+    var load = function () {
+        var good = 0.75;
+        var fail = 0.6
+        $scope.utilService.showBg();
         //成绩列表
         $scope.queryService.GetQuerySchoolManager($scope.MicYear.MicYear, $scope.courseCode, $scope.GradeCode, $scope.TestType, $scope.TestNo, $scope.classNo, $scope.stu, $scope.teacher, $scope.orderNum, function (data) {
             $scope.studentsGrid = JSON.parse(data.d);
@@ -440,13 +593,16 @@ appQuery.controller('SchoolManagerQueryController', ['$scope', 'pageService', fu
                 $scope.goodNumScore = 0;
                 $scope.failNumScore = 0;
             }
+            $scope.utilService.closeBg();
             $scope.testShow = true;
         });
     }
     $scope.order = function (orderNum) {
-        $scope.queryService.GetQuerySchoolManager($scope.MicYear.MicYear, $scope.courseCode, $scope.GradeCode, $scope.TestType, $scope.TestNo, $scope.gradeCode, $scope.stu, $scope.teacher, orderNum, function (data) {
+        $scope.utilService.showBg();
+        $scope.queryService.GetQuerySchoolManager($scope.MicYear.MicYear, $scope.courseCode, $scope.GradeCode, $scope.TestType, $scope.TestNo, $scope.classNo, $scope.stu, $scope.teacher, $scope.orderNum, function (data) {
             $scope.studentsGrid = JSON.parse(data.d);
             $scope.pageService.init($scope.studentsGrid, 10);
+            $scope.utilService.closeBg();
         });
     }
     $scope.bindStudents = function () {

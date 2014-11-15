@@ -77,7 +77,7 @@ aService.factory('queryService', ['baseService', 'queryProviderUrl', function (b
         var url = queryProviderUrl + '/GetQuerySchoolManager';
         var param = {
             micyear: micyear, gradeCourse: gradeCourse,
-            gradecode: gradecode == null ? null : gradecode,
+            gradecode: gradecode == null ? null : gradecode.GradeNo,
             testtypes: testtypes == null ? null : testtypes.Code,
             testno: testno == null ? null : testno.TestNo, classCode: classCode,
             stuId: stuId == null ? null : stuId.StudentId, teacherId: teacherId == null ? null : teacherId.TeacherID,

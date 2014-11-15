@@ -228,7 +228,7 @@ namespace App.Web.Score.DataProvider
         /// <param name="stuId">学生ID</param>
         /// <returns></returns>
         [WebMethod]
-        public static string GetQuerySchoolManager(int? micyear, string gradeCourse, int? gradecode, int? testtypes, int? testno, string classCode, string stuId, int? teacherId, int? order)
+        public static string GetQuerySchoolManager(int? micyear, string gradeCourse, int? gradecode, int? testtypes, int? testno, string classCode, string stuId,string teacherId, int? order)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -252,7 +252,7 @@ namespace App.Web.Score.DataProvider
                 if (testno != null) sql += " and TestNo=" + testno + "";
                 if (classCode != "") sql += " and ClassCode in(" + classCode + ")";
                 if (stuId != null) sql += " and SRID =" + stuId + "";
-                if (teacherId != "") sql += " and TeacherID=" + teacherId + "";
+                if (!string.IsNullOrEmpty(teacherId)) sql += " and TeacherID=" + teacherId + "";
                 if (order == 1)
                     sql += " Order By Testno,NumScore DESC,courseName";
                 else

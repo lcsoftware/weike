@@ -151,7 +151,6 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         baseService.post(url, param, callback);
     }
 
-<<<<<<< HEAD
     //获得所有教师
     service.GerTeacherAll = function(callback)
     {
@@ -173,8 +172,6 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         var param = {};
         baseService.post(url, param, callback);
     }
-=======
->>>>>>> e424cfac6e5f23551e924616fec3caa7d4bde28a
 
     //获取数组中最大值
     service.getMax = function (value) {
@@ -227,6 +224,21 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
             }
         }
         return rs.length;
+    }
+    //显示灰色 jQuery 遮罩层 
+    service.showBg = function() {
+        var bh = $("body").height();
+        var bw = $("body").width();
+        $("#fullbg").css({
+            height: bh,
+            width: bw,
+            display: "block"
+        });
+        $("#dialog").show();
+    }
+    //关闭灰色 jQuery 遮罩 
+    service.closeBg = function() {
+        $("#fullbg,#dialog").hide();
     }
     //获得复选框值
     service.getlist = function (value) {

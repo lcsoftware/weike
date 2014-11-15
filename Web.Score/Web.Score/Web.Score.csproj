@@ -324,6 +324,7 @@
     <Content Include="Content\images\file.png" />
     <Content Include="Content\images\folder-closed.png" />
     <Content Include="Content\images\folder.png" />
+    <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\node-closed-2.png" />
     <Content Include="Content\images\node-closed-light.png" />
     <Content Include="Content\images\node-closed.png" />
