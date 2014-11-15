@@ -21,7 +21,7 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
     $scope.TestLogins = [];
     $scope.ScoreTypes = $scope.constService.ScoreTypes;
     $scope.ScoreSorts = $scope.constService.ScoreSorts;
-    
+
 
     $scope.utilService.GetAcademicYears(function (data) {
         $scope.AcademicYears = data.d;
@@ -30,7 +30,7 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
     $scope.utilService.GetGradeCodes(function (data) {
         $scope.GradeCodes = data.d;
     });
-    
+
     $scope.$watch('conditionData.GradeCode', function (gradeCode) {
         if ($scope.conditionData.MicYear) {
             $scope.GradeClasses.length = 0;
@@ -49,7 +49,6 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
         }
     });
 
-<<<<<<< HEAD
     var chart1 = {};
 
     $scope.chartService.chartCreate('main', function (data) {
@@ -80,7 +79,7 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
                 }
             ]
         };
-        $scope.chartService.refresh(chart1, legend, xAxis, series); 
+        $scope.chartService.refresh(chart1, legend, xAxis, series);
     }
 
     $scope.$watch('conditionData.GradeCourse', function (testType) {
@@ -90,7 +89,10 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
             var gradeCourse = $scope.conditionData.GradeCourse ? $scope.conditionData.GradeCourse.CourseCode : '';
             $scope.utilService.GetTestLogin(micYear.MicYear, gradeCode, gradeCourse, testType.Code, function (data) {
                 $scope.TestLogins = data.d;
-=======
+            });
+        }
+    });
+
     $scope.$watch('conditionData.GradeClass', function (gradeClass) {
         $scope.Students.length = 0;
         if ($scope.conditionData.MicYear) {
@@ -98,7 +100,6 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
             var param = { academicyear: $scope.conditionData.MicYear.MicYear, classcode: gradeClass.ClassNo };
             $scope.baseService.post(url, param, function (data) {
                 $scope.Students = data.d;
->>>>>>> 8bee54e9e58743de9dc0c330a2b0b16094b91168
             });
         }
     });
@@ -126,4 +127,3 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
         }
     });
 }]);
-
