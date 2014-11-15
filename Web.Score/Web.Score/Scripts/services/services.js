@@ -502,7 +502,9 @@ aService.factory('chartService', ['baseService', function (baseService) {
         },
         yAxis: [
             {
+                name: 'YNAME',
                 type: 'value',
+                min: 5,
                 splitArea: { show: true }
             }
         ],
@@ -511,7 +513,7 @@ aService.factory('chartService', ['baseService', function (baseService) {
 
     service.chartCreate = function (id, callback) {
         require(['echarts', 'echarts/chart/line', 'echarts/chart/bar'], function (ec) {
-            var myChart = ec.init(document.getElementById('main'));
+            var myChart = ec.init(document.getElementById(id));
             if (callback) callback(myChart); 
         });
     }
@@ -519,6 +521,12 @@ aService.factory('chartService', ['baseService', function (baseService) {
     service.refresh = function (chart, legend, xAxis, series) {
         var newOption = {};
         angular.extend(newOption, option, legend, xAxis, series);
+        chart.setOption(newOption);
+    }
+
+    service.changeOption = function (chart, chartOption) {
+        var newOption = {};
+        angular.extend(newOption, option, chartOption);
         chart.setOption(newOption);
     }
 
