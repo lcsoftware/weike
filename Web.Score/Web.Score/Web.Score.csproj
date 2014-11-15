@@ -672,6 +672,28 @@
     <Content Include="Content\charts\echarts\util\mapData\rawData\geoJson\xi_zang_geo.json" />
     <Content Include="Content\charts\echarts\util\mapData\rawData\geoJson\yun_nan_geo.json" />
     <Content Include="Content\charts\echarts\util\mapData\rawData\geoJson\zhe_jiang_geo.json" />
+    <Content Include="Content\charts\zrender\.git\config" />
+    <Content Include="Content\charts\zrender\.git\description" />
+    <Content Include="Content\charts\zrender\.git\HEAD" />
+    <Content Include="Content\charts\zrender\.git\hooks\applypatch-msg.sample" />
+    <Content Include="Content\charts\zrender\.git\hooks\commit-msg.sample" />
+    <Content Include="Content\charts\zrender\.git\hooks\post-update.sample" />
+    <Content Include="Content\charts\zrender\.git\hooks\pre-applypatch.sample" />
+    <Content Include="Content\charts\zrender\.git\hooks\pre-commit.sample" />
+    <Content Include="Content\charts\zrender\.git\hooks\pre-push.sample" />
+    <Content Include="Content\charts\zrender\.git\hooks\pre-rebase.sample" />
+    <Content Include="Content\charts\zrender\.git\hooks\prepare-commit-msg.sample" />
+    <Content Include="Content\charts\zrender\.git\hooks\update.sample" />
+    <Content Include="Content\charts\zrender\.git\index" />
+    <Content Include="Content\charts\zrender\.git\info\exclude" />
+    <Content Include="Content\charts\zrender\.git\logs\HEAD" />
+    <Content Include="Content\charts\zrender\.git\logs\refs\heads\master" />
+    <Content Include="Content\charts\zrender\.git\logs\refs\remotes\origin\HEAD" />
+    <Content Include="Content\charts\zrender\.git\objects\pack\pack-4ba7bc5a183b72feaf46b116b8e30dd92f284b52.idx" />
+    <Content Include="Content\charts\zrender\.git\objects\pack\pack-4ba7bc5a183b72feaf46b116b8e30dd92f284b52.pack" />
+    <Content Include="Content\charts\zrender\.git\packed-refs" />
+    <Content Include="Content\charts\zrender\.git\refs\heads\master" />
+    <Content Include="Content\charts\zrender\.git\refs\remotes\origin\HEAD" />
     <None Include="Properties\PublishProfiles\score.pubxml" />
     <None Include="Scripts\_references.js" />
     <Content Include="Scripts\app.js" />
@@ -711,6 +733,7 @@
     <Content Include="Views\stat\StudentStat.cshtml" />
     <Content Include="Views\query\GradeManager.cshtml" />
     <Content Include="Views\query\SchoolManagerQuery.cshtml" />
+    <Content Include="Views\query\SchoolHead.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -776,6 +799,8 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\charts\zrender\.git\objects\info\" />
+    <Folder Include="Content\charts\zrender\.git\refs\tags\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
