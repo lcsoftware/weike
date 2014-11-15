@@ -150,10 +150,10 @@ angular.module('app', [
 
     .run(['$templateCache', '$rootScope', '$state', '$stateParams', '$location', 'menuService',
         'dialogUtils', 'softname', 'baseService', 'userService', 'utilService', 'schoolService',
-        'constService','queryService',
+        'constService','queryService', 'chartService',
         function ($templateCache, $rootScope, $state, $stateParams, $location, menuService,
             dialogUtils, softname, baseService, userService, utilService, schoolService,
-            constService, queryService) {
+            constService, queryService, chartService) {
 
             var view = angular.element('#ui-view');
             $templateCache.put(view.data('tmpl-url'), view.html());
@@ -169,6 +169,7 @@ angular.module('app', [
             $rootScope.userService = userService;
             $rootScope.schoolService = schoolService;
             $rootScope.queryService = queryService;
+            $rootScope.chartService = chartService;
             $rootScope.schoolService.loadSchool();
 
             $rootScope.$state = $state;

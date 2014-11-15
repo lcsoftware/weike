@@ -42,5 +42,5 @@ namespace App.Score.Entity
     {
         public int State;
         public string Context;
-    }
+    } 
 }
