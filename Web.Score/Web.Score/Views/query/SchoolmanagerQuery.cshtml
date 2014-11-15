@@ -27,19 +27,6 @@
                         <option value="">-- 请选择考试号 --</option>
                     </select>
                 </div>
-                <div class="col-sm-6">
-                    <input type="checkbox" value="1" ng-model="teacherName" />显示任课教师&nbsp;&nbsp;&nbsp;
-                    排序条件：
-                    <input type="radio" value="0" ng-model="orderNum" ng-change="order(orderNum)" />按班级序号排序
-                    <input type="radio" value="1" ng-model="orderNum" ng-change="order(orderNum)" />按考试成绩排序
-                </div>
-            </div>
-            <div class="form-group" ng-show="testShow">
-                <div class="col-sm-6">
-                    <div ng-repeat="grade in Grades" class="checkbox-inline">
-                        <input type="checkbox" value="{{grade.classNo}}" name="grades" ng-click="bindStudents()" />{{grade.GradeBriefName}}
-                    </div>
-                </div>
                 <div class="col-sm-3">
                     <select class="form-control" ng-model="stu" ng-options="s.StdName for s in Students | filter:serchStu">
                         <option value="">-- 请选择学生 --</option>
@@ -48,14 +35,28 @@
                 <div class="col-sm-3">
                     <input type="text" ng-model="serchStu" class="form-control" placeholder="输入学生名称或学号搜索" />
                 </div>
+                
             </div>
-            @*<div class="form-group" ng-show="testShow">
-                <div class="col-sm-12">
-                    <div ng-repeat="student in Students" class="checkbox-inline">
-                        <input type="checkbox" value="{{student.StudentId}}" name="students" />{{student.StdName}}
+            <div class="form-group" ng-show="testShow">
+                <div class="col-sm-6">
+                    <div ng-repeat="grade in Grades" class="checkbox-inline">
+                        <input type="checkbox" value="{{grade.classNo}}" name="grades" ng-click="bindStudents()" />{{grade.GradeBriefName}}
                     </div>
                 </div>
-            </div>*@
+                <div class="col-sm-6">
+                    <input type="checkbox" value="1" ng-model="teacherName" />显示任课教师&nbsp;&nbsp;&nbsp;
+                    排序条件：
+                    <input type="radio" value="0" ng-model="orderNum" ng-change="order(orderNum)" />按班级序号排序
+                    <input type="radio" value="1" ng-model="orderNum" ng-change="order(orderNum)" />按考试成绩排序
+                </div>
+            </div>
+            @*<div class="form-group" ng-show="testShow">
+                    <div class="col-sm-12">
+                        <div ng-repeat="student in Students" class="checkbox-inline">
+                            <input type="checkbox" value="{{student.StudentId}}" name="students" />{{student.StdName}}
+                        </div>
+                    </div>
+                </div>*@
             <div class="form-group" ng-show="testShow">
                 <div class="col-sm-2">
                     最高分：<font style="color:blue;">{{maxNumScore}}</font>
@@ -89,14 +90,14 @@
                     <th style="width:8%;text-align:center">姓名</th>
                     <th style="width:8%;text-align:center">课程</th>
                     <th style="width:10%;text-align:center">考试类型</th>
-                    <th style="width:5%;text-align:center">考试号</th>                    
+                    <th style="width:5%;text-align:center">考试号</th>
                     <th style="width:5%;text-align:center">分数</th>
                     <th style="width:8%;text-align:center">年级排名</th>
                     <th style="width:8%;text-align:center">班级排名</th>
                     <th style="width:10%;text-align:center" ng-show="teacherName>0">教师</th>
                 </tr>
             </thead>
-            <tr ng-repeat="item in pageService.data">                
+            <tr ng-repeat="item in pageService.data">
                 <td align="center">
                     {{item.class}}
                 </td>
@@ -111,7 +112,7 @@
                 </td>
                 <td align="center">
                     {{item.TypeName}}
-                </td>                
+                </td>
                 <td align="center">
                     {{item.TestNo}}
                 </td>

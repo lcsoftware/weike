@@ -54,6 +54,11 @@ aService.factory('constService', function () {
       { code: 2, name: '转换成绩' }
     ];
 
+    service.ScoreTypes = [
+     { code: 1, name: '原始分数' },
+     { code: 2, name: '标准分数' }
+    ];
+
     service.Terms = [
        { Code: 0, Name: '上学期期中' },
        { Code: 1, Name: '上学期期末' },

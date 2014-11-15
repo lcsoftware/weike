@@ -650,15 +650,6 @@ appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', 'pageSer
         return true;
     }
 
-    //$scope.downUrl = '/DataProvider/Down.aspx?type=1'
-    //               + '&micYear=' + $scope.conditionData.MicYear.MicYear
-    //               + '&semester=' + $scope.school.Semester
-    //               + '&gradeNo=' + $scope.conditionData.GradeCode.GradeNo
-    //               + '&courseCode=' + $scope.conditionData.GradeCourse.CourseCode
-    //               + '&testType=' + $scope.conditionData.TestType.Code
-    //               + '&testNo=' + $scope.conditionData.TestLogin.TestLoginNo
-    //               + '&scoreSort=' + $scope.conditionData.ScoreSort.code;
-
     ///导出Excel
     $scope.exportToExcel = function () {
         var micYear = $scope.conditionData.MicYear.MicYear;
@@ -752,6 +743,7 @@ appAdmin.controller('XJtoCJController', ['$scope', 'schoolProviderUrl', 'pageSer
         });
     }
 }]);
+
 // Path: /StudentImport 学生编号导入
 appAdmin.controller('StdImportController', ['$scope', 'FileUploader', 'uploadService', function ($scope, FileUploader, uploadService) {
     var moduleName = '学生编号导入';
@@ -795,21 +787,6 @@ appAdmin.controller('StdImportController', ['$scope', 'FileUploader', 'uploadSer
             });
         }
     }
-}]);
-
-// Path: /UserEdit  数据备份与恢复
-appAdmin.controller('DBbackupController', ['$scope', '$location', '$window', function ($scope, $location, $window) {
-    $scope.$root.title = 'AngularJS SPA Template for Visual Studio';
-}]);
-
-// Path: /UserEdit  学生编号导入
-appAdmin.controller('LogUserController', ['$scope', '$location', '$window', function ($scope, $location, $window) {
-    $scope.$root.title = 'AngularJS SPA Template for Visual Studio';
-}]);
-
-// Path: /UserEdit  生成上传数据文件
-appAdmin.controller('SendMailController', ['$scope', '$location', '$window', function ($scope, $location, $window) {
-    $scope.$root.title = 'AngularJS SPA Template for Visual Studio';
 }]);
 
 // Path: /ChangePwd 修改口令

@@ -10,6 +10,6 @@
 namespace App.Web.Score.DataProvider {
     
     
-    public partial class Query {
+    public partial class Statistic {
     }
 }

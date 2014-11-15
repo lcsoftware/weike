@@ -24,6 +24,7 @@ aService.factory('queryService', ['baseService', 'queryProviderUrl', function (b
         };
         baseService.post(url, param, callback);
     }
+    
     //获得考试号
     service.GetTestNo = function (micyear, testtype, callback) {
         var url = queryProviderUrl + '/GetTestNo';
@@ -66,7 +67,7 @@ aService.factory('queryService', ['baseService', 'queryProviderUrl', function (b
             micyear: micyear, gradeCourse: gradeCourse,
             gradecode: gradecode, testtypes: testtypes == null ? null : testtypes.Code,
             testno: testno == null ? null : testno.TestNo, classCode: classCode,
-            stuId: stuId, order: order == null ? null : order
+            stuId: stuId == null ? null : stuId.StudentId, order: order == null ? null : order
         };
         baseService.post(url, param, callback);
     }

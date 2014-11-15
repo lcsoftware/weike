@@ -57,7 +57,7 @@ angular.module('app', [
             //年级领导查询
             .state('query.nQuery2', { url: '/GradeManager', templateUrl: '/views/query/GradeManager', controller: 'GradeManagerController' })
             //教务员查询
-            .state('query.nQuery3', { url: '/SchoolmanagerQuery', templateUrl: '/views/query/SchoolmanagerQuery', controller: 'SchoolmanagerQueryController' })
+            .state('query.nQuery3', { url: '/SchoolManagerQuery', templateUrl: '/views/query/SchoolManagerQuery', controller: 'SchoolManagerQueryController' })
             //校领导查询
             .state('query.nQuery4', { url: '/SchoolHead', templateUrl: '/views/query/SchoolHead', controller: 'SchoolHeadController' })
             //常用查询
@@ -67,7 +67,7 @@ angular.module('app', [
             /**************************End 在线查询***********************/
 
             /**************************教师学生统计***********************/
-            .state('stat', { url: '/personstat', abstract: true, templateUrl: '/views/admin/main' })
+            .state('stat', { url: '/userStat', abstract: true, templateUrl: '/views/admin/main' })
             //教学情况报表(不分班)
             .state('n_Teacher_Rep1', { url: '/TeacherRep1', templateUrl: '/views/TeacherRep1', controller: 'TeacherRep1Controller' })
             //教学情况报表(分班)

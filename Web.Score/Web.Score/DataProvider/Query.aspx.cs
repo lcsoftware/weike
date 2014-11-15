@@ -202,7 +202,7 @@ namespace App.Web.Score.DataProvider
                 if (testtypes != null) sql += " and TestType=" + testtypes + " ";
                 if (testno != null) sql += " and TestNo=" + testno + "";
                 if (classCode != "") sql += " and ClassCode in(" + classCode + ")";
-                if (stuId != "") sql += " and SRID in(" + stuId + ")";
+                if (stuId != null) sql += " and SRID =" + stuId + "";
                 if (order == 1)
                     sql += " Order By Testno,NumScore DESC,courseName";
                 else
