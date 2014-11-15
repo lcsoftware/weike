@@ -55,8 +55,8 @@
                 if (years == null || !years.Any())
                 {
                     sql = "SELECT AcademicYear as MicYear FROM tbSchoolBaseInfo";
-                    years = bll.FillListByText<Academicyear>(sql, null); 
-                } 
+                    years = bll.FillListByText<Academicyear>(sql, null);
+                }
                 return years;
             }
         }
@@ -112,6 +112,31 @@
                 return bll.FillListByText<GradeCourse>(sql, new { micYear = micYear, gradeNo = gradeCode.GradeNo });
             }
         }
+        /// <summary>
+        /// 获得所有课程
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod]
+        public static IList<GradeCourse> GetCourseCodeAll()
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Select FullName,CourseCode from tdCourseCode Where SubString(CourseCode,2,1) =1";
+                return bll.FillListByText<GradeCourse>(sql, new {});
+            }
+        }
+
+        //获得所有年级
+        [WebMethod]
+        public static IList<GradeCode> GetGradeAll()
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Select * from tdGradeCode";
+                return bll.FillListByText<GradeCode>(sql, new {});
+            }
+        }
+
         [WebMethod]
         public static IList<GradeClass> GetGradeClass(int academicYear, GradeCode gradeCode)
         {
@@ -130,7 +155,7 @@
             {
                 throw ex;
             }
-        } 
+        }
 
         /// <summary>
         /// 获得所有学生
@@ -142,7 +167,7 @@
             using (AppBLL bll = new AppBLL())
             {
                 var sql = "Select SRID as StudentId,stdName from tbStudentBaseInfo where ISdelete=0 order by SRID DESC";
-                return bll.FillListByText<Student>(sql, new {});
+                return bll.FillListByText<Student>(sql, new { });
             }
         }
 
@@ -153,9 +178,9 @@
         /// <param name="classcode">班级</param>
         /// <returns></returns>
         [WebMethod]
-        public static IList<Student> GetStudent(int academicyear,int classcode)
+        public static IList<Student> GetStudent(int academicyear, int classcode)
         {
-            using(AppBLL bll = new AppBLL())
+            using (AppBLL bll = new AppBLL())
             {
                 var sql = "Select SRID AS StudentId,StdName from s_vw_ClassStudent" +
                           " Where Academicyear=@academicyear and ClassCode=@classcode";
@@ -163,6 +188,7 @@
             }
         }
 
+        //根据班级获得学生
         [WebMethod]
         public static IList<Student> GetStudentsByGrade(int academicyear, string classNo)
         {
@@ -193,6 +219,19 @@
                             + " order by a.testtype ";
                 return bll.FillListByText<TestType>(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, gradeNo = gradeCode.GradeNo });
             }
+        }
+
+        //获得教师
+        [WebMethod]
+        public static IList<UserGroupInfo> GerTeacherAll()
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Select TeacherID,Name from  tbUserGroupInfo where UserorGroup=1";
+                return bll.FillListByText<UserGroupInfo>(sql, new {});
+            }
+            
+
         }
 
         /// <summary>

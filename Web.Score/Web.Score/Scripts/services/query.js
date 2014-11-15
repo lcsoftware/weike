@@ -24,7 +24,7 @@ aService.factory('queryService', ['baseService', 'queryProviderUrl', function (b
         };
         baseService.post(url, param, callback);
     }
-    
+
     //获得考试号
     service.GetTestNo = function (micyear, testtype, callback) {
         var url = queryProviderUrl + '/GetTestNo';
@@ -65,9 +65,23 @@ aService.factory('queryService', ['baseService', 'queryProviderUrl', function (b
         var url = queryProviderUrl + '/GetQueryGradeManager';
         var param = {
             micyear: micyear, gradeCourse: gradeCourse,
-            gradecode: gradecode, testtypes: testtypes == null ? null : testtypes.Code,
+            gradecode: gradecode == null ? null : gradecode,
+            testtypes: testtypes == null ? null : testtypes.Code,
             testno: testno == null ? null : testno.TestNo, classCode: classCode,
             stuId: stuId == null ? null : stuId.StudentId, order: order == null ? null : order
+        };
+        baseService.post(url, param, callback);
+    }
+    //获得教务员成绩
+    service.GetQuerySchoolManager = function (micyear, gradeCourse, gradecode, testtypes, testno, classCode, stuId, teacherId, order, callback) {
+        var url = queryProviderUrl + '/GetQuerySchoolManager';
+        var param = {
+            micyear: micyear, gradeCourse: gradeCourse,
+            gradecode: gradecode == null ? null : gradecode,
+            testtypes: testtypes == null ? null : testtypes.Code,
+            testno: testno == null ? null : testno.TestNo, classCode: classCode,
+            stuId: stuId == null ? null : stuId.StudentId, teacherId: teacherId == null ? null : teacherId.TeacherID,
+            order: order == null ? null : order
         };
         baseService.post(url, param, callback);
     }

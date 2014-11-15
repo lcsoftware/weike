@@ -7,12 +7,12 @@
                         <option value="">-- 请选择学年/学期 --</option>
                     </select>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-7">
                     <div ng-repeat="grade in GradeCourses" class="checkbox-inline">
                         <input type="checkbox" value="{{grade.CourseCode}}" name="courses" />{{grade.FullName}}
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <button type="button" class="btn btn-primary" ng-click="query()"><span class="glyphicon glyphicon-ok"></span>查询</button>
                 </div>
             </div>
@@ -27,6 +27,26 @@
                         <option value="">-- 请选择考试号 --</option>
                     </select>
                 </div>
+                <div class="col-sm-6">
+                    <input type="checkbox" value="1" ng-model="teacherName" />显示任课教师&nbsp;&nbsp;&nbsp;
+                    排序条件：
+                    <input type="radio" value="0" ng-model="orderNum" ng-change="order(orderNum)" />按班级序号排序&nbsp;
+                    <input type="radio" value="1" ng-model="orderNum" ng-change="order(orderNum)" />按考试成绩排序
+                </div>
+            </div>
+            <div class="form-group" ng-show="testShow">
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="GradeCode" ng-options="m.GradeName for m in GradeCodes">
+                        <option value="">-- 请选择年级 --</option>
+                    </select>
+                </div>
+                <div class="col-sm-9">
+                    <div ng-repeat="grade in Grades" class="checkbox-inline">
+                        <input type="checkbox" value="{{grade.classNo}}" name="grades" ng-click="bindStudents()" />{{grade.GradeBriefName}}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" ng-show="testShow">
                 <div class="col-sm-3">
                     <select class="form-control" ng-model="stu" ng-options="s.StdName for s in Students | filter:serchStu">
                         <option value="">-- 请选择学生 --</option>
@@ -35,28 +55,15 @@
                 <div class="col-sm-3">
                     <input type="text" ng-model="serchStu" class="form-control" placeholder="输入学生名称或学号搜索" />
                 </div>
-                
-            </div>
-            <div class="form-group" ng-show="testShow">
-                <div class="col-sm-6">
-                    <div ng-repeat="grade in Grades" class="checkbox-inline">
-                        <input type="checkbox" value="{{grade.classNo}}" name="grades" ng-click="bindStudents()" />{{grade.GradeBriefName}}
-                    </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="teacher" ng-options="t.Name for t in Teachers | filter:serchTea">
+                        <option value="">-- 请选择教师 --</option>
+                    </select>
                 </div>
-                <div class="col-sm-6">
-                    <input type="checkbox" value="1" ng-model="teacherName" />显示任课教师&nbsp;&nbsp;&nbsp;
-                    排序条件：
-                    <input type="radio" value="0" ng-model="orderNum" ng-change="order(orderNum)" />按班级序号排序
-                    <input type="radio" value="1" ng-model="orderNum" ng-change="order(orderNum)" />按考试成绩排序
+                <div class="col-sm-3">
+                    <input type="text" ng-model="serchTea" class="form-control" placeholder="输入学生名称或学号搜索" />
                 </div>
             </div>
-            @*<div class="form-group" ng-show="testShow">
-                    <div class="col-sm-12">
-                        <div ng-repeat="student in Students" class="checkbox-inline">
-                            <input type="checkbox" value="{{student.StudentId}}" name="students" />{{student.StdName}}
-                        </div>
-                    </div>
-                </div>*@
             <div class="form-group" ng-show="testShow">
                 <div class="col-sm-2">
                     最高分：<font style="color:blue;">{{maxNumScore}}</font>

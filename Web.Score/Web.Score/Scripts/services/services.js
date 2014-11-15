@@ -150,7 +150,28 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         var param = { academicyear:academicyear,classNo: classNo };
         baseService.post(url, param, callback);
     }
+
+    //获得所有教师
+    service.GerTeacherAll = function(callback)
+    {
+        var url = utilProviderUrl + '/GerTeacherAll';
+        var param = {};
+        baseService.post(url, param, callback);
+    }
     
+    //获得所有年级
+    service.GetGradeAll = function(callback)
+    {
+        var url = utilProviderUrl + '/GetGradeAll';
+        var param = {};
+        baseService.post(url, param, callback);
+    }
+    //获得所有课程
+    service.GetCourseCodeAll = function (callback) {
+        var url = utilProviderUrl + '/GetCourseCodeAll';
+        var param = {};
+        baseService.post(url, param, callback);
+    }
 
     //获取数组中最大值
     service.getMax = function (value) {
