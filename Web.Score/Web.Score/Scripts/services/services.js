@@ -151,6 +151,27 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         baseService.post(url, param, callback);
     }
 
+    //获得所有教师
+    service.GerTeacherAll = function(callback)
+    {
+        var url = utilProviderUrl + '/GerTeacherAll';
+        var param = {};
+        baseService.post(url, param, callback);
+    }
+    
+    //获得所有年级
+    service.GetGradeAll = function(callback)
+    {
+        var url = utilProviderUrl + '/GetGradeAll';
+        var param = {};
+        baseService.post(url, param, callback);
+    }
+    //获得所有课程
+    service.GetCourseCodeAll = function (callback) {
+        var url = utilProviderUrl + '/GetCourseCodeAll';
+        var param = {};
+        baseService.post(url, param, callback);
+    }
 
     //获取数组中最大值
     service.getMax = function (value) {
@@ -203,6 +224,21 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
             }
         }
         return rs.length;
+    }
+    //显示灰色 jQuery 遮罩层 
+    service.showBg = function() {
+        var bh = $("body").height();
+        var bw = $("body").width();
+        $("#fullbg").css({
+            height: bh,
+            width: bw,
+            display: "block"
+        });
+        $("#dialog").show();
+    }
+    //关闭灰色 jQuery 遮罩 
+    service.closeBg = function() {
+        $("#fullbg,#dialog").hide();
     }
     //获得复选框值
     service.getlist = function (value) {

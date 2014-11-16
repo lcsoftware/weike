@@ -13,6 +13,7 @@
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <!-- Static navbar -->
+    
     <div class="navbar navbar-default navbar-static-top" role="navigation" ng-if=" !layout ">
         <div class="container">
             <div class="navbar-header">
@@ -48,8 +49,13 @@
                         </ul>
                     </li>
                 </ul>
-            </div><!--/.nav-collapse -->
+            </div><!--/.nav-collapse -->            
+        </div>   
+        <div id="fullbg"></div>
+        <div id="dialog">
+            <img src="~/Content/images/loading.gif" />
         </div>
+        
     </div>
 
     <div id="ui-view" class="container" ui-view data-tmpl-url="@Request.RequestContext.RouteData.DataTokens["templateUrl"]">
