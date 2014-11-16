@@ -78,7 +78,9 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
         var url = "/DataProvider/Statistic.aspx/GetStatBase";
         var param = { micYear: micYear.MicYear, testNo: testNo, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student };
         $scope.baseService.post(url, param, function (data) {
-            $scope.base = angular.fromJson(data.d);
+            if (data.d !== null) {
+                $scope.base = angular.fromJson(data.d)[0];
+            }
         });
     }
 
@@ -115,7 +117,7 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
     $scope.stat = function () {
         statBase();
         statCharts();
-        //statData();
+        statData();
     }
 
     $scope.changeOption = function () {

@@ -40,7 +40,7 @@ namespace App.Web.Score.DataProvider
                 var tempSql = "";
                 DataTable table = new DataTable();
                 //参加考试人数
-                sql = "Select count(*) as Renshu,Avg(Numscore) as AvgScore,Max(Numscore) as MaxScore,Min(Numscore) as MinScore,stdevp(NumScore) as Fangcha"
+                sql = "Select count(*) as Renshu, round(Avg(Numscore), 4) as AvgScore,Max(Numscore) as MaxScore,Min(Numscore) as MinScore,round(stdevp(NumScore), 4) as Fangcha"
                  + " from s_vw_ClassScoreNum "
                  + " where Academicyear=@micYear"
                  + " and TestNo=@testNo"
@@ -70,7 +70,7 @@ namespace App.Web.Score.DataProvider
                                             NumScore, NormalScore, ClassOrder, GradeOrder);
 
                 //学生的历史平均分
-                sql = " Select Avg(NumScore) as AvgScore from s_tb_normalscore"
+                sql = " Select round(Avg(NumScore), 4) as AvgScore from s_tb_normalscore"
                 + " where CourseCode=@courseCode"
                 + " and SRID=@SRID";
                 table = bll.FillDataTableByText(sql, new { courseCode = gradeCourse.CourseCode, SRID = student.StudentId });
@@ -78,7 +78,7 @@ namespace App.Web.Score.DataProvider
                 tempSql += string.Format(",{0} as HisAvgScore", HisAvgScore);
 
                 //考试时间
-                sql = " Select * from s_tb_testlogin"
+                sql = " Select convert(varchar(19),TestTime, 25) as TestTime from s_tb_testlogin"
                        + " where Academicyear=@micYear"
                        + " and testno=@testNo";
                 table = bll.FillDataTableByText(sql, new { micYear = micYear, testNo = testNo.TestLoginNo });
@@ -110,10 +110,6 @@ namespace App.Web.Score.DataProvider
                 options.Add(option1);
                 options.Add(option2);
                 options.Add(option3);
-
-                option1.yAxis.min = int.MaxValue;
-                option2.yAxis.min = int.MaxValue;
-                option3.yAxis.min = int.MaxValue;
 
                 option1.legend.data.Add(student.StdName);
                 option1.legend.data.Add("班级平均分");
@@ -170,10 +166,12 @@ namespace App.Web.Score.DataProvider
                            + " and CourseCode=@courseCode";
                     DataTable tempTable = bll.FillDataTableByText(sql, new { micYear = tempyear, testNo = temptestno, courseCode = gradeCourse.CourseCode, SRID = student.StudentId });
                     option1.series[0].data.Add(tempTable.Rows.Count == 0 ? "0" : tempTable.Rows[0]["classorder"].ToString());
-                    if (tempTable.Rows.Count > 0)
-                    {
-                        option1.yAxis.min = Math.Min(option1.yAxis.min, int.Parse(tempTable.Rows[0]["classorder"].ToString()));
-                    }
+                    //if (tempTable.Rows.Count > 0)
+                    //{
+                    //    int clsOrder = int.Parse(tempTable.Rows[0]["classorder"].ToString());
+                    //    option1.yAxis.min = Math.Min(option1.yAxis.min, clsOrder);
+                    //    option1.yAxis.max = Math.Max(option1.yAxis.max, clsOrder);
+                    //}
                     //加入班级平均成绩的排名
                     sql = " Select Avg(NumScore) as AvgScore from s_vw_ClassScoreNum"
                             + " Where CourseCode=@courseCode"
@@ -313,7 +311,7 @@ namespace App.Web.Score.DataProvider
         {
             using (AppBLL bll = new AppBLL())
             {
-                DataTable table = bll.FillDataTable("", new { AcademicYear = micYear, CourseCode = gradeCourse.CourseCode, ClassNo = gradeClass.ClassNo, SRID = student.StudentId });
+                DataTable table = bll.FillDataTable("s_p_StudentAllTestScore", new { AcademicYear = micYear, CourseCode = gradeCourse.CourseCode, ClassNo = gradeClass.ClassNo, SRID = student.StudentId });
                 return Newtonsoft.Json.JsonConvert.SerializeObject(table);
             }
         }

@@ -23,7 +23,8 @@ namespace App.Score.Entity
         public string name = "";
         public string type = "value";
         public bool splitArea = true;
-        public int min = 0;
+        //public int min = int.MaxValue;
+        //public int max = int.MinValue;
     }
 
     public class SeriesItem

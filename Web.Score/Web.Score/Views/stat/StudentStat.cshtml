@@ -64,15 +64,64 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <p>{{conditionData.Student.StdName}}{{conditionData.GradeCourse.FullName}}第{{conditionData.TestLogin.TestLoginNo}}次考试情况：</p>
-                <p>asdf</p>
+                <div class="row" style="margin-bottom:0.3em;">
+                    <div class="col-sm-12">{{conditionData.Student.StdName}}{{conditionData.GradeCourse.FullName}}第{{conditionData.TestLogin.TestLoginNo}}次考试情况：</div>
+                </div>
+                <div class="row" style="margin-bottom:0.3em;">
+                	<div class="col-sm-4" style="text-align:left;">参加考试人数</div>
+                	<div class="col-sm-2">{{base.RenShu}}</div>
+                </div>
+                <div class="row" style="margin-bottom:0.3em;">
+                    <div class="col-sm-4" style="text-align:left;">班级平均分</div>
+                    <div class="col-sm-2">{{base.AvgScore}}</div>
+                </div>
+                <div class="row" style="margin-bottom:0.3em;">
+                    <div class="col-sm-4" style="text-align:left;">班级最高分</div>
+                    <div class="col-sm-2">{{base.MaxScore}}</div>
+                </div>
+                <div class="row" style="margin-bottom:0.3em;">
+                    <div class="col-sm-4" style="text-align:left;">班级最低分</div>
+                    <div class="col-sm-2">{{base.MinScore}}</div>
+                </div>
+                <div class="row" style="margin-bottom:0.3em;">
+                    <div class="col-sm-4" style="text-align:left;">班级方差</div>
+                    <div class="col-sm-2">{{base.Fangcha}}</div>
+                </div>
+                <div class="row" style="margin-bottom:0.3em;">
+                    <div class="col-sm-4" style="text-align:left;">学生的考试成绩</div>
+                    <div class="col-sm-2">{{base.NumScore}}</div>
+                </div>
+                <div class="row" style="margin-bottom:0.3em;">
+                    <div class="col-sm-4" style="text-align:left;">学生的标准分</div>
+                    <div class="col-sm-2">{{base.NormalScore}}</div>
+                </div>
+                <div class="row" style="margin-bottom:0.3em;">
+                    <div class="col-sm-4" style="text-align:left;">学生的历史平均分</div>
+                    <div class="col-sm-2">{{base.HisAvgScore}}</div>
+                </div>
+                <div class="row" style="margin-bottom:0.3em;">
+                    <div class="col-sm-4" style="text-align:left;">学生的班级排名</div>
+                    <div class="col-sm-2">{{base.ClassOrder}}</div>
+                </div>
+                <div class="row" style="margin-bottom:0.3em;">
+                    <div class="col-sm-4" style="text-align:left;">学生的年级排名</div>
+                    <div class="col-sm-2">{{base.GradeOrder}}</div>
+                </div>
+                <div class="row" style="margin-bottom:0.3em;">
+                    <div class="col-sm-4" style="text-align:left;">考试时间</div>
+                    <div class="col-sm-6">{{base.TestTime}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4" style="text-align:left;">任课教师</div>
+                    <div class="col-sm-4">{{base.TeacherName}}</div>
+                </div> 
             </div>
             <div class="col-sm-6">
                 <div id="main1" style="height:300px;width:100%"></div>
             </div>
 
         </div>
-        <div class="row">
+        <div class="row" style="margin-top:1em;">
             <div class="col-sm-6">
                 <div id="main2" style="height:300px;width:100%"></div>
             </div>
@@ -80,8 +129,41 @@
                 <div id="main3" style="height:300px;width:100%"></div>
             </div>
         </div>
+        <div class="row">
+        	<div class="col-sm-12">
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th style="width:10%;text-align:center;">考试号</th>
+                            <th style="width:20%;text-align:center;">考试时间</th>
+                            <th style="width:10%;text-align:center;">成绩</th>
+                            <th style="width:10%;text-align:center;">等第成绩</th>
+                            <th style="width:10%;text-align:center;">标准分</th>
+                            <th style="width:10%;text-align:center;">年级排名</th>
+                            <th style="width:10%;text-align:center;">班级排名</th>
+                            <th style="width:10%;text-align:center;">年级平均</th>
+                            <th style="width:10%;text-align:center;">班级平均</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="score in data" ng-if="!student.Keep">
+                            <td>{{score.testno}}</td>
+                            <td>{{score.date1}}</td>
+                            <td>{{score.numscore}}</td>
+                            <td>{{score.levelscore}}</td>
+                            <td>{{score.normalscore}}</td>
+                            <td>{{score.gradeorder}}</td>
+                            <td>{{score.classorder}}</td>
+                            <td>{{score.gradeavg}}</td>
+                            <td>{{score.classavg}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
+
 <script type="text/javascript">
     require.config({
         packages: [
