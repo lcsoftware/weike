@@ -27,6 +27,7 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
     $scope.ScoreTypes = $scope.constService.ScoreTypes;
     $scope.ScoreSorts = $scope.constService.ScoreSorts;
 
+    $scope.haveStat = false;
 
     $scope.utilService.GetAcademicYears(function (data) {
         $scope.AcademicYears = data.d;
@@ -54,19 +55,19 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
         }
     });
 
-
-
-    var statChart1 = function () {
-
-    }
-
     var chart1 = {};
     var chart2 = {};
     var chart3 = {};
 
-    $scope.chartService.chartCreate('main1', function (data) { chart1 = data; });
-    $scope.chartService.chartCreate('main2', function (data) { chart2 = data; });
-    $scope.chartService.chartCreate('main3', function (data) { chart3 = data; });
+    $scope.chartService.chartCreate('main1', function (data) {
+        chart1 = data;
+    });
+    $scope.chartService.chartCreate('main2', function (data) {
+        chart2 = data;
+    });
+    $scope.chartService.chartCreate('main3', function (data) {
+        chart3 = data;
+    });
 
     var statBase = function () {
         var micYear = $scope.conditionData.MicYear;
@@ -111,41 +112,20 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
         var param = { micYear: micYear, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student };
         $scope.baseService.post(url, param, function (data) {
             $scope.data = angular.fromJson(data.d);
+            $scope.haveStat = true;
         });
     }
 
     $scope.stat = function () {
+
+        if (!$scope.conditionData.student) {
+            $scope.dialogUtils
+        }
+
         statBase();
         statCharts();
         statData();
-    }
-
-    $scope.changeOption = function () {
-        var legend = { legend: { data: ['蒸发量1', '降水量'] } };
-        var xAxis = {
-            xAxis: [
-                {
-                    type: 'category',
-                    data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
-                }
-            ]
-        };
-        var series = {
-            series: [
-                {
-                    name: '蒸发量1',
-                    type: 'line',
-                    data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
-                },
-                {
-                    name: '降水量',
-                    type: 'line',
-                    data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
-                }
-            ]
-        };
-        $scope.chartService.refresh(chart1, legend, xAxis, series);
-    }
+    } 
 
     $scope.$watch('conditionData.GradeClass', function (gradeClass) {
         $scope.Students.length = 0;

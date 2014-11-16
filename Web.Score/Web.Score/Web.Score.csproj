@@ -734,6 +734,7 @@
     <Content Include="Views\query\GradeManager.cshtml" />
     <Content Include="Views\query\SchoolManagerQuery.cshtml" />
     <Content Include="Views\query\SchoolHead.cshtml" />
+    <Content Include="Views\stat\ExamStat.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
