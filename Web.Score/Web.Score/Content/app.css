@@ -53,6 +53,7 @@
     background-color: #0080ff;
     color: #fff;
 }
+
 #fullbg {
     background-color: gray;
     left: 0;
@@ -64,6 +65,7 @@
     -moz-opacity: 0.5;
     -khtml-opacity: 0.5;
 }
+
 #dialog {
     left: 40%;
     padding: 1px;
@@ -91,3 +93,8 @@
                 color: #fff;
                 text-decoration: none;
             }
+
+
+.hideTag{
+    display:none;
+}

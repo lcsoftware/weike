@@ -7,6 +7,11 @@ namespace App.Score.Entity
     using System.Text;
     using System.Threading.Tasks;
 
+    public class Title
+    {
+        public string text = "";
+        public string subtext = "";
+    }
     public class Legend
     {
         public IList<string> data = new List<string>();
@@ -23,7 +28,8 @@ namespace App.Score.Entity
         public string name = "";
         public string type = "value";
         public bool splitArea = true;
-        public int min = 0;
+        //public int min = int.MaxValue;
+        //public int max = int.MinValue;
     }
 
     public class SeriesItem
@@ -35,6 +41,7 @@ namespace App.Score.Entity
 
     public class ChartOption
     {
+        public Title title = new Title();
         public Legend legend = new Legend();
         public XAxis xAxis = new XAxis();
         public YAxis yAxis = new YAxis();

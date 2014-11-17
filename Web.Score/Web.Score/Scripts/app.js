@@ -40,7 +40,7 @@ angular.module('app', [
             //转换为学籍成绩
             .state('admin.nSysMenu6', { url: '/CJtoXJ', templateUrl: '/views/admin/CJtoXJ', controller: 'CJtoXJController' })
             //从学籍成绩转换过来
-            .state('admin.nSysMenu8', { url: '/XJtoCJ', templateUrl: '/views/admin/XJtoCJ', controller: 'XJtoCJController' }) 
+            .state('admin.nSysMenu8', { url: '/XJtoCJ', templateUrl: '/views/admin/XJtoCJ', controller: 'XJtoCJController' })
             //学生编号导入
             .state('admin.nSysMenu9', { url: '/StudentImport', templateUrl: '/views/admin/StudentImport', controller: 'StdImportController' })
             //生成上传数据文件
@@ -110,7 +110,7 @@ angular.module('app', [
             //学生成绩纵向比较
             .state('n_Grade_StdPJ', { url: '/GradeStdPJ', templateUrl: '/views/GradeStdPJ', controller: 'GradeStdPJController' })
             //考试统计分析
-            .state('n_Class_Stat', { url: '/ClassStat', templateUrl: '/views/ClassStat', controller: 'ClassStatController' })
+            .state('stat.Stat19', { url: '/ClassStat', templateUrl: '/views/stat/ExamStat', controller: 'ExamStatController' })
             //学科相关分析
             .state('n_Class_Course', { url: '/ClassCourse', templateUrl: '/views/ClassCourse', controller: 'ClassCourseController' })
             //学科成绩清单
@@ -151,7 +151,7 @@ angular.module('app', [
 
     .run(['$templateCache', '$rootScope', '$state', '$stateParams', '$location', 'menuService',
         'dialogUtils', 'softname', 'baseService', 'userService', 'utilService', 'schoolService',
-        'constService','queryService', 'chartService',
+        'constService', 'queryService', 'chartService',
         function ($templateCache, $rootScope, $state, $stateParams, $location, menuService,
             dialogUtils, softname, baseService, userService, utilService, schoolService,
             constService, queryService, chartService) {
@@ -182,52 +182,16 @@ angular.module('app', [
                 });
             }
 
-            var initMenu = function (user) {
-                var url = "/DataProvider/Admin.aspx/GetMenus";
-                var param = null;
-                var funcsPromise = baseService.postPromise(url, param);
-                url = "/DataProvider/Admin.aspx/GetUserFuncs";
-                param = { teacher: user.TeacherID };
-                var userFuncsPromise = baseService.postPromise(url, param);
-                baseService.runPromises({
-                    allFuncs: funcsPromise,
-                    userFuncs: userFuncsPromise
-                }, function (results) {
-                    if (results.allFuncs.d != null) {
-                        $rootScope.menus = results.allFuncs.d;
-                        console.log($rootScope.menus);
-                        angular.forEach($rootScope.menus, function(menu){
-                            if (menu.FuncID !== 1701) {
-                                var visibleFuncs = results.userFuncs.d;
-                                var length = visibleFuncs.length;
-                                for (var i = 0; i < length; i++) {
-                                    var visibleFunc = visibleFuncs[i];
-                                    if (menu.FuncID === visibleFunc.FuncID) {
-                                        menu.Visibled = true;
-                                        break;
-                                    }
-                                }
-                            } else {
-                                menu.Visibled = true;
-                            }
-                        }); 
-                    }
-                })
-            }
-
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
                 $rootScope.layout = toState.layout;
                 userService.getUser(function (user) {
                     if (user !== null) {
                         $rootScope.user = user;
-                        //menuService.getMenus(function (data) {
-                        //    $rootScope.menus = data.d;
-                        //});
                         menuService.getUserFuncs($rootScope.user.TeacherID, function (data) {
                             $rootScope.menus = data.d;
                         });
                     }
-                }); 
+                });
             });
 
             $rootScope.$on('$locationChangeStart', function (event) {
