@@ -735,12 +735,10 @@
     <Content Include="Views\query\GradeManager.cshtml" />
     <Content Include="Views\query\SchoolManagerQuery.cshtml" />
     <Content Include="Views\query\SchoolHead.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Analysis\MinutiaAnalyse.cshtml" />
     <Content Include="Views\stat\TeacherRep1.cshtml" />
-=======
+
     <Content Include="Views\stat\ExamStat.cshtml" />
->>>>>>> a2442250586f15f7fda1a9d0e699361bec6384ca
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
