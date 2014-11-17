@@ -172,7 +172,12 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         var param = {};
         baseService.post(url, param, callback);
     }
-
+    //获得课程（根据年和班级）
+    service.GetGradeCourse = function (academicYear, gradeCode, callback) {
+        var url = utilProviderUrl + '/GetGradeCourse';
+        var param = { micYear: academicYear, gradeCode: gradeCode };
+        baseService.post(url, param, callback);
+    }
     //获取数组中最大值
     service.getMax = function (value) {
         var max = value[0].NumScore;

@@ -341,6 +341,7 @@
     <Content Include="DataProvider\Util.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\controllers\admin.js" />
+    <Content Include="Scripts\controllers\analysis.js" />
     <Content Include="Scripts\controllers\controllers.js" />
     <Content Include="Scripts\controllers\query.js" />
     <Content Include="Scripts\controllers\statistic.js" />
@@ -734,6 +735,8 @@
     <Content Include="Views\query\GradeManager.cshtml" />
     <Content Include="Views\query\SchoolManagerQuery.cshtml" />
     <Content Include="Views\query\SchoolHead.cshtml" />
+    <Content Include="Views\Analysis\MinutiaAnalyse.cshtml" />
+    <Content Include="Views\stat\TeacherRep1.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

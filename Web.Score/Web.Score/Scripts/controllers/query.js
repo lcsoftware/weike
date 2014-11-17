@@ -362,7 +362,7 @@ appQuery.controller('SchoolManagerQueryController', ['$scope', 'pageService', fu
     $scope.utilService.GetGradeAll(function (data) {
         $scope.GradeCodes = data.d;
     });
-    //绑定考试类型，考试号
+    //绑定考试类型
     $scope.utilService.GetTestType(function (data) {
         $scope.TestTypes = data.d;
     });

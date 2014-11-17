@@ -228,7 +228,7 @@ namespace App.Web.Score.DataProvider
         /// <param name="stuId">学生ID</param>
         /// <returns></returns>
         [WebMethod]
-        public static string GetQuerySchoolManager(int? micyear, string gradeCourse, int? gradecode, int? testtypes, int? testno, string classCode, string stuId,string teacherId, int? order)
+        public static string GetQuerySchoolManager(int? micyear, string gradeCourse, int? gradecode, int? testtypes, int? testno, string classCode, string stuId, string teacherId, int? order)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -277,6 +277,8 @@ namespace App.Web.Score.DataProvider
             }
         }
 
+        
+
         //获得班主任年级
         [WebMethod]
         public static string GetScope(string teacherId)
@@ -285,6 +287,7 @@ namespace App.Web.Score.DataProvider
             {
                 var sql = "select * from s_tb_teacherscope where teacherid=@teacherId and teachertype=2";
                 return JsonConvert.SerializeObject(bll.FillDataTableByText(sql, new { teacherId = teacherId }));
+                
             }
         }
         //获得班主任课程

@@ -13,7 +13,8 @@ angular.module('app', [
     'app.controllers',
     'app.admin',
     'app.query',
-    'app.stat'
+    'app.stat',
+    'app.analysis'
 ])
 
     .config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
@@ -69,15 +70,15 @@ angular.module('app', [
             /**************************教师学生统计***********************/
             .state('stat', { url: '/userStat', abstract: true, templateUrl: '/views/admin/main' })
             //教学情况报表(不分班)
-            .state('n_Teacher_Rep1', { url: '/TeacherRep1', templateUrl: '/views/TeacherRep1', controller: 'TeacherRep1Controller' })
+            .state('stat.Stat01', { url: '/TeacherRep1', templateUrl: '/views/stat/TeacherRep1', controller: 'TeacherRep1Controller' })
             //教学情况报表(分班)
-            .state('n_Teacher_Rep2', { url: '/TeacherRep2', templateUrl: '/views/TeacherRep2', controller: 'TeacherRep2Controller' })
+            .state('stat.Stat02', { url: '/TeacherRep2', templateUrl: '/views/stat/TeacherRep2', controller: 'TeacherRep2Controller' })
             //教学情况比较图表(历次)
-            .state('n_Teacher_Style', { url: '/TeacherStyle', templateUrl: '/views/TeacherStyle', controller: 'TeacherStyleController' })
+            .state('stat.Stat03', { url: '/TeacherStyle', templateUrl: '/views/stat/TeacherStyle', controller: 'TeacherStyleController' })
             //教学情况比较图2(历次)
-            .state('n_Teacher_Style1', { url: '/TeacherStyle1', templateUrl: '/views/TeacherStyle1', controller: 'TeacherStyle1Controller' })
+            .state('stat.Stat04', { url: '/TeacherStyle1', templateUrl: '/views/stat/TeacherStyle1', controller: 'TeacherStyle1Controller' })
             //横向纵向比较
-            .state('n_Teacher_PJ', { url: '/TeacherPJ', templateUrl: '/views/TeacherPJ', controller: 'TeacherPJController' })
+            .state('stat.Stat05', { url: '/TeacherPJ', templateUrl: '/views/stat/TeacherPJ', controller: 'TeacherPJController' })
             //考试情况统计
             .state('stat.Stat07', { url: '/StudentStat', templateUrl: '/views/stat/StudentStat', controller: 'StudentStatController' })
             //年级排名趋势图
@@ -127,15 +128,15 @@ angular.module('app', [
             /**************************End 年级班级统计***********************/
 
             /**************************统计分析***********************/
-
+            .state('analysis', { url: '/analysis', abstract: true, templateUrl: '/views/admin/main' })
             //统一型数据处理
-            .state('nshujuchuli1', { url: '/Shujuchuli1', templateUrl: '/views/Shujuchuli1', controller: 'Shujuchuli1Controller' })
+            .state('analysis.nSum1', { url: '/Shujuchuli1', templateUrl: '/views/Analysis/Shujuchuli1', controller: 'Shujuchuli1Controller' })
             //超级型数据处理
-            .state('nshujuchuli2', { url: '/Shujuchuli2', templateUrl: '/views/Shujuchuli2', controller: 'Shujuchuli2Controller' })
+            .state('analysis.nSum0', { url: '/Shujuchuli2', templateUrl: '/views/Analysis/Shujuchuli2', controller: 'Shujuchuli2Controller' })
             //细目分析
-            .state('nMinutiaAnalyse', { url: '/MinutiaAnalyse', templateUrl: '/views/MinutiaAnalyse', controller: 'MinutiaAnalyseController' })
+            .state('analysis.nSum2', { url: '/MinutiaAnalyse', templateUrl: '/views/Analysis/MinutiaAnalyse', controller: 'MinutiaAnalyseController' })
             //高三选课排名
-            .state('nThirdOrder', { url: '/ThirdOrder', templateUrl: '/views/ThirdOrder', controller: 'ThirdOrderController' })
+            .state('analysis.nSum3', { url: '/ThirdOrder', templateUrl: '/views/Analysis/ThirdOrder', controller: 'ThirdOrderController' })
             /**************************End 统计分析***********************/
 
             .state('otherwise', {
