@@ -109,7 +109,7 @@ angular.module('app', [
             //学生成绩纵向比较
             .state('n_Grade_StdPJ', { url: '/GradeStdPJ', templateUrl: '/views/GradeStdPJ', controller: 'GradeStdPJController' })
             //考试统计分析
-            .state('stat.Stat19', { url: '/ClassStat', templateUrl: '/views/stat/ExamStat', controller: 'ExamStatController' })
+            .state('stat.Stat20', { url: '/ClassStat', templateUrl: '/views/stat/ExamStat', controller: 'ExamStatController' })
             //学科相关分析
             .state('n_Class_Course', { url: '/ClassCourse', templateUrl: '/views/ClassCourse', controller: 'ClassCourseController' })
             //学科成绩清单

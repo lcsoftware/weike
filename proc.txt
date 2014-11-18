@@ -132,3 +132,6 @@ where FuncID in (1711,1712)
 
 update s_tb_Function set FuncName = 'stat.Stat0' + CAST(funcid-1701 as varchar) 
 where FuncID in (1708,1709,1710,1702,1703,1704,1705,1706)        
+
+update s_tb_Function set FuncName = 'stat.Stat' + CAST(funcid-1790 as varchar) 
+where FuncID >=1802 and FuncID<=1817 and FuncID not in (1809)

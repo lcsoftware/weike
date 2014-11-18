@@ -279,7 +279,7 @@ stat.controller('ExamStatController', ['$scope', function ($scope) {
         var gradeClass = $scope.conditionData.GradeClass;
         var scoreOption = $scope.conditionData.ScoreOption;
 
-        var url = "/DataProvider/Statistic.aspx/GetStat19Base";
+        var url = "/DataProvider/Statistic.aspx/GetStat20Base";
         var param = { micYear: micYear.MicYear, testNo: testNo, gradeCourse: gradeCourse, gradeClass: gradeClass, scoreOption: scoreOption };
         $scope.baseService.post(url, param, function (data) {
             if (data.d !== null) {
@@ -296,7 +296,7 @@ stat.controller('ExamStatController', ['$scope', function ($scope) {
         var student = $scope.conditionData.Student;
         var scoreType = $scope.conditionData.ScoreType.code;
 
-        var url = "/DataProvider/Statistic.aspx/GetStat19Charts";
+        var url = "/DataProvider/Statistic.aspx/GetStat20Charts";
         var param = { micYear: micYear, testNo: testNo, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student, scoreType: scoreType };
         $scope.baseService.post(url, param, function (data) {
             $scope.chartService.changeOption(chart1, data.d[0]);
@@ -311,7 +311,7 @@ stat.controller('ExamStatController', ['$scope', function ($scope) {
         var gradeClass = $scope.conditionData.GradeClass;
         var student = $scope.conditionData.Student;
 
-        var url = "/DataProvider/Statistic.aspx/GetStat19Data";
+        var url = "/DataProvider/Statistic.aspx/GetStat20Data";
         var param = { micYear: micYear, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student };
         $scope.baseService.post(url, param, function (data) {
             $scope.data = angular.fromJson(data.d);

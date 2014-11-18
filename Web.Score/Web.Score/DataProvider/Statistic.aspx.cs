@@ -327,7 +327,7 @@ namespace App.Web.Score.DataProvider
         /// <param name="gradeClass"></param>
         /// <returns></returns>
         [WebMethod]
-        public static string GetStat19Base(int micYear, TestLogin testNo, GradeCourse gradeCourse, GradeClass gradeClass, int scoreOption)
+        public static string GetStat20Base(int micYear, TestLogin testNo, GradeCode gradeCode, GradeCourse gradeCourse, GradeClass gradeClass, int scoreOption)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -395,211 +395,113 @@ namespace App.Web.Score.DataProvider
             }
         }
 
-        //[WebMethod]
-        //public static IList<ChartOption> GetStat19Charts(int micYear, TestLogin testNo, GradeCourse gradeCourse, GradeClass gradeClass, int scoreType, int scoreOption)
-        //{
-        //    using (AppBLL bll = new AppBLL())
-        //    {
-        //        IList<ChartOption> options = new List<ChartOption>();
-        //        ChartOption option1 = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
-        //        ChartOption option2 = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
-        //        ChartOption option3 = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
-        //        options.Add(option1);
-        //        options.Add(option2);
-        //        options.Add(option3);
+        [WebMethod]
+        public static IList<CommonOption> GetStat20Charts(int micYear, TestLogin testNo, GradeCode gradeCode, GradeCourse gradeCourse, GradeClass gradeClass, int scoreType, int scoreOption)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                IList<CommonOption> options = new List<CommonOption>();
+                ChartOption option1 = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
+                PieOption option2 = new PieOption() { legend = new PieLegend() };
+                ChartOption option3 = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
+                options.Add(option1);
+                options.Add(option2);
+                options.Add(option3);
 
-        //        option1.legend.data.Add(student.StdName);
-        //        option1.legend.data.Add("班级平均分");
+                string legend = string.Format("{0}({1})班{2}成绩正态图", gradeCode.GradeBriefName, gradeClass.ClassNo.Substring(2), gradeCourse.FullName);
+                option1.title.text = legend;
+                option1.series.Add(new SeriesItem() { type = "line", name = legend });
 
-        //        option1.series.Add(new SeriesItem() { type = "line", name = student.StdName });
-        //        option1.series.Add(new SeriesItem() { type = "line", name = "班级平均分" });
+                legend = string.Format("{0}({1})班{2}成绩分布饼图", gradeCode.GradeBriefName, gradeClass.ClassNo.Substring(2), gradeCourse.FullName);
+                option2.title.text = legend;
+                ((PieLegend)option2.legend).x = "left";
+                ((PieLegend)option2.legend).orient = "vertical";
+                PieItem item = new PieItem();
+                item.type = "pie";
+                item.name = legend;
+                item.radius = "55%";
+                item.center.Add("50%");
+                item.center.Add("60%");
+                option2.series.Add(item);
 
-        //        option2.legend.data.Add(student.StdName);
-        //        option2.legend.data.Add("年级平均分");
-        //        option2.legend.data.Add("班级平均分");
+                legend = string.Format("{0}({1})班与年级平均{2}成绩历史曲线图", gradeCode.GradeBriefName, gradeClass.ClassNo.Substring(2), gradeCourse.FullName);
+                option3.title.text = legend;
+                option3.series.Add(new SeriesItem() { type = "line", name = "line1" });
+                option3.series.Add(new SeriesItem() { type = "line", name = "line2" });
 
-        //        option2.series.Add(new SeriesItem() { type = "line", name = student.StdName });
-        //        option2.series.Add(new SeriesItem() { type = "line", name = "年级平均分" });
-        //        option2.series.Add(new SeriesItem() { type = "line", name = "班级平均分" });
+                var sql = "";
+                DataTable table = new DataTable();
+                //产生正太图
+                sql = " SELECT c.TypeName, b.BriefName AS CourseName, a.TestNo,"
+                  + " a.ClassNo, a.S_5+a.S_10+a.S_15+a.S_20+a.S_25+a.S_30+a.S_35+a.S_40 S_40,"
+                  + " a.S_45+a.S_50 S_50,a.S_55,a.S_60,a.S_65,a.S_70,a.S_75,a.S_80,a.S_85,"
+                  + " a.S_90,a.S_95,a.S_100 "
+                  + " FROM  tdCourseCode b INNER JOIN "
+                  + " s_tb_ClassStat a ON b.CourseCode = a.CourseCode INNER JOIN "
+                  + "  s_tb_TestTypeInfo c ON a.TestType = c.TestType "
+                  + " Where a.Academicyear=@micYear"
+                  + " and a.CourseCode=@courseCode"
+                  + " and a.TestNo=@testNo"
+                  + " and a.ClassNo=@classNo";
+                table = bll.FillDataTableByText(sql, new { micYear = micYear, testNo = testNo.TestLoginNo, courseCode = gradeCourse.CourseCode, classNo = gradeClass.ClassNo });
+                if (table.Rows.Count == 0) return null; //无统计数据,请您确认是否做过统计图形!
+                option1.xAxis.data.Add("0-0.4");
+                option1.xAxis.data.Add("0.4-0.5");
+                option1.xAxis.data.Add("0.5-0.55");
+                option1.xAxis.data.Add("0.55-0.60");
+                option1.xAxis.data.Add("0.6-0.55");
+                option1.xAxis.data.Add("0.65-0.70");
+                option1.xAxis.data.Add("0.7-0.75");
+                option1.xAxis.data.Add("0.75-0.80");
+                option1.xAxis.data.Add("0.8-0.85");
+                option1.xAxis.data.Add("0.8-0.9");
+                option1.xAxis.data.Add("0.9-0.95");
+                option1.xAxis.data.Add("0.9-1");
+                SeriesItem seriesItem = (SeriesItem)option1.series[0];
+                seriesItem.data.Add(table.Rows[0]["S_40"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_50"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_55"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_60"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_65"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_70"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_75"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_80"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_85"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_90"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_95"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_100"].ToString());
 
-        //        option3.legend.data.Add(student.StdName);
-        //        option3.legend.data.Add("年级总分平均");
-        //        option3.legend.data.Add("班级总分平均");
-
-        //        option3.series.Add(new SeriesItem() { type = "line", name = student.StdName });
-        //        option3.series.Add(new SeriesItem() { type = "line", name = "年级总分平均" });
-        //        option3.series.Add(new SeriesItem() { type = "line", name = "班级总分平均" });
-
-        //        var sql = "";
-        //        DataTable table = new DataTable();
-
-        //        sql = "Select Academicyear,TypeName,TestNo,ClassCode from s_vw_ClassScoreNum"
-        //         + " Where CourseCode=@courseCode"
-        //         + " and SRID =@SRID"
-        //         + " group by Academicyear,TypeName,TestNo,ClassCode"
-        //         + " Order by Academicyear,Cast(TestNo as Int)";
-        //        table = bll.FillDataTableByText(sql, new { micYear = micYear, testNo = testNo.TestLoginNo, courseCode = gradeCourse.CourseCode, SRID = student.StudentId });
-        //        int length = table.Rows.Count;
-        //        for (int i = 0; i < length; i++)
-        //        {
-        //            var tempType = table.Rows[i]["TypeName"].ToString().Substring(0, 2);
-        //            var temptestno = table.Rows[i]["TestNo"].ToString();
-        //            var tempyear = table.Rows[i]["Academicyear"].ToString();
-        //            var tempClass = table.Rows[i]["ClassCode"].ToString();
-
-        //            option1.xAxis.data.Add(string.Format("{0}{1}({2})", tempType.Trim(), temptestno.Trim(), tempyear));
-        //            option2.xAxis.data.Add(string.Format("{0}{1}({2})", tempType.Trim(), temptestno.Trim(), tempyear));
-        //            option3.xAxis.data.Add(string.Format("{0}{1}({2})", tempType.Trim(), temptestno.Trim(), tempyear));
-
-        //            option1.yAxis.name = "名次";
-        //            option2.yAxis.name = "学科成绩";
-        //            option3.yAxis.name = "总分成绩";
-
-        //            //加入学生的名次
-        //            sql = "Select classorder from s_tb_normalscore "
-        //                   + " where AcademicYear=@micYear"
-        //                   + " and TestNo=@testNo"
-        //                   + " and SRID=@SRID"
-        //                   + " and CourseCode=@courseCode";
-        //            DataTable tempTable = bll.FillDataTableByText(sql, new { micYear = tempyear, testNo = temptestno, courseCode = gradeCourse.CourseCode, SRID = student.StudentId });
-        //            option1.series[0].data.Add(tempTable.Rows.Count == 0 ? "0" : tempTable.Rows[0]["classorder"].ToString());
-                 
-        //            //加入班级平均成绩的排名
-        //            sql = " Select Avg(NumScore) as AvgScore from s_vw_ClassScoreNum"
-        //                    + " Where CourseCode=@courseCode"
-        //                    + " and ClassCode=@tempClass"
-        //                    + " and Academicyear =@tempYear"
-        //                    + " and TestNo=@tempTestNo";
-        //            tempTable = bll.FillDataTableByText(sql, new
-        //            {
-        //                courseCode = gradeCourse.CourseCode,
-        //                tempClass = tempClass,
-        //                tempYear = tempyear,
-        //                tempTestNo = temptestno
-        //            });
-        //            var tempClassAvg = Math.Round(float.Parse(tempTable.Rows[0]["AvgScore"].ToString()));
-
-        //            sql = " Select * from s_vw_ClassScoreNum "
-        //             + " where Numscore>=@NumScore"
-        //             + " and ClassCode=@tempClass"
-        //             + " and Academicyear=@tempYear"
-        //             + " and TestNo=@temptestno"
-        //             + " and CourseCode=@courseCode"
-        //             + " order by Numscore";
-        //            tempTable = bll.FillDataTableByText(sql, new
-        //            {
-        //                NumScore = tempClassAvg,
-        //                courseCode = gradeCourse.CourseCode,
-        //                tempClass = tempClass,
-        //                tempYear = tempyear,
-        //                temptestno = temptestno
-        //            });
-        //            if (tempTable.Rows.Count == 0)
-        //            {
-        //                option1.series[1].data.Add("0");
-        //            }
-        //            else
-        //            {
-        //                option1.series[1].data.Add(tempTable.Rows[0]["ClassOrder"].ToString());
-        //            }
-        //            //加学生
-        //            sql = "Select typename,{0} as score from s_vw_ClassScoreNum"
-        //                   + " where CourseCode=@courseCode"
-        //                   + " and SRID=@SRID"
-        //                   + " and Academicyear=@tempYear"
-        //                   + " and TestNo=@temptestno";
-        //            sql = string.Format(sql, scoreType == 1 ? "NumScore" : "NormalScore");
-
-        //            tempTable = bll.FillDataTableByText(sql, new
-        //            {
-        //                courseCode = gradeCourse.CourseCode,
-        //                SRID = student.StudentId,
-        //                tempYear = tempyear,
-        //                temptestno = temptestno
-        //            });
-        //            option2.series[0].data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
-
-        //            //根据条件查班级
-        //            sql = "Select avg({0}) as score from s_vw_ClassScoreNum"
-        //                  + " where CourseCode=@courseCode"
-        //                  + " and ClassCode=@classCode"
-        //                  + " and Academicyear=@tempYear"
-        //                  + " and TestNo=@temptestno";
-        //            sql = string.Format(sql, scoreType == 1 ? "NumScore" : "NormalScore");
-        //            tempTable = bll.FillDataTableByText(sql, new
-        //            {
-        //                courseCode = gradeCourse.CourseCode,
-        //                classCode = gradeClass.ClassNo,
-        //                tempYear = tempyear,
-        //                temptestno = temptestno
-        //            });
-        //            option2.series[2].data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
-        //            //年级
-        //            sql = " Select Avg({0}) as score from s_vw_ClassScoreNum"
-        //               + " where CourseCode=@courseCode"
-        //               + " and GradeNo=@gradeNo"
-        //               + " and Academicyear=@tempyear"
-        //               + " and TestNo=@temptestno";
-        //            sql = string.Format(sql, scoreType == 1 ? "NumScore" : "NormalScore");
-        //            tempTable = bll.FillDataTableByText(sql, new
-        //            {
-        //                courseCode = gradeCourse.CourseCode,
-        //                gradeNo = gradeClass.GradeNo,
-        //                tempYear = tempyear,
-        //                temptestno = temptestno
-        //            });
-        //            option2.series[1].data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
-
-        //            //加入总分图
-        //            //先年级
-        //            sql = " Select Avg({0}) as score from s_vw_SumScore"
-        //            + " where GradeNo=@gradeNo"
-        //            + " and Academicyear=@tempYear"
-        //            + " and TestNo=@temptestno";
-
-        //            sql = string.Format(sql, scoreType == 1 ? "sumScore" : "SumBZ");
-        //            tempTable = bll.FillDataTableByText(sql, new
-        //            {
-        //                gradeNo = gradeClass.GradeNo,
-        //                tempYear = tempyear,
-        //                temptestno = temptestno
-        //            });
-        //            option3.series[0].data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
-
-        //            //根据条件查班级
-        //            sql = " Select Avg({0}) as score from s_vw_SumScore"
-        //                   + " where ClassCode=@classCode"
-        //                   + " and Academicyear=@tempyear"
-        //                   + " and TestNo=@temptestno";
-        //            sql = string.Format(sql, scoreType == 1 ? "sumScore" : "SumBZ");
-        //            tempTable = bll.FillDataTableByText(sql, new
-        //            {
-        //                classCode = gradeClass.ClassNo,
-        //                tempYear = tempyear,
-        //                temptestno = temptestno
-        //            });
-        //            option3.series[1].data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
-
-        //            //加学生
-        //            sql = " Select {0} as score from s_vw_SumScore"
-        //                   + " where SRID=@SRID"
-        //                   + " and Academicyear=@tempYear"
-        //                   + " and TestNo=@temptestno";
-        //            sql = string.Format(sql, scoreType == 1 ? "sumScore" : "SumBZ");
-        //            tempTable = bll.FillDataTableByText(sql, new
-        //            {
-        //                SRID = student.StudentId,
-        //                tempYear = tempyear,
-        //                temptestno = temptestno
-        //            });
-        //            option3.series[2].data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
-        //        }
-        //        return options;
-        //    }
-        //}
+                //产生饼图
+                sql = " SELECT c.TypeName, b.BriefName AS CourseName, a.TestNo,"
+                 + " a.ClassNo, a.S_5+a.S_10+a.S_15+a.S_20+a.S_25+a.S_30+a.S_35+a.S_40 S_40,"
+                 + " a.S_45+a.S_50+a.S_55+a.S_60 S_60,a.S_65+a.S_70+a.S_75 s_75,a.S_80+a.S_85 s_85, "
+                 + " a.S_90+a.S_95+a.S_100 s_100 "
+                 + " FROM  tdCourseCode b INNER JOIN "
+                 + " s_tb_ClassStat a ON b.CourseCode = a.CourseCode INNER JOIN "
+                 + " s_tb_TestTypeInfo c ON a.TestType = c.TestType"
+                 + " Where a.Academicyear=@micYear"
+                 + " and a.CourseCode=@courseCode"
+                 + " and a.TestNo=@testNo"
+                 + " and a.classno=@classNo";
+                table = bll.FillDataTableByText(sql, new { micYear = micYear, testNo = testNo.TestLoginNo, courseCode = gradeCourse.CourseCode, classNo = gradeClass.ClassNo });
+                if (table.Rows.Count == 0) return null; //您要的不能生成,请重新确定条件!
+                PieItem pieItem = (PieItem)option2.series[0];
+                if (int.Parse(table.Rows[0]["S_100"].ToString()) > 0)
+                    pieItem.data.Add(new PieDataItem() { name = "大于0.85", value = table.Rows[0]["S_100"].ToString()}); 
+                if (int.Parse(table.Rows[0]["S_85"].ToString()) > 0)
+                    pieItem.data.Add(new PieDataItem() { name = "大于0.85", value = table.Rows[0]["S_100"].ToString()}); 
+                if (int.Parse(table.Rows[0]["S_75"].ToString()) > 0)
+                    pieItem.data.Add(new PieDataItem() { name = "大于0.85", value = table.Rows[0]["S_100"].ToString()});
+                if (int.Parse(table.Rows[0]["S_60"].ToString()) > 0)
+                    pieItem.data.Add(new PieDataItem() { name = "大于0.85", value = table.Rows[0]["S_100"].ToString()});
+                if (int.Parse(table.Rows[0]["S_40"].ToString()) > 0)
+                    pieItem.data.Add(new PieDataItem() { name = "大于0.85", value = table.Rows[0]["S_100"].ToString()});
+                return options;
+            }
+        }
 
         [WebMethod]
-        public static string GetStat19Data(int micYear, TestLogin testNo, GradeCourse gradeCourse, GradeClass gradeClass, int scoreOption)
+        public static string GetStat20Data(int micYear, TestLogin testNo, GradeCourse gradeCourse, GradeClass gradeClass, int scoreOption)
         {
             return "";
         }
