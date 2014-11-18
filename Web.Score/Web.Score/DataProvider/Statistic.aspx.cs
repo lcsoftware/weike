@@ -318,7 +318,6 @@ namespace App.Web.Score.DataProvider
         }
         #endregion
 
-<<<<<<< HEAD
         #region 教师教课情况报表（不分班）
         //取当前年级
         [WebMethod]
@@ -503,8 +502,8 @@ namespace App.Web.Score.DataProvider
                 return null;
             }
         }
+        #endregion
 
-=======
         #region 班级统计
         /// <summary>
         ///考试统计分析
@@ -693,7 +692,6 @@ namespace App.Web.Score.DataProvider
         {
             return "";
         }
->>>>>>> a2442250586f15f7fda1a9d0e699361bec6384ca
         #endregion
     }
 }
