@@ -150,7 +150,7 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
 
     $scope.stat = function () {
 
-        if (!$scope.conditionData.student) {
+        if (!$scope.conditionData.Student) {
             $scope.dialogUtils.info('请选择学生！');
             return;
         }
