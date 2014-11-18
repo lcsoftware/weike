@@ -256,7 +256,83 @@ stat.controller('ExamStatController', ['$scope', function ($scope) {
             });
         }
     });
-<<<<<<< HEAD
+
+    var chart1 = {};
+    var chart2 = {};
+    var chart3 = {};
+
+    $scope.chartService.chartCreate('main1', function (data) {
+        chart1 = data;
+    });
+    $scope.chartService.chartCreate('main2', function (data) {
+        chart2 = data;
+    });
+    $scope.chartService.chartCreate('main3', function (data) {
+        chart3 = data;
+    });
+
+
+    var statBase = function () {
+        var micYear = $scope.conditionData.MicYear;
+        var testNo = $scope.conditionData.TestLogin;
+        var gradeCourse = $scope.conditionData.GradeCourse;
+        var gradeClass = $scope.conditionData.GradeClass;
+        var scoreOption = $scope.conditionData.ScoreOption;
+
+        var url = "/DataProvider/Statistic.aspx/GetStat20Base";
+        var param = { micYear: micYear.MicYear, testNo: testNo, gradeCourse: gradeCourse, gradeClass: gradeClass, scoreOption: scoreOption };
+        $scope.baseService.post(url, param, function (data) {
+            if (data.d !== null) {
+                $scope.base = angular.fromJson(data.d)[0];
+            }
+        });
+    }
+
+    var statCharts = function () {
+        var micYear = $scope.conditionData.MicYear.MicYear;
+        var testNo = $scope.conditionData.TestLogin;
+        var gradeCourse = $scope.conditionData.GradeCourse;
+        var gradeClass = $scope.conditionData.GradeClass;
+        var student = $scope.conditionData.Student;
+        var scoreType = $scope.conditionData.ScoreType.code;
+
+        var url = "/DataProvider/Statistic.aspx/GetStat20Charts";
+        var param = { micYear: micYear, testNo: testNo, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student, scoreType: scoreType };
+        $scope.baseService.post(url, param, function (data) {
+            $scope.chartService.changeOption(chart1, data.d[0]);
+            $scope.chartService.changeOption(chart2, data.d[1]);
+            $scope.chartService.changeOption(chart3, data.d[2]);
+        });
+    }
+
+    var statData = function () {
+        var micYear = $scope.conditionData.MicYear.MicYear;
+        var gradeCourse = $scope.conditionData.GradeCourse;
+        var gradeClass = $scope.conditionData.GradeClass;
+        var student = $scope.conditionData.Student;
+
+        var url = "/DataProvider/Statistic.aspx/GetStat20Data";
+        var param = { micYear: micYear, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student };
+        $scope.baseService.post(url, param, function (data) {
+            $scope.data = angular.fromJson(data.d);
+            $scope.haveStat = true;
+        });
+    }
+
+    $scope.stat = function () {
+        if (!$scope.conditionData.GradeClass) {
+            $scope.dialogUtils.info('请选择班级！');
+            return;
+        }
+        if (!$scope.conditionData.TestLogin) {
+            $scope.dialogUtils.info('请选择考试号！');
+            return;
+        }
+
+        statBase();
+        statCharts();
+        statData();
+    }
 }]);
 
 
@@ -341,84 +417,6 @@ stat.controller('TeacherRep1Controller', ['$scope', function ($scope) {
             $scope.TestLogins = data.d;
         });
     }
-=======
+   
 
-    var chart1 = {};
-    var chart2 = {};
-    var chart3 = {};
-
-    $scope.chartService.chartCreate('main1', function (data) {
-        chart1 = data;
-    });
-    $scope.chartService.chartCreate('main2', function (data) {
-        chart2 = data;
-    });
-    $scope.chartService.chartCreate('main3', function (data) {
-        chart3 = data;
-    });
-
-
-    var statBase = function () {
-        var micYear = $scope.conditionData.MicYear;
-        var testNo = $scope.conditionData.TestLogin;
-        var gradeCourse = $scope.conditionData.GradeCourse;
-        var gradeClass = $scope.conditionData.GradeClass;
-        var scoreOption = $scope.conditionData.ScoreOption;
-
-        var url = "/DataProvider/Statistic.aspx/GetStat20Base";
-        var param = { micYear: micYear.MicYear, testNo: testNo, gradeCourse: gradeCourse, gradeClass: gradeClass, scoreOption: scoreOption };
-        $scope.baseService.post(url, param, function (data) {
-            if (data.d !== null) {
-                $scope.base = angular.fromJson(data.d)[0];
-            }
-        });
-    }
-
-    var statCharts = function () {
-        var micYear = $scope.conditionData.MicYear.MicYear;
-        var testNo = $scope.conditionData.TestLogin;
-        var gradeCourse = $scope.conditionData.GradeCourse;
-        var gradeClass = $scope.conditionData.GradeClass;
-        var student = $scope.conditionData.Student;
-        var scoreType = $scope.conditionData.ScoreType.code;
-
-        var url = "/DataProvider/Statistic.aspx/GetStat20Charts";
-        var param = { micYear: micYear, testNo: testNo, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student, scoreType: scoreType };
-        $scope.baseService.post(url, param, function (data) {
-            $scope.chartService.changeOption(chart1, data.d[0]);
-            $scope.chartService.changeOption(chart2, data.d[1]);
-            $scope.chartService.changeOption(chart3, data.d[2]);
-        });
-    }
-
-    var statData = function () {
-        var micYear = $scope.conditionData.MicYear.MicYear;
-        var gradeCourse = $scope.conditionData.GradeCourse;
-        var gradeClass = $scope.conditionData.GradeClass;
-        var student = $scope.conditionData.Student;
-
-        var url = "/DataProvider/Statistic.aspx/GetStat20Data";
-        var param = { micYear: micYear, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student };
-        $scope.baseService.post(url, param, function (data) {
-            $scope.data = angular.fromJson(data.d);
-            $scope.haveStat = true;
-        });
-    }
-
-    $scope.stat = function () { 
-        if (!$scope.conditionData.GradeClass) {
-            $scope.dialogUtils.info('请选择班级！');
-            return;
-        }
-        if (!$scope.conditionData.TestLogin) {
-            $scope.dialogUtils.info('请选择考试号！');
-            return;
-        }
-
-        statBase();
-        statCharts();
-        statData();
-    }
-
->>>>>>> a2442250586f15f7fda1a9d0e699361bec6384ca
 }]);

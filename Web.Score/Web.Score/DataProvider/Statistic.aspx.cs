@@ -676,13 +676,13 @@ namespace App.Web.Score.DataProvider
                 if (int.Parse(table.Rows[0]["S_100"].ToString()) > 0)
                     pieItem.data.Add(new PieDataItem() { name = "大于0.85", value = table.Rows[0]["S_100"].ToString()}); 
                 if (int.Parse(table.Rows[0]["S_85"].ToString()) > 0)
-                    pieItem.data.Add(new PieDataItem() { name = "大于0.85", value = table.Rows[0]["S_100"].ToString()}); 
+                    pieItem.data.Add(new PieDataItem() { name = "0.75-0.85", value = table.Rows[0]["S_85"].ToString() }); 
                 if (int.Parse(table.Rows[0]["S_75"].ToString()) > 0)
-                    pieItem.data.Add(new PieDataItem() { name = "大于0.85", value = table.Rows[0]["S_100"].ToString()});
+                    pieItem.data.Add(new PieDataItem() { name = "0.60-0.75", value = table.Rows[0]["S_75"].ToString()});
                 if (int.Parse(table.Rows[0]["S_60"].ToString()) > 0)
-                    pieItem.data.Add(new PieDataItem() { name = "大于0.85", value = table.Rows[0]["S_100"].ToString()});
+                    pieItem.data.Add(new PieDataItem() { name = "0.45-0.65", value = table.Rows[0]["S_60"].ToString()});
                 if (int.Parse(table.Rows[0]["S_40"].ToString()) > 0)
-                    pieItem.data.Add(new PieDataItem() { name = "大于0.85", value = table.Rows[0]["S_100"].ToString()});
+                    pieItem.data.Add(new PieDataItem() { name = "0-0.45", value = table.Rows[0]["S_40"].ToString()});
                 return options;
             }
         }
