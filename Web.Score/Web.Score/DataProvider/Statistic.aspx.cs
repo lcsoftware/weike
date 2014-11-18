@@ -166,7 +166,7 @@ namespace App.Web.Score.DataProvider
                            + " and SRID=@SRID"
                            + " and CourseCode=@courseCode";
                     DataTable tempTable = bll.FillDataTableByText(sql, new { micYear = tempyear, testNo = temptestno, courseCode = gradeCourse.CourseCode, SRID = student.StudentId });
-                    option1.series[0].data.Add(tempTable.Rows.Count == 0 ? "0" : tempTable.Rows[0]["classorder"].ToString());
+                    ((SeriesItem)option1.series[0]).data.Add(tempTable.Rows.Count == 0 ? "0" : tempTable.Rows[0]["classorder"].ToString());
                     //if (tempTable.Rows.Count > 0)
                     //{
                     //    int clsOrder = int.Parse(tempTable.Rows[0]["classorder"].ToString());
@@ -205,11 +205,11 @@ namespace App.Web.Score.DataProvider
                     });
                     if (tempTable.Rows.Count == 0)
                     {
-                        option1.series[1].data.Add("0");
+                        ((SeriesItem)option1.series[1]).data.Add("0");
                     }
                     else
                     {
-                        option1.series[1].data.Add(tempTable.Rows[0]["ClassOrder"].ToString());
+                        ((SeriesItem)option1.series[1]).data.Add(tempTable.Rows[0]["ClassOrder"].ToString());
                     }
                     //加学生
                     sql = "Select typename,{0} as score from s_vw_ClassScoreNum"
@@ -226,7 +226,7 @@ namespace App.Web.Score.DataProvider
                         tempYear = tempyear,
                         temptestno = temptestno
                     });
-                    option2.series[0].data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
+                    ((SeriesItem)option2.series[0]).data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
 
                     //根据条件查班级
                     sql = "Select avg({0}) as score from s_vw_ClassScoreNum"
@@ -242,7 +242,7 @@ namespace App.Web.Score.DataProvider
                         tempYear = tempyear,
                         temptestno = temptestno
                     });
-                    option2.series[2].data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
+                    ((SeriesItem)option2.series[2]).data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
                     //年级
                     sql = " Select Avg({0}) as score from s_vw_ClassScoreNum"
                        + " where CourseCode=@courseCode"
@@ -257,7 +257,7 @@ namespace App.Web.Score.DataProvider
                         tempYear = tempyear,
                         temptestno = temptestno
                     });
-                    option2.series[1].data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
+                    ((SeriesItem)option2.series[1]).data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
 
                     //加入总分图
                     //先年级
@@ -273,7 +273,7 @@ namespace App.Web.Score.DataProvider
                         tempYear = tempyear,
                         temptestno = temptestno
                     });
-                    option3.series[0].data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
+                    ((SeriesItem)option3.series[0]).data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
 
                     //根据条件查班级
                     sql = " Select Avg({0}) as score from s_vw_SumScore"
@@ -287,7 +287,7 @@ namespace App.Web.Score.DataProvider
                         tempYear = tempyear,
                         temptestno = temptestno
                     });
-                    option3.series[1].data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
+                    ((SeriesItem)option3.series[1]).data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
 
                     //加学生
                     sql = " Select {0} as score from s_vw_SumScore"
@@ -301,7 +301,7 @@ namespace App.Web.Score.DataProvider
                         tempYear = tempyear,
                         temptestno = temptestno
                     });
-                    option3.series[2].data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
+                    ((SeriesItem)option3.series[2]).data.Add(tempTable.Rows.Count == 0 || string.IsNullOrEmpty(tempTable.Rows[0]["score"].ToString()) ? "0" : tempTable.Rows[0]["score"].ToString());
                 }
                 return options;
             }
