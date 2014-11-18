@@ -50,6 +50,7 @@ namespace App.Web.Score
                     //"~/scripts/controllers/exam.js",
                     //"~/scripts/controllers/score.js",
                     "~/scripts/controllers/query.js",
+                    "~/scripts/controllers/analysis.js",
                     "~/scripts/controllers/statistic.js",
                     "~/scripts/controllers/admin.js",
                     "~/scripts/utils.js",
