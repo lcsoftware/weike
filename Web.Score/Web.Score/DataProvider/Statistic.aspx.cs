@@ -514,7 +514,7 @@ namespace App.Web.Score.DataProvider
         /// <param name="gradeClass"></param>
         /// <returns></returns>
         [WebMethod]
-        public static string GetStat20Base(int micYear, TestLogin testNo, GradeCode gradeCode, GradeCourse gradeCourse, GradeClass gradeClass, int scoreOption)
+        public static string GetStat20Base(int micYear, TestLogin testNo, GradeCourse gradeCourse, GradeClass gradeClass, int scoreOption)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -568,14 +568,14 @@ namespace App.Web.Score.DataProvider
                           + " where Academicyear=@micYear"
                           + " and TestNo=@testNo"
                           + " and CourseCode=@courseCode"
-                          + " and ClassCode=@classNo";
+                          + " and ClassCode=@classCode";
                 table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, classCode = gradeClass.ClassNo, testNo = testNo.TestLoginNo });
                 string ARenShu = table.Rows[0]["ARenShu"].ToString();
                 string BRenShu = table.Rows[0]["BRenShu"].ToString();
                 string CRenShu = table.Rows[0]["CRenShu"].ToString();
                 string DRenShu = table.Rows[0]["DRenShu"].ToString();
                 string ERenShu = table.Rows[0]["ERenShu"].ToString();
-                tempSql += string.Format("Select {0} as ARenShu, {1} as BRenShu, {2} as CRenShu, {3} as DRenShu, {4} as ERenShu",
+                tempSql += string.Format(",{0} as ARenShu, {1} as BRenShu, {2} as CRenShu, {3} as DRenShu, {4} as ERenShu",
                                             ARenShu, BRenShu, CRenShu, DRenShu, ERenShu);
                 table = bll.FillDataTableByText(tempSql, null);
                 return Newtonsoft.Json.JsonConvert.SerializeObject(table);
@@ -613,8 +613,10 @@ namespace App.Web.Score.DataProvider
 
                 legend = string.Format("{0}({1})班与年级平均{2}成绩历史曲线图", gradeCode.GradeBriefName, gradeClass.ClassNo.Substring(2), gradeCourse.FullName);
                 option3.title.text = legend;
-                option3.series.Add(new SeriesItem() { type = "line", name = "line1" });
-                option3.series.Add(new SeriesItem() { type = "line", name = "line2" });
+                option3.legend.data.Add("年级");
+                option3.legend.data.Add("班级");
+                option3.series.Add(new SeriesItem() { type = "line", name = "年级历史曲线图" });
+                option3.series.Add(new SeriesItem() { type = "line", name = "班级历史曲线图" });
 
                 var sql = "";
                 DataTable table = new DataTable();
@@ -683,7 +685,8 @@ namespace App.Web.Score.DataProvider
                 if (int.Parse(table.Rows[0]["S_40"].ToString()) > 0)
                     pieItem.data.Add(new PieDataItem() { name = "0-0.45", value = table.Rows[0]["S_40"].ToString() });
 
-
+                //历史曲线图
+                //产生数据--年级
                 if (scoreOption == 2) //ckyear.Checked
                 {
                     sql = " SELECT a.AcademicYear, c.TypeName, a.testtype, a.testno,"
@@ -709,20 +712,77 @@ namespace App.Web.Score.DataProvider
                     table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, classNo = gradeClass.ClassNo, tempYear = tempYear });
                     if (table.Rows.Count == 0) return null; //无合适的数据！
                 }
-                else 
+                else
                 {
                     sql = " Select TestType,TypeName,TestNo,Avg({0}) as AvgScore,testtime "
                     + " from s_vw_ClassScoreNum "
                     + " where AcademicYear =@micYear"
-                    + " and gradeno=@classNo"
+                    + " and gradeno=@gradeNo"
                     + " and CourseCode =@courseCode"
                     + " group by TestNo,TestType,TypeName,testtime"
                     + " order by cast(testno as int)";
-                    sql = string.Format(sql, scoreType == 2 ? "a.NormalScore" : "a.NumScore");
-                    table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, classNo = gradeClass.ClassNo });
+                    sql = string.Format(sql, scoreType == 2 ? "NormalScore" : "NumScore");
+                    table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, gradeNo = gradeCode.GradeNo });
                     if (table.Rows.Count == 0) return null; //无合适的数据！
                 }
 
+                var length = table.Rows.Count;
+                for (int i = 0; i < length; i++)
+                {
+                    var value = table.Rows[i]["AvgScore"].ToString();
+                    value = string.IsNullOrEmpty(value) ? "0" : value;
+                    var xTag = table.Rows[i]["TypeName"].ToString().Substring(0, 4);
+                    xTag += table.Rows[i]["Testno"].ToString();
+                    option3.xAxis.data.Add(xTag);
+                    ((SeriesItem)option3.series[0]).data.Add(value);
+                }
+
+                //产生数据--班级
+                if (scoreOption == 2) //ckyear.Checked
+                {
+                    sql = "SELECT a.AcademicYear, c.TypeName, a.testtype, a.testno," 
+                       + " AVG(a.NormalScore) AS AvgScore" 
+                       + " FROM dbo.s_tb_NormalScore a INNER JOIN" 
+                       + " tbStudentClass b ON a.SRID = b.SRID INNER JOIN" 
+                       + " s_tb_TestTypeInfo c ON a.testtype = c.TestType" 
+                       + " WHERE (a.coursecode = @courseCode)"
+                       + " AND (b.AcademicYear = @micYear)"
+                       + " AND (a.testtype <> '0')"
+                       + " AND b.ClassCode=@classNo"
+                       + " and substring(a.srid,12,4)=@tempYear"
+                       + " GROUP BY a.AcademicYear, a.semester, c.TypeName, a.testtype, a.testno" 
+                       + " ORDER BY a.AcademicYear , a.semester , a.testtype ,  cast(a.testno as int)";
+                    sql = string.Format(sql, scoreType == 2 ? "a.NormalScore" : "a.NumScore");
+                    var tempSql = "select top 1 GradeNo from tdGradeCode order by GradeNo";
+                    DataTable tempTable = bll.FillDataTableByText(tempSql, null);
+                    var minYear = int.Parse(tempTable.Rows[0][0].ToString());
+                    var tempYear = micYear - int.Parse(gradeCode.GradeNo) + minYear;
+                    table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, classNo = gradeClass.ClassNo, tempYear = tempYear });
+                    if (table.Rows.Count == 0) return null; //无合适的数据！
+                }
+                else
+                {
+                    sql = "Select TestType,TypeName,TestNo,Avg({0}) as AvgScore,testtime"
+                    + " from s_vw_ClassScoreNum"
+                    + " where AcademicYear=@micYear"
+                    + " and gradeno=@gradeNo"
+                    + " and CourseCode =@courseCode"
+                    + " group by TestNo,TestType,TypeName,testtime"
+                    + " order by cast(testno as int)";
+                    sql = string.Format(sql, scoreType == 2 ? "NormalScore" : "NumScore");
+                    table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, gradeNo = gradeCode.GradeNo });
+                    if (table.Rows.Count == 0) return null; //无合适的数据！
+                }
+
+                length = table.Rows.Count;
+                for (int i = 0; i < length; i++)
+                {
+                    var value = table.Rows[i]["AvgScore"].ToString();
+                    value = string.IsNullOrEmpty(value) ? "0" : value;
+                    var xTag = table.Rows[i]["TypeName"].ToString().Substring(0, 4);
+                    xTag += table.Rows[i]["Testno"].ToString();
+                    ((SeriesItem)option3.series[1]).data.Add(value);
+                }
                 return options;
             }
         }

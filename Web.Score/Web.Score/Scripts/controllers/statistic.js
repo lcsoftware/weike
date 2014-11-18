@@ -290,14 +290,16 @@ stat.controller('ExamStatController', ['$scope', function ($scope) {
 
     var statCharts = function () {
         var micYear = $scope.conditionData.MicYear.MicYear;
+        var gradeCode = $scope.conditionData.GradeCode;
         var testNo = $scope.conditionData.TestLogin;
         var gradeCourse = $scope.conditionData.GradeCourse;
         var gradeClass = $scope.conditionData.GradeClass;
         var student = $scope.conditionData.Student;
         var scoreType = $scope.conditionData.ScoreType.code;
+        var scoreOption = $scope.conditionData.ScoreOption.code;
 
         var url = "/DataProvider/Statistic.aspx/GetStat20Charts";
-        var param = { micYear: micYear, testNo: testNo, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student, scoreType: scoreType };
+        var param = { micYear: micYear, testNo: testNo, gradeCode: gradeCode, gradeCourse: gradeCourse, gradeClass: gradeClass, scoreType: scoreType, scoreOption: scoreOption };
         $scope.baseService.post(url, param, function (data) {
             $scope.chartService.changeOption(chart1, data.d[0]);
             $scope.chartService.changeOption(chart2, data.d[1]);
@@ -331,7 +333,8 @@ stat.controller('ExamStatController', ['$scope', function ($scope) {
 
         statBase();
         statCharts();
-        statData();
+        //statData();
+        $scope.haveStat = true;
     }
 }]);
 
