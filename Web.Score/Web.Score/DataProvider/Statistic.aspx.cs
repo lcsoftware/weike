@@ -378,9 +378,9 @@ namespace App.Web.Score.DataProvider
             }
         }
 
-        //获取教师情况统计表
+        //获取教师情况统计表(不分班)
         [WebMethod]
-        public static string GetTeacherAnalysis(int micyear, GradeCode gradeNo, GradeCourse courseCode, int testNo, int? ck)
+        public static string GetTeacherAnalysisGrade(int micyear, GradeCode gradeNo, GradeCourse courseCode, int testNo, int? ck)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -416,7 +416,7 @@ namespace App.Web.Score.DataProvider
                 var strTestTime = dt.Rows[0]["strTestTime"];//考试时间
 
                 //老师，学生数，平均分
-                sql = "SELECT ltrim(rtrim(d.Name)) TeacherName,count(b.ClassCode) ClassCode,(SUM(a.numscore)/COUNT(*)) Score" +
+                sql = "SELECT ltrim(rtrim(d.Name)) TeacherName,count(b.ClassCode) ClassCode,round((SUM(a.numscore)/COUNT(*)),2) Score" +
                             " FROM s_tb_NormalScore a LEFT JOIN tbStudentClass b ON " +
                             " a.AcademicYear=b.AcademicYear " +
                             " AND a.SRID=b.SRID " +
@@ -467,6 +467,7 @@ namespace App.Web.Score.DataProvider
                         courseCode = courseCode.CourseCode,
                         testNo = testNo
                     });
+                dt.Columns.Add("pkey");
                 dt.Columns.Add("devScore");
                 dt.Columns.Add("strCourseName");
                 dt.Columns.Add("strGradeName");
@@ -485,21 +486,116 @@ namespace App.Web.Score.DataProvider
                     {
                         if (dr["TeacherName"].ToString().Equals(dtGradeNum.Rows[n]["TeacherName"]))
                         {
-                            dr["GradeNum"] = dtGradeNum.Rows[n]["GradeNum"];
+                            dr["GradeNum"] = dtGradeNum.Rows[n]["GradeNum"];//班级数
                         }
                     }
+                    dr["pkey"] = i + 1;
                     dr["devScore"] = Math.Round(((Convert.ToDouble(dr["Score"]) - Convert.ToDouble(strGradeAverageScore)) / Convert.ToDouble(strStdDev)),2);
                     dr["strCourseName"] = strCourseName;
                     dr["strGradeName"] = strGradeName;
                     dr["strTestNo"] = strTestNo;
-                    dr["strGradeAverageScore"] = strGradeAverageScore;
-                    dr["strStdDev"] = strStdDev;
+                    dr["strGradeAverageScore"] = Math.Round(Convert.ToDouble(strGradeAverageScore),2);
+                    dr["strStdDev"] = Math.Round(Convert.ToDouble(strStdDev),2);
                     dr["strGradeNumCount"] = strGradeNumCount;
                     dr["strTestTime"] = strTestTime;
                     dr["Ranking"] = i + 1;
-                    dr["datetime"] = DateTime.Now.ToString("yyyy-MM-dd");   
+                    dr["datetime"] = DateTime.Now.ToString("yyyy-MM-dd");
                 }
-                return null;
+                return JsonConvert.SerializeObject(dt);
+            }
+        }
+
+        //获取教师情况统计表(分班)
+        [WebMethod]
+        public static string GetTeacherAnalysisClass(int micyear, GradeCode gradeNo, GradeCourse courseCode, int testNo, int? ck)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "SELECT  SUM(a.numscore)/COUNT(a.numscore) strGradeAverageScore ,STDEVP(a.numScore) strStdDev ," +
+                            " COUNT(a.SRID) stdCount" +
+                            " FROM s_tb_NormalScore a LEFT JOIN tbStudentBaseInfo b ON " +
+                            " a.SRID=b.SRID LEFT JOIN tbStudentClass c ON " +
+                            " a.AcademicYear=c.AcademicYear  AND a.SRID=c.SRID " +
+                            " WHERE a.AcademicYear=@micyear  AND SUBSTRING(c.ClassCode,1,2)=@gradeNo " +
+                            " AND a.CourseCode=@courseCode AND a.testno=@testNo";
+                if (ck != null) sql += " and a.state is null";
+
+                DataTable dt = bll.FillDataTableByText(sql,
+                    new
+                    {
+                        micyear = micyear,
+                        gradeNo = gradeNo.GradeNo,
+                        courseCode = courseCode.CourseCode,
+                        testNo = testNo
+                    });
+
+                var strCourseName = courseCode.FullName;//课程
+                var strGradeName = gradeNo.GradeName;//年级
+                var strTestNo = testNo;//考试号
+                var strGradeAverageScore = dt.Rows[0]["strGradeAverageScore"];//年级平均分
+                var strStdDev = dt.Rows[0]["strStdDev"];//标准差
+                var strGradeNumCount = dt.Rows[0]["stdCount"];//考试人数                
+
+
+                //查询考试时间
+                sql = "SELECT TestTime as strTestTime FROM s_tb_TestLogin WHERE AcademicYear=@micyear AND TestNo=@testNo";
+                dt = bll.FillDataTableByText(sql, new { micyear = micyear, testNo = testNo });
+                var strTestTime = dt.Rows[0]["strTestTime"];//考试时间
+
+                //老师，学生数，平均分
+                sql = "SELECT ltrim(rtrim(d.Name)) TeacherName,'('+substring(b.ClassCode,3,2)+')班' ClassCode,"+
+                            " COUNT(*) ClassCount,round((SUM(a.numscore)/COUNT(*)),2) Score" +
+                            " FROM s_tb_NormalScore a LEFT JOIN tbStudentClass b ON " +
+                            " a.AcademicYear=b.AcademicYear " +
+                            " AND a.SRID=b.SRID " +
+                            " LEFT JOIN tbTeacherClass c ON " +
+                            " a.AcademicYear=c.AcademicYear AND " +
+                            " a.CourseCode=c.CourseCode  AND" +
+                            " b.ClassCode=c.classID  " +
+                            " LEFT JOIN tbUserGroupInfo d ON " +
+                            " c.TeacherID=d.TeacherID " +
+                            " WHERE a.AcademicYear=@micyear" +
+                            " AND SUBSTRING(b.ClassCode,1,2)=@gradeNo" +
+                            " AND a.CourseCode=@courseCode" +
+                            " AND a.testno=@testNo" +
+                            " GROUP BY d.Name,b.ClassCode" +
+                            " ORDER BY Score desc ";
+                dt = bll.FillDataTableByText(sql,
+                    new
+                    {
+                        micyear = micyear,
+                        gradeNo = gradeNo.GradeNo,
+                        courseCode = courseCode.CourseCode,
+                        testNo = testNo
+                    });                
+                dt.Columns.Add("pkey");
+                dt.Columns.Add("devScore");
+                dt.Columns.Add("strCourseName");
+                dt.Columns.Add("strGradeName");
+                dt.Columns.Add("strTestNo");
+                dt.Columns.Add("strGradeAverageScore");
+                dt.Columns.Add("strStdDev");
+                dt.Columns.Add("strGradeNumCount");
+                dt.Columns.Add("strTestTime");
+                dt.Columns.Add("Ranking");
+                dt.Columns.Add("GradeNum");
+                dt.Columns.Add("datetime");
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    DataRow dr = dt.Rows[i];                    
+                    dr["pkey"] = i + 1;
+                    dr["devScore"] = Math.Round(((Convert.ToDouble(dr["Score"]) - Convert.ToDouble(strGradeAverageScore)) / Convert.ToDouble(strStdDev)), 2);
+                    dr["strCourseName"] = strCourseName;
+                    dr["strGradeName"] = strGradeName;
+                    dr["strTestNo"] = strTestNo;
+                    dr["strGradeAverageScore"] = Math.Round(Convert.ToDouble(strGradeAverageScore), 2);
+                    dr["strStdDev"] = Math.Round(Convert.ToDouble(strStdDev), 2);
+                    dr["strGradeNumCount"] = strGradeNumCount;
+                    dr["strTestTime"] = strTestTime;
+                    dr["Ranking"] = i + 1;
+                    dr["datetime"] = DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                return JsonConvert.SerializeObject(dt);
             }
         }
         #endregion

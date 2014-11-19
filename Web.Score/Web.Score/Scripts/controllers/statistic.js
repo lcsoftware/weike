@@ -344,6 +344,8 @@ stat.controller('TeacherRep1Controller', ['$scope', function ($scope) {
     $scope.TestLogins = [];
     $scope.GradeCourses = [];
     $scope.GradeCodes = [];
+    $scope.TeacherAnalysis = [];
+    $scope.base = {};
 
     //获得当前学年
     var url = "/DataProvider/Statistic.aspx/GetCurrentYear";
@@ -394,6 +396,24 @@ stat.controller('TeacherRep1Controller', ['$scope', function ($scope) {
             bindTest();
         }
     });
+    //查询按钮方法
+    $scope.query = function () {
+        if (!check()) return;
+        $scope.utilService.showBg();
+        var url = "/DataProvider/Statistic.aspx/GetTeacherAnalysisGrade";
+        var param = {
+            gradeNo: $scope.GradeCode,
+            micyear: $scope.MicYear.MicYear,
+            courseCode: $scope.GradeCourse,
+            testNo: $scope.TestNo.TestNo,
+            ck: $scope.stuZaiJi == null ? null : $scope.stuZaiJi
+        };
+        $scope.baseService.post(url, param, function (data) {
+            $scope.TeacherAnalysis = angular.fromJson(data.d);
+            $scope.base = angular.fromJson(data.d)[0];
+            $scope.utilService.closeBg();
+        });
+    }
 
     var findGradeNo = function (values, GradeNo) {
         var length = values.length;
@@ -403,9 +423,94 @@ stat.controller('TeacherRep1Controller', ['$scope', function ($scope) {
             }
         }
     }
+    var check = function()
+    {
+        if ($scope.MicYear == null) {
+            $scope.dialogUtils.info('请选择学年/学期');
+            return false;
+        }
+        if ($scope.GradeCourse == null) {
+            $scope.dialogUtils.info('请选择课程');
+            return false;
+        }
+        if ($scope.GradeCode == null) {
+            $scope.dialogUtils.info('请选择年级');
+            return false;
+        }
+        if ($scope.TestNo == null) {
+            $scope.dialogUtils.info('请选择考试号');
+            return false;
+        }
+        return true;
+    }
+    
+}]);
 
+stat.controller('TeacherRep2Controller', ['$scope', function ($scope) {
+    var moduleName = '教师教学情况报表(分班统计)';
+    $scope.$root.moduleName = moduleName;
+    $scope.$root.title = $scope.softname + ' | ' + moduleName;
+    $scope.AcademicYears = [];
+    $scope.TestLogins = [];
+    $scope.GradeCourses = [];
+    $scope.GradeCodes = [];
+    $scope.TeacherAnalysis = [];
+    $scope.base = {};
+
+    //获得当前学年
+    var url = "/DataProvider/Statistic.aspx/GetCurrentYear";
+    var param = {};
+    $scope.baseService.post(url, param, function (data) {
+        $scope.AcademicYears = data.d;
+        $scope.MicYear = $scope.AcademicYears[0];
+    });
+
+    //获得用户id
+    $scope.userService.getUser(function (data) {
+        $scope.user = data;
+        //获得所有年级
+        $scope.utilService.GetGradeAll(function (data) {
+            $scope.GradeCodes = data.d;
+            //获得当前年级
+            var url = "/DataProvider/Statistic.aspx/GetCurrentGrade";
+            var param = { micyear: $scope.MicYear.MicYear, teacherId: $scope.user.TeacherID };
+            $scope.baseService.post(url, param, function (data) {
+                var rs = angular.fromJson(data.d);
+                $scope.GradeCode = findGradeNo($scope.GradeCodes, rs[0].GradeNo);
+                //获取当前课程
+                var url = "/DataProvider/Statistic.aspx/GeCurrentCourse";
+                var param = { micyear: $scope.MicYear.MicYear, gradeNo: rs[0].GradeNo };
+                $scope.baseService.post(url, param, function (data) {
+                    $scope.GradeCourses = data.d;
+                    //获得当前考试号
+                    bindTest();
+                });
+            });
+        });
+    });
+    var bindTest = function () {
+        var url = "/DataProvider/Statistic.aspx/GetCurrentTestNo";
+        var param = {
+            gradeNo: $scope.GradeCode == null ? null : $scope.GradeCode.GradeNo,
+            micyear: $scope.MicYear.MicYear,
+            courseCode: $scope.GradeCourse == null ? null : $scope.GradeCourse.CourseCode
+        };
+        $scope.baseService.post(url, param, function (data) {
+            $scope.TestLogins = data.d;
+        });
+    }
+    //监控课程，改变考试号
+    $scope.$watch('GradeCourse', function (gradeCourse) {
+        $scope.TestLogins.length = 0;
+        if (gradeCourse) {
+            bindTest();
+        }
+    });
+    //查询按钮方法
     $scope.query = function () {
-        var url = "/DataProvider/Statistic.aspx/GetTeacherAnalysis";
+        if (!check()) return;
+        $scope.utilService.showBg();
+        var url = "/DataProvider/Statistic.aspx/GetTeacherAnalysisClass";
         var param = {
             gradeNo: $scope.GradeCode,
             micyear: $scope.MicYear.MicYear,
@@ -414,9 +519,92 @@ stat.controller('TeacherRep1Controller', ['$scope', function ($scope) {
             ck: $scope.stuZaiJi == null ? null : $scope.stuZaiJi
         };
         $scope.baseService.post(url, param, function (data) {
-            $scope.TestLogins = data.d;
+            $scope.TeacherAnalysis = angular.fromJson(data.d);
+            $scope.base = angular.fromJson(data.d)[0];
+            $scope.utilService.closeBg();
         });
     }
-   
+
+    var findGradeNo = function (values, GradeNo) {
+        var length = values.length;
+        for (var i = 0; i < length; i++) {
+            if (parseInt(values[i].GradeNo) == parseInt(GradeNo)) {
+                return values[i];
+            }
+        }
+    }
+    var check = function () {
+        if ($scope.MicYear == null) {
+            $scope.dialogUtils.info('请选择学年/学期');
+            return false;
+        }
+        if ($scope.GradeCourse == null) {
+            $scope.dialogUtils.info('请选择课程');
+            return false;
+        }
+        if ($scope.GradeCode == null) {
+            $scope.dialogUtils.info('请选择年级');
+            return false;
+        }
+        if ($scope.TestNo == null) {
+            $scope.dialogUtils.info('请选择考试号');
+            return false;
+        }
+        return true;
+    }
+
+}]);
+
+stat.controller('TeacherStyleController', ['$scope', function ($scope) {
+    var moduleName = '教师教学情况比较图表（历次）';
+    $scope.$root.moduleName = moduleName;
+    $scope.$root.title = $scope.softname + ' | ' + moduleName;
+    $scope.AcademicYears = [];
+    $scope.TestLogins = [];
+    $scope.GradeCourses = [];
+    $scope.GradeCodes = [];
+    $scope.TeacherAnalysis = [];
+    $scope.base = {};
+
+    $scope.ScoreOptions = [
+        { code: 1, name: '仅在籍生' },
+        { code: 2, name: '跨学年(无平时)' }
+    ];
+    $scope.ScoreNum = [
+        { code: 1, name: '仅在籍生' },
+        { code: 2, name: '跨学年(无平时)' }
+    ];
+
+    //获得当前学年
+    var url = "/DataProvider/Statistic.aspx/GetCurrentYear";
+    var param = {};
+    $scope.baseService.post(url, param, function (data) {
+        $scope.AcademicYears = data.d;
+        $scope.MicYear = $scope.AcademicYears[0];
+    });
+
+    //获得用户id
+    $scope.userService.getUser(function (data) {
+        $scope.user = data;
+        //获得所有年级
+        $scope.utilService.GetGradeAll(function (data) {
+            $scope.GradeCodes = data.d;
+            //获得当前年级
+            var url = "/DataProvider/Statistic.aspx/GetCurrentGrade";
+            var param = { micyear: $scope.MicYear.MicYear, teacherId: $scope.user.TeacherID };
+            $scope.baseService.post(url, param, function (data) {
+                var rs = angular.fromJson(data.d);
+                $scope.GradeCode = findGradeNo($scope.GradeCodes, rs[0].GradeNo);
+                //获取当前课程
+                var url = "/DataProvider/Statistic.aspx/GeCurrentCourse";
+                var param = { micyear: $scope.MicYear.MicYear, gradeNo: rs[0].GradeNo };
+                $scope.baseService.post(url, param, function (data) {
+                    $scope.GradeCourses = data.d;
+                    //获得当前考试号
+                    bindTest();
+                });
+            });
+        });
+    });
 
 }]);

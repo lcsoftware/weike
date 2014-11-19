@@ -21,17 +21,17 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">               
+            <div class="form-group">
                 <div class="col-sm-2">
                     <input type="checkbox" value="1" ng-model="stuZaiJi" />仅在籍学生
-                </div>            
-            </div> 
+                </div>
+            </div>
             <div class="form-group">
                 <div class="btn-group pull-right">
                     <button type="button" class="btn btn-primary" ng-click="query()"><span class="glyphicon glyphicon-ok"></span>查询</button>
                     @*<button type="button" class="btn btn-default" ng-click="tryCalculate();"><span class="glyphicon glyphicon-print"></span>打 印</button>*@
                 </div>
-            </div>           
+            </div>
         </form>
     </div>
 </div>
@@ -54,7 +54,7 @@
                     <div class="col-sm-3" style="text-align:left;">年级平均分：{{base.strGradeAverageScore}}</div>
                     <div class="col-sm-3" style="text-align:left;">标准差：{{base.strStdDev}}</div>
                     <div class="col-sm-3" style="text-align:left;">导出日期：{{base.datetime}}</div>
-                </div>               
+                </div>
             </div>
         </div>
         <br />
@@ -64,8 +64,8 @@
                     <thead>
                         <tr style="background-color:#808080">
                             <th style="width:10%;text-align:center;">序号</th>
-                            <th style="width:20%;text-align:center;">教师姓名</th>
-                            <th style="width:10%;text-align:center;">班级数</th>
+                            <th style="width:10%;text-align:center;">班级</th>
+                            <th style="width:20%;text-align:center;">教师姓名</th>                            
                             <th style="width:10%;text-align:center;">考试人数</th>
                             <th style="width:10%;text-align:center;">平均分</th>
                             <th style="width:10%;text-align:center;">标准分</th>
@@ -75,9 +75,9 @@
                     <tbody>
                         <tr ng-repeat="item in TeacherAnalysis">
                             <td align="center">{{item.pkey}}</td>
-                            <td align="center">{{item.TeacherName}}</td>
-                            <td align="center">{{item.GradeNum}}</td>
-                            <td align="center">{{item.ClassCode}}</td>
+                            <td align="center">{{base.strGradeName}}{{item.ClassCode}}</td>
+                            <td align="center">{{item.TeacherName}}</td>                            
+                            <td align="center">{{item.ClassCount}}</td>
                             <td align="center">{{item.Score}}</td>
                             <td align="center">{{item.devScore}}</td>
                             <td align="center">{{item.Ranking}}</td>
