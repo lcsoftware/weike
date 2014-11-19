@@ -63,6 +63,13 @@ namespace App.Score.Entity
         public string ClassNo;
         public string ClassType;
         public string IsDelete;
+        public string ClassNoPart
+        {
+            get
+            {
+                return this.ClassNo.Substring(2);
+            }
+        }
         public IList<Student> Students = new List<Student>();
         public override bool Equals(object obj)
         {

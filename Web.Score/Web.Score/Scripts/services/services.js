@@ -541,19 +541,12 @@ aService.factory('chartService', ['baseService', function (baseService) {
                 saveAsImage: { show: false }
             }
         },
-        yAxis: [
-            {
-                name: 'YNAME',
-                type: 'value',
-                min: 5,
-                splitArea: { show: true }
-            }
-        ],
+     
         calculable: true
     };
 
     service.chartCreate = function (id, callback) {
-        require(['echarts', 'echarts/chart/line', 'echarts/chart/bar'], function (ec) {
+        require(['echarts', 'echarts/chart/line', 'echarts/chart/pie', 'echarts/chart/bar'], function (ec) {
             var myChart = ec.init(document.getElementById(id));
             if (callback) callback(myChart); 
         });
