@@ -597,10 +597,14 @@ namespace App.Web.Score.DataProvider
 
                 string legend = string.Format("{0}({1})班{2}成绩正态图", gradeCode.GradeBriefName, gradeClass.ClassNo.Substring(2), gradeCourse.FullName);
                 option1.title.text = legend;
+                option1.title.x = "center";
+                option1.legend.x = "left";
                 option1.series.Add(new SeriesItem() { type = "line", name = legend });
 
                 legend = string.Format("{0}({1})班{2}成绩分布饼图", gradeCode.GradeBriefName, gradeClass.ClassNo.Substring(2), gradeCourse.FullName);
                 option2.title.text = legend;
+                option2.title.x = "center";
+
                 ((PieLegend)option2.legend).x = "left";
                 ((PieLegend)option2.legend).orient = "vertical";
                 PieItem pieItem = new PieItem();
@@ -613,10 +617,12 @@ namespace App.Web.Score.DataProvider
 
                 legend = string.Format("{0}({1})班与年级平均{2}成绩历史曲线图", gradeCode.GradeBriefName, gradeClass.ClassNo.Substring(2), gradeCourse.FullName);
                 option3.title.text = legend;
+                option3.title.x = "center";
+                option3.legend.x = "left";
                 option3.legend.data.Add("年级");
                 option3.legend.data.Add("班级");
-                option3.series.Add(new SeriesItem() { type = "line", name = "年级历史曲线图" });
-                option3.series.Add(new SeriesItem() { type = "line", name = "班级历史曲线图" });
+                option3.series.Add(new SeriesItem() { type = "line", name = "年级" });
+                option3.series.Add(new SeriesItem() { type = "line", name = "班级" });
 
                 var sql = "";
                 DataTable table = new DataTable();
@@ -675,15 +681,30 @@ namespace App.Web.Score.DataProvider
                 table = bll.FillDataTableByText(sql, new { micYear = micYear, testNo = testNo.TestLoginNo, courseCode = gradeCourse.CourseCode, classNo = gradeClass.ClassNo });
                 if (table.Rows.Count == 0) return null; //您要的不能生成,请重新确定条件!
                 if (int.Parse(table.Rows[0]["S_100"].ToString()) > 0)
+                {
                     pieItem.data.Add(new PieDataItem() { name = "大于0.85", value = table.Rows[0]["S_100"].ToString() });
+                    ((PieLegend)option2.legend).data.Add("大于0.85");
+                }
                 if (int.Parse(table.Rows[0]["S_85"].ToString()) > 0)
+                {
                     pieItem.data.Add(new PieDataItem() { name = "0.75-0.85", value = table.Rows[0]["S_85"].ToString() });
+                    ((PieLegend)option2.legend).data.Add("0.75-0.85");
+                }
                 if (int.Parse(table.Rows[0]["S_75"].ToString()) > 0)
+                {
                     pieItem.data.Add(new PieDataItem() { name = "0.60-0.75", value = table.Rows[0]["S_75"].ToString() });
+                    ((PieLegend)option2.legend).data.Add("0.60-0.75");
+                }
                 if (int.Parse(table.Rows[0]["S_60"].ToString()) > 0)
+                {
                     pieItem.data.Add(new PieDataItem() { name = "0.45-0.65", value = table.Rows[0]["S_60"].ToString() });
+                    ((PieLegend)option2.legend).data.Add("0.45-0.65");
+                }
                 if (int.Parse(table.Rows[0]["S_40"].ToString()) > 0)
+                {
                     pieItem.data.Add(new PieDataItem() { name = "0-0.45", value = table.Rows[0]["S_40"].ToString() });
+                    ((PieLegend)option2.legend).data.Add("0-0.45");
+                }
 
                 //历史曲线图
                 //产生数据--年级
@@ -710,7 +731,7 @@ namespace App.Web.Score.DataProvider
                     var minYear = int.Parse(tempTable.Rows[0][0].ToString());
                     var tempYear = micYear - int.Parse(gradeCode.GradeNo) + minYear;
                     table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, classNo = gradeClass.ClassNo, tempYear = tempYear });
-                    if (table.Rows.Count == 0) return null; //无合适的数据！
+                    //if (table.Rows.Count == 0) return null; //无合适的数据！
                 }
                 else
                 {
@@ -723,7 +744,7 @@ namespace App.Web.Score.DataProvider
                     + " order by cast(testno as int)";
                     sql = string.Format(sql, scoreType == 2 ? "NormalScore" : "NumScore");
                     table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, gradeNo = gradeCode.GradeNo });
-                    if (table.Rows.Count == 0) return null; //无合适的数据！
+                    //if (table.Rows.Count == 0) return null; //无合适的数据！
                 }
 
                 var length = table.Rows.Count;
@@ -740,17 +761,17 @@ namespace App.Web.Score.DataProvider
                 //产生数据--班级
                 if (scoreOption == 2) //ckyear.Checked
                 {
-                    sql = "SELECT a.AcademicYear, c.TypeName, a.testtype, a.testno," 
-                       + " AVG(a.NormalScore) AS AvgScore" 
-                       + " FROM dbo.s_tb_NormalScore a INNER JOIN" 
-                       + " tbStudentClass b ON a.SRID = b.SRID INNER JOIN" 
-                       + " s_tb_TestTypeInfo c ON a.testtype = c.TestType" 
+                    sql = "SELECT a.AcademicYear, c.TypeName, a.testtype, a.testno,"
+                       + " AVG(a.NormalScore) AS AvgScore"
+                       + " FROM dbo.s_tb_NormalScore a INNER JOIN"
+                       + " tbStudentClass b ON a.SRID = b.SRID INNER JOIN"
+                       + " s_tb_TestTypeInfo c ON a.testtype = c.TestType"
                        + " WHERE (a.coursecode = @courseCode)"
                        + " AND (b.AcademicYear = @micYear)"
                        + " AND (a.testtype <> '0')"
                        + " AND b.ClassCode=@classNo"
                        + " and substring(a.srid,12,4)=@tempYear"
-                       + " GROUP BY a.AcademicYear, a.semester, c.TypeName, a.testtype, a.testno" 
+                       + " GROUP BY a.AcademicYear, a.semester, c.TypeName, a.testtype, a.testno"
                        + " ORDER BY a.AcademicYear , a.semester , a.testtype ,  cast(a.testno as int)";
                     sql = string.Format(sql, scoreType == 2 ? "a.NormalScore" : "a.NumScore");
                     var tempSql = "select top 1 GradeNo from tdGradeCode order by GradeNo";
@@ -765,12 +786,12 @@ namespace App.Web.Score.DataProvider
                     sql = "Select TestType,TypeName,TestNo,Avg({0}) as AvgScore,testtime"
                     + " from s_vw_ClassScoreNum"
                     + " where AcademicYear=@micYear"
-                    + " and gradeno=@gradeNo"
+                    + " and ClassCode=@classCode"
                     + " and CourseCode =@courseCode"
                     + " group by TestNo,TestType,TypeName,testtime"
                     + " order by cast(testno as int)";
                     sql = string.Format(sql, scoreType == 2 ? "NormalScore" : "NumScore");
-                    table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, gradeNo = gradeCode.GradeNo });
+                    table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, classCode = gradeClass.ClassNo });
                     if (table.Rows.Count == 0) return null; //无合适的数据！
                 }
 
@@ -788,9 +809,38 @@ namespace App.Web.Score.DataProvider
         }
 
         [WebMethod]
-        public static string GetStat20Data(int micYear, TestLogin testNo, GradeCourse gradeCourse, GradeClass gradeClass, int scoreOption)
+        public static string GetStat20GradeData1(int micYear, TestLogin testNo, GradeCode gradeCode, GradeCourse gradeCourse, GradeClass gradeClass)
         {
-            return "";
+            using (AppBLL bll = new AppBLL())
+            {
+                var name = gradeCode.GradeBriefName + "年级";
+                var sql = "SELECT Name, S_40, S_60, S_75, S_85, S_100, (S_40 + S_60 + S_75 + S_85 + S_100) S_Sum "
+                 + " from (SELECT '" + name + "' as Name, a.S_5+a.S_10+a.S_15+a.S_20+a.S_25+a.S_30+a.S_35+a.S_40 S_40,"
+                 + " a.S_45+a.S_50+a.S_55+a.S_60 S_60,a.S_65+a.S_70+a.S_75 S_75,a.S_80+a.S_85 S_85,"
+                 + " a.S_90+a.S_95+a.S_100 S_100"
+                 + " FROM  tdCourseCode b INNER JOIN"
+                 + "  s_tb_Gradestat a ON b.CourseCode = a.CourseCode INNER JOIN"
+                 + "  s_tb_TestTypeInfo c ON a.TestType = c.TestType"
+                 + " Where a.Academicyear=@micYear"
+                 + " and a.CourseCode=@courseCode"
+                 + " and a.TestNo=@testNo"
+                 + " and a.GradeNo=@gradeNo";
+                name = string.Format("{0}({1})班", gradeCode.GradeBriefName, gradeClass.ClassNoPart);
+                sql += " union all SELECT '" + name + "', a.S_5+a.S_10+a.S_15+a.S_20+a.S_25+a.S_30+a.S_35+a.S_40 S_40,"
+                 + " a.S_45+a.S_50+a.S_55+a.S_60 S_60,a.S_65+a.S_70+a.S_75 s_75,a.S_80+a.S_85 s_85,"
+                 + " a.S_90+a.S_95+a.S_100 s_100"
+                 + " FROM  tdCourseCode b INNER JOIN"
+                 + "  s_tb_ClassStat a ON b.CourseCode = a.CourseCode INNER JOIN"
+                 + "  s_tb_TestTypeInfo c ON a.TestType = c.TestType"
+                 + " Where a.Academicyear=@micYear"
+                 + " and a.CourseCode=@courseCode"
+                 + " and a.TestNo=@testNo"
+                 + " and a.classno=@classNo) t";
+                sql += " group by name,S_40, S_60, S_75, S_85, S_100";
+                DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, gradeNo = gradeCode.GradeNo, testNo = testNo.TestLoginNo, classNo = gradeClass.ClassNo });
+
+                return Newtonsoft.Json.JsonConvert.SerializeObject(table);
+            }
         }
         #endregion
     }

@@ -11,9 +11,11 @@ namespace App.Score.Entity
     {
         public string text = "";
         public string subtext = "";
+        public string x = "center";
     }
     public class Legend
     {
+        public string x = "left";
         public IList<string> data = new List<string>();
     }
 
@@ -68,7 +70,6 @@ namespace App.Score.Entity
     public class PieLegend : Legend
     {
          public string orient {get; set;}
-         public string x { get; set; }
     }
 
     public class PieDataItem
