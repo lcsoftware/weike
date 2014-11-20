@@ -609,7 +609,7 @@ namespace App.Web.Score.DataProvider
         {
             using (AppBLL bll = new AppBLL())
             {
-                var sql = "SELECT b.* FROM dbo.s_vw_CourseUse a,tdGradeCode b"+
+                var sql = "SELECT b.* FROM dbo.s_vw_CourseUse a,tdGradeCode b" +
                           " WHERE a.gradeno=b.GradeNo AND a.coursecode=@gradeCourse AND a.AcademicYear=@micyear";
                 return bll.FillListByText<GradeCode>(sql, new { micyear = micyear.MicYear, gradeCourse = gradeCourse.CourseCode });
             }
@@ -632,13 +632,14 @@ namespace App.Web.Score.DataProvider
         {
             using (AppBLL bll = new AppBLL())
             {
-                var sql = "SELECT a.TeacherID, b.Name FROM  tbTeacherClass a INNER JOIN "+
-                          "tbUserGroupInfo b ON a.TeacherID = b.TeacherID "+
+                var sql = "SELECT a.TeacherID, b.Name FROM  tbTeacherClass a INNER JOIN " +
+                          "tbUserGroupInfo b ON a.TeacherID = b.TeacherID " +
                           " where substring(a.ClassID,1,2)=@gradeNo and a.Academicyear=@micyear" +
                           " and a.coursecode= @courseCode group by a.TeacherID, b.Name";
                 return bll.FillListByText<UserGroupInfo>(sql,
-                    new { 
-                        micyear = micyear.MicYear ,
+                    new
+                    {
+                        micyear = micyear.MicYear,
                         gradeNo = gradeNo.GradeNo,
                         courseCode = courseCode.CourseCode
                     });
@@ -757,7 +758,7 @@ namespace App.Web.Score.DataProvider
                 pieItem.center.Add("60%");
                 option2.series.Add(pieItem);
 
-                legend = string.Format("{0}({1})班与年级平均{2}成绩历史曲线图", gradeCode.GradeBriefName, gradeClass.ClassNo.Substring(2), gradeCourse.FullName);
+                legend = string.Format("{0}({1})班与年级平均{2}成绩", gradeCode.GradeBriefName, gradeClass.ClassNo.Substring(2), gradeCourse.FullName);
                 option3.title.text = legend;
                 option3.title.x = "center";
                 option3.legend.x = "left";
@@ -989,7 +990,57 @@ namespace App.Web.Score.DataProvider
             {
                 var sql = "";
                 DataTable table = new DataTable();
-                var name = string.Format("{0}({1})班", gradeCode.GradeBriefName, gradeClass.ClassNoPart);
+                //产生数据--年级
+                if (scoreOption == 2) //ckyear.Checked
+                {
+                    sql = " SELECT a.AcademicYear, c.TypeName, a.testtype, a.testno,"
+                      + " AVG({0}) AS AvgScore,CONVERT(varchar(10), d.testtime, 25) testtime"
+                      + " FROM dbo.s_tb_NormalScore a INNER JOIN"
+                      + " tbStudentClass b ON a.SRID = b.SRID INNER JOIN"
+                      + " s_tb_TestTypeInfo c ON a.testtype = c.TestType INNER JOIN"
+                      + " s_tb_testlogin d ON a.AcademicYear = d.AcademicYear AND"
+                      + " a.testno = d.TestNo"
+                      + " WHERE (a.coursecode = @courseCode)"
+                      + " AND (b.AcademicYear = @micYear)"
+                      + " AND (a.testtype <> '0')"
+                      + " and left(b.classcode,2)=@classNo"
+                      + " and substring(a.srid,12,4)=@tempYear"
+                      + " GROUP BY a.AcademicYear, a.semester, c.TypeName, a.testtype, a.testno,d.testtime"
+                      + " ORDER BY a.AcademicYear , a.semester , a.testtype ,  cast(a.testno as int)";
+                    sql = string.Format(sql, scoreType == 2 ? "a.NormalScore" : "a.NumScore");
+
+                    var tempSql = "select top 1 GradeNo from tdGradeCode order by GradeNo";
+                    DataTable tempTable = bll.FillDataTableByText(tempSql, null);
+                    var minYear = int.Parse(tempTable.Rows[0][0].ToString());
+                    var tempYear = micYear - int.Parse(gradeCode.GradeNo) + minYear;
+                    table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, classNo = gradeClass.ClassNo, tempYear = tempYear });
+                }
+                else
+                {
+                    sql = " Select TestType,TypeName,TestNo,Avg({0}) as AvgScore,CONVERT(varchar(10), testtime, 25) testtime "
+                    + " from s_vw_ClassScoreNum "
+                    + " where AcademicYear =@micYear"
+                    + " and gradeno=@gradeNo"
+                    + " and CourseCode =@courseCode"
+                    + " group by TestNo,TestType,TypeName,testtime"
+                    + " order by cast(testno as int)";
+                    sql = string.Format(sql, scoreType == 2 ? "NormalScore" : "NumScore");
+                    table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, gradeNo = gradeCode.GradeNo });
+                }
+                if (table.Rows.Count == 0) return "";
+                var row1 = "";
+                var row2 = "";
+                var row4 = "";
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    row1 += string.Format("'{0}{1}' as S_{2},", table.Rows[i]["TypeName"].ToString().Substring(0, 2), table.Rows[i]["TestNo"].ToString(), i + 1);
+                    row2 += string.Format("'{0}',", table.Rows[i]["testtime"].ToString());
+                    row4 += string.Format("'{0}',", table.Rows[i]["AvgScore"].ToString());
+                }
+                row1 = string.Format("SELECT '{0}' as S_0, {1}", "历次考试", row1.Substring(0, row1.Length - 1));
+                row2 = string.Format(" union all SELECT '{0}' as S_0, {1}", " ", row2.Substring(0, row2.Length - 1));
+                row4 = string.Format(" union all SELECT '{0}年级' as S_0, {1}", gradeCode.GradeBriefName, row4.Substring(0, row4.Length - 1));
+
                 //产生数据--班级
                 if (scoreOption == 2) //ckyear.Checked
                 {
@@ -1024,64 +1075,17 @@ namespace App.Web.Score.DataProvider
                     sql = string.Format(sql, scoreType == 2 ? "NormalScore" : "NumScore");
                     table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, classCode = gradeClass.ClassNo });
                 }
-                var titles = "";
-                var fields = "";
+
+                var row3 = "";
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
-                    titles += string.Format( table.Rows[i]["TypeName"].ToString().Substring(0, 4) + " as S_{0},", i + 1);
-                    fields += table.Rows[i]["AvgScore"].ToString() + ",";
+                    row3 += string.Format("'{0}',", table.Rows[0]["AvgScore"].ToString());
                 }
-                if (string.IsNullOrEmpty(titles)) return "";
-                titles = "SELECT " + titles.Substring(0, titles.Length - 1);
-                fields = " union all SELECT " + fields.Substring(0, fields.Length - 1);
+                row3 = string.Format(" union all SELECT '{0}({1})班' as S_0, {2}", gradeCode.GradeBriefName, gradeClass.ClassNoPart, row3.Substring(0, row3.Length - 1));
 
-                //产生数据--年级
-                if (scoreOption == 2) //ckyear.Checked
-                {
-                    sql = " SELECT a.AcademicYear, c.TypeName, a.testtype, a.testno,"
-                      + " AVG({0}) AS AvgScore,d.testtime"
-                      + " FROM dbo.s_tb_NormalScore a INNER JOIN"
-                      + " tbStudentClass b ON a.SRID = b.SRID INNER JOIN"
-                      + " s_tb_TestTypeInfo c ON a.testtype = c.TestType INNER JOIN"
-                      + " s_tb_testlogin d ON a.AcademicYear = d.AcademicYear AND"
-                      + " a.testno = d.TestNo"
-                      + " WHERE (a.coursecode = @courseCode)"
-                      + " AND (b.AcademicYear = @micYear)"
-                      + " AND (a.testtype <> '0')"
-                      + " and left(b.classcode,2)=@classNo"
-                      + " and substring(a.srid,12,4)=@tempYear"
-                      + " GROUP BY a.AcademicYear, a.semester, c.TypeName, a.testtype, a.testno,d.testtime"
-                      + " ORDER BY a.AcademicYear , a.semester , a.testtype ,  cast(a.testno as int)";
-                    sql = string.Format(sql, scoreType == 2 ? "a.NormalScore" : "a.NumScore");
-
-                    var tempSql = "select top 1 GradeNo from tdGradeCode order by GradeNo";
-                    DataTable tempTable = bll.FillDataTableByText(tempSql, null);
-                    var minYear = int.Parse(tempTable.Rows[0][0].ToString());
-                    var tempYear = micYear - int.Parse(gradeCode.GradeNo) + minYear;
-                    table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, classNo = gradeClass.ClassNo, tempYear = tempYear });
-                }
-                else
-                {
-                    sql = " Select TestType,TypeName,TestNo,Avg({0}) as AvgScore,testtime "
-                    + " from s_vw_ClassScoreNum "
-                    + " where AcademicYear =@micYear"
-                    + " and gradeno=@gradeNo"
-                    + " and CourseCode =@courseCode"
-                    + " group by TestNo,TestType,TypeName,testtime"
-                    + " order by cast(testno as int)";
-                    sql = string.Format(sql, scoreType == 2 ? "NormalScore" : "NumScore");
-                    table = bll.FillDataTableByText(sql, new { micYear = micYear, courseCode = gradeCourse.CourseCode, gradeNo = gradeCode.GradeNo });
-                }
-                var fields1 = "";
-                for (int i = 0; i < table.Rows.Count; i++)
-                {
-                    fields1 += table.Rows[0]["AvgScore"].ToString() + ",";
-                }
-                fields1 = " union all SELECT " + fields1.Substring(0, fields1.Length - 1);
-
-                sql = titles + fields + fields1;
+                sql = row1 + row2 + row3 + row4;
                 table = bll.FillDataTableByText(sql, null);
-                return Newtonsoft.Json.JsonConvert.SerializeObject(sql);
+                return Newtonsoft.Json.JsonConvert.SerializeObject(table);
             }
         }
         #endregion

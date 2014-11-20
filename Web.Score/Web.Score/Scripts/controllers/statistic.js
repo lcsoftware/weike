@@ -333,7 +333,7 @@ stat.controller('ExamStatController', ['$scope', function ($scope) {
         url = "/DataProvider/Statistic.aspx/GetStat20GradeData2";
         param = { micYear: micYear, testNo: testNo, gradeCode: gradeCode, gradeCourse: gradeCourse, gradeClass: gradeClass, scoreType: scoreType, scoreOption: scoreOption };
         $scope.baseService.post(url, param, function (data) {
-            $scope.data1 = angular.fromJson(data.d);
+            $scope.data2 = angular.fromJson(data.d);
         });
     }
 
