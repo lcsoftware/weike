@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var stat = angular.module('app.stat', []);
+var stat = angular.module('app.stat', ['checklist-model']);
 
 // Path: /stat.Stat07
 stat.controller('StudentStatController', ['$scope', function ($scope) {
@@ -707,6 +707,11 @@ stat.controller('TeacherStyleController', ['$scope', function ($scope) {
     //    { code: 1, name: '仅在籍生' },
     //    { code: 2, name: '跨学年(无平时)' }
     //];
+    var chart1 = {};
+
+    $scope.chartService.chartCreate('main1', function (data) {
+        chart1 = data;
+    });
 
     //获得当前学年
     var url = "/DataProvider/Statistic.aspx/GetCurrentYear";
@@ -746,4 +751,26 @@ stat.controller('TeacherStyleController', ['$scope', function ($scope) {
             });
         }
     });
+    $scope.teacherCheck = [];
+    $scope.teacherChange = function(teacher)
+    {
+        $scope.teacherCheck.push(teacher.$parent.teacher);
+    }
+    $scope.NumScore = 0;
+    $scope.query = function()
+    {
+        var url = "/DataProvider/Statistic.aspx/GetTeacherStyle";
+        var param = {
+            micyear: $scope.MicYear,
+            gradeNo: $scope.GradeCode,
+            courseCode:$scope.GradeCourse,
+            only: $scope.ScoreOnly == null ? false : $scope.ScoreOnly,
+            year: $scope.ScoreYear == null ? false : $scope.ScoreYear,
+            numScore: $scope.NumScore,
+            teacher: $scope.teacherCheck
+        };
+        $scope.baseService.post(url, param, function (data) {
+            $scope.chartService.changeOption(chart1, data.d[0]);
+        });
+    }
 }]);
