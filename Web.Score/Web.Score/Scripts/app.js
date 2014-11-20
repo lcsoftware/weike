@@ -82,7 +82,7 @@ angular.module('app', [
             //考试情况统计
             .state('stat.Stat07', { url: '/StudentStat', templateUrl: '/views/stat/StudentStat', controller: 'StudentStatController' })
             //年级排名趋势图
-            .state('n_Student_style', { url: '/StudentStyle', templateUrl: '/views/stat/StudentStyle', controller: 'StudentStyleController' })
+            .state('stat.Stat08', { url: '/GradeOrder', templateUrl: '/views/stat/GradeOrder', controller: 'GradeOrderController' })
             //语数外排名曲线
             .state('n_Student_YSW', { url: '/StudentYSW', templateUrl: '/views/StudentYSW', controller: 'StudentYSWController' })
             //打印成绩单

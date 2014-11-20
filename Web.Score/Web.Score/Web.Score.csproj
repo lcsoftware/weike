@@ -740,6 +740,7 @@
     <Content Include="Views\stat\ExamStat.cshtml" />
     <Content Include="Views\stat\TeacherRep2.cshtml" />
     <Content Include="Views\stat\TeacherStyle.cshtml" />
+    <Content Include="Views\stat\GradeOrder.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

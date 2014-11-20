@@ -316,6 +316,39 @@ namespace App.Web.Score.DataProvider
                 return Newtonsoft.Json.JsonConvert.SerializeObject(table);
             }
         }
+
+        [WebMethod]
+        public static IList<ResultEntry> GetStat08Charts(int micYear, GradeCourse gradeCourse, GradeClass gradeClass, Student student, int checkValue)
+        {
+            IList<ResultEntry> results = new List<ResultEntry>();
+            using (AppBLL bll = new AppBLL())
+            {
+                ChartOption chartOption = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
+                chartOption.title.text = string.Format("{0}{1}的年级排名图", student.StdName, gradeCourse.FullName);
+                chartOption.title.x = "center";
+                chartOption.legend.x = "left";
+                chartOption.legend.data.Add(student.StdName);
+                chartOption.legend.data.Add("年级名次上线");
+                chartOption.legend.data.Add("年级名次下线");
+                SeriesItem studentSeries = new SeriesItem() { type = "line", name = student.StdName };
+                SeriesItem topSeries = new SeriesItem() { type = "line", name = "年级名次上线" };
+                SeriesItem bottomSeries = new SeriesItem() { type = "line", name = "年级名次下线" };
+                chartOption.series.Add(studentSeries);
+                chartOption.series.Add(topSeries);
+                chartOption.series.Add(bottomSeries);
+                ResultEntry entry = new ResultEntry() { Code = 0, Message = chartOption };
+                results.Add(entry);
+
+                var sql = "Select count(*) as njrs from tbStudentClass"
+                           + " where substring(ClassCode,1,2)=@gradeNo"
+                           + " and Academicyear=@micYear";
+                DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear, gradeNo = gradeClass.GradeNo });
+                var njrs = int.Parse(table.Rows[0]["njrs"].ToString());
+                if (njrs == 0) return 
+            }
+            return results;
+        }
+
         #endregion
 
         #region 教师教课情况报表（不分班，分班）

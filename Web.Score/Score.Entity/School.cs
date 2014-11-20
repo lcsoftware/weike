@@ -59,6 +59,8 @@ namespace App.Score.Entity
     {
         public string SystemID;
         public string GradeNo;
+        public string GradeName;
+        public string GradeBriefName;
         public string AcadEmicYear;
         public string ClassNo;
         public string ClassType;
@@ -238,5 +240,14 @@ namespace App.Score.Entity
     {
         public string YEARCODE;
         public string ST_SRID;
+    }
+
+    /// <summary>
+    /// 返回值说明
+    /// </summary>
+    public class ResultEntry
+    {
+        public int Code { get; set; }
+        public object Message { get; set; }
     }
 }

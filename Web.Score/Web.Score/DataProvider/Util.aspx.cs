@@ -144,11 +144,50 @@
             {
                 using (AppBLL bll = new AppBLL())
                 {
-                    var sql = "select a.SystemID, a.GradeNo, AcadEmicYear, ClassNo, ClassType, IsDelete from tbGradeClass a, tdGradeCode b" +
+                    var sql = "select a.SystemID, a.GradeNo, AcadEmicYear, ClassNo, ClassType, IsDelete,b.GradeName, b.GradeBriefName from tbGradeClass a, tdGradeCode b" +
                                 " where a.Gradeno=b.GradeNO" +
                                 " and a.GradeNO=@gradeCode" +
                                 " and a.AcadEmicYear=@micYear";
                     return bll.FillListByText<GradeClass>(sql, new { micYear = academicYear, gradeCode = gradeCode.GradeNo });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        [WebMethod]
+        public static IList<GradeClass> GetClassByScope(int academicYear, string teacher)
+        {
+            try
+            {
+                using (AppBLL bll = new AppBLL())
+                {
+                    var sql = "select a.SystemID, a.GradeNo, AcadEmicYear, ClassNo, ClassType, IsDelete,b.GradeName, b.GradeBriefName from tbGradeClass a, tdGradeCode b" +
+                                " where a.Gradeno=b.GradeNO" +
+                                " and a.ClassNO in (select scope from s_tb_teacherScope where teacherid=@teacher)" +
+                                " and a.AcadEmicYear=@micYear";
+                    return bll.FillListByText<GradeClass>(sql, new { micYear = academicYear, teacher = teacher });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [WebMethod]
+        public static IList<GradeCourse> GetCourseByYear(int academicYear)
+        {
+            try
+            {
+                using (AppBLL bll = new AppBLL())
+                {
+                    var sql = "SELECT a.CourseCode, b.FullName FROM  tbCourseUse a LEFT OUTER JOIN  tdCourseCode b ON a.coursecode = b.CourseCode "
+                               + " where a.Academicyear=@micYear group by A.coursecode,b.FullName order by A.Coursecode";
+                    return bll.FillListByText<GradeCourse>(sql, new { micYear = academicYear });
                 }
             }
             catch (Exception ex)

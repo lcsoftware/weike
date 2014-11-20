@@ -162,9 +162,155 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
         statBase();
         statCharts();
         statData();
-    } 
+    }
 
-  
+
+}]);
+
+
+// Path: /stat.Stat08
+stat.controller('GradeOrderController', ['$scope', function ($scope) {
+    var moduleName = '年级排名趋势';
+    $scope.$root.moduleName = moduleName;
+    $scope.$root.title = $scope.softname + ' | ' + moduleName;
+
+    //统计结果
+    $scope.base = {};
+    $scope.chartOptions = [];
+    $scope.data = [];
+
+    $scope.conditionData = {};
+
+    $scope.AcademicYears = [];
+    $scope.GradeCourses = []; 
+    $scope.GradeClasses = [];
+    $scope.Students = [];
+
+    $scope.haveStat = false;
+
+    $scope.utilService.GetAcademicYears(function (data) {
+        $scope.AcademicYears = data.d;
+    });
+
+    $scope.utilService.GetGradeCodes(function (data) {
+        $scope.GradeCodes = data.d;
+    });
+
+    $scope.$watch('conditionData.MicYear', function () {
+        if ($scope.conditionData.MicYear) {
+            $scope.GradeClasses.length = 0;
+            $scope.GradeCourses.length = 0;
+            $scope.userService.getUser(function (user) {
+                var url = "/DataProvider/Util.aspx/GetClassByScope";
+                var param = { academicYear: $scope.conditionData.MicYear.MicYear, teacher: user.TeacherID};
+                $scope.baseService.post(url, param, function (data) {
+                    $scope.GradeClasses = data.d;
+                });
+            });
+            var url = "/DataProvider/Util.aspx/GetCourseByYear";
+            var param = { academicYear: $scope.conditionData.MicYear.MicYear };
+            $scope.baseService.post(url, param, function (data) {
+                $scope.GradeCourses = data.d;
+            });
+        }
+    });
+    $scope.$watch('conditionData.GradeClass', function (gradeClass) {
+        $scope.Students.length = 0;
+        if ($scope.conditionData.MicYear) {
+            var url = "/DataProvider/Util.aspx/GetStudent";
+            var param = { academicyear: $scope.conditionData.MicYear.MicYear, classcode: gradeClass.ClassNo };
+            $scope.baseService.post(url, param, function (data) {
+                $scope.Students = data.d;
+            });
+        }
+    });
+
+
+    var chart1 = {};
+
+    $scope.chartService.chartCreate('main1', function (data) {
+        chart1 = data;
+    });
+
+
+
+    var statBase = function () {
+        var micYear = $scope.conditionData.MicYear;
+        var testNo = $scope.conditionData.TestLogin;
+        var gradeCourse = $scope.conditionData.GradeCourse;
+        var gradeClass = $scope.conditionData.GradeClass;
+        var scoreOption = $scope.conditionData.ScoreOption;
+
+        var url = "/DataProvider/Statistic.aspx/GetStat20Base";
+        var param = { micYear: micYear.MicYear, testNo: testNo, gradeCourse: gradeCourse, gradeClass: gradeClass, scoreOption: scoreOption };
+        $scope.baseService.post(url, param, function (data) {
+            if (data.d !== null) {
+                $scope.base = angular.fromJson(data.d)[0];
+            }
+        });
+    }
+
+    var statCharts = function () {
+        if (!$scope.conditionData.student) {
+            $scope.dialogUtils.info('请选择学生！');
+            return;
+        }
+        var micYear = $scope.conditionData.MicYear.MicYear;
+        var gradeCourse = $scope.conditionData.GradeCourse;
+        var gradeClass = $scope.conditionData.GradeClass;
+        var student = $scope.conditionData.Student;
+        var checkValue = $scope.conditionData.checkValue;
+
+        var url = "/DataProvider/Statistic.aspx/GetStat08Charts";
+        var param = { micYear: micYear,  gradeCourse: gradeCourse, gradeClass: gradeClass, student: student, checkValue: chcekValue };
+        $scope.baseService.post(url, param, function (data) {
+            if (data.d !== null) {
+                $scope.chartService.changeOption(chart1, data.d[0]); 
+            } else {
+                $scope.dialogUtils.info('您选择的条件下无数据，不能生成的图表！');
+            }
+        });
+    }
+
+    var statData = function () {
+        var micYear = $scope.conditionData.MicYear.MicYear;
+        var gradeCode = $scope.conditionData.GradeCode;
+        var testNo = $scope.conditionData.TestLogin;
+        var gradeCourse = $scope.conditionData.GradeCourse;
+        var gradeClass = $scope.conditionData.GradeClass;
+        var student = $scope.conditionData.Student;
+        var scoreType = $scope.conditionData.ScoreType.code;
+        var scoreOption = $scope.conditionData.ScoreOption.code;
+
+        var url = "/DataProvider/Statistic.aspx/GetStat20GradeData1";
+        var param = { micYear: micYear, testNo: testNo, gradeCode: gradeCode, gradeCourse: gradeCourse, gradeClass: gradeClass };
+        $scope.baseService.post(url, param, function (data) {
+            $scope.data1 = angular.fromJson(data.d);
+            $scope.haveStat = true;
+        });
+
+        url = "/DataProvider/Statistic.aspx/GetStat20GradeData2";
+        param = { micYear: micYear, testNo: testNo, gradeCode: gradeCode, gradeCourse: gradeCourse, gradeClass: gradeClass, scoreType: scoreType, scoreOption: scoreOption };
+        $scope.baseService.post(url, param, function (data) {
+            $scope.data2 = angular.fromJson(data.d);
+        });
+    }
+
+    $scope.stat = function () {
+        if (!$scope.conditionData.GradeClass) {
+            $scope.dialogUtils.info('请选择班级！');
+            return;
+        }
+        if (!$scope.conditionData.TestLogin) {
+            $scope.dialogUtils.info('请选择考试号！');
+            return;
+        }
+
+        statBase();
+        statCharts();
+        statData();
+        $scope.haveStat = true;
+    }
 }]);
 
 
@@ -288,7 +434,7 @@ stat.controller('ExamStatController', ['$scope', function ($scope) {
         });
     }
 
-    var statCharts = function (callback) {
+    var statCharts = function () {
         var micYear = $scope.conditionData.MicYear.MicYear;
         var gradeCode = $scope.conditionData.GradeCode;
         var testNo = $scope.conditionData.TestLogin;
@@ -306,7 +452,6 @@ stat.controller('ExamStatController', ['$scope', function ($scope) {
                 delete data.d[1].yAxis;
                 $scope.chartService.changeOption(chart2, data.d[1]);
                 $scope.chartService.changeOption(chart3, data.d[2]);
-                if (callback) callback(data.d);
             } else {
                 $scope.dialogUtils.info('您选择的条件下无数据，不能生成的图表！');
             }
@@ -442,8 +587,7 @@ stat.controller('TeacherRep1Controller', ['$scope', function ($scope) {
             }
         }
     }
-    var check = function()
-    {
+    var check = function () {
         if ($scope.MicYear == null) {
             $scope.dialogUtils.info('请选择学年/学期');
             return false;
@@ -462,7 +606,7 @@ stat.controller('TeacherRep1Controller', ['$scope', function ($scope) {
         }
         return true;
     }
-    
+
 }]);
 
 stat.controller('TeacherRep2Controller', ['$scope', function ($scope) {
@@ -581,7 +725,7 @@ stat.controller('TeacherStyleController', ['$scope', function ($scope) {
     $scope.AcademicYears = [];
     $scope.GradeCourses = [];
     $scope.GradeCodes = [];
-    $scope.Teachers = [];   
+    $scope.Teachers = [];
 
     //$scope.ScoreOptions = [
     //    { code: 1, name: '仅在籍生' },
@@ -598,7 +742,7 @@ stat.controller('TeacherStyleController', ['$scope', function ($scope) {
     $scope.baseService.post(url, param, function (data) {
         $scope.AcademicYears = data.d;
         $scope.MicYear = $scope.AcademicYears[0];
-        
+
     });
     //根据学年，获取课程
     var url = "/DataProvider/Util.aspx/GetCourseCodeAll";
@@ -606,15 +750,14 @@ stat.controller('TeacherStyleController', ['$scope', function ($scope) {
     $scope.baseService.post(url, param, function (data) {
         $scope.GradeCourses = data.d;
     });
-    
 
-    $scope.$watch('GradeCourse', function (gradeCourse) {        
+
+    $scope.$watch('GradeCourse', function (gradeCourse) {
         $scope.GradeCodes.length = 0;
-        if(gradeCourse)
-        {
+        if (gradeCourse) {
             //根据课程，获取年级
             var url = "/DataProvider/Statistic.aspx/GetGradeCodeByGradeNo";
-            var param = { micyear: $scope.MicYear,gradeCourse:gradeCourse };
+            var param = { micyear: $scope.MicYear, gradeCourse: gradeCourse };
             $scope.baseService.post(url, param, function (data) {
                 $scope.GradeCodes = data.d;
             });
