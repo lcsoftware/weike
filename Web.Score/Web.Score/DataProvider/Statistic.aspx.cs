@@ -391,7 +391,7 @@ namespace App.Web.Score.DataProvider
                 sql = row1 + row2 + row3 + row4 + row5;
                 table = bll.FillDataTableByText(sql, null);
                 entry = new ResultEntry() { Code = 1, Message = Newtonsoft.Json.JsonConvert.SerializeObject(table) };
-                results.Add(entry); 
+                results.Add(entry);
             }
             return results;
         }
@@ -739,15 +739,17 @@ namespace App.Web.Score.DataProvider
 
                 ChartOption option1 = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
                 options.Add(option1);
-                
+                option1.yAxis.name = courseCode.FullName + "各教师比较图";
+
                 //循环老师
                 int length = teacher.Count;
                 for (int i = 0; i < length; i++)
                 {
-                    
+
 
                     option1.legend.data.Add(teacher[i].Name);
-                    option1.series.Add(new SeriesItem() { type = "line", name = teacher[i].Name });
+                    SeriesItem item = new SeriesItem() { type = "line", name = teacher[i].Name };
+                    option1.series.Add(item);
                     if (year)//跨学年
                     {
                         sql = "SELECT  a.AcademicYear,a.testtype, e.TypeName, a.testno ";
@@ -766,40 +768,38 @@ namespace App.Web.Score.DataProvider
                         sql += " and substring(a.srid,12,4)=" + endYear + " "
                             + " and c.academicyear=" + micyear.MicYear + " "
                             + " GROUP BY a.AcademicYear, a.semester, a.testtype, e.TypeName, a.testno "
-                            + " ORDER BY a.AcademicYear , a.semester , a.testtype , CAST(a.testno AS int)  ";                        
+                            + " ORDER BY a.AcademicYear , a.semester , a.testtype , CAST(a.testno AS int)  ";
                     }
                     else//不跨学年
                     {
                         sql = "Select Academicyear,TestType,TypeName,TestNo ";
                         if (numScore == 0) sql += " ,AVG(NumScore) AS AvgScore ";//原始分
                         else sql += " ,AVG(NormalScore) AS AvgScore ";//标准分
-                             sql+= " from s_vw_ClassScoreNum "
-                             + " where Academicyear=" + micyear.MicYear + " "
-                             + " and teacherid=" + teacher[i].TeacherID + " "
-                             + " and CourseCode=" + courseCode.CourseCode + " ";
+                        sql += " from s_vw_ClassScoreNum "
+                        + " where Academicyear=" + micyear.MicYear + " "
+                        + " and teacherid=" + teacher[i].TeacherID + " "
+                        + " and CourseCode=" + courseCode.CourseCode + " ";
                         if (only) sql += " AND (STATE IS NULL) ";//仅在籍
                         sql += " group by Academicyear,testType,TypeName,testno "
-                            + " order by Academicyear ,cast(testno as Int)  ";                        
+                            + " order by Academicyear ,cast(testno as Int)  ";
                     }
-                    
+
                     dt = bll.FillDataTableByText(sql, new { });
                     for (int n = 0; n < dt.Rows.Count; n++)
                     {
-                        if (option1.xAxis.data.Count!= dt.Rows.Count)
-                        {
-                            var tempType = dt.Rows[n]["TypeName"].ToString().Substring(0, 2);
-                            var temptestno = dt.Rows[n]["TestNo"].ToString();
-                            option1.xAxis.data.Add(string.Format("{0}{1}", tempType.Trim(), temptestno.Trim()));
-                        }
-                        option1.yAxis.name = courseCode.FullName + "各教师比较图";
-                        ((SeriesItem)option1.series[i]).data.Add(dt.Rows.Count == 0 ? "0" : dt.Rows[n]["AvgScore"].ToString());
+                        var tempType = dt.Rows[n]["TypeName"].ToString().Substring(0, 2);
+                        var temptestno = dt.Rows[n]["TestNo"].ToString();
+                        var xName = string.Format("{0}{1}", tempType.Trim(), temptestno.Trim());
+                        if (!option1.xAxis.data.Contains(xName))
+                            option1.xAxis.data.Add(xName);
+                        item.data.Add(dt.Rows.Count == 0 ? "0" : dt.Rows[n]["AvgScore"].ToString());
                     }
-                    
+
                 }
 
                 return options;
             }
-            
+
         }
 
         #endregion

@@ -263,6 +263,7 @@ stat.controller('GradeOrderController', ['$scope', function ($scope) {
         var param = { micYear: micYear, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student, checkValue: checkValue };
         $scope.baseService.post(url, param, function (data) {
             if (data.d !== null) {
+
                 $scope.chartService.changeOption(chart1, data.d[0]); 
             } else {
                 $scope.dialogUtils.info('您选择的条件下无数据，不能生成的图表！');
@@ -731,6 +732,7 @@ stat.controller('TeacherStyleController', ['$scope', function ($scope) {
 
     $scope.$watch('GradeCourse', function (gradeCourse) {
         $scope.GradeCodes.length = 0;
+        $scope.Teachers.length = 0;
         if (gradeCourse) {
             //根据课程，获取年级
             var url = "/DataProvider/Statistic.aspx/GetGradeCodeByGradeNo";
@@ -759,6 +761,7 @@ stat.controller('TeacherStyleController', ['$scope', function ($scope) {
     $scope.NumScore = 0;
     $scope.query = function()
     {
+        $scope.utilService.showBg();
         var url = "/DataProvider/Statistic.aspx/GetTeacherStyle";
         var param = {
             micyear: $scope.MicYear,
@@ -771,6 +774,7 @@ stat.controller('TeacherStyleController', ['$scope', function ($scope) {
         };
         $scope.baseService.post(url, param, function (data) {
             $scope.chartService.changeOption(chart1, data.d[0]);
+            $scope.utilService.closeBg();
         });
     }
 }]);
