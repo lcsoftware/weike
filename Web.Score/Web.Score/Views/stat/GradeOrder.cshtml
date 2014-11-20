@@ -47,7 +47,7 @@
             <div class="col-sm-12" style="text-align:center;font-size:2em;">{{conditionData.Student.StdName}}{{conditionData.GradeCourse.FullName}}年级排名趋势图</div>
         </div>
         <div class="row"> 
-            <div class="col-sm-6">
+            <div class="col-sm-8 col-sm-offset-2">
                 <div id="main1" style="height:300px;width:100%"></div>
             </div>
 
@@ -55,30 +55,18 @@
         <div class="row">
             <div class="col-sm-12" ng-class="{'hideTag': !haveStat}">
                 <table class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th style="width:10%;text-align:center;">考试号</th>
-                            <th style="width:20%;text-align:center;">考试时间</th>
-                            <th style="width:10%;text-align:center;">成绩</th>
-                            <th style="width:10%;text-align:center;">等第成绩</th>
-                            <th style="width:10%;text-align:center;">标准分</th>
-                            <th style="width:10%;text-align:center;">年级排名</th>
-                            <th style="width:10%;text-align:center;">班级排名</th>
-                            <th style="width:10%;text-align:center;">年级平均</th>
-                            <th style="width:10%;text-align:center;">班级平均</th>
-                        </tr>
-                    </thead>
                     <tbody>
-                        <tr ng-repeat="score in data" ng-if="!student.Keep">
-                            <td>{{score.testno}}</td>
-                            <td>{{score.date1}}</td>
-                            <td>{{score.numscore}}</td>
-                            <td>{{score.levelscore}}</td>
-                            <td>{{score.normalscore}}</td>
-                            <td>{{score.gradeorder}}</td>
-                            <td>{{score.classorder}}</td>
-                            <td>{{score.gradeavg}}</td>
-                            <td>{{score.classavg}}</td>
+                        <tr ng-repeat="item in data">
+                            <td>{{item.S_0}}</td>
+                            <td>{{item.S_1}}</td>
+                            <td>{{item.S_2}}</td>
+                            <td>{{item.S_3}}</td>
+                            <td>{{item.S_4}}</td>
+                            <td>{{item.S_5}}</td>
+                            <td>{{item.S_6}}</td>
+                            <td>{{item.S_7}}</td>
+                            <td>{{item.S_8}}</td>
+                            <td>{{item.S_9}}</td>
                         </tr>
                     </tbody>
                 </table>

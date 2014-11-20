@@ -324,7 +324,7 @@ namespace App.Web.Score.DataProvider
             using (AppBLL bll = new AppBLL())
             {
                 ChartOption chartOption = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
-                chartOption.title.text = string.Format("{0}{1}的年级排名图", student.StdName, gradeCourse.FullName);
+                //chartOption.title.text = string.Format("{0}{1}的年级排名图", student.StdName, gradeCourse.FullName);
                 chartOption.title.x = "center";
                 chartOption.legend.x = "left";
                 chartOption.legend.data.Add(student.StdName);
@@ -357,13 +357,13 @@ namespace App.Web.Score.DataProvider
 
                 sql = "SELECT AcademicYear,typename,testno,convert(varchar(10), testtime, 25) as testtime, round(NumScore, 4) as NumScore,classorder,gradeorder"
                        + " FROM s_vw_ClassScoreNum  where srid=@srid"
-                       + " and coursecode=@courseCode"
-                       + " order by Academicyear,cast(testno as int)";
+                       + " and coursecode=@courseCode";
 
                 if (checkValue == 1)
                 {
                     sql += " and Academicyear=" + micYear.ToString();
                 }
+                       sql += " order by Academicyear,cast(testno as int)";
                 table = bll.FillDataTableByText(sql, new { courseCode = gradeCourse.CourseCode, srid = student.StudentId });
                 var row1 = "";
                 var row2 = "";
@@ -377,7 +377,7 @@ namespace App.Web.Score.DataProvider
                     studentSeries.data.Add(table.Rows[i]["gradeOrder"].ToString());
                     topSeries.data.Add(tempXMC.ToString());
                     bottomSeries.data.Add(tempSMC.ToString());
-                    row1 += string.Format("'{0}{1}' as S_{2},", table.Rows[i]["Academicyear"].ToString(), table.Rows[i]["TypeName"].ToString().Substring(0, 2), i + 1);
+                    row1 += string.Format("'{0}{1}' as S_{2},", table.Rows[i]["TypeName"].ToString().Substring(0, 2), table.Rows[i]["testno"].ToString(), i + 1);
                     row2 += string.Format("'{0}',", table.Rows[i]["testtime"].ToString());
                     row3 += string.Format("'{0}',", float.Parse(table.Rows[i]["NumScore"].ToString()).ToString("f4"));
                     row4 += string.Format("'{0}',", table.Rows[i]["gradeOrder"].ToString());

@@ -263,8 +263,15 @@ stat.controller('GradeOrderController', ['$scope', function ($scope) {
         var param = { micYear: micYear, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student, checkValue: checkValue };
         $scope.baseService.post(url, param, function (data) {
             if (data.d !== null) {
-
-                $scope.chartService.changeOption(chart1, data.d[0]); 
+                var length = data.d.length;
+                for (var i = 0; i < length; i++) {
+                    var resultEntry = data.d[i];
+                    if (resultEntry.Code == 0) {
+                        $scope.chartService.changeOption(chart1, resultEntry.Message); 
+                    } else if (resultEntry.Code == 1) {
+                        $scope.data = angular.fromJson(resultEntry.Message);
+                    }
+                }
             } else {
                 $scope.dialogUtils.info('您选择的条件下无数据，不能生成的图表！');
             }
