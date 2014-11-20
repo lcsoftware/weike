@@ -344,7 +344,7 @@ namespace App.Web.Score.DataProvider
                            + " and Academicyear=@micYear";
                 DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear, gradeNo = gradeClass.GradeNo });
                 var njrs = int.Parse(table.Rows[0]["njrs"].ToString());
-                if (njrs == 0) return 
+                if (njrs == 0) return null;
             }
             return results;
         }
@@ -678,6 +678,80 @@ namespace App.Web.Score.DataProvider
                     });
             }
         }
+        [WebMethod]
+        public static IList<ChartOption> GetTeacherStyle(Academicyear micyear, GradeCode gradeNo, GradeCourse courseCode, bool only, bool year, int numScore, IList<UserGroupInfo> teacher)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                //计算截止学年
+                var sql = "select top 1 gradeno from tdgradecode order by gradeno";
+                DataTable dt = bll.FillDataTableByText(sql, new { });
+                //截止学年
+                var endYear = micyear.MicYear - Convert.ToInt32(gradeNo.GradeNo) + Convert.ToInt32(dt.Rows[0][0]);
+                IList<ChartOption> options = new List<ChartOption>();
+
+                ChartOption option1 = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
+                options.Add(option1);
+                
+                //循环老师
+                int length = teacher.Count;
+                for (int i = 0; i < length; i++)
+                {
+                    
+
+                    option1.legend.data.Add(teacher[i].Name);
+                    option1.series.Add(new SeriesItem() { type = "line", name = teacher[i].Name });
+                    if (year)//跨学年
+                    {
+                        sql = "SELECT  a.AcademicYear,a.testtype, e.TypeName, a.testno ";
+                        if (numScore == 0) sql += " ,AVG(a.NumScore) AS AvgScore ";//原始分
+                        else sql += " ,AVG(a.NormalScore) AS AvgScore ";//标准分
+                        sql += " FROM tbTeacherClass c INNER JOIN "
+                            + " tbStudentClass b ON c.AcademicYear = b.AcademicYear AND "
+                            + " c.ClassID = b.ClassCode INNER JOIN "
+                            + " s_tb_NormalScore a ON b.SRID = a.SRID INNER JOIN "
+                            + " s_tb_TestTypeInfo e ON a.testtype = e.TestType LEFT OUTER JOIN "
+                            + " s_tb_StudentXW d ON b.SRID = d.SRID "
+                            + " WHERE (a.coursecode = " + courseCode.CourseCode + ") "
+                            + " AND (c.TeacherID = " + teacher[i].TeacherID + ")"
+                            + " and a.testtype<>0 ";
+                        if (only) sql += " AND (d.STATE IS NULL) ";//仅在籍
+                        sql += " and substring(a.srid,12,4)=" + endYear + " "
+                            + " and c.academicyear=" + micyear.MicYear + " "
+                            + " GROUP BY a.AcademicYear, a.semester, a.testtype, e.TypeName, a.testno "
+                            + " ORDER BY a.AcademicYear , a.semester , a.testtype , CAST(a.testno AS int)  ";                        
+                    }
+                    else//不跨学年
+                    {
+                        sql = "Select Academicyear,TestType,TypeName,TestNo ";
+                        if (numScore == 0) sql += " ,AVG(NumScore) AS AvgScore ";//原始分
+                        else sql += " ,AVG(NormalScore) AS AvgScore ";//标准分
+                             sql+= " from s_vw_ClassScoreNum "
+                             + " where Academicyear=" + micyear.MicYear + " "
+                             + " and teacherid=" + teacher[i].TeacherID + " "
+                             + " and CourseCode=" + courseCode.CourseCode + " ";
+                        if (only) sql += " AND (STATE IS NULL) ";//仅在籍
+                        sql += " group by Academicyear,testType,TypeName,testno "
+                            + " order by Academicyear ,cast(testno as Int)  ";                        
+                    }
+                    
+                    dt = bll.FillDataTableByText(sql, new { });
+                    for (int n = 0; n < dt.Rows.Count; n++)
+                    {
+                        var tempType = dt.Rows[n]["TypeName"].ToString().Substring(0, 2);
+                        var temptestno = dt.Rows[n]["TestNo"].ToString();
+                        option1.xAxis.data.Add(string.Format("{0}{1}", tempType.Trim(), temptestno.Trim()));
+                        option1.yAxis.name = courseCode.FullName + "各教师比较图";
+                        ((SeriesItem)option1.series[i]).data.Add(dt.Rows.Count == 0 ? "0" : dt.Rows[n]["AvgScore"].ToString());
+                    }
+                    
+                }
+
+                return options;
+            }
+            
+        }
+
         #endregion
 
         #region 班级统计

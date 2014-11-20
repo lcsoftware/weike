@@ -6,12 +6,12 @@
                     <select class="form-control" ng-model="MicYear" ng-options="m.MicYear for m in AcademicYears"></select>
                 </div>
                 <div class="col-sm-3">
-                    <input type="checkbox" value="1" ng-model="ScoreOption" />仅在籍生&nbsp;
-                    <input type="checkbox" value="2" ng-model="ScoreOption" />跨学年(无平时)
+                    <input type="checkbox" value="0" ng-model="ScoreOnly" />仅在籍生&nbsp;
+                    <input type="checkbox" value="1" ng-model="ScoreYear" />跨学年(无平时)
                 </div>
                 <div class="col-sm-2">
-                    <input type="radio" value="1" ng-model="NumScore" />原始分&nbsp;
-                    <input type="radio" value="2" ng-model="NumScore" />标准分
+                    <input type="radio" value="0" ng-model="NumScore" />原始分&nbsp;
+                    <input type="radio" value="1" ng-model="NumScore" />标准分
                 </div>
                 <div class="col-sm-3">
                     <select class="form-control" ng-model="GradeCourse" ng-options="m.FullName for m in GradeCourses">
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-sm-7">
                     <div ng-repeat="teacher in Teachers" class="checkbox-inline" style="text-align:center;">
-                        <input type="checkbox" value="{{teacher.TeacherID}}" name="courses" />{{teacher.Name}}
+                        <input type="checkbox" checklist-value="teacher.TeacherID" checklist-model="teachered" ng-change="teacherChange(this)" name="courses" />{{teacher.Name}}
                     </div>
                 </div>
             </div>
@@ -40,3 +40,16 @@
         </form>
     </div>
 </div>
+<div class="row">
+    <div class="col-sm-6">
+        <div id="main1" style="height:300px;width:100%"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    require.config({
+        packages: [
+            { name: 'echarts', location: '/content/charts/echarts', main: 'echarts' },
+            { name: 'zrender', location: '/content/charts/zrender', main: 'zrender' }
+        ]
+    });
+</script>
