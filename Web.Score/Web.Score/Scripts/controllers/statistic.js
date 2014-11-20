@@ -263,6 +263,7 @@ stat.controller('GradeOrderController', ['$scope', function ($scope) {
         var param = { micYear: micYear, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student, checkValue: checkValue };
         $scope.baseService.post(url, param, function (data) {
             if (data.d !== null) {
+
                 $scope.chartService.changeOption(chart1, data.d[0]); 
             } else {
                 $scope.dialogUtils.info('您选择的条件下无数据，不能生成的图表！');
