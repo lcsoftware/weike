@@ -785,9 +785,12 @@ namespace App.Web.Score.DataProvider
                     dt = bll.FillDataTableByText(sql, new { });
                     for (int n = 0; n < dt.Rows.Count; n++)
                     {
-                        var tempType = dt.Rows[n]["TypeName"].ToString().Substring(0, 2);
-                        var temptestno = dt.Rows[n]["TestNo"].ToString();
-                        option1.xAxis.data.Add(string.Format("{0}{1}", tempType.Trim(), temptestno.Trim()));
+                        if (option1.xAxis.data.Count!= dt.Rows.Count)
+                        {
+                            var tempType = dt.Rows[n]["TypeName"].ToString().Substring(0, 2);
+                            var temptestno = dt.Rows[n]["TestNo"].ToString();
+                            option1.xAxis.data.Add(string.Format("{0}{1}", tempType.Trim(), temptestno.Trim()));
+                        }
                         option1.yAxis.name = courseCode.FullName + "各教师比较图";
                         ((SeriesItem)option1.series[i]).data.Add(dt.Rows.Count == 0 ? "0" : dt.Rows[n]["AvgScore"].ToString());
                     }
