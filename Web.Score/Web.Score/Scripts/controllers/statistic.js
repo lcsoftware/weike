@@ -180,6 +180,7 @@ stat.controller('GradeOrderController', ['$scope', function ($scope) {
     $scope.data = [];
 
     $scope.conditionData = {};
+    $scope.conditionData.checkValue = "0";
 
     $scope.AcademicYears = [];
     $scope.GradeCourses = []; 
@@ -251,10 +252,7 @@ stat.controller('GradeOrderController', ['$scope', function ($scope) {
     }
 
     var statCharts = function () {
-        if (!$scope.conditionData.student) {
-            $scope.dialogUtils.info('请选择学生！');
-            return;
-        }
+      
         var micYear = $scope.conditionData.MicYear.MicYear;
         var gradeCourse = $scope.conditionData.GradeCourse;
         var gradeClass = $scope.conditionData.GradeClass;
@@ -262,7 +260,7 @@ stat.controller('GradeOrderController', ['$scope', function ($scope) {
         var checkValue = $scope.conditionData.checkValue;
 
         var url = "/DataProvider/Statistic.aspx/GetStat08Charts";
-        var param = { micYear: micYear,  gradeCourse: gradeCourse, gradeClass: gradeClass, student: student, checkValue: chcekValue };
+        var param = { micYear: micYear, gradeCourse: gradeCourse, gradeClass: gradeClass, student: student, checkValue: checkValue };
         $scope.baseService.post(url, param, function (data) {
             if (data.d !== null) {
                 $scope.chartService.changeOption(chart1, data.d[0]); 
@@ -272,43 +270,17 @@ stat.controller('GradeOrderController', ['$scope', function ($scope) {
         });
     }
 
-    var statData = function () {
-        var micYear = $scope.conditionData.MicYear.MicYear;
-        var gradeCode = $scope.conditionData.GradeCode;
-        var testNo = $scope.conditionData.TestLogin;
-        var gradeCourse = $scope.conditionData.GradeCourse;
-        var gradeClass = $scope.conditionData.GradeClass;
-        var student = $scope.conditionData.Student;
-        var scoreType = $scope.conditionData.ScoreType.code;
-        var scoreOption = $scope.conditionData.ScoreOption.code;
-
-        var url = "/DataProvider/Statistic.aspx/GetStat20GradeData1";
-        var param = { micYear: micYear, testNo: testNo, gradeCode: gradeCode, gradeCourse: gradeCourse, gradeClass: gradeClass };
-        $scope.baseService.post(url, param, function (data) {
-            $scope.data1 = angular.fromJson(data.d);
-            $scope.haveStat = true;
-        });
-
-        url = "/DataProvider/Statistic.aspx/GetStat20GradeData2";
-        param = { micYear: micYear, testNo: testNo, gradeCode: gradeCode, gradeCourse: gradeCourse, gradeClass: gradeClass, scoreType: scoreType, scoreOption: scoreOption };
-        $scope.baseService.post(url, param, function (data) {
-            $scope.data2 = angular.fromJson(data.d);
-        });
-    }
 
     $scope.stat = function () {
         if (!$scope.conditionData.GradeClass) {
             $scope.dialogUtils.info('请选择班级！');
             return;
         }
-        if (!$scope.conditionData.TestLogin) {
-            $scope.dialogUtils.info('请选择考试号！');
+        if (!$scope.conditionData.Student) {
+            $scope.dialogUtils.info('请选择学生！');
             return;
-        }
-
-        statBase();
+        } 
         statCharts();
-        statData();
         $scope.haveStat = true;
     }
 }]);

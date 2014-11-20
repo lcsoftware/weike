@@ -336,15 +336,62 @@ namespace App.Web.Score.DataProvider
                 chartOption.series.Add(studentSeries);
                 chartOption.series.Add(topSeries);
                 chartOption.series.Add(bottomSeries);
-                ResultEntry entry = new ResultEntry() { Code = 0, Message = chartOption };
-                results.Add(entry);
-
+                ResultEntry entry = null;
                 var sql = "Select count(*) as njrs from tbStudentClass"
                            + " where substring(ClassCode,1,2)=@gradeNo"
                            + " and Academicyear=@micYear";
                 DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear, gradeNo = gradeClass.GradeNo });
                 var njrs = int.Parse(table.Rows[0]["njrs"].ToString());
-                if (njrs == 0) return 
+                if (njrs == 0)
+                {
+                    entry = new ResultEntry() { Code = -1, Message = "未发现数据,可能您未录入成绩" };
+                    results.Insert(0, entry);
+                    return results;
+                }
+
+                entry = new ResultEntry() { Code = 0, Message = chartOption };
+                results.Add(entry);
+
+                var tempXMC = njrs / 6;
+                var tempSMC = njrs - tempXMC;
+
+                sql = "SELECT AcademicYear,typename,testno,convert(varchar(10), testtime, 25) as testtime, round(NumScore, 4) as NumScore,classorder,gradeorder"
+                       + " FROM s_vw_ClassScoreNum  where srid=@srid"
+                       + " and coursecode=@courseCode"
+                       + " order by Academicyear,cast(testno as int)";
+
+                if (checkValue == 1)
+                {
+                    sql += " and Academicyear=" + micYear.ToString();
+                }
+                table = bll.FillDataTableByText(sql, new { courseCode = gradeCourse.CourseCode, srid = student.StudentId });
+                var row1 = "";
+                var row2 = "";
+                var row3 = "";
+                var row4 = "";
+                var row5 = "";
+                var length = table.Rows.Count;
+                for (int i = 0; i < length; i++)
+                {
+                    chartOption.xAxis.data.Add(string.Format("{0}{1}", table.Rows[i]["Academicyear"].ToString(), table.Rows[i]["TypeName"].ToString().Substring(0, 2)));
+                    studentSeries.data.Add(table.Rows[i]["gradeOrder"].ToString());
+                    topSeries.data.Add(tempXMC.ToString());
+                    bottomSeries.data.Add(tempSMC.ToString());
+                    row1 += string.Format("'{0}{1}' as S_{2},", table.Rows[i]["Academicyear"].ToString(), table.Rows[i]["TypeName"].ToString().Substring(0, 2), i + 1);
+                    row2 += string.Format("'{0}',", table.Rows[i]["testtime"].ToString());
+                    row3 += string.Format("'{0}',", float.Parse(table.Rows[i]["NumScore"].ToString()).ToString("f4"));
+                    row4 += string.Format("'{0}',", table.Rows[i]["gradeOrder"].ToString());
+                    row5 += string.Format("'{0}',", table.Rows[i]["classOrder"].ToString());
+                }
+                row1 = "SELECT '历次考试' as S_0," + row1.Substring(0, row1.Length - 1);
+                row2 = " union all SELECT ' ' as S_0," + row2.Substring(0, row2.Length - 1);
+                row3 = " union all SELECT '成绩' as S_0," + row3.Substring(0, row3.Length - 1);
+                row4 = " union all SELECT '年级排名' as S_0," + row4.Substring(0, row4.Length - 1);
+                row5 = " union all SELECT '班级排名' as S_0," + row5.Substring(0, row5.Length - 1);
+                sql = row1 + row2 + row3 + row4 + row5;
+                table = bll.FillDataTableByText(sql, null);
+                entry = new ResultEntry() { Code = 1, Message = Newtonsoft.Json.JsonConvert.SerializeObject(table) };
+                results.Add(entry);
             }
             return results;
         }
