@@ -994,7 +994,7 @@ namespace App.Web.Score.DataProvider
                 if (scoreOption == 2) //ckyear.Checked
                 {
                     sql = " SELECT a.AcademicYear, c.TypeName, a.testtype, a.testno,"
-                      + " AVG({0}) AS AvgScore,CONVERT(varchar(10), d.testtime, 25) testtime"
+                      + " round(AVG({0}), 4) AS AvgScore,CONVERT(varchar(10), d.testtime, 25) testtime"
                       + " FROM dbo.s_tb_NormalScore a INNER JOIN"
                       + " tbStudentClass b ON a.SRID = b.SRID INNER JOIN"
                       + " s_tb_TestTypeInfo c ON a.testtype = c.TestType INNER JOIN"
@@ -1017,7 +1017,7 @@ namespace App.Web.Score.DataProvider
                 }
                 else
                 {
-                    sql = " Select TestType,TypeName,TestNo,Avg({0}) as AvgScore,CONVERT(varchar(10), testtime, 25) testtime "
+                    sql = " Select TestType,TypeName,TestNo,round(Avg({0}), 4) as AvgScore,CONVERT(varchar(10), testtime, 25) testtime "
                     + " from s_vw_ClassScoreNum "
                     + " where AcademicYear =@micYear"
                     + " and gradeno=@gradeNo"
@@ -1035,7 +1035,7 @@ namespace App.Web.Score.DataProvider
                 {
                     row1 += string.Format("'{0}{1}' as S_{2},", table.Rows[i]["TypeName"].ToString().Substring(0, 2), table.Rows[i]["TestNo"].ToString(), i + 1);
                     row2 += string.Format("'{0}',", table.Rows[i]["testtime"].ToString());
-                    row4 += string.Format("'{0}',", table.Rows[i]["AvgScore"].ToString());
+                    row4 += string.Format("'{0}',", float.Parse(table.Rows[0]["AvgScore"].ToString()).ToString("f4"));
                 }
                 row1 = string.Format("SELECT '{0}' as S_0, {1}", "历次考试", row1.Substring(0, row1.Length - 1));
                 row2 = string.Format(" union all SELECT '{0}' as S_0, {1}", " ", row2.Substring(0, row2.Length - 1));
@@ -1045,7 +1045,7 @@ namespace App.Web.Score.DataProvider
                 if (scoreOption == 2) //ckyear.Checked
                 {
                     sql = "SELECT a.AcademicYear, c.TypeName, a.testtype, a.testno,"
-                       + " AVG(a.NormalScore) AS AvgScore"
+                       + " round(AVG({0}), 4) AS AvgScore"
                        + " FROM dbo.s_tb_NormalScore a INNER JOIN"
                        + " tbStudentClass b ON a.SRID = b.SRID INNER JOIN"
                        + " s_tb_TestTypeInfo c ON a.testtype = c.TestType"
@@ -1065,7 +1065,7 @@ namespace App.Web.Score.DataProvider
                 }
                 else
                 {
-                    sql = "Select TestType,TypeName,TestNo,Avg({0}) as AvgScore,testtime"
+                    sql = "Select TestType,TypeName,TestNo,round(Avg({0}), 4) as AvgScore,testtime"
                     + " from s_vw_ClassScoreNum"
                     + " where AcademicYear=@micYear"
                     + " and ClassCode=@classCode"
@@ -1079,7 +1079,7 @@ namespace App.Web.Score.DataProvider
                 var row3 = "";
                 for (int i = 0; i < table.Rows.Count; i++)
                 {
-                    row3 += string.Format("'{0}',", table.Rows[0]["AvgScore"].ToString());
+                    row3 += string.Format("'{0}',", float.Parse(table.Rows[0]["AvgScore"].ToString()).ToString("f4"));
                 }
                 row3 = string.Format(" union all SELECT '{0}({1})班' as S_0, {2}", gradeCode.GradeBriefName, gradeClass.ClassNoPart, row3.Substring(0, row3.Length - 1));
 
