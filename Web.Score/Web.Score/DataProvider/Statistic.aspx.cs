@@ -429,6 +429,7 @@ namespace App.Web.Score.DataProvider
                 var TempScore = int.Parse(table.Rows[0]["Score"].ToString());
                 var i = 0;
                 var OrderNo = 1;
+
             }
         }
 
