@@ -707,16 +707,7 @@ stat.controller('TeacherStyleController', ['$scope', function ($scope) {
     $scope.GradeCodes = [];
     $scope.Teachers = [];
 
-    //$scope.ScoreOptions = [
-    //    { code: 1, name: '仅在籍生' },
-    //    { code: 2, name: '跨学年(无平时)' }
-    //];
-    //$scope.ScoreNum = [
-    //    { code: 1, name: '仅在籍生' },
-    //    { code: 2, name: '跨学年(无平时)' }
-    //];
     var chart1 = {};
-
     $scope.chartService.chartCreate('main1', function (data) {
         chart1 = data;
     });
@@ -761,13 +752,21 @@ stat.controller('TeacherStyleController', ['$scope', function ($scope) {
         }
     });
     $scope.teacherCheck = [];
-    $scope.teacherChange = function(teacher)
-    {
-        $scope.teacherCheck.push(teacher.$parent.teacher);
+    $scope.teacherChange = function (teacher) {
+        if ($.inArray(teacher.$parent.teacher, $scope.teacherCheck) < 0) {
+            $scope.teacherCheck.push(teacher.$parent.teacher);
+        } else {
+            $scope.teacherCheck.splice($.inArray(teacher.$parent.teacher, $scope.teacherCheck), 1);
+        }
     }
     $scope.NumScore = 0;
     $scope.query = function()
     {
+        chart1 = {};
+        $scope.chartService.chartCreate('main1', function (data) {
+            chart1 = data;
+        });
+        if (!check()) return;
         $scope.utilService.showBg();
         var url = "/DataProvider/Statistic.aspx/GetTeacherStyle";
         var param = {
@@ -783,5 +782,125 @@ stat.controller('TeacherStyleController', ['$scope', function ($scope) {
             $scope.chartService.changeOption(chart1, data.d[0]);
             $scope.utilService.closeBg();
         });
+    }
+
+    function check()
+    {
+        if ($scope.GradeCourse == null) {
+            $scope.dialogUtils.info('请选择课程');
+            return false;
+        }
+        if ($scope.GradeCode == null) {
+            $scope.dialogUtils.info('请选择年级');
+            return false;
+        }
+        if ($scope.teacherCheck.length <= 0) {
+            $scope.dialogUtils.info('请选择教师');
+            return false;
+        }
+        return true;
+    }
+}]);
+
+stat.controller('TeacherStyle1Controller', ['$scope', function ($scope) {
+    var moduleName = '教师教学情况比较图2(历次)';
+    $scope.$root.moduleName = moduleName;
+    $scope.$root.title = $scope.softname + ' | ' + moduleName;
+    $scope.AcademicYears = [];
+    $scope.GradeCourses = [];
+    $scope.GradeCodes = [];
+    $scope.Teachers = [];
+
+    var chart1 = {};
+    $scope.chartService.chartCreate('main1', function (data) {
+        chart1 = data;
+    });
+
+    //获得当前学年
+    var url = "/DataProvider/Statistic.aspx/GetCurrentYear";
+    var param = {};
+    $scope.baseService.post(url, param, function (data) {
+        $scope.AcademicYears = data.d;
+        $scope.MicYear = $scope.AcademicYears[0];
+        $scope.starYear = $scope.AcademicYears[0];
+        $scope.endYear = $scope.AcademicYears[$scope.AcademicYears.length-1];
+    });
+    //根据学年，获取课程
+    var url = "/DataProvider/Util.aspx/GetCourseCodeAll";
+    var param = {};
+    $scope.baseService.post(url, param, function (data) {
+        $scope.GradeCourses = data.d;
+    });
+
+
+    $scope.$watch('GradeCourse', function (gradeCourse) {
+        $scope.GradeCodes.length = 0;
+        $scope.Teachers.length = 0;
+        if (gradeCourse) {
+            //根据课程，获取年级
+            var url = "/DataProvider/Statistic.aspx/GetGradeCodeByGradeNo";
+            var param = { micyear: $scope.MicYear, gradeCourse: gradeCourse };
+            $scope.baseService.post(url, param, function (data) {
+                $scope.GradeCodes = data.d;
+            });
+        }
+    });
+    $scope.$watch('GradeCode', function (gradeCode) {
+        $scope.Teachers.length = 0;
+        if (gradeCode) {
+            //根据年级，获得老师
+            var url = "/DataProvider/Statistic.aspx/GetTeachers";
+            var param = { micyear: $scope.MicYear, courseCode: $scope.GradeCourse, gradeNo: gradeCode };
+            $scope.baseService.post(url, param, function (data) {
+                $scope.Teachers = data.d;
+            });
+        }
+    });
+    $scope.teacherCheck = [];
+    $scope.teacherChange = function (teacher) {
+        if ($.inArray(teacher.$parent.teacher, $scope.teacherCheck) < 0) {
+            $scope.teacherCheck.push(teacher.$parent.teacher);
+        }else{
+            $scope.teacherCheck.splice($.inArray(teacher.$parent.teacher, $scope.teacherCheck), 1);
+        }
+    }
+    $scope.NumScore = 0;
+    $scope.query = function () {
+        chart1 = {};
+        $scope.chartService.chartCreate('main1', function (data) {
+            chart1 = data;
+        });        
+        if (!check()) return;
+        $scope.utilService.showBg();
+        var url = "/DataProvider/Statistic.aspx/GetTeacherStyle1";
+        var param = {
+            micyear: $scope.MicYear,
+            gradeNo: $scope.GradeCode,
+            courseCode: $scope.GradeCourse,
+            numScore: $scope.NumScore,
+            starYear: $scope.starYear.MicYear,
+            endYear: $scope.endYear.MicYear,
+            teacher: $scope.teacherCheck
+        };
+        $scope.baseService.post(url, param, function (data) {
+            $scope.chartService.changeOption(chart1, data.d[0]);
+            $scope.utilService.closeBg();            
+        });
+    }
+
+    function check() {
+        if ($scope.GradeCourse == null) {
+            $scope.dialogUtils.info('请选择课程');
+            return false;
+        }
+        if ($scope.GradeCode == null) {
+            $scope.dialogUtils.info('请选择年级');
+            return false;
+        }
+        if ($scope.teacher == "") {
+            $scope.dialogUtils.info('请选择教师');
+            return false;
+        }
+        return true;
     }
 }]);
