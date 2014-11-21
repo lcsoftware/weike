@@ -84,7 +84,7 @@ angular.module('app', [
             //年级排名趋势图
             .state('stat.Stat08', { url: '/GradeOrder', templateUrl: '/views/stat/GradeOrder', controller: 'GradeOrderController' })
             //语数外排名曲线
-            .state('n_Student_YSW', { url: '/StudentYSW', templateUrl: '/views/StudentYSW', controller: 'StudentYSWController' })
+            .state('stat.Stat09', { url: '/CourseOrder', templateUrl: '/views/stat/CourseOrder', controller: 'CourseOrderController' })
             //打印成绩单
             .state('n_Student_Score', { url: '/StudentScore', templateUrl: '/views/StudentScore', controller: 'StudentScoreController' })
             //打印学生名条

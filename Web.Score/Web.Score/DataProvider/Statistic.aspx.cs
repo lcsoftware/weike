@@ -363,7 +363,7 @@ namespace App.Web.Score.DataProvider
                 {
                     sql += " and Academicyear=" + micYear.ToString();
                 }
-                       sql += " order by Academicyear,cast(testno as int)";
+                sql += " order by Academicyear,cast(testno as int)";
                 table = bll.FillDataTableByText(sql, new { courseCode = gradeCourse.CourseCode, srid = student.StudentId });
                 var row1 = "";
                 var row2 = "";
@@ -396,6 +396,92 @@ namespace App.Web.Score.DataProvider
             return results;
         }
 
+        private static string mf_getTable()
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                int tempStr = 1;
+                DataTable table = bll.FillDataTable("p_getTableName", null);
+                if (table.Rows.Count > 0)
+                {
+                    tempStr = int.Parse(table.Rows[0][0].ToString()) + 1;
+                }
+                return string.Format("s_tb_TempScore{0}", tempStr);
+            }
+        }
+
+        private static void mp_ScoreOrder(string orderSql)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var tempTableName = mf_getTable();
+                var sql = "create table {0}(academicYear char(4),Semester char(2),TestType char(1),TestNo char(5),CourseCode char(5),srid char(19),Score numeric(5,1),OrderNO integer)";
+                sql = string.Format(sql, tempTableName);
+                bll.ExecuteNonQueryByText(sql);
+
+                sql = "insert into {0}(academicYear,Semester,TestType,TestNo,CourseCode,srid,Score,OrderNO) {1}";
+                sql = string.Format(sql, tempTableName, orderSql);
+                bll.ExecuteNonQueryByText(sql);
+
+                //开始排名
+                sql = string.Format("select * from {0} order by Score DESC", tempTableName);
+                DataTable table = bll.FillDataTableByText(sql);
+                var TempScore = int.Parse(table.Rows[0]["Score"].ToString());
+                var i = 0;
+                var OrderNo = 1;
+            }
+        }
+
+        [WebMethod]
+        public static IList<ResultEntry> GetStat09Charts(int micYear, GradeCode gradeCode, GradeClass gradeClass, Student student, IList<GradeCourse> courseChecks, int otherCheckValue)
+        {
+            IList<ResultEntry> results = new List<ResultEntry>();
+            using (AppBLL bll = new AppBLL())
+            {
+                ChartOption chartOption = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
+                //chartOption.title.text = string.Format("{0}{1}的年级排名图", student.StdName, gradeCourse.FullName);
+                chartOption.title.x = "center";
+                chartOption.legend.x = "left";
+                chartOption.legend.data.Add(student.StdName);
+                chartOption.legend.data.Add("年级名次上线");
+                chartOption.legend.data.Add("年级名次下线");
+                SeriesItem studentSeries = new SeriesItem() { type = "line", name = student.StdName };
+                SeriesItem topSeries = new SeriesItem() { type = "line", name = "年级名次上线" };
+                SeriesItem bottomSeries = new SeriesItem() { type = "line", name = "年级名次下线" };
+                chartOption.series.Add(studentSeries);
+                chartOption.series.Add(topSeries);
+                chartOption.series.Add(bottomSeries);
+                ResultEntry entry = null;
+                var sql = "";
+                if ((2 & otherCheckValue) == 2)
+                {
+                    sql = "SELECT a.AcademicYear,a.typename,a.testno, "
+                           + " b.testtime,b.GradeNo "
+                           + " FROM  s_tb_testlogin b inner JOIN "
+                           + " s_vw_ClassScoreNum a ON b.AcademicYear = a.AcademicYear AND "
+                           + " b.TestNo = a.testno"
+                           + " where a.srid=@srid"
+                           + " and b.testtype<>'0'"
+                           + " and b.CourseCode='00000'";
+                }
+                else
+                {
+                    sql = "SELECT a.AcademicYear,a.typename,a.testno,"
+                          + " b.testtime,b.GradeNo"
+                          + " FROM  s_tb_testlogin b inner JOIN"
+                          + " s_vw_ClassScoreNum a ON b.AcademicYear = a.AcademicYear AND"
+                          + " b.TestNo = a.testno"
+                          + " where a.srid=@srid"
+                          + " and b.CourseCode='00000'";
+                }
+                if ((1 & otherCheckValue) == 0)
+                {
+                    sql += string.Format(" and a.Academicyear={0}", micYear);
+                }
+                sql += "group by a.AcademicYear,a.typename,a.testno,b.GradeNo,b.testtime order by a.Academicyear ,cast(a.testno as int)";
+            }
+            return results;
+        }
         #endregion
 
         #region 教师教课情况报表（不分班，分班）

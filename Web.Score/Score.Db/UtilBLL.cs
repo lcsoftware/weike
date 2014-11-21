@@ -181,6 +181,18 @@ namespace App.Score.Db
         {
             return systemIdbegin + String.Format("{0:00000000}", index);
         }
-        
+
+        public static string mf_getTable() {
+            using (AppBLL bll = new AppBLL())
+            {
+                int tempStr = 1;
+                DataTable table = bll.FillDataTable("p_getTableName", null);
+                if (table.Rows.Count > 0)
+                {
+                    tempStr = int.Parse(table.Rows[0][0].ToString()) + 1;
+                }
+                return string.Format("s_tb_TempScore{0}", tempStr);
+            }
+        }
     }
 }
