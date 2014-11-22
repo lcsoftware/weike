@@ -424,62 +424,135 @@ namespace App.Web.Score.DataProvider
                 bll.ExecuteNonQueryByText(sql);
 
                 //开始排名
-                sql = string.Format("select * from {0} order by Score DESC", tempTableName);
+                sql = string.Format("select row_number() over(order by score desc) as num, score from (select distinct score from {0}) t", tempTableName);
                 DataTable table = bll.FillDataTableByText(sql);
-                var TempScore = int.Parse(table.Rows[0]["Score"].ToString());
-                var i = 0;
-                var OrderNo = 1;
-
+                var length = table.Rows.Count;
+                var orderNo = 1;
+                for (int i = 0; i < length; i++)
+                {
+                    sql = string.Format("update {0} set OrderNO={1} where score=@score", tempTableName, orderNo++);
+                    var score = float.Parse(table.Rows[i]["score"].ToString());
+                    bll.ExecuteNonQueryByText(sql, new { score = score });
+                }
             }
         }
 
         [WebMethod]
         public static IList<ResultEntry> GetStat09Charts(int micYear, GradeCode gradeCode, GradeClass gradeClass, Student student, IList<GradeCourse> courseChecks, int otherCheckValue)
         {
+            ChartOption chartOption = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
+            chartOption.title.x = "center";
+            chartOption.legend.x = "left"; 
+
+            var courseCodes = "";
+            for (int i = 0; i < courseChecks.Count; i++)
+            {
+                var course = courseChecks[i];
+                courseCodes += course.CourseCode + ",";
+                chartOption.legend.data.Add(course.FullName);
+                SeriesItem courseSeries = new SeriesItem() { type = "line", name = course.FullName };
+                chartOption.series.Add(courseSeries);
+            }
+            courseCodes = courseCodes.Substring(0, courseCodes.Length - 1);
+
+            chartOption.legend.data.Add("所选课程总分");
+            SeriesItem sumSeries = new SeriesItem() { type = "line", name = "所选课程总分" };
+            chartOption.series.Add(sumSeries);
+
             IList<ResultEntry> results = new List<ResultEntry>();
             using (AppBLL bll = new AppBLL())
             {
-                ChartOption chartOption = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
-                //chartOption.title.text = string.Format("{0}{1}的年级排名图", student.StdName, gradeCourse.FullName);
-                chartOption.title.x = "center";
-                chartOption.legend.x = "left";
-                chartOption.legend.data.Add(student.StdName);
-                chartOption.legend.data.Add("年级名次上线");
-                chartOption.legend.data.Add("年级名次下线");
-                SeriesItem studentSeries = new SeriesItem() { type = "line", name = student.StdName };
-                SeriesItem topSeries = new SeriesItem() { type = "line", name = "年级名次上线" };
-                SeriesItem bottomSeries = new SeriesItem() { type = "line", name = "年级名次下线" };
-                chartOption.series.Add(studentSeries);
-                chartOption.series.Add(topSeries);
-                chartOption.series.Add(bottomSeries);
-                ResultEntry entry = null;
-                var sql = "";
-                if ((2 & otherCheckValue) == 2)
+                var tempTableName = mf_getTable();
+                try
                 {
-                    sql = "SELECT a.AcademicYear,a.typename,a.testno, "
-                           + " b.testtime,b.GradeNo "
-                           + " FROM  s_tb_testlogin b inner JOIN "
-                           + " s_vw_ClassScoreNum a ON b.AcademicYear = a.AcademicYear AND "
-                           + " b.TestNo = a.testno"
-                           + " where a.srid=@srid"
-                           + " and b.testtype<>'0'"
-                           + " and b.CourseCode='00000'";
+
+                    ResultEntry entry = null;
+                    var sql = "SELECT a.AcademicYear,a.typename,a.testno, "
+                                                   + " convert(varchar(10), b.testtime, 25) as testtime,b.GradeNo "
+                                                   + " FROM  s_tb_testlogin b inner JOIN "
+                                                   + " s_vw_ClassScoreNum a ON b.AcademicYear = a.AcademicYear AND "
+                                                   + " b.TestNo = a.testno"
+                                                   + " where a.srid=@srid"
+                                                   + " and b.CourseCode='00000'";
+                    if ((2 & otherCheckValue) == 2)
+                    {
+                        sql += " and b.testtype<>'0'";
+                    }
+                    if ((1 & otherCheckValue) == 0)
+                    {
+                        sql += string.Format(" and a.Academicyear={0}", micYear);
+                    }
+                    sql += "group by a.AcademicYear,a.typename,a.testno,b.GradeNo, b.testtime order by a.Academicyear ,cast(a.testno as int)";
+
+                    DataTable table = bll.FillDataTableByText(sql, new { srid = student.StudentId });
+                    var length = table.Rows.Count;
+
+                    for (int i = 0; i < length; i++)
+                    {
+                        DataRow dr = table.Rows[i];
+                        var tempYear = dr["Academicyear"].ToString();
+                        var tempgrade = dr["GradeNo"].ToString();
+                        var tempstr = dr["TestTime"].ToString();
+                        var testNo = dr["TestNo"].ToString();
+                        var OrderSql = "select AcademicYear,semester,testType,testno,'多门' as coursecode,srid,sum(numscore) as numscore,0 as OrderNO"
+                          + " from s_vw_ClassScoreNum where AcademicYear={0}"
+                          + " and testno={1}"
+                          + " and GradeNo={2}"
+                          + " and CourseCode in ({3}) Group by AcademicYear,semester,testType,testno,srid";        //进行排名
+                        mp_ScoreOrder(string.Format(OrderSql, tempYear, testNo, tempgrade, courseCodes));
+                        sql = string.Format("Select srid,score,OrderNO from {0} Where SRID=@srid", tempTableName);
+                        DataTable tempTable = bll.FillDataTableByText(sql, new { srid = student.StudentId });
+
+                        chartOption.xAxis.data.Add(tempstr);
+                        sumSeries.data.Add(tempTable.Rows[0]["OrderNo"].ToString());
+
+                        for (int j = 0; j < courseChecks.Count; j++)
+                        {
+                            var course = courseChecks[j];
+                            SeriesItem courseSeries = (SeriesItem)chartOption.series[j];
+
+                            sql = " SELECT b.TestNo, b.AcademicYear, a.numscore, a.classorder,"
+                                          + " a.gradeorder, b.TestTime"
+                                          + " FROM s_vw_ClassScoreNum a INNER JOIN"
+                                          + " s_tb_testlogin b ON a.AcademicYear = b.AcademicYear AND a.testno = b.TestNo"
+                                          + " where a.coursecode=@courseCode"
+                                          + " and a.SRID=@srid"
+                                          + " and a.testno=@testNo";
+
+                            if ((2 & otherCheckValue) == 2)
+                            {
+                                sql += " and a.testtype<>'0'";
+                            }
+                            if ((1 & otherCheckValue) == 0)
+                            {
+                                sql += string.Format(" and a.Academicyear={0}", micYear);
+                            }
+                            sql += " order by a.academicyear,cast(a.testno as int)";
+                            tempTable = bll.FillDataTableByText(sql, new { srid = student.StudentId, courseCode = course.CourseCode, testNo = testNo });
+                            courseSeries.data.Add(tempTable.Rows[0]["GradeOrder"].ToString());
+                        }
+                    }
+                    entry = new ResultEntry() { Code = 0, Message = chartOption };
+                    results.Add(entry);
+                    if ((4 & otherCheckValue) == 4)
+                    {
+                        //出报表
+                        table = bll.FillDataTable("s_p_StudentAllTestScoreM", new { AcademicYear = micYear, ClassNo = gradeClass.ClassNo, SRID = student.StudentId });
+                        entry = new ResultEntry() { Code = 1, Message = Newtonsoft.Json.JsonConvert.SerializeObject(table) };
+                        results.Add(entry);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    sql = "SELECT a.AcademicYear,a.typename,a.testno,"
-                          + " b.testtime,b.GradeNo"
-                          + " FROM  s_tb_testlogin b inner JOIN"
-                          + " s_vw_ClassScoreNum a ON b.AcademicYear = a.AcademicYear AND"
-                          + " b.TestNo = a.testno"
-                          + " where a.srid=@srid"
-                          + " and b.CourseCode='00000'";
+                    throw ex;
                 }
-                if ((1 & otherCheckValue) == 0)
+                finally
                 {
-                    sql += string.Format(" and a.Academicyear={0}", micYear);
+                    //删除临时表
+                    var sql = "if exists(select * from sysobjects where name = '{0}' and xtype='U') drop table {0}";
+                    sql = string.Format(sql, tempTableName);
+                    bll.ExecuteNonQueryByText(sql);
                 }
-                sql += "group by a.AcademicYear,a.typename,a.testno,b.GradeNo,b.testtime order by a.Academicyear ,cast(a.testno as int)";
             }
             return results;
         }

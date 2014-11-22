@@ -59,6 +59,22 @@ aService.factory('constService', function () {
      { code: 2, name: '标准分数' }
     ];
 
+    service.Semesters = [
+     { code: 1, name: '上学期' },
+     { code: 2, name: '下学期' }
+    ];
+
+    service.PrintMethods = [
+    { code: 1, name: '条形打印' },
+    { code: 2, name: '评语型打印' }
+    ];
+
+    service.ExamMethods = [
+    { code: 1, name: '平时考试 ' },
+    { code: 2, name: '期中考试' },
+    { code: 3, name: '期末考试 ' }
+    ];
+
     service.Terms = [
        { Code: 0, Name: '上学期期中' },
        { Code: 1, Name: '上学期期末' },
@@ -161,16 +177,14 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
     }
 
     //获得所有教师
-    service.GerTeacherAll = function(callback)
-    {
+    service.GerTeacherAll = function (callback) {
         var url = utilProviderUrl + '/GerTeacherAll';
         var param = {};
         baseService.post(url, param, callback);
     }
-    
+
     //获得所有年级
-    service.GetGradeAll = function(callback)
-    {
+    service.GetGradeAll = function (callback) {
         var url = utilProviderUrl + '/GetGradeAll';
         var param = {};
         baseService.post(url, param, callback);
@@ -240,7 +254,7 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         return rs.length;
     }
     //显示灰色 jQuery 遮罩层 
-    service.showBg = function() {
+    service.showBg = function () {
         var bh = $("body").height();
         var bw = $("body").width();
         $("#fullbg").css({
@@ -251,7 +265,7 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         $("#dialog").show();
     }
     //关闭灰色 jQuery 遮罩 
-    service.closeBg = function() {
+    service.closeBg = function () {
         $("#fullbg,#dialog").hide();
     }
     //获得复选框值
@@ -550,14 +564,14 @@ aService.factory('chartService', ['baseService', function (baseService) {
                 saveAsImage: { show: false }
             }
         },
-     
+
         calculable: true
     };
 
     service.chartCreate = function (id, callback) {
         require(['echarts', 'echarts/chart/line', 'echarts/chart/pie', 'echarts/chart/bar'], function (ec) {
             var myChart = ec.init(document.getElementById(id));
-            if (callback) callback(myChart); 
+            if (callback) callback(myChart);
         });
     }
 

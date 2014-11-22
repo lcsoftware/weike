@@ -7,6 +7,16 @@
                 </select>
             </div>
             <div class="form-group">
+                <select class="form-control" ng-model="conditionData.Semester" ng-options="m.Name for m in Semesters">
+                    <option value="">-- 请选择学期--</option>
+                </select>
+            </div> 
+            <div class="form-group">
+                <select class="form-control" ng-model="conditionData.PrintMethod" ng-options="m.Name for m in PrintMethods">
+                    <option value="">-- 请选择打印方式--</option>
+                </select>
+            </div> 
+            <div class="form-group">
                 <select class="form-control" ng-model="conditionData.GradeCode" ng-options="m.GradeName for m in GradeCodes">
                     <option value="">-- 请选择年级--</option>
                 </select>
@@ -15,38 +25,22 @@
                 <select class="form-control" ng-model="conditionData.GradeClass" ng-options="(conditionData.GradeCode.GradeBriefName + '(' + m.ClassNo.substr(2) + ')班') for m in GradeClasses">
                     <option value="">-- 请选择班级--</option>
                 </select>
-            </div>
-            <div class="form-group">
-                <select class="form-control" ng-model="conditionData.Student" ng-options="m.StdName for m in Students">
-                    <option value="">-- 请选择学生 --</option>
+            </div> 
+            <div class="checkbox" ng-if="Students.length > 0">
+                <label ng-repeat="student in Students">
+                    <input type="checkbox" checklist-value="student" checklist-model="studentChecks"> {{student.StdName}}
+                </label>
+            </div> 
+            <div class="col-sm-3">
+                <select class="form-control" ng-model="conditionData.TestType" ng-options="m.Name for m in TestTypes">
+                    <option value="">-- 请选择考试类型 --</option>
                 </select>
             </div>
-            @*<div class="form-group">
-                    <select class="form-control" ng-model="conditionData.GradeCourse" ng-options="m.FullName for m in GradeCourses">
-                        <option value="">-- 请选择课程--</option>
-                    </select>
-                </div>*@
-            <div class="checkbox" ng-if="GradeCourses.length > 0">
-                <label ng-repeat="item in GradeCourses">
-                    <input type="checkbox" checklist-value="item" checklist-model="courseChecks"> {{item.FullName}}
-                </label>
+            <div class="col-sm-3">
+                <select class="form-control" ng-model="conditionData.TestLogin" ng-options="m.TestLoginNo for m in TestLogins">
+                    <option value="">-- 请选择考试号 --</option>
+                </select>
             </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" checklist-value="1" checklist-model="otherChecks"> 跨学年/学期
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" checklist-value="2" checklist-model="otherChecks"> 不统计平时考试
-                </label>
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" checklist-value="4" checklist-model="otherChecks"> 需要报表
-                </label>
-            </div>
-
             <div class="form-group">
                 <button type="button" class="btn btn-primary pull-right" ng-click="stat();"><span class="glyphicon glyphicon-ok"></span>统 计</button>
             </div>
@@ -64,13 +58,13 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
     </div>
 </div>
 <div class="row">
-	<div class="col-sm-12">
+    <div class="col-sm-12">
         <div class="row">
-        	<div class="col-sm-12" style="text-align:center;font-size:2em;">
+            <div class="col-sm-12" style="text-align:center;font-size:2em;">
                 {{conditionData.Student.StdName}}语数外成绩报表
             </div>
         </div>
