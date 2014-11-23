@@ -558,7 +558,7 @@ namespace App.Web.Score.DataProvider
         }
 
         [WebMethod]
-        public static IList<ResultEntry> GetStat10Data1(int micYear, IList<Student> studentChecks, TestLogin testLogin)
+        public static IList<ResultEntry> GetStat10Base(int micYear, IList<Student> studentChecks, TestLogin testLogin)
         {
             var studentIds = "";
             foreach (var student in studentChecks)
@@ -583,7 +583,7 @@ namespace App.Web.Score.DataProvider
         }
 
         [WebMethod]
-        public static IList<ResultEntry> GetStat10Data2(int micYear, GradeCode gradeCode, GradeClass gradeClass, IList<Student> studentChecks, TestType testType, TestLogin testLogin, int printMethod, int semester)
+        public static IList<ResultEntry> GetStat10Data1(int micYear, GradeCode gradeCode, GradeClass gradeClass, IList<Student> studentChecks, TestType testType, TestLogin testLogin, int printMethod, int semester)
         {
             var studentIds = "";
             foreach (var student in studentChecks)
@@ -602,10 +602,10 @@ namespace App.Web.Score.DataProvider
                     return results;
                 }
 
-                var sql = "SELECT '{0}({1})班' as S_0, '{2}' as S_1, '语文' as S_2,'数学' as S_3,'外语' as S_4,'政治' as S_5,'物理' as S_6,'化学' as S_7,'地理' as S_8,'历史' as S_9,'生物' as S_10,'电脑' as S_11, '总分' as S_12";
-                sql = string.Format(sql, gradeCode.GradeBriefName, gradeClass.ClassNo);
+                //var sql = "SELECT '{0}({1})班' as S_0, '{2}' as S_1, '语文' as S_2,'数学' as S_3,'外语' as S_4,'政治' as S_5,'物理' as S_6,'化学' as S_7,'地理' as S_8,'历史' as S_9,'生物' as S_10,'电脑' as S_11, '总分' as S_12";
+                //sql = string.Format(sql, gradeCode.GradeBriefName, gradeClass.ClassNo, "种类");
 
-                sql += " union all select '{0}','原始分'"
+                var sql = " select '原始分' S_0"
                           + " ,sum(case When CourseCode='21001' then numscore else 0 end) 'Yuwen'"
                           + " ,sum(case When CourseCode='21002' then numscore else 0 end) 'ShuXue'"
                           + " ,sum(case When CourseCode='21003' then numscore else 0 end) 'WaiYu'"
@@ -614,12 +614,13 @@ namespace App.Web.Score.DataProvider
                           + " ,sum(case When CourseCode='21006' then numscore else 0 end) 'HuaXue'"
                           + " ,sum(case When CourseCode='21007' then numscore else 0 end) 'DiLi'"
                           + " ,sum(case When CourseCode='21008' then numscore else 0 end) 'lishi'"
-                          + " ,sum(case When CourseCode='21009'' then numscore else 0 end) 'sw'"
-                          + " ,sum(case When CourseCode='{1}' then numscore else 0 end) 'diannao'"
+                          + " ,sum(case When CourseCode='21009' then numscore else 0 end) 'sw'"
+                          + " ,sum(case When CourseCode='{0}' then numscore else 0 end) 'diannao'"
                           + " ,sum(numscore) as numscore";
-                sql = string.Format(sql, testType.Name, gradeCode.GradeNo.Equals("33") ? "31017" : "21010", "种类");
+                sql = string.Format(sql, gradeCode.GradeNo.Equals("33") ? "31017" : "21010");
 
-                sql += " ,sum(case When CourseCode='21001' then normalscore else 0 end) 'TYuwen'"
+                sql += ", '标准分' S_1"
+                          + " ,sum(case When CourseCode='21001' then normalscore else 0 end) 'TYuwen'"
                           + " ,sum(case When CourseCode='21002' then normalscore else 0 end) 'TShuXue'"
                           + " ,sum(case When CourseCode='21003' then normalscore else 0 end) 'TWaiYu'"
                           + " ,sum(case When CourseCode='21004' then normalscore else 0 end) 'TZhengzhi'"
@@ -627,22 +628,22 @@ namespace App.Web.Score.DataProvider
                           + " ,sum(case When CourseCode='21006' then normalscore else 0 end) 'THuaXue'"
                           + " ,sum(case When CourseCode='21007' then normalscore else 0 end) 'TDiLi'"
                           + " ,sum(case When CourseCode='21008' then normalscore else 0 end) 'Tlishi'"
-                          + " ,sum(case When CourseCode='21009'' then normalscore else 0 end) 'Tsw'"
-                          + " ,sum(case When CourseCode='{1}' then normalscore else 0 end) 'Tdiannao'";
-                sql = string.Format(sql, "姓名", gradeCode.GradeNo.Equals("33") ? "31017" : "21010", "种类");
+                          + " ,sum(case When CourseCode='21009' then normalscore else 0 end) 'Tsw'"
+                          + " ,sum(case When CourseCode='{0}' then normalscore else 0 end) 'Tdiannao'";
+                sql = string.Format(sql, "姓名", gradeCode.GradeNo.Equals("33") ? "31017" : "21010");
 
-                sql += " ,stdname as StdName"
-                         + " ,sum(case When CourseCode='21001' then Levelscore else 0 end) 'LYuwen'"
-                         + " ,sum(case When CourseCode='21002' then Levelscore else 0 end) 'LShuXue'"
-                         + " ,sum(case When CourseCode='21003' then Levelscore else 0 end) 'LWaiYu'"
-                         + " ,sum(case When CourseCode='21004' then Levelscore else 0 end) 'LZhengzhi'"
-                         + " ,sum(case When CourseCode='21005' then Levelscore else 0 end) 'LWuLi'"
-                         + " ,sum(case When CourseCode='21006' then Levelscore else 0 end) 'LHuaXue'"
-                         + " ,sum(case When CourseCode='21007' then Levelscore else 0 end) 'LDiLi'"
-                         + " ,sum(case When CourseCode='21008' then Levelscore else 0 end) 'Llishi'"
-                         + " ,sum(case When CourseCode='21009'' then Levelscore else 0 end) 'Lsw'"
-                         + " ,sum(case When CourseCode='{1}' then Levelscore else 0 end) 'Ldiannao'";
-                sql = string.Format(sql, testType.Name, gradeCode.GradeNo.Equals("33") ? "31017" : "21010", "种类"); 
+                sql += " ,stdname as StdName, '等第分' as S_2"
+                         + " ,max(case When CourseCode='21001' then Levelscore else null end) 'LYuwen'"
+                         + " ,max(case When CourseCode='21002' then Levelscore else null end) 'LShuXue'"
+                         + " ,max(case When CourseCode='21003' then Levelscore else null end) 'LWaiYu'"
+                         + " ,max(case When CourseCode='21004' then Levelscore else null end) 'LZhengzhi'"
+                         + " ,max(case When CourseCode='21005' then Levelscore else null end) 'LWuLi'"
+                         + " ,max(case When CourseCode='21006' then Levelscore else null end) 'LHuaXue'"
+                         + " ,max(case When CourseCode='21007' then Levelscore else null end) 'LDiLi'"
+                         + " ,max(case When CourseCode='21008' then Levelscore else null end) 'Llishi'"
+                         + " ,max(case When CourseCode='21009' then Levelscore else null end) 'Lsw'"
+                         + " ,max(case When CourseCode='{0}' then Levelscore else null end) 'Ldiannao'";
+                sql = string.Format(sql, gradeCode.GradeNo.Equals("33") ? "31017" : "21010"); 
 
                 sql += " FROM  s_vw_ClassScoreNum a ";
                 sql += " where a.Testno=@testNo and a.AcademicYear=@micYear";

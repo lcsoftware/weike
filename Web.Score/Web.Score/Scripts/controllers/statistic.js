@@ -426,9 +426,12 @@ stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope,
     $scope.AcademicYears = [];
     $scope.GradeCodes = [];
     $scope.GradeCourses = [];
-
+ 
     $scope.GradeClasses = [];
+
     $scope.Students = [];
+    $scope.studentChecks = [];
+
     $scope.Semesters = $scope.constService.Semesters;
     $scope.PrintMethods = $scope.constService.PrintMethods;
     $scope.ExamMethods = $scope.constService.TestTypes;
@@ -436,6 +439,9 @@ stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope,
     $scope.courseChecks = [];
     $scope.otherChecks = [];
 
+    $scope.base = [];
+    $scope.data1 = [];
+    $scope.data2 = [];
 
     $scope.haveStat = false;
 
@@ -497,21 +503,41 @@ stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope,
         var printMethod = $scope.conditionData.PrintMethod;
         var semester = $scope.conditionData.Semester;
 
-        var url = "/DataProvider/Statistic.aspx/GetStat10Data1";
-        var param = { micYear: micYear.MicYear, testNo: testNo, studentChecks: studentChecks };
+        $scope.base.length = 0;
+        $scope.data1.length = 0;
+        $scope.data2.length = 0;
+
+        var url = "/DataProvider/Statistic.aspx/GetStat10Base";
+        var param = { micYear: micYear.MicYear, testLogin: testNo, studentChecks: studentChecks };
         $scope.baseService.post(url, param, function (data) {
             if (data.d !== null) {
-                $scope.base = angular.fromJson(data.d)[0];
+                $scope.base = angular.fromJson(data.d[0].Message);
+            }
+        });
+
+        url = "/DataProvider/Statistic.aspx/GetStat10Data1";
+        param = { micYear: micYear.MicYear, 
+            gradeCode: gradeCode, 
+            gradeClass: gradeClass, 
+            studentChecks: studentChecks,
+            testType: testType, 
+            testLogin: testNo, 
+            printMethod:printMethod,
+            semester: semester
+        };
+        $scope.baseService.post(url, param, function (data) {
+            if (data.d !== null) {
+                $scope.data1 = angular.fromJson(data.d[0].Message);
             }
         });
     } 
 
     $scope.stat = function () {
-        if (!$scope.conditionData.gradeCode) {
+        if (!$scope.conditionData.GradeCode) {
             $scope.dialogUtils.info('请选择年级！');
             return;
         }
-        if (!$scope.conditionData.gradeClass) {
+        if (!$scope.conditionData.GradeClass) {
             $scope.dialogUtils.info('请选择班级！');
             return;
         }
