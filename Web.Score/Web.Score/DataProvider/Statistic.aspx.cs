@@ -442,7 +442,7 @@ namespace App.Web.Score.DataProvider
         {
             ChartOption chartOption = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
             chartOption.title.x = "center";
-            chartOption.legend.x = "left"; 
+            chartOption.legend.x = "left";
 
             var courseCodes = "";
             for (int i = 0; i < courseChecks.Count; i++)
@@ -553,6 +553,109 @@ namespace App.Web.Score.DataProvider
                     sql = string.Format(sql, tempTableName);
                     bll.ExecuteNonQueryByText(sql);
                 }
+            }
+            return results;
+        }
+
+        [WebMethod]
+        public static IList<ResultEntry> GetStat10Data1(int micYear, IList<Student> studentChecks, TestLogin testLogin)
+        {
+            var studentIds = "";
+            foreach (var student in studentChecks)
+            {
+                studentIds += student.StudentId + ",";
+            }
+            studentIds = studentIds.Substring(0, studentIds.Length - 1);
+
+            IList<ResultEntry> results = new List<ResultEntry>();
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Select stdname, courseName,TypeName, NumScore, levelscore," +
+                          " case semester when 1 then '第一学期'" +
+                          " when 2 then '第二学期' end semester," +
+                          " academicyear From s_vw_ClassScoreNum Where academicyear=@micYear And testno=@testNo And SRid in ({0})";
+                sql = string.Format(sql, studentIds);
+                DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo });
+                ResultEntry entry = new ResultEntry() { Code = 0, Message = Newtonsoft.Json.JsonConvert.SerializeObject(table) };
+                results.Add(entry);
+            }
+            return results;
+        }
+
+        [WebMethod]
+        public static IList<ResultEntry> GetStat10Data2(int micYear, GradeCode gradeCode, GradeClass gradeClass, IList<Student> studentChecks, TestType testType, TestLogin testLogin, int printMethod, int semester)
+        {
+            var studentIds = "";
+            foreach (var student in studentChecks)
+            {
+                studentIds += student.StudentId + ",";
+            }
+            studentIds = studentIds.Substring(0, studentIds.Length - 1);
+
+            IList<ResultEntry> results = new List<ResultEntry>();
+            using (AppBLL bll = new AppBLL())
+            {
+                if (printMethod == 2) { 
+                    DataTable table1 = bll.FillDataTableByText("s_p_classScore", new { DateYear = micYear, ClassCode = gradeClass.ClassNo, semester = semester, Flag = 0});
+                    ResultEntry entry1 = new ResultEntry() { Code = 0, Message = Newtonsoft.Json.JsonConvert.SerializeObject(table1) };
+                    results.Add(entry1);
+                    return results;
+                }
+
+                var sql = "SELECT '{0}({1})班' as S_0, '{2}' as S_1, '语文' as S_2,'数学' as S_3,'外语' as S_4,'政治' as S_5,'物理' as S_6,'化学' as S_7,'地理' as S_8,'历史' as S_9,'生物' as S_10,'电脑' as S_11, '总分' as S_12";
+                sql = string.Format(sql, gradeCode.GradeBriefName, gradeClass.ClassNo);
+
+                sql += " union all select '{0}','原始分'"
+                          + " ,sum(case When CourseCode='21001' then numscore else 0 end) 'Yuwen'"
+                          + " ,sum(case When CourseCode='21002' then numscore else 0 end) 'ShuXue'"
+                          + " ,sum(case When CourseCode='21003' then numscore else 0 end) 'WaiYu'"
+                          + " ,sum(case When CourseCode='21004' then numscore else 0 end) 'Zhengzhi'"
+                          + " ,sum(case When CourseCode='21005' then numscore else 0 end) 'WuLi'"
+                          + " ,sum(case When CourseCode='21006' then numscore else 0 end) 'HuaXue'"
+                          + " ,sum(case When CourseCode='21007' then numscore else 0 end) 'DiLi'"
+                          + " ,sum(case When CourseCode='21008' then numscore else 0 end) 'lishi'"
+                          + " ,sum(case When CourseCode='21009'' then numscore else 0 end) 'sw'"
+                          + " ,sum(case When CourseCode='{1}' then numscore else 0 end) 'diannao'"
+                          + " ,sum(numscore) as numscore";
+                sql = string.Format(sql, testType.Name, gradeCode.GradeNo.Equals("33") ? "31017" : "21010", "种类");
+
+                sql += " ,sum(case When CourseCode='21001' then normalscore else 0 end) 'TYuwen'"
+                          + " ,sum(case When CourseCode='21002' then normalscore else 0 end) 'TShuXue'"
+                          + " ,sum(case When CourseCode='21003' then normalscore else 0 end) 'TWaiYu'"
+                          + " ,sum(case When CourseCode='21004' then normalscore else 0 end) 'TZhengzhi'"
+                          + " ,sum(case When CourseCode='21005' then normalscore else 0 end) 'TWuLi'"
+                          + " ,sum(case When CourseCode='21006' then normalscore else 0 end) 'THuaXue'"
+                          + " ,sum(case When CourseCode='21007' then normalscore else 0 end) 'TDiLi'"
+                          + " ,sum(case When CourseCode='21008' then normalscore else 0 end) 'Tlishi'"
+                          + " ,sum(case When CourseCode='21009'' then normalscore else 0 end) 'Tsw'"
+                          + " ,sum(case When CourseCode='{1}' then normalscore else 0 end) 'Tdiannao'";
+                sql = string.Format(sql, "姓名", gradeCode.GradeNo.Equals("33") ? "31017" : "21010", "种类");
+
+                sql += " ,stdname as StdName"
+                         + " ,sum(case When CourseCode='21001' then Levelscore else 0 end) 'LYuwen'"
+                         + " ,sum(case When CourseCode='21002' then Levelscore else 0 end) 'LShuXue'"
+                         + " ,sum(case When CourseCode='21003' then Levelscore else 0 end) 'LWaiYu'"
+                         + " ,sum(case When CourseCode='21004' then Levelscore else 0 end) 'LZhengzhi'"
+                         + " ,sum(case When CourseCode='21005' then Levelscore else 0 end) 'LWuLi'"
+                         + " ,sum(case When CourseCode='21006' then Levelscore else 0 end) 'LHuaXue'"
+                         + " ,sum(case When CourseCode='21007' then Levelscore else 0 end) 'LDiLi'"
+                         + " ,sum(case When CourseCode='21008' then Levelscore else 0 end) 'Llishi'"
+                         + " ,sum(case When CourseCode='21009'' then Levelscore else 0 end) 'Lsw'"
+                         + " ,sum(case When CourseCode='{1}' then Levelscore else 0 end) 'Ldiannao'";
+                sql = string.Format(sql, testType.Name, gradeCode.GradeNo.Equals("33") ? "31017" : "21010", "种类"); 
+
+                sql += " FROM  s_vw_ClassScoreNum a ";
+                sql += " where a.Testno=@testNo and a.AcademicYear=@micYear";
+                sql += " and classCode=@classNo";
+                if (studentChecks.Any())
+                {
+                    sql += string.Format(" and a.srid in ({0})", studentIds);
+                }
+                sql += " group by a.srid,stdname,a.AcademicYear,semester,gradename,classCode,TypeName";
+
+                DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, classNo = gradeClass.ClassNo });
+                ResultEntry entry = new ResultEntry() { Code = 0, Message = Newtonsoft.Json.JsonConvert.SerializeObject(table) };
+                results.Add(entry);
             }
             return results;
         }

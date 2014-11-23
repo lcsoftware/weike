@@ -69,10 +69,11 @@ aService.factory('constService', function () {
     { code: 2, name: '评语型打印' }
     ];
 
-    service.ExamMethods = [
-    { code: 1, name: '平时考试 ' },
-    { code: 2, name: '期中考试' },
-    { code: 3, name: '期末考试 ' }
+    service.TestTypes = [
+    { code: 0, name: '平时考试 ' },
+    { code: 1, name: '期中考试' },
+    { code: 2, name: '期末考试 ' },
+    { code: 3, name: '学期总评' }
     ];
 
     service.Terms = [
