@@ -1182,7 +1182,9 @@ stat.controller('TeacherPJController', ['$scope', function ($scope) {
     $scope.AcademicYears = [];
     $scope.GradeCourses = [];
     $scope.GradeCodes = [];
-    $scope.Teachers = [];
+    $scope.TestNos = [];
+    $scope.TestNosJZ = [];
+    $scope.TestNosXZ = [];
 
     var chart1 = {};
     $scope.chartService.chartCreate('main1', function (data) {
@@ -1195,8 +1197,6 @@ stat.controller('TeacherPJController', ['$scope', function ($scope) {
     $scope.baseService.post(url, param, function (data) {
         $scope.AcademicYears = data.d;
         $scope.MicYear = $scope.AcademicYears[0];
-        $scope.starYear = $scope.AcademicYears[0];
-        $scope.endYear = $scope.AcademicYears[$scope.AcademicYears.length - 1];
     });
     //根据学年，获取课程
     var url = "/DataProvider/Util.aspx/GetCourseCodeAll";
@@ -1205,10 +1205,13 @@ stat.controller('TeacherPJController', ['$scope', function ($scope) {
         $scope.GradeCourses = data.d;
     });
 
+    $scope.$watch('MicYear', function (micyear) {
+        $scope.MicYearJZ = $scope.MicYear;
+        $scope.MicYearXZ = $scope.MicYear;
+    });
 
     $scope.$watch('GradeCourse', function (gradeCourse) {
         $scope.GradeCodes.length = 0;
-        $scope.Teachers.length = 0;
         if (gradeCourse) {
             //根据课程，获取年级
             var url = "/DataProvider/Statistic.aspx/GetGradeCodeByGradeNo";
@@ -1219,13 +1222,27 @@ stat.controller('TeacherPJController', ['$scope', function ($scope) {
         }
     });
     $scope.$watch('GradeCode', function (gradeCode) {
-        $scope.Teachers.length = 0;
+        $scope.TestNos.length = 0;
+        $scope.TestNosJZ.length = 0;
+        $scope.TestNosXZ.length = 0;
         if (gradeCode) {
-            //根据年级，获得老师
-            var url = "/DataProvider/Statistic.aspx/GetTeachers";
-            var param = { micyear: $scope.MicYear, courseCode: $scope.GradeCourse, gradeNo: gradeCode };
+            //根据年级，获得考试号
+            var url = "/DataProvider/Statistic.aspx/GetTestNoByCourse";
+            var param = { micYear: $scope.MicYear, gradeCode: gradeCode.GradeNo };
             $scope.baseService.post(url, param, function (data) {
-                $scope.Teachers = data.d;
+                $scope.TestNos = data.d;
+            });
+            //基准
+            var url = "/DataProvider/Statistic.aspx/GetTestNoByCourse";
+            var param = { micYear: $scope.MicYear, gradeCode: gradeCode.GradeNo - $scope.MicYear.MicYear + $scope.MicYearJZ.MicYear };
+            $scope.baseService.post(url, param, function (data) {
+                $scope.TestNosJZ = data.d;
+            });
+            //选择
+            var url = "/DataProvider/Statistic.aspx/GetTestNoByCourse";
+            var param = { micYear: $scope.MicYear, gradeCode: gradeCode.GradeNo - $scope.MicYear.MicYear + $scope.MicYearXZ.MicYear };
+            $scope.baseService.post(url, param, function (data) {
+                $scope.TestNosXZ = data.d;
             });
         }
     });
