@@ -5,6 +5,7 @@ angular.module('app', [
     'treeControl',
     'angularFileUpload',
     'ui.tree',
+    'app.utils',
     'app.filters',
     'app.services',
     'app.school',
@@ -84,9 +85,9 @@ angular.module('app', [
             //年级排名趋势图
             .state('stat.Stat08', { url: '/GradeOrder', templateUrl: '/views/stat/GradeOrder', controller: 'GradeOrderController' })
             //语数外排名曲线
-            .state('n_Student_YSW', { url: '/StudentYSW', templateUrl: '/views/StudentYSW', controller: 'StudentYSWController' })
+            .state('stat.Stat09', { url: '/CourseOrder', templateUrl: '/views/stat/CourseOrder', controller: 'CourseOrderController' })
             //打印成绩单
-            .state('n_Student_Score', { url: '/StudentScore', templateUrl: '/views/StudentScore', controller: 'StudentScoreController' })
+            .state('stat.Stat10', { url: '/PrintScore', templateUrl: '/views/stat/PrintScore', controller: 'PrintScoreController' })
             //打印学生名条
             .state('n_Student_MT', { url: '/StudentMT', templateUrl: '/views/StudentMT', controller: 'StudentMTController' })
 

@@ -743,6 +743,8 @@
     <Content Include="Views\stat\GradeOrder.cshtml" />
     <Content Include="Views\stat\TeacherStyle1.cshtml" />
     <Content Include="Views\stat\TeacherPJ.cshtml" />
+    <Content Include="Views\stat\CourseOrder.cshtml" />
+    <Content Include="Views\stat\PrintScore.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -21,28 +21,24 @@
 
 var aService = angular.module('app.utils', ['app.services']); 
 
-aService.factory('appUtils', ['$http', '$q', function ($http, $q) {
+aService.factory('appUtils', ['$http', function (http) {
 
     var service = {};
 
-    service.createPromise = function (url, param) {
-        var deferred = $q.defer();
-        $http.post(url, param)
-            .success(function (data) {
-                deferred.resolve(data);
-            })
-            .error(function (reason) {
-                deferred.reject(reason);
-            });
-        return deferred.promise;
+    service.formatTime = function(val) {
+        var re = /-?\d+/;
+        var m = re.exec(val);
+        var d = new Date(parseInt(m[0]));
+        // 按【2012-02-13 09:09:09】的格式返回日期
+        return d.format("yyyy-MM-dd hh:mm:ss");
     }
-
-    service.runPromises = function (obj, thenFn) {
-        $q.all(obj).then(function (results) {
-            thenFn(results);
-        });
+    service.formatDate = function(val) {
+        var re = /-?\d+/;
+        var m = re.exec(val);
+        var d = new Date(parseInt(m[0]));
+        // 按【2012-02-13 09:09:09】的格式返回日期
+        return d.format("yyyy-MM-dd");
     }
-
     return service;
 }]);
 
