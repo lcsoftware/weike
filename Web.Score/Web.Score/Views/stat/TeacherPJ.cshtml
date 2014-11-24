@@ -3,31 +3,56 @@
         <form class="form-horizontal" role="form">
             <div class="form-group">
                 <div class="col-sm-3">
-                    <select class="form-control" ng-model="MicYear" ng-options="m.MicYear for m in AcademicYears"></select>
+                    <select class="form-control" ng-model="MicYear" ng-options="m.MicYear for m in AcademicYears">
+                        <option value="">-- 请选择学年--</option>
+                    </select>
                 </div>
-                <div class="col-sm-4" style="text-align:center;">
-                    学年从<select ng-model="starYear" ng-options="m.MicYear for m in AcademicYears"></select>
-                    到<select ng-model="endYear" ng-options="m.MicYear for m in AcademicYears"></select>
-                    &nbsp;&nbsp;&nbsp;
+                <div class="col-sm-3" style="text-align:center;">
                     <input type="radio" value="0" ng-model="NumScore" />原始分&nbsp;
                     <input type="radio" value="1" ng-model="NumScore" />标准分
                 </div>
+            </div>
+            <div class="form-group">
                 <div class="col-sm-3">
                     <select class="form-control" ng-model="GradeCourse" ng-options="m.FullName for m in GradeCourses">
                         <option value="">-- 请选择课程--</option>
                     </select>
                 </div>
-            </div>
-            <div class="form-group">
                 <div class="col-sm-3">
                     <select class="form-control" ng-model="GradeCode" ng-options="m.GradeName for m in GradeCodes">
                         <option value="">-- 请选择年级 --</option>
                     </select>
                 </div>
-                <div class="col-sm-7">
-                    <div ng-repeat="teacher in Teachers" class="checkbox-inline" style="text-align:center;">
-                        <input type="checkbox" name="teacher" checklist-value="teacher.TeacherID" checklist-model="teachered" ng-change="teacherChange(this)" />{{teacher.Name}}
-                    </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="TestNo" ng-options="m.Name for m in TestNos">
+                        <option value="">-- 请选择考试 --</option>
+                    </select>
+                </div>
+            </div>
+            基准考试：
+            <div class="form-group">               
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="MicYearJZ" ng-options="m.MicYear for m in AcademicYears">
+                        <option value="">-- 请选择学年--</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="TestNoJZ" ng-options="m.Name for m in TestNosJZ">
+                        <option value="">-- 请选择考试 --</option>
+                    </select>
+                </div>
+            </div>
+            选择考试：
+            <div class="form-group">                
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="MicYearXZ" ng-options="m.MicYear for m in AcademicYears">
+                        <option value="">-- 请选择学年--</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="TestNoXZ" ng-options="m.Name for m in TestNosXZ">
+                        <option value="">-- 请选择考试 --</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">

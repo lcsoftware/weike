@@ -178,6 +178,7 @@ namespace App.Score.Entity
         public string GradeNo;
         public string Coursecode;
         public int MarkTypeCode;
+        public string Name;
     }
 
     public class StudentScore

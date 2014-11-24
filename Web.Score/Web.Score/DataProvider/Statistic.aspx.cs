@@ -1160,6 +1160,27 @@ namespace App.Web.Score.DataProvider
 
         #endregion
 
+        #region 教师横向纵向比较图
+        /// <summary>
+        /// 考试类型
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod]
+        public static IList<TestLogin> GetTestNoByCourse(Academicyear micYear, int gradeCode)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = " select a.typename,b.testno,(SUBSTRING(a.typename,1,2)+b.testno) Name from " +
+                            " s_tb_testtypeinfo as a inner join s_tb_testlogin as b" +
+                            " on a.testtype=b.testtype " +
+                            " where b.Academicyear=@micYear " +
+                            " and GradeNo in (00,@gradeCode) " +
+                            " order by cast(testno as int)";
+                return bll.FillListByText<TestLogin>(sql, new { micYear = micYear.MicYear, gradeCode = gradeCode });
+            }
+        }
+        #endregion
+
         #region 班级统计
         /// <summary>
         ///考试统计分析
