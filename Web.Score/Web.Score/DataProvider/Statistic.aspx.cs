@@ -660,6 +660,18 @@ namespace App.Web.Score.DataProvider
             }
             return results;
         }
+        [WebMethod]
+        public static IList<ResultEntry> GetStat10Data2(int micYear, GradeClass gradeClass, int semester)
+        {
+            IList<ResultEntry> results = new List<ResultEntry>();
+            using (AppBLL bll = new AppBLL())
+            {
+                DataTable table = bll.FillDataTable("s_p_classScore", new { DateYear = micYear, ClassCode = gradeClass.ClassNo, semester = semester, Flag = 0 });
+                ResultEntry entry = new ResultEntry() { Code = 0, Message = Newtonsoft.Json.JsonConvert.SerializeObject(table) };
+                results.Add(entry);
+            }
+            return results;
+        }
         #endregion
 
         #region 教师教课情况报表（不分班，分班）

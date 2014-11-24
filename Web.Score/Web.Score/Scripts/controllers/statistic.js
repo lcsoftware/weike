@@ -419,7 +419,8 @@ stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope,
     //统计结果
     $scope.base = {};
     $scope.chartOptions = [];
-    $scope.data = [];
+    $scope.data1 = [];
+    $scope.data2 = [];
 
     $scope.conditionData = {};
 
@@ -468,12 +469,14 @@ stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope,
 
     $scope.$watch('conditionData.GradeClass', function (gradeClass) {
         $scope.Students.length = 0;
-        if ($scope.conditionData.MicYear) {
-            var url = "/DataProvider/Util.aspx/GetStudent";
-            var param = { academicyear: $scope.conditionData.MicYear.MicYear, classcode: gradeClass.ClassNo };
-            $scope.baseService.post(url, param, function (data) {
-                $scope.Students = data.d;
-            });
+        if ($scope.conditionData.PrintMethod.code === 1) {
+            if ($scope.conditionData.MicYear) {
+                var url = "/DataProvider/Util.aspx/GetStudent";
+                var param = { academicyear: $scope.conditionData.MicYear.MicYear, classcode: gradeClass.ClassNo };
+                $scope.baseService.post(url, param, function (data) {
+                    $scope.Students = data.d;
+                });
+            }
         }
     });
 
@@ -515,21 +518,36 @@ stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope,
             }
         });
 
-        url = "/DataProvider/Statistic.aspx/GetStat10Data1";
-        param = { micYear: micYear.MicYear, 
-            gradeCode: gradeCode, 
-            gradeClass: gradeClass, 
-            studentChecks: studentChecks,
-            testType: testType, 
-            testLogin: testNo, 
-            printMethod:printMethod,
-            semester: semester
-        };
-        $scope.baseService.post(url, param, function (data) {
-            if (data.d !== null) {
-                $scope.data1 = angular.fromJson(data.d[0].Message);
-            }
-        });
+        if ($scope.conditionData.PrintMethod.code === 1) {
+            url = "/DataProvider/Statistic.aspx/GetStat10Data1";
+            param = {
+                micYear: micYear.MicYear,
+                gradeCode: gradeCode,
+                gradeClass: gradeClass,
+                studentChecks: studentChecks,
+                testType: testType,
+                testLogin: testNo,
+                printMethod: printMethod,
+                semester: semester.code
+            };
+            $scope.baseService.post(url, param, function (data) {
+                if (data.d !== null) {
+                    $scope.data1 = angular.fromJson(data.d[0].Message);
+                }
+            });
+        } else if ($scope.conditionData.PrintMethod.code === 2) {
+            url = "/DataProvider/Statistic.aspx/GetStat10Data2";
+            param = {
+                micYear: micYear.MicYear,
+                gradeClass: gradeClass,
+                semester: semester.code
+            };
+            $scope.baseService.post(url, param, function (data) {
+                if (data.d !== null) {
+                    $scope.data2 = angular.fromJson(data.d[0].Message);
+                }
+            });
+        }
     } 
 
     $scope.stat = function () {

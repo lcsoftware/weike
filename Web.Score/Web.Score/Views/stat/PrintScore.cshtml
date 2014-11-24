@@ -87,13 +87,13 @@
 </div>
 <div class="row">
     <div class="col-sm-12">
-        <div class="row">
+        <div class="row" ng-show="conditionData.PrintMethod.code === 1">
             <div class="col-sm-12" style="text-align:center;font-size:2em;">
                 {{conditionData.Student.StdName}}成绩报表
             </div>
         </div>
 
-        <div class="row" ng-repeat="item in data1">
+        <div class="row" ng-repeat="item in data1" ng-show="data1.length > 0">
             <div class="col-sm-12" style="text-align:center;">
                 <table class="table table-striped table-bordered" style="width:100%">
                     <tbody>
@@ -162,30 +162,29 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row" ng-repeat="item in data2" ng-show="data2.length > 0">
             <div class="col-sm-12" style="text-align:center;">
                 <table class="table table-striped table-bordered" style="width:100%">
                     <tbody>
                         <tr>
-                            <td colspan="3" style="width:20%;">123456789123456789</td>
-                            <td colspan="7" style="width:40%">A同学成绩报告单</td>
-                            <td colspan="1" style="width:40%">110101</td>
+                            <td colspan="3" style="width:20%;">{{item.srid}}</td>
+                            <td colspan="7" style="width:40%">{{item.stdname}}同学成绩报告单</td>
+                            <td colspan="1" style="width:40%">{{item.xxbh}}</td>
                         </tr>
                         <tr>
-                            <td colspan="10">
-                                <p>家长同志:<p>
-                                <p>您的孩子 A 同学2013年第二学期在本佼初三(01)班</p>
-                                <p>就读，该同学在本学期的具体成绩如下：</p>
+                            <td colspan="10" style="text-align:left;">
+                                <p style="padding-left:4em;">家长同志:<p>
+                                <p style="padding-left:2em;">您的孩子 <b>{{item.stdname}}</b> 同学2013年第二学期在本校{{conditionData.GradeCode.GradeBriefName + '(' + conditionData.GradeClass.ClassNo.substr(2,2)+ ')班'}}就读，该同学在本学期的具体成绩如下：</p>
                             </td>
                             <td rowspan="14">班主任学期评语</td>
                         </tr>
                         <tr>
-                            <td rowspan="2">课程</td>
-                            <td rowspan="2">平时</td>
+                            <td rowspan="2" style="padding-top:2em;">课程</td>
+                            <td rowspan="2" style="padding-top:2em;">平时</td>
                             <td colspan="3">期中</td>
                             <td colspan="3">期末</td>
-                            <td rowspan="2">学期</td>
-                            <td rowspan="2">学年</td>
+                            <td rowspan="2" style="padding-top:2em;">学期</td>
+                            <td rowspan="2" style="padding-top:2em;">学年</td>
                         </tr>
                         <tr>
                             <td>成绩</td>
@@ -196,66 +195,166 @@
                             <td>Z分</td>
                         </tr>
                         <tr>
-                            <td>语文</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>语文</td>
+                            <td>{{item.YW_P}}</td>
+                            <td>{{item.YW_ZY}}</td>
+                            <td>{{item.YW_ZT}}</td>
+                            <td>{{item.YW_ZL}}</td>
+                            <td>{{item.YW_MY}}</td>
+                            <td>{{item.YW_MT}}</td>
+                            <td>{{item.YW_ML}}</td>
+                            <td>{{item.YW_QM}}</td>
+                            <td>{{item.YW_XN}}</td>
                         </tr>
                         <tr>
-                            <td>数学</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>数学</td>
+                            <td>{{item.SX_P}}</td>
+                            <td>{{item.SX_ZY}}</td>
+                            <td>{{item.SX_ZT}}</td>
+                            <td>{{item.SX_ZL}}</td>
+                            <td>{{item.SX_MY}}</td>
+                            <td>{{item.SX_MT}}</td>
+                            <td>{{item.SX_ML}}</td>
+                            <td>{{item.SX_QM}}</td>
+                            <td>{{item.SX_XN}}</td>
                         </tr>
                         <tr>
-                            <td>外语</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>外语</td>
+                            <td>{{item.WY_P}}</td>
+                            <td>{{item.WY_ZY}}</td>
+                            <td>{{item.WY_ZT}}</td>
+                            <td>{{item.WY_ZL}}</td>
+                            <td>{{item.WY_MY}}</td>
+                            <td>{{item.WY_MT}}</td>
+                            <td>{{item.WY_ML}}</td>
+                            <td>{{item.WY_QM}}</td>
+                            <td>{{item.WY_XN}}</td>
                         </tr>
                         <tr>
-                            <td>政治</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>政治</td>
+                            <td>{{item.ZZ_P}}</td>
+                            <td>{{item.ZZ_ZY}}</td>
+                            <td>{{item.ZZ_ZT}}</td>
+                            <td>{{item.ZZ_ZL}}</td>
+                            <td>{{item.ZZ_MY}}</td>
+                            <td>{{item.ZZ_MT}}</td>
+                            <td>{{item.ZZ_ML}}</td>
+                            <td>{{item.ZZ_QM}}</td>
+                            <td>{{item.ZZ_XN}}</td>
                         </tr>
                         <tr>
-                            <td>物理</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>物理</td>
+                            <td>{{item.WL_P}}</td>
+                            <td>{{item.WL_ZY}}</td>
+                            <td>{{item.WL_ZT}}</td>
+                            <td>{{item.WL_ZL}}</td>
+                            <td>{{item.WL_MY}}</td>
+                            <td>{{item.WL_MT}}</td>
+                            <td>{{item.WL_ML}}</td>
+                            <td>{{item.WL_QM}}</td>
+                            <td>{{item.WL_XN}}</td>
                         </tr>
                         <tr>
-                            <td>化学</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>化学</td>
+                            <td>{{item.HX_P}}</td>
+                            <td>{{item.HX_ZY}}</td>
+                            <td>{{item.HX_ZT}}</td>
+                            <td>{{item.HX_ZL}}</td>
+                            <td>{{item.HX_MY}}</td>
+                            <td>{{item.HX_MT}}</td>
+                            <td>{{item.HX_ML}}</td>
+                            <td>{{item.HX_QM}}</td>
+                            <td>{{item.HX_XN}}</td>
                         </tr>
                         <tr>
-                            <td>历史</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>历史</td>
+                            <td>{{item.LS_P}}</td>
+                            <td>{{item.LS_ZY}}</td>
+                            <td>{{item.LS_ZT}}</td>
+                            <td>{{item.LS_ZL}}</td>
+                            <td>{{item.LS_MY}}</td>
+                            <td>{{item.LS_MT}}</td>
+                            <td>{{item.LS_ML}}</td>
+                            <td>{{item.LS_QM}}</td>
+                            <td>{{item.LS_XN}}</td>
                         </tr>
                         <tr>
-                            <td>地理</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>地理</td>
+                            <td>{{item.DL_P}}</td>
+                            <td>{{item.DL_ZY}}</td>
+                            <td>{{item.DL_ZT}}</td>
+                            <td>{{item.DL_ZL}}</td>
+                            <td>{{item.DL_MY}}</td>
+                            <td>{{item.DL_MT}}</td>
+                            <td>{{item.DL_ML}}</td>
+                            <td>{{item.DL_QM}}</td>
+                            <td>{{item.DL_XN}}</td>
                         </tr>
                         <tr>
-                            <td>生物</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>生物</td>
+                            <td>{{item.SW_P}}</td>
+                            <td>{{item.SW_ZY}}</td>
+                            <td>{{item.SW_ZT}}</td>
+                            <td>{{item.SW_ZL}}</td>
+                            <td>{{item.SW_MY}}</td>
+                            <td>{{item.SW_MT}}</td>
+                            <td>{{item.SW_ML}}</td>
+                            <td>{{item.SW_QM}}</td>
+                            <td>{{item.SW_XN}}</td>
                         </tr>
                         <tr>
-                            <td>电脑</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>电脑</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
-                            <td>体育</td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
+                            <td>体育</td>
+                            <td>{{item.TY_P}}</td>
+                            <td>{{item.TY_ZY}}</td>
+                            <td>{{item.TY_ZT}}</td>
+                            <td>{{item.TY_ZL}}</td>
+                            <td>{{item.TY_MY}}</td>
+                            <td>{{item.TY_MT}}</td>
+                            <td>{{item.TY_ML}}</td>
+                            <td>{{item.TY_QM}}</td>
+                            <td>{{item.TY_XN}}</td>
                         </tr>
                         <tr>
-                            <td colspan="2" style="text-align:left">美术</td> 
-                            <td colspan="3" style="text-align:left">音乐</td> 
-                            <td colspan="3" style="text-align:left">劳技</td> 
-                            <td colspan="2" style="text-align:left;">艺术</td> <td>班主任签字</td>
-                        </tr> 
+                            <td colspan="2" style="text-align:left">美术: {{MS_QM}}</td>
+                            <td colspan="3" style="text-align:left">音乐: {{YY_QM}}</td>
+                            <td colspan="3" style="text-align:left">劳技: {{LJ_QM}}</td>
+                            <td colspan="2" style="text-align:left;">艺术: {{YS_QM}}</td>
+                            <td>班主任签字</td>
+                        </tr>
                         <tr>
-                            <td colspan="5" style="text-align:left">学期出勤情况</td> 
-                            <td colspan="5" style="text-align:left">担任社会工作</td> 
-                            <td style="text-align:left">在校奖惩记录</td> 
-                        </tr> 
+                            <td colspan="5" style="text-align:left">学期出勤情况</td>
+                            <td colspan="5" style="text-align:left">担任社会工作</td>
+                            <td style="text-align:left">在校奖惩记录</td>
+                        </tr>
                         <tr>
-                        	<td>事假情况</td>
-                        	<td></td>
-                        	<td colspan="2">病假情况</td>
-                        	<td></td>
-                        	<td rowspan="3" colspan="5"></td>
-                        	<td rowspan="3"></td>
+                            <td>事假情况</td>
+                            <td>{{item.SJ}}</td>
+                            <td colspan="2">病假情况</td>
+                            <td>{{item.BJ}}</td>
+                            <td rowspan="3" colspan="5"></td>
+                            <td rowspan="3"></td>
                         </tr>
                         <tr>
                             <td>迟到情况</td>
-                            <td></td>
+                            <td>{{item.CD}}</td>
                             <td colspan="2">早退情况</td>
-                            <td></td>
+                            <td>{{item.ZT}}</td>
                         </tr>
                         <tr>
                             <td>旷课情况</td>
-                            <td></td>
+                            <td>{{item.KK}}</td>
                             <td colspan="2"></td>
                             <td></td>
                         </tr>
