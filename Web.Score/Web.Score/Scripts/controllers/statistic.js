@@ -416,6 +416,16 @@ stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope,
     $scope.$root.title = $scope.softname + ' | ' + moduleName;
 
     $scope.appUtils = appUtils;
+    $scope.schoolName = $scope.schoolService.school.SchoolName;
+    var d = new Date();
+    var year = d.getFullYear();
+    var month = d.getMonth() + 1;
+    var day = d.getDate();
+    month = month.length === 1 ? '0' + month : month;
+    day = day.length === 1 ? '0' + day : day;
+    $scope.now = year + '-' + month + '-' + day;
+
+    $scope.appUtils = appUtils;
     //统计结果
     $scope.base = {};
     $scope.chartOptions = [];
@@ -469,7 +479,7 @@ stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope,
 
     $scope.$watch('conditionData.GradeClass', function (gradeClass) {
         $scope.Students.length = 0;
-        if ($scope.conditionData.PrintMethod.code === 1) {
+        if ($scope.conditionData.PrintMethod && $scope.conditionData.PrintMethod.code === 1) {
             if ($scope.conditionData.MicYear) {
                 var url = "/DataProvider/Util.aspx/GetStudent";
                 var param = { academicyear: $scope.conditionData.MicYear.MicYear, classcode: gradeClass.ClassNo };
@@ -533,6 +543,7 @@ stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope,
             $scope.baseService.post(url, param, function (data) {
                 if (data.d !== null) {
                     $scope.data1 = angular.fromJson(data.d[0].Message);
+                    $scope.testTime = data.d[1].Message;
                 }
             });
         } else if ($scope.conditionData.PrintMethod.code === 2) {
@@ -540,23 +551,40 @@ stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope,
             param = {
                 micYear: micYear.MicYear,
                 gradeClass: gradeClass,
+                testLogin: testNo,
                 semester: semester.code
             };
             $scope.baseService.post(url, param, function (data) {
                 if (data.d !== null) {
                     $scope.data2 = angular.fromJson(data.d[0].Message);
+                    $scope.testTime = data.d[1].Message;
                 }
             });
         }
     } 
 
     $scope.stat = function () {
+        if (!$scope.conditionData.Semester)
+        {
+            $scope.dialogUtils.info('请选择学期');
+            return;
+        }
+        if (!$scope.conditionData.PrintMethod)
+        {
+            $scope.dialogUtils.info('请选择打印方式');
+            return;
+        }
         if (!$scope.conditionData.GradeCode) {
             $scope.dialogUtils.info('请选择年级！');
             return;
         }
         if (!$scope.conditionData.GradeClass) {
             $scope.dialogUtils.info('请选择班级！');
+            return;
+        }
+        if (!$scope.conditionData.TestLogin)
+        {
+            $scope.dialogUtils.info('请选择考试号');
             return;
         }
         statBase();
