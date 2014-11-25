@@ -1273,6 +1273,102 @@ namespace App.Web.Score.DataProvider
         }
         #endregion
 
+        #region 年级等级分布图
+        [WebMethod]
+        public static IList<GradeCourse> GetCourse(Academicyear micYear)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = " SELECT a.coursecode, b.FullName " +
+                          " FROM  tbCourseUse a LEFT OUTER JOIN " +
+                          " tdCourseCode b ON a.coursecode = b.CourseCode " +
+                          " where a.Academicyear=@micYear" +
+                          " group by A.coursecode,b.FullName order by A.Coursecode";
+                return bll.FillListByText<GradeCourse>(sql, new { micYear = micYear.MicYear });
+            }
+        }
+
+        [WebMethod]
+        public static IList<CommonOption> GetGradeStyle(Academicyear micYear,GradeCourse gradeCourse,GradeCode gradeCode,TestLogin testNo)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                IList<CommonOption> options = new List<CommonOption>();
+                PieOption option1 = new PieOption() { legend = new PieLegend() };
+                options.Add(option1);
+                string legend = string.Format("{0}成绩等级分布图", gradeCode.GradeName);
+                option1.title.text = legend;
+                option1.title.x = "center";
+
+                ((PieLegend)option1.legend).x = "left";
+                ((PieLegend)option1.legend).orient = "vertical";
+                PieItem pieItem = new PieItem();
+                pieItem.type = "pie";
+                pieItem.name = legend;
+                pieItem.radius = "55%";
+                pieItem.center.Add("50%");
+                pieItem.center.Add("60%");
+                option1.series.Add(pieItem);
+
+                var sql = "Select S_5+S_10+s_15+s_20+s_25+s_30+s_35+s_40 s_40, " +
+                            " s_45+s_50 s_50,s_55+s_60 s_60,S_65+s_70 s_70,s_75+s_80 s_80," +
+                            " s_85+s_90 s_90,s_95+s_100 s_100 " +
+                            " from s_tb_GradeStat " +
+                            " where Academicyear=@micYear " +
+                            " and CourseCode=@gradeCourse" +
+                            " and GradeNo=@gradeCode" +
+                            " and TestNo=@testNo";
+                DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear.MicYear, gradeCourse = gradeCourse.CourseCode, gradeCode = gradeCode.GradeNo, testNo = testNo.TestNo });
+                if (table.Rows.Count == 0) return null; //您要的不能生成,请重新确定条件!
+                if (int.Parse(table.Rows[0]["S_100"].ToString()) > 0)
+                {
+                    pieItem.data.Add(new PieDataItem() { name = "大于0.9", value = table.Rows[0]["S_100"].ToString() });
+                    ((PieLegend)option1.legend).data.Add("大于0.9");
+                }
+                if (int.Parse(table.Rows[0]["S_90"].ToString()) > 0)
+                {
+                    pieItem.data.Add(new PieDataItem() { name = "0.8-0.9", value = table.Rows[0]["S_90"].ToString() });
+                    ((PieLegend)option1.legend).data.Add("0.8-0.9");
+                }
+                if (int.Parse(table.Rows[0]["S_80"].ToString()) > 0)
+                {
+                    pieItem.data.Add(new PieDataItem() { name = "0.7-0.8", value = table.Rows[0]["S_80"].ToString() });
+                    ((PieLegend)option1.legend).data.Add("0.7-0.8");
+                }
+                if (int.Parse(table.Rows[0]["S_70"].ToString()) > 0)
+                {
+                    pieItem.data.Add(new PieDataItem() { name = "0.6-0.7", value = table.Rows[0]["S_70"].ToString() });
+                    ((PieLegend)option1.legend).data.Add("0.6-0.7");
+                }
+                if (int.Parse(table.Rows[0]["S_60"].ToString()) > 0)
+                {
+                    pieItem.data.Add(new PieDataItem() { name = "0.5-0.6", value = table.Rows[0]["S_60"].ToString() });
+                    ((PieLegend)option1.legend).data.Add("0.5-0.6");
+                }
+                if (int.Parse(table.Rows[0]["S_50"].ToString()) > 0)
+                {
+                    pieItem.data.Add(new PieDataItem() { name = "0.4-0.5", value = table.Rows[0]["S_50"].ToString() });
+                    ((PieLegend)option1.legend).data.Add("0.4-0.5");
+                }
+                if (int.Parse(table.Rows[0]["S_40"].ToString()) > 0)
+                {
+                    pieItem.data.Add(new PieDataItem() { name = "小于0.4", value = table.Rows[0]["S_40"].ToString() });
+                    ((PieLegend)option1.legend).data.Add("小于0.4");
+                }
+                return options;
+            }
+        }
+        #endregion
+
+        #region 班级间比较
+        [WebMethod]
+        public static IList<ChartOption> GetGradeClassComp(Academicyear micyear, GradeCode gradeNo, GradeCourse courseCode, bool only, bool year, int numScore, int Kaoshi, IList<Student> student)
+        {
+
+            return null;
+        }
+        #endregion
+
         #region 班级统计
         /// <summary>
         ///考试统计分析
