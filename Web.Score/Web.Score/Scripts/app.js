@@ -95,11 +95,11 @@ angular.module('app', [
 
 
             /**************************年级班级统计***********************/
-            .state('GradeClass', { url: '/GradeClass', abstract: true, templateUrl: '/views/admin/main' })
+            
             //年级等级分布图
-            .state('stat.Stat12', { url: '/GradeStyle', templateUrl: '/views/GradeStyle', controller: 'GradeStyleController' })
+            .state('stat.Stat12', { url: '/GradeStyle', templateUrl: '/views/stat/GradeStyle', controller: 'GradeStyleController' })
             //班级间比较
-            .state('stat.Stat13', { url: '/GradeClassComp', templateUrl: '/views/GradeClassComp', controller: 'GradeClassCompController' })
+            .state('stat.Stat13', { url: '/GradeClassComp', templateUrl: '/views/stat/GradeClassComp', controller: 'GradeClassCompController' })
             //年级排名
             .state('stat.Stat14', { url: '/GradeOrder', templateUrl: '/views/GradeOrder', controller: 'GradeOrderController' })
             //年级学科成绩正态

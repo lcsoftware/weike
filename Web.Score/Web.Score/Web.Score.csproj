@@ -747,6 +747,7 @@
     <Content Include="Views\stat\PrintScore.cshtml" />
     <Content Include="Views\stat\GradeStyle.cshtml" />
     <Content Include="Views\stat\StudentMT.cshtml" />
+    <Content Include="Views\stat\GradeClassComp.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
