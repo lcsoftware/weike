@@ -1,0 +1,56 @@
+﻿<div class="row">
+    <div class="col-sm-12">
+        <div class="row">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <select class="form-control" ng-model="conditionData.MicYear" ng-options="m.MicYear for m in AcademicYears">
+                            <option value="">-- 请选择学年--</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <select class="form-control" ng-model="conditionData.GradeCode" ng-options="m.GradeName for m in GradeCodes">
+                            <option value="">-- 请选择年级--</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <select class="form-control" ng-model="conditionData.TestType" ng-options="m.name for m in ExamMethods">
+                            <option value="">-- 请选择考试类型 --</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <select class="form-control" ng-model="conditionData.TestLogin" ng-options="m.TestLoginNo for m in TestLogins">
+                            <option value="">-- 请选择考试号 --</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-primary pull-right" ng-click="stat();"><span class="glyphicon glyphicon-ok"></span>统 计</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="checkbox" ng-show="GradeClasses.length > 0">
+                <label ng-repeat="gradeClass in GradeClasses" style="width:8em;">
+                    <input type="checkbox" checklist-value="gradeClass" checklist-model="classChecks"> {{conditionData.GradeCode.GradeBriefName + '(' + gradeClass.ClassNo.substr(2,2)+ ')班'}}
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="checkbox" ng-show="GradeCourses.length > 0">
+                <label ng-repeat="item in GradeCourses">
+                    <input type="checkbox" checklist-value="item" checklist-model="courseChecks"> {{item.FullName}}
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+
+    </div>
+</div>
+

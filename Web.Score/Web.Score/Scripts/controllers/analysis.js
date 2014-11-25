@@ -2,6 +2,165 @@
 
 var analysis = angular.module('app.analysis', []);
 
+analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($scope, appUtils) {
+    var moduleName = '数据处理 - 超级型';
+    $scope.$root.moduleName = moduleName;
+    $scope.$root.title = $scope.softname + ' | ' + moduleName
+
+    $scope.appUtils = appUtils;
+    $scope.schoolName = $scope.schoolService.school.SchoolName;
+    var d = new Date();
+    var year = d.getFullYear();
+    var month = d.getMonth() + 1;
+    var day = d.getDate();
+    month = month.length === 1 ? '0' + month : month;
+    day = day.length === 1 ? '0' + day : day;
+    $scope.now = year + '-' + month + '-' + day;
+
+    $scope.appUtils = appUtils;
+
+    //统计结果
+    $scope.data1 = [];
+
+    $scope.conditionData = {};
+
+    $scope.AcademicYears = [];
+    $scope.GradeCodes = [];
+    $scope.GradeClasses = [];
+    $scope.GradeCourses = [];
+    $scope.TestLogins = [];
+    $scope.ExamMethods = $scope.constService.TestTypes;
+
+    $scope.classChecks = [];
+    $scope.courseChecks = [];
+
+    $scope.otherChecks = [];
+
+    $scope.base = [];
+    $scope.data1 = [];
+    $scope.data2 = [];
+
+    $scope.haveStat = false;
+
+    $scope.utilService.GetAcademicYears(function (data) {
+        $scope.AcademicYears = data.d;
+    });
+
+    $scope.utilService.GetGradeCodes(function (data) {
+        $scope.GradeCodes = data.d;
+    });
+
+    $scope.$watch('conditionData.GradeCode', function (gradeCode) {
+        if ($scope.conditionData.MicYear) {
+            $scope.GradeClasses.length = 0;
+            $scope.GradeCourses.length = 0;
+            var url = "/DataProvider/Util.aspx/GetGradeClass";
+            var param = { academicYear: $scope.conditionData.MicYear.MicYear, gradeCode: gradeCode };
+            $scope.baseService.post(url, param, function (data) {
+                $scope.GradeClasses = data.d;
+            });
+        }
+        changeTestLogin();
+    }); 
+
+    $scope.$watch('conditionData.TestType', function (testType) {
+        changeTestLogin();
+    });
+
+    var changeTestLogin = function () {
+        $scope.TestLogins.length = 0;
+        if ($scope.conditionData.TestType && $scope.conditionData.MicYear) {
+            var micYear = $scope.conditionData.MicYear;
+            var gradeCode = $scope.conditionData.GradeCode ? $scope.conditionData.GradeCode.GradeNo : '';
+            var gradeCourse = null;
+            $scope.utilService.GetTestLogin(micYear.MicYear, gradeCode, gradeCourse, $scope.conditionData.TestType.code, function (data) {
+                $scope.TestLogins = data.d;
+            });
+        }
+    }
+
+    var statBase = function () {
+        var micYear = $scope.conditionData.MicYear;
+        var gradeCode = $scope.conditionData.GradeCode;
+        var gradeClass = $scope.conditionData.GradeClass;
+        var studentChecks = $scope.studentChecks;
+        var testType = $scope.conditionData.TestType;
+        var testNo = $scope.conditionData.TestLogin;
+        var printMethod = $scope.conditionData.PrintMethod;
+        var semester = $scope.conditionData.Semester;
+
+        $scope.base.length = 0;
+        $scope.data1.length = 0;
+        $scope.data2.length = 0;
+
+        var url = "/DataProvider/Statistic.aspx/GetStat10Base";
+        var param = { micYear: micYear.MicYear, testLogin: testNo, studentChecks: studentChecks };
+        $scope.baseService.post(url, param, function (data) {
+            if (data.d !== null) {
+                $scope.base = angular.fromJson(data.d[0].Message);
+            }
+        });
+
+        if ($scope.conditionData.PrintMethod.code === 1) {
+            url = "/DataProvider/Statistic.aspx/GetStat10Data1";
+            param = {
+                micYear: micYear.MicYear,
+                gradeCode: gradeCode,
+                gradeClass: gradeClass,
+                studentChecks: studentChecks,
+                testType: testType,
+                testLogin: testNo,
+                printMethod: printMethod,
+                semester: semester.code
+            };
+            $scope.baseService.post(url, param, function (data) {
+                if (data.d !== null) {
+                    $scope.data1 = angular.fromJson(data.d[0].Message);
+                    $scope.testTime = data.d[1].Message;
+                }
+            });
+        } else if ($scope.conditionData.PrintMethod.code === 2) {
+            url = "/DataProvider/Statistic.aspx/GetStat10Data2";
+            param = {
+                micYear: micYear.MicYear,
+                gradeClass: gradeClass,
+                testLogin: testNo,
+                semester: semester.code
+            };
+            $scope.baseService.post(url, param, function (data) {
+                if (data.d !== null) {
+                    $scope.data2 = angular.fromJson(data.d[0].Message);
+                    $scope.testTime = data.d[1].Message;
+                }
+            });
+        }
+    }
+
+    $scope.stat = function () {
+        if (!$scope.conditionData.Semester) {
+            $scope.dialogUtils.info('请选择学期');
+            return;
+        }
+        if (!$scope.conditionData.PrintMethod) {
+            $scope.dialogUtils.info('请选择打印方式');
+            return;
+        }
+        if (!$scope.conditionData.GradeCode) {
+            $scope.dialogUtils.info('请选择年级！');
+            return;
+        }
+        if (!$scope.conditionData.GradeClass) {
+            $scope.dialogUtils.info('请选择班级！');
+            return;
+        }
+        if (!$scope.conditionData.TestLogin) {
+            $scope.dialogUtils.info('请选择考试号');
+            return;
+        }
+        statBase();
+    }
+}]);
+
 //细目分析
 analysis.controller('MinutiaAnalyseController', ['$scope', function ($scope) {
     var moduleName = '细目分析';

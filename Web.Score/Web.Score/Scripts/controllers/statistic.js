@@ -166,8 +166,7 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
 
 
 }]);
-
-
+ 
 // Path: /stat.Stat08
 stat.controller('GradeOrderController', ['$scope', function ($scope) {
     var moduleName = '年级排名趋势';
@@ -407,8 +406,7 @@ stat.controller('CourseOrderController', ['$scope', 'appUtils', function ($scope
         $scope.haveStat = true;
     }
 }]);
-
-
+ 
 //Path: /stat.Stat10
 stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope, appUtils) {
     var moduleName = '打印成绩单';

@@ -137,3 +137,8 @@ update s_tb_Function set FuncName = 'stat.Stat' + CAST(funcid-1790 as varchar)
 where FuncID >=1802 and FuncID<=1817 and FuncID not in (1809)
 
 UPDATE dbo.s_tb_Function SET FuncName='analysis.'+FuncName WHERE FuncID IN (6300,6400,6500,6900)
+
+update s_tb_Function set FuncName='analyze.Sum0' where FuncID=6300
+update s_tb_Function set FuncName='analyze.Sum1' where FuncID=6400
+update s_tb_Function set FuncName='analyze.Sum2' where FuncID=6500
+update s_tb_Function set FuncName='analyze.Sum3' where FuncID=6900

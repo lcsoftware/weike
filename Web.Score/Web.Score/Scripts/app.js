@@ -129,15 +129,15 @@ angular.module('app', [
             /**************************End 年级班级统计***********************/
 
             /**************************统计分析***********************/
-            .state('analysis', { url: '/analysis', abstract: true, templateUrl: '/views/admin/main' })
-            //统一型数据处理
-            .state('analysis.nSum1', { url: '/Shujuchuli1', templateUrl: '/views/Analysis/Shujuchuli1', controller: 'Shujuchuli1Controller' })
+            .state('analyze', { url: '/analyze', abstract: true, templateUrl: '/views/admin/main' })
             //超级型数据处理
-            .state('analysis.nSum0', { url: '/Shujuchuli2', templateUrl: '/views/Analysis/Shujuchuli2', controller: 'Shujuchuli2Controller' })
+            .state('analyze.Sum0', { url: '/Super', templateUrl: '/views/Analysis/AnalyseSuper', controller: 'AnalyseSuperController' })
+            //统一型数据处理
+            .state('analyze.Sum1', { url: '/Shujuchuli1', templateUrl: '/views/Analysis/Shujuchuli1', controller: 'Shujuchuli1Controller' })
             //细目分析
-            .state('analysis.nSum2', { url: '/MinutiaAnalyse', templateUrl: '/views/Analysis/MinutiaAnalyse', controller: 'MinutiaAnalyseController' })
+            .state('analyze.Sum2', { url: '/MinutiaAnalyse', templateUrl: '/views/Analysis/MinutiaAnalyse', controller: 'MinutiaAnalyseController' })
             //高三选课排名
-            .state('analysis.nSum3', { url: '/ThirdOrder', templateUrl: '/views/Analysis/ThirdOrder', controller: 'ThirdOrderController' })
+            .state('analyze.Sum3', { url: '/ThirdOrder', templateUrl: '/views/Analysis/ThirdOrder', controller: 'ThirdOrderController' })
             /**************************End 统计分析***********************/
 
             .state('otherwise', {
