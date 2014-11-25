@@ -89,7 +89,7 @@ angular.module('app', [
             //打印成绩单
             .state('stat.Stat10', { url: '/PrintScore', templateUrl: '/views/stat/PrintScore', controller: 'PrintScoreController' })
             //打印学生名条
-            .state('n_Student_MT', { url: '/StudentMT', templateUrl: '/views/StudentMT', controller: 'StudentMTController' })
+            .state('stat.Stat11', { url: '/StudentMT', templateUrl: '/views/stat/StudentMT', controller: 'StudentMTController' })
 
             /**************************End 教师学生统计***********************/
 

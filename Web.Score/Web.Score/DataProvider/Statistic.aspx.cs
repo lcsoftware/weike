@@ -692,6 +692,35 @@ namespace App.Web.Score.DataProvider
             }
             return results;
         }
+
+        [WebMethod]
+        public static IList<ResultEntry> GetStat11Data1(int micYear, GradeCode gradeCode, GradeClass gradeClass)
+        {
+            IList<ResultEntry> results = new List<ResultEntry>();
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "SELECT b.ClassCode, c.GradeBriefName + RIGHT(b.ClassCode, 2) + '班' AS ClassName,"
+                            + " RIGHT(b.ClassCode, 2) + b.ClassSN AS ClassSN, a.StdName"
+                            + " FROM tbStudentBaseInfo a INNER JOIN"
+                            + " tbStudentClass b ON a.SRID = b.SRID INNER JOIN"
+                            + " tdGradeCode c ON LEFT(b.ClassCode, 2) = c.GradeNo"
+                            + " where b.Academicyear={0}";
+                
+                if (gradeCode != null && gradeClass != null)
+                {
+                    sql += string.Format(" and b.ClassCode={0}", gradeClass.ClassNo);
+                } else if (gradeCode != null && gradeClass == null)
+                {
+                    sql += string.Format(" and left(b.ClassCode,2)={0}", gradeCode.GradeNo);
+                }
+                sql += " order by b.ClassCode,b.ClassSN";
+                sql = string.Format(sql, micYear);
+                DataTable table = bll.FillDataTableByText(sql, null);
+                ResultEntry entry = new ResultEntry() { Code = 0, Message = Newtonsoft.Json.JsonConvert.SerializeObject(table)};
+                results.Add(entry);
+            }
+            return results;
+        }
         #endregion
 
         #region 教师教课情况报表（不分班，分班）

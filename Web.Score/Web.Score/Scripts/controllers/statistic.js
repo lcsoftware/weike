@@ -591,6 +591,76 @@ stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope,
     }
 }]);
 
+
+//Path: /stat.Stat11
+stat.controller('StudentMTController', ['$scope', function ($scope) {
+    var moduleName = '打印学生名条';
+    $scope.$root.moduleName = moduleName;
+    $scope.$root.title = $scope.softname + ' | ' + moduleName;
+    //统计结果
+    $scope.data1 = [];
+
+    $scope.conditionData = {};
+
+    $scope.AcademicYears = [];
+    $scope.GradeCodes = [];
+    $scope.GradeClasses = [];
+
+    $scope.Students = []; 
+
+    $scope.data1 = [];
+
+    $scope.utilService.GetAcademicYears(function (data) {
+        $scope.AcademicYears = data.d;
+    });
+
+    $scope.utilService.GetGradeCodes(function (data) {
+        $scope.GradeCodes = data.d;
+    });
+
+    $scope.$watch('conditionData.GradeCode', function (gradeCode) {
+        if ($scope.conditionData.MicYear) {
+            $scope.GradeClasses.length = 0;
+            var url = "/DataProvider/Util.aspx/GetGradeClass";
+            var param = { academicYear: $scope.conditionData.MicYear.MicYear, gradeCode: gradeCode };
+            $scope.baseService.post(url, param, function (data) {
+                $scope.GradeClasses = data.d;
+            });
+        }
+    });
+
+    var statBase = function () {
+        var micYear = $scope.conditionData.MicYear;
+        var gradeCode = $scope.conditionData.GradeCode === undefined ? null : $scope.conditionData.GradeCode;
+        var gradeClass = $scope.conditionData.GradeClass === undefined ? null : $scope.conditionData.GradeClass;
+
+        $scope.data1.length = 0;
+
+        if (micYear) {
+            var url = "/DataProvider/Statistic.aspx/GetStat11Data1";
+            var param = {
+                micYear: micYear.MicYear,
+                gradeCode: gradeCode,
+                gradeClass: gradeClass
+            };
+            $scope.baseService.post(url, param, function (data) {
+                if (data.d !== null) {
+                    $scope.data1 = angular.fromJson(data.d[0].Message);
+                }
+            });
+        } 
+    }
+
+    $scope.stat = function () {
+        if (!$scope.conditionData.MicYear) {
+            $scope.dialogUtils.info('请选择学年');
+            return;
+        } 
+        statBase();
+    }
+}]);
+
+
 // Path: /stat.Stat19
 stat.controller('ExamStatController', ['$scope', function ($scope) {
     var moduleName = '考试统计分析';
