@@ -604,8 +604,9 @@ namespace App.Web.Score.DataProvider
             IList<ResultEntry> results = new List<ResultEntry>();
             using (AppBLL bll = new AppBLL())
             {
-                if (printMethod == 2) { 
-                    DataTable table1 = bll.FillDataTableByText("s_p_classScore", new { DateYear = micYear, ClassCode = gradeClass.ClassNo, semester = semester, Flag = 0});
+                if (printMethod == 2)
+                {
+                    DataTable table1 = bll.FillDataTableByText("s_p_classScore", new { DateYear = micYear, ClassCode = gradeClass.ClassNo, semester = semester, Flag = 0 });
                     ResultEntry entry1 = new ResultEntry() { Code = 0, Message = Newtonsoft.Json.JsonConvert.SerializeObject(table1) };
                     results.Add(entry1);
                     return results;
@@ -652,7 +653,7 @@ namespace App.Web.Score.DataProvider
                          + " ,max(case When CourseCode='21008' then Levelscore else null end) 'Llishi'"
                          + " ,max(case When CourseCode='21009' then Levelscore else null end) 'Lsw'"
                          + " ,max(case When CourseCode='{0}' then Levelscore else null end) 'Ldiannao'";
-                sql = string.Format(sql, gradeCode.GradeNo.Equals("33") ? "31017" : "21010"); 
+                sql = string.Format(sql, gradeCode.GradeNo.Equals("33") ? "31017" : "21010");
 
                 sql += " FROM  s_vw_ClassScoreNum a ";
                 sql += " where a.Testno=@testNo and a.AcademicYear=@micYear";
@@ -1177,6 +1178,68 @@ namespace App.Web.Score.DataProvider
                             " and GradeNo in (00,@gradeCode) " +
                             " order by cast(testno as int)";
                 return bll.FillListByText<TestLogin>(sql, new { micYear = micYear.MicYear, gradeCode = gradeCode });
+            }
+        }
+
+        //横向纵向查询
+        [WebMethod]
+        public static IList<ChartOption> GetTeacherPJ(GradeCourse courseCode, Academicyear micYearJZ,
+            int micYearXZ, TestLogin testNoJZ, int? testNoXZ, Academicyear micyear,
+            GradeCode gradeCode, TestLogin testNo , int? numScore)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                IList<ChartOption> options = new List<ChartOption>();
+
+                ChartOption option1 = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
+                options.Add(option1);
+                option1.yAxis.name = gradeCode.GradeName + courseCode.FullName + "各教师比较图";
+
+                var inputParams = 
+                    new{    
+                            CourseCode = courseCode.CourseCode, 
+                            Academicyear1 = micYearJZ.MicYear,
+                            Test1 = testNoJZ.TestNo, 
+                            Academicyear2 = micYearXZ,
+                            Test2 = testNoXZ,
+                            Academicyear3 =micyear.MicYear,
+                            Test3 = testNo.TestNo,
+                            GradeCode = gradeCode.GradeNo,
+                            Schoolcode = "",
+                            Flag = 0
+                       };
+                DataTable dt = bll.FillDataTable("s_p_TeacherCompRep", inputParams);
+                string[] title = { "当前考试", "基准考试", "选择考试" };
+                for (int i = 0; i < 3; i++)
+                {
+                    option1.legend.data.Add(title[i]);
+                    SeriesItem item = new SeriesItem() { type = "bar", name = title[i] };
+                    option1.series.Add(item);
+                    for (int n = 0; n < dt.Rows.Count; n++)
+                    {
+                        var xName = dt.Rows[n]["TeaName"].ToString();
+                        if (!option1.xAxis.data.Contains(xName))
+                            option1.xAxis.data.Add(xName);
+                        if (i == 0){
+                            if (numScore == 0)
+                                item.data.Add(dt.Rows[n]["BJ2_Score"] == null ? "0" : dt.Rows[n]["BJ2_Score"].ToString());
+                            else
+                                item.data.Add(dt.Rows[n]["BJ2_BZ"] == null ? "0" : dt.Rows[n]["BJ2_BZ"].ToString());
+                        }else if(i==1){
+                            if (numScore == 0)
+                                item.data.Add(dt.Rows[n]["JZ_Score"] == null ? "0" : dt.Rows[n]["JZ_Score"].ToString());
+                            else
+                                item.data.Add(dt.Rows[n]["JZ_BZ"] == null ? "0" : dt.Rows[n]["JZ_BZ"].ToString());
+                        }
+                        else{
+                            if (numScore == 0)
+                                item.data.Add(dt.Rows[n]["BJ1_Score"] == null ? "0" : dt.Rows[n]["BJ1_Score"].ToString());
+                            else
+                                item.data.Add(dt.Rows[n]["BJ1_BZ"] == null ? "0" : dt.Rows[n]["BJ1_BZ"].ToString());
+                        }
+                    }
+                }
+                return options;
             }
         }
         #endregion

@@ -97,35 +97,35 @@ angular.module('app', [
             /**************************年级班级统计***********************/
             .state('GradeClass', { url: '/GradeClass', abstract: true, templateUrl: '/views/admin/main' })
             //年级等级分布图
-            .state('n_Grade_Style', { url: '/GradeStyle', templateUrl: '/views/GradeStyle', controller: 'GradeStyleController' })
+            .state('stat.Stat12', { url: '/GradeStyle', templateUrl: '/views/GradeStyle', controller: 'GradeStyleController' })
             //班级间比较
-            .state('n_Grade_ClassComp', { url: '/GradeClassComp', templateUrl: '/views/GradeClassComp', controller: 'GradeClassCompController' })
+            .state('stat.Stat13', { url: '/GradeClassComp', templateUrl: '/views/GradeClassComp', controller: 'GradeClassCompController' })
             //年级排名
-            .state('n_Grade_Order', { url: '/GradeOrder', templateUrl: '/views/GradeOrder', controller: 'GradeOrderController' })
+            .state('stat.Stat14', { url: '/GradeOrder', templateUrl: '/views/GradeOrder', controller: 'GradeOrderController' })
             //年级学科成绩正态
-            .state('n_Grade_Score', { url: '/GradeScore', templateUrl: '/views/GradeScore', controller: 'GradeScoreController' })
+            .state('stat.Stat15', { url: '/GradeScore', templateUrl: '/views/GradeScore', controller: 'GradeScoreController' })
             //班级细目成绩报表
-            .state('n_Grade_Minutia', { url: '/GradeMinutia', templateUrl: '/views/GradeMinutia', controller: 'GradeMinutiaController' })
+            .state('stat.Stat16', { url: '/GradeMinutia', templateUrl: '/views/GradeMinutia', controller: 'GradeMinutiaController' })
             //年级成绩统计(并表)
-            .state('n_Gradestat', { url: '/Gradestat', templateUrl: '/views/Gradestat', controller: 'GradestatController' })
+            .state('stat.Stat17', { url: '/Gradestat', templateUrl: '/views/Gradestat', controller: 'GradestatController' })
             //学生成绩纵向比较
-            .state('n_Grade_StdPJ', { url: '/GradeStdPJ', templateUrl: '/views/GradeStdPJ', controller: 'GradeStdPJController' })
+            .state('stat.Stat18', { url: '/GradeStdPJ', templateUrl: '/views/GradeStdPJ', controller: 'GradeStdPJController' })
             //考试统计分析
             .state('stat.Stat20', { url: '/ClassStat', templateUrl: '/views/stat/ExamStat', controller: 'ExamStatController' })
             //学科相关分析
-            .state('n_Class_Course', { url: '/ClassCourse', templateUrl: '/views/ClassCourse', controller: 'ClassCourseController' })
+            .state('stat.Stat21', { url: '/ClassCourse', templateUrl: '/views/ClassCourse', controller: 'ClassCourseController' })
             //学科成绩清单
-            .state('n_Class_Score', { url: '/ClassScore', templateUrl: '/views/ClassScore', controller: 'ClassScoreController' })
+            .state('stat.Stat22', { url: '/ClassScore', templateUrl: '/views/ClassScore', controller: 'ClassScoreController' })
             //细目成绩清单
-            .state('n_Class_Minutia', { url: '/ClassMinutia', templateUrl: '/views/ClassMinutia', controller: 'ClassMinutiaController' })
+            .state('stat.Stat23', { url: '/ClassMinutia', templateUrl: '/views/ClassMinutia', controller: 'ClassMinutiaController' })
             //班级学期总评
-            .state('n_Class_Amin', { url: '/ClassAmin', templateUrl: '/views/ClassAmin', controller: 'ClassAminController' })
+            .state('stat.Stat24', { url: '/ClassAmin', templateUrl: '/views/ClassAmin', controller: 'ClassAminController' })
             //班级排名
-            .state('n_Class_Order', { url: '/ClassOrder', templateUrl: '/views/ClassOrder', controller: 'ClassOrderController' })
+            .state('stat.Stat25', { url: '/ClassOrder', templateUrl: '/views/ClassOrder', controller: 'ClassOrderController' })
             //多学科成绩报表
-            .state('n_Class_Rep', { url: '/ClassRep', templateUrl: '/views/ClassRep', controller: 'ClassRepController' })
+            .state('stat.Stat26', { url: '/ClassRep', templateUrl: '/views/ClassRep', controller: 'ClassRepController' })
             //学生多门清单
-            .state('n_Class_ND', { url: '/ClassND', templateUrl: '/views/ClassND', controller: 'ClassNDController' })
+            .state('stat.Stat27', { url: '/ClassND', templateUrl: '/views/ClassND', controller: 'ClassNDController' })
             /**************************End 年级班级统计***********************/
 
             /**************************统计分析***********************/

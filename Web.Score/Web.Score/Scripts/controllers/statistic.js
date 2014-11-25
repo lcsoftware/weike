@@ -1290,15 +1290,17 @@ stat.controller('TeacherPJController', ['$scope', function ($scope) {
         });
         if (!check()) return;
         $scope.utilService.showBg();
-        var url = "/DataProvider/Statistic.aspx/GetTeacherStyle1";
+        var url = "/DataProvider/Statistic.aspx/GetTeacherPJ";
         var param = {
-            micyear: $scope.MicYear,
-            gradeNo: $scope.GradeCode,
             courseCode: $scope.GradeCourse,
-            numScore: $scope.NumScore,
-            starYear: $scope.starYear.MicYear,
-            endYear: $scope.endYear.MicYear,
-            teacher: $scope.teacherCheck
+            micYearJZ: $scope.MicYearJZ,
+            micYearXZ: $scope.MicYearXZ == null ? null : $scope.MicYearXZ.MicYear,
+            testNoJZ: $scope.TestNoJZ,
+            testNoXZ: $scope.TestNoXZ == null ? null : $scope.TestNoXZ.TestNo,
+            micyear: $scope.MicYear,
+            gradeCode: $scope.GradeCode,
+            testNo: $scope.TestNo,
+            numScore: $scope.NumScore
         };
         $scope.baseService.post(url, param, function (data) {
             $scope.chartService.changeOption(chart1, data.d[0]);
@@ -1315,8 +1317,16 @@ stat.controller('TeacherPJController', ['$scope', function ($scope) {
             $scope.dialogUtils.info('请选择年级');
             return false;
         }
-        if ($scope.teacher == "") {
-            $scope.dialogUtils.info('请选择教师');
+        if ($scope.TestNo == null) {
+            $scope.dialogUtils.info('请选择考试');
+            return false;
+        }
+        if ($scope.MicYearJZ == null) {
+            $scope.dialogUtils.info('请选择基准学年');
+            return false;
+        }
+        if ($scope.TestNoJZ == null) {
+            $scope.dialogUtils.info('请选择基准考试');
             return false;
         }
         return true;
