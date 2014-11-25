@@ -604,8 +604,9 @@ namespace App.Web.Score.DataProvider
             IList<ResultEntry> results = new List<ResultEntry>();
             using (AppBLL bll = new AppBLL())
             {
-                if (printMethod == 2) { 
-                    DataTable table1 = bll.FillDataTableByText("s_p_classScore", new { DateYear = micYear, ClassCode = gradeClass.ClassNo, semester = semester, Flag = 0});
+                if (printMethod == 2)
+                {
+                    DataTable table1 = bll.FillDataTableByText("s_p_classScore", new { DateYear = micYear, ClassCode = gradeClass.ClassNo, semester = semester, Flag = 0 });
                     ResultEntry entry1 = new ResultEntry() { Code = 0, Message = Newtonsoft.Json.JsonConvert.SerializeObject(table1) };
                     results.Add(entry1);
                     return results;
@@ -652,7 +653,7 @@ namespace App.Web.Score.DataProvider
                          + " ,max(case When CourseCode='21008' then Levelscore else null end) 'Llishi'"
                          + " ,max(case When CourseCode='21009' then Levelscore else null end) 'Lsw'"
                          + " ,max(case When CourseCode='{0}' then Levelscore else null end) 'Ldiannao'";
-                sql = string.Format(sql, gradeCode.GradeNo.Equals("33") ? "31017" : "21010"); 
+                sql = string.Format(sql, gradeCode.GradeNo.Equals("33") ? "31017" : "21010");
 
                 sql += " FROM  s_vw_ClassScoreNum a ";
                 sql += " where a.Testno=@testNo and a.AcademicYear=@micYear";
@@ -687,6 +688,35 @@ namespace App.Web.Score.DataProvider
                 var sql = "select testtime from s_tb_TestLogin where testloginNo=@testNo and AcademicYear=@micYear";
                 table = bll.FillDataTableByText(sql, new { testNo = testLogin.TestLoginNo, micYear = micYear });
                 entry = new ResultEntry() { Code = 1, Message = DateTime.Parse(table.Rows[0][0].ToString()) };
+                results.Add(entry);
+            }
+            return results;
+        }
+
+        [WebMethod]
+        public static IList<ResultEntry> GetStat11Data1(int micYear, GradeCode gradeCode, GradeClass gradeClass)
+        {
+            IList<ResultEntry> results = new List<ResultEntry>();
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "SELECT b.ClassCode, c.GradeBriefName + RIGHT(b.ClassCode, 2) + '班' AS ClassName,"
+                            + " RIGHT(b.ClassCode, 2) + b.ClassSN AS ClassSN, a.StdName"
+                            + " FROM tbStudentBaseInfo a INNER JOIN"
+                            + " tbStudentClass b ON a.SRID = b.SRID INNER JOIN"
+                            + " tdGradeCode c ON LEFT(b.ClassCode, 2) = c.GradeNo"
+                            + " where b.Academicyear={0}";
+                
+                if (gradeCode != null && gradeClass != null)
+                {
+                    sql += string.Format(" and b.ClassCode={0}", gradeClass.ClassNo);
+                } else if (gradeCode != null && gradeClass == null)
+                {
+                    sql += string.Format(" and left(b.ClassCode,2)={0}", gradeCode.GradeNo);
+                }
+                sql += " order by b.ClassCode,b.ClassSN";
+                sql = string.Format(sql, micYear);
+                DataTable table = bll.FillDataTableByText(sql, null);
+                ResultEntry entry = new ResultEntry() { Code = 0, Message = Newtonsoft.Json.JsonConvert.SerializeObject(table)};
                 results.Add(entry);
             }
             return results;
