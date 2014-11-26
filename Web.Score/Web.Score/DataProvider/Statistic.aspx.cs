@@ -705,18 +705,19 @@ namespace App.Web.Score.DataProvider
                             + " tbStudentClass b ON a.SRID = b.SRID INNER JOIN"
                             + " tdGradeCode c ON LEFT(b.ClassCode, 2) = c.GradeNo"
                             + " where b.Academicyear={0}";
-                
+
                 if (gradeCode != null && gradeClass != null)
                 {
                     sql += string.Format(" and b.ClassCode={0}", gradeClass.ClassNo);
-                } else if (gradeCode != null && gradeClass == null)
+                }
+                else if (gradeCode != null && gradeClass == null)
                 {
                     sql += string.Format(" and left(b.ClassCode,2)={0}", gradeCode.GradeNo);
                 }
                 sql += " order by b.ClassCode,b.ClassSN";
                 sql = string.Format(sql, micYear);
                 DataTable table = bll.FillDataTableByText(sql, null);
-                ResultEntry entry = new ResultEntry() { Code = 0, Message = Newtonsoft.Json.JsonConvert.SerializeObject(table)};
+                ResultEntry entry = new ResultEntry() { Code = 0, Message = Newtonsoft.Json.JsonConvert.SerializeObject(table) };
                 results.Add(entry);
             }
             return results;
@@ -1058,8 +1059,18 @@ namespace App.Web.Score.DataProvider
                 //计算截止学年
                 var sql = "select top 1 gradeno from tdgradecode order by gradeno";
                 DataTable dt = bll.FillDataTableByText(sql, new { });
+                //截止学年                
+                int endYear = -1;
                 //截止学年
-                var endYear = micyear.MicYear - Convert.ToInt32(gradeNo.GradeNo) + Convert.ToInt32(dt.Rows[0][0]);
+                if (dt.Rows.Count > 0)
+                {
+                    endYear = micyear.MicYear - Convert.ToInt32(gradeNo.GradeNo) + Convert.ToInt32(dt.Rows[0][0]);
+                }
+                else
+                {
+                    endYear = micyear.MicYear - Convert.ToInt32(gradeNo.GradeNo) + Convert.ToInt32(gradeNo.GradeNo);
+                }
+
                 IList<ChartOption> options = new List<ChartOption>();
 
                 ChartOption option1 = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
@@ -1110,14 +1121,21 @@ namespace App.Web.Score.DataProvider
                     }
 
                     dt = bll.FillDataTableByText(sql, new { });
-                    for (int n = 0; n < dt.Rows.Count; n++)
+                    if (dt.Rows.Count > 0)
                     {
-                        var tempType = dt.Rows[n]["TypeName"].ToString().Substring(0, 2);
-                        var temptestno = dt.Rows[n]["TestNo"].ToString();
-                        var xName = string.Format("{0}{1}", tempType.Trim(), temptestno.Trim());
-                        if (!option1.xAxis.data.Contains(xName))
-                            option1.xAxis.data.Add(xName);
-                        item.data.Add(dt.Rows.Count == 0 ? "0" : dt.Rows[n]["AvgScore"].ToString());
+                        for (int n = 0; n < dt.Rows.Count; n++)
+                        {
+                            var tempType = dt.Rows[n]["TypeName"].ToString().Substring(0, 2);
+                            var temptestno = dt.Rows[n]["TestNo"].ToString();
+                            var xName = string.Format("{0}{1}", tempType.Trim(), temptestno.Trim());
+                            if (!option1.xAxis.data.Contains(xName))
+                                option1.xAxis.data.Add(xName);
+                            item.data.Add(dt.Rows.Count == 0 ? "0" : dt.Rows[n]["AvgScore"].ToString());
+                        }
+                    }
+                    else
+                    {
+                        item.data.Add("0");
                     }
 
                 }
@@ -1214,7 +1232,7 @@ namespace App.Web.Score.DataProvider
         [WebMethod]
         public static IList<ChartOption> GetTeacherPJ(GradeCourse courseCode, Academicyear micYearJZ,
             int micYearXZ, TestLogin testNoJZ, int? testNoXZ, Academicyear micyear,
-            GradeCode gradeCode, TestLogin testNo , int? numScore)
+            GradeCode gradeCode, TestLogin testNo, int? numScore)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -1224,19 +1242,20 @@ namespace App.Web.Score.DataProvider
                 options.Add(option1);
                 option1.yAxis.name = gradeCode.GradeName + courseCode.FullName + "各教师比较图";
 
-                var inputParams = 
-                    new{    
-                            CourseCode = courseCode.CourseCode, 
-                            Academicyear1 = micYearJZ.MicYear,
-                            Test1 = testNoJZ.TestNo, 
-                            Academicyear2 = micYearXZ,
-                            Test2 = testNoXZ,
-                            Academicyear3 =micyear.MicYear,
-                            Test3 = testNo.TestNo,
-                            GradeCode = gradeCode.GradeNo,
-                            Schoolcode = "",
-                            Flag = 0
-                       };
+                var inputParams =
+                    new
+                    {
+                        CourseCode = courseCode.CourseCode,
+                        Academicyear1 = micYearJZ.MicYear,
+                        Test1 = testNoJZ.TestNo,
+                        Academicyear2 = micYearXZ,
+                        Test2 = testNoXZ,
+                        Academicyear3 = micyear.MicYear,
+                        Test3 = testNo.TestNo,
+                        GradeCode = gradeCode.GradeNo,
+                        Schoolcode = "",
+                        Flag = 0
+                    };
                 DataTable dt = bll.FillDataTable("s_p_TeacherCompRep", inputParams);
                 string[] title = { "当前考试", "基准考试", "选择考试" };
                 for (int i = 0; i < 3; i++)
@@ -1249,18 +1268,22 @@ namespace App.Web.Score.DataProvider
                         var xName = dt.Rows[n]["TeaName"].ToString();
                         if (!option1.xAxis.data.Contains(xName))
                             option1.xAxis.data.Add(xName);
-                        if (i == 0){
+                        if (i == 0)
+                        {
                             if (numScore == 0)
                                 item.data.Add(dt.Rows[n]["BJ2_Score"] == null ? "0" : dt.Rows[n]["BJ2_Score"].ToString());
                             else
                                 item.data.Add(dt.Rows[n]["BJ2_BZ"] == null ? "0" : dt.Rows[n]["BJ2_BZ"].ToString());
-                        }else if(i==1){
+                        }
+                        else if (i == 1)
+                        {
                             if (numScore == 0)
                                 item.data.Add(dt.Rows[n]["JZ_Score"] == null ? "0" : dt.Rows[n]["JZ_Score"].ToString());
                             else
                                 item.data.Add(dt.Rows[n]["JZ_BZ"] == null ? "0" : dt.Rows[n]["JZ_BZ"].ToString());
                         }
-                        else{
+                        else
+                        {
                             if (numScore == 0)
                                 item.data.Add(dt.Rows[n]["BJ1_Score"] == null ? "0" : dt.Rows[n]["BJ1_Score"].ToString());
                             else
@@ -1289,7 +1312,7 @@ namespace App.Web.Score.DataProvider
         }
 
         [WebMethod]
-        public static IList<CommonOption> GetGradeStyle(Academicyear micYear,GradeCourse gradeCourse,GradeCode gradeCode,TestLogin testNo)
+        public static IList<CommonOption> GetGradeStyle(Academicyear micYear, GradeCourse gradeCourse, GradeCode gradeCode, TestLogin testNo)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -1361,11 +1384,275 @@ namespace App.Web.Score.DataProvider
         #endregion
 
         #region 班级间比较
+        //根据年级获得该年级的所有班级
         [WebMethod]
-        public static IList<ChartOption> GetGradeClassComp(Academicyear micyear, GradeCode gradeNo, GradeCourse courseCode, bool only, bool year, int numScore, int Kaoshi, IList<Student> student)
+        public static IList<GradeClass> GetGradeByGradeNo(int micyear, int gradeNo)
         {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "select GradeBriefName+'('+substring(tbGradeClass.classNo,3,2)+')班' AS GradeBriefName,classNo " +
+                    "from tdGradeCode,tbGradeClass WHERE tbGradeClass.Gradeno=tdGradeCode.GradeNo " +
+                    "AND tbGradeClass.academicYear=@micyear and tbGradeClass.GradeNo=@gradeNo";
+                return bll.FillListByText<GradeClass>(sql, new { micyear = micyear, gradeNo = gradeNo });
+            }
+        }
 
-            return null;
+        //各班级比较图
+        [WebMethod]
+        public static IList<ChartOption> GetGradeClassComp(Academicyear micyear, GradeCode gradeNo, GradeCourse courseCode, bool only, bool year, int numScore, int Kaoshi, IList<GradeClass> gradeClass)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                //计算截止学年
+                var sql = "select top 1 gradeno from tdgradecode order by gradeno";
+                DataTable dt = bll.FillDataTableByText(sql, new { });
+                int endYear = -1;
+                //截止学年
+                if (dt.Rows.Count > 0)
+                {
+                    endYear = micyear.MicYear - Convert.ToInt32(gradeNo.GradeNo) + Convert.ToInt32(dt.Rows[0][0]);
+                }
+                else
+                {
+                    endYear = micyear.MicYear - Convert.ToInt32(gradeNo.GradeNo) + Convert.ToInt32(gradeNo.GradeNo);
+                }
+
+                IList<ChartOption> options = new List<ChartOption>();
+                ChartOption option1 = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
+                options.Add(option1);
+                option1.yAxis.name = gradeNo.GradeName + courseCode.FullName + "各班级比较图";
+                //年级平均分
+                if (year)
+                {
+                    sql = "SELECT a.AcademicYear, c.TypeName, a.testtype, a.testno, ";
+                    if (numScore == 0) sql += " AVG(a.NumScore) AS AvgScore, ";//原始分
+                    else sql += " AVG(a.NormalScore) AS AvgScore, ";//标准分
+                    sql += " e.testtime " +
+                    " FROM s_tb_NormalScore a INNER JOIN " +
+                    " tbStudentClass b ON a.SRID = b.SRID INNER JOIN " +
+                    " s_tb_TestTypeInfo c ON a.testtype = c.TestType INNER JOIN " +
+                    " s_tb_testlogin e ON a.AcademicYear = e.AcademicYear AND " +
+                    " a.testno = e.TestNo " +
+                    " LEFT OUTER JOIN s_tb_StudentXW d ON b.SRID = d.SRID " +
+                    " WHERE (a.coursecode = @courseCode) " +
+                    " AND (b.AcademicYear = @micyear)";
+                    if (Kaoshi == 0)
+                        sql += " AND (a.testtype = 0) ";
+                    else
+                        sql += " AND (a.testtype <> 0) ";
+                    if (only)
+                        sql += " AND (d.STATE IS NULL) ";
+                    sql += " and left(b.classcode,2)=@gradeNo" +
+                    " and substring(a.srid,12,4)=" + endYear + "" +
+                    " GROUP BY a.AcademicYear, a.semester, c.TypeName, a.testtype, a.testno,e.testtime " +
+                    " ORDER BY a.AcademicYear, a.semester, cast(a.testno as int) ";
+                }
+                else
+                {
+                    sql = "Select AcademicYear,TestType,TypeName,TestNo,";
+                    if (numScore == 0) sql += " AVG(NumScore) AS AvgScore, ";//原始分
+                    else sql += " AVG(NormalScore) AS AvgScore, ";//标准分
+                    sql += " testtime from s_vw_ClassScoreNum " +
+                          " where AcademicYear = @micyear" +
+                          " and gradeno= @gradeNo" +
+                          " and CourseCode = @courseCode";
+                    if (Kaoshi == 0)
+                        sql += " AND (testtype = 0) ";
+                    else
+                        sql += " AND (testtype <> 0) ";
+                    if (only)
+                        sql += " AND (STATE IS NULL) ";
+                    sql += " group by AcademicYear,TestType,TypeName,TestNo,TestTime " +
+                           " order by cast(testno as int)";
+                }
+                dt = bll.FillDataTableByText(sql, new { courseCode = courseCode.CourseCode, micyear = micyear.MicYear, gradeNo = gradeNo.GradeNo });
+                option1.legend.data.Add("年级平均");
+                SeriesItem item = new SeriesItem() { type = "bar", name = "年级平均" };
+                option1.series.Add(item);
+                if (dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        var tempType = dt.Rows[i]["TypeName"].ToString().Substring(0, 2);
+                        var temptestno = dt.Rows[i]["TestNo"].ToString();
+                        var xName = string.Format("{0}{1}", tempType.Trim(), temptestno.Trim());
+                        if (!option1.xAxis.data.Contains(xName))
+                            option1.xAxis.data.Add(xName);
+                        item.data.Add(dt.Rows.Count == 0 ? "0" : dt.Rows[i]["AvgScore"].ToString());
+                    }
+                }
+                else
+                {
+                    item.data.Add("0");
+                }
+                //加入班级平均分
+                for (int n = 0; n < gradeClass.Count; n++)
+                {
+                    option1.legend.data.Add(gradeClass[n].GradeBriefName);
+                    item = new SeriesItem() { type = "bar", name = gradeClass[n].GradeBriefName };
+                    option1.series.Add(item);
+                    if (year)
+                    {
+                        sql = "SELECT a.AcademicYear, c.TypeName, a.testtype, a.testno,";
+                        if (numScore == 0) sql += " AVG(a.NumScore) AS AvgScore ";//原始分
+                        else sql += " AVG(a.NormalScore) AS AvgScore ";//标准分
+                        sql += " FROM dbo.s_tb_NormalScore a INNER JOIN " +
+                        " tbStudentClass b ON a.SRID = b.SRID INNER JOIN " +
+                        " s_tb_TestTypeInfo c ON a.testtype = c.TestType " +
+                        " LEFT OUTER JOIN s_tb_StudentXW d ON b.SRID = d.SRID " +
+                        " WHERE (a.coursecode = @courseCode) " +
+                        " AND (b.AcademicYear = @micyear)";
+                        if (Kaoshi == 0)
+                            sql += " AND (a.testtype = 0) ";
+                        else
+                            sql += " AND (a.testtype <> 0) ";
+                        if (only)
+                            sql += " AND (d.STATE IS NULL) ";
+                        sql += "and b.classcode=" + gradeClass[n].ClassNo + "" +
+                        " and substring(a.srid,12,4)=" + endYear + "" +
+                        " GROUP BY a.AcademicYear, a.semester, c.TypeName, a.testtype, a.testno " +
+                        " ORDER BY a.AcademicYear, a.semester, a.testtype,  cast(a.testno as int)";
+                    }
+                    else
+                    {
+                        sql = "Select TestType,TypeName,TestNo,";
+                        if (numScore == 0) sql += " AVG(NumScore) AS AvgScore ";//原始分
+                        else sql += " AVG(NormalScore) AS AvgScore ";//标准分
+                        sql += " from s_vw_ClassScoreNum " +
+                              " where AcademicYear = @micyear" +
+                              " and ClassCode= " + gradeClass[n].ClassNo + "" +
+                              " and CourseCode = @courseCode";
+                        if (Kaoshi == 0)
+                            sql += " AND (testtype = 0) ";
+                        else
+                            sql += " AND (testtype <> 0) ";
+                        if (only)
+                            sql += " AND (STATE IS NULL) ";
+                        sql += " group by TestType,TypeName,TestNo " +
+                               " order by cast(testno as int)";
+                    }
+                    dt = bll.FillDataTableByText(sql, new { micyear = micyear.MicYear, courseCode = courseCode.CourseCode });
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int m = 0; m < dt.Rows.Count; m++)
+                        {
+                            var tempType = dt.Rows[m]["TypeName"].ToString().Substring(0, 2);
+                            var temptestno = dt.Rows[m]["TestNo"].ToString();
+                            var xName = string.Format("{0}{1}", tempType.Trim(), temptestno.Trim());
+                            if (!option1.xAxis.data.Contains(xName))
+                                option1.xAxis.data.Add(xName);
+                            item.data.Add(dt.Rows.Count == 0 ? "0" : dt.Rows[m]["AvgScore"].ToString());
+                        }
+                    }
+                    else
+                    {
+                        item.data.Add("0");
+                    }
+                }
+                return options;
+            }
+
+        }
+
+        //各班级总分比较图
+        [WebMethod]
+        public static IList<ChartOption> GetGradeClassCompNum(Academicyear micyear, GradeCode gradeNo, int numScore, int Kaoshi, IList<GradeClass> gradeClass)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                //计算截止学年
+                var sql = "select top 1 gradeno from tdgradecode order by gradeno";
+                DataTable dt = bll.FillDataTableByText(sql, new { });
+                int endYear = -1;
+                //截止学年
+                if (dt.Rows.Count > 0)
+                {
+                    endYear = micyear.MicYear - Convert.ToInt32(gradeNo.GradeNo) + Convert.ToInt32(dt.Rows[0][0]);
+                }
+                else
+                {
+                    endYear = micyear.MicYear - Convert.ToInt32(gradeNo.GradeNo) + Convert.ToInt32(gradeNo.GradeNo);
+                }
+
+                IList<ChartOption> options = new List<ChartOption>();
+                ChartOption option1 = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
+                options.Add(option1);
+                option1.yAxis.name = gradeNo.GradeName + "各班级总分比较图";
+                //年级平均分
+                sql = "Select a.AcademicYear, a.testtype, a.TypeName, a.testno,";
+                if (numScore == 0) sql += " AVG(a.Sumscore) AS AvgScore ";//原始分
+                else sql += " AVG(a.SumBZ) AS AvgScore ";//标准分
+                sql += " FROM s_vw_SumScore a INNER JOIN " +
+                " tbStudentClass b ON a.SRID = b.SRID " +
+                " WHERE b.AcademicYear = @micyear" +
+                " AND LEFT(b.ClassCode, 2)=@gradeNo";
+                if (Kaoshi == 0)
+                    sql += " AND (a.testtype = 0) ";
+                else
+                    sql += " AND (a.testtype <> 0) ";
+                sql += " GROUP BY a.AcademicYear, a.testtype, a.TypeName, a.testno " +
+                " ORDER BY a.AcademicYear, CAST(a.testno AS int)";
+                dt = bll.FillDataTableByText(sql, new { micyear = micyear.MicYear, gradeNo = gradeNo.GradeNo });
+                option1.legend.data.Add("年级平均");
+                SeriesItem item = new SeriesItem() { type = "bar", name = "年级平均" };
+                option1.series.Add(item);
+                if (dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        var tempType = dt.Rows[i]["TypeName"].ToString().Substring(0, 2);
+                        var temptestno = dt.Rows[i]["TestNo"].ToString();
+                        var xName = string.Format("{0}{1}", tempType.Trim(), temptestno.Trim());
+                        if (!option1.xAxis.data.Contains(xName))
+                            option1.xAxis.data.Add(xName);
+                        item.data.Add(dt.Rows.Count == 0 ? "0" : dt.Rows[i]["AvgScore"].ToString());
+                    }
+                }
+                else
+                {
+                    item.data.Add("0");
+                }
+                //加入班级平均分
+                for (int n = 0; n < gradeClass.Count; n++)
+                {
+                    option1.legend.data.Add(gradeClass[n].GradeBriefName);
+                    item = new SeriesItem() { type = "bar", name = gradeClass[n].GradeBriefName };
+                    option1.series.Add(item);
+
+                    sql = "SELECT a.AcademicYear, a.testtype, a.TypeName, a.testno,  ";
+                    if (numScore == 0) sql += " AVG(a.Sumscore) AS AvgScore ";//原始分
+                    else sql += " AVG(a.SumBZ) AS AvgScore ";//标准分
+                    sql += " FROM s_vw_SumScore a INNER JOIN " +
+                            " tbStudentClass b ON a.SRID = b.SRID " +
+                            " WHERE b.AcademicYear = @micyear" +
+                            " and b.Classcode=" + gradeClass[n].ClassNo + "";
+                    if (Kaoshi == 0)
+                        sql += " AND (a.testtype = 0) ";
+                    else
+                        sql += " AND (a.testtype <> 0) ";
+                    sql += " GROUP BY a.AcademicYear, a.testtype, a.TypeName, a.testno " +
+                    " ORDER BY a.AcademicYear, CAST(a.testno AS int)";
+                    dt = bll.FillDataTableByText(sql, new { micyear = micyear.MicYear });
+                    if (dt.Rows.Count > 0)
+                    {
+                        for (int m = 0; m < dt.Rows.Count; m++)
+                        {
+                            var tempType = dt.Rows[m]["TypeName"].ToString().Substring(0, 2);
+                            var temptestno = dt.Rows[m]["TestNo"].ToString();
+                            var xName = string.Format("{0}{1}", tempType.Trim(), temptestno.Trim());
+                            if (!option1.xAxis.data.Contains(xName))
+                                option1.xAxis.data.Add(xName);
+                            item.data.Add(dt.Rows.Count == 0 ? "0" : dt.Rows[m]["AvgScore"].ToString());
+                        }
+                    }
+                    else
+                    {
+                        item.data.Add("0");
+                    }
+                }
+                return options;
+            }
+
         }
         #endregion
 

@@ -166,7 +166,7 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
 
 
 }]);
- 
+
 // Path: /stat.Stat08
 stat.controller('GradeOrderController', ['$scope', function ($scope) {
     var moduleName = '年级排名趋势';
@@ -182,7 +182,7 @@ stat.controller('GradeOrderController', ['$scope', function ($scope) {
     $scope.conditionData.checkValue = "0";
 
     $scope.AcademicYears = [];
-    $scope.GradeCourses = []; 
+    $scope.GradeCourses = [];
     $scope.GradeClasses = [];
     $scope.Students = [];
 
@@ -202,7 +202,7 @@ stat.controller('GradeOrderController', ['$scope', function ($scope) {
             $scope.GradeCourses.length = 0;
             $scope.userService.getUser(function (user) {
                 var url = "/DataProvider/Util.aspx/GetClassByScope";
-                var param = { academicYear: $scope.conditionData.MicYear.MicYear, teacher: user.TeacherID};
+                var param = { academicYear: $scope.conditionData.MicYear.MicYear, teacher: user.TeacherID };
                 $scope.baseService.post(url, param, function (data) {
                     $scope.GradeClasses = data.d;
                 });
@@ -233,7 +233,7 @@ stat.controller('GradeOrderController', ['$scope', function ($scope) {
     });
 
     var statCharts = function () {
-      
+
         var micYear = $scope.conditionData.MicYear.MicYear;
         var gradeCourse = $scope.conditionData.GradeCourse;
         var gradeClass = $scope.conditionData.GradeClass;
@@ -248,7 +248,7 @@ stat.controller('GradeOrderController', ['$scope', function ($scope) {
                 for (var i = 0; i < length; i++) {
                     var resultEntry = data.d[i];
                     if (resultEntry.Code == 0) {
-                        $scope.chartService.changeOption(chart1, resultEntry.Message); 
+                        $scope.chartService.changeOption(chart1, resultEntry.Message);
                     } else if (resultEntry.Code == 1) {
                         $scope.data = angular.fromJson(resultEntry.Message);
                     }
@@ -268,7 +268,7 @@ stat.controller('GradeOrderController', ['$scope', function ($scope) {
         if (!$scope.conditionData.Student) {
             $scope.dialogUtils.info('请选择学生！');
             return;
-        } 
+        }
         statCharts();
         $scope.haveStat = true;
     }
@@ -394,7 +394,7 @@ stat.controller('CourseOrderController', ['$scope', 'appUtils', function ($scope
 
 
     $scope.stat = function () {
-        if (!$scope.courseChecks.length === 0){
+        if (!$scope.courseChecks.length === 0) {
             $scope.dialogUtils.info('请选择课程！');
             return;
         }
@@ -406,7 +406,7 @@ stat.controller('CourseOrderController', ['$scope', 'appUtils', function ($scope
         $scope.haveStat = true;
     }
 }]);
- 
+
 //Path: /stat.Stat10
 stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope, appUtils) {
     var moduleName = '打印成绩单';
@@ -435,7 +435,7 @@ stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope,
     $scope.AcademicYears = [];
     $scope.GradeCodes = [];
     $scope.GradeCourses = [];
- 
+
     $scope.GradeClasses = [];
 
     $scope.Students = [];
@@ -470,7 +470,7 @@ stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope,
             var param = { academicYear: $scope.conditionData.MicYear.MicYear, gradeCode: gradeCode };
             $scope.baseService.post(url, param, function (data) {
                 $scope.GradeClasses = data.d;
-            }); 
+            });
         }
         changeTestLogin();
     });
@@ -559,16 +559,14 @@ stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope,
                 }
             });
         }
-    } 
+    }
 
     $scope.stat = function () {
-        if (!$scope.conditionData.Semester)
-        {
+        if (!$scope.conditionData.Semester) {
             $scope.dialogUtils.info('请选择学期');
             return;
         }
-        if (!$scope.conditionData.PrintMethod)
-        {
+        if (!$scope.conditionData.PrintMethod) {
             $scope.dialogUtils.info('请选择打印方式');
             return;
         }
@@ -580,8 +578,7 @@ stat.controller('PrintScoreController', ['$scope', 'appUtils', function ($scope,
             $scope.dialogUtils.info('请选择班级！');
             return;
         }
-        if (!$scope.conditionData.TestLogin)
-        {
+        if (!$scope.conditionData.TestLogin) {
             $scope.dialogUtils.info('请选择考试号');
             return;
         }
@@ -604,7 +601,7 @@ stat.controller('StudentMTController', ['$scope', function ($scope) {
     $scope.GradeCodes = [];
     $scope.GradeClasses = [];
 
-    $scope.Students = []; 
+    $scope.Students = [];
 
     $scope.data1 = [];
 
@@ -646,14 +643,14 @@ stat.controller('StudentMTController', ['$scope', function ($scope) {
                     $scope.data1 = angular.fromJson(data.d[0].Message);
                 }
             });
-        } 
+        }
     }
 
     $scope.stat = function () {
         if (!$scope.conditionData.MicYear) {
             $scope.dialogUtils.info('请选择学年');
             return;
-        } 
+        }
         statBase();
     }
 }]);
@@ -1126,8 +1123,7 @@ stat.controller('TeacherStyleController', ['$scope', function ($scope) {
         }
     }
     $scope.NumScore = 0;
-    $scope.query = function()
-    {
+    $scope.query = function () {
         chart1 = {};
         $scope.chartService.chartCreate('main1', function (data) {
             chart1 = data;
@@ -1138,7 +1134,7 @@ stat.controller('TeacherStyleController', ['$scope', function ($scope) {
         var param = {
             micyear: $scope.MicYear,
             gradeNo: $scope.GradeCode,
-            courseCode:$scope.GradeCourse,
+            courseCode: $scope.GradeCourse,
             only: $scope.ScoreOnly == null ? false : $scope.ScoreOnly,
             year: $scope.ScoreYear == null ? false : $scope.ScoreYear,
             numScore: $scope.NumScore,
@@ -1150,8 +1146,7 @@ stat.controller('TeacherStyleController', ['$scope', function ($scope) {
         });
     }
 
-    function check()
-    {
+    function check() {
         if ($scope.GradeCourse == null) {
             $scope.dialogUtils.info('请选择课程');
             return false;
@@ -1189,7 +1184,7 @@ stat.controller('TeacherStyle1Controller', ['$scope', function ($scope) {
         $scope.AcademicYears = data.d;
         $scope.MicYear = $scope.AcademicYears[0];
         $scope.starYear = $scope.AcademicYears[0];
-        $scope.endYear = $scope.AcademicYears[$scope.AcademicYears.length-1];
+        $scope.endYear = $scope.AcademicYears[$scope.AcademicYears.length - 1];
     });
     //根据学年，获取课程
     var url = "/DataProvider/Util.aspx/GetCourseCodeAll";
@@ -1226,7 +1221,7 @@ stat.controller('TeacherStyle1Controller', ['$scope', function ($scope) {
     $scope.teacherChange = function (teacher) {
         if ($.inArray(teacher.$parent.teacher, $scope.teacherCheck) < 0) {
             $scope.teacherCheck.push(teacher.$parent.teacher);
-        }else{
+        } else {
             $scope.teacherCheck.splice($.inArray(teacher.$parent.teacher, $scope.teacherCheck), 1);
         }
     }
@@ -1235,7 +1230,7 @@ stat.controller('TeacherStyle1Controller', ['$scope', function ($scope) {
         chart1 = {};
         $scope.chartService.chartCreate('main1', function (data) {
             chart1 = data;
-        });        
+        });
         if (!check()) return;
         $scope.utilService.showBg();
         var url = "/DataProvider/Statistic.aspx/GetTeacherStyle1";
@@ -1250,7 +1245,7 @@ stat.controller('TeacherStyle1Controller', ['$scope', function ($scope) {
         };
         $scope.baseService.post(url, param, function (data) {
             $scope.chartService.changeOption(chart1, data.d[0]);
-            $scope.utilService.closeBg();            
+            $scope.utilService.closeBg();
         });
     }
 
@@ -1424,8 +1419,8 @@ stat.controller('GradeStyleController', ['$scope', function ($scope) {
         $scope.utilService.GetCourse($scope.MicYear, function (data) {
             $scope.GradeCourses = data.d;
         });
-    });    
-    
+    });
+
     $scope.$watch('GradeCourse', function (gradeCourse) {
         $scope.GradeCodes.length = 0;
         if (gradeCourse) {
@@ -1456,7 +1451,7 @@ stat.controller('GradeStyleController', ['$scope', function ($scope) {
             });
         }
     });
-    
+
     $scope.query = function () {
         chart1 = {};
         $scope.chartService.chartCreate('main1', function (data) {
@@ -1474,7 +1469,7 @@ stat.controller('GradeStyleController', ['$scope', function ($scope) {
             $scope.chartService.changeOption(chart1, data.d[0]);
             $scope.utilService.closeBg();
         });
-    }   
+    }
 }]);
 
 stat.controller('GradeClassCompController', ['$scope', function ($scope) {
@@ -1504,42 +1499,67 @@ stat.controller('GradeClassCompController', ['$scope', function ($scope) {
         });
     });
 
-    $scope.$watch('GradeCourse', function (gradeCourse) {
-        $scope.GradeCodes.length = 0;
-        if (gradeCourse) {
-            //根据课程，获取年级
-            var url = "/DataProvider/Statistic.aspx/GetGradeCodeByGradeNo";
-            var param = { micyear: $scope.MicYear, gradeCourse: gradeCourse };
-            $scope.baseService.post(url, param, function (data) {
-                $scope.GradeCodes = data.d;
-            });
-        }
+    //根据课程，获取年级
+    $scope.utilService.GetGradeCodes(function (data) {
+        $scope.GradeCodes = data.d;
     });
+
     $scope.$watch('GradeCode', function (gradeCode) {
         $scope.Grades.length = 0;
         if (gradeCode) {
             //获得班级
-            $scope.queryService.GetGradeByGradeNo($scope.MicYear.MicYear, gradeCode.GradeNo, function (data) {
-                if (data.d != '') {
-                    $scope.Grades = JSON.parse(data.d);
-                }
-            });
-            $scope.testShow = true;
+            var url = "/DataProvider/Statistic.aspx/GetGradeByGradeNo";
+            var param = { micyear: $scope.MicYear.MicYear, gradeNo: gradeCode.GradeNo };
+            $scope.baseService.post(url, param, function (data) {
+                $scope.Grades = data.d;
+                $scope.testShow = true;
+            });            
         }
-    });  
+    });
 
+    $scope.classes = [];
+    $scope.gradeChange = function (gradeClass) {
+        if ($.inArray(gradeClass.$parent.grade, $scope.classes) < 0) {
+            $scope.classes.push(gradeClass.$parent.grade);
+        } else {
+            $scope.classes.splice($.inArray(gradeClass.$parent.grade, $scope.classes), 1);
+        }
+    }
     $scope.query = function () {
         chart1 = {};
         $scope.chartService.chartCreate('main1', function (data) {
             chart1 = data;
         });
         $scope.utilService.showBg();
-        var url = "/DataProvider/Statistic.aspx/GetGradeStyle";
+        var url = "/DataProvider/Statistic.aspx/GetGradeClassComp";
         var param = {
-            micYear: $scope.MicYear,
-            gradeCourse: $scope.GradeCourse,
-            gradeCode: $scope.GradeCode,
-            testNo: $scope.TestNo
+            micyear: $scope.MicYear,
+            courseCode: $scope.GradeCourse,
+            gradeNo: $scope.GradeCode,
+            only: $scope.ScoreOnly == null ? false : $scope.ScoreOnly,
+            year: $scope.ScoreYear == null ? false : $scope.ScoreYear,
+            numScore: $scope.NumScore,
+            Kaoshi: $scope.Kaoshi,
+            gradeClass: $scope.classes
+        };
+        $scope.baseService.post(url, param, function (data) {
+            $scope.chartService.changeOption(chart1, data.d[0]);
+            $scope.utilService.closeBg();
+        });
+    }
+    $scope.query1 = function () {
+        chart1 = {};
+        $scope.chartService.chartCreate('main1', function (data) {
+            chart1 = data;
+        });
+        $scope.utilService.showBg();
+        var url = "/DataProvider/Statistic.aspx/GetGradeClassCompNum";
+        var param = {
+            micyear: $scope.MicYear,
+            gradeNo: $scope.GradeCode,           
+            numScore: $scope.NumScore,
+            Kaoshi: $scope.Kaoshi,
+            gradeClass: $scope.classes
         };
         $scope.baseService.post(url, param, function (data) {
             $scope.chartService.changeOption(chart1, data.d[0]);
