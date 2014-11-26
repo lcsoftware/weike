@@ -334,6 +334,7 @@
     <Content Include="Content\uploader\angular-file-upload.js" />
     <Content Include="Content\uploader\angular-file-upload.min.js" />
     <Content Include="DataProvider\Admin.aspx" />
+    <Content Include="DataProvider\Analyze.aspx" />
     <Content Include="DataProvider\Down.aspx" />
     <Content Include="DataProvider\Query.aspx" />
     <Content Include="DataProvider\School.aspx" />
@@ -766,6 +767,13 @@
     </Compile>
     <Compile Include="DataProvider\Admin.aspx.designer.cs">
       <DependentUpon>Admin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\Analyze.aspx.cs">
+      <DependentUpon>Analyze.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Analyze.aspx.designer.cs">
+      <DependentUpon>Analyze.aspx</DependentUpon>
     </Compile>
     <Compile Include="DataProvider\Down.aspx.cs">
       <DependentUpon>Down.aspx</DependentUpon>

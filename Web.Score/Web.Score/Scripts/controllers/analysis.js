@@ -31,10 +31,23 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
     $scope.TestLogins = [];
     $scope.ExamMethods = $scope.constService.TestTypes;
 
+    
     $scope.classChecks = [];
     $scope.courseChecks = [];
-
+    
     $scope.otherChecks = [];
+
+    $scope.SettingChecks = [];
+    $scope.Settings = [
+      { code: 1, name: '百分比' },
+      { code: 2, name: '分值' }
+    ]
+
+    $scope.OutItem = [];
+    $scope.OutItems = [
+      { code: 1, name: '原始分' },
+      { code: 2, name: 'Z分' }
+    ]
 
     $scope.base = [];
     $scope.data1 = [];
@@ -51,23 +64,37 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
     });
 
     $scope.$watch('conditionData.GradeCode', function (gradeCode) {
-        if ($scope.conditionData.MicYear) {
-            $scope.GradeClasses.length = 0;
-            $scope.GradeCourses.length = 0;
-            var url = "/DataProvider/Util.aspx/GetGradeClass";
-            var param = { academicYear: $scope.conditionData.MicYear.MicYear, gradeCode: gradeCode };
+        $scope.GradeCourses.length = 0;
+        if (!$scope.conditionData.MicYear) return;
+        if ($scope.conditionData.TestLogin){
+            var testLogin = $scope.conditionData.TestLogin;
+            var url = "/DataProvider/Analyze.aspx/GetCourses";
+            var param = { micYear: $scope.conditionData.MicYear.MicYear, gradeCode: gradeCode, testLogin: testLogin };
             $scope.baseService.post(url, param, function (data) {
-                $scope.GradeClasses = data.d;
+                $scope.GradeCourses = data.d;
             });
         }
-        changeTestLogin();
-    }); 
 
-    $scope.$watch('conditionData.TestType', function (testType) {
-        changeTestLogin();
+        $scope.GradeClasses.length = 0;
+        var url1 = "/DataProvider/Util.aspx/GetGradeClass";
+        var param1 = { academicYear: $scope.conditionData.MicYear.MicYear, gradeCode: gradeCode };
+        $scope.baseService.post(url1, param1, function (data) {
+            $scope.GradeClasses = data.d;
+        });
     });
 
-    var changeTestLogin = function () {
+    $scope.$watch('conditionData.TestLogin', function (testLogin) {
+        $scope.GradeCourses.length = 0;
+        if ($scope.conditionData.TestLogin) {
+            var gradeCode = $scope.conditionData.GradeCode;
+            var url = "/DataProvider/Analyze.aspx/GetCourses";
+            var param = { micYear: $scope.conditionData.MicYear.MicYear, gradeCode: gradeCode, testLogin: testLogin };
+            $scope.baseService.post(url, param, function (data) {
+                $scope.GradeCourses = data.d;
+            });
+        }
+    });
+    $scope.$watch('conditionData.TestType', function (testType) {
         $scope.TestLogins.length = 0;
         if ($scope.conditionData.TestType && $scope.conditionData.MicYear) {
             var micYear = $scope.conditionData.MicYear;
@@ -77,7 +104,7 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
                 $scope.TestLogins = data.d;
             });
         }
-    }
+    });
 
     var statBase = function () {
         var micYear = $scope.conditionData.MicYear;
