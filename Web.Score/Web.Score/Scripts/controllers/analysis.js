@@ -31,10 +31,10 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
     $scope.TestLogins = [];
     $scope.ExamMethods = $scope.constService.TestTypes;
 
-    
+
     $scope.classChecks = [];
     $scope.courseChecks = [];
-    
+
     $scope.otherChecks = [];
 
     $scope.SettingChecks = [];
@@ -43,7 +43,6 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
       { code: 2, name: '分值' }
     ]
 
-    $scope.OutItem = [];
     $scope.OutItems = [
       { code: 1, name: '原始分' },
       { code: 2, name: 'Z分' }
@@ -66,7 +65,7 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
     $scope.$watch('conditionData.GradeCode', function (gradeCode) {
         $scope.GradeCourses.length = 0;
         if (!$scope.conditionData.MicYear) return;
-        if ($scope.conditionData.TestLogin){
+        if ($scope.conditionData.TestLogin) {
             var testLogin = $scope.conditionData.TestLogin;
             var url = "/DataProvider/Analyze.aspx/GetCourses";
             var param = { micYear: $scope.conditionData.MicYear.MicYear, gradeCode: gradeCode, testLogin: testLogin };
@@ -107,60 +106,56 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
     });
 
     var statBase = function () {
-        var micYear = $scope.conditionData.MicYear;
-        var gradeCode = $scope.conditionData.GradeCode;
-        var gradeClass = $scope.conditionData.GradeClass;
-        var studentChecks = $scope.studentChecks;
-        var testType = $scope.conditionData.TestType;
-        var testNo = $scope.conditionData.TestLogin;
-        var printMethod = $scope.conditionData.PrintMethod;
-        var semester = $scope.conditionData.Semester;
 
-        $scope.base.length = 0;
+        var valueA = $scope.conditionData.Setting.code === 1 ? ValueA1 : ValueA2;
+        var valueB = $scope.conditionData.Setting.code === 1 ? ValueB1 : ValueB2;
+        var valueC = $scope.conditionData.Setting.code === 1 ? ValueC1 : ValueC2;
+        var valueD = $scope.conditionData.Setting.code === 1 ? ValueD1 : ValueD2;
+        var valueE = $scope.conditionData.Setting.code === 1 ? ValueE1 : ValueE2;
+        var strLevel = '';
+        var strLevel1 = '';
+
+        if ($scope.lastLevel === 1) {
+            if (valueB === 100) {
+                strLevel = 'A';
+                strLevel1 = 'B';
+            } else if (valueC === 100) {
+                strLevel = 'B';
+                strLevel1 = 'C';
+            } else if (valueD === 100) {
+                strLevel = 'C';
+                strLevel1 = 'D';
+            } else {
+                strLevel = 'D';
+                strLevel1 = 'E';
+            }
+        }
+
         $scope.data1.length = 0;
-        $scope.data2.length = 0;
 
-        var url = "/DataProvider/Statistic.aspx/GetStat10Base";
-        var param = { micYear: micYear.MicYear, testLogin: testNo, studentChecks: studentChecks };
+        var url = "/DataProvider/Analyze.aspx/AnalyzeSuper";
+        var param = {
+            micYear: $scope.conditionData.MicYear.MicYear,
+            gradeCode: $scope.conditionData.GradeCode,
+            gradeClasses: $scope.classChecks,
+            gradeCourses: $scope.courseChecks,
+            TestType: $scope.conditionData.TestType,
+            TestLogin: $scope.conditionData.TestLogin,
+            outItem: $scope.conditionData.OutItem.code,
+            valueA: valueA,
+            valueB: valueB,
+            valueC: valueC,
+            valueD: valueD,
+            valueE: valueE,
+            lastLevel: $scope.lastLevel,
+            strlevel: strLevel,
+            strlevel1: strLevel1
+        };
         $scope.baseService.post(url, param, function (data) {
             if (data.d !== null) {
-                $scope.base = angular.fromJson(data.d[0].Message);
+                $scope.data1 = angular.fromJson(data.d[0].Message);
             }
-        });
-
-        if ($scope.conditionData.PrintMethod.code === 1) {
-            url = "/DataProvider/Statistic.aspx/GetStat10Data1";
-            param = {
-                micYear: micYear.MicYear,
-                gradeCode: gradeCode,
-                gradeClass: gradeClass,
-                studentChecks: studentChecks,
-                testType: testType,
-                testLogin: testNo,
-                printMethod: printMethod,
-                semester: semester.code
-            };
-            $scope.baseService.post(url, param, function (data) {
-                if (data.d !== null) {
-                    $scope.data1 = angular.fromJson(data.d[0].Message);
-                    $scope.testTime = data.d[1].Message;
-                }
-            });
-        } else if ($scope.conditionData.PrintMethod.code === 2) {
-            url = "/DataProvider/Statistic.aspx/GetStat10Data2";
-            param = {
-                micYear: micYear.MicYear,
-                gradeClass: gradeClass,
-                testLogin: testNo,
-                semester: semester.code
-            };
-            $scope.baseService.post(url, param, function (data) {
-                if (data.d !== null) {
-                    $scope.data2 = angular.fromJson(data.d[0].Message);
-                    $scope.testTime = data.d[1].Message;
-                }
-            });
-        }
+        }); 
     }
 
     $scope.stat = function () {
@@ -254,7 +249,7 @@ analysis.controller('MinutiaAnalyseController', ['$scope', function ($scope) {
             });
         }
     });
-    
+
 }]);
 
 //高三选课排名

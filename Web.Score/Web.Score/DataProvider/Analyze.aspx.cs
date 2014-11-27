@@ -185,10 +185,10 @@ namespace App.Web.Score.DataProvider
                 var XT = float.Parse(table.Rows[0]["maxBZScore"].ToString());
                 var YT = float.Parse(table.Rows[0]["minBZScore"].ToString());
                 if (XT == 0 || YT == 0) return;
-                int k = (int) Math.Floor(25 / XT);
-                if (k> Math.Abs(Math.Floor(75 / YT))) k = (int) Math.Abs(Math.Floor(75 / YT ));
+                int k = (int)Math.Floor(25 / XT);
+                if (k > Math.Abs(Math.Floor(75 / YT))) k = (int)Math.Abs(Math.Floor(75 / YT));
 
-                sql = " UPDATE b" 
+                sql = " UPDATE b"
                         + " SET b.standardScore = (75+b.Normalscore*({0}))"
                         + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
                         + " ON a.SRID = b.SRID"
@@ -198,7 +198,7 @@ namespace App.Web.Score.DataProvider
                         + " where a.Academicyear=@micYear"
                         + " and a.Testno=@testNo"
                         + " and a.classcode in (@classcode)"
-                        + " and a.CourseCode=@eourseCode";;
+                        + " and a.CourseCode=@eourseCode"; ;
                 sql = string.Format(sql, k);
                 bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testNo, courseCode = courseCode, classCode = classCode });
             }
@@ -206,17 +206,31 @@ namespace App.Web.Score.DataProvider
 
 
         [WebMethod]
-        public static IList<ResultEntry> AnalyzeSuper(int micYear, 
-            GradeCode gradeCode, 
-            IList<GradeClass> gradeClasses, 
-            IList<GradeCourse> gradeCourses, 
+        public static IList<ResultEntry> AnalyzeSuper(
+            int micYear,
+            GradeCode gradeCode,
+            IList<GradeClass> gradeClasses,
+            IList<GradeCourse> gradeCourses,
             TestType testType,
+<<<<<<< HEAD
             TestLogin testLogin, 
             int ValueA,
             int ValueB,
             int ValueC,
             int ValueD,
             int ValueE
+=======
+            TestLogin testLogin,
+            int outItem,
+            int valueA,
+            int valueB,
+            int valueC,
+            int valueD,
+            int valueE,
+            int lastLevel,
+            int strlevel,
+            int strlevel1
+>>>>>>> f6ad2370ad6040d8d9d3401f64cd904f2501e462
             )
         {
             IList<ResultEntry> results = new List<ResultEntry>();
