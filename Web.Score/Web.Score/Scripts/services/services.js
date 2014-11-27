@@ -143,6 +143,12 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         baseService.post(url, param, callback);
     }
 
+    //根据学年获得班级
+    service.GetGradeClassByYear = function (micYear, callback) {
+        var url = utilProviderUrl + '/GetGradeClassByYear';
+        var param = { academicYear: micYear };
+        baseService.post(url, param, callback);
+    }
 
     //获得考试类型 TestType
     service.GetTestType = function (callback) {

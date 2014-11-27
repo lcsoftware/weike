@@ -8,8 +8,8 @@
                     </select>
                 </div>
                 <div class="col-sm-9">                    
-                    <input type="radio" value="0" ng-model="Semesters" />&nbsp;上半学期&nbsp;
-                    <input type="radio" value="1" ng-model="Semesters" />&nbsp;下半学期
+                    <input type="radio" value="1" ng-model="Semester" />&nbsp;上半学期&nbsp;
+                    <input type="radio" value="2" ng-model="Semester" />&nbsp;下半学期
                 </div>
             </div>
             <div class="form-group">
@@ -38,10 +38,13 @@
             </div>
             <div class="form-group">
                 <div class="btn-group pull-right">
-                    <button type="button" class="btn btn-primary" ng-click="query()"><span class="glyphicon glyphicon-ok"></span>年级班级单门比较</button>                    
-                    @*<button type="button" class="btn btn-default" ng-click="tryCalculate();"><span class="glyphicon glyphicon-print"></span>打 印</button>*@
+                    <button type="button" class="btn btn-primary" ng-click="query()"><span class="glyphicon glyphicon-ok"></span>查询</button>                    
                 </div>
             </div>
         </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12" id="data">        
     </div>
 </div>

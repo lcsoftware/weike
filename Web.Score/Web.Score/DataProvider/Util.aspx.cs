@@ -156,6 +156,25 @@
             }
         }
 
+        //根据学年获得班级
+        [WebMethod]
+        public static IList<GradeClass> GetGradeClassByYear(Academicyear academicYear)
+        {
+            try
+            {
+                using (AppBLL bll = new AppBLL())
+                {
+                    var sql = "select GradeBriefName+'('+substring(classNo,3,2)+')班' AS GradeBriefName,ClassNo" +
+                              " from tdGradeCode g,tbGradeClass c " +
+                              " where c.gradeno=g.GradeNo and c.academicyear=2013";
+                    return bll.FillListByText<GradeClass>(sql, new { micYear = academicYear.MicYear });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         [WebMethod]
         public static IList<GradeClass> GetClassByScope(int academicYear, string teacher)
