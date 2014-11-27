@@ -101,15 +101,15 @@ angular.module('app', [
             //班级间比较
             .state('stat.Stat13', { url: '/GradeClassComp', templateUrl: '/views/stat/GradeClassComp', controller: 'GradeClassCompController' })
             //年级排名
-            .state('stat.Stat14', { url: '/GradeOrder', templateUrl: '/views/GradeOrder', controller: 'GradeOrderController' })
+            .state('stat.Stat14', { url: '/GradeOrders', templateUrl: '/views/stat/GradeOrders', controller: 'GradeOrdersController' })
             //年级学科成绩正态
-            .state('stat.Stat15', { url: '/GradeScore', templateUrl: '/views/GradeScore', controller: 'GradeScoreController' })
+            .state('stat.Stat15', { url: '/GradeScore', templateUrl: '/views/stat/GradeScore', controller: 'GradeScoreController' })
             //班级细目成绩报表
-            .state('stat.Stat16', { url: '/GradeMinutia', templateUrl: '/views/GradeMinutia', controller: 'GradeMinutiaController' })
+            .state('stat.Stat16', { url: '/GradeMinutia', templateUrl: '/views/stat/GradeMinutia', controller: 'GradeMinutiaController' })
             //年级成绩统计(并表)
-            .state('stat.Stat17', { url: '/Gradestat', templateUrl: '/views/Gradestat', controller: 'GradestatController' })
+            .state('stat.Stat17', { url: '/Gradestat', templateUrl: '/views/stat/Gradestat', controller: 'GradestatController' })
             //学生成绩纵向比较
-            .state('stat.Stat18', { url: '/GradeStdPJ', templateUrl: '/views/GradeStdPJ', controller: 'GradeStdPJController' })
+            .state('stat.Stat18', { url: '/GradeStdPJ', templateUrl: '/views/stat/GradeStdPJ', controller: 'GradeStdPJController' })
             //考试统计分析
             .state('stat.Stat20', { url: '/ClassStat', templateUrl: '/views/stat/ExamStat', controller: 'ExamStatController' })
             //学科相关分析

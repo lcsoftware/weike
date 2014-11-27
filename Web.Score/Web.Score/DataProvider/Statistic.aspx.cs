@@ -1656,6 +1656,18 @@ namespace App.Web.Score.DataProvider
         }
         #endregion
 
+        #region 年级排名
+        [WebMethod]
+        public static string GetGradeOrders()
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                
+            }
+            return "";
+        }
+        #endregion
+
         #region 班级统计
         /// <summary>
         ///考试统计分析

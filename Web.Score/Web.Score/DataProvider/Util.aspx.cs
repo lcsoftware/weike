@@ -95,9 +95,8 @@
         }
 
         /// <summary>
-        /// 课程 
+        /// 根据年和年级获得课程 
         /// </summary>
-        /// <param name="teacherId"></param>
         /// <returns></returns> 
         [WebMethod]
         public static IList<GradeCourse> GetGradeCourse(int micYear, GradeCode gradeCode)
