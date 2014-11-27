@@ -212,14 +212,6 @@ namespace App.Web.Score.DataProvider
             IList<GradeClass> gradeClasses,
             IList<GradeCourse> gradeCourses,
             TestType testType,
-<<<<<<< HEAD
-            TestLogin testLogin, 
-            int ValueA,
-            int ValueB,
-            int ValueC,
-            int ValueD,
-            int ValueE
-=======
             TestLogin testLogin,
             int outItem,
             int valueA,
@@ -230,7 +222,6 @@ namespace App.Web.Score.DataProvider
             int lastLevel,
             int strlevel,
             int strlevel1
->>>>>>> f6ad2370ad6040d8d9d3401f64cd904f2501e462
             )
         {
             IList<ResultEntry> results = new List<ResultEntry>();
