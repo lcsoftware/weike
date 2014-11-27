@@ -1646,11 +1646,8 @@ namespace App.Web.Score.DataProvider
         #endregion
 
         #region 年级排名
-
-
-
         [WebMethod]
-        public static IList<ResultEntry> GetGradeOrders(Academicyear micYear, GradeCode gradeCode, IList<GradeCourse> gradeCourse, TestLogin testNo)
+        public static IList<ResultEntry> GetGradeOrders(Academicyear micYear, GradeCode gradeCode, IList<GradeCourse> gradeCourse, TestLogin testNo, int semester)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -1661,33 +1658,44 @@ namespace App.Web.Score.DataProvider
                 //mp_ScoreOrder()
                 if (gradeCourse.Count == 1)
                 {
-                    sql = "SELECT  "
-                        + "e.GradeBriefName+'('+substring(b.ClassCode,3,2)+')班' AS 班级,"
+                    sql = " SELECT  "
+                        + " e.GradeBriefName+'('+substring(b.ClassCode,3,2)+')班' AS 班级,"
                         + " b.ClassSN AS 序号,"
-                        + "c.stdName as 姓名,"
-                        + "d.BriefName AS 课程名称,"
-                        + "a.NumScore AS 成绩,"
-                        + "a.GradeOrder AS 名次, "
-                        + "a.academicYear AS 学年,"
-                        + "case a.Semester when 2 then '下学期' else '上学期' end AS 学期,"
-                        + "f.TypeName AS 考试,"
-                        + "a.TestNo AS 考试号 "
-                        + "from  tdGradeCode e RIGHT OUTER JOIN "
+                        + " c.stdName as 姓名,"
+                        + " d.BriefName AS 课程名称,"
+                        + " a.NumScore AS 成绩,"
+                        + " a.GradeOrder AS 名次, "
+                        + " a.academicYear AS 学年,"
+                        + " case a.Semester when 2 then '下学期' else '上学期' end AS 学期,"
+                        + " f.TypeName AS 考试,"
+                        + " a.TestNo AS 考试号 "
+                        + " from  tdGradeCode e RIGHT OUTER JOIN "
                         + " s_tb_TestTypeInfo f RIGHT OUTER JOIN "
                         + " tdCourseCode d RIGHT OUTER JOIN "
                         + " tbStudentClass b INNER JOIN "
-                        + "s_tb_normalScore a ON b.SRID = a.srid and a.Academicyear=b.academicyear ON "
-                        + "d.CourseCode = a.CourseCode LEFT OUTER JOIN "
+                        + " s_tb_normalScore a ON b.SRID = a.srid and a.Academicyear=b.academicyear ON "
+                        + " d.CourseCode = a.CourseCode LEFT OUTER JOIN "
                         + " tbStudentBaseInfo c ON a.srid = c.SRID ON f.TestType = a.TestType ON  "
-                        + "e.GradeNo = substring(b.ClassCode,1,2) "
-                        + "where a.Academicyear =@micYear"
-                        + "and a.TestNo=@testNo"
-                        + "and a.CourseCode in (@gradeCourse)"
-                        + "and e.gradeno =@gradeCode"
-                        + "order by b.classcode,b.classsn";
+                        + " e.GradeNo = substring(b.ClassCode,1,2) "
+                        + " where a.Academicyear =@micYear"
+                        + " and a.TestNo=@testNo"
+                        + " and a.CourseCode in (@gradeCourse)"
+                        + " and e.gradeno =@gradeCode"
+                        + " and a.Semester=" + semester
+                        + " order by b.classcode,b.classsn";
                     dt = bll.FillDataTableByText(sql, new { micYear = micYear.MicYear, gradeCode = gradeCode.GradeNo, gradeCourse = gradeCourse[0].CourseCode, testNo = testNo.TestNo });
                     entry = new ResultEntry() { Code = 0, Message = JsonConvert.SerializeObject(dt) };
-                    results.Add(entry);                    
+                    results.Add(entry);
+
+                    sql = "";
+                    for (int i = 0; i < dt.Columns.Count; i++)
+                    {
+                        sql += string.Format(" '{0}' as '{1}',", dt.Columns[i].ColumnName, i);
+                    }
+                    sql = "select " + sql.TrimEnd(',');
+                    dt = bll.FillDataTableByText(sql);
+                    entry = new ResultEntry() { Code = 1, Message = JsonConvert.SerializeObject(dt) };
+                    results.Add(entry);
                 }
                 else
                 {
@@ -1704,7 +1712,7 @@ namespace App.Web.Score.DataProvider
                     sql = string.Format(sql, micYear.MicYear, testNo.TestNo, gradeCode.GradeNo, coursees.TrimEnd(','));
                     string TemptableName = UtilBLL.mf_getTable();
                     mp_ScoreOrder(sql);
-                    
+
                     string vwName = "s_vw_" + TemptableName;
 
                     sql = "if exists (select * from sysobjects where id = object_id(N'[dbo].[" + vwName + "]') and OBJECTPROPERTY(id, N'IsView') = 1) drop view [dbo].[" + vwName + "] ";
@@ -1730,12 +1738,13 @@ namespace App.Web.Score.DataProvider
                     sql += " from " + vwName;
                     sql += " where Testno=" + testNo.TestNo + " and AcademicYear =" + micYear.MicYear + "" +
                            " and GradeNo=" + gradeCode.GradeNo + "" +
+                           " and semester=" + semester + "" +
                            " group by SRid,stdname,academicYear,semester,gradename,classcode,ClassSN,Score,OrderNo " +
                            " order by ClassCode,ClassSN ";
                     dt = bll.FillDataTableByText(sql);
 
                     entry = new ResultEntry() { Code = 0, Message = JsonConvert.SerializeObject(dt) };
-                    results.Add(entry);                   
+                    results.Add(entry);
 
                     sql = "if exists (select * from  sysobjects where id = object_id(N'" + vwName + "') and OBJECTPROPERTY(id, N'IsView') = 1)";
                     sql += "drop view " + vwName + "";
@@ -1744,7 +1753,7 @@ namespace App.Web.Score.DataProvider
                     sql = "";
                     for (int i = 0; i < dt.Columns.Count; i++)
                     {
-                        sql += string.Format(" '{0}' as {0},", dt.Columns[i].ColumnName);
+                        sql += string.Format(" '{0}' as '{1}',", dt.Columns[i].ColumnName, i);
                     }
                     sql = "select " + sql.TrimEnd(',');
                     dt = bll.FillDataTableByText(sql);
@@ -1753,6 +1762,97 @@ namespace App.Web.Score.DataProvider
 
                 }
                 return results;
+            }
+
+        }
+        #endregion
+
+        #region 年级学科成绩正态
+        [WebMethod]
+        public static IList<CommonOption> GetGradeScore(Academicyear micYear, GradeCourse gradeCourse, GradeCode gradeCode, GradeClass gradeClass, int type, TestLogin testNo)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                IList<CommonOption> options = new List<CommonOption>();
+                ChartOption option1 = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
+                options.Add(option1);
+
+                string legend = "";
+                if(type == 0)
+                    legend = string.Format("{0}{1}课成绩分布图", gradeCode.GradeName, gradeCourse.FullName);
+                else
+                    legend = string.Format("{0}{1}课成绩分布图", gradeClass.GradeBriefName, gradeCourse.FullName);
+                
+                option1.title.text = legend;
+                option1.title.x = "center";
+                option1.legend.x = "left";
+                option1.series.Add(new SeriesItem() { type = "line", name = legend });
+
+                var sql = "";
+                DataTable table = new DataTable();
+                if(type == 0)
+                {
+                    sql = "SELECT c.TypeName, b.BriefName AS CourseName, a.TestNo," +
+                           " a.GradeNo, a.S_5+a.S_10+a.S_15+a.S_20+a.S_25+a.S_30 s_30,a.S_35,a.S_40," +
+                           " a.S_45,a.S_50,a.S_55,a.S_60,a.S_65,a.S_70,a.S_75,a.S_80,a.S_85," +
+                           " a.S_90,a.S_95,a.S_100 " +
+                           " FROM  tdCourseCode b INNER JOIN " +
+                           " s_tb_Gradestat a ON b.CourseCode = a.CourseCode INNER JOIN " +
+                           " s_tb_TestTypeInfo c ON a.TestType = c.TestType " +
+                           " Where a.Academicyear=@micYear" +
+                           " and a.CourseCode=@gradeCourse" +
+                           " and a.TestNo=@testNo" +
+                           " and a.GradeNo=@gradeCode";
+                    table = bll.FillDataTableByText(sql, new { micYear = micYear.MicYear, gradeCourse = gradeCourse.CourseCode, testNo = testNo.TestNo, gradeCode = gradeCode.GradeNo });
+                }
+                else
+                {
+                    sql = "SELECT c.TypeName, b.BriefName AS CourseName, a.TestNo," +
+                           " a.ClassNo, a.S_5+a.S_10+a.S_15+a.S_20+a.S_25+a.S_30 s_30,a.S_35,a.S_40," +
+                           " a.S_45,a.S_50,a.S_55,a.S_60,a.S_65,a.S_70,a.S_75,a.S_80,a.S_85," +
+                           " a.S_90,a.S_95,a.S_100 " +
+                           " FROM  tdCourseCode b INNER JOIN " +
+                           " s_tb_ClassStat a ON b.CourseCode = a.CourseCode INNER JOIN " +
+                           " s_tb_TestTypeInfo c ON a.TestType = c.TestType " +
+                           " Where a.Academicyear=@micYear" +
+                           " and a.CourseCode=@gradeCourse" +
+                           " and a.TestNo=@testNo" +
+                           " and a.ClassNo=@gradeClass";
+                    table = bll.FillDataTableByText(sql, new { micYear = micYear.MicYear, gradeCourse = gradeCourse.CourseCode, testNo = testNo.TestNo, gradeClass = gradeClass.ClassNo });
+                }
+                if (table.Rows.Count == 0) return null; //无统计数据,请您确认是否做过统计图形!
+                option1.xAxis.data.Add("0-0.3");
+                option1.xAxis.data.Add("0.3-0.35");
+                option1.xAxis.data.Add("0.35-0.4");
+                option1.xAxis.data.Add("0.4-0.45");
+                option1.xAxis.data.Add("0.45-0.5");
+                option1.xAxis.data.Add("0.5-0.55");
+                option1.xAxis.data.Add("0.55-0.6");
+                option1.xAxis.data.Add("0.6-0.65");
+                option1.xAxis.data.Add("0.65-0.7");
+                option1.xAxis.data.Add("0.7-0.75");
+                option1.xAxis.data.Add("0.75-0.8");
+                option1.xAxis.data.Add("0.8-0.85");
+                option1.xAxis.data.Add("0.85-0.9");
+                option1.xAxis.data.Add("0.9-0.95");
+                option1.xAxis.data.Add("0.95-1");
+                SeriesItem seriesItem = (SeriesItem)option1.series[0];
+                seriesItem.data.Add(table.Rows[0]["S_30"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_35"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_40"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_45"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_50"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_55"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_60"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_65"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_70"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_75"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_80"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_85"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_90"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_95"].ToString());
+                seriesItem.data.Add(table.Rows[0]["S_100"].ToString());
+                return options;
             }
             
         }

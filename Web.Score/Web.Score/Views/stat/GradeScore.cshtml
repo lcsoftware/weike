@@ -1,0 +1,64 @@
+﻿<div class="row">
+    <div class="col-sm-12">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="MicYear" ng-options="m.MicYear for m in AcademicYears">
+                        <option value="">-- 请选择学年--</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="GradeCourse" ng-options="m.FullName for m in GradeCourses">
+                        <option value="">-- 请选择课程--</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <input type="radio" value="0" ng-model="type" />年级&nbsp;
+                    <input type="radio" value="1" ng-model="type" />班级
+                </div>           
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3" ng-show="nianji">
+                    <select class="form-control" ng-model="GradeCode" ng-options="m.GradeName for m in GradeCodes">
+                        <option value="">-- 请选择年级 --</option>
+                    </select>
+                </div>
+                <div class="col-sm-3" ng-show="banji">
+                    <select class="form-control" ng-model="GradeClass" ng-options="m.GradeBriefName for m in Grades">
+                        <option value="">-- 请选择班级 --</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="TestType" ng-options="m.Name for m in TestTypes">
+                        <option value="">-- 请选择考试类型 --</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="TestNo" ng-options="m.TestNo for m in TestNos">
+                        <option value="">-- 请选择考试号 --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-primary" ng-click="query()"><span class="glyphicon glyphicon-ok"></span>年级班级单门比较</button>
+                    <button type="button" class="btn btn-primary" ng-click="query1()"><span class="glyphicon glyphicon-ok"></span>年级班级总分比较</button>
+                    @*<button type="button" class="btn btn-default" ng-click="tryCalculate();"><span class="glyphicon glyphicon-print"></span>打 印</button>*@
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row" style="margin-top:1em;">
+    <div class="col-sm-12">
+        <div id="main1" style="height:300px;width:100%"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    require.config({
+        packages: [
+            { name: 'echarts', location: '/content/charts/echarts', main: 'echarts' },
+            { name: 'zrender', location: '/content/charts/zrender', main: 'zrender' }
+        ]
+    });
+</script>
