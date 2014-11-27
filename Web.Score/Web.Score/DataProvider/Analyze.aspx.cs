@@ -214,21 +214,392 @@ namespace App.Web.Score.DataProvider
             TestType testType,
             TestLogin testLogin,
             int outItem,
+            int cksr,
+            int cbDC,
+            int setting,
             int valueA,
             int valueB,
             int valueC,
             int valueD,
             int valueE,
-            int lastLevel,
-            int strlevel,
-            int strlevel1
+            string strlevel,
+            string strlevel1
             )
         {
             IList<ResultEntry> results = new List<ResultEntry>();
             using (AppBLL bll = new AppBLL())
             {
+                var classes = "";
+                var courses = "";
+                foreach (var gradeClass in gradeClasses)
+                {
+                    classes += gradeClass.ClassNo + ",";
+                }
+                classes = classes.Substring(0, classes.Length - 1);
+
+                foreach (var gradeCourse in gradeCourses)
+                {
+                    courses += gradeCourse.CourseCode + ",";
+                }
+                courses = courses.Substring(0, courses.Length - 1);
+
+                //clear old data
+                var sql = "delete from s_tb_scorerep";
+                bll.ExecuteNonQueryByText(sql);
+                if (gradeCode.GradeNo == "33")
+                {
+                    sql = "Insert into s_tb_scorerep(academicyear,srid,stdname,classcode,classsn,testno,"
+                               + " yw,sx,wy,zz,wl,hx,dl,ls,sw,jsj,ty,zzx)"
+                               + " select AcademicYear,srid,stdName,gradename + '('+substring(classCode,3,2)+')班' classcode, classsn,testno,"
+                               + " sum(case When CourseCode='21001' then numscore else 0 end) 'yw',"
+                               + " sum(case When CourseCode='21002' then numscore else 0 end) 'sx',"
+                               + " sum(case When CourseCode='21003' then numscore else 0 end) 'wy',"
+                               + " sum(case When CourseCode='21004' then numscore else 0 end) 'zz',"
+                               + " sum(case When CourseCode='21005' then numscore else 0 end) 'wl',"
+                               + " sum(case When CourseCode='21006' then numscore else 0 end) 'hx',"
+                               + " sum(case When CourseCode='21007' then numscore else 0 end) 'dl',"
+                               + " sum(case When CourseCode='21008' then numscore else 0 end) 'ls',"
+                               + " sum(case When CourseCode='21009' then numscore else 0 end) 'sw',"
+                               + " sum(case When CourseCode='21010' then numscore else 0 end) 'jsj',"
+                               + " sum(case When CourseCode='21013' then numscore else 0 end) 'ty',"
+                               + " sum(case When CourseCode='31017' then numscore else 0 end) 'ZZX'"
+                               + " from s_vw_classScoreNum "
+                               + " where Academicyear=@micYear"
+                               + " and testno=@testNo"
+                               + " and classCode in ({0})";
+                    sql = string.Format(sql, classes);
+                }
+                else
+                {
+                    sql = "Insert into s_tb_scorerep(academicyear,srid,stdname,classcode,classsn,testno,"
+                                                  + " yw,sx,wy,zz,wl,hx,dl,ls,sw,jsj,yy,ms,ty) "
+                                                  + " select AcademicYear,srid,stdName,gradename+'('+substring(classCode,3,2)+')班' classcode, classsn,testno,"
+                                                  + " sum(case When CourseCode='21001' then numscore else 0 end) 'yw',"
+                                                  + " sum(case When CourseCode='21002' then numscore else 0 end) 'sx',"
+                                                  + " sum(case When CourseCode='21003' then numscore else 0 end) 'wy',"
+                                                  + " sum(case When CourseCode='21004' then numscore else 0 end) 'zz',"
+                                                  + " sum(case When CourseCode='21005' then numscore else 0 end) 'wl',"
+                                                  + " sum(case When CourseCode='21006' then numscore else 0 end) 'hx',"
+                                                  + " sum(case When CourseCode='21007' then numscore else 0 end) 'dl',"
+                                                  + " sum(case When CourseCode='21008' then numscore else 0 end) 'ls',"
+                                                  + " sum(case When CourseCode='21009' then numscore else 0 end) 'sw',"
+                                                  + " sum(case When CourseCode='21010' then numscore else 0 end) 'jsj',"
+                                                  + " sum(case When CourseCode='21011' then numscore else 0 end) 'yy',"
+                                                  + " sum(case When CourseCode='21012' then numscore else 0 end) 'ms',"
+                                                  + " sum(case When CourseCode='21013' then numscore else 0 end) 'ty' "
+                                                  + " from s_vw_classScoreNum "
+                                                  + " where Academicyear=@micYear"
+                                                  + " and testno=@testNo"
+                                                  + " and classCode in ({0})";
+                    sql = string.Format(sql, classes);
+                }
+
+                if (cksr == 1) sql = sql + " and State is null";
+                sql += " group by AcademicYear,srid,stdName,gradename,classcode, classsn,testno";
+                bll.ExecuteNonQueryByText(sql);
+
+                var length = gradeCourses.Count();
+                for (int i = 0; i < length; i++)
+                {
+                    string str_kc = "";
+                    GradeCourse gradeCourse = gradeCourses[i];
+                    if (int.Parse(gradeCourse.CourseCode) > 21009 && int.Parse(gradeCourse.CourseCode) != 31017) continue;
+                    switch (gradeCourse.CourseCode)
+                    {
+                        case "21001": str_kc = "yw"; break;
+                        case "21002": str_kc = "sx"; break;
+                        case "21003": str_kc = "wy"; break;
+                        case "21004": str_kc = "zz"; break;
+                        case "21005": str_kc = "wl"; break;
+                        case "21006": str_kc = "hx"; break;
+                        case "21007": str_kc = "dl"; break;
+                        case "21008": str_kc = "ls"; break;
+                        case "21009": str_kc = "sw"; break;
+                        case "31017": str_kc = "zzx"; break;
+                        default: break;
+                    }
+                    sql = "select academicYear,'1' Semester,'1' TestType,TestNo,{0} CourseCode,srid,"
+                                                + "{1},0 as OrderNO from s_tb_scorerep "
+                                                + " where Academicyear={2}"
+                                                + " and testno={3} and {1}>0";
+                    sql = string.Format(sql, gradeCourse.CourseCode, str_kc, micYear, testLogin.TestLoginNo);
+                    gf_ScoreOrderA(sql, gradeCourse.CourseCode, "s_tb_scorerep", str_kc + "M", 9);
+                    gf_GetStdScoreB(micYear, testLogin.TestLoginNo.ToString(), gradeCourse.CourseCode, classes);
+                    gp_GetTScoreB(micYear, testLogin.TestLoginNo.ToString(), gradeCourse.CourseCode, classes);
+
+                    if (setting == 1)
+                    {
+                        sql = "Select count(*) as RS from s_vw_ClassScoreNum"
+                                                   + " where Academicyear=@micYear"
+                                                   + " and testno=@testNo"
+                                                   + " and classcode in ({0})"
+                                                   + " and CourseCode=@courseCode";
+                        if (cksr == 0) sql += " and state is null";
+                        sql = string.Format(sql, classes);
+                        DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, courseCode = gradeCourse.CourseCode });
+                        var renshu = int.Parse(table.Rows[0]["RS"].ToString());
+
+                        var tempSql = " UPDATE s_tb_normalscore SET levelscore = '{0}'"
+                                                    + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
+                                                    + " ON a.SRID = b.SRID"
+                                                    + " and a.Academicyear= b.Academicyear"
+                                                    + " and a.TestNo=b.testno"
+                                                    + " and a.coursecode=b.coursecode"
+                                                    + " where a.classcode in ({1})"
+                                                    + " and b.Academicyear=@micYear"
+                                                    + " and b.TestNo=@testNo"
+                                                    + " and b.CourseCode=@courseCode";
+
+                        sql = tempSql + " and b.GradeOrder<=@iNumA";
+                        sql = string.Format(sql, "A", classes);
+                        var iNumA = renshu * valueA / 100;
+                        var iNumB = -1;
+                        bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, courseCode = gradeCourse.CourseCode, iNumA = iNumA });
+
+                        sql = tempSql + " and b.GradeOrder<=@iNumB and b.GradeOrder>@iNumA";
+                        sql = string.Format(sql, "B", classes);
+                        iNumA = renshu * valueA / 100;
+                        iNumB = renshu * valueB / 100;
+                        bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, courseCode = gradeCourse.CourseCode, iNumA = iNumA, iNumB = iNumB });
+
+                        sql = tempSql + " and b.GradeOrder<=@iNumB and b.GradeOrder>@iNumA";
+                        sql = string.Format(sql, "C", classes);
+                        iNumA = renshu * valueB / 100;
+                        iNumB = renshu * valueC / 100;
+                        bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, courseCode = gradeCourse.CourseCode, iNumA = iNumA, iNumB = iNumB });
+
+                        sql = tempSql + " and b.GradeOrder<=@iNumB and b.GradeOrder>@iNumA";
+                        sql = string.Format(sql, "D", classes);
+                        iNumA = renshu * valueC / 100;
+                        iNumB = renshu * valueD / 100;
+                        bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, courseCode = gradeCourse.CourseCode, iNumA = iNumA, iNumB = iNumB });
+
+                        sql = tempSql + " and b.GradeOrder<=@iNumB and b.GradeOrder>@iNumA";
+                        sql = string.Format(sql, "E", classes);
+                        iNumA = renshu * valueD / 100;
+                        iNumB = renshu;
+                        bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, courseCode = gradeCourse.CourseCode, iNumA = iNumA, iNumB = iNumB });
+
+                        if (cbDC == 1)
+                        {
+                            sql = " UPDATE s_tb_normalscore"
+                                   + "  SET levelscore = '{0}'"
+                                   + "  FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
+                                   + "  ON a.SRID = b.SRID "
+                                   + "  and a.Academicyear= b.Academicyear "
+                                   + "  and a.TestNo=b.testno "
+                                   + "  and a.coursecode=b.coursecode "
+                                   + "  where a.classcode in ({2})"
+                                   + "  and b.Academicyear=@micYear"
+                                   + "  and b.TestNo=@testNo"
+                                   + "  and b.CourseCode=@courseCode"
+                                   + "  and b.NumScore>= cast(right(b.markcode,3) as int)*0.6"
+                                   + "  and b.LevelScore='{1}'";
+                            sql = string.Format(sql, strlevel, strlevel1, classes);
+                            bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, courseCode = gradeCourse.CourseCode });
+                        }
+                    }
+                    else
+                    {
+                        var tempSql = "UPDATE s_tb_normalscore SET levelscore = '{0}'"
+                                                     + "  FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
+                                                     + "  ON a.SRID = b.SRID"
+                                                     + "  and a.Academicyear= b.Academicyear"
+                                                     + "  and a.TestNo=b.testno"
+                                                     + "  and a.coursecode=b.coursecode"
+                                                     + "  where a.classcode in ({1})"
+                                                     + "  and b.Academicyear=@micYear"
+                                                     + "  and b.TestNo=@testNo"
+                                                     + "  and b.CourseCode=@courseCode";
+
+                        sql = tempSql + " and b.NumScore>=@iNumA";
+                        sql = string.Format(sql, "A", classes);
+                        var iNumA = valueA;
+                        var iNumB = -1;
+                        bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, courseCode = gradeCourse.CourseCode, iNumA = iNumA });
+
+                        sql = tempSql + " and b.NumScore>=@iNumB and b.NumScore<@iNumA";
+                        sql = string.Format(sql, "B", classes);
+                        iNumA = valueA;
+                        iNumB = valueB;
+                        bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, courseCode = gradeCourse.CourseCode, iNumA = iNumA, iNumB = iNumB });
+
+                        sql = tempSql + " and b.NumScore>=@iNumB and b.NumScore<@iNumA";
+                        sql = string.Format(sql, "C", classes);
+                        iNumA = valueB;
+                        iNumB = valueC;
+                        bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, courseCode = gradeCourse.CourseCode, iNumA = iNumA, iNumB = iNumB });
+
+                        sql = tempSql + " and b.NumScore>=@iNumB and b.NumScore<@iNumA";
+                        sql = string.Format(sql, "D", classes);
+                        iNumA = valueC;
+                        iNumB = valueD;
+                        bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, courseCode = gradeCourse.CourseCode, iNumA = iNumA, iNumB = iNumB });
+
+                        sql = tempSql + " and b.NumScore>=0 and b.NumScore<@iNumA";
+                        sql = string.Format(sql, "E", classes);
+                        iNumA = valueD;
+                        bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, courseCode = gradeCourse.CourseCode, iNumA = iNumA });
+                    }
+                }
+
+                //三总排名
+                sql = " select academicYear,'1' Semester,'1' TestType,TestNo,'30000' CourseCode,srid,"
+                        + "yw+sx+wy as Score,0 as OrderNO from s_tb_scorerep"
+                        + " where Academicyear={0}"
+                        + " and testno={1}";
+                sql = string.Format(sql, micYear, testLogin.TestLoginNo);
+                gf_ScoreOrderA(sql, "", "s_tb_scorerep", "YSWM", 0);
+
+                //六总排名
+                sql = "select academicYear,'1' Semester,'1' TestType,TestNo,'30000' CourseCode,srid,"
+                         + "yw+sx+wy+zz+wl+hx as Score,0 as OrderNO from s_tb_scorerep"
+                         + " where Academicyear={0}"
+                         + " and testno={1}";
+
+                gf_ScoreOrderA(sql, "", "s_tb_scorerep", "lzm", 0);
+
+                //总分排名
+                sql = "select academicYear,'1' Semester,'1' TestType,TestNo,'30000' CourseCode,srid,"
+                        + "yw+sx+wy+zz+wl+hx+ls+dl+sw as Score,0 as OrderNO from s_tb_scorerep "
+                        + " where Academicyear={0}"
+                        + " and testno={1}";
+
+                gf_ScoreOrderA(sql, "", "s_tb_scorerep", "bzm", 0);
+
+                //获得学校编号
+                sql = "update A set a.SchoolID=b.SchoolID"
+                       + " from s_tb_scorerep as A,s_tb_schoolID as B"
+                       + " where A.SRID = B.SRID";
+                bll.ExecuteNonQueryByText(sql);
+
+                //总分完成
+                sql = "update s_tb_scorerep set "
+                    + " ysw=yw+sx+wy,"
+                    + " lz=yw+sx+wy+zz+wl+hx,"
+                    + " bz=yw+sx+wy+zz+wl+hx+dl+ls+sw";
+                bll.ExecuteNonQueryByText(sql);
+
+                sql = "update s_tb_scorerep set wl=null where wl=0 ";
+                bll.ExecuteNonQueryByText(sql);
+
+                sql = "update s_tb_scorerep set hx=null where hx=0 ";
+                bll.ExecuteNonQueryByText(sql);
+
+                sql = "update s_tb_scorerep set sw=null where sw=0 ";
+                bll.ExecuteNonQueryByText(sql);
+
+                sql = "update s_tb_scorerep set zzx=null where zzx=0 ";
+                bll.ExecuteNonQueryByText(sql);
+
+                if (outItem == 1)
+                {
+                    sql = " Select Academicyear,testno,classcode,ClassSN,SchoolID,stdName,ysw,yswm,lz,lzm,bz,bzm ";
+                    var length1 = gradeCourses.Count();
+                    for (int i = 0; i < length1; i++)
+                    {
+                        string str_kc = "";
+                        GradeCourse gradeCourse = gradeCourses[i];
+                        switch (gradeCourse.CourseCode)
+                        {
+                            case "21001": str_kc = "yw"; break;
+                            case "21002": str_kc = "sx"; break;
+                            case "21003": str_kc = "wy"; break;
+                            case "21004": str_kc = "zz"; break;
+                            case "21005": str_kc = "wl"; break;
+                            case "21006": str_kc = "hx"; break;
+                            case "21007": str_kc = "dl"; break;
+                            case "21008": str_kc = "ls"; break;
+                            case "21009": str_kc = "sw"; break;
+                            case "21010": str_kc = "jsj"; break;
+                            case "21011": str_kc = "yy"; break;
+                            case "21012": str_kc = "ms"; break;
+                            case "21013": str_kc = "ty"; break;
+                            case "31017": str_kc = "zzx"; break;
+                            default: break;
+                        }
+                        if (str_kc == "jsj" || str_kc == "yy" || str_kc == "ms" || str_kc == "ty")
+                        {
+                            sql += "," + str_kc + " ";
+                        }
+                        else
+                        {
+                            sql += "," + str_kc + "," + str_kc + "m ";
+                        } 
+                        mpClear(gradeCourse); 
+                    }
+                    sql += " from s_tb_scorerep order by ClassCode,ClassSN ";
+                    DataTable table = bll.FillDataTableByText(sql);
+                    ResultEntry entry = new ResultEntry() { Code = 0, Message = Newtonsoft.Json.JsonConvert.SerializeObject(table) };
+                    results.Add(entry);
+                }
+                else
+                {
+                    sql = " Select Academicyear,testno,classcode,ClassSN,SchoolID,stdName,ysw,yswm,lz,lzm,bz,bzm ";
+                    var length1 = gradeCourses.Count();
+                    for (int i = 0; i < length1; i++)
+                    {
+                        string str_kc = "";
+                        GradeCourse gradeCourse = gradeCourses[i];
+                        switch (gradeCourse.CourseCode)
+                        {
+                            case "21001": str_kc = "yw"; break;
+                            case "21002": str_kc = "sx"; break;
+                            case "21003": str_kc = "wy"; break;
+                            case "21004": str_kc = "zz"; break;
+                            case "21005": str_kc = "wl"; break;
+                            case "21006": str_kc = "hx"; break;
+                            case "21007": str_kc = "dl"; break;
+                            case "21008": str_kc = "ls"; break;
+                            case "21009": str_kc = "sw"; break;
+                            default: break;
+                        }
+                        var tempSql = " update A set {0}= normalscore"
+                                                   + " from s_tb_scorerep a,s_tb_normalscore b"
+                                                   + " where a.Academicyear=b.Academicyear"
+                                                   + " and a.testno=b.testno"
+                                                   + " and a.srid=b.srid"
+                                                   + " and b.coursecode='{1}'";
+                        sql = string.Format(tempSql, str_kc, gradeCourse.CourseCode);
+
+                        bll.ExecuteNonQueryByText(sql);
+                        sql += "," + str_kc + "," + str_kc + "m ";
+                        mpClear(gradeCourse);
+                    }
+                    sql += " from s_tb_scorerep order by ClassCode,ClassSN ";
+                    DataTable table = bll.FillDataTableByText(sql);
+                    ResultEntry entry = new ResultEntry() { Code = 0, Message = Newtonsoft.Json.JsonConvert.SerializeObject(table) };
+                    results.Add(entry);
+                }
             }
             return results;
+        }
+
+        private static void mpClear(GradeCourse gradeCourse)
+        {
+            string str_kc = "";
+            if (int.Parse(gradeCourse.CourseCode) > 21009) return;
+            switch (gradeCourse.CourseCode)
+            {
+                case "21001": str_kc = "yw"; break;
+                case "21002": str_kc = "sx"; break;
+                case "21003": str_kc = "wy"; break;
+                case "21004": str_kc = "zz"; break;
+                case "21005": str_kc = "wl"; break;
+                case "21006": str_kc = "hx"; break;
+                case "21007": str_kc = "dl"; break;
+                case "21008": str_kc = "ls"; break;
+                case "21009": str_kc = "sw"; break;
+                default: break;
+            }
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = " update s_tb_scorerep set " + str_kc + "= null where " + str_kc + "=0";
+                bll.ExecuteNonQueryByText(sql);
+
+                sql = " update s_tb_scorerep set " + str_kc + "M = null where " + str_kc + "=0";
+                bll.ExecuteNonQueryByText(sql);
+            }
         }
     }
 }

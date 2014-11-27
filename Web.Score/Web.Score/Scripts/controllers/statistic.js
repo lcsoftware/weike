@@ -168,7 +168,7 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
 }]);
 
 // Path: /stat.Stat08
-stat.controller('GradeOrderController', ['$scope', function ($scope) {
+stat.controller('GradeOrderController', ['$scope', '$sce', function ($scope, $sce) {
     var moduleName = '年级排名趋势';
     $scope.$root.moduleName = moduleName;
     $scope.$root.title = $scope.softname + ' | ' + moduleName;

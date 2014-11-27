@@ -115,7 +115,7 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
         var strLevel = '';
         var strLevel1 = '';
 
-        if ($scope.lastLevel === 1) {
+        if ($scope.cbDC === 1) {
             if (valueB === 100) {
                 strLevel = 'A';
                 strLevel1 = 'B';
@@ -142,12 +142,14 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
             TestType: $scope.conditionData.TestType,
             TestLogin: $scope.conditionData.TestLogin,
             outItem: $scope.conditionData.OutItem.code,
+            cksr: $scope.cksr,
+            cbDC: $scope.cbDC,
+            setting: $scope.setting,
             valueA: valueA,
             valueB: valueB,
             valueC: valueC,
             valueD: valueD,
             valueE: valueE,
-            lastLevel: $scope.lastLevel,
             strlevel: strLevel,
             strlevel1: strLevel1
         };
