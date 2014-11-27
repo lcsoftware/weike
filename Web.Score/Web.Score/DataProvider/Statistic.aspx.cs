@@ -19,6 +19,7 @@ namespace App.Web.Score.DataProvider
     using System.Web.UI;
     using System.Web.UI.WebControls;
     using Newtonsoft.Json;
+    using App.Score.Db;
     public partial class Statistic : System.Web.UI.Page
     {
         #region 学生统计
@@ -396,7 +397,7 @@ namespace App.Web.Score.DataProvider
             return results;
         }
 
-      
+
 
         private static void mp_ScoreOrder(string orderSql)
         {
@@ -1645,14 +1646,115 @@ namespace App.Web.Score.DataProvider
         #endregion
 
         #region 年级排名
+
+
+
         [WebMethod]
-        public static string GetGradeOrders()
+        public static IList<ResultEntry> GetGradeOrders(Academicyear micYear, GradeCode gradeCode, IList<GradeCourse> gradeCourse, TestLogin testNo)
         {
             using (AppBLL bll = new AppBLL())
             {
-                
+                IList<ResultEntry> results = new List<ResultEntry>();
+                ResultEntry entry = null;
+                var sql = string.Empty;
+                DataTable dt = new DataTable();
+                //mp_ScoreOrder()
+                if (gradeCourse.Count == 1)
+                {
+                    sql = "SELECT  "
+                        + "e.GradeBriefName+'('+substring(b.ClassCode,3,2)+')班' AS 班级,"
+                        + " b.ClassSN AS 序号,"
+                        + "c.stdName as 姓名,"
+                        + "d.BriefName AS 课程名称,"
+                        + "a.NumScore AS 成绩,"
+                        + "a.GradeOrder AS 名次, "
+                        + "a.academicYear AS 学年,"
+                        + "case a.Semester when 2 then '下学期' else '上学期' end AS 学期,"
+                        + "f.TypeName AS 考试,"
+                        + "a.TestNo AS 考试号 "
+                        + "from  tdGradeCode e RIGHT OUTER JOIN "
+                        + " s_tb_TestTypeInfo f RIGHT OUTER JOIN "
+                        + " tdCourseCode d RIGHT OUTER JOIN "
+                        + " tbStudentClass b INNER JOIN "
+                        + "s_tb_normalScore a ON b.SRID = a.srid and a.Academicyear=b.academicyear ON "
+                        + "d.CourseCode = a.CourseCode LEFT OUTER JOIN "
+                        + " tbStudentBaseInfo c ON a.srid = c.SRID ON f.TestType = a.TestType ON  "
+                        + "e.GradeNo = substring(b.ClassCode,1,2) "
+                        + "where a.Academicyear =@micYear"
+                        + "and a.TestNo=@testNo"
+                        + "and a.CourseCode in (@gradeCourse)"
+                        + "and e.gradeno =@gradeCode"
+                        + "order by b.classcode,b.classsn";
+                    dt = bll.FillDataTableByText(sql, new { micYear = micYear.MicYear, gradeCode = gradeCode.GradeNo, gradeCourse = gradeCourse[0].CourseCode, testNo = testNo.TestNo });
+                    entry = new ResultEntry() { Code = 0, Message = JsonConvert.SerializeObject(dt) };
+                    results.Add(entry);                    
+                }
+                else
+                {
+                    sql = "select AcademicYear,semester,testType,testno,'多门' as coursecode,srid," +
+                            " sum(numscore) as numscore,0 as OrderNO" +
+                            " from s_vw_ClassScoreNum where AcademicYear={0}" +
+                            " and testno={1} and NumScore<200 and GradeNo={2}" +
+                            " and CourseCode in ({3}) Group by AcademicYear,semester,testType,testno,srid";
+                    var coursees = "";
+                    for (int i = 0; i < gradeCourse.Count; i++)
+                    {
+                        coursees += gradeCourse[i].CourseCode + ",";
+                    }
+                    sql = string.Format(sql, micYear.MicYear, testNo.TestNo, gradeCode.GradeNo, coursees.TrimEnd(','));
+                    string TemptableName = UtilBLL.mf_getTable();
+                    mp_ScoreOrder(sql);
+                    
+                    string vwName = "s_vw_" + TemptableName;
+
+                    sql = "if exists (select * from sysobjects where id = object_id(N'[dbo].[" + vwName + "]') and OBJECTPROPERTY(id, N'IsView') = 1) drop view [dbo].[" + vwName + "] ";
+                    bll.ExecuteNonQueryByText(sql);
+
+                    sql = " Create view " + vwName + "" +
+                          " as " +
+                          " SELECT a.academicYear, a.Semester, a.TestType, a.TestNo," +
+                          " a.CourseCode, a.srid, a.Score, a.OrderNO,b.Numscore,b.GradeNo,b.ClassCode,b.ClassSN," +
+                          " b.StdName, b.courseName, b.GradeName " +
+                          " FROM " + TemptableName + " as a INNER JOIN " +
+                          " s_vw_ClassScoreNum b ON a.academicYear = b.AcademicYear AND " +
+                          " a.TestNo = b.testno AND a.srid = b.SRID " +
+                          " WHERE b.coursecode IN (" + coursees.TrimEnd(',') + ") ";
+                    bll.ExecuteNonQueryByText(sql);
+
+                    sql = " select gradename+'('+substring(classcode,3,2)+')班' '班级',ClassSN '序号',stdname '姓名',";
+                    for (int n = 0; n < gradeCourse.Count; n++)
+                    {
+                        sql += " sum(case When CourseName='" + gradeCourse[n].FullName + "' then numscore else 0 end) " + gradeCourse[n].FullName + ",";
+                    }
+                    sql += " Score as 总分,OrderNo as 名次,AcademicYear 学年,case semester when 1 then '上学期' when 2 then '下学期' end '学期'";
+                    sql += " from " + vwName;
+                    sql += " where Testno=" + testNo.TestNo + " and AcademicYear =" + micYear.MicYear + "" +
+                           " and GradeNo=" + gradeCode.GradeNo + "" +
+                           " group by SRid,stdname,academicYear,semester,gradename,classcode,ClassSN,Score,OrderNo " +
+                           " order by ClassCode,ClassSN ";
+                    dt = bll.FillDataTableByText(sql);
+
+                    entry = new ResultEntry() { Code = 0, Message = JsonConvert.SerializeObject(dt) };
+                    results.Add(entry);                   
+
+                    sql = "if exists (select * from  sysobjects where id = object_id(N'" + vwName + "') and OBJECTPROPERTY(id, N'IsView') = 1)";
+                    sql += "drop view " + vwName + "";
+                    bll.ExecuteNonQueryByText(sql);
+
+                    sql = "";
+                    for (int i = 0; i < dt.Columns.Count; i++)
+                    {
+                        sql += string.Format(" '{0}' as {0},", dt.Columns[i].ColumnName);
+                    }
+                    sql = "select " + sql.TrimEnd(',');
+                    dt = bll.FillDataTableByText(sql);
+                    entry = new ResultEntry() { Code = 1, Message = JsonConvert.SerializeObject(dt) };
+                    results.Add(entry);
+
+                }
+                return results;
             }
-            return "";
+            
         }
         #endregion
 

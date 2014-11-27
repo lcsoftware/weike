@@ -216,7 +216,7 @@ namespace App.Web.Score.DataProvider
             int ValueB,
             int ValueC,
             int ValueD,
-            int ValueE,
+            int ValueE
             )
         {
             IList<ResultEntry> results = new List<ResultEntry>();

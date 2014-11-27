@@ -1673,33 +1673,29 @@ stat.controller('GradeOrdersController', ['$scope', function ($scope) {
         }
     }
     $scope.query = function () {
-        if ($scope.GradeCourse == null) {
-            $scope.dialogUtils.info('请选择课程');
-            return;
-        }
-        if ($scope.GradeCode == null) {
-            $scope.dialogUtils.info('请选择年级');
-            return;
-        }
-        if ($scope.classes.length <= 0) {
-            $scope.dialogUtils.info('请选择班级');
-            return;
-        }
+        //if ($scope.GradeCourse == null) {
+        //    $scope.dialogUtils.info('请选择课程');
+        //    return;
+        //}
+        //if ($scope.GradeCode == null) {
+        //    $scope.dialogUtils.info('请选择年级');
+        //    return;
+        //}
+        //if ($scope.classes.length <= 0) {
+        //    $scope.dialogUtils.info('请选择班级');
+        //    return;
+        //}
         chart1 = {};
         $scope.chartService.chartCreate('main1', function (data) {
             chart1 = data;
         });
         $scope.utilService.showBg();
-        var url = "/DataProvider/Statistic.aspx/GetGradeClassComp";
+        var url = "/DataProvider/Statistic.aspx/GetGradeOrders";
         var param = {
-            micyear: $scope.MicYear,
-            courseCode: $scope.GradeCourse,
-            gradeNo: $scope.GradeCode,
-            only: $scope.ScoreOnly == null ? false : $scope.ScoreOnly,
-            year: $scope.ScoreYear == null ? false : $scope.ScoreYear,
-            numScore: $scope.NumScore,
-            Kaoshi: $scope.Kaoshi,
-            gradeClass: $scope.classes
+            micYear: $scope.MicYear,
+            gradeCourse: $scope.courses,
+            gradeCode: $scope.GradeCode,
+            testNo:$scope.TestNo
         };
         $scope.baseService.post(url, param, function (data) {
             if (data.d[0].xAxis.data.length > 0) {
@@ -1707,34 +1703,5 @@ stat.controller('GradeOrdersController', ['$scope', function ($scope) {
             }
             $scope.utilService.closeBg();
         });
-    }
-    $scope.query1 = function () {
-        if ($scope.GradeCode == null) {
-            $scope.dialogUtils.info('请选择年级');
-            return;
-        }
-        if ($scope.classes.length <= 0) {
-            $scope.dialogUtils.info('请选择班级');
-            return;
-        }
-        chart1 = {};
-        $scope.chartService.chartCreate('main1', function (data) {
-            chart1 = data;
-        });
-        $scope.utilService.showBg();
-        var url = "/DataProvider/Statistic.aspx/GetGradeClassCompNum";
-        var param = {
-            micyear: $scope.MicYear,
-            gradeNo: $scope.GradeCode,
-            numScore: $scope.NumScore,
-            Kaoshi: $scope.Kaoshi,
-            gradeClass: $scope.classes
-        };
-        $scope.baseService.post(url, param, function (data) {
-            if (data.d[0].xAxis.data.length > 0) {
-                $scope.chartService.changeOption(chart1, data.d[0]);
-            }
-            $scope.utilService.closeBg();
-        });
-    }
+    }    
 }]);
