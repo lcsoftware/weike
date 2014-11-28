@@ -1969,3 +1969,132 @@ stat.controller('GradeMinutiaController', ['$scope', function ($scope) {
     }
 
 }]);
+
+//年级成绩统计(并表)
+stat.controller('GradestatController', ['$scope', function ($scope) {
+    var moduleName = '年级成绩统计(并表)';
+    $scope.$root.moduleName = moduleName;
+    $scope.$root.title = $scope.softname + ' | ' + moduleName;
+    $scope.AcademicYears = [];
+    $scope.GradeCourses = [];
+    $scope.GradeCodes = [];
+    $scope.TestTypes = [];
+    $scope.TestNos = [];
+
+
+    //获得当前学年
+    $scope.utilService.GetAcademicYears(function (data) {
+        $scope.AcademicYears = data.d;
+        $scope.MicYear = $scope.AcademicYears[0];
+    });
+    //获取年级
+    $scope.utilService.GetGradeCodes(function (data) {
+        $scope.GradeCodes = data.d;
+    });
+    $scope.$watch('GradeCode', function (gradeCode) {
+        $scope.GradeCourses.length = 0;
+        $scope.TestTypes.length = 0;
+        if (gradeCode) {
+            //绑定课程
+            $scope.utilService.GetGradeCourse($scope.MicYear.MicYear, gradeCode, function (data) {
+                $scope.GradeCourses = data.d;
+            });
+            //绑定考试类型
+            $scope.utilService.GetTestType(function (data) {
+                $scope.TestTypes = data.d;
+            });
+        }
+    });
+
+    //监控考试类型，绑定考试号
+    $scope.$watch('TestType', function (testType) {
+        $scope.TestNos.length = 0;
+        if (testType != null) {
+            if (testType.Code == null) $scope.TestType = null;
+            $scope.utilService.GetTestLogin($scope.MicYear.MicYear, $scope.GradeCode.GradeNo, '', testType.Code, function (data) {
+                $scope.TestNos = data.d;
+            });
+        }
+    });
+
+    $scope.courses = [];
+    $scope.courseChange = function (courseCode) {
+        if ($.inArray(courseCode.$parent.course, $scope.courses) < 0) {
+            $scope.courses.push(courseCode.$parent.course);
+        } else {
+            $scope.courses.splice($.inArray(courseCode.$parent.course, $scope.courses), 1);
+        }
+    }
+    $scope.query = function () {
+        if ($scope.GradeCode == null) {
+            $scope.dialogUtils.info('请选择年级');
+            return;
+        }
+        if ($scope.TestType == null) {
+            $scope.dialogUtils.info('请选择考试类型');
+            return;
+        }
+        if ($scope.TestNo == null) {
+            $scope.dialogUtils.info('请选择考试号');
+            return;
+        }
+        if ($scope.courses.length <= 0) {
+            $scope.dialogUtils.info('请选择课程');
+            return;
+        }
+
+        $scope.utilService.showBg();
+        var url = "/DataProvider/Statistic.aspx/GetGradeOrders";
+        var param = {
+            micYear: $scope.MicYear,
+            gradeCourse: $scope.courses,
+            gradeCode: $scope.GradeCode,
+            testNo: $scope.TestNo,
+            semester: $scope.Semester
+        };
+        $scope.baseService.post(url, param, function (data) {
+            var length = data.d.length;
+            for (var i = 0; i < length; i++) {
+                var resultEntry = data.d[i];
+                if (resultEntry.Code == 0) {
+                    $scope.Items = angular.fromJson(resultEntry.Message);
+                } else if (resultEntry.Code == 1) {
+                    $scope.ColumnsName = angular.fromJson(resultEntry.Message);
+                }
+            }
+
+
+            var rs = "<table class='table table-striped table-bordered' style='width:100%'><thead><tr style='background-color:#808080'>";
+            var len = count($scope.ColumnsName[0]);
+            for (var i = 0; i < len; i++) {
+                rs += "<th style='text-align:center'>" + $scope.ColumnsName[0][i] + "</th>";
+            }
+            rs += "</tr></thead>";
+            for (var n = 0; n < $scope.Items.length; n++) {
+                rs += "<tr>";
+                len = count($scope.Items[n]);
+                for (var m in $scope.Items[n]) {
+                    rs += "<td>" + $scope.Items[n][m] + "</td>";
+                }
+                rs += "</tr>";
+            }
+            rs += "</table>";
+            $('#data').html(rs);
+            $scope.utilService.closeBg();
+        });
+        function count(o) {
+            var t = typeof o;
+            if (t == 'string') {
+                return o.length;
+            } else if (t == 'object') {
+                var n = 0;
+                for (var i in o) {
+                    n++;
+                }
+                return n;
+            }
+            return false;
+        }
+        
+    }
+}]);
