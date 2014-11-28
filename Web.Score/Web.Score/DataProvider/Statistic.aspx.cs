@@ -1858,6 +1858,15 @@ namespace App.Web.Score.DataProvider
         }
         #endregion
 
+        #region 年级成绩统计(并表)
+        [WebMethod]
+        public static IList<ResultEntity> GetGradestat(Academicyear micYear,GradeCode gradeCode,IList<GradeCourse> gradeCourse,TestLogin testNo,bool only)
+        {
+
+            return null;
+        }
+        #endregion
+
         #region 班级统计
         /// <summary>
         ///考试统计分析

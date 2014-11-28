@@ -104,7 +104,7 @@ angular.module('app', [
             .state('stat.Stat14', { url: '/GradeOrders', templateUrl: '/views/stat/GradeOrders', controller: 'GradeOrdersController' })
             //年级学科成绩正态
             .state('stat.Stat15', { url: '/GradeScore', templateUrl: '/views/stat/GradeScore', controller: 'GradeScoreController' })
-            //班级细目成绩报表
+            //班级细目成绩报表-未完成
             .state('stat.Stat16', { url: '/GradeMinutia', templateUrl: '/views/stat/GradeMinutia', controller: 'GradeMinutiaController' })
             //年级成绩统计(并表)
             .state('stat.Stat17', { url: '/Gradestat', templateUrl: '/views/stat/Gradestat', controller: 'GradestatController' })

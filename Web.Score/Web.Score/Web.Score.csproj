@@ -731,6 +731,7 @@
     <Content Include="Views\stat\GradeOrders.cshtml" />
     <Content Include="Views\stat\GradeScore.cshtml" />
     <Content Include="Views\stat\GradeMinutia.cshtml" />
+    <Content Include="Views\stat\Gradestat.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
