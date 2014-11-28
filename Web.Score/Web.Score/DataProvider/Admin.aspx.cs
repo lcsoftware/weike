@@ -52,14 +52,22 @@ namespace App.Web.Score.DataProvider
         [WebMethod]
         public static UserGroupInfo Verify(string user, string pwd)
         {
-            using (AppBLL bll = new AppBLL())
+            try
             {
-                UserGroupInfo userInfo = bll.GetDataItem<UserGroupInfo>("USP_System_Verify", new { User = user, Pwd = pwd });
-                if (userInfo != null)
+                using (AppBLL bll = new AppBLL())
                 {
-                    CookieHelper.SetCookie(COOKIE_NAME, Newtonsoft.Json.JsonConvert.SerializeObject(userInfo), DateTime.Now.AddDays(1));
+                    UserGroupInfo userInfo = bll.GetDataItem<UserGroupInfo>("USP_System_Verify", new { User = user, Pwd = pwd });
+                    if (userInfo != null)
+                    {
+                        CookieHelper.SetCookie(COOKIE_NAME, Newtonsoft.Json.JsonConvert.SerializeObject(userInfo), DateTime.Now.AddDays(1));
+                    }
+                    return userInfo;
                 }
-                return userInfo;
+            }
+            catch (Exception ex)
+            {
+                log4net.LogManager.GetLogger("ErrLog").Error(ex);
+                throw ex;
             }
         }
 

@@ -18,7 +18,14 @@ namespace App.Web.Score
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            App.Score.Data.AppHelper.Init();
+            try
+            {
+                App.Score.Data.AppHelper.Init();
+            }
+            catch (Exception ex)
+            {
+                log4net.LogManager.GetLogger("ErrLog").Error(ex);
+            }
         }
 
         protected void Application_Error(object sender, EventArgs e)
