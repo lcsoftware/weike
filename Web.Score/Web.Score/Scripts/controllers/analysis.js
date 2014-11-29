@@ -19,6 +19,20 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
 
     $scope.appUtils = appUtils;
 
+    $scope.ValueA1 = 15;
+    $scope.ValueB1 = 25;
+    $scope.ValueC1 = 30;
+    $scope.ValueD1 = 10;
+    $scope.ValueE1 = 20;
+
+    $scope.ValueA2 = 0;
+    $scope.ValueB2 = 0;
+    $scope.ValueC2 = 0;
+    $scope.ValueD2 = 0;
+    $scope.ValueE2 = 0;
+
+    $scope.cksr = 0;
+    $scope.cbDC = 0;
     //统计结果
     $scope.data1 = [];
 
@@ -41,12 +55,14 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
     $scope.Settings = [
       { code: 1, name: '百分比' },
       { code: 2, name: '分值' }
-    ]
+    ] 
+    $scope.conditionData.Setting = $scope.Settings[0];
 
     $scope.OutItems = [
       { code: 1, name: '原始分' },
       { code: 2, name: 'Z分' }
     ]
+    $scope.conditionData.OutItem = $scope.OutItems[0];
 
     $scope.base = [];
     $scope.data1 = [];
@@ -107,11 +123,11 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
 
     var statBase = function () {
 
-        var valueA = $scope.conditionData.Setting.code === 1 ? ValueA1 : ValueA2;
-        var valueB = $scope.conditionData.Setting.code === 1 ? ValueB1 : ValueB2;
-        var valueC = $scope.conditionData.Setting.code === 1 ? ValueC1 : ValueC2;
-        var valueD = $scope.conditionData.Setting.code === 1 ? ValueD1 : ValueD2;
-        var valueE = $scope.conditionData.Setting.code === 1 ? ValueE1 : ValueE2;
+        var valueA = $scope.conditionData.Setting.code === 1 ? $scope.ValueA1 : $scope.ValueA2;
+        var valueB = $scope.conditionData.Setting.code === 1 ? $scope.ValueB1 : $scope.ValueB2;
+        var valueC = $scope.conditionData.Setting.code === 1 ? $scope.ValueC1 : $scope.ValueC2;
+        var valueD = $scope.conditionData.Setting.code === 1 ? $scope.ValueD1 : $scope.ValueD2;
+        var valueE = $scope.conditionData.Setting.code === 1 ? $scope.ValueE1 : $scope.ValueE2;
         var strLevel = '';
         var strLevel1 = '';
 
@@ -139,12 +155,12 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
             gradeCode: $scope.conditionData.GradeCode,
             gradeClasses: $scope.classChecks,
             gradeCourses: $scope.courseChecks,
-            TestType: $scope.conditionData.TestType,
-            TestLogin: $scope.conditionData.TestLogin,
+            testType: $scope.conditionData.TestType,
+            testLogin: $scope.conditionData.TestLogin,
             outItem: $scope.conditionData.OutItem.code,
             cksr: $scope.cksr,
             cbDC: $scope.cbDC,
-            setting: $scope.setting,
+            setting: $scope.conditionData.Setting,
             valueA: valueA,
             valueB: valueB,
             valueC: valueC,
@@ -161,26 +177,30 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
     }
 
     $scope.stat = function () {
-        if (!$scope.conditionData.Semester) {
-            $scope.dialogUtils.info('请选择学期');
+        if (!$scope.conditionData.MicYear) {
+            $scope.dialogUtils.info('请选择学年');
             return;
-        }
-        if (!$scope.conditionData.PrintMethod) {
-            $scope.dialogUtils.info('请选择打印方式');
-            return;
-        }
+        } 
         if (!$scope.conditionData.GradeCode) {
             $scope.dialogUtils.info('请选择年级！');
             return;
         }
-        if (!$scope.conditionData.GradeClass) {
-            $scope.dialogUtils.info('请选择班级！');
+        if (!$scope.conditionData.TestType) {
+            $scope.dialogUtils.info('请选择考试类型');
             return;
         }
         if (!$scope.conditionData.TestLogin) {
             $scope.dialogUtils.info('请选择考试号');
             return;
         }
+        if ($scope.classChecks.length == 0) {
+            $scope.dialogUtils.info('请选择班级！');
+            return;
+        }
+        if ($scope.courseChecks.length == 0) {
+            $scope.dialogUtils.info('请选择课程');
+            return;
+        } 
         statBase();
     }
 }]);

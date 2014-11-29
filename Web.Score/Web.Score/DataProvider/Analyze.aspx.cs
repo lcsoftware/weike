@@ -117,10 +117,11 @@ namespace App.Web.Score.DataProvider
                           + " where Academicyear=@micYear"
                           + " and TestNo=@testNo"
                           + " and CourseCode=@courseCode"
-                          + " and ClassCode in (@classCode)"
+                          + " and ClassCode in ({0})"
                           + " and Numscore<200"
                           + " and Numscore is not Null";
-                DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear, testNo = testNo, courseCode = courseCode, classCode = classCode });
+                sql = string.Format(sql, classCode);
+                DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear, testNo = testNo, courseCode = courseCode });
                 var avgScore = float.Parse(table.Rows[0]["AvgScore"].ToString());
                 var s = float.Parse(table.Rows[0]["stdScore"].ToString());
                 //计算标准分
@@ -177,10 +178,11 @@ namespace App.Web.Score.DataProvider
                        + " from s_vw_ClassScoreNum "
                        + " where Academicyear=@micYear"
                        + " and Testno=@testNo"
-                       + " and classcode in (@classcode)"
-                       + " and CourseCode=@eourseCode";
+                       + " and classcode in ({0})"
+                       + " and CourseCode=@courseCode";
+                sql = string.Format(sql, classCode);
 
-                DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear, testNo = testNo, courseCode = courseCode, classCode = classCode });
+                DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear, testNo = testNo, courseCode = courseCode });
                 if (table.Rows.Count == 0) return;
                 var XT = float.Parse(table.Rows[0]["maxBZScore"].ToString());
                 var YT = float.Parse(table.Rows[0]["minBZScore"].ToString());
@@ -197,10 +199,10 @@ namespace App.Web.Score.DataProvider
                         + " and a.coursecode=b.coursecode"
                         + " where a.Academicyear=@micYear"
                         + " and a.Testno=@testNo"
-                        + " and a.classcode in (@classcode)"
-                        + " and a.CourseCode=@eourseCode"; ;
-                sql = string.Format(sql, k);
-                bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testNo, courseCode = courseCode, classCode = classCode });
+                        + " and a.classcode in ({1})"
+                        + " and a.CourseCode=@courseCode"; ;
+                sql = string.Format(sql, k, classCode);
+                bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testNo, courseCode = courseCode });
             }
         }
 
@@ -233,7 +235,7 @@ namespace App.Web.Score.DataProvider
                 var courses = "";
                 foreach (var gradeClass in gradeClasses)
                 {
-                    classes += gradeClass.ClassNo + ",";
+                    classes += string.Format("'{0}',", gradeClass.ClassNo);
                 }
                 classes = classes.Substring(0, classes.Length - 1);
 
@@ -296,7 +298,7 @@ namespace App.Web.Score.DataProvider
 
                 if (cksr == 1) sql = sql + " and State is null";
                 sql += " group by AcademicYear,srid,stdName,gradename,classcode, classsn,testno";
-                bll.ExecuteNonQueryByText(sql);
+                bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo});
 
                 var length = gradeCourses.Count();
                 for (int i = 0; i < length; i++)
@@ -456,7 +458,7 @@ namespace App.Web.Score.DataProvider
                          + "yw+sx+wy+zz+wl+hx as Score,0 as OrderNO from s_tb_scorerep"
                          + " where Academicyear={0}"
                          + " and testno={1}";
-
+                sql = string.Format(sql, micYear, testLogin.TestLoginNo);
                 gf_ScoreOrderA(sql, "", "s_tb_scorerep", "lzm", 0);
 
                 //总分排名
@@ -465,6 +467,7 @@ namespace App.Web.Score.DataProvider
                         + " where Academicyear={0}"
                         + " and testno={1}";
 
+                sql = string.Format(sql, micYear, testLogin.TestLoginNo); 
                 gf_ScoreOrderA(sql, "", "s_tb_scorerep", "bzm", 0);
 
                 //获得学校编号
@@ -534,8 +537,8 @@ namespace App.Web.Score.DataProvider
                     results.Add(entry);
                 }
                 else
-                {
-                    sql = " Select Academicyear,testno,classcode,ClassSN,SchoolID,stdName,ysw,yswm,lz,lzm,bz,bzm ";
+                { 
+                    sql = " Select Academicyear,testno,classcode,ClassSN,SchoolID,stdName,ysw,yswm,lz,lzm,bz,bzm "; 
                     var length1 = gradeCourses.Count();
                     for (int i = 0; i < length1; i++)
                     {
@@ -560,9 +563,9 @@ namespace App.Web.Score.DataProvider
                                                    + " and a.testno=b.testno"
                                                    + " and a.srid=b.srid"
                                                    + " and b.coursecode='{1}'";
-                        sql = string.Format(tempSql, str_kc, gradeCourse.CourseCode);
+                        tempSql = string.Format(tempSql, str_kc, gradeCourse.CourseCode);
 
-                        bll.ExecuteNonQueryByText(sql);
+                        bll.ExecuteNonQueryByText(tempSql);
                         sql += "," + str_kc + "," + str_kc + "m ";
                         mpClear(gradeCourse);
                     }

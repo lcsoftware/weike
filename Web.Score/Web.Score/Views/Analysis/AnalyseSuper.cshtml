@@ -128,4 +128,107 @@
             </div>
         </div>
     </form>
-</div> 
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-2">
+                考试时间：2002-11-12
+            </div>
+            <div class="col-sm-3">
+                {{schoolName}}学校成绩统计报表(原始分)
+            </div>
+            <div class="col-sm-3">
+                {{conditionData.MicYear.MicYear}}学年 考试号为：{{conditionData.TestLogin.TestNo + '(' + conditionData.TestType.name.substr(0,2) + ')'}}
+            </div>
+            <div class="col-sm-2">
+                {{now}}
+            </div>
+            <div class="col-sm-2">
+                成绩分析报表：表001
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <td rowspan="2" style="text-align:center;padding-top:1.5em">班级</td>
+                            <td rowspan="2" style="text-align:center;padding-top:1.5em;">序号</td>
+                            <td rowspan="2" style="text-align:center;padding-top:1.5em;">姓名</td>
+                            <td rowspan="2" style="text-align:center;padding-top:1.5em;">学号</td>
+                            <td colspan="2" style="text-align:center">语文</td>
+                            <td colspan="2" style="text-align:center">数学</td>
+                            <td colspan="2" style="text-align:center">外语</td>
+                            <td colspan="2" style="text-align:center">语数外</td>
+                            <td colspan="2" style="text-align:center">政治</td>
+                            <td colspan="2" style="text-align:center">物理</td>
+                            <td colspan="2" style="text-align:center">化学</td>
+                            <td colspan="2" style="text-align:center">六总</td>
+                            <td colspan="2" style="text-align:center">历史</td>
+                            <td colspan="2" style="text-align:center">地理</td>
+                            <td colspan="2" style="text-align:center">生物</td>
+                            <td colspan="2" style="text-align:center">总分</td>
+                        </tr>
+                        <tr> 
+                            <td>成绩</td>
+                            <td>排名</td>
+                            <td>成绩</td>
+                            <td>排名</td>
+                            <td>成绩</td>
+                            <td>排名</td>
+                            <td>总分</td>
+                            <td>排名</td>
+                            <td>成绩</td>
+                            <td>排名</td>
+                            <td>成绩</td>
+                            <td>排名</td>
+                            <td>成绩</td>
+                            <td>排名</td>
+                            <td>总分</td>
+                            <td>排名</td>
+                            <td>成绩</td>
+                            <td>排名</td>
+                            <td>成绩</td>
+                            <td>排名</td>
+                            <td>成绩</td>
+                            <td>排名</td>
+                            <td>总分</td>
+                            <td>排名</td>
+                        </tr>
+                        <tr ng-repeat="item in data1">
+                            <td>{{item.classcode}}</td>
+                            <td>{{item.ClassSN}}</td>
+                            <td>{{item.stdName}}</td>
+                            <td>{{item.SchoolID}}</td>
+                            <td>{{item.yw}}</td>
+                            <td>{{item.ywm}}</td>
+                            <td>{{item.sx}}</td>
+                            <td>{{item.sxm}}</td>
+                            <td>{{item.wy}}</td>
+                            <td>{{item.wym}}</td>
+                            <td>{{item.ysw}}</td>
+                            <td>{{item.yswm}}</td>
+                            <td>{{item.zz}}</td>
+                            <td>{{item.zzm}}</td>
+                            <td>{{item.wl}}</td>
+                            <td>{{item.wlm}}</td>
+                            <td>{{item.hx}}</td>
+                            <td>{{item.hxm}}</td>
+                            <td>{{item.lz}}</td>
+                            <td>{{item.lzm}}</td>
+                            <td>{{item.ls}}</td>
+                            <td>{{item.lsm}}</td>
+                            <td>{{item.dl}}</td>
+                            <td>{{item.dlm}}</td>
+                            <td>{{item.sw}}</td>
+                            <td>{{item.swm}}</td>
+                            <td>{{item.bz}}</td>
+                            <td>{{item.bzm}}</td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
