@@ -643,5 +643,39 @@ namespace App.Web.Score.DataProvider
             DataTable table = App.Score.Db.UtilBLL.GetTestLoginByYear(micYear);
             return Newtonsoft.Json.JsonConvert.SerializeObject(table);
         }
+
+        [WebMethod]
+        public static IList<ResultEntry> AnalyzeCommon(int micYear, TestLogin testLogin, IList<GradeCourse> courses)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                IList<ResultEntry> results = new List<ResultEntry>();
+                ResultEntry entry = null;
+
+                var sql = "Select * from s_tb_levelStd where LevelNo = 'A')";
+                DataTable table = bll.FillDataTableByText(sql);
+                var bLevel = !string.IsNullOrEmpty(table.Rows[0]["Level_bl"].ToString());
+
+                sql = "select * from s_tb_levelStd";
+                table = bll.FillDataTableByText(sql);
+                if (table.Rows.Count == 0)
+                {
+                    entry = new ResultEntry() { Code = -1, Message = "无数据" };
+                    results.Add(entry);
+                    return results;
+                }
+                var floatA = bLevel ? float.Parse(table.Rows[0]["Level_bl"].ToString()) : float.Parse(table.Rows[0]["Level_Score"].ToString());
+                var floatB = bLevel ? float.Parse(table.Rows[1]["Level_bl"].ToString()) : float.Parse(table.Rows[1]["Level_Score"].ToString());
+                var floatC = bLevel ? float.Parse(table.Rows[2]["Level_bl"].ToString()) : float.Parse(table.Rows[2]["Level_Score"].ToString());
+                var floatD = bLevel ? float.Parse(table.Rows[3]["Level_bl"].ToString()) : float.Parse(table.Rows[3]["Level_Score"].ToString());
+
+                foreach (var course in courses)
+                {
+                    var mCourseCode = course.CourseCode;
+                }
+
+                return results;
+            }
+        }
     }
 }

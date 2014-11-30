@@ -253,6 +253,26 @@ analysis.controller('AnalyzeCommonController', ['$scope', 'appUtils', function (
             }
         }
     });
+
+    var statBase = function () {
+        var micYear = $scope.conditionData.MicYear.MicYear;
+        var testLogin = $scope.conditionData.TestLogin;
+
+        var url = "/DataProvider/Analyze.aspx/stat";
+        var param = { micYear: $scope.conditionData.MicYear.MicYear, testLogin: testLogin };
+    }
+
+    $scope.stat = function () {
+        if (!$scope.conditionData.MicYear) {
+            $scope.dialogUtils.info('请选择学年');
+            return;
+        } 
+        if (!$scope.conditionData.TestLogin) {
+            $scope.dialogUtils.info('请选择考试号');
+            return;
+        } 
+        statBase();
+    }
 }]);
 
 //细目分析
