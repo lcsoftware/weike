@@ -39,7 +39,7 @@ namespace App.Score.Data
             ////Profiler.TryStartClownFishProfiler();
 
             //// 注册SQLSERVER数据库连接字符串 
-            ConnectionStringSettings setting = ConfigurationManager.ConnectionStrings["iSchoolConnectionString"];
+            ConnectionStringSettings setting = ConfigurationManager.ConnectionStrings["iSchoolConnectionStringF"];
             //IPHostEntry IpEntry = Dns.GetHostEntry(Dns.GetHostName());
             //if (IpEntry.HostName.Equals("devWin-PC") || IpEntry.HostName.Equals("shujianhua"))
             //{
