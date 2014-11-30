@@ -1,0 +1,31 @@
+﻿<div class="row">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="conditionData.MicYear" ng-options="m.MicYear for m in AcademicYears">
+                    <option value="">-- 请选择学年--</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="conditionData.TestLogin" ng-options="m.Name for m in TestLogins">
+                    <option value="">-- 请选择考试 --</option>
+                </select>
+            </div> 
+            <div class="col-sm-2">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="cksr">仅统计在籍生
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <label ng-repeat="item in GradeCourses">
+                    <input type="checkbox" checklist-value="item" checklist-model="courseChecks"> {{item.FullName}}
+                </label>
+            </div> 
+            <div class="col-sm-1">
+                <button type="button" class="btn btn-primary" ng-click="stat();"><span class="glyphicon glyphicon-ok"></span>统 计</button>
+            </div>
+        </div>
+    </form>
+</div> 

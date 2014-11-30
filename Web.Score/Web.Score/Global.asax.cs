@@ -6,6 +6,7 @@
 
 namespace App.Web.Score
 {
+    using App.Score.Util;
     using System;
     using System.Web;
     using System.Web.Optimization;
@@ -21,19 +22,18 @@ namespace App.Web.Score
             try
             {
                 App.Score.Data.AppHelper.Init();
+                //UtilHelper.WriteContent("c:/Log/log.txt", "连接数据库OK");
             }
             catch (Exception ex)
             {
-                log4net.LogManager.GetLogger("ErrLog").Error(ex);
+                UtilHelper.WriteContent("c:/Log/log.txt", "1111111111\n" + ex.StackTrace);
             }
         }
 
         protected void Application_Error(object sender, EventArgs e)
         {
             Exception ex = this.Context.Server.GetLastError();
-            log4net.ILog ErrLog = log4net.LogManager.GetLogger("ErrLog");
-            ErrLog.Error(ex);
-
+            log4net.LogManager.GetLogger("ErrLog").Error(ex); 
             //this.Context.Response.Clear();
             //this.Context.Server.Transfer("/Error.aspx");
         }

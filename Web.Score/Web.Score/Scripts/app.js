@@ -131,9 +131,9 @@ angular.module('app', [
             /**************************统计分析***********************/
             .state('analyze', { url: '/analyze', abstract: true, templateUrl: '/views/admin/main' })
             //超级型数据处理
-            .state('analyze.Sum0', { url: '/Super', templateUrl: '/views/Analysis/AnalyseSuper', controller: 'AnalyseSuperController' })
+            .state('analyze.Sum0', { url: '/Super', templateUrl: '/views/Analysis/AnalyzeSuper', controller: 'AnalyzeSuperController' })
             //统一型数据处理
-            .state('analyze.Sum1', { url: '/Shujuchuli1', templateUrl: '/views/Analysis/Shujuchuli1', controller: 'Shujuchuli1Controller' })
+            .state('analyze.Sum1', { url: '/common', templateUrl: '/views/Analysis/AnalyzeCommon', controller: 'AnalyzeCommonController' })
             //细目分析
             .state('analyze.Sum2', { url: '/MinutiaAnalyse', templateUrl: '/views/Analysis/MinutiaAnalyse', controller: 'MinutiaAnalyseController' })
             //高三选课排名

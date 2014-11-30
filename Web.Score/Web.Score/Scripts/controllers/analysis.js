@@ -2,7 +2,7 @@
 
 var analysis = angular.module('app.analysis', []);
 
-analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($scope, appUtils) {
+analysis.controller('AnalyzeSuperController', ['$scope', 'appUtils', function ($scope, appUtils) {
     var moduleName = '数据处理 - 超级型';
     $scope.$root.moduleName = moduleName;
     $scope.$root.title = $scope.softname + ' | ' + moduleName
@@ -16,8 +16,6 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
     month = month.length === 1 ? '0' + month : month;
     day = day.length === 1 ? '0' + day : day;
     $scope.now = year + '-' + month + '-' + day;
-
-    $scope.appUtils = appUtils;
 
     $scope.ValueA1 = 15;
     $scope.ValueB1 = 25;
@@ -55,7 +53,7 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
     $scope.Settings = [
       { code: 1, name: '百分比' },
       { code: 2, name: '分值' }
-    ] 
+    ]
     $scope.conditionData.Setting = $scope.Settings[0];
 
     $scope.OutItems = [
@@ -173,14 +171,14 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
             if (data.d !== null) {
                 $scope.data1 = angular.fromJson(data.d[0].Message);
             }
-        }); 
+        });
     }
 
     $scope.stat = function () {
         if (!$scope.conditionData.MicYear) {
             $scope.dialogUtils.info('请选择学年');
             return;
-        } 
+        }
         if (!$scope.conditionData.GradeCode) {
             $scope.dialogUtils.info('请选择年级！');
             return;
@@ -200,9 +198,61 @@ analysis.controller('AnalyseSuperController', ['$scope', 'appUtils', function ($
         if ($scope.courseChecks.length == 0) {
             $scope.dialogUtils.info('请选择课程');
             return;
-        } 
+        }
         statBase();
     }
+}]);
+
+analysis.controller('AnalyzeCommonController', ['$scope', 'appUtils', function ($scope, appUtils) {
+    var moduleName = '数据处理 - 统一型';
+    $scope.$root.moduleName = moduleName;
+    $scope.$root.title = $scope.softname + ' | ' + moduleName
+
+    $scope.appUtils = appUtils;
+    $scope.schoolName = $scope.schoolService.school.SchoolName;
+    var d = new Date();
+    var year = d.getFullYear();
+    var month = d.getMonth() + 1;
+    var day = d.getDate();
+    month = month.length === 1 ? '0' + month : month;
+    day = day.length === 1 ? '0' + day : day;
+    $scope.now = year + '-' + month + '-' + day;
+
+    //统计结果
+    $scope.data1 = [];
+
+    $scope.conditionData = {};
+
+    $scope.AcademicYears = [];
+    $scope.GradeCourses = [];
+    $scope.TestLogins = [];
+
+    $scope.utilService.GetAcademicYears(function (data) {
+        $scope.AcademicYears = data.d;
+    });
+
+    $scope.$watch('conditionData.MicYear', function (micYear) {
+        if (micYear) {
+            var url = "/DataProvider/Analyze.aspx/GetTestLoginByYear";
+            var param = { micYear: micYear.MicYear };
+            $scope.baseService.post(url, param, function (data) {
+                $scope.TestLogins = angular.fromJson(data.d);
+            });
+        }
+    });
+
+    $scope.$watch('conditionData.TestLogin', function (testLogin) {
+        if (testLogin) {
+            $scope.GradeCourses.length = 0;
+            if ($scope.conditionData.TestLogin) {
+                var url = "/DataProvider/Analyze.aspx/GetCoursesByTestLogin";
+                var param = { micYear: $scope.conditionData.MicYear.MicYear, testLogin: testLogin };
+                $scope.baseService.post(url, param, function (data) {
+                    $scope.GradeCourses = data.d;
+                });
+            }
+        }
+    });
 }]);
 
 //细目分析

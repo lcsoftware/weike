@@ -196,7 +196,18 @@ namespace App.Score.Db
             }
         }
 
-
+        public static DataTable GetTestLoginByYear(int micYear)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "select TestType,TestNo as TestLoginNo, case when TestType=0 then '平时' + CAST(testno as varchar)" +
+	                      " when TestType=1 then '期中' + CAST(testno as varchar)" +
+	                      " else '期末' + CAST(testno as varchar) end Name" +
+                          " from s_tb_testlogin where Academicyear='{0}' order by cast(testno as int)";
+                sql = string.Format(sql, micYear);
+                return bll.FillDataTableByText(sql);
+            }
+        }
      
     }
 }

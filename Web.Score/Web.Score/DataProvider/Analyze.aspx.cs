@@ -38,6 +38,38 @@ namespace App.Web.Score.DataProvider
             }
         }
 
+        [WebMethod]
+        public static IList<GradeCourse> GetCoursesByTestLogin(int micYear, TestLogin testLogin)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "Select * from s_tb_testlogin"
+                       + " where academicyear=@micYear"
+                       + " and testno=@testNo";
+                DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo });
+
+                var mTestType = string.IsNullOrEmpty(table.Rows[0]["testtype"].ToString()) ? "0" : table.Rows[0]["testtype"].ToString();
+                var mGradeNo1 = string.IsNullOrEmpty(table.Rows[0]["GradeNo"].ToString()) ? "" : table.Rows[0]["GradeNo"].ToString();
+                var testMark = string.IsNullOrEmpty(table.Rows[0]["Marktypecode"].ToString()) ? "1100" : table.Rows[0]["Marktypecode"].ToString();
+                var testCourse = table.Rows[0]["CourseCode"].ToString();
+                if (testCourse == "00000")
+                {
+                    sql = " SELECT {0} as Academicyear, b.GradeNo, b.CourseCode, a.FullName "
+                          + " FROM  tdCourseCode a INNER JOIN "
+                          + "  tbCourseUse b ON a.CourseCode = b.coursecode"
+                          + " where b.AcademicYear=@micYear"
+                          + " and gradeno=@gradeNo"
+                          + " group by a.BriefName, b.coursecode, b.GradeNo, a.FullName ";
+                    sql = string.Format(sql, micYear);
+                    return bll.FillListByText<GradeCourse>(sql, new { micYear = micYear, gradeno = mGradeNo1 });
+                }
+                else
+                {
+                    sql = "select {0} as Academicyear, FullName, CourseCode  from tdcourseCode where coursecode=@courseCode";
+                    return bll.FillListByText<GradeCourse>(sql, new { courseCode = table.Rows[0]["coursecode"].ToString() });
+                } 
+            }
+        }
         private static void gf_ScoreOrderA(string OrderSQL, string courseCode, string writeTableName, string fieldName, int writeBack)
         {
             using (AppBLL bll = new AppBLL())
@@ -298,7 +330,7 @@ namespace App.Web.Score.DataProvider
 
                 if (cksr == 1) sql = sql + " and State is null";
                 sql += " group by AcademicYear,srid,stdName,gradename,classcode, classsn,testno";
-                bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo});
+                bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo });
 
                 var length = gradeCourses.Count();
                 for (int i = 0; i < length; i++)
@@ -467,7 +499,7 @@ namespace App.Web.Score.DataProvider
                         + " where Academicyear={0}"
                         + " and testno={1}";
 
-                sql = string.Format(sql, micYear, testLogin.TestLoginNo); 
+                sql = string.Format(sql, micYear, testLogin.TestLoginNo);
                 gf_ScoreOrderA(sql, "", "s_tb_scorerep", "bzm", 0);
 
                 //获得学校编号
@@ -528,8 +560,8 @@ namespace App.Web.Score.DataProvider
                         else
                         {
                             sql += "," + str_kc + "," + str_kc + "m ";
-                        } 
-                        mpClear(gradeCourse); 
+                        }
+                        mpClear(gradeCourse);
                     }
                     sql += " from s_tb_scorerep order by ClassCode,ClassSN ";
                     DataTable table = bll.FillDataTableByText(sql);
@@ -537,8 +569,8 @@ namespace App.Web.Score.DataProvider
                     results.Add(entry);
                 }
                 else
-                { 
-                    sql = " Select Academicyear,testno,classcode,ClassSN,SchoolID,stdName,ysw,yswm,lz,lzm,bz,bzm "; 
+                {
+                    sql = " Select Academicyear,testno,classcode,ClassSN,SchoolID,stdName,ysw,yswm,lz,lzm,bz,bzm ";
                     var length1 = gradeCourses.Count();
                     for (int i = 0; i < length1; i++)
                     {
@@ -603,6 +635,13 @@ namespace App.Web.Score.DataProvider
                 sql = " update s_tb_scorerep set " + str_kc + "M = null where " + str_kc + "=0";
                 bll.ExecuteNonQueryByText(sql);
             }
+        }
+
+        [WebMethod]
+        public static string GetTestLoginByYear(int micYear)
+        {
+            DataTable table = App.Score.Db.UtilBLL.GetTestLoginByYear(micYear);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(table);
         }
     }
 }
