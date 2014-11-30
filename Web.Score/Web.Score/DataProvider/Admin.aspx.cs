@@ -52,6 +52,7 @@ namespace App.Web.Score.DataProvider
         [WebMethod]
         public static UserGroupInfo Verify(string user, string pwd)
         {
+            //UtilHelper.WriteContent("c:/Log/log.txt", "开始验证!");
             try
             {
                 using (AppBLL bll = new AppBLL())
@@ -61,12 +62,14 @@ namespace App.Web.Score.DataProvider
                     {
                         CookieHelper.SetCookie(COOKIE_NAME, Newtonsoft.Json.JsonConvert.SerializeObject(userInfo), DateTime.Now.AddDays(1));
                     }
+                    //UtilHelper.WriteContent("c:/Log/log.txt", "登录成功");
                     return userInfo;
                 }
             }
             catch (Exception ex)
             {
-                log4net.LogManager.GetLogger("ErrLog").Error(ex);
+                UtilHelper.WriteContent("c:/Log/log.txt", ex.StackTrace);
+                //log4net.LogManager.GetLogger("ErrLog").Error(ex);
                 throw ex;
             }
         }

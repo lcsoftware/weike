@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,21 @@ namespace App.Score.Util
             HttpContext.Current.Response.ContentEncoding = System.Text.Encoding.GetEncoding("gb2312");
             HttpContext.Current.Response.BinaryWrite(bytes);
             HttpContext.Current.Response.Flush();
+        }
+
+        public static void WriteContent(string fileName, string content)
+        {
+            FileStream aFile = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            try
+            {
+                StreamWriter sw = new StreamWriter(aFile);
+                sw.WriteLine(content);
+                sw.Close();
+            }
+            finally
+            {
+                aFile.Close();
+            }
         }
         
     }

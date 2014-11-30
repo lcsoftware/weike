@@ -726,12 +726,13 @@
     <Content Include="Views\stat\PrintScore.cshtml" />
     <Content Include="Views\stat\GradeStyle.cshtml" />
     <Content Include="Views\stat\StudentMT.cshtml" />
-    <Content Include="Views\Analysis\AnalyseSuper.cshtml" />
+    <Content Include="Views\Analysis\AnalyzeSuper.cshtml" />
     <Content Include="Views\stat\GradeClassComp.cshtml" />
     <Content Include="Views\stat\GradeOrders.cshtml" />
     <Content Include="Views\stat\GradeScore.cshtml" />
     <Content Include="Views\stat\GradeMinutia.cshtml" />
     <Content Include="Views\stat\Gradestat.cshtml" />
+    <Content Include="Views\Analysis\AnalyzeCommon.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
