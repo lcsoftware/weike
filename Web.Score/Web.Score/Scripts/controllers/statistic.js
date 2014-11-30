@@ -2059,19 +2059,25 @@ stat.controller('GradestatController', ['$scope', function ($scope) {
                 if (resultEntry.Code == 0) {
                     $scope.Items = angular.fromJson(resultEntry.Message);
                 } else if (resultEntry.Code == 1) {
-                    $scope.ColumnsName = angular.fromJson(resultEntry.Message);
+                    $scope.Columnss = angular.fromJson(resultEntry.Message);
                 }
             }
 
 
             var rs = "<table class='table table-striped table-bordered' style='width:100%'><thead><tr style='background-color:#808080'>";
-            var len = count($scope.ColumnsName[0]);
+            
+            rs += "<th style='text-align:center'>" + '学年' + "</th>";
+            rs += "<th style='text-align:center'>" + '班级' + "</th>";
+
+            var len = $scope.courses.length;
             for (var i = 0; i < len; i++) {
-                rs += "<th style='text-align:center'>" + $scope.ColumnsName[0][i] + "</th>";
+                rs += "<th style='text-align:center'>" + $scope.courses[i].FullName + "</th>";
             }
             rs += "</tr></thead>";
             for (var n = 0; n < $scope.Items.length; n++) {
                 rs += "<tr>";
+                rs += "<td></td>"
+
                 len = count($scope.Items[n]);
                 for (var m in $scope.Items[n]) {
                     rs += "<td>" + $scope.Items[n][m] + "</td>";

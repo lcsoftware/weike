@@ -1862,7 +1862,28 @@ namespace App.Web.Score.DataProvider
         [WebMethod]
         public static IList<ResultEntity> GetGradestat(Academicyear micYear,GradeCode gradeCode,IList<GradeCourse> gradeCourse,TestLogin testNo,bool only)
         {
-
+            using (AppBLL bll = new AppBLL())
+            {
+//                SELECT 学年, 班级
+//,CAST(语文1 AS VARCHAR) + '/' + cast(语文 AS VARCHAR) + '/' + 语文2 AS 'A1'
+//,CAST(数学1 AS VARCHAR) + '/' + cast(数学 AS VARCHAR) + '/' + 数学2 AS 'A2'
+//,total
+//FROM 
+//(
+//select AcademicYear 学年,gradename+'('+substring(classcode,3,2)+')班' 班级,
+//Cast(Avg(case When CourseCode=21001 then numscore end) as Numeric(6,2)) 语文,
+//Count(case When CourseCode=21001 then numscore  end) 语文1,
+//min(case When CourseCode=21001 then TeacherName  end) 语文2,
+//--Count(case When CourseCode=21001 then numscore  end) * Cast(Avg(case When CourseCode=21001 then numscore end) as Numeric(6,2)) AS total,
+//Cast(Avg(case When CourseCode=21002 then numscore end) as Numeric(6,2)) 数学,
+//Count(case When CourseCode=21002 then numscore  end) 数学1,
+//min(case When CourseCode=21002 then TeacherName  end) 数学2,
+//Cast(Avg(case When CourseCode=21001 then numscore end) as Numeric(6,2)) + Cast(Avg(case When CourseCode=21002 then numscore end) as Numeric(6,2)) AS total
+//from s_vw_ClassScoreNum where Testno=1 and AcademicYear =2013
+//and GradeNo=23
+//group by academicYear,gradename,classcode,TestNo
+//) t
+            }
             return null;
         }
         #endregion
