@@ -201,13 +201,165 @@ namespace App.Score.Db
             using (AppBLL bll = new AppBLL())
             {
                 var sql = "select TestType,TestNo as TestLoginNo, case when TestType=0 then '平时' + CAST(testno as varchar)" +
-	                      " when TestType=1 then '期中' + CAST(testno as varchar)" +
-	                      " else '期末' + CAST(testno as varchar) end Name" +
+                          " when TestType=1 then '期中' + CAST(testno as varchar)" +
+                          " else '期末' + CAST(testno as varchar) end Name" +
                           " from s_tb_testlogin where Academicyear='{0}' order by cast(testno as int)";
                 sql = string.Format(sql, micYear);
                 return bll.FillDataTableByText(sql);
             }
         }
-     
+
+        public static void gp_ScoreTj(int micYear, string Semester, string testType, string testNo, string courseCode, string gradeOrClassNo, int Flag)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = Flag == 0 ? "Delete from  s_tb_GradeStat where" : "Delete from  s_tb_ClassStat where";
+                sql += " Academicyear={0}"
+                    + " and Testno={1}"
+                    + " and CourseCode={2}";
+                sql += Flag == 0 ? " and GradeNo='{3}'" : "and ClassNo='{3}'";
+                sql = string.Format(sql, micYear, testNo, courseCode, gradeOrClassNo);
+                bll.ExecuteNonQueryByText(sql);
+                //先插入数据
+                if (Flag == 0)
+                    sql = " insert Into s_tb_GradeStat(AcademicYear,semester,CourseCode,TestType,TestNo,GradeNo)";
+                else
+                    sql = " insert Into s_tb_ClassStat(AcademicYear,semester,CourseCode,TestType,TestNo,ClassNo)";
+
+                sql += " values({0},{1},{2},{3},{4})";
+                sql = string.Format(sql, micYear, Semester, courseCode, testType, testNo, gradeOrClassNo);
+                bll.ExecuteNonQueryByText(sql);
+
+                //将统计数据修改为当前正确值
+                //先将0-0.05数据添入
+                sql = " select count(*) as S_5 from s_vw_ClassScoreNum"
+                       + " where NumScore/cast(substring(Markcode,2,3) as numeric(5,2) )<0.05 "
+                       + " and substring(Markcode,1,1)='1'"
+                       + " and Academicyear={0}"
+                       + " and TestNo={1}"
+                       + " and CourseCode={2}";
+                sql += Flag == 0 ? " and GradeNo='{3}'" : "and ClassNo='{3}'";
+                sql = string.Format(sql, micYear, testNo, courseCode, gradeOrClassNo);
+                DataTable table = bll.FillDataTableByText(sql);
+                var s_num = int.Parse(table.Rows[0]["S_5"].ToString());
+
+                //更新到数据库
+                sql = Flag == 0 ? "Update s_tb_GradeStat set S_5=:iNum" : "Update s_tb_ClassStat set S_5={4}";
+                sql += " and Academicyear={0}"
+                       + " and TestNo={1}"
+                       + " and CourseCode={2}";
+                sql += Flag == 0 ? " and GradeNo='{3}'" : "and ClassNo='{3}'";
+                sql = string.Format(sql, micYear, testNo, courseCode, gradeOrClassNo, s_num);
+                bll.ExecuteNonQueryByText(sql);
+
+                //二将S_100数据添入
+                sql = " select count(*) as S_5 from s_vw_ClassScoreNum"
+                       + " where NumScore/cast(substring(Markcode,2,3) as numeric(5,2) )>=0.95 "
+                       + " and substring(Markcode,1,1)='1'"
+                       + " and Academicyear={0}"
+                       + " and TestNo={1}"
+                       + " and CourseCode={2}";
+                sql += Flag == 0 ? " and GradeNo='{3}'" : "and ClassNo='{3}'";
+                sql = string.Format(sql, micYear, testNo, courseCode, gradeOrClassNo);
+                table = bll.FillDataTableByText(sql);
+                s_num = int.Parse(table.Rows[0]["S_5"].ToString());
+
+                //更新到数据库
+                sql = Flag == 0 ? " Update s_tb_GradeStat set S_100={4}" : "Update s_tb_ClassStat set S_100={4}";
+                sql += " and Academicyear={0}"
+                       + " and TestNo={1}"
+                       + " and CourseCode={2}";
+                sql += Flag == 0 ? " and GradeNo='{3}'" : "and ClassNo='{3}'";
+                sql = string.Format(sql, micYear, testNo, courseCode, gradeOrClassNo, s_num);
+                bll.ExecuteNonQueryByText(sql);
+
+                var LowScore = 0.05f;
+                var highScore = 0.1f;
+                for (var i = 0; i <= 17; i++)
+                {
+                    sql = " select count(*) as S_5 from s_vw_ClassScoreNum"
+                           + " where NumScore/cast(substring(Markcode,2,3) as numeric(5,2) )>={4}"
+                           + " and NumScore/cast(substring(Markcode,2,3) as numeric(5,2) )<{5}"
+                           + " and substring(Markcode,1,1)='1'"
+                           + " and Academicyear={0}"
+                           + " and TestNo={1}"
+                           + " and CourseCode={2}";
+                    sql += Flag == 0 ? " and GradeNo='{3}'" : "and ClassNo='{3}'";
+                    sql = string.Format(sql, micYear, testNo, courseCode, gradeOrClassNo, LowScore, highScore);
+                    table = bll.FillDataTableByText(sql);
+                    s_num = int.Parse(table.Rows[0]["S_5"].ToString());
+
+                    switch (i)
+                    {
+                        case 0:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_10={0}" : "Update s_tb_ClassStat Set S_10={0}";
+                            break;
+                        case 1:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_15={0}" : "Update s_tb_ClassStat Set S_15={0}";
+                            break;
+                        case 2:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_20={0}" : "Update s_tb_ClassStat Set S_20={0}";
+                            break;
+                        case 3:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_25={0}" : "Update s_tb_ClassStat Set S_25={0}";
+                            break;
+                        case 4:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_30={0}" : "Update s_tb_ClassStat Set S_30={0}";
+                            break;
+                        case 5:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_35={0}" : "Update s_tb_ClassStat Set S_35={0}";
+                            break;
+                        case 6:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_40={0}" : "Update s_tb_ClassStat Set S_40={0}";
+                            break;
+                        case 7:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_45={0}" : "Update s_tb_ClassStat Set S_45={0}";
+                            break;
+                        case 8:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_50={0}" : "Update s_tb_ClassStat Set S_50={0}";
+                            break;
+                        case 9:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_55={0}" : "Update s_tb_ClassStat Set S_55={0}";
+                            break;
+                        case 10:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_60={0}" : "Update s_tb_ClassStat Set S_60={0}";
+                            break;
+                        case 11:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_65={0}" : "Update s_tb_ClassStat Set S_65={0}";
+                            break;
+                        case 12:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_70={0}" : "Update s_tb_ClassStat Set S_70={0}";
+                            break;
+                        case 13:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_75={0}" : "Update s_tb_ClassStat Set S_75={0}";
+                            break;
+                        case 14:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_80={0}" : "Update s_tb_ClassStat Set S_80={0}";
+                            break;
+                        case 15:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_85={0}" : "Update s_tb_ClassStat Set S_85={0}";
+                            break;
+                        case 16:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_90={0}" : "Update s_tb_ClassStat Set S_90={0}";
+                            break;
+                        default:
+                            sql = Flag == 0 ? "Update s_tb_GradeStat Set S_95={0}" : "Update s_tb_ClassStat Set S_95={0}";
+                            break;
+                    }
+
+                    sql += " Where AcademicYear={1}"
+                           + " and TestNo={2}"
+                           + " and CourseCode={3}";
+
+                    sql += Flag == 0 ? " and GradeNo='{4}'" : " and ClassCode={4}";
+                    sql = string.Format(sql, s_num, micYear, testNo, courseCode, gradeOrClassNo);
+                    bll.ExecuteNonQueryByText(sql);
+
+                    LowScore += 0.05f;
+                    highScore += 0.05f;
+                }
+            }
+        }
+
     }
 }

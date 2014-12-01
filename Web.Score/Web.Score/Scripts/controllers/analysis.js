@@ -222,6 +222,7 @@ analysis.controller('AnalyzeCommonController', ['$scope', 'appUtils', function (
     $scope.data1 = [];
 
     $scope.conditionData = {};
+    $scope.GradeCode = null;
 
     $scope.AcademicYears = [];
     $scope.GradeCourses = [];
@@ -244,33 +245,41 @@ analysis.controller('AnalyzeCommonController', ['$scope', 'appUtils', function (
     $scope.$watch('conditionData.TestLogin', function (testLogin) {
         if (testLogin) {
             $scope.GradeCourses.length = 0;
-            if ($scope.conditionData.TestLogin) {
-                var url = "/DataProvider/Analyze.aspx/GetCoursesByTestLogin";
-                var param = { micYear: $scope.conditionData.MicYear.MicYear, testLogin: testLogin };
-                $scope.baseService.post(url, param, function (data) {
-                    $scope.GradeCourses = data.d;
-                });
-            }
+            var url = "/DataProvider/Analyze.aspx/GetCoursesByTestLogin";
+            var param = { micYear: $scope.conditionData.MicYear.MicYear, testLogin: testLogin };
+            $scope.baseService.post(url, param, function (data) {
+                $scope.GradeCourses = data.d;
+            });
+
+            url = "/DataProvider/Analyze.aspx/GetGradeByTestNo";
+            param = { micYear: $scope.conditionData.MicYear.MicYear, testLogin: testLogin };
+            $scope.baseService.post(url, param, function (data) {
+                $scope.GradeCode = data.d;
+            });
         }
     });
 
     var statBase = function () {
         var micYear = $scope.conditionData.MicYear.MicYear;
         var testLogin = $scope.conditionData.TestLogin;
+        var gradeCode = $scope.GradeCode;
 
-        var url = "/DataProvider/Analyze.aspx/stat";
-        var param = { micYear: $scope.conditionData.MicYear.MicYear, testLogin: testLogin };
+        var url = "/DataProvider/Analyze.aspx/AnalyzeCommon";
+        var param = { micYear: $scope.conditionData.MicYear.MicYear, gradeCode: gradeCode, testLogin: testLogin, courses: $scope.GradeCourses };
+        $scope.baseService.post(url, param, function (data) {
+            $scope.data1 = data.d;
+        });
     }
 
     $scope.stat = function () {
         if (!$scope.conditionData.MicYear) {
             $scope.dialogUtils.info('请选择学年');
             return;
-        } 
+        }
         if (!$scope.conditionData.TestLogin) {
             $scope.dialogUtils.info('请选择考试号');
             return;
-        } 
+        }
         statBase();
     }
 }]);
