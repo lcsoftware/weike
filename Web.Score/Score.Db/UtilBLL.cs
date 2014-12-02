@@ -214,9 +214,9 @@ namespace App.Score.Db
             using (AppBLL bll = new AppBLL())
             {
                 var sql = Flag == 0 ? "Delete from  s_tb_GradeStat where" : "Delete from  s_tb_ClassStat where";
-                sql += " Academicyear={0}"
-                    + " and Testno={1}"
-                    + " and CourseCode={2}";
+                sql += " Academicyear='{0}'"
+                    + " and Testno='{1}'"
+                    + " and CourseCode='{2}'";
                 sql += Flag == 0 ? " and GradeNo='{3}'" : "and ClassNo='{3}'";
                 sql = string.Format(sql, micYear, testNo, courseCode, gradeOrClassNo);
                 bll.ExecuteNonQueryByText(sql);
@@ -226,7 +226,7 @@ namespace App.Score.Db
                 else
                     sql = " insert Into s_tb_ClassStat(AcademicYear,semester,CourseCode,TestType,TestNo,ClassNo)";
 
-                sql += " values({0},{1},{2},{3},{4})";
+                sql += " values('{0}','{1}','{2}','{3}','{4}','{5}')";
                 sql = string.Format(sql, micYear, Semester, courseCode, testType, testNo, gradeOrClassNo);
                 bll.ExecuteNonQueryByText(sql);
 
@@ -235,19 +235,19 @@ namespace App.Score.Db
                 sql = " select count(*) as S_5 from s_vw_ClassScoreNum"
                        + " where NumScore/cast(substring(Markcode,2,3) as numeric(5,2) )<0.05 "
                        + " and substring(Markcode,1,1)='1'"
-                       + " and Academicyear={0}"
-                       + " and TestNo={1}"
-                       + " and CourseCode={2}";
+                       + " and Academicyear='{0}'"
+                       + " and TestNo='{1}'"
+                       + " and CourseCode='{2}'";
                 sql += Flag == 0 ? " and GradeNo='{3}'" : "and ClassNo='{3}'";
                 sql = string.Format(sql, micYear, testNo, courseCode, gradeOrClassNo);
                 DataTable table = bll.FillDataTableByText(sql);
                 var s_num = int.Parse(table.Rows[0]["S_5"].ToString());
 
                 //更新到数据库
-                sql = Flag == 0 ? "Update s_tb_GradeStat set S_5=:iNum" : "Update s_tb_ClassStat set S_5={4}";
-                sql += " and Academicyear={0}"
-                       + " and TestNo={1}"
-                       + " and CourseCode={2}";
+                sql = Flag == 0 ? "Update s_tb_GradeStat set S_5={4}" : "Update s_tb_ClassStat set S_5={4}";
+                sql += " where Academicyear='{0}'"
+                       + " and TestNo='{1}'"
+                       + " and CourseCode='{2}'";
                 sql += Flag == 0 ? " and GradeNo='{3}'" : "and ClassNo='{3}'";
                 sql = string.Format(sql, micYear, testNo, courseCode, gradeOrClassNo, s_num);
                 bll.ExecuteNonQueryByText(sql);
@@ -256,9 +256,9 @@ namespace App.Score.Db
                 sql = " select count(*) as S_5 from s_vw_ClassScoreNum"
                        + " where NumScore/cast(substring(Markcode,2,3) as numeric(5,2) )>=0.95 "
                        + " and substring(Markcode,1,1)='1'"
-                       + " and Academicyear={0}"
-                       + " and TestNo={1}"
-                       + " and CourseCode={2}";
+                       + " and Academicyear='{0}'"
+                       + " and TestNo='{1}'"
+                       + " and CourseCode='{2}'";
                 sql += Flag == 0 ? " and GradeNo='{3}'" : "and ClassNo='{3}'";
                 sql = string.Format(sql, micYear, testNo, courseCode, gradeOrClassNo);
                 table = bll.FillDataTableByText(sql);
@@ -266,9 +266,9 @@ namespace App.Score.Db
 
                 //更新到数据库
                 sql = Flag == 0 ? " Update s_tb_GradeStat set S_100={4}" : "Update s_tb_ClassStat set S_100={4}";
-                sql += " and Academicyear={0}"
-                       + " and TestNo={1}"
-                       + " and CourseCode={2}";
+                sql += " where Academicyear='{0}'"
+                       + " and TestNo='{1}'"
+                       + " and CourseCode='{2}'";
                 sql += Flag == 0 ? " and GradeNo='{3}'" : "and ClassNo='{3}'";
                 sql = string.Format(sql, micYear, testNo, courseCode, gradeOrClassNo, s_num);
                 bll.ExecuteNonQueryByText(sql);
@@ -281,9 +281,9 @@ namespace App.Score.Db
                            + " where NumScore/cast(substring(Markcode,2,3) as numeric(5,2) )>={4}"
                            + " and NumScore/cast(substring(Markcode,2,3) as numeric(5,2) )<{5}"
                            + " and substring(Markcode,1,1)='1'"
-                           + " and Academicyear={0}"
-                           + " and TestNo={1}"
-                           + " and CourseCode={2}";
+                           + " and Academicyear='{0}'"
+                           + " and TestNo='{1}'"
+                           + " and CourseCode='{2}'";
                     sql += Flag == 0 ? " and GradeNo='{3}'" : "and ClassNo='{3}'";
                     sql = string.Format(sql, micYear, testNo, courseCode, gradeOrClassNo, LowScore, highScore);
                     table = bll.FillDataTableByText(sql);

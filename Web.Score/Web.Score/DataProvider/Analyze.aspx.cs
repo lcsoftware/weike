@@ -244,20 +244,20 @@ namespace App.Web.Score.DataProvider
             using (AppBLL bll = new AppBLL())
             {
                 var sql = "";
-                sql = "Delete from {0} where Academicyear={1} and Testno={2} and CourseCode={3} and {4}={5}";
+                sql = "Delete from {0} where Academicyear='{1}' and Testno='{2}' and CourseCode='{3}' and {4}='{5}'";
                 sql = string.Format(sql, flag == 0 ? "s_tb_GradeStat" : "s_tb_ClassStat", micYear, testNo, courseCode, flag == 0 ? "GradeNo" : "ClassNo", gradeOrClassNo);
                 bll.ExecuteNonQueryByText(sql);
                 //先插入数据
                 if (flag == 0)
                 {
                     sql = "insert Into s_tb_GradeStat(AcademicYear,Semester,CourseCode,TestType,TestNo,GradeNo)"
-                           + " values({0},{1},{2},{3},{4})";
+                           + " values('{0}','{1}','{2}','{3}','{4}', '{5}')";
                     sql = string.Format(sql, micYear, Semester, courseCode, testType, testNo, gradeOrClassNo);
                 }
                 else
                 {
                     sql = "insert Into s_tb_ClassStat(AcademicYear,Semester,CourseCode,TestType,TestNo,ClassNo)"
-                            + " values({0},{1},{2},{3},{4})";
+                            + " values('{0}','{1}','{2}','{3}','{4}', '{5}')";
                     sql = string.Format(sql, micYear, Semester, courseCode, testType, testNo, gradeOrClassNo);
 
                 }
@@ -963,7 +963,7 @@ namespace App.Web.Score.DataProvider
                               + " and Numscore<200"
                               + " and Numscore is not Null";
                 DataTable table = bll.FillDataTableByText(string.Format(sql, Academicyear, TestNo, CourseCode, GradeNo));
-                var avgScore = float.Parse(table.Rows[0]["stdScore"].ToString());
+                var avgScore = float.Parse(table.Rows[0]["AvgScore"].ToString());
 
                 sql = "select stdevp(numscore) as stdScore from s_vw_ClassScoreNum"
                               + " where Academicyear='{0}'"
@@ -1040,19 +1040,19 @@ namespace App.Web.Score.DataProvider
                 int k = (int)Math.Floor(25 / XT);
                 if (k > Math.Abs(Math.Floor(75 / YT))) k = (int)Math.Abs(Math.Floor(75 / YT));
 
-              
-                  sql = " UPDATE b "
-                        + " SET b.standardScore = (75+b.Normalscore*({0}))"
-                        + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b" 
-                        + " ON a.SRID = b.SRID" 
-                        + " and a.Academicyear= b.Academicyear" 
-                        + " and a.TestNo=b.testno" 
-                        + " and a.coursecode=b.coursecode" 
-                        + " where a.Academicyear=@micYear"
-                        + " and a.testno=@testNo"
-                        + " and a.GradeNo=@gradeNo"
-                        + " and a.State is null" 
-                        + " and a.CourseCode=@courseCode";
+
+                sql = " UPDATE b "
+                      + " SET b.standardScore = (75+b.Normalscore*({0}))"
+                      + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
+                      + " ON a.SRID = b.SRID"
+                      + " and a.Academicyear= b.Academicyear"
+                      + " and a.TestNo=b.testno"
+                      + " and a.coursecode=b.coursecode"
+                      + " where a.Academicyear=@micYear"
+                      + " and a.testno=@testNo"
+                      + " and a.GradeNo=@gradeNo"
+                      + " and a.State is null"
+                      + " and a.CourseCode=@courseCode";
                 sql = string.Format(sql, k);
                 bll.ExecuteNonQueryByText(sql, new { micYear = Academicyear, testNo = TestNo, courseCode = CourseCode, gradeNo = GradeNo });
             }
@@ -1098,7 +1098,7 @@ namespace App.Web.Score.DataProvider
         }
 
         [WebMethod]
-        public static IList<ResultEntry> AnalyzeCommon(int micYear, GradeCode gradeCode, TestLogin testLogin, IList<GradeCourse> courses, int ckSR)
+        public static IList<ResultEntry> AnalyzeCommon(int micYear, GradeCode gradeCode, TestLogin testLogin, IList<GradeCourse> courses, int ckSR, int cbDC, string strLevel, string strLevel1)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -1106,7 +1106,7 @@ namespace App.Web.Score.DataProvider
                 IList<ResultEntry> results = new List<ResultEntry>();
                 ResultEntry entry = null;
 
-                var sql = "Select * from s_tb_levelStd where LevelNo = 'A')";
+                var sql = "Select * from s_tb_levelStd where LevelNo = 'A'";
                 DataTable table = bll.FillDataTableByText(sql);
                 var bLevel = !string.IsNullOrEmpty(table.Rows[0]["Level_bl"].ToString());
 
@@ -1125,7 +1125,6 @@ namespace App.Web.Score.DataProvider
 
                 foreach (var course in courses)
                 {
-                    var mCourseCode = course.CourseCode;
                     if (!string.IsNullOrEmpty(mGradeNo1) && mGradeNo1 == "00")
                     {
                         sql = "select * from tdGradeCode";
@@ -1158,9 +1157,468 @@ namespace App.Web.Score.DataProvider
                                 if (ckSR == 1) sql += " and STATE is null";
                                 sql = string.Format(sql, micYear, testLogin.TestLoginNo, mGradeNo, course.CourseCode);
                                 gf_ScoreOrder(sql, "s_tb_normalscore", "GradeOrder", 0);
+                                //11-11修改
+                                gf_ScoreOrder(sql, "s_tb_normalscore", "GradeOrder", 0);
+                                //开始计算标准分
+                                //11-11修改
+                                if (ckSR == 1)
+                                    gf_GetStdScoreA(micYear, testLogin.TestLoginNo.ToString(), course.CourseCode, mGradeNo);
+                                else
+                                    gf_GetStdScore(micYear, testLogin.TestLoginNo.ToString(), course.CourseCode, mGradeNo);
+                                //计算T分
+                                //11-11修改
+                                if (ckSR == 1)
+                                    gp_GetTScoreA(micYear, testLogin.TestLoginNo.ToString(), course.CourseCode, mGradeNo);
+                                else
+                                    gp_GetTScore(micYear, testLogin.TestLoginNo.ToString(), course.CourseCode, mGradeNo);
+                                //开始计算等第分
 
+                                if (bLevel)
+                                {
+                                    sql = " Select count(*) as RS from s_vw_ClassScoreNum"
+                                             + " where Academicyear=@micYear"
+                                             + " and testno=@testNo"
+                                             + " and GradeNo=@gradeNo"
+                                             + " and CourseCode=@courseCode";
+                                    if (ckSR == 1) sql += " and state is null";
+                                    tempTable = bll.FillDataTableByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, gradeNo = mGradeNo, courseCode = course.CourseCode });
+                                    var renshu = int.Parse(tempTable.Rows[0]["RS"].ToString());
 
+                                    sql = "UPDATE s_tb_normalscore "
+                                              + " SET levelscore = 'A'"
+                                              + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
+                                              + " ON a.SRID = b.SRID"
+                                              + " and a.Academicyear= b.Academicyear"
+                                              + " and a.TestNo=b.testno"
+                                              + " and a.coursecode=b.coursecode"
+                                              + " where a.gradeno=@gradeNo"
+                                              + " and b.Academicyear=@micYear"
+                                              + " and b.TestNo=@testNo"
+                                              + " and b.CourseCode=@courseCode"
+                                              + " and b.GradeOrder<=@iNum";
+                                    bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, gradeNo = mGradeNo, courseCode = course.CourseCode, iNum = renshu * floatA });
+
+                                    var tempSql = "update s_tb_Normalscore set LevelScore='{0}'"
+                                               + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
+                                               + " ON a.SRID = b.SRID"
+                                               + " and a.Academicyear= b.Academicyear"
+                                               + " and a.TestNo=b.testno"
+                                               + " and a.coursecode=b.coursecode"
+                                               + " where a.gradeno=@gradeNo"
+                                               + " and b.Academicyear=@micYear"
+                                               + " and b.TestNo=@testNo"
+                                               + " and b.CourseCode=@courseCode"
+                                               + " and b.GradeOrder<=@iNumB"
+                                               + " and b.GradeOrder>@iNumA";
+                                    sql = string.Format(tempSql, "B");
+                                    var iNumA = renshu * floatA;
+                                    var iNumB = renshu * floatB;
+                                    bll.ExecuteNonQueryByText(sql, new
+                                    {
+                                        micYear = micYear,
+                                        testNo = testLogin.TestLoginNo,
+                                        gradeNo = mGradeNo,
+                                        courseCode = course.CourseCode,
+                                        iNumA = iNumA,
+                                        iNumB = iNumB
+                                    });
+
+                                    sql = string.Format(tempSql, "C");
+                                    iNumA = renshu * floatB;
+                                    iNumB = renshu * floatC;
+                                    bll.ExecuteNonQueryByText(sql, new
+                                    {
+                                        micYear = micYear,
+                                        testNo = testLogin.TestLoginNo,
+                                        gradeNo = mGradeNo,
+                                        courseCode = course.CourseCode,
+                                        iNumA = iNumA,
+                                        iNumB = iNumB
+                                    });
+
+                                    sql = string.Format(tempSql, "D");
+                                    iNumA = renshu * floatC;
+                                    iNumB = renshu * floatD;
+                                    bll.ExecuteNonQueryByText(sql, new
+                                    {
+                                        micYear = micYear,
+                                        testNo = testLogin.TestLoginNo,
+                                        gradeNo = mGradeNo,
+                                        courseCode = course.CourseCode,
+                                        iNumA = iNumA,
+                                        iNumB = iNumB
+                                    });
+
+                                    sql = string.Format(tempSql, "E");
+                                    iNumA = renshu * floatD;
+                                    iNumB = renshu;
+                                    bll.ExecuteNonQueryByText(sql, new
+                                    {
+                                        micYear = micYear,
+                                        testNo = testLogin.TestLoginNo,
+                                        gradeNo = mGradeNo,
+                                        courseCode = course.CourseCode,
+                                        iNumA = iNumA,
+                                        iNumB = iNumB
+                                    });
+
+                                    if (cbDC == 1)
+                                    {
+                                        sql = "update s_tb_Normalscore set LevelScore='" + strLevel + "'"
+                                                   + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b "
+                                                   + " ON a.SRID = b.SRID"
+                                                   + " and a.Academicyear= b.Academicyear "
+                                                   + " and a.TestNo=b.testno"
+                                                   + " and a.coursecode=b.coursecode"
+                                                   + " where a.gradeno=@gradeNo"
+                                                   + " and b.Academicyear=@micYear"
+                                                   + " and b.TestNo=@testNo"
+                                                   + " and b.CourseCode=@courseCode"
+                                                   + " and b.NumScore>= cast(right(b.markcode,3) as int)*0.6"
+                                                   + " and b.levelScore='" + strLevel1 + "'";
+                                        bll.ExecuteNonQueryByText(sql, new
+                                        {
+                                            micYear = micYear,
+                                            testNo = testLogin.TestLoginNo,
+                                            gradeNo = mGradeNo,
+                                            courseCode = course.CourseCode
+                                        });
+                                    }
+
+                                }
+                                else
+                                {
+                                    //根据分数
+                                    sql = "UPDATE s_tb_normalscore "
+                                            + " SET levelscore = 'A'"
+                                            + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
+                                            + " ON a.SRID = b.SRID"
+                                            + " and a.Academicyear= b.Academicyear"
+                                            + " and a.TestNo=b.testno"
+                                            + " and a.coursecode=b.coursecode"
+                                            + " where a.gradeno=@gradeNo"
+                                            + " and b.Academicyear=@micYear"
+                                            + " and b.TestNo=@testNo"
+                                            + " and b.CourseCode=@courseCode"
+                                            + " and b.GradeOrder<=@iNum";
+                                    bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, gradeNo = mGradeNo, courseCode = course.CourseCode, iNum = floatA });
+
+                                    var tempSql = "update s_tb_Normalscore set LevelScore='{0}'"
+                                               + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
+                                               + " ON a.SRID = b.SRID"
+                                               + " and a.Academicyear= b.Academicyear"
+                                               + " and a.TestNo=b.testno"
+                                               + " and a.coursecode=b.coursecode"
+                                               + " where a.gradeno=@gradeNo"
+                                               + " and b.Academicyear=@micYear"
+                                               + " and b.TestNo=@testNo"
+                                               + " and b.CourseCode=@courseCode"
+                                               + " and b.GradeOrder>=@iNumB"
+                                               + " and b.GradeOrder<@iNumA";
+                                    sql = string.Format(tempSql, "B");
+                                    var iNumA = floatA;
+                                    var iNumB = floatB;
+                                    bll.ExecuteNonQueryByText(sql, new
+                                    {
+                                        micYear = micYear,
+                                        testNo = testLogin.TestLoginNo,
+                                        gradeNo = mGradeNo,
+                                        courseCode = course.CourseCode,
+                                        iNumA = iNumA,
+                                        iNumB = iNumB
+                                    });
+
+                                    sql = string.Format(tempSql, "C");
+                                    iNumA = floatB;
+                                    iNumB = floatC;
+                                    bll.ExecuteNonQueryByText(sql, new
+                                    {
+                                        micYear = micYear,
+                                        testNo = testLogin.TestLoginNo,
+                                        gradeNo = mGradeNo,
+                                        courseCode = course.CourseCode,
+                                        iNumA = iNumA,
+                                        iNumB = iNumB
+                                    });
+
+                                    sql = string.Format(tempSql, "D");
+                                    iNumA = floatC;
+                                    iNumB = floatD;
+                                    bll.ExecuteNonQueryByText(sql, new
+                                    {
+                                        micYear = micYear,
+                                        testNo = testLogin.TestLoginNo,
+                                        gradeNo = mGradeNo,
+                                        courseCode = course.CourseCode,
+                                        iNumA = iNumA,
+                                        iNumB = iNumB
+                                    });
+                                    tempSql = "update s_tb_Normalscore set LevelScore='{0}'"
+                                               + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
+                                               + " ON a.SRID = b.SRID"
+                                               + " and a.Academicyear= b.Academicyear"
+                                               + " and a.TestNo=b.testno"
+                                               + " and a.coursecode=b.coursecode"
+                                               + " where a.gradeno=@gradeNo"
+                                               + " and b.Academicyear=@micYear"
+                                               + " and b.TestNo=@testNo"
+                                               + " and b.CourseCode=@courseCode"
+                                               + " and b.NumScore>=0 "
+                                               + " and b.NumScore<@iNumA ";
+                                    sql = string.Format(tempSql, "E");
+                                    iNumA = floatD;
+                                    bll.ExecuteNonQueryByText(sql, new
+                                    {
+                                        micYear = micYear,
+                                        testNo = testLogin.TestLoginNo,
+                                        gradeNo = mGradeNo,
+                                        courseCode = course.CourseCode,
+                                        iNumA = iNumA
+                                    });
+                                }
                             }
+                        }
+                    }
+                    else
+                    {
+                        //***************
+                        sql = "select * from tdGradeCode where GradeNo=@gradeNo";
+                        DataTable tempTable = bll.FillDataTableByText(sql, new { gradeNo = mGradeNo1 });
+                        if (ckSR == 1)
+                        {
+                            gp_ScoreTjA(micYear, "", testLogin.TestType.ToString(), testLogin.TestLoginNo.ToString(), course.CourseCode, mGradeNo1, 0);
+                        }
+                        else
+                        {
+                            App.Score.Db.UtilBLL.gp_ScoreTj(micYear, "", testLogin.TestType.ToString(), testLogin.TestLoginNo.ToString(), course.CourseCode, mGradeNo1, 0);
+                        }
+
+                        //开始进行年级排名
+                        //11-11修改
+                        sql = "select academicYear,Semester,TestType,TestNo,CourseCode,srid,"
+                               + " Numscore,0 as OrderNO from s_vw_ClassScoreNum"
+                               + " where Academicyear='{0}'"
+                               + " and testno='{1}'"
+                               + " and GradeNo='{2}'"
+                               + " and CourseCode='{3}'";
+                        sql = string.Format(sql, micYear, testLogin.TestLoginNo, mGradeNo1, course.CourseCode);
+                        if (ckSR == 1) sql += " and STate is null ";
+
+                        gf_ScoreOrder(sql, " s_tb_normalscore", "GradeOrder", 0);
+
+                        //开始计算标准分
+                        if (ckSR == 1)
+                            gf_GetStdScore(micYear, testLogin.TestLoginNo.ToString(), course.CourseCode, mGradeNo1);
+                        else
+                            gf_GetStdScore(micYear, testLogin.TestLoginNo.ToString(), course.CourseCode, mGradeNo1);
+                        //计算T分
+                        if (ckSR == 1)
+                            gp_GetTScoreA(micYear, testLogin.TestLoginNo.ToString(), course.CourseCode, mGradeNo1);
+                        else
+                            gp_GetTScore(micYear, testLogin.TestLoginNo.ToString(), course.CourseCode, mGradeNo1);
+
+                        //开始计算等第分
+                        if (bLevel)
+                        {
+                            //根据排名
+                            sql = " Select count(*) as RS from s_vw_ClassScoreNum "
+                                  + " where Academicyear=@micYear"
+                                  + " and testno=@testNo"
+                                  + " and GradeNo=@gradeNo"
+                                  + " and CourseCode=@courseCode";
+                            tempTable = bll.FillDataTableByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, gradeNo = mGradeNo1, courseCode = course.CourseCode });
+                            var renshu = int.Parse(tempTable.Rows[0]["RS"].ToString());
+
+                            sql = "UPDATE s_tb_normalscore "
+                                            + " SET levelscore = 'A'"
+                                            + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
+                                            + " ON a.SRID = b.SRID"
+                                            + " and a.Academicyear= b.Academicyear"
+                                            + " and a.TestNo=b.testno"
+                                            + " and a.coursecode=b.coursecode"
+                                            + " where a.gradeno=@gradeNo"
+                                            + " and b.Academicyear=@micYear"
+                                            + " and b.TestNo=@testNo"
+                                            + " and b.CourseCode=@courseCode"
+                                            + " and b.GradeOrder<=@iNum";
+                            bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, gradeNo = mGradeNo1, courseCode = course.CourseCode, iNum = renshu * floatA });
+
+                            var tempSql = "update s_tb_Normalscore set LevelScore='{0}'"
+                                       + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
+                                       + " ON a.SRID = b.SRID"
+                                       + " and a.Academicyear= b.Academicyear"
+                                       + " and a.TestNo=b.testno"
+                                       + " and a.coursecode=b.coursecode"
+                                       + " where a.gradeno=@gradeNo"
+                                       + " and b.Academicyear=@micYear"
+                                       + " and b.TestNo=@testNo"
+                                       + " and b.CourseCode=@courseCode"
+                                       + " and b.GradeOrder<=@iNumB"
+                                       + " and b.GradeOrder>@iNumA";
+                            sql = string.Format(tempSql, "B");
+                            var iNumA = renshu * floatA;
+                            var iNumB = renshu * floatB;
+                            bll.ExecuteNonQueryByText(sql, new
+                            {
+                                micYear = micYear,
+                                testNo = testLogin.TestLoginNo,
+                                gradeNo = mGradeNo1,
+                                courseCode = course.CourseCode,
+                                iNumA = iNumA,
+                                iNumB = iNumB
+                            });
+
+                            sql = string.Format(tempSql, "C");
+                            iNumA = renshu * floatB;
+                            iNumB = renshu * floatC;
+                            bll.ExecuteNonQueryByText(sql, new
+                            {
+                                micYear = micYear,
+                                testNo = testLogin.TestLoginNo,
+                                gradeNo = mGradeNo1,
+                                courseCode = course.CourseCode,
+                                iNumA = iNumA,
+                                iNumB = iNumB
+                            });
+
+                            sql = string.Format(tempSql, "D");
+                            iNumA = renshu * floatC;
+                            iNumB = renshu * floatD;
+                            bll.ExecuteNonQueryByText(sql, new
+                            {
+                                micYear = micYear,
+                                testNo = testLogin.TestLoginNo,
+                                gradeNo = mGradeNo1,
+                                courseCode = course.CourseCode,
+                                iNumA = iNumA,
+                                iNumB = iNumB
+                            });
+
+                            sql = string.Format(tempSql, "E");
+                            iNumA = renshu * floatD;
+                            iNumB = renshu;
+                            bll.ExecuteNonQueryByText(sql, new
+                            {
+                                micYear = micYear,
+                                testNo = testLogin.TestLoginNo,
+                                gradeNo = mGradeNo1,
+                                courseCode = course.CourseCode,
+                                iNumA = iNumA,
+                                iNumB = iNumB
+                            });
+
+                            if (cbDC == 1)
+                            {
+                                sql = "update s_tb_Normalscore set LevelScore='" + strLevel + "'"
+                                           + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b "
+                                           + " ON a.SRID = b.SRID"
+                                           + " and a.Academicyear= b.Academicyear "
+                                           + " and a.TestNo=b.testno"
+                                           + " and a.coursecode=b.coursecode"
+                                           + " where a.gradeno=@gradeNo"
+                                           + " and b.Academicyear=@micYear"
+                                           + " and b.TestNo=@testNo"
+                                           + " and b.CourseCode=@courseCode"
+                                           + " and b.NumScore>= cast(right(b.markcode,3) as int)*0.6"
+                                           + " and b.levelScore='" + strLevel1 + "'";
+                                bll.ExecuteNonQueryByText(sql, new
+                                {
+                                    micYear = micYear,
+                                    testNo = testLogin.TestLoginNo,
+                                    gradeNo = mGradeNo1,
+                                    courseCode = course.CourseCode
+                                });
+                            }
+                        }
+                        else
+                        {
+                            //根据分数
+                            sql = "UPDATE s_tb_normalscore "
+                                    + " SET levelscore = 'A'"
+                                    + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
+                                    + " ON a.SRID = b.SRID"
+                                    + " and a.Academicyear= b.Academicyear"
+                                    + " and a.TestNo=b.testno"
+                                    + " and a.coursecode=b.coursecode"
+                                    + " where a.gradeno=@gradeNo"
+                                    + " and b.Academicyear=@micYear"
+                                    + " and b.TestNo=@testNo"
+                                    + " and b.CourseCode=@courseCode"
+                                    + " and b.GradeOrder<=@iNum";
+                            bll.ExecuteNonQueryByText(sql, new { micYear = micYear, testNo = testLogin.TestLoginNo, gradeNo = mGradeNo1, courseCode = course.CourseCode, iNum = floatA });
+
+                            var tempSql = "update s_tb_Normalscore set LevelScore='{0}'"
+                                       + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
+                                       + " ON a.SRID = b.SRID"
+                                       + " and a.Academicyear= b.Academicyear"
+                                       + " and a.TestNo=b.testno"
+                                       + " and a.coursecode=b.coursecode"
+                                       + " where a.gradeno=@gradeNo"
+                                       + " and b.Academicyear=@micYear"
+                                       + " and b.TestNo=@testNo"
+                                       + " and b.CourseCode=@courseCode"
+                                       + " and b.GradeOrder>=@iNumB"
+                                       + " and b.GradeOrder<@iNumA";
+                            sql = string.Format(tempSql, "B");
+                            var iNumA = floatA;
+                            var iNumB = floatB;
+                            bll.ExecuteNonQueryByText(sql, new
+                            {
+                                micYear = micYear,
+                                testNo = testLogin.TestLoginNo,
+                                gradeNo = mGradeNo1,
+                                courseCode = course.CourseCode,
+                                iNumA = iNumA,
+                                iNumB = iNumB
+                            });
+
+                            sql = string.Format(tempSql, "C");
+                            iNumA = floatB;
+                            iNumB = floatC;
+                            bll.ExecuteNonQueryByText(sql, new
+                            {
+                                micYear = micYear,
+                                testNo = testLogin.TestLoginNo,
+                                gradeNo = mGradeNo1,
+                                courseCode = course.CourseCode,
+                                iNumA = iNumA,
+                                iNumB = iNumB
+                            });
+
+                            sql = string.Format(tempSql, "D");
+                            iNumA = floatC;
+                            iNumB = floatD;
+                            bll.ExecuteNonQueryByText(sql, new
+                            {
+                                micYear = micYear,
+                                testNo = testLogin.TestLoginNo,
+                                gradeNo = mGradeNo1,
+                                courseCode = course.CourseCode,
+                                iNumA = iNumA,
+                                iNumB = iNumB
+                            });
+                            tempSql = "update s_tb_Normalscore set LevelScore='{0}'"
+                                       + " FROM s_vw_ClassScoreNum as a INNER JOIN s_tb_normalscore as b"
+                                       + " ON a.SRID = b.SRID"
+                                       + " and a.Academicyear= b.Academicyear"
+                                       + " and a.TestNo=b.testno"
+                                       + " and a.coursecode=b.coursecode"
+                                       + " where a.gradeno=@gradeNo"
+                                       + " and b.Academicyear=@micYear"
+                                       + " and b.TestNo=@testNo"
+                                       + " and b.CourseCode=@courseCode"
+                                       + " and b.NumScore>=0 "
+                                       + " and b.NumScore<@iNumA ";
+                            sql = string.Format(tempSql, "E");
+                            iNumA = floatD;
+                            bll.ExecuteNonQueryByText(sql, new
+                            {
+                                micYear = micYear,
+                                testNo = testLogin.TestLoginNo,
+                                gradeNo = mGradeNo1,
+                                courseCode = course.CourseCode,
+                                iNumA = iNumA
+                            });
                         }
                     }
                 }

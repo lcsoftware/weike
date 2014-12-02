@@ -217,7 +217,8 @@ analysis.controller('AnalyzeCommonController', ['$scope', 'appUtils', function (
     month = month.length === 1 ? '0' + month : month;
     day = day.length === 1 ? '0' + day : day;
     $scope.now = year + '-' + month + '-' + day;
-
+    $scope.cksr = '0';
+    $scope.cbDC = '0';
     //统计结果
     $scope.data1 = [];
 
@@ -264,10 +265,40 @@ analysis.controller('AnalyzeCommonController', ['$scope', 'appUtils', function (
         var testLogin = $scope.conditionData.TestLogin;
         var gradeCode = $scope.GradeCode;
 
+        var strLevel = '';
+        var strLevel1 = '';
+
+        if ($scope.cbDC === 1) {
+            if (valueB === 100) {
+                strLevel = 'A';
+                strLevel1 = 'B';
+            } else if (valueC === 100) {
+                strLevel = 'B';
+                strLevel1 = 'C';
+            } else if (valueD === 100) {
+                strLevel = 'C';
+                strLevel1 = 'D';
+            } else {
+                strLevel = 'D';
+                strLevel1 = 'E';
+            }
+        }
+
         var url = "/DataProvider/Analyze.aspx/AnalyzeCommon";
-        var param = { micYear: $scope.conditionData.MicYear.MicYear, gradeCode: gradeCode, testLogin: testLogin, courses: $scope.GradeCourses };
+        var param = { 
+            micYear: micYear,
+            gradeCode: gradeCode,
+            testLogin: testLogin,
+            courses: $scope.GradeCourses,
+            ckSR: $scope.cksr,
+            cbDC: $scope.cbDC,
+            strLevel: strLevel,
+            strLevel1: strLevel1
+        };
         $scope.baseService.post(url, param, function (data) {
-            $scope.data1 = data.d;
+            if (data.d.length === 0) {
+                $scope.dialogUtils.info('统计操作结束！');
+            }
         });
     }
 
