@@ -2009,6 +2009,99 @@ namespace App.Web.Score.DataProvider
         }
         #endregion
 
+        #region 学生成绩纵向比较
+        //横向纵向查询
+        [WebMethod]
+        public static string GetGradeStdPJ(GradeCourse courseCode, Academicyear micYearJZ,
+            int micYearXZ, TestLogin testNoJZ, int? testNoXZ, Academicyear micyear,
+            GradeCode gradeCode, TestLogin testNo)
+        {
+            using (AppBLL bll = new AppBLL())
+            {                
+                var inputParams =
+                    new
+                    {
+                        CourseCode = courseCode.CourseCode,
+                        Academicyear1 = micYearJZ.MicYear,
+                        Test1 = testNoJZ.TestNo,
+                        Academicyear2 = micYearXZ,
+                        Test2 = testNoXZ,
+                        Academicyear3 = micyear.MicYear,
+                        Test3 = testNo.TestNo,
+                        GradeCode = gradeCode.GradeNo,                        
+                        Schoolcode = "",
+                        Flag = 0
+                    };
+                DataTable dt = bll.FillDataTable("s_p_StdCompRep", inputParams);
+                if (dt.Rows.Count > 0)
+                    return JsonConvert.SerializeObject(dt);
+                else
+                    return "";
+            }
+        }
+        #endregion
+
+        #region 学科相关分析
+        //学科相关分析
+        [WebMethod]
+        public static IList<ChartOption> GetClassCourse(Academicyear micyear, GradeCode gradeCode, GradeClass gradeClass,GradeCourse gradeCourse1,GradeCourse gradeCourse2,TestLogin testNo,int type)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                IList<ChartOption> options = new List<ChartOption>();
+                ChartOption option1 = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
+                options.Add(option1);
+                option1.yAxis.name = gradeCourse1.FullName + "与" + gradeCourse2.FullName + "相关分析";
+                //年级平均分
+                var sql = " Select srid,stdName,Sum(Case When CourseCode = " + gradeCourse1.CourseCode + " then Numscore else 0 end) as course1," +
+                          " Sum(Case When CourseCode = " + gradeCourse2.CourseCode + " then Numscore else 0 end) as course2 " +
+                          " from s_vw_ClassScoreNum Where AcademicYear=@micyear and testno=@testNo";
+                if (type == 0)
+                    sql += " AND Gradeno=" + gradeCode.GradeNo + " ";
+                else
+                    sql += " AND ClassCode=" + gradeClass.ClassNo + " ";
+                sql += " Group by srid,stdName order by srid ";
+                DataTable dt = bll.FillDataTableByText(sql, new { micyear = micyear.MicYear, testNo = testNo.TestNo });
+                var title = gradeCourse1.FullName + "与" + gradeCourse2.FullName + "比值";
+                option1.legend.data.Add(title);
+                SeriesItem item = new SeriesItem() { type = "bar", name = title };
+                option1.series.Add(item);
+                if (dt.Rows.Count > 0)
+                {
+                    if (dt.Rows.Count < 30)
+                    {
+                        ((SeriesItem)option1.series[1]).data.Add("0");
+                    }
+                    else
+                    {
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            if (Convert.ToDouble(dt.Rows[i]["course2"]) > 0)
+                            {
+                                var xName = dt.Rows[i]["stdName"].ToString();
+                                if (!option1.xAxis.data.Contains(xName))
+                                    option1.xAxis.data.Add(xName);
+                                double score = Convert.ToDouble(dt.Rows[i]["course1"]) / Convert.ToDouble(dt.Rows[i]["course2"]);
+                                item.data.Add(score.ToString("0.00"));
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    ((SeriesItem)option1.series[1]).data.Add("0");
+                }
+                return options;
+            }
+
+        }
+
+        #endregion
+        
         #region 班级统计
         /// <summary>
         ///考试统计分析

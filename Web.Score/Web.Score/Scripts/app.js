@@ -113,19 +113,19 @@ angular.module('app', [
             //考试统计分析
             .state('stat.Stat20', { url: '/ClassStat', templateUrl: '/views/stat/ExamStat', controller: 'ExamStatController' })
             //学科相关分析
-            .state('stat.Stat21', { url: '/ClassCourse', templateUrl: '/views/ClassCourse', controller: 'ClassCourseController' })
+            .state('stat.Stat21', { url: '/ClassCourse', templateUrl: '/views/stat/ClassCourse', controller: 'ClassCourseController' })
             //学科成绩清单
-            .state('stat.Stat22', { url: '/ClassScore', templateUrl: '/views/ClassScore', controller: 'ClassScoreController' })
+            .state('stat.Stat22', { url: '/ClassScore', templateUrl: '/views/stat/ClassScore', controller: 'ClassScoreController' })
             //细目成绩清单
-            .state('stat.Stat23', { url: '/ClassMinutia', templateUrl: '/views/ClassMinutia', controller: 'ClassMinutiaController' })
+            .state('stat.Stat23', { url: '/ClassMinutia', templateUrl: '/views/stat/ClassMinutia', controller: 'ClassMinutiaController' })
             //班级学期总评
-            .state('stat.Stat24', { url: '/ClassAmin', templateUrl: '/views/ClassAmin', controller: 'ClassAminController' })
+            .state('stat.Stat24', { url: '/ClassAmin', templateUrl: '/views/stat/ClassAmin', controller: 'ClassAminController' })
             //班级排名
-            .state('stat.Stat25', { url: '/ClassOrder', templateUrl: '/views/ClassOrder', controller: 'ClassOrderController' })
+            .state('stat.Stat25', { url: '/ClassOrder', templateUrl: '/views/stat/ClassOrder', controller: 'ClassOrderController' })
             //多学科成绩报表
-            .state('stat.Stat26', { url: '/ClassRep', templateUrl: '/views/ClassRep', controller: 'ClassRepController' })
+            .state('stat.Stat26', { url: '/ClassRep', templateUrl: '/views/stat/ClassRep', controller: 'ClassRepController' })
             //学生多门清单
-            .state('stat.Stat27', { url: '/ClassND', templateUrl: '/views/ClassND', controller: 'ClassNDController' })
+            .state('stat.Stat27', { url: '/ClassND', templateUrl: '/views/stat/ClassND', controller: 'ClassNDController' })
             /**************************End 年级班级统计***********************/
 
             /**************************统计分析***********************/

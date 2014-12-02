@@ -214,6 +214,13 @@ aService.factory('utilService', ['baseService', 'utilProviderUrl', function (bas
         var param = { micYear: micYear };
         baseService.post(url, param, callback);
     }
+    //根据学年获得课程
+    service.GetCourseByYear = function (micYear, callback) {
+        var url = "/DataProvider/Util.aspx/GetCourseByYear";
+        var param = { academicYear: micYear };
+        baseService.post(url, param, callback);
+    }
+
     //获取数组中最大值
     service.getMax = function (value) {
         var max = value[0].NumScore;
