@@ -1778,11 +1778,11 @@ namespace App.Web.Score.DataProvider
                 options.Add(option1);
 
                 string legend = "";
-                if(type == 0)
+                if (type == 0)
                     legend = string.Format("{0}{1}课成绩分布图", gradeCode.GradeName, gradeCourse.FullName);
                 else
                     legend = string.Format("{0}{1}课成绩分布图", gradeClass.GradeBriefName, gradeCourse.FullName);
-                
+
                 option1.title.text = legend;
                 option1.title.x = "center";
                 option1.legend.x = "left";
@@ -1790,7 +1790,7 @@ namespace App.Web.Score.DataProvider
 
                 var sql = "";
                 DataTable table = new DataTable();
-                if(type == 0)
+                if (type == 0)
                 {
                     sql = "SELECT c.TypeName, b.BriefName AS CourseName, a.TestNo," +
                            " a.GradeNo, a.S_5+a.S_10+a.S_15+a.S_20+a.S_25+a.S_30 s_30,a.S_35,a.S_40," +
@@ -1854,37 +1854,158 @@ namespace App.Web.Score.DataProvider
                 seriesItem.data.Add(table.Rows[0]["S_100"].ToString());
                 return options;
             }
-            
+
         }
         #endregion
 
         #region 年级成绩统计(并表)
         [WebMethod]
-        public static IList<ResultEntity> GetGradestat(Academicyear micYear,GradeCode gradeCode,IList<GradeCourse> gradeCourse,TestLogin testNo,bool only)
+        public static IList<ResultEntry> GetGradestat(Academicyear micYear, GradeCode gradeCode, IList<GradeCourse> gradeCourse, TestLogin testNo, bool only)
         {
             using (AppBLL bll = new AppBLL())
             {
-//                SELECT 学年, 班级
-//,CAST(语文1 AS VARCHAR) + '/' + cast(语文 AS VARCHAR) + '/' + 语文2 AS 'A1'
-//,CAST(数学1 AS VARCHAR) + '/' + cast(数学 AS VARCHAR) + '/' + 数学2 AS 'A2'
-//,total
-//FROM 
-//(
-//select AcademicYear 学年,gradename+'('+substring(classcode,3,2)+')班' 班级,
-//Cast(Avg(case When CourseCode=21001 then numscore end) as Numeric(6,2)) 语文,
-//Count(case When CourseCode=21001 then numscore  end) 语文1,
-//min(case When CourseCode=21001 then TeacherName  end) 语文2,
-//--Count(case When CourseCode=21001 then numscore  end) * Cast(Avg(case When CourseCode=21001 then numscore end) as Numeric(6,2)) AS total,
-//Cast(Avg(case When CourseCode=21002 then numscore end) as Numeric(6,2)) 数学,
-//Count(case When CourseCode=21002 then numscore  end) 数学1,
-//min(case When CourseCode=21002 then TeacherName  end) 数学2,
-//Cast(Avg(case When CourseCode=21001 then numscore end) as Numeric(6,2)) + Cast(Avg(case When CourseCode=21002 then numscore end) as Numeric(6,2)) AS total
-//from s_vw_ClassScoreNum where Testno=1 and AcademicYear =2013
-//and GradeNo=23
-//group by academicYear,gradename,classcode,TestNo
-//) t
+                IList<ResultEntry> results = new List<ResultEntry>();
+                ResultEntry entry = null;
+
+                //拼接头部
+                var head = "SELECT 学年, 班级 ";
+                for (int n = 0; n < gradeCourse.Count; n++)
+                {
+                    head += ",CAST(" + gradeCourse[n].FullName + "1 AS VARCHAR) + '/' + cast(" + gradeCourse[n].FullName + " AS VARCHAR) + '/' + " + gradeCourse[n].FullName + "2 AS '人数/" + gradeCourse[n].FullName + "/教师'";
+                }
+                head += " ,总分 FROM(";
+
+                var body = "select AcademicYear 学年,gradename+'('+substring(classcode,3,2)+')班' 班级, ";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    body += " Cast(Avg(case When CourseCode=" + gradeCourse[i].CourseCode + " then numscore end) as Numeric(6,2)) " + gradeCourse[i].FullName + "," +
+                           " Count(case When CourseCode=" + gradeCourse[i].CourseCode + " then numscore  end) " + gradeCourse[i].FullName + "1," +
+                           " min(case When CourseCode=" + gradeCourse[i].CourseCode + " then TeacherName  end) " + gradeCourse[i].FullName + "2,";
+                }
+                if (gradeCourse.Count > 1)
+                {
+                    for (int i = 0; i < gradeCourse.Count; i++)
+                    {
+                        body += " Cast(Avg(case When CourseCode=" + gradeCourse[i].CourseCode + " then numscore end) as Numeric(6,2)) +";
+                    }
+                    body = body.TrimEnd('+');
+                    body += " AS 总分";
+                }
+                else
+                {
+                    body += " Cast(Avg(case When CourseCode=" + gradeCourse[0].CourseCode + " then numscore end) as Numeric(6,2))  AS 总分";
+                }
+                body += " from s_vw_ClassScoreNum where Testno=1 and AcademicYear = " + micYear.MicYear + "" +
+                       " and GradeNo=" + gradeCode.GradeNo + " ";
+                if (only) body += " and state is null";
+                body += " group by academicYear,gradename,classcode,TestNo";
+
+                //拼接尾部
+                var foot = " ) t";
+                var sql = head + body + foot;
+
+                DataTable dt = bll.FillDataTableByText(sql);
+
+                //对总分进行排序
+                double[] v = new double[dt.Rows.Count];
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    v[i] = Convert.ToDouble(dt.Rows[i]["总分"]);
+                }
+                for (int i = 0; i < v.Length; i++)
+                {
+                    double min = v[i];
+                    double temp;
+                    int index = i;
+                    for (int j = i + 1; j < v.Length; j++)
+                    {
+                        if (v[j] > min)
+                        {
+                            min = v[j];
+                            index = j;
+                        }
+                    }
+
+                    temp = v[i];
+                    v[i] = min;
+                    v[index] = temp;
+                }
+                //根据总分插入排名
+                DataColumn col = new DataColumn("排名", Type.GetType("System.String"));
+                dt.Columns.Add(col);
+                for (int n = 0; n < v.Length; n++)
+                {
+                    for (int k = 0; k < dt.Rows.Count; k++)
+                    {
+                        if (v[n] == Convert.ToDouble(dt.Rows[k]["总分"]))
+                        {
+                            dt.Rows[k][col] = n + 1;
+                        }
+                    }
+                }
+
+                //拼接平均行
+                head = "select ";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    var name = gradeCourse[i].FullName;
+                    head += " sum(" + name + "1)/CAST(COUNT(*) as numeric(6,2)) " + name + "1,AVG(" + name + ") " + name + ",";
+                }
+                head += " AVG(总分) 总分 from(";
+                sql = head + body + foot;
+                DataTable dtAvg = bll.FillDataTableByText(sql);
+                DataRow dr = dt.NewRow();
+                dr["学年"] = "";
+                dr["班级"] = "平 均";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    var name = gradeCourse[i].FullName;
+                    var a = Convert.ToDouble(dtAvg.Rows[0]["" + name + "1"]).ToString("0.00") + "/" + Convert.ToDouble(dtAvg.Rows[0]["" + name + ""]).ToString("0.00");
+                    dr["人数/" + name + "/教师"] = a;
+                }
+                dr["总分"] = Convert.ToDouble(dtAvg.Rows[0]["总分"]).ToString("0.00");
+                dr["排名"] = "";
+                dt.Rows.Add(dr);
+
+                //拼接总分行
+                head = "select ";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    var name = gradeCourse[i].FullName;
+                    head += " sum(" + name + "1) " + name + "1,sum(" + name + ") " + name + ",";
+                }
+                head += " sum(总分) 总分 from(";
+                sql = head + body + foot;
+                DataTable dtSum = bll.FillDataTableByText(sql);
+                dr = dt.NewRow();
+                dr["学年"] = "";
+                dr["班级"] = "总 共";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    var name = gradeCourse[i].FullName;
+                    var a = Convert.ToDouble(dtSum.Rows[0]["" + name + "1"]).ToString("0.00") + "/" + Convert.ToDouble(dtSum.Rows[0]["" + name + ""]).ToString("0.00");
+                    dr["人数/" + name + "/教师"] = a;
+                }
+                dr["总分"] = Convert.ToDouble(dtSum.Rows[0]["总分"]).ToString("0.00");
+                dr["排名"] = "";
+                dt.Rows.Add(dr);
+
+                entry = new ResultEntry() { Code = 0, Message = JsonConvert.SerializeObject(dt) };
+                results.Add(entry);
+
+                sql = "";
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    sql += string.Format(" '{0}' as '{1}',", dt.Columns[i].ColumnName, i);
+                }
+                sql = "select " + sql.TrimEnd(',');
+                dt = bll.FillDataTableByText(sql);
+                entry = new ResultEntry() { Code = 1, Message = JsonConvert.SerializeObject(dt) };
+                results.Add(entry);
+
+                return results;
             }
-            return null;
+
         }
         #endregion
 

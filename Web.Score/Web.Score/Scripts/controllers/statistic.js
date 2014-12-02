@@ -2044,13 +2044,13 @@ stat.controller('GradestatController', ['$scope', function ($scope) {
         }
 
         $scope.utilService.showBg();
-        var url = "/DataProvider/Statistic.aspx/GetGradeOrders";
+        var url = "/DataProvider/Statistic.aspx/GetGradestat";
         var param = {
             micYear: $scope.MicYear,
             gradeCourse: $scope.courses,
             gradeCode: $scope.GradeCode,
             testNo: $scope.TestNo,
-            semester: $scope.Semester
+            only: $scope.only == null ? false : $scope.only
         };
         $scope.baseService.post(url, param, function (data) {
             var length = data.d.length;
@@ -2059,25 +2059,19 @@ stat.controller('GradestatController', ['$scope', function ($scope) {
                 if (resultEntry.Code == 0) {
                     $scope.Items = angular.fromJson(resultEntry.Message);
                 } else if (resultEntry.Code == 1) {
-                    $scope.Columnss = angular.fromJson(resultEntry.Message);
+                    $scope.ColumnsName = angular.fromJson(resultEntry.Message);
                 }
             }
 
 
             var rs = "<table class='table table-striped table-bordered' style='width:100%'><thead><tr style='background-color:#808080'>";
-            
-            rs += "<th style='text-align:center'>" + '学年' + "</th>";
-            rs += "<th style='text-align:center'>" + '班级' + "</th>";
-
-            var len = $scope.courses.length;
+            var len = count($scope.ColumnsName[0]);
             for (var i = 0; i < len; i++) {
-                rs += "<th style='text-align:center'>" + $scope.courses[i].FullName + "</th>";
+                rs += "<th style='text-align:center'>" + $scope.ColumnsName[0][i] + "</th>";
             }
             rs += "</tr></thead>";
             for (var n = 0; n < $scope.Items.length; n++) {
                 rs += "<tr>";
-                rs += "<td></td>"
-
                 len = count($scope.Items[n]);
                 for (var m in $scope.Items[n]) {
                     rs += "<td>" + $scope.Items[n][m] + "</td>";
