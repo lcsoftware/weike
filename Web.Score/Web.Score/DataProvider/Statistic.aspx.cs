@@ -2101,7 +2101,11 @@ namespace App.Web.Score.DataProvider
         }
 
         #endregion
-        
+
+        #region 学科成绩清单
+
+        #endregion
+
         #region 班级统计
         /// <summary>
         ///考试统计分析

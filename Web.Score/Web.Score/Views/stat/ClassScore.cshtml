@@ -1,0 +1,67 @@
+﻿<div class="row">
+    <div class="col-sm-12">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="MicYear" ng-options="m.MicYear for m in AcademicYears"></select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="GradeCourse" ng-options="m.FullName for m in GradeCourses">
+                        <option value="">-- 请选择课程--</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="GradeCode" ng-disabled="GradeCode!=null" ng-options="m.GradeName for m in GradeCodes">
+                        <option value="">-- 请选择年级 --</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="TestNo" ng-options="m.TestNo for m in TestLogins">
+                        <option value="">-- 请选择考试号 --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="GradeClass" ng-options="m.GradeBriefName for m in Grades">
+                        <option value="">-- 请选择班级 --</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <input type="checkbox" value="1" ng-model="stuZaiJi" />仅在籍学生
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-primary" ng-click="query()"><span class="glyphicon glyphicon-ok"></span>查询</button>
+                    @*<button type="button" class="btn btn-default" ng-click="tryCalculate();"><span class="glyphicon glyphicon-print"></span>打 印</button>*@
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row" ng-show="TeacherAnalysis.length>0">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-12" style="text-align:center;font-size:2em;">{{base.strGradeName}}{{base.strCourseName}}教师任课情况统计表</div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row" style="margin-bottom:0.5em;">
+                    <div class="col-sm-3" style="text-align:left;">课程：{{base.strCourseName}}</div>
+                    <div class="col-sm-3" style="text-align:left;">年级：{{base.strGradeName}}</div>
+                    <div class="col-sm-3" style="text-align:left;">考试号：{{base.strTestNo}}</div>
+                    <div class="col-sm-3" style="text-align:left;">考试时间：{{base.strTestTime}}</div>
+                </div>
+                <div class="row" style="margin-bottom:0.5em;">
+                    <div class="col-sm-3" style="text-align:left;">考试人数：{{base.strGradeNumCount}}</div>
+                    <div class="col-sm-3" style="text-align:left;">年级平均分：{{base.strGradeAverageScore}}</div>
+                    <div class="col-sm-3" style="text-align:left;">标准差：{{base.strStdDev}}</div>
+                    <div class="col-sm-3" style="text-align:left;">导出日期：{{base.datetime}}</div>
+                </div>
+            </div>
+        </div>
+        <br />
+    </div>
+</div>
