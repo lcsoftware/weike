@@ -40,14 +40,32 @@
                             <option value="">-- 请选择考试号 --</option>
                         </select>
                     </div>                    
+                    <div class="col-sm-3">
+                        <select class="form-control" ng-model="ChartType" ng-options="m.name for m in ChartTypes">
+                            <option value="">-- 请选择类型 --</option>
+                        </select>
+                    </div>  
                 </div>
             </div>
             <div class="form-group">
                 <div class="btn-group pull-right">
-                    <button type="button" class="btn btn-primary" ng-click="query();"><span class="glyphicon glyphicon-ok"></span>统 计</button>
+                    <button type="button" class="btn btn-primary" ng-click="stat();"><span class="glyphicon glyphicon-ok"></span>统 计</button>
                     @*<button type="button" class="btn btn-default" ng-click="tryCalculate();"><span class="glyphicon glyphicon-print"></span>打 印</button>*@
                 </div>
             </div>
         </form>
     </div>
 </div>
+<div class="row">
+    <div class="col-sm-6">
+        <div id="main1" style="height:300px;width:100%"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    require.config({
+        packages: [
+            { name: 'echarts', location: '/content/charts/echarts', main: 'echarts' },
+            { name: 'zrender', location: '/content/charts/zrender', main: 'zrender' }
+        ]
+    });
+</script>
