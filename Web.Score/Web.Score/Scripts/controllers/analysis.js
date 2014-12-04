@@ -285,7 +285,7 @@ analysis.controller('AnalyzeCommonController', ['$scope', 'appUtils', function (
         }
 
         var url = "/DataProvider/Analyze.aspx/AnalyzeCommon";
-        var param = { 
+        var param = {
             micYear: micYear,
             gradeCode: gradeCode,
             testLogin: testLogin,
@@ -325,6 +325,11 @@ analysis.controller('MinutiaAnalyseController', ['$scope', function ($scope) {
     $scope.GradeCourses = [];
     $scope.TestLogins = [];
     $scope.TestTypes = [];
+
+    $scope.ChartTypes = [
+        {code: 1, name: '得分'},
+        {code: 2, name: '得分率'}
+    ]
 
     //获得学年
     $scope.utilService.GetAcademicYears(function (data) {
@@ -381,6 +386,61 @@ analysis.controller('MinutiaAnalyseController', ['$scope', function ($scope) {
             });
         }
     });
+    $scope.chartOptions = [];
+    var chart1 = {}; 
+    $scope.chartService.chartCreate('main1', function (data) {
+        chart1 = data;
+    });
+
+    var statBase = function () {
+
+        var url = "/DataProvider/Analyze.aspx/GetMinutiaCharts";
+        var param = {
+            micYear: $scope.MicYear.MicYear,
+            chartType: $scope.ChartType,
+            gradeCode: $scope.GradeCode,
+            gradeClass: $scope.GradeClass,
+            student: $scope.Student,
+            gradeCourse: $scope.GradeCourse,
+            testType: $scope.TestType,
+            testLogin: $scope.TestNo
+        };
+        $scope.baseService.post(url, param, function (data) {
+            if (data.d !== null && data.d[0].series[0].data.length > 0) {
+                $scope.chartService.changeOption(chart1, data.d[0]);
+            }
+        });
+
+        //var url = "/DataProvider/Analyze.aspx/GetMinutiaData";
+        //var param = {
+        //    micYear: $scope.MicYear.MicYear,
+        //    gradeCode: $scope.GradeCode,
+        //    gradeCourse: $scope.GradeCourse,
+        //    testLogin: $scope.TestLogin
+        //};
+        //$scope.baseService.post(url, param, function (data) {
+        //    if (data.d !== null) {
+
+        //    }
+        //});
+    }
+
+    $scope.stat = function () {
+        if (!$scope.Student) {
+            $scope.dialogUtils.info('请选择学生');
+            return;
+        }
+        if (!$scope.TestNo) {
+            $scope.dialogUtils.info('请选择考试号');
+            return;
+        }
+        if (!$scope.ChartType) {
+            $scope.dialogUtils.info('请选择类型');
+            return;
+        }
+
+        statBase();
+    }
 
 }]);
 

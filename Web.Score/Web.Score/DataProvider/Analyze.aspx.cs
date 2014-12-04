@@ -1626,5 +1626,227 @@ namespace App.Web.Score.DataProvider
                 return results;
             }
         }
+
+        [WebMethod]
+        public static string GetMinutiaData(int micYear,
+            GradeCode gradeCode,
+            GradeCourse gradeCourse,
+            TestLogin testLogin)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = " select * from s_vw_minutiaScore"
+                           + " where Academicyear=@micYear"
+                           + " and TestNo=@testNo"
+                           + " and CourseCode=@courseCode"
+                           + " and substring(ClassCode,1,2)=@gradeNo"
+                           + " order by Minutiacode,ClassSN";
+                DataTable table = bll.FillDataTableByText(sql, new
+                        {
+                            micYear = micYear,
+                            testNo = testLogin.TestLoginNo,
+                            courseCode = gradeCourse.CourseCode,
+                            gradeNo = gradeCode.GradeNo
+                        });
+                return Newtonsoft.Json.JsonConvert.SerializeObject(table);
+            }
+        }
+        [WebMethod]
+        public static IList<ChartOption> GetMinutiaCharts(
+            int micYear,
+            int chartType,
+            GradeCode gradeCode,
+            GradeClass gradeClass,
+            Student student,
+            GradeCourse gradeCourse,
+            TestType testType,
+            TestLogin testLogin)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                IList<ChartOption> options = new List<ChartOption>();
+                ChartOption option1 = new ChartOption() { legend = new Legend(), xAxis = new XAxis() };
+                options.Add(option1);
+                string title = chartType == 1 ? "得分" : "得分率";
+                option1.legend.data.Add(string.Format("{0}{1}", student.StdName, title));
+                option1.legend.data.Add(string.Format("年级{0}", student.StdName, title));
+                option1.legend.data.Add(string.Format("班级{0}", student.StdName, title));
+
+                var studentSeries = new SeriesItem() { type = "line", name = student.StdName };
+                var gradeSeries = new SeriesItem() { type = "line", name = "年级总分平均" };
+                var classSeries = new SeriesItem() { type = "line", name = "班级总分平均" };
+                option1.series.Add(studentSeries);
+                option1.series.Add(gradeSeries);
+                option1.series.Add(classSeries);
+
+                var sql = "";
+
+                if (chartType == 1)
+                {
+                    sql = " SELECT a.AcademicYear,a.TestNo, a.MinutiaCode,"
+                               + " c.GradeNo, d.MinutiaName,avg(a.MinutiaScore) GradeAvg"
+                               + " FROM  s_tb_minutiaScore a INNER JOIN"
+                               + " tbStudentClass b ON a.SRID = b.SRID AND"
+                               + " a.AcademicYear = b.AcademicYear INNER JOIN"
+                               + " tbGradeClass c ON b.AcademicYear = c.AcadEmicYear AND"
+                               + " b.ClassCode = c.ClassNo INNER JOIN"
+                               + " s_tb_minutia d ON a.MinutiaCode = d.MinutiaCode"
+                               + " where a.academicyear=@micYear"
+                               + " and c.GradeNo =@gradeNo"
+                               + " and a.Testno=@testNo"
+                               + " and a.CourseCode=@courseCode"
+                               + " group by a.AcademicYear,a.TestNo, a.MinutiaCode,c.GradeNo,d.MinutiaName"
+                               + " order by a.MinutiaCode";
+                }
+                else
+                {
+                    sql = " SELECT a.AcademicYear, a.TestNo, a.MinutiaCode, c.GradeNo,"
+                              + " d.MinutiaName, AVG(a.MinutiaScore) AS GradeAvg, e.FullMark"
+                              + " FROM  s_tb_minutiaScore a INNER JOIN"
+                              + " tbStudentClass b ON a.SRID = b.SRID AND "
+                              + " a.AcademicYear = b.AcademicYear INNER JOIN"
+                              + " tbGradeClass c ON b.AcademicYear = c.AcadEmicYear AND"
+                              + " b.ClassCode = c.ClassNo INNER JOIN"
+                              + " s_tb_minutia d ON a.MinutiaCode = d.MinutiaCode INNER JOIN"
+                              + " s_tb_minutiamark e ON a.AcademicYear = e.AcademicYear AND"
+                              + " a.TestNo = e.TestNo AND a.MinutiaCode = e.MinutiaCode"
+                              + " WHERE a.AcademicYear =@micYear"
+                              + " and c.GradeNo =@gradeNo"
+                              + " and a.Testno=@testNo"
+                              + " and a.CourseCode=@courseCode"
+                              + " group by a.AcademicYear,a.TestNo, a.MinutiaCode,c.GradeNo,d.MinutiaName,e.FullMark"
+                              + " order by a.MinutiaCode";
+                }
+                DataTable table = bll.FillDataTableByText(sql, new { micYear = micYear, gradeNo = gradeCode.GradeNo, testNo = testLogin.TestLoginNo, courseCode = gradeCourse.CourseCode });
+                if (table.Rows.Count == 0)
+                {
+                    return options;
+                }
+                DataTable tempTable = null;
+                var length = table.Rows.Count;
+                for (int i = 0; i < length; i++)
+                {
+                    if (chartType == 1)
+                    {
+                        gradeSeries.data.Add(table.Rows[0]["GradeAvg"].ToString());
+                        sql = " SELECT a.MinutiaCode,d.MinutiaName,a.MinutiaScore "
+                                 + " FROM  s_tb_minutiaScore a INNER JOIN"
+                                 + " tbStudentClass b ON a.SRID = b.SRID AND"
+                                 + " a.AcademicYear = b.AcademicYear INNER JOIN"
+                                 + " tbGradeClass c ON b.AcademicYear = c.AcadEmicYear AND"
+                                 + " b.ClassCode = c.ClassNo INNER JOIN"
+                                 + " s_tb_minutia d ON a.MinutiaCode = d.MinutiaCode"
+                                 + " where a.Academicyear=@micYear"
+                                 + " and a.SRID = @srid"
+                                 + " and a.testno=@testNo"
+                                 + " and a.CourseCode=@courseCode"
+                                 + " and a.MinutiaCode=@minutiaCode";
+                        tempTable = bll.FillDataTableByText(sql, new
+                        {
+                            micYear = micYear,
+                            srid = student.StudentId,
+                            testNo = testLogin.TestLoginNo,
+                            courseCode = gradeCourse.CourseCode,
+                            minutiaCode = table.Rows[i]["MinutiaCode"].ToString()
+                        });
+                        if (tempTable.Rows.Count > 0)
+                            studentSeries.data.Add(tempTable.Rows[0]["MinutiaScore"].ToString());
+
+                        //教师
+                        sql = " SELECT a.AcademicYear,a.TestNo, a.MinutiaCode,"
+                               + " c.classNo, d.MinutiaName,avg(a.MinutiaScore) ClassAvg"
+                               + " FROM  s_tb_minutiaScore a INNER JOIN"
+                               + "  tbStudentClass b ON a.SRID = b.SRID AND"
+                               + " a.AcademicYear = b.AcademicYear INNER JOIN"
+                               + "  tbGradeClass c ON b.AcademicYear = c.AcadEmicYear AND"
+                               + " b.ClassCode = c.ClassNo INNER JOIN"
+                               + "  s_tb_minutia d ON a.MinutiaCode = d.MinutiaCode"
+                               + " where a.academicyear=@micYear"
+                               + " and c.classNo =@classCode"
+                               + " and Testno=@testNo"
+                               + " and a.CourseCode=@courseCode"
+                               + " and a.MinutiaCode=@minutiaCode"
+                               + " group by a.AcademicYear,a.TestNo, a.MinutiaCode,c.classNo,d.MinutiaName ";
+
+                        tempTable = bll.FillDataTableByText(sql, new
+                        {
+                            micYear = micYear,
+                            testNo = testLogin.TestLoginNo,
+                            classCode = gradeClass.ClassNo,
+                            courseCode = gradeCourse.CourseCode,
+                            minutiaCode = table.Rows[i]["MinutiaCode"].ToString()
+                        });
+                        if (tempTable.Rows.Count > 0)
+                            classSeries.data.Add(tempTable.Rows[0]["ClassAvg"].ToString());
+                    }
+                    else
+                    {
+                        var fullMark = float.Parse(table.Rows[i]["FullMark"].ToString());
+                        var jj = float.Parse(table.Rows[i]["GradeAvg"].ToString()) / fullMark;
+                        gradeSeries.data.Add(jj.ToString());
+
+                        //加学生和班级
+                        sql = " SELECT a.MinutiaCode,d.MinutiaName,a.MinutiaScore,e.FullMark"
+                               + " FROM  s_tb_minutiaScore a INNER JOIN"
+                               + " tbStudentClass b ON a.SRID = b.SRID AND "
+                               + " a.AcademicYear = b.AcademicYear INNER JOIN"
+                               + " tbGradeClass c ON b.AcademicYear = c.AcadEmicYear AND"
+                               + " b.ClassCode = c.ClassNo INNER JOIN"
+                               + " s_tb_minutia d ON a.MinutiaCode = d.MinutiaCode INNER JOIN"
+                               + " s_tb_minutiamark e ON a.AcademicYear = e.AcademicYear AND"
+                               + " a.TestNo = e.TestNo AND a.MinutiaCode = e.MinutiaCode"
+                               + " where a.Academicyear=@micYear"
+                               + " and a.SRID =@srid"
+                               + " and a.testno=@testNo"
+                               + " and a.CourseCode=@courseCode"
+                               + " and a.MinutiaCode=@minutiaCode";
+                        tempTable = bll.FillDataTableByText(sql, new
+                        {
+                            micYear = micYear,
+                            srid = student.StudentId,
+                            testNo = testLogin.TestLoginNo,
+                            courseCode = gradeCourse.CourseCode,
+                            minutiaCode = table.Rows[i]["MinutiaCode"].ToString()
+                        });
+                        if (tempTable.Rows.Count > 0)
+                        {
+                            jj = float.Parse(tempTable.Rows[i]["MinutiaScore"].ToString()) / fullMark;
+                            studentSeries.data.Add(jj.ToString());
+                        }
+                        //教师
+                        sql = " SELECT  a.AcademicYear, a.TestNo, a.MinutiaCode, c.classNo,"
+                               + " d.MinutiaName, AVG(a.MinutiaScore) AS ClassAvg, e.FullMark"
+                               + " FROM  s_tb_minutiaScore a INNER JOIN"
+                               + " tbStudentClass b ON a.SRID = b.SRID AND "
+                               + " a.AcademicYear = b.AcademicYear INNER JOIN"
+                               + " tbGradeClass c ON b.AcademicYear = c.AcadEmicYear AND"
+                               + " b.ClassCode = c.ClassNo INNER JOIN"
+                               + " s_tb_minutia d ON a.MinutiaCode = d.MinutiaCode INNER JOIN"
+                               + " s_tb_minutiamark e ON a.AcademicYear = e.AcademicYear AND"
+                               + " a.TestNo = e.TestNo AND a.MinutiaCode = e.MinutiaCode"
+                               + " WHERE a.AcademicYear =@micYear"
+                               + " and c.classNo =@classCode"
+                               + " and a.Testno=@testNo"
+                               + " and a.CourseCode=@courseCode"
+                               + " and a.MinutiaCode=@minutiaCode"
+                               + " group by a.AcademicYear,a.TestNo, a.MinutiaCode,c.classNo,d.MinutiaName,e.FullMark ";
+                        tempTable = bll.FillDataTableByText(sql, new
+                        {
+                            micYear = micYear,
+                            testNo = testLogin.TestLoginNo,
+                            classCode = gradeClass.ClassNo,
+                            courseCode = gradeCourse.CourseCode,
+                            minutiaCode = table.Rows[i]["MinutiaCode"].ToString()
+                        });
+                        if (tempTable.Rows.Count > 0)
+                        {
+                            jj = float.Parse(tempTable.Rows[i]["ClassAvg"].ToString()) / fullMark;
+                            classSeries.data.Add(jj.ToString());
+                        }
+                    }
+                }
+                return options;
+            }
+        }
     }
 }
