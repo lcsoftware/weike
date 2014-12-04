@@ -775,7 +775,7 @@ namespace App.Web.Score.DataProvider
 
         //获取教师情况统计表(不分班)
         [WebMethod]
-        public static string GetTeacherAnalysisGrade(int micyear, GradeCode gradeNo, GradeCourse courseCode, int testNo, int? ck)
+        public static string GetTeacherAnalysisGrade(int micyear, GradeCode gradeNo, GradeCourse courseCode, int testNo, bool ck)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -786,7 +786,7 @@ namespace App.Web.Score.DataProvider
                             " a.AcademicYear=c.AcademicYear  AND a.SRID=c.SRID " +
                             " WHERE a.AcademicYear=@micyear  AND SUBSTRING(c.ClassCode,1,2)=@gradeNo " +
                             " AND a.CourseCode=@courseCode AND a.testno=@testNo";
-                if (ck != null) sql += " and a.state is null";
+                if (ck == true) sql += " and a.state is null";
 
                 DataTable dt = bll.FillDataTableByText(sql,
                     new
@@ -904,7 +904,7 @@ namespace App.Web.Score.DataProvider
 
         //获取教师情况统计表(分班)
         [WebMethod]
-        public static string GetTeacherAnalysisClass(int micyear, GradeCode gradeNo, GradeCourse courseCode, int testNo, int? ck)
+        public static string GetTeacherAnalysisClass(int micyear, GradeCode gradeNo, GradeCourse courseCode, int testNo, bool ck)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -915,7 +915,7 @@ namespace App.Web.Score.DataProvider
                             " a.AcademicYear=c.AcademicYear  AND a.SRID=c.SRID " +
                             " WHERE a.AcademicYear=@micyear  AND SUBSTRING(c.ClassCode,1,2)=@gradeNo " +
                             " AND a.CourseCode=@courseCode AND a.testno=@testNo";
-                if (ck != null) sql += " and a.state is null";
+                if (ck == true) sql += " and a.state is null";
 
                 DataTable dt = bll.FillDataTableByText(sql,
                     new
@@ -2017,7 +2017,7 @@ namespace App.Web.Score.DataProvider
             GradeCode gradeCode, TestLogin testNo)
         {
             using (AppBLL bll = new AppBLL())
-            {                
+            {
                 var inputParams =
                     new
                     {
@@ -2028,7 +2028,7 @@ namespace App.Web.Score.DataProvider
                         Test2 = testNoXZ,
                         Academicyear3 = micyear.MicYear,
                         Test3 = testNo.TestNo,
-                        GradeCode = gradeCode.GradeNo,                        
+                        GradeCode = gradeCode.GradeNo,
                         Schoolcode = "",
                         Flag = 0
                     };
@@ -2044,7 +2044,7 @@ namespace App.Web.Score.DataProvider
         #region 学科相关分析
         //学科相关分析
         [WebMethod]
-        public static IList<ChartOption> GetClassCourse(Academicyear micyear, GradeCode gradeCode, GradeClass gradeClass,GradeCourse gradeCourse1,GradeCourse gradeCourse2,TestLogin testNo,int type)
+        public static IList<ChartOption> GetClassCourse(Academicyear micyear, GradeCode gradeCode, GradeClass gradeClass, GradeCourse gradeCourse1, GradeCourse gradeCourse2, TestLogin testNo, int type)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -2103,7 +2103,262 @@ namespace App.Web.Score.DataProvider
         #endregion
 
         #region 学科成绩清单
+        //根据权限获得课程
+        [WebMethod]
+        public static IList<GradeCourse> gp_getCourseCom(Academicyear micYear, UserGroupInfo teacherId, GradeCode gradeCode, int flag)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "";
+                DataTable dt = new DataTable();
+                IList<GradeCourse> list = new List<GradeCourse>();
+                var UserScope = -1;
+                var mType = -1;
+                if (teacherId.TeacherID.Substring(0, 1) != "9")
+                {
+                    sql = "select top 1 * from s_tb_teacherscope where teacherid=" + teacherId.TeacherID + " order by teachertype desc";
+                    dt = bll.FillDataTableByText(sql);
+                }
+                if (dt.Rows.Count > 0)
+                {
+                    UserScope = Convert.ToInt32(dt.Rows[0]["scope"]);
+                    mType = Convert.ToInt32(dt.Rows[0]["teachertype"]);
+                }
+                if (mType >= 2 || teacherId.TeacherID.Substring(0, 1) == "9")
+                {
+                    sql = " SELECT a.coursecode, b.FullName "
+                        + " FROM  tbCourseUse a LEFT OUTER JOIN "
+                        + " tdCourseCode b ON a.coursecode = b.CourseCode "
+                        + " where a.Academicyear=" + micYear.MicYear + "";
+                    if (gradeCode != null) sql += " and a.GradeNo=" + gradeCode.GradeNo + "";
+                    if (flag == 1) sql += "and b.IsDownLoad=1";
+                    sql += "group by A.coursecode,b.FullName order by A.Coursecode";
+                    list = bll.FillListByText<GradeCourse>(sql, new { });
+                }
+                if (list.Count == 0)
+                {
+                    sql = "SELECT b.CourseCode, a.FullName "
+                        + " FROM tbTeacherClass b INNER JOIN "
+                        + " tdCourseCode a ON b.CourseCode = a.CourseCode "
+                        + " where b.Academicyear=" + micYear.MicYear + " "
+                        + " and b.TeacherID=" + teacherId.TeacherID + " "
+                        + " group by b.CourseCode, a.FullName ";
+                    list = bll.FillListByText<GradeCourse>(sql, new { });
+                }
+                return list;
+            }
+        }
+        //根据年级权限获得班级
+        [WebMethod]
+        public static IList<GradeClass> GetClassCode(Academicyear micYear, UserGroupInfo teacherId, GradeCode gradeCode)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "";
+                DataTable dt = new DataTable();
+                IList<GradeClass> list = new List<GradeClass>();
+                if (teacherId.TeacherID.Substring(0, 1) != "9")
+                {
+                    sql = "SELECT tbGradeClass.ClassNo ClassNo,"
+                        + " tdGradeCode.GradeBriefName "
+                        + " FROM tbGradeClass LEFT JOIN tdGradeCode ON "
+                        + " tbGradeClass.GradeNo=tdGradeCode.GradeNo "
+                        + " WHERE tbGradeClass.AcademicYear=" + micYear.MicYear + ""
+                        + " AND tbGradeClass.GradeNo=" + gradeCode.GradeNo + ""
+                        + " AND tbGradeClass.ClassType=0";
+                }
+                else
+                {
+                    sql = "select top 1 * from s_tb_teacherscope where teacherid=" + teacherId.TeacherID + " order by teachertype desc";
+                    dt = bll.FillDataTableByText(sql);
+                    var UserScope = -1;
+                    var mType = -1;
+                    if (dt.Rows.Count > 0)
+                    {
+                        UserScope = Convert.ToInt32(dt.Rows[0]["scope"]);
+                        mType = Convert.ToInt32(dt.Rows[0]["teachertype"]);
+                        if (mType == 2)
+                        {
+                            sql = "SELECT  a.scope as ClassNo,b.GradeBriefName "
+                                + " FROM s_tb_teacherscope a INNER JOIN "
+                                + " tdGradeCode b ON LEFT(a.scope, 2) = b.GradeNo "
+                                + " where a.teacherid=" + teacherId.TeacherID + " ";
 
+                        }
+                        if (mType > 2)
+                        {
+                            sql = "SELECT tbGradeClass.ClassNo ClassNo,"
+                                + "tdGradeCode.GradeBriefName "
+                                + " FROM tbGradeClass LEFT JOIN tdGradeCode ON "
+                                + " tbGradeClass.GradeNo=tdGradeCode.GradeNo "
+                                + " WHERE tbGradeClass.AcademicYear=" + micYear.MicYear + " "
+                                + " AND tbGradeClass.GradeNo=" + gradeCode.GradeNo + " "
+                                + " AND tbGradeClass.ClassType0";
+
+                        }
+                    }
+                    else
+                    {
+                        sql = "SELECT b.ClassID as ClassNo, a.GradeBriefName "
+                            + " FROM tdGradeCode a INNER JOIN "
+                            + " tbTeacherClass b ON a.GradeNo = LEFT(b.ClassID, 2) "
+                            + " where b.Academicyear=" + micYear.MicYear + " "
+                            + " and b.TeacherID=" + teacherId.TeacherID + " "
+                            + " group by b.ClassID, a.GradeBriefName '";
+                    }
+                }
+                list = bll.FillListByText<GradeClass>(sql, new { });
+                foreach (var item in list)
+                {
+                    if (item.ClassNo.Length > 2)
+                    {
+                        item.GradeBriefName = item.GradeBriefName + "(" + item.ClassNo.Substring(2, 2) + ")班";
+                    }
+                }
+                return list;
+            }
+        }
+
+        //获取学科成绩清单
+        [WebMethod]
+        public static string GetClassScore(Academicyear micYear, GradeClass gradeClass, GradeCourse gradeCourse, TestLogin testNo, GradeCode gradeCode, bool ck)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "select stdName,Numscore score,ClassSn,LevelScore, "
+                        + " ClassOrder cOrder,GradeOrder gorder,NormalScore stdScore "
+                        + " from s_vw_ClassscoreNum "
+                        + " where AcademicYear=@micYear"
+                        + " and ClassCode=@gradeClass"
+                        + " and CourseCode=@gradeCourse"
+                        + " and testno=@testNo";                        
+                if (ck == true) sql += " and state is null";
+                sql += " ORDER BY CAST(ClassSN AS INT)";
+
+                DataTable dt = bll.FillDataTableByText(sql,
+                    new
+                    {
+                        micYear = micYear.MicYear,
+                        gradeClass = gradeClass.ClassNo,
+                        gradeCourse = gradeCourse.CourseCode,
+                        testNo = testNo.TestNo
+                    });
+
+                var strClassCode = gradeClass.GradeBriefName;//班级
+                var strTeacherName = TeacherName(micYear, gradeClass, gradeCourse, testNo);//老师
+                var strClassNumCount = dt.Rows.Count;//考试人数
+                DataTable dtGrade = GradeAverageScore(micYear, gradeCode, gradeCourse, testNo, ck);
+                var strClassAverageScore = ClassAverageScore(micYear, gradeClass, gradeCourse, testNo, ck);//平均分
+                var strGradeAverageScore = dtGrade.Rows[0]["ClassAvgScore"];//年级平均分
+                var strStdDev = dtGrade.Rows[0]["stdDevScore"];//标准差
+                var strTestNo = testNo.TestNo;//考试号
+                var strCourseName = gradeCourse.FullName;//课程
+
+                //查询考试时间
+                sql = "SELECT TestTime as strTestTime FROM s_tb_TestLogin WHERE AcademicYear=@micyear AND TestNo=@testNo";
+                DataTable dtTime = bll.FillDataTableByText(sql, new { micyear = micYear.MicYear, testNo = testNo.TestNo });
+                var strTestTime = dtTime.Rows[0]["strTestTime"];//考试时间
+
+                dt.Columns.Add("strClassCode");
+                dt.Columns.Add("strTeacherName");
+                dt.Columns.Add("strClassNumCount");
+                dt.Columns.Add("strClassAverageScore");
+                dt.Columns.Add("strGradeAverageScore");
+                dt.Columns.Add("strStdDev");
+                dt.Columns.Add("strTestNo");
+                dt.Columns.Add("strTestTime");
+                dt.Columns.Add("datetime");
+                dt.Columns.Add("strCourseName");
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    DataRow dr = dt.Rows[i];
+                    dr["strClassCode"] = strClassCode;
+                    dr["strTeacherName"] = strTeacherName;
+                    dr["strClassNumCount"] = strClassNumCount;
+                    dr["strClassAverageScore"] = Math.Round(Convert.ToDouble(strClassAverageScore), 2);
+                    dr["strGradeAverageScore"] = Math.Round(Convert.ToDouble(strGradeAverageScore), 2);
+                    dr["strStdDev"] = Math.Round(Convert.ToDouble(strStdDev), 2); ;
+                    dr["strTestNo"] = strTestNo;
+                    dr["strTestTime"] = strTestTime;
+                    dr["datetime"] = DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                return JsonConvert.SerializeObject(dt);
+            }
+        }
+
+        //获取老师名称
+        public static string TeacherName(Academicyear micYear, GradeClass gradeClass, GradeCourse gradeCourse, TestLogin testNo)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "SELECT d.Name Name "
+                        + " FROM s_tb_NormalScore a LEFT JOIN tbStudentClass b ON"
+                        + " a.AcademicYear=b.AcademicYear AND "
+                        + " a.SRID=b.SRID "
+                        + " LEFT JOIN tbTeacherClass c ON "
+                        + " a.AcademicYear=c.AcademicYear AND "
+                        + " a.CourseCode=c.CourseCode AND "
+                        + " b.ClassCode=c.ClassID "
+                        + " JOIN tbUserGroupInfo d ON "
+                        + " c.TeacherID=d.TeacherID "
+                        + " WHERE a.AcademicYear=@micYear "
+                        + " AND b.ClassCode=@gradeClass"
+                        + " AND a.CourseCode=@gradeCourse"
+                        + " AND a.testno=@testNo"
+                        + " GROUP BY d.Name";
+                DataTable dt = bll.FillDataTableByText(sql,
+                    new
+                    {
+                        micYear = micYear.MicYear,
+                        gradeClass = gradeClass.ClassNo,
+                        gradeCourse = gradeCourse.CourseCode,
+                        testNo = testNo.TestNo
+                    });
+                return dt.Rows.Count > 0 ? dt.Rows[0]["Name"].ToString() : "";
+            }
+        }
+
+        //获取平均分
+        public static string ClassAverageScore(Academicyear micYear, GradeClass gradeClass, GradeCourse gradeCourse, TestLogin testNo, bool ck)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "select Avg(Numscore) as ClassAvgScore "
+                        + " from s_vw_ClassScoreNum where Academicyear=@micYear"
+                        + " and ClassCode=@gradeClass and CourseCode=@gradeCourse and testno=@testNo ";
+                if (ck == true) sql += " and state is null ";
+                DataTable dt = bll.FillDataTableByText(sql,
+                    new
+                    {
+                        micYear = micYear.MicYear,
+                        gradeClass = gradeClass.ClassNo,
+                        gradeCourse = gradeCourse.CourseCode,
+                        testNo = testNo.TestNo
+                    });
+                return dt.Rows.Count > 0 ? dt.Rows[0]["ClassAvgScore"].ToString() : "";
+            }
+        }
+
+        //获取年级平均分,标准差
+        public static DataTable GradeAverageScore(Academicyear micYear, GradeCode gradeCode, GradeCourse gradeCourse, TestLogin testNo, bool ck)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "select Avg(Numscore) as ClassAvgScore ,stdevp(numscore) stdDevScore"
+                        + " from s_vw_ClassScoreNum where Academicyear=@micYear"
+                        + " and Gradeno=@gradeCode and CourseCode=@gradeCourse and testno=@testNo ";
+                if (ck == true) sql += " and state is null ";
+                DataTable dt = bll.FillDataTableByText(sql,
+                    new
+                    {
+                        micYear = micYear.MicYear,
+                        gradeCode = gradeCode.GradeNo,
+                        gradeCourse = gradeCourse.CourseCode,
+                        testNo = testNo.TestNo
+                    });
+                return dt.Rows.Count > 0 ? dt : null;
+            }
+        }
         #endregion
 
         #region 班级统计
