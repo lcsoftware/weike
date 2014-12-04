@@ -2361,6 +2361,75 @@ namespace App.Web.Score.DataProvider
         }
         #endregion
 
+        #region 细目成绩清单
+        //获取细目成绩清单
+        [WebMethod]
+        public static string GetClassMinutia(Academicyear micYear, GradeClass gradeClass, GradeCourse gradeCourse, TestLogin testNo, GradeCode gradeCode, bool ck)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "select stdName,Numscore score,ClassSn,LevelScore, "
+                        + " ClassOrder cOrder,GradeOrder gorder,NormalScore stdScore "
+                        + " from s_vw_ClassscoreNum "
+                        + " where AcademicYear=@micYear"
+                        + " and ClassCode=@gradeClass"
+                        + " and CourseCode=@gradeCourse"
+                        + " and testno=@testNo";
+                if (ck == true) sql += " and state is null";
+                sql += " ORDER BY CAST(ClassSN AS INT)";
+
+                DataTable dt = bll.FillDataTableByText(sql,
+                    new
+                    {
+                        micYear = micYear.MicYear,
+                        gradeClass = gradeClass.ClassNo,
+                        gradeCourse = gradeCourse.CourseCode,
+                        testNo = testNo.TestNo
+                    });
+
+                var strClassCode = gradeClass.GradeBriefName;//班级
+                var strTeacherName = TeacherName(micYear, gradeClass, gradeCourse, testNo);//老师
+                var strClassNumCount = dt.Rows.Count;//考试人数
+                DataTable dtGrade = GradeAverageScore(micYear, gradeCode, gradeCourse, testNo, ck);
+                var strClassAverageScore = ClassAverageScore(micYear, gradeClass, gradeCourse, testNo, ck);//平均分
+                var strGradeAverageScore = dtGrade.Rows[0]["ClassAvgScore"];//年级平均分
+                var strStdDev = dtGrade.Rows[0]["stdDevScore"];//标准差
+                var strTestNo = testNo.TestNo;//考试号
+                var strCourseName = gradeCourse.FullName;//课程
+
+                //查询考试时间
+                sql = "SELECT TestTime as strTestTime FROM s_tb_TestLogin WHERE AcademicYear=@micyear AND TestNo=@testNo";
+                DataTable dtTime = bll.FillDataTableByText(sql, new { micyear = micYear.MicYear, testNo = testNo.TestNo });
+                var strTestTime = dtTime.Rows[0]["strTestTime"];//考试时间
+
+                dt.Columns.Add("strClassCode");
+                dt.Columns.Add("strTeacherName");
+                dt.Columns.Add("strClassNumCount");
+                dt.Columns.Add("strClassAverageScore");
+                dt.Columns.Add("strGradeAverageScore");
+                dt.Columns.Add("strStdDev");
+                dt.Columns.Add("strTestNo");
+                dt.Columns.Add("strTestTime");
+                dt.Columns.Add("datetime");
+                dt.Columns.Add("strCourseName");
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    DataRow dr = dt.Rows[i];
+                    dr["strClassCode"] = strClassCode;
+                    dr["strTeacherName"] = strTeacherName;
+                    dr["strClassNumCount"] = strClassNumCount;
+                    dr["strClassAverageScore"] = Math.Round(Convert.ToDouble(strClassAverageScore), 2);
+                    dr["strGradeAverageScore"] = Math.Round(Convert.ToDouble(strGradeAverageScore), 2);
+                    dr["strStdDev"] = Math.Round(Convert.ToDouble(strStdDev), 2); ;
+                    dr["strTestNo"] = strTestNo;
+                    dr["strTestTime"] = strTestTime;
+                    dr["datetime"] = DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                return JsonConvert.SerializeObject(dt);
+            }
+        }
+
+        #endregion
         #region 班级统计
         /// <summary>
         ///考试统计分析

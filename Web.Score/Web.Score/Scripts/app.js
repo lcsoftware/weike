@@ -116,7 +116,7 @@ angular.module('app', [
             .state('stat.Stat21', { url: '/ClassCourse', templateUrl: '/views/stat/ClassCourse', controller: 'ClassCourseController' })
             //学科成绩清单
             .state('stat.Stat22', { url: '/ClassScore', templateUrl: '/views/stat/ClassScore', controller: 'ClassScoreController' })
-            //细目成绩清单
+            //细目成绩清单-------------缺少下边细目
             .state('stat.Stat23', { url: '/ClassMinutia', templateUrl: '/views/stat/ClassMinutia', controller: 'ClassMinutiaController' })
             //班级学期总评
             .state('stat.Stat24', { url: '/ClassAmin', templateUrl: '/views/stat/ClassAmin', controller: 'ClassAminController' })
