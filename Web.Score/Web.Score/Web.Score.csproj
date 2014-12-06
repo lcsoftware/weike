@@ -738,6 +738,7 @@
     <Content Include="Views\stat\ClassScore.cshtml" />
     <Content Include="Views\stat\ClassMinutia.cshtml" />
     <Content Include="Views\stat\ClassOrder.cshtml" />
+    <Content Include="Views\stat\ClassRep.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
