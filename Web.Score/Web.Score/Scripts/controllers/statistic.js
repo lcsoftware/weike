@@ -2599,7 +2599,7 @@ stat.controller('ClassOrderController', ['$scope', function ($scope) {
             });
         });
     });
-    
+
 
 
     $scope.$watch('GradeClass', function (gradeCode) {
@@ -2610,7 +2610,7 @@ stat.controller('ClassOrderController', ['$scope', function ($scope) {
             var param = { micYear: $scope.MicYear, teacherId: $scope.user, gradeCode: null, flag: 0 };
             //绑定课程
             $scope.baseService.post(url, param, function (data) {
-                $scope.GradeCourses = data.d;               
+                $scope.GradeCourses = data.d;
             });
             //绑定考试类型
             $scope.utilService.GetTestType(function (data) {
@@ -2851,4 +2851,38 @@ stat.controller('ClassRepController', ['$scope', function ($scope) {
             return false;
         }
     }
+}]);
+
+//Path: /stat.Stat24
+stat.controller('ClassAdminController', ['$scope', 'appUtils', function ($scope, appUtils) {
+    var moduleName = '班级学期总评';
+    $scope.$root.moduleName = moduleName;
+    $scope.$root.title = $scope.softname + ' | ' + moduleName;
+
+    //数据生成方式
+    $scope.dataMethod = 0;
+    $scope.statType = 0;
+
+    $scope.AcademicYears = [];
+    $scope.GradeCodes = [];
+    $scope.GradeClasses = [];
+    $scope.GradeCourses = [];
+
+    $scope.utilService.GetAcademicYears(function (data) {
+        $scope.AcademicYears = data.d;
+    });
+
+    $scope.utilService.GetGradeCodes(function (data) {
+        $scope.GradeCodes = data.d;
+    });
+
+    $scope.$watch('GradeCode', function (gradeCode) {
+        if (!$scope.MicYear) return; 
+        $scope.GradeClasses.length = 0;
+        var url1 = "/DataProvider/Util.aspx/GetGradeClass";
+        var param1 = { academicYear: $scope.MicYear, gradeCode: gradeCode };
+        $scope.baseService.post(url1, param1, function (data) {
+            $scope.GradeClasses = data.d;
+        });
+    });
 }]);

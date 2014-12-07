@@ -119,7 +119,7 @@ angular.module('app', [
             //细目成绩清单-------------缺少下边细目
             .state('stat.Stat23', { url: '/ClassMinutia', templateUrl: '/views/stat/ClassMinutia', controller: 'ClassMinutiaController' })
             //班级学期总评
-            .state('stat.Stat24', { url: '/ClassAmin', templateUrl: '/views/stat/ClassAmin', controller: 'ClassAminController' })
+            .state('stat.Stat24', { url: '/ClassAmin', templateUrl: '/views/stat/ClassAdmin', controller: 'ClassAdminController' })
             //班级排名
             .state('stat.Stat25', { url: '/ClassOrder', templateUrl: '/views/stat/ClassOrder', controller: 'ClassOrderController' })
             //多学科成绩报表
