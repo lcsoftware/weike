@@ -735,11 +735,13 @@
     <Content Include="Views\Analysis\AnalyzeCommon.cshtml" />
     <Content Include="Views\stat\GradeStdPJ.cshtml" />
     <Content Include="Views\stat\ClassCourse.cshtml" />
+    <Content Include="Views\Analysis\ThirdOrder.cshtml" />
     <Content Include="Views\stat\ClassScore.cshtml" />
     <Content Include="Views\stat\ClassMinutia.cshtml" />
     <Content Include="Views\stat\ClassOrder.cshtml" />
     <Content Include="Views\stat\ClassRep.cshtml" />
     <Content Include="Views\stat\ClassAdmin.cshtml" />
+    <Content Include="Views\stat\ClassND.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

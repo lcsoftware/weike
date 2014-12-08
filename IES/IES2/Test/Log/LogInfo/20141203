@@ -1,0 +1,15 @@
+
+日志时间：2014-12-03 11:50:27,399 [8] 
+日志级别：DEBUG 
+日 志 类：IES.AOP.G2S.Factorys.Log4NetServerFactory [(null)] 
+调用了 IExerciseBLL.Exercise_Info_Get 
+
+日志时间：2014-12-03 11:50:41,942 [8] 
+日志级别：DEBUG 
+日 志 类：IES.AOP.G2S.Factorys.Log4NetServerFactory [(null)] 
+调用了 IExerciseBLL.Exercise_Info_Get 
+
+日志时间：2014-12-03 11:50:44,873 [8] 
+日志级别：DEBUG 
+日 志 类：IES.AOP.G2S.Factorys.Log4NetServerFactory [(null)] 
+调用了 IFolderBLL.Folder_Del 

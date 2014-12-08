@@ -1,0 +1,302 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MySql.Data ;
+using MySql.Data.MySqlClient;
+using System.Data;
+using System.Data.SqlClient;
+using Dapper; //ORM
+using Ninject; //IOC
+
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        public readonly string mysqlconnectionString =
+                 @"server=127.0.0.1;database=ies_datacenter;uid=root;pwd=1234;charset='gbk'";
+        static void Main(string[] args)
+        {
+
+            //Test  IOC1
+            //using (var kernal = new StandardKernel(new MessageModule()))
+            //{
+            //    var msg = kernal.Get<IMessage>();
+            //    var msgNo = msg.GetMsgNumber();
+            //    Console.WriteLine(msgNo);
+            //    Console.Read();
+            //}
+
+            //Test  IOC2 构造函数注入
+            //using ( var kernal = new StandardKernel(new MessageModule()))
+            //{
+            //    var msg = kernal.Get<IMessage>();
+            //    var msgcfg = new MessageCfg(msg); //构造函数注入
+            //    Console.WriteLine(msgcfg.GetMsgNumber());
+            //    Console.Read();
+            //}
+
+            //test3 IOC3 属性注入
+            //using (var kernal = new StandardKernel(new MessageModule()))
+            //{
+            //    var msg = kernal.Get<IMessage>();
+            //    var msgcfg1 = new MessageCfg1();
+            //    msgcfg1.Msg = msg;
+            //    Console.WriteLine(msgcfg1.GetMsgNumber());
+            //    Console.Read();
+            //}
+
+
+            Program p = new Program();
+
+            //@class c1 = p.Selectclass(1);
+
+            @class c11 = p.Selectclass1(1);
+
+            //@class c2 = new @class() { ClassName = "aaa", ClassNo = "oooo", OrganizationID = 1, SpecialtyID = 1 };
+            //int i = p.InsertClass(c2);
+
+            //@class c3 = new @class() { ClassID= 1, ClassName = "abc", ClassNo = "bac", OrganizationID = 1, SpecialtyID = 1 };
+            //p.UpdateClass(c3);
+
+
+            //IList<@class> list = p.SelecClassWithClassorg();
+
+            //p.GetMulitiObj(1);
+
+           // @class c5 = p.Selectclassproc(1);
+
+            //p.GetClassCountByOrg(1);
+
+            
+        }
+
+        public MySqlConnection OpenConnection()
+        {
+             MySqlConnection connection = new MySqlConnection(mysqlconnectionString);
+             connection.Open();
+             return connection;
+        }
+     
+        public IEnumerable<@class> Selectclass()
+        {
+            using (IDbConnection conn = OpenConnection())
+            {
+                const string query = "select * from class order by id desc";
+                return conn.Query<@class>(query, null);
+            }
+        }
+
+ 
+        public @class Selectclass(int ClassID)
+        {
+            using (IDbConnection conn = OpenConnection())
+            {
+                const string query = "select classid,ClassNo,ClassName,OrganizationID, SpecialtyID from class where classId=@id";
+                 return conn.Query<@class>(query, new { id = ClassID }).SingleOrDefault<@class>();
+            }
+        }
+
+        public @class Selectclass1(int ClassID)
+        {
+            using (IDbConnection conn = OpenConnection())
+            {
+                const string query = @"select class.classid,ClassNo,ClassName,class.OrganizationID, class.SpecialtyID , user.username from class
+                inner join user on user.userid = class.teacherid
+                where class.classId=@id";
+                return conn.Query<@class>(query, new { id = ClassID }).SingleOrDefault<@class>();
+            }
+        }
+
+        public @class Selectclass1(int ClassID)
+        {
+            using (IDbConnection conn = OpenConnection())
+            {
+                const string query = @"select class.classid,ClassNo,ClassName,class.OrganizationID, class.SpecialtyID , user.username from class
+                inner join user on user.userid = class.teacherid
+                where class.classId=@id";
+                return conn.Query<@class>(query, new { id = ClassID }).SingleOrDefault<@class>();
+            }
+        }
+
+        /// <summary>
+        /// 多表查询，注意点，最后一个链接分隔参数OrganizationID
+        /// </summary>
+        /// <returns></returns>
+        public IList<@class> SelecClassWithClassorg()
+        {
+            using (IDbConnection conn = OpenConnection())
+            {
+                const string query = @"select c.classid,c.className,c.ClassNo,c.OrganizationID
+                ,org.OrganizationID,org.Organizationname from class as c
+                inner  join Organization as org on c.OrganizationID=org.OrganizationID";
+                return conn.Query<@class, organization , @class>(query
+                       , (@class, organization) => { @class._organization = organization; return @class; }
+                       , null, null, false, "OrganizationID", null, null).ToList<@class>();
+            }
+        }
+
+
+   
+        //返回多个数据对象
+        public orgclasslist GetMulitiObj(int orgid)
+        {
+             // mysql 语句之间用 ;  ， sqlserver 之间空格即可。
+             var sql =  @" select * from Organization where OrganizationID = @OrganizationID ; select * from course where OrganizationID = @OrganizationID ";    
+             using(IDbConnection conn = OpenConnection())
+             {
+                 var multi = conn.QueryMultiple(sql , new { OrganizationID = orgid });
+                 var org = multi.Read<organization>().Single();
+                 var classlist = multi.Read<@class>().ToList();
+
+                 orgclasslist ocl = new orgclasslist();
+                 ocl.org = org;
+                 ocl.classlist = classlist;
+                 return ocl;
+             } 
+
+        }
+
+
+        //利用存储过程1
+        public @class Selectclassproc(int ClassID)
+        {
+            using (IDbConnection conn = OpenConnection())
+            {
+              //  return conn.Query<@class>("getclass", new { _classid = ClassID }, commandType: CommandType.StoredProcedure).SingleOrDefault<@class>();
+                return conn.Query<@class>("getclass", new { _classid = ClassID }, commandType: CommandType.StoredProcedure).First();
+            }
+        }
+
+    
+        //var p =newDynamicParameters(); p.Add("@a",11);  p.Add("@b", dbType:DbType.Int32, direction:ParameterDirection.Output); 
+        //p.Add("@c", dbType:DbType.Int32, direction:ParameterDirection.ReturnValue);  
+        //cnn.Execute("spMagicProc", p, commandType: commandType.StoredProcedure);    int b = p.Get<int>("@b"); int c = p.Get<int>("@c");
+        // 利用存储过程2 返回参数
+        public int  GetClassCountByOrg(int orgid)
+        {
+            using (IDbConnection conn = OpenConnection())
+            {
+                var p = new DynamicParameters();
+                p.Add("_organizationID", orgid );
+                p.Add("datacount", dbType: DbType.Int32, direction: ParameterDirection.Output); 
+                conn.Execute("GetOrgClassCount" , p , commandType: CommandType.StoredProcedure );
+                return  p.Get<int>("datacount");
+            }
+        }
+
+
+        //接下来向数据库里添加一个类别
+        public int InsertClass(@class c1)
+        {
+            using (IDbConnection conn = OpenConnection())
+            {
+                const string query = "insert into class(classno,classname,organizationID,specialtyID) values (@classno,@classname,@organizationID,@specialtyID)";
+                int row = conn.Execute(query,c1);
+                //int rowid = GetIdentity(conn); //获取新增的主键 方法1 
+                //SetIdentity<int>(conn, id => c1.ClassID = id); //获取新增的主键 方法2 
+                return row;
+                //同时添加多条记录
+               //    connection.Execute(@"insert MyTable(colA, colB) values (@a, @b)", new[] { new { a = 1, b = 1 }, new { a = 2, b = 2 }, new { a = 3, b = 3 } }).IsEqualTo(3);// 3 rows inserted: "1,1", "2,2" and "3,3" 
+            }
+        }
+
+
+
+        //更新一个类别:
+        public int UpdateClass(@class c1)
+        {
+            using (IDbConnection conn = OpenConnection())
+            {
+                const string query = "update class set classname=@classname,classno=@classno,organizationID=@organizationID where classId=@classid";
+                return conn.Execute(query, c1);
+            }
+        }
+
+
+        //编译Dapper源码生成的是Net4.0下使用的，可以借助Net4.0新增的dynamic动态类型,
+        //SetIdentity的实现将非常方便。如下：
+        public void SetIdentity<T>(IDbConnection conn, Action<T> setId)
+        {
+            dynamic identity = conn.Query("SELECT @@IDENTITY AS Id").Single();
+            T newId = (T)identity.Id;
+            setId(newId);
+        }
+
+        public int  GetIdentity(IDbConnection conn )
+        {
+            dynamic identity = conn.Query("SELECT @@IDENTITY AS Id").Single();
+            return (int)identity.Id; 
+        }
+
+
+
+
+        //事务的用法
+        //public int DeleteColumnCatAndColumn(ColumnCat cat)
+        //{
+        //    using (IDbConnection conn = OpenConnection())
+        //    {
+        //        const string deleteColumn = "delete from [Column] where ColumnCatid=@catid";
+        //        const string deleteColumnCat = "delete from ColumnCat where id=@Id";
+
+        //        IDbTransaction transaction = conn.BeginTransaction();
+        //        int row = conn.Execute(deleteColumn, new { catid = cat.Id }, transaction, null, null);
+        //        row += conn.Execute(deleteColumnCat, new { id = cat.Id }, transaction, null, null);
+        //        transaction.Commit();
+        //        return row;
+        //    }
+        //}
+
+
+
+
+    }
+
+    public partial class @class
+    {
+        public int ClassID { get; set; }
+        public string ClassNo { get; set; }
+        public string ClassName { get; set; }
+        public int OrganizationID { get; set; }
+        public Nullable<int> SpecialtyID { get; set; }
+        public Nullable<int> TeacherID { get; set; }
+        public Nullable<System.DateTime> EntryDate { get; set; }
+        public Nullable<bool> IsDelete { get; set; }
+        public organization _organization { get; set; }
+        public string  username { get; set; }
+    }
+
+
+    public partial class organization
+    {
+        public int OrganizationID { get; set; }
+        public string OrganizationNo { get; set; }
+        public string OrganizationName { get; set; }
+        public string OrganizationNameEn { get; set; }
+        public Nullable<int> ParentID { get; set; }
+        public string OrganizationType { get; set; }
+        public string Introduction { get; set; }
+        public string IntroductionEn { get; set; }
+        public Nullable<bool> IsDelete { get; set; }
+    }
+
+
+    public partial class user
+    {
+        public int UserID { get; set; }
+        public int UserName { get; set; }
+    }
+
+
+    public partial class orgclasslist
+    {
+        public organization org { get; set; }
+        public List<@class> classlist { get; set; }
+    
+    }
+
+
+}

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8F3FC7C7-5384-481E-A3C5-084504F8EED8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IES.Common.Data</RootNamespace>
+    <AssemblyName>IES.Common.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CourseCommonData.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceCommonData.cs" />
+    <Compile Include="UserCommonData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IES.CC.Model\IES.CC.Model.csproj">
+      <Project>{93a1e0e7-a049-4ea7-b349-845a81462d42}</Project>
+      <Name>IES.CC.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.G2S.Resource.DAL\IES.G2S.Resource.DAL.csproj">
+      <Project>{97ffd6d3-8095-4592-98bd-bccd4af980d3}</Project>
+      <Name>IES.G2S.Resource.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.G2S.SYS.DAL\IES.G2S.SYS.DAL.csproj">
+      <Project>{99ed2fc9-2d3b-499f-9fd4-df04054b85ea}</Project>
+      <Name>IES.G2S.SYS.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.JW.Model\IES.JW.Model.csproj">
+      <Project>{5bbc1895-4b66-4445-af6d-f6711cb3266f}</Project>
+      <Name>IES.JW.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
+      <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
+      <Name>IES.Resource.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.SYS.Model\IES.SYS.Model.csproj">
+      <Project>{ca2b5379-05a2-44ab-bb4f-c49fd02677d0}</Project>
+      <Name>IES.SYS.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,5 @@
+
+日志时间：2014-12-02 19:03:56,142 [5] 
+日志级别：DEBUG 
+日 志 类：IES.AOP.G2S.Factorys.Log4NetServerFactory [(null)] 
+调用了 IExerciseBLL.Exercise_Info_Get 

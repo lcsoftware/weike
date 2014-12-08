@@ -1,17 +1,51 @@
-﻿@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
-    
+﻿<div class="row">
+    <div class="col-sm-12">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="MicYear" ng-options="m.MicYear for m in AcademicYears">
+                        <option value="">-- 请选择学年--</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="GradeCode" ng-disabled="GradeCode!=null" ng-options="m.GradeName for m in GradeCodes">
+                        <option value="">-- 请选择年级 --</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="GradeClass" ng-disabled="GradeClass!=null" ng-options="m.GradeBriefName for m in Grades">
+                        <option value="">-- 请选择班级 --</option>
+                    </select>
+                </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="Semester">
+                        <option value="">-- 请选择学期 --</option>
+                        <option value="1">第一学期</option>
+                        <option value="2">第二学期</option>
+                    </select>
+                </div>        
+            </div>
+            <div class="form-group">                
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="TestNo" ng-options="m.TestNo for m in TestNos">
+                        <option value="">-- 请选择考试号 --</option>
+                    </select>
+                </div>
+                <div class="col-sm-9">
+                    <div ng-repeat="course in GradeCourses" class="checkbox-inline">
+                        <input type="checkbox" checklist-value="course.CourseCode" checklist-model="coursed" ng-change="courseChange(this)" name="course" />{{course.FullName}}
+                    </div>
+                </div>
+            </div>           
+            <div class="form-group">
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-primary" ng-click="query()"><span class="glyphicon glyphicon-ok"></span>查询</button>
+                </div>
+            </div>
+        </form>
     </div>
-</body>
-</html>
+</div>
+<div class="row">
+    <div class="col-sm-12" id="data">
+    </div>
+</div>

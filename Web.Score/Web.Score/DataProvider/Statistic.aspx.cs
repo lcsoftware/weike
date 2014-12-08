@@ -2159,7 +2159,7 @@ namespace App.Web.Score.DataProvider
                 IList<GradeClass> list = new List<GradeClass>();
                 if (teacherId.TeacherID.Substring(0, 1) != "9")
                 {
-                    if(gradeCode == null)
+                    if (gradeCode == null)
                     {
                         sql = " select GradeBriefName,classNo from tdGradeCode,tbGradeClass where "
                             + " tbGradeClass.Gradeno=tdGradeCode.GradeNO"
@@ -2289,7 +2289,7 @@ namespace App.Web.Score.DataProvider
                                 + " tbGradeClass.Gradeno=tdGradeCode.GradeNO "
                                 + " and tbGradeClass.ACADEMICYear=" + micYear.MicYear + " ";
                         }
-                    }                    
+                    }
                 }
                 list = bll.FillListByText<GradeClass>(sql, new { });
                 IList<GradeClass> rsList = new List<GradeClass>();
@@ -2299,7 +2299,7 @@ namespace App.Web.Score.DataProvider
                     {
                         item.GradeBriefName = item.GradeBriefName + "(" + item.ClassNo.Substring(2, 2) + ")班";
                         rsList.Add(item);
-                    }                    
+                    }
                 }
                 return rsList;
             }
@@ -2635,6 +2635,417 @@ namespace App.Web.Score.DataProvider
                 return results;
             }
 
+        }
+        #endregion
+
+        #region 多学科成绩报表
+        [WebMethod]
+        public static IList<ResultEntry> GetClassRep(Academicyear micYear, GradeClass gradeClass, IList<GradeCourse> gradeCourse, int Semester, TestLogin testNo)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "";
+                IList<ResultEntry> results = new List<ResultEntry>();
+                ResultEntry entry = null;
+                DataTable dt = new DataTable();
+                DataTable rs = new DataTable();
+                DataRow dr;
+                rs.Columns.Add("姓名");
+                rs.Columns.Add("性别");
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql =
+                    string.Format(
+                        "exec s_p_getClassTestScore {0},{1},{2},{3},{4},'y'",
+                        micYear.MicYear,
+                        gradeClass.ClassNo,
+                        gradeCourse[i].CourseCode,
+                        Semester,
+                        testNo.TestNo
+                    );
+                    dt = bll.FillDataTableByText(sql);
+
+                    rs.Columns.Add(gradeCourse[i].FullName + "分数");
+                    rs.Columns.Add(gradeCourse[i].FullName + "名次");
+                    rs.Columns.Add(gradeCourse[i].FullName + "等第");
+                    if (dt.Rows.Count > 0)
+                    {
+                        if (rs.Rows.Count > 0)
+                        {
+                            for (int n = 0; n < dt.Rows.Count; n++)
+                            {
+                                dr = rs.Rows[n];
+                                dr["姓名"] = dt.Rows[n]["stdname"];
+                                dr["性别"] = dt.Rows[n]["sex1"];
+                                dr[gradeCourse[i].FullName + "分数"] = dt.Rows[n]["numscore"];
+                                dr[gradeCourse[i].FullName + "名次"] = dt.Rows[n]["gradeorder"];
+                                dr[gradeCourse[i].FullName + "等第"] = dt.Rows[n]["levelscore"];
+                            }
+                        }
+                        else
+                        {
+                            for (int n = 0; n < dt.Rows.Count; n++)
+                            {
+                                dr = rs.NewRow();
+                                dr["姓名"] = dt.Rows[n]["stdname"];
+                                dr["性别"] = dt.Rows[n]["sex1"];
+                                dr[gradeCourse[i].FullName + "分数"] = dt.Rows[n]["numscore"];
+                                dr[gradeCourse[i].FullName + "名次"] = dt.Rows[n]["gradeorder"];
+                                dr[gradeCourse[i].FullName + "等第"] = dt.Rows[n]["levelscore"];
+                                rs.Rows.Add(dr);
+                            }
+                        }
+                    }
+                }
+
+                //年级平均分
+                dr = rs.NewRow();
+                dr["姓名"] = "年级平均分";
+                dr["性别"] = "";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql =
+                    string.Format(
+                        "exec s_p_getLastScore {0},{1},{2},{3},{4}",
+                        micYear.MicYear,
+                        gradeClass.ClassNo,
+                        gradeCourse[i].CourseCode,
+                        Semester,
+                        testNo.TestNo
+                    );
+                    dt = bll.FillDataTableByText(sql);
+                    dr[gradeCourse[i].FullName + "分数"] = Convert.ToDouble(dt.Rows[0]["a1"]).ToString("0.00");
+                    dr[gradeCourse[i].FullName + "名次"] = "";
+                    dr[gradeCourse[i].FullName + "等第"] = "";
+                }
+                rs.Rows.Add(dr);
+                //班级平均分
+                dr = rs.NewRow();
+                dr["姓名"] = "班级平均分";
+                dr["性别"] = "";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql =
+                    string.Format(
+                        "exec s_p_getLastScore {0},{1},{2},{3},{4}",
+                        micYear.MicYear,
+                        gradeClass.ClassNo,
+                        gradeCourse[i].CourseCode,
+                        Semester,
+                        testNo.TestNo
+                    );
+                    dt = bll.FillDataTableByText(sql);
+                    dr[gradeCourse[i].FullName + "分数"] = Convert.ToDouble(dt.Rows[0]["a2"]).ToString("0.00");
+                    dr[gradeCourse[i].FullName + "名次"] = "";
+                    dr[gradeCourse[i].FullName + "等第"] = "";
+                }
+                rs.Rows.Add(dr);
+                //年级A人数
+                dr = rs.NewRow();
+                dr["姓名"] = "年级A人数";
+                dr["性别"] = "";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql =
+                    string.Format(
+                        "exec s_p_getLastScore {0},{1},{2},{3},{4}",
+                        micYear.MicYear,
+                        gradeClass.ClassNo,
+                        gradeCourse[i].CourseCode,
+                        Semester,
+                        testNo.TestNo
+                    );
+                    dt = bll.FillDataTableByText(sql);
+                    dr[gradeCourse[i].FullName + "分数"] = dt.Rows[0]["a3"];
+                    dr[gradeCourse[i].FullName + "名次"] = dt.Rows[0]["a4"];
+                    dr[gradeCourse[i].FullName + "等第"] = dt.Rows[0]["a5"];
+                }
+                rs.Rows.Add(dr);
+                //班级A人数
+                dr = rs.NewRow();
+                dr["姓名"] = "班级A人数";
+                dr["性别"] = "";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql =
+                    string.Format(
+                        "exec s_p_getLastScore {0},{1},{2},{3},{4}",
+                        micYear.MicYear,
+                        gradeClass.ClassNo,
+                        gradeCourse[i].CourseCode,
+                        Semester,
+                        testNo.TestNo
+                    );
+                    dt = bll.FillDataTableByText(sql);
+                    dr[gradeCourse[i].FullName + "分数"] = "";
+                    dr[gradeCourse[i].FullName + "名次"] = "";
+                    dr[gradeCourse[i].FullName + "等第"] = dt.Rows[0]["a6"];
+                }
+                rs.Rows.Add(dr);
+
+                //年级B人数
+                dr = rs.NewRow();
+                dr["姓名"] = "年级B人数";
+                dr["性别"] = "";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql =
+                    string.Format(
+                        "exec s_p_getLastScore {0},{1},{2},{3},{4}",
+                        micYear.MicYear,
+                        gradeClass.ClassNo,
+                        gradeCourse[i].CourseCode,
+                        Semester,
+                        testNo.TestNo
+                    );
+                    dt = bll.FillDataTableByText(sql);
+                    dr[gradeCourse[i].FullName + "分数"] = dt.Rows[0]["a7"];
+                    dr[gradeCourse[i].FullName + "名次"] = dt.Rows[0]["a8"];
+                    dr[gradeCourse[i].FullName + "等第"] = dt.Rows[0]["a9"];
+                }
+                rs.Rows.Add(dr);
+                //班级B人数
+                dr = rs.NewRow();
+                dr["姓名"] = "班级B人数";
+                dr["性别"] = "";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql =
+                    string.Format(
+                        "exec s_p_getLastScore {0},{1},{2},{3},{4}",
+                        micYear.MicYear,
+                        gradeClass.ClassNo,
+                        gradeCourse[i].CourseCode,
+                        Semester,
+                        testNo.TestNo
+                    );
+                    dt = bll.FillDataTableByText(sql);
+                    dr[gradeCourse[i].FullName + "分数"] = "";
+                    dr[gradeCourse[i].FullName + "名次"] = "";
+                    dr[gradeCourse[i].FullName + "等第"] = dt.Rows[0]["a10"];
+                }
+                rs.Rows.Add(dr);
+
+                //年级C人数
+                dr = rs.NewRow();
+                dr["姓名"] = "年级C人数";
+                dr["性别"] = "";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql =
+                    string.Format(
+                        "exec s_p_getLastScore {0},{1},{2},{3},{4}",
+                        micYear.MicYear,
+                        gradeClass.ClassNo,
+                        gradeCourse[i].CourseCode,
+                        Semester,
+                        testNo.TestNo
+                    );
+                    dt = bll.FillDataTableByText(sql);
+                    dr[gradeCourse[i].FullName + "分数"] = dt.Rows[0]["a11"];
+                    dr[gradeCourse[i].FullName + "名次"] = dt.Rows[0]["a12"];
+                    dr[gradeCourse[i].FullName + "等第"] = dt.Rows[0]["a13"];
+                }
+                rs.Rows.Add(dr);
+                //班级C人数
+                dr = rs.NewRow();
+                dr["姓名"] = "班级C人数";
+                dr["性别"] = "";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql =
+                    string.Format(
+                        "exec s_p_getLastScore {0},{1},{2},{3},{4}",
+                        micYear.MicYear,
+                        gradeClass.ClassNo,
+                        gradeCourse[i].CourseCode,
+                        Semester,
+                        testNo.TestNo
+                    );
+                    dt = bll.FillDataTableByText(sql);
+                    dr[gradeCourse[i].FullName + "分数"] = "";
+                    dr[gradeCourse[i].FullName + "名次"] = "";
+                    dr[gradeCourse[i].FullName + "等第"] = dt.Rows[0]["a14"];
+                }
+                rs.Rows.Add(dr);
+
+                //年级D人数
+                dr = rs.NewRow();
+                dr["姓名"] = "年级D人数";
+                dr["性别"] = "";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql =
+                    string.Format(
+                        "exec s_p_getLastScore {0},{1},{2},{3},{4}",
+                        micYear.MicYear,
+                        gradeClass.ClassNo,
+                        gradeCourse[i].CourseCode,
+                        Semester,
+                        testNo.TestNo
+                    );
+                    dt = bll.FillDataTableByText(sql);
+                    dr[gradeCourse[i].FullName + "分数"] = dt.Rows[0]["a15"];
+                    dr[gradeCourse[i].FullName + "名次"] = dt.Rows[0]["a16"];
+                    dr[gradeCourse[i].FullName + "等第"] = dt.Rows[0]["a17"];
+                }
+                rs.Rows.Add(dr);
+                //班级D人数
+                dr = rs.NewRow();
+                dr["姓名"] = "班级D人数";
+                dr["性别"] = "";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql =
+                    string.Format(
+                        "exec s_p_getLastScore {0},{1},{2},{3},{4}",
+                        micYear.MicYear,
+                        gradeClass.ClassNo,
+                        gradeCourse[i].CourseCode,
+                        Semester,
+                        testNo.TestNo
+                    );
+                    dt = bll.FillDataTableByText(sql);
+                    dr[gradeCourse[i].FullName + "分数"] = "";
+                    dr[gradeCourse[i].FullName + "名次"] = "";
+                    dr[gradeCourse[i].FullName + "等第"] = dt.Rows[0]["a18"];
+                }
+                rs.Rows.Add(dr);
+
+                //年级E人数
+                dr = rs.NewRow();
+                dr["姓名"] = "年级E人数";
+                dr["性别"] = "";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql =
+                    string.Format(
+                        "exec s_p_getLastScore {0},{1},{2},{3},{4}",
+                        micYear.MicYear,
+                        gradeClass.ClassNo,
+                        gradeCourse[i].CourseCode,
+                        Semester,
+                        testNo.TestNo
+                    );
+                    dt = bll.FillDataTableByText(sql);
+                    dr[gradeCourse[i].FullName + "分数"] = dt.Rows[0]["a19"];
+                    dr[gradeCourse[i].FullName + "名次"] = dt.Rows[0]["a20"];
+                    dr[gradeCourse[i].FullName + "等第"] = dt.Rows[0]["a21"];
+                }
+                rs.Rows.Add(dr);
+                //班级E人数
+                dr = rs.NewRow();
+                dr["姓名"] = "班级E人数";
+                dr["性别"] = "";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql =
+                    string.Format(
+                        "exec s_p_getLastScore {0},{1},{2},{3},{4}",
+                        micYear.MicYear,
+                        gradeClass.ClassNo,
+                        gradeCourse[i].CourseCode,
+                        Semester,
+                        testNo.TestNo
+                    );
+                    dt = bll.FillDataTableByText(sql);
+                    dr[gradeCourse[i].FullName + "分数"] = "";
+                    dr[gradeCourse[i].FullName + "名次"] = "";
+                    dr[gradeCourse[i].FullName + "等第"] = dt.Rows[0]["a22"];
+                }
+                rs.Rows.Add(dr);
+
+                entry = new ResultEntry() { Code = 0, Message = JsonConvert.SerializeObject(rs) };
+                results.Add(entry);
+
+                sql = "";
+                for (int i = 0; i < rs.Columns.Count; i++)
+                {
+                    sql += string.Format(" '{0}' as '{1}',", rs.Columns[i].ColumnName, i);
+                }
+                sql = "select " + sql.TrimEnd(',');
+                dt = bll.FillDataTableByText(sql);
+                entry = new ResultEntry() { Code = 1, Message = JsonConvert.SerializeObject(dt) };
+                results.Add(entry);
+
+
+                return results;
+            }
+        }
+        #endregion
+
+        #region 学生多门清单
+        [WebMethod]
+        public static IList<ResultEntry> GetClassND(Academicyear micYear, GradeCode gradeCode, GradeClass gradeClass, IList<GradeCourse> gradeCourse, TestLogin testNo, bool isClass)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                var sql = "";
+                IList<ResultEntry> results = new List<ResultEntry>();
+                ResultEntry entry = null;
+                DataTable dt = new DataTable();
+
+                sql = " select gradename+'('+substring(classcode,3,2)+')班' '班级',ClassSN '序号',stdname '姓名',";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql += " sum(case When CourseName='" + gradeCourse[i].FullName + "' then numscore else 0 end) " + gradeCourse[i].FullName + ",";
+                }
+                sql = sql.TrimEnd(',');
+                sql += " from s_vw_ClassScoreNum "
+                     + " where Academicyear=" + micYear.MicYear + ""
+                     + " and GradeNo =" + gradeCode.GradeNo + " "
+                     + " and TestNo=" + testNo.TestNo + "";
+                if (isClass) sql += " and ClassCode=" + gradeClass.ClassNo + "";
+                sql += " group by gradename,classcode,classsn,stdname "
+                    + " order by classcode,classsn";
+                dt = bll.FillDataTableByText(sql);
+
+                dt.Columns.Add("总分");
+                //加入总分
+                var course = "";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    course += gradeCourse[i].CourseCode + ",";
+                }
+                sql = " SELECT SUM(numscore) numscore,StdName FROM s_vw_ClassScoreNum" +
+                          " where Academicyear=" + micYear.MicYear + " and GradeNo =" + gradeCode.GradeNo + "  and " +
+                          " TestNo=" + testNo.TestNo + "";
+                if (isClass) sql += " and ClassCode=" + gradeClass.ClassNo + "";
+                sql += " AND coursecode IN(" + course.TrimEnd(',') + ")" +
+                       " GROUP BY stdname ";
+                DataTable dtSum = bll.FillDataTableByText(sql);
+
+                if (dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        for (int n = 0; n < dtSum.Rows.Count; n++)
+                        {
+                            if (dt.Rows[i]["姓名"].ToString().Trim() == dtSum.Rows[n]["StdName"].ToString().Trim())
+                            {
+                                DataRow dr = dt.Rows[i];
+                                dr["总分"] = dtSum.Rows[n]["numscore"];
+                            }
+                        }
+
+                    }
+                }
+                entry = new ResultEntry() { Code = 0, Message = JsonConvert.SerializeObject(dt) };
+                results.Add(entry);
+
+                //查询列
+                sql = "";
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    sql += string.Format(" '{0}' as '{1}',", dt.Columns[i].ColumnName, i);
+                }
+                sql = "select " + sql.TrimEnd(',');
+                dt = bll.FillDataTableByText(sql);
+                entry = new ResultEntry() { Code = 1, Message = JsonConvert.SerializeObject(dt) };
+                results.Add(entry);
+
+                return results;
+            }
         }
         #endregion
 
