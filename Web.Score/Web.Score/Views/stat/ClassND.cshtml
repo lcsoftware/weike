@@ -29,7 +29,12 @@
                         <option value="">-- 请选择考试号 --</option>
                     </select>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-2">
+                    <input type="checkbox" value="1" ng-model="isClass" />&nbsp;按班级分类
+                </div>                
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
                     <div ng-repeat="course in GradeCourses" class="checkbox-inline">
                         <input type="checkbox" checklist-value="course.CourseCode" checklist-model="coursed" ng-change="courseChange(this)" name="course" />{{course.FullName}}
                     </div>

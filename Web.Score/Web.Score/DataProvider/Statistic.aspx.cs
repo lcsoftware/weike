@@ -2976,7 +2976,7 @@ namespace App.Web.Score.DataProvider
 
         #region 学生多门清单
         [WebMethod]
-        public static IList<ResultEntry> GetClassND(Academicyear micYear, GradeClass gradeClass, IList<GradeCourse> gradeCourse, TestLogin testNo)
+        public static IList<ResultEntry> GetClassND(Academicyear micYear, GradeCode gradeCode, GradeClass gradeClass, IList<GradeCourse> gradeCourse, TestLogin testNo, bool isClass)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -2984,6 +2984,66 @@ namespace App.Web.Score.DataProvider
                 IList<ResultEntry> results = new List<ResultEntry>();
                 ResultEntry entry = null;
                 DataTable dt = new DataTable();
+
+                sql = " select gradename+'('+substring(classcode,3,2)+')班' '班级',ClassSN '序号',stdname '姓名',";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql += " sum(case When CourseName='" + gradeCourse[i].FullName + "' then numscore else 0 end) " + gradeCourse[i].FullName + ",";
+                }
+                sql = sql.TrimEnd(',');
+                sql += " from s_vw_ClassScoreNum "
+                     + " where Academicyear=" + micYear.MicYear + ""
+                     + " and GradeNo =" + gradeCode.GradeNo + " "
+                     + " and TestNo=" + testNo.TestNo + "";
+                if (isClass) sql += " and ClassCode=" + gradeClass.ClassNo + "";
+                sql += " group by gradename,classcode,classsn,stdname "
+                    + " order by classcode,classsn";
+                dt = bll.FillDataTableByText(sql);
+
+                dt.Columns.Add("总分");
+                //加入总分
+                var course = "";
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    course += gradeCourse[i].CourseCode + ",";
+                }
+                sql = " SELECT SUM(numscore) numscore,StdName FROM s_vw_ClassScoreNum" +
+                          " where Academicyear=" + micYear.MicYear + " and GradeNo =" + gradeCode.GradeNo + "  and " +
+                          " TestNo=" + testNo.TestNo + "";
+                if (isClass) sql += " and ClassCode=" + gradeClass.ClassNo + "";
+                sql += " AND coursecode IN(" + course.TrimEnd(',') + ")" +
+                       " GROUP BY stdname ";
+                DataTable dtSum = bll.FillDataTableByText(sql);
+
+                if (dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        for (int n = 0; n < dtSum.Rows.Count; n++)
+                        {
+                            if (dt.Rows[i]["姓名"].ToString().Trim() == dtSum.Rows[n]["StdName"].ToString().Trim())
+                            {
+                                DataRow dr = dt.Rows[i];
+                                dr["总分"] = dtSum.Rows[n]["numscore"];
+                            }
+                        }
+
+                    }
+                }
+                entry = new ResultEntry() { Code = 0, Message = JsonConvert.SerializeObject(dt) };
+                results.Add(entry);
+
+                //查询列
+                sql = "";
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    sql += string.Format(" '{0}' as '{1}',", dt.Columns[i].ColumnName, i);
+                }
+                sql = "select " + sql.TrimEnd(',');
+                dt = bll.FillDataTableByText(sql);
+                entry = new ResultEntry() { Code = 1, Message = JsonConvert.SerializeObject(dt) };
+                results.Add(entry);
+
                 return results;
             }
         }

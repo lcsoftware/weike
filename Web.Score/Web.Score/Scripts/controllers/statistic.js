@@ -2962,10 +2962,11 @@ stat.controller('ClassNDController', ['$scope', function ($scope) {
         var url = "/DataProvider/Statistic.aspx/GetClassND";
         var param = {
             micYear: $scope.MicYear,
+            gradeCode: $scope.GradeCode,
             gradeCourse: $scope.courses,
             gradeClass: $scope.GradeClass,
             testNo: $scope.TestNo,
-            Semester: $scope.Semester
+            isClass: $scope.isClass == null ? false : $scope.isClass
         };
         $scope.baseService.post(url, param, function (data) {
             var length = data.d.length;
