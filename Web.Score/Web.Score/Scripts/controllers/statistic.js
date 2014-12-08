@@ -158,6 +158,10 @@ stat.controller('StudentStatController', ['$scope', function ($scope) {
             $scope.dialogUtils.info('请选择考试号！');
             return;
         }
+        if (!$scope.conditionData.ScoreType) {
+            $scope.dialogUtils.info('请选择分数类型！');
+            return;
+        }
 
         statBase();
         statCharts();
@@ -394,7 +398,7 @@ stat.controller('CourseOrderController', ['$scope', 'appUtils', function ($scope
 
 
     $scope.stat = function () {
-        if (!$scope.courseChecks.length === 0) {
+        if ($scope.courseChecks.length === 0) {
             $scope.dialogUtils.info('请选择课程！');
             return;
         }
@@ -403,6 +407,8 @@ stat.controller('CourseOrderController', ['$scope', 'appUtils', function ($scope
             return;
         }
         statCharts();
+        //原程序就没有这部分
+        //statBase();
         $scope.haveStat = true;
     }
 }]);
@@ -834,7 +840,14 @@ stat.controller('ExamStatController', ['$scope', function ($scope) {
             $scope.dialogUtils.info('请选择考试号！');
             return;
         }
-
+        if (!$scope.conditionData.ScoreType) {
+            $scope.dialogUtils.info('请选择分数类型！');
+            return;
+        }
+        if (!$scope.conditionData.ScoreOption) {
+            $scope.dialogUtils.info('请选择范围！');
+            return;
+        }
         statBase();
         statCharts();
         statData();
