@@ -3052,7 +3052,7 @@ namespace App.Web.Score.DataProvider
 
         #region 班级学期总评
         [WebMethod]
-        public static IList<ResultEntry> GetClassAdmin(Academicyear micYear, GradeCode gradeCode, GradeClass gradeClass, IList<GradeCourse> gradeCourse, TestLogin testNo, bool level)
+        public static IList<ResultEntry> GetClassAdmin(Academicyear micYear, GradeCode gradeCode, GradeClass gradeClass, IList<GradeCourse> gradeCourse, bool level)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -3070,7 +3070,7 @@ namespace App.Web.Score.DataProvider
                 //课程
                 sql = " select a.teacherid,b.name from s_tb_teacherscope a ,tbusergroupinfo b" +
                       " where a.teacherid=b.teacherid and a.scope=" + gradeClass.ClassNo + "";
-                DataTable dtCourse = bll.FillDataTableByText(sql);                
+                DataTable dtCourse = bll.FillDataTableByText(sql);
                 //分数
                 for (int i = 0; i < gradeCourse.Count; i++)
                 {
@@ -3078,7 +3078,7 @@ namespace App.Web.Score.DataProvider
                     {
                         if (gradeCode.GradeNo == "33")
                         {
-                            sql = "select ps1*1.5,psd1,qz1*1.5,qzd1,qm1*1.5,qmd1,xq1*1.5,xqd1,ps2*1.5,psd2,qz2*1.5,qzd2,qm2*1.5,qmd2,xq2*1.5,xqd2,xn*1.5,xnd,bk "
+                            sql = "select ps1*1.5 ps1,psd1,qz1*1.5 qz1,qzd1,qm1*1.5 qm1,qmd1,xq1*1.5 xq1,xqd1,ps2*1.5 ps2,psd2,qz2*1.5 qz2,qzd2,qm2*1.5 qm2,qmd2,xq2*1.5 xq2,xqd2,xn*1.5 xn,xnd,bk "
                                 + " from s_tb_scoretran "
                                 + " where Academicyear=" + micYear.MicYear + " "
                                 + " and ClassCode=" + gradeClass.ClassNo + " "
@@ -3099,7 +3099,7 @@ namespace App.Web.Score.DataProvider
                     {
                         if (gradeCode.GradeNo == "33")
                         {
-                            sql = "select ps1*1.5,qz1*1.5,qm1*1.5,xq1*1.5,ps2*1.5,qz2*1.5,qm2*1.5,xq2*1.5,xn*1.5,bk "
+                            sql = "select ps1*1.5 ps1,qz1*1.5 qz1,qm1*1.5 qm1,xq1*1.5 xq1,ps2*1.5 ps2,qz2*1.5 qz2,qm2*1.5 qm2,xq2*1.5 xq2,xn*1.5 xn,bk "
                                 + " from s_tb_scoretran "
                                 + " where Academicyear=" + micYear.MicYear + " "
                                 + " and ClassCode=" + gradeClass.ClassNo + " "
@@ -3117,15 +3117,69 @@ namespace App.Web.Score.DataProvider
                         }
                     }
                     DataTable dtScore = bll.FillDataTableByText(sql);
+
                     //拼接
-                    for (int n = 0; n < dt.Rows.Count; i++)
+                    if (level)
                     {
-                        DataRow dr = dt.Rows[n];
-                        dr["班级"] = gradeClass.GradeBriefName;
-                        dr["班主任"] = dtCourse.Rows[0]["name"];
-                        dr["平时"] = dtScore.Rows[n]["ps1"];
+                        dt.Columns.Add(gradeCourse[i].FullName + "平时");
+                        dt.Columns.Add(gradeCourse[i].FullName + "等第" + i);
+                        dt.Columns.Add(gradeCourse[i].FullName + "期中");
+                        dt.Columns.Add(gradeCourse[i].FullName + "等第" + (i + 1));
+                        dt.Columns.Add(gradeCourse[i].FullName + "期末");
+                        dt.Columns.Add(gradeCourse[i].FullName + "等第" + (i + 2));
+                        dt.Columns.Add(gradeCourse[i].FullName + "学期总评");
+                        dt.Columns.Add(gradeCourse[i].FullName + "等第" + (i + 3));
+                        dt.Columns.Add("空" + i);
+                        for (int n = 0; n < dt.Rows.Count; n++)
+                        {
+                            DataRow dr = dt.Rows[n];
+                            dr["班级"] = gradeClass.GradeBriefName.ToString().Trim();
+                            dr["班主任"] = dtCourse.Rows[0]["name"].ToString().Trim();
+                            dr[gradeCourse[i].FullName + "平时"] = dtScore.Rows[n]["ps1"];
+                            dr[gradeCourse[i].FullName + "等第" + i] = dtScore.Rows[n]["psd1"];
+                            dr[gradeCourse[i].FullName + "期中"] = dtScore.Rows[n]["qz1"];
+                            dr[gradeCourse[i].FullName + "等第" + (i + 1)] = dtScore.Rows[n]["qzd1"];
+                            dr[gradeCourse[i].FullName + "期末"] = dtScore.Rows[n]["qm1"];
+                            dr[gradeCourse[i].FullName + "等第" + (i + 2)] = dtScore.Rows[n]["qmd1"];
+                            dr[gradeCourse[i].FullName + "学期总评"] = dtScore.Rows[n]["xn"];
+                            dr[gradeCourse[i].FullName + "等第" + (i + 3)] = dtScore.Rows[n]["xnd"];
+                            dr["空" + i] = "";
+                        }
+                    }
+                    else
+                    {
+                        dt.Columns.Add(gradeCourse[i].FullName + "平时");
+                        dt.Columns.Add(gradeCourse[i].FullName + "期中");
+                        dt.Columns.Add(gradeCourse[i].FullName + "期末");
+                        dt.Columns.Add(gradeCourse[i].FullName + "学期总评");
+                        dt.Columns.Add("空" + i);
+                        for (int n = 0; n < dt.Rows.Count; n++)
+                        {
+                            DataRow dr = dt.Rows[n];
+                            dr["班级"] = gradeClass.GradeBriefName.ToString().Trim();
+                            dr["班主任"] = dtCourse.Rows[0]["name"].ToString().Trim();
+                            dr[gradeCourse[i].FullName + "平时"] = dtScore.Rows[n]["ps1"];
+                            dr[gradeCourse[i].FullName + "期中"] = dtScore.Rows[n]["qz1"];
+                            dr[gradeCourse[i].FullName + "期末"] = dtScore.Rows[n]["qm1"];
+                            dr[gradeCourse[i].FullName + "学期总评"] = dtScore.Rows[n]["xn"];
+                            dr["空" + i] = "";
+                        }
                     }
                 }
+                dt.Columns.RemoveAt(dt.Columns.Count-1);
+                entry = new ResultEntry() { Code = 0, Message = JsonConvert.SerializeObject(dt) };
+                results.Add(entry);
+
+                //查询列
+                sql = "";
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    sql += string.Format(" '{0}' as '{1}',", dt.Columns[i].ColumnName, i);
+                }
+                sql = "select " + sql.TrimEnd(',');
+                dt = bll.FillDataTableByText(sql);
+                entry = new ResultEntry() { Code = 1, Message = JsonConvert.SerializeObject(dt) };
+                results.Add(entry);
                 return results;
             }
         }

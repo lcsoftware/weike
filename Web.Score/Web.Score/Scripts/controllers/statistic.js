@@ -3091,4 +3091,89 @@ stat.controller('ClassAdminController', ['$scope', 'appUtils', function ($scope,
             }
         }
     }
+    $scope.courses = [];
+    $scope.courseChange = function (courseCode) {
+        if ($.inArray(courseCode.$parent.course, $scope.courses) < 0) {
+            $scope.courses.push(courseCode.$parent.course);
+        } else {
+            $scope.courses.splice($.inArray(courseCode.$parent.course, $scope.courses), 1);
+        }
+    }
+    $scope.query = function () {
+        if ($scope.courses.length <= 0) {
+            $scope.dialogUtils.info('请选择课程');
+            return;
+        }
+
+        $scope.utilService.showBg();
+        var url = "/DataProvider/Statistic.aspx/GetClassAdmin";
+        var param = {
+            micYear: $scope.MicYear,
+            gradeCode: $scope.GradeCode,
+            gradeCourse: $scope.courses,
+            gradeClass: $scope.GradeClass,
+            level: $scope.cbDC == null ? false : $scope.cbDC
+        };
+        $scope.baseService.post(url, param, function (data) {
+            var length = data.d.length;
+            for (var i = 0; i < length; i++) {
+                var resultEntry = data.d[i];
+                if (resultEntry.Code == 0) {
+                    $scope.Items = angular.fromJson(resultEntry.Message);
+                } else if (resultEntry.Code == 1) {
+                    $scope.ColumnsName = angular.fromJson(resultEntry.Message);
+                }
+            }
+
+
+            var rs = "<table class='table table-striped table-bordered' style='width:100%'><thead><tr style='background-color:#808080'>";
+            var len = count($scope.ColumnsName[0]);
+            for (var i = 0; i < len; i++) {
+                var columnsName = $scope.ColumnsName[0][i];                
+                if (columnsName.indexOf("等第") > -1)
+                {
+                    rs += "<th style='text-align:center'>" + columnsName.toString().substr(0, $scope.ColumnsName[0][i].toString().length - 1) + "</th>";
+                }
+                else if (columnsName.indexOf("空") > -1)
+                {
+                    rs += "<th style='text-align:center'></th>";
+                }
+                else
+                {
+                    rs += "<th style='text-align:center'>" + columnsName + "</th>";
+                }                   
+                
+            }
+            rs += "</tr></thead>";
+            for (var n = 0; n < $scope.Items.length; n++) {
+                rs += "<tr>";
+                len = count($scope.Items[n]);
+                for (var m in $scope.Items[n]) {
+                    if ($scope.Items[n][m] == null) {
+                        rs += "<td></td>";
+                    }
+                    else {
+                        rs += "<td>" + $scope.Items[n][m] + "</td>";
+                    }
+                }
+                rs += "</tr>";
+            }
+            rs += "</table>";
+            $('#data').html(rs);
+            $scope.utilService.closeBg();
+        });
+        function count(o) {
+            var t = typeof o;
+            if (t == 'string') {
+                return o.length;
+            } else if (t == 'object') {
+                var n = 0;
+                for (var i in o) {
+                    n++;
+                }
+                return n;
+            }
+            return false;
+        }
+    }
 }]);
