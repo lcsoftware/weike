@@ -22,8 +22,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-2">
-                    <input type="checkbox" value="1" ng-model="stuZaiJi" />仅在籍学生
+                <div class="col-sm-2 checkbox">
+                    <label>
+                        <input type="checkbox" value="1" ng-model="stuZaiJi" />仅在籍学生
+                    </label>
                 </div>
             </div>
             <div class="form-group">
@@ -65,7 +67,7 @@
                         <tr style="background-color:#808080">
                             <th style="width:10%;text-align:center;">序号</th>
                             <th style="width:10%;text-align:center;">班级</th>
-                            <th style="width:20%;text-align:center;">教师姓名</th>                            
+                            <th style="width:20%;text-align:center;">教师姓名</th>
                             <th style="width:10%;text-align:center;">考试人数</th>
                             <th style="width:10%;text-align:center;">平均分</th>
                             <th style="width:10%;text-align:center;">标准分</th>
@@ -76,7 +78,7 @@
                         <tr ng-repeat="item in TeacherAnalysis">
                             <td align="center">{{item.pkey}}</td>
                             <td align="center">{{base.strGradeName}}{{item.ClassCode}}</td>
-                            <td align="center">{{item.TeacherName}}</td>                            
+                            <td align="center">{{item.TeacherName}}</td>
                             <td align="center">{{item.ClassCount}}</td>
                             <td align="center">{{item.Score}}</td>
                             <td align="center">{{item.devScore}}</td>

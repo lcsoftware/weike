@@ -21,17 +21,19 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">               
-                <div class="col-sm-2">
-                    <input type="checkbox" value="1" ng-model="stuZaiJi" />仅在籍学生
-                </div>            
-            </div> 
+            <div class="form-group">
+                <div class="col-sm-2 checkbox">
+                    <label>
+                        <input type="checkbox" value="1" ng-model="stuZaiJi" />仅在籍学生
+                    </label>
+                </div>
+            </div>
             <div class="form-group">
                 <div class="btn-group pull-right">
                     <button type="button" class="btn btn-primary" ng-click="query()"><span class="glyphicon glyphicon-ok"></span>查询</button>
                     @*<button type="button" class="btn btn-default" ng-click="tryCalculate();"><span class="glyphicon glyphicon-print"></span>打 印</button>*@
                 </div>
-            </div>           
+            </div>
         </form>
     </div>
 </div>
@@ -54,7 +56,7 @@
                     <div class="col-sm-3" style="text-align:left;">年级平均分：{{base.strGradeAverageScore}}</div>
                     <div class="col-sm-3" style="text-align:left;">标准差：{{base.strStdDev}}</div>
                     <div class="col-sm-3" style="text-align:left;">导出日期：{{base.datetime}}</div>
-                </div>               
+                </div>
             </div>
         </div>
         <br />
