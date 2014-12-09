@@ -28,8 +28,10 @@
             </div> 
             <div class="form-group">
                 <div class="col-sm-6 checkbox">
-                    <label ng-repeat="item in GradeCourses">
-                        <input type="checkbox" checklist-value="item" checklist-model="courseChecks"> {{item.FullName}}
+                    <label ng-repeat="course in GradeCourses">
+                        <label>
+                            <input type="checkbox" checklist-value="course.CourseCode" checklist-model="coursed" ng-change="courseChange(this)" name="course" />{{course.FullName}}
+                        </label>
                     </label>
                 </div>
                 <div class="col-sm-4">
