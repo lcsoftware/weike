@@ -446,7 +446,7 @@ appAdmin.controller('CJtoXJController', ['$scope', 'schoolProviderUrl', 'pageSer
     $scope.$watch('conditionData.GradeCode', function (gradeCode) {
         $scope.GradeCourses = null;
         if (gradeCode) {
-            $scope.utilService.GetGradeCourse(gradeCode, -1, function (data) {
+            $scope.utilService.GetGradeCourse($scope.conditionData.MicYear.MicYear, gradeCode, function (data) {
                 $scope.GradeCourses = data.d;
             });
         }

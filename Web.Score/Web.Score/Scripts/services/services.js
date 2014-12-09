@@ -488,13 +488,13 @@ aService.factory('userService', ['baseService', 'adminProviderUrl', 'appUtils', 
     service.buildGroupUserTree = function (callback) {
         var url = adminProviderUrl + '/GetGroupAndUsers';
         var param = null;
-        var groupAndUserPromise = appUtils.createPromise(url, param);
+        var groupAndUserPromise = baseService.postPromise(url, param);
 
         var url = adminProviderUrl + '/GetUserGroups';
         var param = { userOrGroup: '1' };
-        var userPromise = appUtils.createPromise(url, param);
+        var userPromise = baseService.postPromise(url, param);
 
-        appUtils.runPromises({
+        baseService.runPromises({
             GroupAndUsers: groupAndUserPromise,
             Users: userPromise
         }, function (results) {
@@ -648,13 +648,13 @@ aService.factory('menuService', ['baseService', 'adminProviderUrl', 'appUtils', 
     service.initMenus = function (teacher, callback) {
         var url = adminProviderUrl + '/GetFuncs';
         var param = { teacherID: teacher };
-        var funcPromise = appUtils.createPromise(url, param);
+        var funcPromise = baseService.postPromise(url, param);
 
         url = adminProviderUrl + '/GetMenus';
         param = null;
         var menuPromise = baseService.post(url, param, callback);
 
-        appUtils.runPromises({ funcs: funcPromise, menus: menuPromise }, function (results) {
+        baseService.runPromises({ funcs: funcPromise, menus: menuPromise }, function (results) {
             var aMenus = [];
             var aFuncs = null;
             if (results.menus.d !== null) {
