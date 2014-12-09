@@ -3132,7 +3132,7 @@ stat.controller('ClassAdminController', ['$scope', 'appUtils', function ($scope,
                 var columnsName = $scope.ColumnsName[0][i];                
                 if (columnsName.indexOf("等第") > -1)
                 {
-                    rs += "<th style='text-align:center'>" + columnsName.toString().substr(0, $scope.ColumnsName[0][i].toString().length - 1) + "</th>";
+                    rs += "<th style='text-align:center'>" + columnsName.toString().substr(0, 2) + "</th>";
                 }
                 else if (columnsName.indexOf("空") > -1)
                 {
@@ -3175,5 +3175,26 @@ stat.controller('ClassAdminController', ['$scope', 'appUtils', function ($scope,
             }
             return false;
         }
+    }
+
+    $scope.query1 = function () {
+        if ($scope.courses.length <= 0) {
+            $scope.dialogUtils.info('请选择课程');
+            return;
+        }
+
+        $scope.utilService.showBg();
+        var url = "/DataProvider/Statistic.aspx/SetClassAdmin";
+        var param = {
+            micYear: $scope.MicYear,
+            gradeCode: $scope.GradeCode,
+            gradeCourse: $scope.courses,
+            gradeClass: $scope.GradeClass,
+            level: $scope.cbDC == null ? false : $scope.cbDC
+        };
+        $scope.baseService.post(url, param, function (data) {
+            $scope.dialogUtils.info(data.d);
+            $scope.utilService.closeBg();
+        });
     }
 }]);

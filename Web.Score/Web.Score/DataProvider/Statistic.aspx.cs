@@ -3118,55 +3118,58 @@ namespace App.Web.Score.DataProvider
                     }
                     DataTable dtScore = bll.FillDataTableByText(sql);
 
-                    //拼接
-                    if (level)
+                    if (dtScore.Rows.Count > 0)
                     {
-                        dt.Columns.Add(gradeCourse[i].FullName + "平时");
-                        dt.Columns.Add(gradeCourse[i].FullName + "等第" + i);
-                        dt.Columns.Add(gradeCourse[i].FullName + "期中");
-                        dt.Columns.Add(gradeCourse[i].FullName + "等第" + (i + 1));
-                        dt.Columns.Add(gradeCourse[i].FullName + "期末");
-                        dt.Columns.Add(gradeCourse[i].FullName + "等第" + (i + 2));
-                        dt.Columns.Add(gradeCourse[i].FullName + "学期总评");
-                        dt.Columns.Add(gradeCourse[i].FullName + "等第" + (i + 3));
-                        dt.Columns.Add("空" + i);
-                        for (int n = 0; n < dt.Rows.Count; n++)
+                        //拼接
+                        if (level)
                         {
-                            DataRow dr = dt.Rows[n];
-                            dr["班级"] = gradeClass.GradeBriefName.ToString().Trim();
-                            dr["班主任"] = dtCourse.Rows[0]["name"].ToString().Trim();
-                            dr[gradeCourse[i].FullName + "平时"] = dtScore.Rows[n]["ps1"];
-                            dr[gradeCourse[i].FullName + "等第" + i] = dtScore.Rows[n]["psd1"];
-                            dr[gradeCourse[i].FullName + "期中"] = dtScore.Rows[n]["qz1"];
-                            dr[gradeCourse[i].FullName + "等第" + (i + 1)] = dtScore.Rows[n]["qzd1"];
-                            dr[gradeCourse[i].FullName + "期末"] = dtScore.Rows[n]["qm1"];
-                            dr[gradeCourse[i].FullName + "等第" + (i + 2)] = dtScore.Rows[n]["qmd1"];
-                            dr[gradeCourse[i].FullName + "学期总评"] = dtScore.Rows[n]["xn"];
-                            dr[gradeCourse[i].FullName + "等第" + (i + 3)] = dtScore.Rows[n]["xnd"];
-                            dr["空" + i] = "";
+                            dt.Columns.Add(gradeCourse[i].FullName + "平时");
+                            dt.Columns.Add("等第-" + gradeCourse[i].FullName + i);
+                            dt.Columns.Add(gradeCourse[i].FullName + "期中");
+                            dt.Columns.Add("等第-" + gradeCourse[i].FullName + (i + 1));
+                            dt.Columns.Add(gradeCourse[i].FullName + "期末");
+                            dt.Columns.Add("等第-" + gradeCourse[i].FullName + (i + 2));
+                            dt.Columns.Add(gradeCourse[i].FullName + "学期总评");
+                            dt.Columns.Add("等第-" + gradeCourse[i].FullName + (i + 3));
+                            dt.Columns.Add("空" + i);
+                            for (int n = 0; n < dt.Rows.Count; n++)
+                            {
+                                DataRow dr = dt.Rows[n];
+                                dr["班级"] = gradeClass.GradeBriefName.ToString().Trim();
+                                dr["班主任"] = dtCourse.Rows[0]["name"].ToString().Trim();
+                                dr[gradeCourse[i].FullName + "平时"] = dtScore.Rows[n]["ps1"];
+                                dr["等第-" + gradeCourse[i].FullName + i] = dtScore.Rows[n]["psd1"];
+                                dr[gradeCourse[i].FullName + "期中"] = dtScore.Rows[n]["qz1"];
+                                dr["等第-" + gradeCourse[i].FullName + (i + 1)] = dtScore.Rows[n]["qzd1"];
+                                dr[gradeCourse[i].FullName + "期末"] = dtScore.Rows[n]["qm1"];
+                                dr["等第-" + gradeCourse[i].FullName + (i + 2)] = dtScore.Rows[n]["qmd1"];
+                                dr[gradeCourse[i].FullName + "学期总评"] = dtScore.Rows[n]["xn"];
+                                dr["等第-" + gradeCourse[i].FullName + (i + 3)] = dtScore.Rows[n]["xnd"];
+                                dr["空" + i] = "";
+                            }
                         }
-                    }
-                    else
-                    {
-                        dt.Columns.Add(gradeCourse[i].FullName + "平时");
-                        dt.Columns.Add(gradeCourse[i].FullName + "期中");
-                        dt.Columns.Add(gradeCourse[i].FullName + "期末");
-                        dt.Columns.Add(gradeCourse[i].FullName + "学期总评");
-                        dt.Columns.Add("空" + i);
-                        for (int n = 0; n < dt.Rows.Count; n++)
+                        else
                         {
-                            DataRow dr = dt.Rows[n];
-                            dr["班级"] = gradeClass.GradeBriefName.ToString().Trim();
-                            dr["班主任"] = dtCourse.Rows[0]["name"].ToString().Trim();
-                            dr[gradeCourse[i].FullName + "平时"] = dtScore.Rows[n]["ps1"];
-                            dr[gradeCourse[i].FullName + "期中"] = dtScore.Rows[n]["qz1"];
-                            dr[gradeCourse[i].FullName + "期末"] = dtScore.Rows[n]["qm1"];
-                            dr[gradeCourse[i].FullName + "学期总评"] = dtScore.Rows[n]["xn"];
-                            dr["空" + i] = "";
+                            dt.Columns.Add(gradeCourse[i].FullName + "平时");
+                            dt.Columns.Add(gradeCourse[i].FullName + "期中");
+                            dt.Columns.Add(gradeCourse[i].FullName + "期末");
+                            dt.Columns.Add(gradeCourse[i].FullName + "学期总评");
+                            dt.Columns.Add("空" + i);
+                            for (int n = 0; n < dt.Rows.Count; n++)
+                            {
+                                DataRow dr = dt.Rows[n];
+                                dr["班级"] = gradeClass.GradeBriefName.ToString().Trim();
+                                dr["班主任"] = dtCourse.Rows[0]["name"].ToString().Trim();
+                                dr[gradeCourse[i].FullName + "平时"] = dtScore.Rows[n]["ps1"];
+                                dr[gradeCourse[i].FullName + "期中"] = dtScore.Rows[n]["qz1"];
+                                dr[gradeCourse[i].FullName + "期末"] = dtScore.Rows[n]["qm1"];
+                                dr[gradeCourse[i].FullName + "学期总评"] = dtScore.Rows[n]["xn"];
+                                dr["空" + i] = "";
+                            }
                         }
                     }
                 }
-                dt.Columns.RemoveAt(dt.Columns.Count-1);
+                dt.Columns.RemoveAt(dt.Columns.Count - 1);
                 entry = new ResultEntry() { Code = 0, Message = JsonConvert.SerializeObject(dt) };
                 results.Add(entry);
 
@@ -3181,6 +3184,1031 @@ namespace App.Web.Score.DataProvider
                 entry = new ResultEntry() { Code = 1, Message = JsonConvert.SerializeObject(dt) };
                 results.Add(entry);
                 return results;
+            }
+        }
+
+
+        [WebMethod]
+        public static string SetClassAdmin(Academicyear micYear, GradeCode gradeCode, GradeClass gradeClass, IList<GradeCourse> gradeCourse, bool level)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                DataTable dt = new DataTable();
+                var bLevel = false;
+                var floatA = "";
+                var floatB = "";
+                var floatC = "";
+                var floatD = "";
+                var iScore = "";
+                var renshu = -1;
+                var iOrder = -1;
+                var iNum = -1;
+
+                var sql = "delete from s_tb_scoretran";
+                bll.ExecuteNonQueryByText(sql);
+
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    sql = string.Format("exec s_p_scoretran {0},{1},{2},0", micYear.MicYear, gradeCourse[i].CourseCode, gradeCode.GradeNo);
+                    bll.ExecuteNonQueryByText(sql);
+                }
+                //排名
+                if (level)
+                {
+                    //进行百分比
+                    sql = "Select * from s_tb_levelStd where LevelNo = 'A'";
+                    dt = bll.FillDataTableByText(sql);
+                    if (dt.Rows.Count > 0)
+                    {
+                        if (string.IsNullOrEmpty(dt.Rows[0]["Level_bl"].ToString()))
+                            bLevel = false;
+                        else
+                            bLevel = true;
+                    }
+
+                    sql = "select * from s_tb_levelStd";
+                    dt = bll.FillDataTableByText(sql);
+                    if (dt.Rows.Count > 0)
+                    {
+                        if (!bLevel)
+                        {
+                            floatA = dt.Rows[0]["Level_Score"].ToString();
+                            floatB = dt.Rows[1]["Level_Score"].ToString();
+                            floatC = dt.Rows[2]["Level_Score"].ToString();
+                            floatD = dt.Rows[3]["Level_Score"].ToString();
+                        }
+                        else
+                        {
+                            floatA = dt.Rows[0]["Level_bl"].ToString();
+                            floatB = dt.Rows[1]["Level_bl"].ToString();
+                            floatC = dt.Rows[2]["Level_bl"].ToString();
+                            floatD = dt.Rows[3]["Level_bl"].ToString();
+                        }
+                        for (int i = 0; i < gradeCourse.Count; i++)
+                        {
+                            //平时1
+                            sql = "update s_tb_scoretran set gradeorder=null "
+                                + " where Academicyear=" + micYear.MicYear + " "
+                                + " and left(classCode,2)=" + gradeCode.GradeNo + " "
+                                + " and CourseCode=" + gradeCourse[i].CourseCode + "";
+                            bll.ExecuteNonQueryByText(sql);
+                            sql = "select Academicyear,srid,CourseCode,ps1 from s_tb_scoretran "
+                                + " where Academicyear=" + micYear.MicYear + ""
+                                + " and left(ClassCode,2)=" + gradeCode.GradeNo + ""
+                                + " and CourseCode=" + gradeCourse[i].CourseCode + ""
+                                + " and ps1 is not null "
+                                + " order by ps1 desc";
+                            dt = bll.FillDataTableByText(sql);
+                            if (dt.Rows.Count > 0)
+                            {
+                                iScore = dt.Rows[0]["ps1"].ToString();
+                                renshu = dt.Rows.Count;
+
+                                iOrder = 1;
+                                iNum = 1;
+                                for (int n = 0; n < dt.Rows.Count; n++)
+                                {
+                                    if (Convert.ToDouble(dt.Rows[n]["ps1"]) < Convert.ToDouble(iScore))
+                                    {
+                                        iOrder = iNum;
+                                        iScore = dt.Rows[n]["ps1"].ToString();
+                                    }
+                                    sql = "update s_tb_scoretran set GradeOrder =" + iOrder + " "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and SRID =" + dt.Rows[n]["srid"].ToString() + " ";
+                                    bll.ExecuteNonQueryByText(sql);
+                                    iNum += 1;
+                                }
+                                //A
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set psd1 ='A' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and ps1 is not null "
+                                        + " and GradeOrder<=@OrderSN";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set psd1 ='A' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and ps1 is not null "
+                                        + " and ps1>=@OrderSN";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql, new { OrderSN = Convert.ToInt32(renshu * Convert.ToDouble(floatA)) });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql, new { OrderSN = floatA });
+                                }
+                                //B
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set psd1 ='B' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and GradeOrder<=@OrderH "
+                                        + " and GradeOrder>@OrderL";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set psd1 ='B' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and ps1>=@OrderH "
+                                        + " and ps1<@OrderL";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = Convert.ToInt32(renshu * Convert.ToDouble(floatB)),
+                                            OrderL = Convert.ToInt32(renshu * Convert.ToDouble(floatA))
+                                        });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = floatB,
+                                            OrderL = floatA
+                                        });
+                                }
+                                //C
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set psd1 ='C' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and GradeOrder<=@OrderH "
+                                        + " and GradeOrder>@OrderL";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set psd1 ='C' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and ps1>=@OrderH "
+                                        + " and ps1<@OrderL";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = Convert.ToInt32(renshu * Convert.ToDouble(floatC)),
+                                            OrderL = Convert.ToInt32(renshu * Convert.ToDouble(floatB))
+                                        });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = floatC,
+                                            OrderL = floatB
+                                        });
+                                }
+                                //D
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set psd1 ='D' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and GradeOrder<=@OrderH "
+                                        + " and GradeOrder>@OrderL";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set psd1 ='D' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and ps1>=@OrderH "
+                                        + " and ps1<@OrderL";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = Convert.ToInt32(renshu * Convert.ToDouble(floatD)),
+                                            OrderL = Convert.ToInt32(renshu * Convert.ToDouble(floatC))
+                                        });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = floatD,
+                                            OrderL = floatC
+                                        });
+                                }
+                                //E
+                                sql = "update s_tb_scoretran set psd1 ='E' "
+                                    + " where Academicyear=" + micYear.MicYear + " "
+                                    + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                    + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                    + " and ps1<60 "
+                                    + " and ps1 is not null "
+                                    + " and psd1 is null ";
+                                bll.ExecuteNonQueryByText(sql);
+                                //D
+                                sql = "update s_tb_scoretran set psd1 ='D' "
+                                    + " where Academicyear=" + micYear.MicYear + " "
+                                    + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                    + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                    + " and ps1>=60 "
+                                    + " and psd1 is null ";
+                                bll.ExecuteNonQueryByText(sql);
+                            }
+
+                            //平时2
+                            sql = "update s_tb_scoretran set gradeorder=null "
+                                + " where Academicyear=" + micYear.MicYear + " "
+                                + " and left(classCode,2)=" + gradeCode.GradeNo + " "
+                                + " and CourseCode=" + gradeCourse[i].CourseCode + "";
+                            bll.ExecuteNonQueryByText(sql);
+                            sql = "select Academicyear,srid,CourseCode,ps2 from s_tb_scoretran "
+                                + " where Academicyear=" + micYear.MicYear + ""
+                                + " and left(ClassCode,2)=" + gradeCode.GradeNo + ""
+                                + " and CourseCode=" + gradeCourse[i].CourseCode + ""
+                                + " and ps2 is not null "
+                                + " order by ps2 desc";
+                            dt = bll.FillDataTableByText(sql);
+                            if (dt.Rows.Count > 0)
+                            {
+                                iScore = dt.Rows[0]["ps2"].ToString();
+                                renshu = dt.Rows.Count;
+
+                                iOrder = 1;
+                                iNum = 1;
+                                for (int n = 0; n < dt.Rows.Count; n++)
+                                {
+                                    if (Convert.ToDouble(dt.Rows[n]["ps2"]) < Convert.ToDouble(iScore))
+                                    {
+                                        iOrder = iNum;
+                                        iScore = dt.Rows[n]["ps2"].ToString();
+                                    }
+                                    sql = "update s_tb_scoretran set GradeOrder =" + iOrder + " "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and SRID =" + dt.Rows[n]["srid"].ToString() + " ";
+                                    bll.ExecuteNonQueryByText(sql);
+                                    iNum += 1;
+                                }
+                                //A
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set psd1 ='A' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and ps1 is not null "
+                                        + " and GradeOrder<=@OrderSN";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set psd2 ='A' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and ps2 is not null "
+                                        + " and ps2>=@OrderSN";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql, new { OrderSN = Convert.ToInt32(renshu * Convert.ToDouble(floatA)) });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql, new { OrderSN = floatA });
+                                }
+                                //B
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set psd2 ='B' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and GradeOrder<=@OrderH "
+                                        + " and GradeOrder>@OrderL";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set psd2 ='B' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and ps2>=@OrderH "
+                                        + " and ps2<@OrderL";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = Convert.ToInt32(renshu * Convert.ToDouble(floatB)),
+                                            OrderL = Convert.ToInt32(renshu * Convert.ToDouble(floatA))
+                                        });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = floatB,
+                                            OrderL = floatA
+                                        });
+                                }
+                                //C
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set psd2 ='C' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and GradeOrder<=@OrderH "
+                                        + " and GradeOrder>@OrderL";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set psd2 ='C' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and ps2>=@OrderH "
+                                        + " and ps2<@OrderL";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = Convert.ToInt32(renshu * Convert.ToDouble(floatC)),
+                                            OrderL = Convert.ToInt32(renshu * Convert.ToDouble(floatB))
+                                        });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = floatC,
+                                            OrderL = floatB
+                                        });
+                                }
+                                //D
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set psd2 ='D' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and GradeOrder<=@OrderH "
+                                        + " and GradeOrder>@OrderL";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set psd2 ='D' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and ps2>=@OrderH "
+                                        + " and ps2<@OrderL";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = Convert.ToInt32(renshu * Convert.ToDouble(floatD)),
+                                            OrderL = Convert.ToInt32(renshu * Convert.ToDouble(floatC))
+                                        });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = floatD,
+                                            OrderL = floatC
+                                        });
+                                }
+                                //E
+                                sql = "update s_tb_scoretran set psd2 ='E' "
+                                    + " where Academicyear=" + micYear.MicYear + " "
+                                    + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                    + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                    + " and ps2<60 "
+                                    + " and ps2 is not null "
+                                    + " and psd2 is null ";
+                                bll.ExecuteNonQueryByText(sql);
+                                //D
+                                sql = "update s_tb_scoretran set psd2 ='D' "
+                                    + " where Academicyear=" + micYear.MicYear + " "
+                                    + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                    + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                    + " and ps2>=60 "
+                                    + " and psd2 is null ";
+                                bll.ExecuteNonQueryByText(sql);
+                            }
+
+                            //学期1
+                            sql = "update s_tb_scoretran set gradeorder=null "
+                                + " where Academicyear=" + micYear.MicYear + " "
+                                + " and left(classCode,2)=" + gradeCode.GradeNo + " "
+                                + " and CourseCode=" + gradeCourse[i].CourseCode + "";
+                            bll.ExecuteNonQueryByText(sql);
+                            sql = "select Academicyear,srid,CourseCode,xq1 from s_tb_scoretran "
+                                + " where Academicyear=" + micYear.MicYear + ""
+                                + " and left(ClassCode,2)=" + gradeCode.GradeNo + ""
+                                + " and CourseCode=" + gradeCourse[i].CourseCode + ""
+                                + " and xq1 is not null "
+                                + " order by xq1 desc";
+                            dt = bll.FillDataTableByText(sql);
+                            if (dt.Rows.Count > 0)
+                            {
+                                iScore = dt.Rows[0]["xq1"].ToString();
+                                renshu = dt.Rows.Count;
+
+                                iOrder = 1;
+                                iNum = 1;
+                                for (int n = 0; n < dt.Rows.Count; n++)
+                                {
+                                    if (Convert.ToDouble(dt.Rows[n]["xq1"]) < Convert.ToDouble(iScore))
+                                    {
+                                        iOrder = iNum;
+                                        iScore = dt.Rows[n]["xq1"].ToString();
+                                    }
+                                    sql = "update s_tb_scoretran set GradeOrder =" + iOrder + " "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and SRID =" + dt.Rows[n]["srid"].ToString() + " ";
+                                    bll.ExecuteNonQueryByText(sql);
+                                    iNum += 1;
+                                }
+                                //A
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set xqd1 ='A' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and xq1 is not null "
+                                        + " and GradeOrder<=@OrderSN";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set xqd1 ='A' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and xq1 is not null "
+                                        + " and xq1>=@OrderSN";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql, new { OrderSN = Convert.ToInt32(renshu * Convert.ToDouble(floatA)) });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql, new { OrderSN = floatA });
+                                }
+                                //B
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set xqd1 ='B' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and GradeOrder<=@OrderH "
+                                        + " and GradeOrder>@OrderL";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set xqd1 ='B' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and xq1>=@OrderH "
+                                        + " and xq1<@OrderL";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = Convert.ToInt32(renshu * Convert.ToDouble(floatB)),
+                                            OrderL = Convert.ToInt32(renshu * Convert.ToDouble(floatA))
+                                        });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = floatB,
+                                            OrderL = floatA
+                                        });
+                                }
+                                //C
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set xqd1 ='C' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and GradeOrder<=@OrderH "
+                                        + " and GradeOrder>@OrderL";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set xqd1 ='C' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and xq1>=@OrderH "
+                                        + " and xq1<@OrderL";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = Convert.ToInt32(renshu * Convert.ToDouble(floatC)),
+                                            OrderL = Convert.ToInt32(renshu * Convert.ToDouble(floatB))
+                                        });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = floatC,
+                                            OrderL = floatB
+                                        });
+                                }
+                                //D
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set xqd1 ='D' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and GradeOrder<=@OrderH "
+                                        + " and GradeOrder>@OrderL";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set xqd1 ='D' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and xq1>=@OrderH "
+                                        + " and xq1<@OrderL";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = Convert.ToInt32(renshu * Convert.ToDouble(floatD)),
+                                            OrderL = Convert.ToInt32(renshu * Convert.ToDouble(floatC))
+                                        });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = floatD,
+                                            OrderL = floatC
+                                        });
+                                }
+                                //E
+                                sql = "update s_tb_scoretran set xqd1 ='E' "
+                                    + " where Academicyear=" + micYear.MicYear + " "
+                                    + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                    + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                    + " and xq1<60 "
+                                    + " and xq1 is not null "
+                                    + " and xqd1 is null ";
+                                bll.ExecuteNonQueryByText(sql);
+                                //D
+                                sql = "update s_tb_scoretran set xqd1 ='D' "
+                                    + " where Academicyear=" + micYear.MicYear + " "
+                                    + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                    + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                    + " and xq1>=60 "
+                                    + " and xqd1 is null ";
+                                bll.ExecuteNonQueryByText(sql);
+                            }
+
+                            //学期2
+                            sql = "update s_tb_scoretran set gradeorder=null "
+                                + " where Academicyear=" + micYear.MicYear + " "
+                                + " and left(classCode,2)=" + gradeCode.GradeNo + " "
+                                + " and CourseCode=" + gradeCourse[i].CourseCode + "";
+                            bll.ExecuteNonQueryByText(sql);
+                            sql = "select Academicyear,srid,CourseCode,xq2 from s_tb_scoretran "
+                                + " where Academicyear=" + micYear.MicYear + ""
+                                + " and left(ClassCode,2)=" + gradeCode.GradeNo + ""
+                                + " and CourseCode=" + gradeCourse[i].CourseCode + ""
+                                + " and xq2 is not null "
+                                + " order by xq2 desc";
+                            dt = bll.FillDataTableByText(sql);
+                            if (dt.Rows.Count > 0)
+                            {
+                                iScore = dt.Rows[0]["xq2"].ToString();
+                                renshu = dt.Rows.Count;
+
+                                iOrder = 1;
+                                iNum = 1;
+                                for (int n = 0; n < dt.Rows.Count; n++)
+                                {
+                                    if (Convert.ToDouble(dt.Rows[n]["xq2"]) < Convert.ToDouble(iScore))
+                                    {
+                                        iOrder = iNum;
+                                        iScore = dt.Rows[n]["xq2"].ToString();
+                                    }
+                                    sql = "update s_tb_scoretran set GradeOrder =" + iOrder + " "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and SRID =" + dt.Rows[n]["srid"].ToString() + " ";
+                                    bll.ExecuteNonQueryByText(sql);
+                                    iNum += 1;
+                                }
+                                //A
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set xqd2 ='A' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and xq2 is not null "
+                                        + " and GradeOrder<=@OrderSN";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set xqd2 ='A' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and xq2 is not null "
+                                        + " and xq2>=@OrderSN";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql, new { OrderSN = Convert.ToInt32(renshu * Convert.ToDouble(floatA)) });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql, new { OrderSN = floatA });
+                                }
+                                //B
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set xqd2 ='B' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and GradeOrder<=@OrderH "
+                                        + " and GradeOrder>@OrderL";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set xqd2 ='B' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and xq2>=@OrderH "
+                                        + " and xq2<@OrderL";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = Convert.ToInt32(renshu * Convert.ToDouble(floatB)),
+                                            OrderL = Convert.ToInt32(renshu * Convert.ToDouble(floatA))
+                                        });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = floatB,
+                                            OrderL = floatA
+                                        });
+                                }
+                                //C
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set xqd2 ='C' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and GradeOrder<=@OrderH "
+                                        + " and GradeOrder>@OrderL";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set xqd2 ='C' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and xq2>=@OrderH "
+                                        + " and xq2<@OrderL";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = Convert.ToInt32(renshu * Convert.ToDouble(floatC)),
+                                            OrderL = Convert.ToInt32(renshu * Convert.ToDouble(floatB))
+                                        });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = floatC,
+                                            OrderL = floatB
+                                        });
+                                }
+                                //D
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set xqd2 ='D' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and GradeOrder<=@OrderH "
+                                        + " and GradeOrder>@OrderL";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set xqd2 ='D' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and xq2>=@OrderH "
+                                        + " and xq2<@OrderL";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = Convert.ToInt32(renshu * Convert.ToDouble(floatD)),
+                                            OrderL = Convert.ToInt32(renshu * Convert.ToDouble(floatC))
+                                        });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = floatD,
+                                            OrderL = floatC
+                                        });
+                                }
+                                //E
+                                sql = "update s_tb_scoretran set xqd2 ='E' "
+                                    + " where Academicyear=" + micYear.MicYear + " "
+                                    + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                    + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                    + " and xq2<60 "
+                                    + " and xq2 is not null "
+                                    + " and xqd2 is null ";
+                                bll.ExecuteNonQueryByText(sql);
+                                //D
+                                sql = "update s_tb_scoretran set xqd2 ='D' "
+                                    + " where Academicyear=" + micYear.MicYear + " "
+                                    + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                    + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                    + " and xq2>=60 "
+                                    + " and xqd2 is null ";
+                                bll.ExecuteNonQueryByText(sql);
+                            }
+
+                            //学年
+                            sql = "update s_tb_scoretran set gradeorder=null "
+                                + " where Academicyear=" + micYear.MicYear + " "
+                                + " and left(classCode,2)=" + gradeCode.GradeNo + " "
+                                + " and CourseCode=" + gradeCourse[i].CourseCode + "";
+                            bll.ExecuteNonQueryByText(sql);
+                            sql = "select Academicyear,srid,CourseCode,xn from s_tb_scoretran "
+                                + " where Academicyear=" + micYear.MicYear + ""
+                                + " and left(ClassCode,2)=" + gradeCode.GradeNo + ""
+                                + " and CourseCode=" + gradeCourse[i].CourseCode + ""
+                                + " and xn is not null "
+                                + " order by xn desc";
+                            dt = bll.FillDataTableByText(sql);
+                            if (dt.Rows.Count > 0)
+                            {
+                                iScore = dt.Rows[0]["xn"].ToString();
+                                renshu = dt.Rows.Count;
+
+                                iOrder = 1;
+                                iNum = 1;
+                                for (int n = 0; n < dt.Rows.Count; n++)
+                                {
+                                    if (Convert.ToDouble(dt.Rows[n]["xn"]) < Convert.ToDouble(iScore))
+                                    {
+                                        iOrder = iNum;
+                                        iScore = dt.Rows[n]["xn"].ToString();
+                                    }
+                                    sql = "update s_tb_scoretran set GradeOrder =" + iOrder + " "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and SRID =" + dt.Rows[n]["srid"].ToString() + " ";
+                                    bll.ExecuteNonQueryByText(sql);
+                                    iNum += 1;
+                                }
+                                //A
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set xnd ='A' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and xn is not null "
+                                        + " and GradeOrder<=@OrderSN";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set xnd ='A' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and xn is not null "
+                                        + " and xn>=@OrderSN";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql, new { OrderSN = Convert.ToInt32(renshu * Convert.ToDouble(floatA)) });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql, new { OrderSN = floatA });
+                                }
+                                //B
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set xnd ='B' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and GradeOrder<=@OrderH "
+                                        + " and GradeOrder>@OrderL";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set xnd ='B' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and xn>=@OrderH "
+                                        + " and xn<@OrderL";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = Convert.ToInt32(renshu * Convert.ToDouble(floatB)),
+                                            OrderL = Convert.ToInt32(renshu * Convert.ToDouble(floatA))
+                                        });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = floatB,
+                                            OrderL = floatA
+                                        });
+                                }
+                                //C
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set xnd ='C' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and GradeOrder<=@OrderH "
+                                        + " and GradeOrder>@OrderL";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set xnd ='C' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and xn>=@OrderH "
+                                        + " and xn<@OrderL";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = Convert.ToInt32(renshu * Convert.ToDouble(floatC)),
+                                            OrderL = Convert.ToInt32(renshu * Convert.ToDouble(floatB))
+                                        });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = floatC,
+                                            OrderL = floatB
+                                        });
+                                }
+                                //D
+                                if (bLevel)
+                                {
+                                    sql = "update s_tb_scoretran set xnd ='D' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and GradeOrder<=@OrderH "
+                                        + " and GradeOrder>@OrderL";
+                                }
+                                else
+                                {
+                                    sql = "update s_tb_scoretran set xnd ='D' "
+                                        + " where Academicyear=" + micYear.MicYear + " "
+                                        + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                        + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                        + " and xn>=@OrderH "
+                                        + " and xn<@OrderL";
+                                }
+                                if (bLevel)
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = Convert.ToInt32(renshu * Convert.ToDouble(floatD)),
+                                            OrderL = Convert.ToInt32(renshu * Convert.ToDouble(floatC))
+                                        });
+                                }
+                                else
+                                {
+                                    bll.ExecuteNonQueryByText(sql,
+                                        new
+                                        {
+                                            OrderH = floatD,
+                                            OrderL = floatC
+                                        });
+                                }
+                                //E
+                                sql = "update s_tb_scoretran set xnd ='E' "
+                                    + " where Academicyear=" + micYear.MicYear + " "
+                                    + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                    + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                    + " and xn<60 "
+                                    + " and xn is not null "
+                                    + " and xnd is null ";
+                                bll.ExecuteNonQueryByText(sql);
+                                //D
+                                sql = "update s_tb_scoretran set xnd ='D' "
+                                    + " where Academicyear=" + micYear.MicYear + " "
+                                    + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                    + " and left(ClassCode,2)=" + gradeCode.GradeNo + " "
+                                    + " and xn>=60 "
+                                    + " and xnd is null ";
+                                bll.ExecuteNonQueryByText(sql);
+                            }
+                        }
+                    }
+                }
+                return "数据生成结束！";
             }
         }
         #endregion
