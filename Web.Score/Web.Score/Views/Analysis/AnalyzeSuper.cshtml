@@ -39,19 +39,6 @@
                 </div>
 
             </div>
-
-            <div class="col-sm-3">
-                <div class="checkbox" ng-show="GradeClasses.length > 0">
-                    <label ng-repeat="gradeClass in GradeClasses" style="width:8em;">
-                        <input type="checkbox" checklist-value="gradeClass" checklist-model="classChecks"> {{conditionData.GradeCode.GradeBriefName + '(' + gradeClass.ClassNo.substr(2,2)+ ')班'}}
-                    </label>
-                </div>
-            </div>
-            <div class="col-sm-1">
-                <label ng-repeat="item in GradeCourses">
-                    <input type="checkbox" checklist-value="item" checklist-model="courseChecks"> {{item.FullName}}
-                </label>
-            </div>
             <div class="col-sm-3">
                 <div class="row">
                     <div class="col-sm-12">
@@ -110,6 +97,19 @@
                     </div>
                 </div>
             </div>
+            <div class="col-sm-3">
+                <div class="checkbox" ng-show="GradeClasses.length > 0">
+                    <label ng-repeat="gradeClass in GradeClasses" style="width:8em;">
+                        <input type="checkbox" checklist-value="gradeClass" checklist-model="classChecks"> {{conditionData.GradeCode.GradeBriefName + '(' + gradeClass.ClassNo.substr(2,2)+ ')班'}}
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <label ng-repeat="item in GradeCourses">
+                    <input type="checkbox" checklist-value="item" checklist-model="courseChecks"> {{item.FullName}}
+                </label>
+            </div>
+            
             <div class="col-sm-2">
                 <div class="row">
                     <div class="col-sm-12">

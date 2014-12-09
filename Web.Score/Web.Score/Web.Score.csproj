@@ -741,6 +741,7 @@
     <Content Include="Views\stat\ClassOrder.cshtml" />
     <Content Include="Views\stat\ClassRep.cshtml" />
     <Content Include="Views\stat\ClassAdmin.cshtml" />
+    <Content Include="Views\stat\ClassND.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

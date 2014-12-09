@@ -18,25 +18,28 @@
                     </select>
                 </div>
                 <div class="col-sm-3">
-                    <select class="form-control" ng-model="Semester">
-                        <option value="">-- 请选择学期 --</option>
-                        <option value="1">第一学期</option>
-                        <option value="2">第二学期</option>
+                    <select class="form-control" ng-model="TestType" ng-options="m.Name for m in TestTypes">
+                        <option value="">-- 请选择考试类型 --</option>
                     </select>
-                </div>        
+                </div>
             </div>
-            <div class="form-group">                
+            <div class="form-group">
                 <div class="col-sm-3">
                     <select class="form-control" ng-model="TestNo" ng-options="m.TestNo for m in TestNos">
                         <option value="">-- 请选择考试号 --</option>
                     </select>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-2">
+                    <input type="checkbox" value="1" ng-model="isClass" />&nbsp;按班级分类
+                </div>                
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
                     <div ng-repeat="course in GradeCourses" class="checkbox-inline">
                         <input type="checkbox" checklist-value="course.CourseCode" checklist-model="coursed" ng-change="courseChange(this)" name="course" />{{course.FullName}}
                     </div>
                 </div>
-            </div>           
+            </div>
             <div class="form-group">
                 <div class="btn-group pull-right">
                     <button type="button" class="btn btn-primary" ng-click="query()"><span class="glyphicon glyphicon-ok"></span>查询</button>
