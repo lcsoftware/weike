@@ -8,12 +8,12 @@
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <select class="form-control" ng-model="GradeCode" ng-options="m.GradeName for m in GradeCodes">
+                    <select class="form-control" ng-model="GradeCode" ng-disabled="GradeCode!=null" ng-options="m.GradeName for m in GradeCodes">
                         <option value="">-- 请选择年级 --</option>
                     </select>
                 </div>
                 <div class="col-sm-2">
-                    <select class="form-control" ng-model="GradeClass" ng-options="m.GradeBriefName for m in Grades">
+                    <select class="form-control" ng-model="GradeClass" ng-disabled="GradeClass!=null" ng-options="m.GradeBriefName for m in Grades">
                         <option value="">-- 请选择班级 --</option>
                     </select>
                 </div> 

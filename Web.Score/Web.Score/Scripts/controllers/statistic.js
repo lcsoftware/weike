@@ -3027,7 +3027,7 @@ stat.controller('ClassNDController', ['$scope', function ($scope) {
     }
 }]);
 
-//Path: /stat.Stat24
+//班级学期总评 Path: /stat.Stat24
 stat.controller('ClassAdminController', ['$scope', 'appUtils', function ($scope, appUtils) {
     var moduleName = '班级学期总评';
     $scope.$root.moduleName = moduleName;
@@ -3039,24 +3039,56 @@ stat.controller('ClassAdminController', ['$scope', 'appUtils', function ($scope,
 
     $scope.AcademicYears = [];
     $scope.GradeCodes = [];
-    $scope.GradeClasses = [];
+    $scope.GradeClass = [];
     $scope.GradeCourses = [];
 
+    //获得当前学年
     $scope.utilService.GetAcademicYears(function (data) {
         $scope.AcademicYears = data.d;
-    });
-
-    $scope.utilService.GetGradeCodes(function (data) {
-        $scope.GradeCodes = data.d;
-    });
-
-    $scope.$watch('GradeCode', function (gradeCode) {
-        if (!$scope.MicYear) return; 
-        $scope.GradeClasses.length = 0;
-        var url1 = "/DataProvider/Util.aspx/GetGradeClass";
-        var param1 = { academicYear: $scope.MicYear, gradeCode: gradeCode };
-        $scope.baseService.post(url1, param1, function (data) {
-            $scope.GradeClasses = data.d;
+        $scope.MicYear = $scope.AcademicYears[0];
+        //获得用户id
+        $scope.userService.getUser(function (data) {
+            $scope.user = data;
+            //获得所有年级
+            $scope.utilService.GetGradeAll(function (data) {
+                $scope.GradeCodes = data.d;
+                //获得当前年级
+                var url = "/DataProvider/Statistic.aspx/GetCurrentGrade";
+                var param = { micyear: $scope.MicYear.MicYear, teacherId: $scope.user.TeacherID };
+                $scope.baseService.post(url, param, function (data) {
+                    var rs = angular.fromJson(data.d);
+                    $scope.GradeCode = findGradeNo($scope.GradeCodes, rs[0].GradeNo);
+                    //获取当前课程
+                    var url = "/DataProvider/Statistic.aspx/gp_getCourseCom";
+                    var param = { micYear: $scope.MicYear, teacherId: $scope.user, gradeCode: null, flag: 0 };
+                    $scope.baseService.post(url, param, function (data) {
+                        $scope.GradeCourses = data.d;
+                        //获得班级
+                        var url = "/DataProvider/Statistic.aspx/gp_getClassList";
+                        var param = { micYear: $scope.MicYear, teacherId: $scope.user, gradeCode: $scope.GradeCode };
+                        $scope.baseService.post(url, param, function (data) {
+                            $scope.Grades = data.d;
+                            $scope.GradeClass = findClass($scope.Grades, $scope.Grades[0].ClassNo);                            
+                        });
+                    });
+                });
+            });
         });
     });
+    var findClass = function (values, ClassNo) {
+        var length = values.length;
+        for (var i = 0; i < length; i++) {
+            if (parseInt(values[i].ClassNo) == parseInt(ClassNo)) {
+                return values[i];
+            }
+        }
+    }
+    var findGradeNo = function (values, GradeNo) {
+        var length = values.length;
+        for (var i = 0; i < length; i++) {
+            if (parseInt(values[i].GradeNo) == parseInt(GradeNo)) {
+                return values[i];
+            }
+        }
+    }
 }]);

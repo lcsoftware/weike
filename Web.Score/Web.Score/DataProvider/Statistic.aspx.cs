@@ -3050,6 +3050,87 @@ namespace App.Web.Score.DataProvider
         }
         #endregion
 
+        #region 班级学期总评
+        [WebMethod]
+        public static IList<ResultEntry> GetClassAdmin(Academicyear micYear, GradeCode gradeCode, GradeClass gradeClass, IList<GradeCourse> gradeCourse, TestLogin testNo, bool level)
+        {
+            using (AppBLL bll = new AppBLL())
+            {
+                IList<ResultEntry> results = new List<ResultEntry>();
+                ResultEntry entry = null;
+                //人
+                var sql = " select ClassSN 序号,stdName 姓名,(case sex when '1' then '男' else '女' end ) 性别" +
+                          " from s_tb_Scoretran " +
+                          " where ClassCode=2301" +
+                          " group by srid,ClassSN,stdName,sex " +
+                          " order by ClassSN,SRID";
+                DataTable dt = bll.FillDataTableByText(sql);
+                dt.Columns.Add("班级");
+                dt.Columns.Add("班主任");
+                //课程
+                sql = " select a.teacherid,b.name from s_tb_teacherscope a ,tbusergroupinfo b" +
+                      " where a.teacherid=b.teacherid and a.scope=" + gradeClass.ClassNo + "";
+                DataTable dtCourse = bll.FillDataTableByText(sql);                
+                //分数
+                for (int i = 0; i < gradeCourse.Count; i++)
+                {
+                    if (level)
+                    {
+                        if (gradeCode.GradeNo == "33")
+                        {
+                            sql = "select ps1*1.5,psd1,qz1*1.5,qzd1,qm1*1.5,qmd1,xq1*1.5,xqd1,ps2*1.5,psd2,qz2*1.5,qzd2,qm2*1.5,qmd2,xq2*1.5,xqd2,xn*1.5,xnd,bk "
+                                + " from s_tb_scoretran "
+                                + " where Academicyear=" + micYear.MicYear + " "
+                                + " and ClassCode=" + gradeClass.ClassNo + " "
+                                + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                + " order by classsn,srid";
+                        }
+                        else
+                        {
+                            sql = "select ps1,psd1,qz1,qzd1,qm1,qmd1,xq1,xqd1,ps2,psd2,qz2,qzd2,qm2,qmd2,xq2,xqd2,xn,xnd,bk "
+                                + " from s_tb_scoretran "
+                                + " where Academicyear=" + micYear.MicYear + " "
+                                + " and ClassCode=" + gradeClass.ClassNo + " "
+                                + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                + " order by classsn,srid";
+                        }
+                    }
+                    else
+                    {
+                        if (gradeCode.GradeNo == "33")
+                        {
+                            sql = "select ps1*1.5,qz1*1.5,qm1*1.5,xq1*1.5,ps2*1.5,qz2*1.5,qm2*1.5,xq2*1.5,xn*1.5,bk "
+                                + " from s_tb_scoretran "
+                                + " where Academicyear=" + micYear.MicYear + " "
+                                + " and ClassCode=" + gradeClass.ClassNo + " "
+                                + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                + " order by classsn,srid";
+                        }
+                        else
+                        {
+                            sql = "select ps1,qz1,qm1,xq1,ps2,qz2,qm2,xq2,xn,bk "
+                                + " from s_tb_scoretran "
+                                + " where Academicyear=" + micYear.MicYear + " "
+                                + " and ClassCode=" + gradeClass.ClassNo + " "
+                                + " and CourseCode=" + gradeCourse[i].CourseCode + " "
+                                + " order by classsn,srid";
+                        }
+                    }
+                    DataTable dtScore = bll.FillDataTableByText(sql);
+                    //拼接
+                    for (int n = 0; n < dt.Rows.Count; i++)
+                    {
+                        DataRow dr = dt.Rows[n];
+                        dr["班级"] = gradeClass.GradeBriefName;
+                        dr["班主任"] = dtCourse.Rows[0]["name"];
+                        dr["平时"] = dtScore.Rows[n]["ps1"];
+                    }
+                }
+                return results;
+            }
+        }
+        #endregion
+
         #region 班级统计
         /// <summary>
         ///考试统计分析
