@@ -8,8 +8,10 @@
                     </select>
                 </div>
                 <div class="col-sm-7">
-                    <div ng-repeat="grade in GradeCourses" class="checkbox-inline">
-                        <input type="checkbox" value="{{grade.CourseCode}}" name="courses" />{{grade.FullName}}
+                    <div ng-repeat="grade in GradeCourses" class="checkbox checkbox-inline">
+                        <label>
+                            <input type="checkbox" value="{{grade.CourseCode}}" name="courses" />{{grade.FullName}}
+                        </label>
                     </div>
                 </div>
                 <div class="col-sm-2">
@@ -27,11 +29,17 @@
                         <option value="">-- 请选择考试号 --</option>
                     </select>
                 </div>
-                <div class="col-sm-6">
-                    <input type="checkbox" value="1" ng-model="teacherName" />显示任课教师&nbsp;&nbsp;&nbsp;
+                <div class="col-sm-6 checkbox checkbox-inline">
+                    <label>
+                        <input type="checkbox" value="1" ng-model="teacherName" />显示任课教师&nbsp;&nbsp;&nbsp;
+                    </label>
                     排序条件：
-                    <input type="radio" value="0" ng-model="orderNum" ng-change="order(orderNum)" />按班级序号排序&nbsp;
-                    <input type="radio" value="1" ng-model="orderNum" ng-change="order(orderNum)" />按考试成绩排序
+                    <label>
+                        <input type="radio" value="0" ng-model="orderNum" ng-change="order(orderNum)" />按班级序号排序&nbsp;
+                    </label>
+                    <label>
+                        <input type="radio" value="1" ng-model="orderNum" ng-change="order(orderNum)" />按考试成绩排序
+                    </label>
                 </div>
             </div>
             <div class="form-group" ng-show="testShow">
@@ -41,8 +49,10 @@
                     </select>
                 </div>
                 <div class="col-sm-9">
-                    <div ng-repeat="grade in Grades" class="checkbox-inline">
-                        <input type="checkbox" value="{{grade.classNo}}" name="grades" ng-click="bindStudents()" />{{grade.GradeBriefName}}
+                    <div ng-repeat="grade in Grades" class="checkbox checkbox-inline">
+                        <label>
+                            <input type="checkbox" value="{{grade.classNo}}" name="grades" ng-click="bindStudents()" />{{grade.GradeBriefName}}
+                        </label>
                     </div>
                 </div>
             </div>

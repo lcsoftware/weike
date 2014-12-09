@@ -319,6 +319,9 @@ appQuery.controller('GradeManagerController', ['$scope', 'pageService', function
     }
     $scope.order = function (orderNum) {
         $scope.utilService.showBg();
+        $scope.gradeCode = $scope.utilService.getlist($('input[name=grades]'));
+        $scope.courseCode = $scope.utilService.getlist($('input[name=courses]'));
+        $scope.student = $scope.utilService.getlist($('input[name=students]'));
         $scope.queryService.GetQueryGradeManager($scope.MicYear.MicYear, $scope.courseCode, $scope.classCode, $scope.TestType, $scope.TestNo, $scope.gradeCode, $scope.stu, orderNum, function (data) {
             $scope.studentsGrid = JSON.parse(data.d);
             $scope.pageService.init($scope.studentsGrid, 10);

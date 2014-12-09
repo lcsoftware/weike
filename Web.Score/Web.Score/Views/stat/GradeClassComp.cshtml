@@ -7,33 +7,45 @@
                         <option value="">-- 请选择学年--</option>
                     </select>
                 </div>
-                <div class="col-sm-9">
-                    <input type="checkbox" value="0" ng-model="ScoreOnly" />&nbsp;仅在籍生&nbsp;
-                    <input type="checkbox" value="1" ng-model="ScoreYear" />&nbsp;跨学年(无平时)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="radio" value="0" ng-model="NumScore" />原始分&nbsp;
-                    <input type="radio" value="1" ng-model="NumScore" />标准分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="radio" value="0" ng-model="Kaoshi" />&nbsp;平时考试&nbsp;
-                    <input type="radio" value="1" ng-model="Kaoshi" />&nbsp;统一考试
-                </div>                           
+                <div class="col-sm-9 checkbox checkbox-inline">
+                    <label>
+                        <input type="checkbox" value="0" ng-model="ScoreOnly" />&nbsp;仅在籍生&nbsp;
+                    </label>
+                    <label>
+                        <input type="checkbox" value="1" ng-model="ScoreYear" />&nbsp;跨学年(无平时)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </label>
+                    <label>
+                        <input type="radio" value="0" ng-model="NumScore" />原始分&nbsp;
+                    </label>
+                    <label>
+                        <input type="radio" value="1" ng-model="NumScore" />标准分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </label>
+                    <label>
+                        <input type="radio" value="0" ng-model="Kaoshi" />&nbsp;平时考试&nbsp;
+                    </label>
+                    <label>
+                        <input type="radio" value="1" ng-model="Kaoshi" />&nbsp;统一考试
+                    </label>
+                </div>
             </div>
-            <div class="form-group">  
+            <div class="form-group">
                 <div class="col-sm-3">
                     <select class="form-control" ng-model="GradeCourse" ng-options="m.FullName for m in GradeCourses">
                         <option value="">-- 请选择课程--</option>
                     </select>
-                </div>              
+                </div>
                 <div class="col-sm-3">
                     <select class="form-control" ng-model="GradeCode" ng-options="m.GradeName for m in GradeCodes">
                         <option value="">-- 请选择年级 --</option>
                     </select>
-                </div>                             
+                </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-12">
                     <div ng-repeat="grade in Grades" class="checkbox-inline">
                         <input type="checkbox" checklist-value="grade.ClassNo" checklist-model="gradeed" ng-change="gradeChange(this)" name="grades" />{{grade.GradeBriefName}}
                     </div>
-                </div>   
+                </div>
             </div>
             <div class="form-group">
                 <div class="btn-group pull-right">

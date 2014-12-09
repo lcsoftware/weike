@@ -5,19 +5,27 @@
                 <div class="col-sm-3">
                     <select class="form-control" ng-model="MicYear" ng-options="m.MicYear for m in AcademicYears"></select>
                 </div>
-                <div class="col-sm-3">
-                    <input type="checkbox" value="0" ng-model="ScoreOnly" />仅在籍生&nbsp;
-                    <input type="checkbox" value="1" ng-model="ScoreYear" />跨学年(无平时)
+                <div class="col-sm-3 checkbox checkbox-inline">
+                    <label>
+                        <input type="checkbox" value="0" ng-model="ScoreOnly" />仅在籍生&nbsp;
+                    </label>
+                    <label>
+                        <input type="checkbox" value="1" ng-model="ScoreYear" />跨学年(无平时)
+                    </label>
                 </div>
-                <div class="col-sm-2">
-                    <input type="radio" value="0" ng-model="NumScore" />原始分&nbsp;
-                    <input type="radio" value="1" ng-model="NumScore" />标准分
+                <div class="col-sm-2 checkbox checkbox-inline">
+                    <label>
+                        <input type="radio" value="0" ng-model="NumScore" />原始分&nbsp;
+                    </label>
+                    <label>
+                        <input type="radio" value="1" ng-model="NumScore" />标准分
+                    </label>
                 </div>
                 <div class="col-sm-3">
                     <select class="form-control" ng-model="GradeCourse" ng-options="m.FullName for m in GradeCourses">
                         <option value="">-- 请选择课程--</option>
                     </select>
-                </div>               
+                </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-3">
@@ -26,8 +34,10 @@
                     </select>
                 </div>
                 <div class="col-sm-7">
-                    <div ng-repeat="teacher in Teachers" class="checkbox-inline" style="text-align:center;">
+                    <div ng-repeat="teacher in Teachers" class="checkbox checkbox-inline" style="text-align:center;"> 
+                        <label>
                         <input type="checkbox" checklist-value="teacher.TeacherID" checklist-model="teachered" ng-change="teacherChange(this)" name="courses" />{{teacher.Name}}
+                        </label>
                     </div>
                 </div>
             </div>

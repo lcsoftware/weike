@@ -64,10 +64,12 @@ aService.factory('queryService', ['baseService', 'queryProviderUrl', function (b
     service.GetQueryGradeManager = function (micyear, gradeCourse, gradecode, testtypes, testno, classCode, stuId, order, callback) {
         var url = queryProviderUrl + '/GetQueryGradeManager';
         var param = {
-            micyear: micyear, gradeCourse: gradeCourse,
+            micyear: micyear,
+            gradeCourse: gradeCourse,
             gradecode: gradecode == null ? null : gradecode,
             testtypes: testtypes == null ? null : testtypes.Code,
-            testno: testno == null ? null : testno.TestNo, classCode: classCode,
+            testno: testno == null ? null : testno.TestNo,
+            classCode: classCode,
             stuId: stuId == null ? null : stuId.StudentId, order: order == null ? null : order
         };
         baseService.post(url, param, callback);

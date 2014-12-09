@@ -7,7 +7,7 @@
                         <option value="">-- 请选择学年/学期 --</option>
                     </select>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 checkbox">
                     <label ng-repeat="grade in GradeCourses" class="checkbox-inline">
                         <input type="checkbox" value="{{grade.CourseCode}}" name="grades" />{{grade.FullName}}
                     </label>
@@ -27,7 +27,7 @@
                         <option value="">-- 请选择考试号 --</option>
                     </select>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-2 checkbox">
                     <label class="checkbox-inline">
                         <input type="checkbox" value="1" ng-model="teacherName" />显示任课教师
                     </label>
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="form-group" ng-show="testShow">
-                <div class="col-sm-12">
+                <div class="col-sm-12 checkbox">
                     <label ng-repeat="student in Students" class="checkbox-inline">
                         <input type="checkbox" value="{{student.StudentId}}" name="selected" />{{student.StdName}}
                     </label>

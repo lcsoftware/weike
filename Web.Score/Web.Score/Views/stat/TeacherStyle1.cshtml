@@ -25,8 +25,10 @@
                     </select>
                 </div>
                 <div class="col-sm-7">
-                    <div ng-repeat="teacher in Teachers" class="checkbox-inline" style="text-align:center;">
-                        <input type="checkbox" name="teacher" checklist-value="teacher.TeacherID" checklist-model="teachered" ng-change="teacherChange(this)" />{{teacher.Name}}
+                    <div ng-repeat="teacher in Teachers" class="checkbox checkbox-inline" style="text-align:center;">
+                        <label>
+                            <input type="checkbox" name="teacher" checklist-value="teacher.TeacherID" checklist-model="teachered" ng-change="teacherChange(this)" />{{teacher.Name}}
+                        </label>
                     </div>
                 </div>
             </div>
