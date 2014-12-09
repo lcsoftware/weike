@@ -769,6 +769,7 @@ namespace App.Web.Score.DataProvider
                         "where academicyear=@micyear";
                 if (gradeNo != null) sql += " and Gradeno in ('00'," + gradeNo + ")";
                 if (courseCode != null) sql += " and Coursecode in (" + courseCode + ",'00000')";
+                sql += " order by cast(testloginNo as int)";
                 return bll.FillListByText<TestLogin>(sql, new { micyear = micyear });
             }
         }
