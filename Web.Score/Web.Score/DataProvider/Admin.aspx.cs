@@ -164,7 +164,7 @@ namespace App.Web.Score.DataProvider
             using (AppBLL bll = new AppBLL())
             {
                 var sql = "SELECT a.FuncId, b.FuncName, b.Description, b.FuncType" +
-                          " FROM  s_tb_Rights a INNER JOIN   s_tb_Function b ON a.FuncId = b.FuncID" +
+                          " FROM  s_tb_Rights a INNER JOIN   s_tb_FunctionNew b ON a.FuncId = b.FuncID" +
                           " where a.TeacherID in (select @teacherID" +
                           " union Select GroupID from tbGroupInfo where teacherID=@teacherID)";
                 return bll.FillListByText<UserAuth>(sql, new { teacherID = teacher });
@@ -298,7 +298,7 @@ namespace App.Web.Score.DataProvider
         {
             using (AppBLL bll = new AppBLL())
             {
-                var sql = "Select Cast(FuncId as int) as FuncId, FuncName, Description, FuncType, Cast(FuncID0 as int) As Parent, SysNo from s_tb_Function Where FuncName!='-' order by FuncID";
+                var sql = "Select Cast(FuncId as int) as FuncId, FuncName, Description, FuncType, Cast(FuncID0 as int) As Parent, SysNo from s_tb_FunctionNew Where FuncName!='-' order by FuncID";
                 IList<FuncEntry> funcs = bll.FillListByText<FuncEntry>(sql, null);
                 var functions = from v in funcs where v.Parent == -1 select v;
                 if (!functions.Any()) return null;

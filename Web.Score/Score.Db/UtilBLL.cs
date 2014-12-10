@@ -102,7 +102,7 @@ namespace App.Score.Db
             {
                 using (AppBLL bll = new AppBLL())
                 {
-                    var sql = "Select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo from s_tb_Function order by FuncID";
+                    var sql = "Select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo from s_tb_FunctionNew order by FuncID";
                     IList<FuncEntry> funcs = bll.FillListByText<FuncEntry>(sql, null);
 
                     var roots = from v in funcs where v.Parent == -1 select v;
@@ -127,22 +127,22 @@ namespace App.Score.Db
             {
                 using (AppBLL bll = new AppBLL())
                 {
-                    //var sql = "select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo, 1 as Kind from s_tb_Function where CAST(FuncID as Int) in ";
+                    //var sql = "select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo, 1 as Kind from s_tb_FunctionNew where CAST(FuncID as Int) in ";
                     //sql += " (SELECT cast(a.FuncID as Int) FROM  tbGroupInfo b INNER JOIN tbUserGroupInfo c ON b.TeacherID = c.TeacherID INNER JOIN s_tb_Rights a ON b.GroupID = a.TeacherID ";
                     //sql += " where c.TeacherID=@teacher and a.SYSNO = 2) ";
                     //sql += " union all ";
-                    //sql += " select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo, 2 as Kind from s_tb_Function where CAST(FuncID as Int) in";
+                    //sql += " select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo, 2 as Kind from s_tb_FunctionNew where CAST(FuncID as Int) in";
                     //sql += " (SELECT cast(a.FuncId as Int) from s_tb_Rights a, tbUserGroupInfo b ";
                     //sql += " where a.TeacherID=@teacher and a.TeacherID=b.TeacherID and SYSNO = 2)";
 
                     var sql = "select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo, 2 as Kind"
-                                + " from s_tb_Function "
+                                + " from s_tb_FunctionNew "
                                 + " where CAST(FuncID as Int) in ("
                                 + " SELECT cast(a.FuncId as Int) from s_tb_Rights a, tbUserGroupInfo b  "
                                 + " where a.TeacherID=@teacher and a.TeacherID=b.TeacherID and SYSNO = 2)";
 
                     //sql += " union all select FuncId, FuncName, Description, FuncType, FuncID0 As Parent, SysNo, 2 as Kind " + 
-                    //       " from s_tb_Function where FuncID in (1701, 1707,1801,1809)";
+                    //       " from s_tb_FunctionNew where FuncID in (1701, 1707,1801,1809)";
                     IList<FuncEntry> funcs = bll.FillListByText<FuncEntry>(sql, new { teacher = teacher });
 
                     var roots = from v in funcs where v.Parent == -1 select v;

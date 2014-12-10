@@ -142,3 +142,9 @@ update s_tb_Function set FuncName='analyze.Sum0' where FuncID=6300
 update s_tb_Function set FuncName='analyze.Sum1' where FuncID=6400
 update s_tb_Function set FuncName='analyze.Sum2' where FuncID=6500
 update s_tb_Function set FuncName='analyze.Sum3' where FuncID=6900
+
+//system系统管理员默认权限设置
+insert into s_tb_Rights(TeacherID, FuncId, RType, SYSNO)
+select '99999999991001', 7101,0,2
+union select '99999999991001', 7102,0,2
+union select '99999999991001', 7103,0,2
