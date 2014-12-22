@@ -126,6 +126,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Css\app.css" />
+    <Content Include="DataProvider\Authority\AuthProvider.aspx" />
+    <Content Include="DataProvider\Exercise\ExerciseProvider.aspx" />
+    <Content Include="DataProvider\Knowledge\KnowProvider.aspx" />
+    <Content Include="DataProvider\Resource\ResourceProvider.aspx" />
     <Content Include="DataProvider\UserProvider.aspx" />
     <Content Include="Frameworks\angular\angular-animate.js" />
     <Content Include="Frameworks\angular\angular-animate.min.js" />
@@ -168,10 +172,17 @@
     <Content Include="Frameworks\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Frameworks\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\Authority\AuthService.js" />
     <Content Include="Scripts\Common\directives.js" />
     <Content Include="Scripts\Common\filters.js" />
     <Content Include="Scripts\Common\services.js" />
     <Content Include="Scripts\Home\HomeControllers.js" />
+    <Content Include="Scripts\Knowledge\KnowController.js" />
+    <Content Include="Scripts\Knowledge\KnowService.js" />
+    <Content Include="Scripts\Exercise\PaperController.js" />
+    <Content Include="Scripts\Exercise\PaperService.js" />
+    <Content Include="Scripts\Resource\ResourceController.js" />
+    <Content Include="Scripts\Resource\ResourceService.js" />
     <Content Include="Scripts\User\UserControllers.js" />
     <Content Include="Scripts\User\UserService.js" />
     <Content Include="apple-touch-icon-precomposed.png" />
@@ -192,6 +203,9 @@
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\UserList.cshtml" />
     <Content Include="Views\_PageStart.cshtml" />
+    <Content Include="Views\Exercise\ViewPage1.cshtml" />
+    <Content Include="Views\Knowledge\ViewPage1.cshtml" />
+    <Content Include="Views\Resource\ViewPage1.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -203,6 +217,34 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="DataProvider\Authority\AuthProvider.aspx.cs">
+      <DependentUpon>AuthProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Authority\AuthProvider.aspx.designer.cs">
+      <DependentUpon>AuthProvider.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\Exercise\ExerciseProvider.aspx.cs">
+      <DependentUpon>ExerciseProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Exercise\ExerciseProvider.aspx.designer.cs">
+      <DependentUpon>ExerciseProvider.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\Knowledge\KnowProvider.aspx.cs">
+      <DependentUpon>KnowProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Knowledge\KnowProvider.aspx.designer.cs">
+      <DependentUpon>KnowProvider.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\Resource\ResourceProvider.aspx.cs">
+      <DependentUpon>ResourceProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Resource\ResourceProvider.aspx.designer.cs">
+      <DependentUpon>ResourceProvider.aspx</DependentUpon>
+    </Compile>
     <Compile Include="DataProvider\UserProvider.aspx.cs">
       <DependentUpon>UserProvider.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
