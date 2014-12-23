@@ -9,10 +9,10 @@ input,select{font-family:'Microsoft YaHei';}
 a{ text-decoration:none;}a:hover{ text-decoration: none;}
 body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
 
-.icon{ display:inline-block; width:16px; height:16px; background:url(../images/icon_index.png) no-repeat;}
-.icon_24{ display:inline-block; width:24px; height:24px; background:url(../images/icon_24.png) no-repeat;}
-.icon_con{ display:inline-block; width:16px; height:16px; background:url(../images/icon_construction.png) no-repeat;}
-.icon_mooc{ display:inline-block; width:16px; height:16px; background:url(../images/icon_mooc.png) no-repeat;}
+.icon{ display:inline-block; width:16px; height:16px; background:url(/images/icon_index.png) no-repeat;}
+.icon_24{ display:inline-block; width:24px; height:24px; background:url(/images/icon_24.png) no-repeat;}
+.icon_con{ display:inline-block; width:16px; height:16px; background:url(/images/icon_construction.png) no-repeat;}
+.icon_mooc{ display:inline-block; width:16px; height:16px; background:url(/images/icon_mooc.png) no-repeat;}
 /*资料格式*/
 .file{background-position:-96px -72px;}
 .doc{ background-position:-96px 0;}
@@ -56,7 +56,7 @@ body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
 .tips{ margin-top:15px; height:30px; line-height:30px; background:#fbf9e0; border:1px solid #e4e4e4;}
 .tips i{ float:left; margin:7px 10px 0 15px; color:#333;}
 .course_box{ margin-top:20px; overflow:hidden; zoom:1; position:relative;}
-.tip_text{ width:373px; height:67px; background:url(../images/tip_text.png) no-repeat; position:absolute; left:396px; top:40px;}
+.tip_text{ width:373px; height:67px; background:url(/images/tip_text.png) no-repeat; position:absolute; left:396px; top:40px;}
 .tip_text span{ display:block; width:10px; height:10px; position:absolute; top:2px; right:-1px; cursor:pointer;}
 .course_nav_box{ height:46px; border-bottom:1px solid #e4e4e4;}
 .course_nav{ overflow:hidden; zoom:1;}
@@ -84,7 +84,7 @@ body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
 .icon_zhishi{ background-position:0 -48px;}
 .second_menu{ overflow:hidden; zoom:1;}
 .second_menu p{ float:left; margin-left:77px; color:#333;}
-.operation_btn{ display:none; float:right; margin:8px 30px 0 0; width:146px; height:30px; background:url(../images/btn_list.gif) no-repeat;}
+.operation_btn{ display:none; float:right; margin:8px 30px 0 0; width:146px; height:30px; background:url(/images/btn_list.gif) no-repeat;}
 .operation_btn li{ float:left; width:28px; margin-left:1px; height:30px; cursor:pointer;}
 .btn_box{ margin-top:20px; text-align:center;}
 .btn_box a{ display:inline-block; height:30px; line-height:30px; padding:0 25px; border:1px solid #ccc; margin-left:10px; font-size:14px;}
@@ -111,11 +111,11 @@ body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
 .brief_box p input{ width:48px; height:30px; line-height:30px\9; text-align:center; border:1px solid #ccc;}
 .brief_box p span{ color:#ff0000; font-weight:bold; padding-left:10px;}
 .upload_btn{ height:25px; line-height:25px; overflow:hidden; zoom:1; color:#999;}
-.upload_btn a{ float:left; margin-right:10px; overflow:hidden; zoom:1; width:105px; height:25px; background:url(../images/add_bg.gif) no-repeat; color:#fff;}
+.upload_btn a{ float:left; margin-right:10px; overflow:hidden; zoom:1; width:105px; height:25px; background:url(/images/add_bg.gif) no-repeat; color:#fff;}
 .upload_btn a em{ width:25px; height:25px; float:left;}
 .upload_btn a em i{ margin:4px 0 0 4px;}
 .upload_btn a span{ display:block; overflow:hidden; width:80px; text-align:center;}
-.upload_btn a:hover{ background:url(../images/add_bg_hover.gif) no-repeat;}
+.upload_btn a:hover{ background:url(/images/add_bg_hover.gif) no-repeat;}
 .icon_up{ background-position:-32px -16px;}
 .icon_add{ background-position:-53px 0;}
 .data_table{ width:100%; margin-top:10px; border:1px solid #ccc;}
@@ -233,8 +233,8 @@ body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
 .text_center img{ display:block;}
 .text_center i{ display:block; width:11px; height:11px; position:absolute; top:9px; right:7px; cursor:pointer;}
 .label_important{ color:#ff0000;}
-.add_options{ display:block; width:105px; height:25px; line-height:25px; margin-top:10px; background:url(../images/add_bg.gif) no-repeat; color:#fff;}
-.add_options:hover{ background:url(../images/add_bg_hover.gif) no-repeat;}
+.add_options{ display:block; width:105px; height:25px; line-height:25px; margin-top:10px; background:url(/images/add_bg.gif) no-repeat; color:#fff;}
+.add_options:hover{ background:url(/images/add_bg_hover.gif) no-repeat;}
 .add_options em{ float:left; width:25px; height:25px; position:relative;}
 .add_options em i{ display:block; margin:4px 0 0 4px;}
 .add_options span{ display:block; float:left; width:80px; text-align:center;.content_center i}
@@ -312,8 +312,8 @@ body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
 .enter_list li{ float:left; margin-right:10px;}
 .enter_list li a{ display:block; height:45px; line-height:45px; border:1px solid #e4e4e4; border-bottom:0; padding:0 8px; background:#eff0f2; color:#999;}
 .enter_list li.active a{ background:#fff; color:#333; padding-top:1px;}
-.add_student{ display:block; float:right; margin-top:10px; width:105px; height:25px; line-height:25px; overflow:hidden; zoom:1; background:url(../images/add_bg.gif) no-repeat;}
-.add_student:hover{ background:url(../images/add_bg_hover.gif) no-repeat;}
+.add_student{ display:block; float:right; margin-top:10px; width:105px; height:25px; line-height:25px; overflow:hidden; zoom:1; background:url(/images/add_bg.gif) no-repeat;}
+.add_student:hover{ background:url(/images/add_bg_hover.gif) no-repeat;}
 .add_student em{ float:left; width:25px; height:25px;}
 .add_student em i{ margin:4px 0 0 4px;}
 .add_student span{ float:left; width:80px; height:25px; text-align:center; color:#fff;}

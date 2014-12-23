@@ -69,8 +69,8 @@
 .message_nav li a{ display:block; color:#333;padding:0 15px; height:28px; line-height:28px;font-size:16px; font-family:'Microsoft YaHei';}
 .message_nav li.active a{ border-bottom:2px solid #30405a; font-weight:bold;}
 .issue_notice{ height:40px; background:#e4e4e4; overflow:hidden; zoom:1;}
-.issue_notice a{ display:block; float:right; margin:7px 30px 0 0; width:105px; height:25px; background:url(../images/add_bg.gif) no-repeat; overflow:hidden; zoom:1;}
-.issue_notice a:hover{ background:url(../images/add_bg_hover.gif) no-repeat;}
+.issue_notice a{ display:block; float:right; margin:7px 30px 0 0; width:105px; height:25px; background:url(/images/add_bg.gif) no-repeat; overflow:hidden; zoom:1;}
+.issue_notice a:hover{ background:url(/images/add_bg_hover.gif) no-repeat;}
 .issue_notice a em{ display:block; width:25px; height:25px; float:left;}
 .issue_notice a em i{ display:block; width:16px; height:16px; background-position:-53px 0; margin:4px 0 0 4px;}
 .issue_notice a span{ display:block; width:80px; height:25px; float:left; text-align:center; color:#fff;}
@@ -125,9 +125,9 @@
 .kc_issue{ margin-top:10px; height:16px; line-height:16px; overflow:hidden; zoom:1;}
 .kc_issue a{ float:left; margin-right:13px;}
 .rewrite{ background-position:0 -187px;}
-.rewrite:hover{ background:url(../images/icon_construction.png) no-repeat -48px 0;}
+.rewrite:hover{ background:url(/images/icon_construction.png) no-repeat -48px 0;}
 .delete{background-position:0 -204px;}
-.delete:hover{background:url(../images/icon_construction.png) no-repeat -48px -48px;}
+.delete:hover{background:url(/images/icon_construction.png) no-repeat -48px -48px;}
 .kc_issue span{ float:left; font-size:12px; color:#999;font-family:'Microsoft YaHei';}
 .function_btn{ margin-top:25px; overflow:hidden; zoom:1;}
 .function_btn a{ display:block; width:200px; height:40px; line-height:40px; text-align:center; margin:0 auto; color:#fff; font-size:16px; font-family:'Microsoft YaHei'; margin-bottom:9px;}
@@ -220,15 +220,15 @@
 .member li.active a{ display:block;}
 .member li a{ display:none; width:16px; height:16px; position:absolute; bottom:0;}
 .reedit{ background-position:0 -187px; right:23px;}
-.reedit:hover{ background:url(../images/icon_construction.png) no-repeat -48px 0;}
+.reedit:hover{ background:url(/images/icon_construction.png) no-repeat -48px 0;}
 .throw{ background-position:0 -204px; right:0;}
-.throw:hover{ background:url(../images/icon_construction.png) no-repeat -48px -48px;}
+.throw:hover{ background:url(/images/icon_construction.png) no-repeat -48px -48px;}
 .add_new{ display:block; float:left;}
 
 
 
 /*课程网站建设*/
-.main_course{ background:url(../images/main_bg2.gif) repeat-y;}
+.main_course{ background:url(/images/main_bg2.gif) repeat-y;}
 .coursesite_detail{ padding:30px; overflow:hidden; zoom:1;}
 .course_info li{ height:40px; line-height:40px; background:#f2f2f2; border:1px solid #cacaca; padding:0 10px; margin-bottom:10px; font-size:13px; color:#666; overflow:hidden; zoom:1;}
 .course_info li a{ float:right; color:#1e5975; text-decoration:underline;}
@@ -561,8 +561,8 @@
 .tab_list li.active a{ border-bottom:2px solid #374760; color:#374760;}
 .topic_select{ height:40px; line-height:40px; background:#f2f2f2; padding:0 32px 0 29px; overflow:hidden; zoom:1;border-bottom:1px solid #ccc; }
 .topic_select select{ width:150px; height:25px; line-height:25px\9; color:#666; background:#fff; border:1px solid #cccccc;}
-.add_select{ display:block; float:right; width:105px; height:25px; background:url(../images/add_bg.gif) no-repeat; overflow:hidden; zoom:1; margin-top:7px;}
-.add_select:hover{ background:url(../images/add_bg_hover.gif) no-repeat;}
+.add_select{ display:block; float:right; width:105px; height:25px; background:url(/images/add_bg.gif) no-repeat; overflow:hidden; zoom:1; margin-top:7px;}
+.add_select:hover{ background:url(/images/add_bg_hover.gif) no-repeat;}
 .add_select em{ display:block; float:left; width:25px; height:25px;}
 .add_select em i{ display:block; width:16px; height:16px; background-position:-53px 0; margin:4px 0 0 4px;}
 .add_select span{ display:block; float:left; width:80px; text-align:center; line-height:25px; font-size:13px; color:#fff;}
@@ -645,9 +645,9 @@ border-bottom:1px solid #e4e4e4;}
 .connection{ background:#f2f2f2;}
 .connection_list{ overflow:hidden; zoom:1; font-size:13px; color:#333; font-family:'Microsoft YaHei'; line-height:30px; margin-top:10px;}
 .connect_l{ float:left; width:340px; overflow:hidden; zoom:1;}
-.connect_l p i{ display:inline-block; margin-left:20px; width:7px; height:7px; background:url(../images/small.png) no-repeat;}
+.connect_l p i{ display:inline-block; margin-left:20px; width:7px; height:7px; background:url(/images/small.png) no-repeat;}
 .connect_r{ margin-left:95px; float:left; width:340px; overflow:hidden; zoom:1;}
-.connect_r p i{display:inline-block; margin-right:5px; width:7px; height:7px; background:url(../images/small.png) no-repeat;}
+.connect_r p i{display:inline-block; margin-right:5px; width:7px; height:7px; background:url(/images/small.png) no-repeat;}
 
 /*新增试卷*/
 .add_paper_box{width:960px; margin:15px auto 0; background:#fff;}
@@ -676,8 +676,8 @@ border-bottom:1px solid #e4e4e4;}
 .item_list li a:hover{ background:#4a5f80;}
 .item_list li a span{ padding-left:5px;}
 .zhishi_box{ margin-top:20px; overflow:hidden; zoom:1;}
-.connect_knowledge{ display:block; float:left; width:105px; height:25px; line-height:25px; color:#fff; overflow:hidden; zoom1:1; background:url(../images/add_bg.gif) no-repeat;}
-.connect_knowledge:hover{ background:url(../images/add_bg_hover.gif) no-repeat;}
+.connect_knowledge{ display:block; float:left; width:105px; height:25px; line-height:25px; color:#fff; overflow:hidden; zoom1:1; background:url(/images/add_bg.gif) no-repeat;}
+.connect_knowledge:hover{ background:url(/images/add_bg_hover.gif) no-repeat;}
 .connect_knowledge em{ display:block; width:25px; height:25px; position:relative; float:left;}
 .connect_knowledge em i{ display:block; width:16px; height:16px; background-position:-53px 0; position:absolute; top:4px; left:4px;}
 .connect_knowledge span{ display:block; width:80px; height:25px; line-height:25px; float:left; text-align:center;}
@@ -687,8 +687,8 @@ border-bottom:1px solid #e4e4e4;}
 .knowledge_item li a:hover{ background:#b8b3b3;}
 .knowledge_item li a span{ color:#fff; padding-left:10px; font-weight:bold;}
 .paper_content{ margin:20px 50px; overflow:hidden; zoom:1;}
-.add_attach{display:block; width:105px; height:25px; line-height:25px; color:#fff; background:url(../images/add_bg.gif) no-repeat; margin-top:20px; overflow:hidden; zoom:1;}
-.add_attach:hover{ background:url(../images/add_bg_hover.gif) no-repeat;}
+.add_attach{display:block; width:105px; height:25px; line-height:25px; color:#fff; background:url(/images/add_bg.gif) no-repeat; margin-top:20px; overflow:hidden; zoom:1;}
+.add_attach:hover{ background:url(/images/add_bg_hover.gif) no-repeat;}
 .add_attach em{ display:block; width:25px; height:25px; position:relative; float:left;}
 .add_attach em i{ display:block; width:16px; height:16px; background-position:-53px 0; position:absolute; top:4px; left:4px;}
 .add_attach span{ display:block; width:80px; height:25px; line-height:25px; float:left; text-align:center;}
@@ -791,7 +791,7 @@ border-bottom:1px solid #e4e4e4;}
 .difficulty_btn a.difficult b{background:#ff3300; color:#fff;}
 .difficulty_btn a b{ display:block; float:left; width:29px; font-family:'Microsoft YaHei'; font-size:16px; color:#666; background:#f2f2f2; height:30px; line-height:30px; text-align:center; border-right:1px solid #ccc; font-weight:normal;}
 .difficulty_btn a input{ float:left; width:30px; height:30px; border:0; color:#333;}
-.difficulty_btn .icon_score{ display:none; width:16px; height:16px; border:0; background:url(../images/icon_index.png) no-repeat -69px -176px; margin-top:13px;}
+.difficulty_btn .icon_score{ display:none; width:16px; height:16px; border:0; background:url(/images/icon_index.png) no-repeat -69px -176px; margin-top:13px;}
 .select_num{ height:42px; overflow:hidden; zoom:1;}
 .select_num p{ float:left; }
 .select_num p label{ float:left;color:#666;}

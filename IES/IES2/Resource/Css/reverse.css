@@ -1,8 +1,8 @@
-/*.icon{ display:inline-block; width:16px; height:16px; background:url(../images/icon_index.png) no-repeat;}*/
-.icon_con{display:inline-block; width:16px; height:16px; background:url(../images/icon_construction.png) no-repeat;}
-.icon_forum{ display:inline-block; width:16px; height:16px; background:url(../images/icon_forum.png) no-repeat;}
-.icon_24{display:inline-block; width:24px; height:24px; background:url(../images/icon_24.png) no-repeat;}
-.icon_r{display:inline-block; width:16px; height:16px; background:url(../images/icon_reverse.png) no-repeat;}
+/*.icon{ display:inline-block; width:16px; height:16px; background:url(/images/icon_index.png) no-repeat;}*/
+.icon_con{display:inline-block; width:16px; height:16px; background:url(/images/icon_construction.png) no-repeat;}
+.icon_forum{ display:inline-block; width:16px; height:16px; background:url(/images/icon_forum.png) no-repeat;}
+.icon_24{display:inline-block; width:24px; height:24px; background:url(/images/icon_24.png) no-repeat;}
+.icon_r{display:inline-block; width:16px; height:16px; background:url(/images/icon_reverse.png) no-repeat;}
 
 /*回到顶部*/
 .backto_top{ display:block; width:40px; height:40px; background-position:-69px -40px; position:fixed; bottom:60px; left:50%; margin-left:620px;}
@@ -10,12 +10,12 @@
 /*翻转课堂首页*/
 .classroom_box{ height:50px; background:#f2f2f2; border-bottom:1px solid #e4e4e4; overflow:hidden; zoom:1;}
 .classroom_time{ float:left;  width:300px; height:30px; line-height:30px; border:1px solid #ccc; margin:9px 0 0 25px; color:#666;}
-.add_classroom{ float:right;margin:12px 25px 0 0; width:105px; height:25px; background:url(../images/add_bg.gif) no-repeat; color:#fff; overflow:hidden; zoom:1;}
+.add_classroom{ float:right;margin:12px 25px 0 0; width:105px; height:25px; background:url(/images/add_bg.gif) no-repeat; color:#fff; overflow:hidden; zoom:1;}
 .add_classroom em{ float:left; width:25px; height:25px;}
 .add_classroom em i{ margin:4px 0 0 4px;}
 .icon_add{ background-position:-48px -64px;}
 .add_classroom span{ float:left; width:80px; height:25px; text-align:center;}
-.add_classroom:hover{ background:url(../images/add_bg_hover.gif) no-repeat;}
+.add_classroom:hover{ background:url(/images/add_bg_hover.gif) no-repeat;}
 .course_box{ padding:20px 25px; overflow:hidden; zoom:1;}
 .course_list{ background:#f2f2f2; padding:10px 20px 20px; overflow:hidden; zoom:1;}
 .course_intro_l{ width:510px; float:left; overflow:hidden;}
@@ -59,8 +59,8 @@
 .tip_box p span{ color:#ff0000; padding:0 5px;}
 .tip_box a{ float:right; margin-right:16px; color:#1e5975; text-decoration:underline;}
 .topic_tit{ height:25px; line-height:25px; overflow:hidden; zoom:1; margin-top:10px; padding-bottom:3px; border-bottom:1px solid #ccc;}
-.check_all{ float:right; width:105px; height:25px; background:url(../images/add_bg.gif) no-repeat; color:#fff;}
-.check_all:hover{ background:url(../images/add_bg_hover.gif) no-repeat;}
+.check_all{ float:right; width:105px; height:25px; background:url(/images/add_bg.gif) no-repeat; color:#fff;}
+.check_all:hover{ background:url(/images/add_bg_hover.gif) no-repeat;}
 .check_all em{ float:left; width:25px; height:25px;}
 .check_all em i{ margin:4px 0 0 4px;}
 .check_all span{ float:left; width:80px; height:25px; text-align:center;}

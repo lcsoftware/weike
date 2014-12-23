@@ -8,9 +8,9 @@ a img{border:none; vertical-align:top;}
 a{ text-decoration:none;}a:hover{ text-decoration: none;}
 body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
 
-.icon{ display:inline-block; width:16px; height:16px; background:url(../images/icon_index.png) no-repeat;}
-.icon_24{ display:inline-block; width:24px; height:24px; background:url(../images/icon_24.png) no-repeat;}
-.icon_con{ display:inline-block; width:16px; height:16px; background:url(../images/icon_construction.png) no-repeat;}
+.icon{ display:inline-block; width:16px; height:16px; background:url(/images/icon_index.png) no-repeat;}
+.icon_24{ display:inline-block; width:24px; height:24px; background:url(/images/icon_24.png) no-repeat;}
+.icon_con{ display:inline-block; width:16px; height:16px; background:url(/images/icon_construction.png) no-repeat;}
 
 .construction_box{ width:100%; position:relative;}
 .construction_header{ background:#000;height:58px;line-height:58px;border:1px solid #797979;}
@@ -77,7 +77,7 @@ body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
 .main_content{ width:1000px; position:relative; top:20px; left:200px; overflow:hidden; zoom:1; clear:both;}
 .banner_box{ position:relative;}
 .banner_box img{ display:block;}
-.banner_box a{ display:block; width:60px; height:60px; background:url(../images/version_btn.png) no-repeat; position:absolute; right:0; top:0;}
+.banner_box a{ display:block; width:60px; height:60px; background:url(/images/version_btn.png) no-repeat; position:absolute; right:0; top:0;}
 .main_content h2{ margin-top:20px; height:40px; line-height:40px; padding:0 15px; background:#f2f2f2; border:1px solid #ccc; font-size:16px; color:#666;}
 .main_content h2 span{ font-size:12px; color:#999; font-weight:normal; padding-left:15px;}
 .insert_box{ float:right; color:#999; font-size:12px; font-weight:normal;}
@@ -99,7 +99,7 @@ body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
 .course_document a{ float:right; margin:5px 3px 0 0;}
 .course_document a.issue_btn{ margin:2px 0 0;}
 .icon_write{ background-position:0 -187px;}
-.icon_write:hover{ background:url(../images/icon_construction.png) no-repeat -48px 0;}
+.icon_write:hover{ background:url(/images/icon_construction.png) no-repeat -48px 0;}
 .course_document h4{ float:left; font-size:14px; color:#666; height:20px; line-height:20px; padding-bottom:4px; border-bottom:3px solid #666;}
 .course_document span{ float:left; margin-left:10px; color:#999;}
 .text_box{ margin-top:10px; font-size:13px; line-height:26px; color:#999;}
@@ -130,8 +130,8 @@ body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
 .video_upload a{ display:inline-block; width:80px; height:30px; color:#fff; line-height:30px; text-align:center; border:1px solid #ccc; background:#374760; font-size:14px;}
 .video_upload a:hover{ background:#3f516d;}
 .video_upload b{ padding:0 15px 0 10px; color:#ff0000; font-weight:normal;}
-.issue_btn{ width:105px; height:22px; background:url(../images/add_bg.gif) no-repeat 0 -3px; overflow:hidden; zoom:1;}
-.issue_btn:hover{background:url(../images/add_bg_hover.gif) no-repeat 0 -3px;}
+.issue_btn{ width:105px; height:22px; background:url(/images/add_bg.gif) no-repeat 0 -3px; overflow:hidden; zoom:1;}
+.issue_btn:hover{background:url(/images/add_bg_hover.gif) no-repeat 0 -3px;}
 .issue_btn em{ float:left; width:25px; height:22px;}
 .issue_btn em i{ background-position:-53px 0; margin:3px 0 0 4px;}
 .issue_btn b{ float:left; width:80px; text-align:center; height:22px; line-height:22px; color:#fff; }
@@ -218,14 +218,14 @@ body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
 .icon_back{ background-position:-16px -48px;}
 .icon_down_gray{ background-position:-16px -16px;}
 .edit_btn{ float:right; overflow:hidden; zoom:1;}
-.edit_btn a{ float:right; width:105px; height:25px; background:url(../images/add_bg.gif) no-repeat; margin:7px 0 0 15px; overflow:hidden; zoom:1; color:#fff;}
-.edit_btn a:hover{ background:url(../images/add_bg_hover.gif) no-repeat;}
+.edit_btn a{ float:right; width:105px; height:25px; background:url(/images/add_bg.gif) no-repeat; margin:7px 0 0 15px; overflow:hidden; zoom:1; color:#fff;}
+.edit_btn a:hover{ background:url(/images/add_bg_hover.gif) no-repeat;}
 .edit_btn a em{ float:left; width:25px; height:25px; }
 .edit_btn a em i{ display:block; margin:4px 0 0 4px;}
 .edit_btn a b{ float:left; width:80px; height:25px; line-height:25px; text-align:center; font-weight:normal; font-size:12px;}
 .icon_added{ background-position:-48px -64px;}
 .icon_delete_gray{ background-position:-53px -80px;}
-/*.edit_btn a:hover i.icon_delete_gray{ background:url(../images/icon_construction.png) no-repeat -48px -16px;}*/
+/*.edit_btn a:hover i.icon_delete_gray{ background:url(/images/icon_construction.png) no-repeat -48px -16px;}*/
 .knowledge_box{ border:1px solid #ccc; margin-top:-1px; background:#fff; padding-bottom:45px;overflow:hidden; zoom:1;}
 .knowledge_list{ width:100%;  }
 .knowledge_list tr.active td{ background:#f2f2f2;}
@@ -235,7 +235,7 @@ body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
 .knowledge_list tr td p input{ height:40px; vertical-align:middle; margin-right:8px;}
 .modify_btn{ display:none; float:right; margin-right:20px;}
 .modify_btn a{ float:right; margin:12px 0 0 10px;}
-.modify_btn a.icon_delete_gray:hover{ background:url(../images/icon_construction.png) no-repeat -48px -16px;}
+.modify_btn a.icon_delete_gray:hover{ background:url(/images/icon_construction.png) no-repeat -48px -16px;}
 .load_box{ margin-top:50px; height:30px; line-height:30px; border-top:1px solid #ccc; border-bottom:1px solid #ccc; background:#f2f2f2; text-align:center; font-size:13px; color:#999;}
 .pick_box{ margin-top:10px; overflow:hidden; zoom:1;}
 .pick_box p{ float:left; margin-left:20px; line-height:25px; font-size:13px; color:#666;}
@@ -270,7 +270,7 @@ body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
 .select_site li i{ position:absolute; top:92px; right:3px;}
 
 /*预览首页*/
-.preview_bg{ background:url(../images/preview_bg.jpg) no-repeat center 0 fixed; width:100%; position:absolute; top:0; left:0;}
+.preview_bg{ background:url(/images/preview_bg.jpg) no-repeat center 0 fixed; width:100%; position:absolute; top:0; left:0;}
 .preview_bg .banner_box{ margin-top:20px;}
 .preview_bg .banner_box h1{ font-size:48px; line-height:48px; color:#fff; position:absolute; left:70px; top:175px;}
 .preview_bg .banner_box p{ width:400px; padding:10px 25px; position:absolute; right:0; top:155px; font-size:13px; color:#000; background-color: rgba(255, 255, 255, 0.4); filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr=#88ffffff, endColorstr=#88ffffff);}
@@ -338,8 +338,8 @@ body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
 .select_condition{ float:left; margin-left:25px;}
 .select_condition select{ display:block; float:left; margin-right:20px; height:25px; line-height:25px\9; background:#fff; border:1px solid #e4e4e4; font-size:12px; color:#666;}
 .exercise_btn{ float:right; margin-right:18px;}
-.exercise_btn a{ display:block; float:right; margin-left:10px; width:105px; height:25px; line-height:25px; background:url(../images/add_bg.gif) no-repeat; color:#fff; position:relative;}
-.exercise_btn a:hover{ background:url(../images/add_bg_hover.gif) no-repeat;}
+.exercise_btn a{ display:block; float:right; margin-left:10px; width:105px; height:25px; line-height:25px; background:url(/images/add_bg.gif) no-repeat; color:#fff; position:relative;}
+.exercise_btn a:hover{ background:url(/images/add_bg_hover.gif) no-repeat;}
 .exercise_btn a.add_xiti em i{ background-position:-53px 0;}
 .exercise_btn a em{ display:block; width:25px; height:25px; vertical-align:middle; float:left;}
 .exercise_btn a em i{ display:block; width:16px; height:16px; background-position:-53px 0; margin:4px 0 0 4px;}
@@ -404,8 +404,8 @@ body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
 .regist_box h3{ font-size:14px; color:#333; font-weight:normal;}
 .tips{ margin-top:10px; color:#999; padding:0 15px; background:#fbf9e0; border:1px solid #e4e4e4;}
 .regist_detail li{ margin-top:20px; padding:9px 19px; border:1px solid #ccc; background:#f2f2f2; overflow:hidden; zoom:1;}
-.enroll_box{ float:left; width:80px; height:81px; background:url(../images/yuan.png) no-repeat; position:relative;}
-.enroll_box span{ display:block; width:80px; height:81px; background:url(../images/yuan_hover.png) no-repeat; position:absolute; top:0; left:0;}
+.enroll_box{ float:left; width:80px; height:81px; background:url(/images/yuan.png) no-repeat; position:relative;}
+.enroll_box span{ display:block; width:80px; height:81px; background:url(/images/yuan_hover.png) no-repeat; position:absolute; top:0; left:0;}
 .enroll_box p{ font-size:16px; text-align:center; font-weight:bold; position:relative; z-index:10; margin-top:20px;}
 .enter_box{ float:right; margin-top:10px; width:150px; text-align:center;}
 .enter_box p{ font-size:13px; color:#333;}

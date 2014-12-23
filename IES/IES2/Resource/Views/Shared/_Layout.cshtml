@@ -90,14 +90,11 @@
         <!--公用底部结束-->
         <a class="icon backto_top" href="#"></a>
         <a class="icon_fold" href="javascript:;"></a>
-    </div>
-
-
-    <div id="ui-view" class="container" ui-view data-tmpl-url="@Request.RequestContext.RouteData.DataTokens["templateUrl"]">
-        @RenderBody()
-    </div>
+    </div> 
     @Scripts.Render("~/js/framework")
     @Scripts.Render("~/js/app")
+
+    <script src="/Scripts/PageAffect/index.js" type="text/javascript"></script>
 
 </body>
 </html>

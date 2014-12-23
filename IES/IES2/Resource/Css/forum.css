@@ -9,9 +9,9 @@ a{ text-decoration:none;}a:hover{ text-decoration: none;}
 body{ font-family:'Microsoft YaHei';}
 
 
-.icon{ display:inline-block; width:16px; height:16px; background:url(../images/icon_index.png) no-repeat;}
-.icon_forum{ display:inline-block; width:16px; height:16px; background:url(../images/icon_forum.png) no-repeat;}
-.icon_24{display:inline-block; width:24px; height:24px; background:url(../images/icon_24.png) no-repeat;}
+.icon{ display:inline-block; width:16px; height:16px; background:url(/images/icon_index.png) no-repeat;}
+.icon_forum{ display:inline-block; width:16px; height:16px; background:url(/images/icon_forum.png) no-repeat;}
+.icon_24{display:inline-block; width:24px; height:24px; background:url(/images/icon_24.png) no-repeat;}
 
 
 /*回到顶部*/
@@ -43,7 +43,7 @@ body{ font-family:'Microsoft YaHei';}
 .theme_table tr td input{ height:30px; vertical-align:middle; margin-right:10px;}
 .table_c{ color:#999;}
 .model_box{ height:95px; border-bottom:1px solid #e4e4e4;}
-.model_text{ float:left; margin:23px 15px 0 33px; width:134px; height:49px; background:url(../images/model_text.gif) no-repeat;}
+.model_text{ float:left; margin:23px 15px 0 33px; width:134px; height:49px; background:url(/images/model_text.gif) no-repeat;}
 .model_list{ float:left; margin-top:27px; overflow:hidden; zoom:1;}
 .model_list li{ float:left; margin-right:23px; cursor:pointer;}
 .model_list li img{ display:block;}
@@ -214,8 +214,8 @@ body{ font-family:'Microsoft YaHei';}
 .reply_detail .reply_time{ margin-top:0;}
 .reason_box{ width:600px; overflow:hidden; zoom:1;}
 .comment_box li .reply_detail a.icon_praise{ top:10px; right:160px;}
-.upload_btn{ display:block; margin:20px 0 0 30px; width:105px; height:25px; background:url(../images/add_bg.gif) no-repeat;}
-.upload_btn:hover{ background:url(../images/add_bg_hover.gif) no-repeat;}
+.upload_btn{ display:block; margin:20px 0 0 30px; width:105px; height:25px; background:url(/images/add_bg.gif) no-repeat;}
+.upload_btn:hover{ background:url(/images/add_bg_hover.gif) no-repeat;}
 .upload_btn em{ float:left; width:25px; height:25px; position:relative;}
 .upload_btn em i{ position:absolute; top:4px; left:4px;}
 .icon_plus{ background-position:-53px 0;}

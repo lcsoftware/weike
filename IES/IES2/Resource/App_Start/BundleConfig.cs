@@ -33,8 +33,8 @@ namespace App.Resource
                 "~/Frameworks/angular/angular.js",
                 "~/Frameworks/angular/angular-cookies.js",
                 "~/Frameworks/angular/angular-ui-router.js"
-                )); 
-
+                ));
+          
             bundles.Add(new ScriptBundle("~/js/app").Include(
                 "~/scripts/Common/filters.js",
                 "~/scripts/Common/services.js",

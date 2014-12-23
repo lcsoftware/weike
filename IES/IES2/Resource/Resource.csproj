@@ -239,6 +239,7 @@
     <Content Include="Scripts\Knowledge\KnowService.js" />
     <Content Include="Scripts\Exercise\ExerciseControllers.js" />
     <Content Include="Scripts\Exercise\ExerciseService.js" />
+    <Content Include="Scripts\PageAffect\index.js" />
     <Content Include="Scripts\Resource\ResourceControllers.js" />
     <Content Include="Scripts\Resource\ResourceService.js" />
     <Content Include="Scripts\User\UserControllers.js" />
