@@ -1,15 +1,19 @@
 ﻿'use strict';
 
-var aService = angular.module('app.services', ['ngCookies']);
+var aService = angular.module('app.common.services', ['ngCookies']);
 
 aService.value('version', '0.1');
 
-aService.constant('projectName', '我的项目');
+aService.constant('appName', '我的项目');
 
-aService.constant('userProviderUrl', '/DataProvider/UserProvider.aspx');
+aService.constant('userProviderUrl', '/DataProvider/User/UserProvider.aspx');
+aService.constant('authProviderUrl', '/DataProvider/Authority/AuthProvider.aspx');
+aService.constant('resourceProviderUrl', '/DataProvider/Resource/ResourceProvider.aspx');
+aService.constant('knowProviderUrl', '/DataProvider/Knowledge/KnowProvider.aspx');
+aService.constant('exerciseProviderUrl', '/DataProvider/Exercise/ExerciseProvider.aspx');
 
 ///XHR调用
-aService.factory('baseService', ['$http', '$q', function ($http, $q) {
+aService.factory('httpService', ['$http', '$q', function ($http, $q) {
 
     var service = {};
 
@@ -23,7 +27,7 @@ aService.factory('baseService', ['$http', '$q', function ($http, $q) {
             .error(function (reason) { if (errFn) { errFn(reason); } });
     }
     //同步
-    service.postPromise = function (url, param) {
+    service.promise = function (url, param) {
         var deferred = $q.defer();
 
         $http.post(url, param)
@@ -33,7 +37,7 @@ aService.factory('baseService', ['$http', '$q', function ($http, $q) {
         return deferred.promise;
     }
 
-    service.runPromises = function (promises, thenFn) {
+    service.all = function (promises, thenFn) {
         $q.all(promises).then(function (results) {
             thenFn(results);
         });

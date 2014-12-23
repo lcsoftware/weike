@@ -1,4 +1,9 @@
 ﻿'use strict';
 
-var authService = angular.module('app.auth', []);
+var aService = angular.module('app.auth.services', []);
 
+aService.factory('authService', ['$http', function ($http) {
+    var service = {};
+
+    return service;
+}]);

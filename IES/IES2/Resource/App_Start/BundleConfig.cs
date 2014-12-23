@@ -17,7 +17,15 @@ namespace App.Resource
             bundles.Add(new StyleBundle("~/content/css/app").Include(
                 "~/Frameworks/bootstrap/css/bootstrap.min.css",
                 "~/Frameworks/bootstrap/css/bootstrap-theme.min.css",
-                "~/Css/app.css"));
+                "~/Css/common.css",
+                "~/Css/construction.css",
+                "~/Css/footer.css",
+                "~/Css/forum.css",
+                "~/Css/header.css",
+                "~/Css/index.css",
+                "~/Css/mooc.css",
+                "~/Css/reverse.css",
+                "~/Css/side_left.css"));
 
             bundles.Add(new ScriptBundle("~/js/framework").Include(
                 "~/Frameworks/jquery/jquery-1.11.1.min.js",
@@ -32,10 +40,16 @@ namespace App.Resource
                 "~/scripts/Common/services.js",
                 "~/scripts/Common/directives.js",
 
-                "~/scripts/Home/HomeControllers.js",
+                "~/scripts/Home/HomeControllers.js", 
+                "~/scripts/Authority/AuthService.js", 
+                "~/scripts/Exercise/ExerciseService.js",
+                "~/scripts/Exercise/ExerciseControllers.js", 
+                "~/scripts/Resource/ResourceService.js",
+                "~/scripts/Resource/ResourceControllers.js", 
+                "~/scripts/Knowledge/KnowService.js",
+                "~/scripts/Knowledge/KnowControllers.js", 
+                "~/scripts/User/UserService.js", 
                 "~/scripts/User/UserControllers.js",
-                "~/scripts/User/UserService.js",
-
                 "~/scripts/app.js"));
         }
     }

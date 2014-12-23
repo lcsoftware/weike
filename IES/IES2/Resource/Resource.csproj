@@ -126,11 +126,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Css\app.css" />
+    <Content Include="Css\common.css" />
+    <Content Include="Css\construction.css" />
+    <Content Include="Css\footer.css" />
+    <Content Include="Css\forum.css" />
+    <Content Include="Css\header.css" />
+    <Content Include="Css\index.css" />
+    <Content Include="Css\mooc.css" />
+    <Content Include="Css\reverse.css" />
+    <Content Include="Css\side_left.css" />
     <Content Include="DataProvider\Authority\AuthProvider.aspx" />
     <Content Include="DataProvider\Exercise\ExerciseProvider.aspx" />
     <Content Include="DataProvider\Knowledge\KnowProvider.aspx" />
     <Content Include="DataProvider\Resource\ResourceProvider.aspx" />
-    <Content Include="DataProvider\UserProvider.aspx" />
+    <Content Include="DataProvider\User\UserProvider.aspx" />
     <Content Include="Frameworks\angular\angular-animate.js" />
     <Content Include="Frameworks\angular\angular-animate.min.js" />
     <Content Include="Frameworks\angular\angular-cookies.js" />
@@ -171,17 +180,66 @@
     <Content Include="Frameworks\bootstrap\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Frameworks\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Frameworks\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Images\add_bg.gif" />
+    <Content Include="Images\add_bg_hover.gif" />
+    <Content Include="Images\add_new.jpg" />
+    <Content Include="Images\btn_list.gif" />
+    <Content Include="Images\company_logo.png" />
+    <Content Include="Images\company_logo2.png" />
+    <Content Include="Images\cry.png" />
+    <Content Include="Images\dian.png" />
+    <Content Include="Images\expression.png" />
+    <Content Include="Images\fold.gif" />
+    <Content Include="Images\fold_hover.gif" />
+    <Content Include="Images\goal1.jpg" />
+    <Content Include="Images\goal2.jpg" />
+    <Content Include="Images\goal3.jpg" />
+    <Content Include="Images\goal4.jpg" />
+    <Content Include="Images\icon_24.png" />
+    <Content Include="Images\icon_construction.png" />
+    <Content Include="Images\icon_forum.png" />
+    <Content Include="Images\icon_index.png" />
+    <Content Include="Images\icon_mooc.png" />
+    <Content Include="Images\icon_reverse.png" />
+    <Content Include="Images\left_bg.gif" />
+    <Content Include="Images\main_bg.gif" />
+    <Content Include="Images\main_bg2.gif" />
+    <Content Include="Images\menuLineBg.png" />
+    <Content Include="Images\model_text.gif" />
+    <Content Include="Images\module1.gif" />
+    <Content Include="Images\module2.gif" />
+    <Content Include="Images\module3.gif" />
+    <Content Include="Images\no_discuss.gif" />
+    <Content Include="Images\preview_banner.jpg" />
+    <Content Include="Images\preview_bg.jpg" />
+    <Content Include="Images\quote_l.gif" />
+    <Content Include="Images\quote_r.gif" />
+    <Content Include="Images\round.png" />
+    <Content Include="Images\round_hover.png" />
+    <Content Include="Images\side_left.gif" />
+    <Content Include="Images\small.png" />
+    <Content Include="Images\small_click.png" />
+    <Content Include="Images\smile.png" />
+    <Content Include="Images\text_box.jpg" />
+    <Content Include="Images\text_box2.jpg" />
+    <Content Include="Images\text_box3.jpg" />
+    <Content Include="Images\text_box4.jpg" />
+    <Content Include="Images\text_box5.jpg" />
+    <Content Include="Images\tip_text.png" />
+    <Content Include="Images\version_btn.png" />
+    <Content Include="Images\yuan.png" />
+    <Content Include="Images\yuan_hover.png" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\Authority\AuthService.js" />
     <Content Include="Scripts\Common\directives.js" />
     <Content Include="Scripts\Common\filters.js" />
     <Content Include="Scripts\Common\services.js" />
     <Content Include="Scripts\Home\HomeControllers.js" />
-    <Content Include="Scripts\Knowledge\KnowController.js" />
+    <Content Include="Scripts\Knowledge\KnowControllers.js" />
     <Content Include="Scripts\Knowledge\KnowService.js" />
-    <Content Include="Scripts\Exercise\PaperController.js" />
-    <Content Include="Scripts\Exercise\PaperService.js" />
-    <Content Include="Scripts\Resource\ResourceController.js" />
+    <Content Include="Scripts\Exercise\ExerciseControllers.js" />
+    <Content Include="Scripts\Exercise\ExerciseService.js" />
+    <Content Include="Scripts\Resource\ResourceControllers.js" />
     <Content Include="Scripts\Resource\ResourceService.js" />
     <Content Include="Scripts\User\UserControllers.js" />
     <Content Include="Scripts\User\UserService.js" />
@@ -245,11 +303,11 @@
     <Compile Include="DataProvider\Resource\ResourceProvider.aspx.designer.cs">
       <DependentUpon>ResourceProvider.aspx</DependentUpon>
     </Compile>
-    <Compile Include="DataProvider\UserProvider.aspx.cs">
+    <Compile Include="DataProvider\User\UserProvider.aspx.cs">
       <DependentUpon>UserProvider.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="DataProvider\UserProvider.aspx.designer.cs">
+    <Compile Include="DataProvider\User\UserProvider.aspx.designer.cs">
       <DependentUpon>UserProvider.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
@@ -260,9 +318,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Images\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
@@ -281,7 +337,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>8080</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:8080/</IISUrl>
+          <IISUrl>http://localhost:8083/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

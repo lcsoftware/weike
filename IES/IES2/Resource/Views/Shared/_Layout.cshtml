@@ -8,42 +8,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     @Styles.Render("~/content/css/app")
 </head>
-<body>
+<body class="exercise">
     <!--[if lt IE 9]>
         <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
-    <header class="navbar navbar-inverse" role="banner" ng-if=" !layout ">@* The 'layout' property is set inside the app.run(..) method on '$stateChangeSuccess' *@
-        <div class="container">
-            <div class="navbar-header">
-                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".spa-navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="./" class="navbar-brand">IES</a>
+    <div class="wrap">
+        <div class="public_header">
+            <div class="header_center">
+                <div class="company_logo">
+                    <img src="../../images/company_logo.png" width="70" height="30" alt="">上海卓越睿新数码科技有限公司
+                </div>
+                <div class="user_box">
+                    <p class="user_name">
+                        <img src="http://placehold.it/20x20/cccccc" width="20" height="20" />
+                        王小明
+                        <span class="icon icon_arrow"></span>
+                    </p>
+                    <ul class="user_info">
+                        <li><a href="#">消息中心</a></li>
+                        <li><a href="#">在线帮助</a></li>
+                        <li><a href="#">帐号管理</a></li>
+                        <li><a href="#">我的通讯录</a></li>
+                        <li><a href="#">我的回收站</a></li>
+                        <li><a href="#">返回主页</a></li>
+                        <li><a href="#">退出系统</a></li>
+                    </ul>
+                </div>
+                <ul class="nav_box">
+                    <li><a href="#">教学管理</a></li>
+                    <li class="active"><a href="#">我的资源</a></li>
+                    <li><a href="#">我的评价</a></li>
+                    <li><a href="#">管理评估</a></li>
+                    <li><a href="#">实践实习</a></li>
+                    <li><a href="#">质量工程</a></li>
+                    <li><a href="#">我的直播</a></li>
+                    <li><a href="#">我的录制</a></li>
+                    <li><a href="#">教务管理</a></li>
+                </ul>
             </div>
-            <nav class="collapse navbar-collapse spa-navbar-collapse" role="navigation">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a style="cursor:pointer" ui-sref="register">Register</a>
-                    </li> 
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a style="cursor:pointer" ui-sref="login">Sign In</a>
-                    </li>
-                </ul>
-            </nav>
         </div>
-    </header>
+
+        <div class="main_all main_course">
+            <!--首页左边模块开始-->
+            <div class="side_left">
+                <!--用户信息开始-->
+                <div class="user">
+                    <img src="http://placehold.it/110x100/cccccc" width="110" height="100" />
+                    <a class="teacher_name" href="#">米左MIZOO	</a>
+                    <a class="switch_btn" href="#">这里是教师端<i class="icon icon_arrow"></i></a>
+                    <span class="icon_24 icon_user"></span>
+                </div>
+                <!--用户信息结束-->
+                <!--侧边导航开始-->
+                <div class="side_box">
+                    <ul class="side_nav">
+                        <li><a href="#">资料库</a></li>
+                        <li><a href="#">习题库</a></li>
+                        <li class="active"><a href="#">试卷库</a></li>
+                    </ul>
+
+                </div>
+                <!--侧边导航结束-->
+            </div>
+            <!--首页左边模块结束-->
+            <!--右侧主题内容开始-->
+            <div id="ui-view" class="main_content" ui-view data-tmpl-url="@Request.RequestContext.RouteData.DataTokens["templateUrl"]">
+                @RenderBody()
+            </div>
+        </div>
+
+        <!--公用底部开始-->
+        <div class="footer">
+            <p class="copyright"><img src="../../images/company_logo2.png" width="70" height="30" alt="">Copyright©2003-2014，版权所有 www.able-elec.com</p>
+            <div class="company_info">
+                <a href="#" target="_blank">关于卓越</a>|
+                <a href="#" target="_blank">服务中心</a>|
+                <a href="#" target="_blank">版权说明</a>|
+                ©2004-2015版权所有 上海卓越睿新数码科技有限公司
+            </div>
+        </div>
+        <!--公用底部结束-->
+        <a class="icon backto_top" href="#"></a>
+        <a class="icon_fold" href="javascript:;"></a>
+    </div>
+
 
     <div id="ui-view" class="container" ui-view data-tmpl-url="@Request.RequestContext.RouteData.DataTokens["templateUrl"]">
         @RenderBody()
-    </div> 
+    </div>
     @Scripts.Render("~/js/framework")
     @Scripts.Render("~/js/app")
-  
+
 </body>
 </html>
