@@ -5,8 +5,9 @@ var appModule = angular.module('app', [
     'app.filters',
     'app.directives',
     'app.common.services',
-    'app.home.controllers',
+    'app.home.controllers', 
     'app.user.controllers',
+    'app.content.controllers',
     'app.resource.controllers',
     'app.knowledge.controllers',
     'app.exercise.controllers'
@@ -16,10 +17,13 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
 
     $stateProvider
         //index 
-        .state('home', { url: '/', templateUrl: '/views/index', controller: 'HomeCtrl' })
-
+        .state('home', { url: '/', templateUrl: '/views/index', controller: 'HomeCtrl' }) 
         //登录
         .state('login', { url: '/login', layout: 'basic', templateUrl: '/views/User/Login', controller: 'UserCtrl' })
+        //内容区
+        .state('content', { url: '/content', templateUrl: '/views/Shared/Content', controller: 'ContentCtrl' })
+        //我的资料
+        .state('content.resource', { url: '/resource/:index', templateUrl: '/views/Resource/main', controller: 'ResourceCtrl' })
 
         .state('otherwise', {
             url: '*path',

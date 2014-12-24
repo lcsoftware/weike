@@ -243,6 +243,7 @@
     <Content Include="Scripts\PageAffect\index.js" />
     <Content Include="Scripts\Resource\ResourceControllers.js" />
     <Content Include="Scripts\Resource\ResourceService.js" />
+    <Content Include="Scripts\Shared\ContentControllers.js" />
     <Content Include="Scripts\User\UserControllers.js" />
     <Content Include="Scripts\User\UserService.js" />
     <Content Include="apple-touch-icon-precomposed.png" />
@@ -266,6 +267,8 @@
     <Content Include="Views\Exercise\ViewPage1.cshtml" />
     <Content Include="Views\Knowledge\ViewPage1.cshtml" />
     <Content Include="Views\Resource\ViewPage1.cshtml" />
+    <Content Include="Views\Shared\Content.cshtml" />
+    <Content Include="Views\Resource\main.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

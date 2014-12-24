@@ -42,6 +42,7 @@ namespace App.Resource
 
                 "~/scripts/Home/HomeControllers.js", 
                 "~/scripts/Authority/AuthService.js", 
+                "~/scripts/Shared/ContentControllers.js",
                 "~/scripts/Exercise/ExerciseService.js",
                 "~/scripts/Exercise/ExerciseControllers.js", 
                 "~/scripts/Resource/ResourceService.js",

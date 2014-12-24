@@ -6,13 +6,7 @@
     <title ng-bind="title">@(PageData["title"] ?? "AngularJS SPA Template for Visual Studio")</title>
     <meta name="description" content="@PageData["description"]">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    @Styles.Render("~/content/css/app")
-
-        @*<link rel="stylesheet" href="/css/header.css">
-        <link rel="stylesheet" href="/css/common.css">
-        <link rel="stylesheet" href="/css/side_left.css">
-        <link rel="stylesheet" href="/css/index.css">
-        <link rel="stylesheet" href="/css/footer.css">*@
+    @Styles.Render("~/content/css/app") 
 </head>
 <body class="exercise">
     <!--[if lt IE 9]>
@@ -54,213 +48,12 @@
                 </ul>
             </div>
         </div>
-        <!--公共头部结束-->
+        <!--公共头部结束--> 
 
-        <div class="main_all main_course">
-            <!--首页左边模块开始-->
-            <div class="side_left">
-                <!--用户信息开始-->
-                <div class="user">
-                    <img src="http://placehold.it/110x100/cccccc" width="110" height="100" />
-                    <a class="teacher_name" href="#">米左MIZOO	</a>
-                    <a class="switch_btn" href="#">这里是教师端<i class="icon icon_arrow"></i></a>
-                    <span class="icon_24 icon_user"></span>
-                </div>
-                <!--用户信息结束-->
-                <!--侧边导航开始-->
-                <div class="side_box">
-                    <ul class="side_nav">
-                        <li><a href="#">资料库</a></li>
-                        <li><a href="#">习题库</a></li>
-                        <li class="active"><a href="#">试卷库</a></li>
-                    </ul>
-
-                </div>
-                <!--侧边导航结束-->
-            </div>
-            <!--首页左边模块结束-->
-            <!--右侧主题内容开始-->
-            <div class="main_content">
-                <!--右侧头部公告开始-->
-                <div class="right_header">
-                    <p class="freshman"><i class="icon icon_question"></i><a href="#" target="_blank">新手向导</a></p>
-                    <div class="notice_box">
-                        <ul class="notice_list">
-                            <li style="display:block;"><i class="icon notice_icon"></i>上海卓越《课程中心》4.0版本正式上线，特此公告，此次版本将全面兼容MOOCs课程，功能与界面更友好</li>
-                            <li><i class="icon notice_icon"></i>线，特此公告，此次版本将全面兼容MOOCs课程，功能与界面更友好</li>
-                        </ul>
-                        <div class="notice_btn">
-                            <a class="icon prev_btn" href="javascript:;"></a>
-                            <a class="icon next_btn" href="javascript:;"></a>
-                        </div>
-                    </div>
-                </div>
-                <!--右侧头部公告结束-->
-                <div class="coursesite_box">
-                    <div class="exercise_nav">
-                        <ul class="exercise_nav_list">
-                            <li class="active"><a class="first_nav" href="#">毛泽东思想和中国特色社会主义毛泽东思想和中国特色社会主义</a></li>
-                            <li><a class="first_nav" href="#">大学英语</a></li>
-                            <li><a class="first_nav" href="#">形势与政策</a></li>
-                        </ul>
-                    </div>
-                    <div class="exercise_search">
-                        <div class="select_condition">
-                            <p class="current_course">我的习题</p>
-                        </div>
-                        <div class="exercise_btn">
-                            <span class="sort_box">[筛选]</span>
-                            <a href="javascript:;" class="topic_import">
-                                <em><i class="icon"></i></em>
-                                <span>新建试卷</span>
-                                <ul class="batch_list">
-                                    <li>智能型试卷</li>
-                                    <li>答题卡试卷</li>
-                                    <li>自测型试卷</li>
-                                </ul>
-                            </a>
-                            <a href="javascript:;" class="import_exercise"><em><i class="icon"></i></em><span>导出</span></a>
-                            <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字"><span class="icon" href="#"></span></p>
-                        </div>
-                    </div>
-                    <div class="filter_box">
-                        <dl class="filter_list">
-                            <dt>试卷类型</dt>
-                            <dd>
-                                <a class="active" href="#"><span>不限</span></a>
-                                <a href="#"><span>智能型试卷</span></a>
-                                <a href="#"><span>答题卡试卷</span></a>
-                                <a href="#"><span>自测型试卷</span></a>
-                            </dd>
-                        </dl>
-                        <dl class="filter_list">
-                            <dt>创建人</dt>
-                            <dd>
-                                <a class="active" href="#"><span>不限</span></a>
-                                <a href="#"><span>自己</span></a>
-                                <a href="#"><span>他人</span></a>
-                            </dd>
-                        </dl>
-                        <span class="guanbi"><i class="icon"></i></span>
-                    </div>
-                    <table class="course_data paper_data">
-                        <tr>
-                            <th width="350">
-                                <div class="data_name">
-                                    <input type="checkbox">
-                                    <p>试卷名称</p>
-                                    <i class="icon arrow"></i>
-                                </div>
-                            </th>
-                            <th width="100">创建人</th>
-                            <th width="120">试卷类型</th>
-                            <th width="90">题目数</th>
-                            <th width="80">总分</th>
-                            <th>最后修改日期</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="data_name">
-                                    <input type="checkbox">
-                                    <i class="icon_24 paper"></i>
-                                    <p>测试试卷</p>
-                                </div>
-                            </td>
-                            <td>张明宇</td>
-                            <td>智能型试卷</td>
-                            <td>50</td>
-                            <td>100</td>
-                            <td>
-                                2014-10-23
-                                <div class="topic_icon">
-                                    <a href="javascript:;" class="icon delete_topic"></a>
-                                    <a href="javascript:;" class="icon icon_preview">
-                                        <div class="icon_content">
-                                            <span></span><p>预览</p>
-                                        </div>
-                                    </a>
-                                    <a href="javascript:;" class="icon edit_topic"></a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="data_name">
-                                    <input type="checkbox">
-                                    <i class="icon_24 paper"></i>
-                                    <p>测试试卷</p>
-                                </div>
-                            </td>
-                            <td>张明宇</td>
-                            <td>智能型试卷</td>
-                            <td>50</td>
-                            <td>100</td>
-                            <td>
-                                2014-10-23
-                                <div class="topic_icon">
-                                    <a href="javascript:;" class="icon delete_topic"></a>
-                                    <a href="javascript:;" class="icon icon_preview">
-                                        <div class="icon_content">
-                                            <span></span><p>预览</p>
-                                        </div>
-                                    </a>
-                                    <a href="javascript:;" class="icon edit_topic"></a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="data_name">
-                                    <input type="checkbox">
-                                    <i class="icon_24 paper"></i>
-                                    <p>测试试卷</p>
-                                </div>
-                            </td>
-                            <td>张明宇</td>
-                            <td>智能型试卷</td>
-                            <td>50</td>
-                            <td>100</td>
-                            <td>
-                                2014-10-23
-                                <div class="topic_icon">
-                                    <a href="javascript:;" class="icon delete_topic"></a>
-                                    <a href="javascript:;" class="icon icon_preview">
-                                        <div class="icon_content">
-                                            <span></span><p>预览</p>
-                                        </div>
-                                    </a>
-                                    <a href="javascript:;" class="icon edit_topic"></a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="data_name">
-                                    <input type="checkbox">
-                                    <i class="icon_24 paper"></i>
-                                    <p>测试试卷</p>
-                                </div>
-                            </td>
-                            <td>张明宇</td>
-                            <td>智能型试卷</td>
-                            <td>50</td>
-                            <td>100</td>
-                            <td>
-                                2014-10-23
-                                <div class="topic_icon">
-                                    <a href="javascript:;" class="icon icon_preview"></a>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <!--右侧主题内容结束-->
-
-        </div>
         <div ui-view data-tmpl-url="@Request.RequestContext.RouteData.DataTokens["templateUrl"]">
             @RenderBody()
         </div>
+
         <!--公用底部开始-->
         <div class="footer">
             <p class="copyright"><img src="/images/company_logo2.png" width="70" height="30" alt="">Copyright©2003-2014，版权所有 www.able-elec.com</p>
@@ -273,11 +66,9 @@
         </div>
         <!--公用底部结束-->
         <a class="icon backto_top" href="#"></a>
-        <a class="icon_fold" href="javascript:;"></a>
     </div>
     @Scripts.Render("~/js/framework")
     @Scripts.Render("~/js/app")
-    @*<script src="/Frameworks/jquery/jquery-1.7.2.min.js" type="text/javascript"></script>*@
     <script src="/Scripts/PageAffect/index.js" type="text/javascript"></script>
 
 </body>
