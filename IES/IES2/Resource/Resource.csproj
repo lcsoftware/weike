@@ -166,6 +166,7 @@
     <Content Include="Frameworks\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Frameworks\bootstrap\js\bootstrap.min.js" />
     <Content Include="Frameworks\jquery\jquery-1.11.1.min.js" />
+    <Content Include="Frameworks\jquery\jquery-1.7.2.min.js" />
     <Content Include="Global.asax" />
     <Content Include="Frameworks\angular\angular-animate.min.js.map" />
     <Content Include="Frameworks\angular\angular-cookies.min.js.map" />

@@ -15,20 +15,20 @@ namespace App.Resource
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new StyleBundle("~/content/css/app").Include(
-                "~/Frameworks/bootstrap/css/bootstrap.min.css",
-                "~/Frameworks/bootstrap/css/bootstrap-theme.min.css",
+                //"~/Frameworks/bootstrap/css/bootstrap.min.css",
+                //"~/Frameworks/bootstrap/css/bootstrap-theme.min.css",
                 "~/Css/common.css",
-                "~/Css/construction.css",
+                //"~/Css/construction.css",
                 "~/Css/footer.css",
                 "~/Css/forum.css",
                 "~/Css/header.css",
                 "~/Css/index.css",
-                "~/Css/mooc.css",
-                "~/Css/reverse.css",
+                //"~/Css/mooc.css",
+                //"~/Css/reverse.css",
                 "~/Css/side_left.css"));
 
             bundles.Add(new ScriptBundle("~/js/framework").Include(
-                "~/Frameworks/jquery/jquery-1.11.1.min.js",
+                "~/Frameworks/jquery/jquery-1.7.2.min.js",
                 "~/Frameworks/bootstrap/js/bootstrap.min.js",
                 "~/Frameworks/angular/angular.js",
                 "~/Frameworks/angular/angular-cookies.js",
