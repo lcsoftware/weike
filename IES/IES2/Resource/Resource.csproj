@@ -165,7 +165,6 @@
     <Content Include="Frameworks\bootstrap\css\bootstrap.min.css" />
     <Content Include="Frameworks\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Frameworks\bootstrap\js\bootstrap.min.js" />
-    <Content Include="Frameworks\jquery\jquery-1.11.1.min.js" />
     <Content Include="Frameworks\jquery\jquery-1.7.2.min.js" />
     <Content Include="Global.asax" />
     <Content Include="Frameworks\angular\angular-animate.min.js.map" />
@@ -269,6 +268,7 @@
     <Content Include="Views\Resource\ViewPage1.cshtml" />
     <Content Include="Views\Shared\Content.cshtml" />
     <Content Include="Views\Resource\main.cshtml" />
+    <None Include="Properties\PublishProfiles\IES.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

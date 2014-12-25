@@ -21,7 +21,7 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         //登录
         .state('login', { url: '/login', layout: 'basic', templateUrl: '/views/User/Login', controller: 'UserCtrl' })
         //内容区
-        .state('content', { url: '/content', templateUrl: '/views/Shared/Content', controller: 'ContentCtrl' })
+        .state('content', { url: '/content', abstract:true, templateUrl: '/views/Shared/Content', controller: 'ContentCtrl' })
         //我的资料
         .state('content.resource', { url: '/resource/:index', templateUrl: '/views/Resource/main', controller: 'ResourceCtrl' })
 
