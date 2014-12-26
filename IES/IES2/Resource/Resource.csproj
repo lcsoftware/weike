@@ -240,6 +240,8 @@
     <Content Include="Scripts\Exercise\ExerciseControllers.js" />
     <Content Include="Scripts\Exercise\ExerciseService.js" />
     <Content Include="Scripts\PageAffect\index.js" />
+    <Content Include="Scripts\Paper\PaperController.js" />
+    <Content Include="Scripts\Paper\PaperService.js" />
     <Content Include="Scripts\Resource\ResourceControllers.js" />
     <Content Include="Scripts\Resource\ResourceService.js" />
     <Content Include="Scripts\Shared\ContentControllers.js" />
@@ -263,12 +265,12 @@
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\UserList.cshtml" />
     <Content Include="Views\_PageStart.cshtml" />
-    <Content Include="Views\Exercise\ViewPage1.cshtml" />
     <Content Include="Views\Knowledge\ViewPage1.cshtml" />
-    <Content Include="Views\Resource\ViewPage1.cshtml" />
     <Content Include="Views\Shared\Content.cshtml" />
-    <Content Include="Views\Resource\main.cshtml" />
+    <Content Include="Views\Resource\ResourceList.cshtml" />
     <None Include="Properties\PublishProfiles\IES.pubxml" />
+    <Content Include="Views\Exercise\ExerciseList.cshtml" />
+    <Content Include="Views\Paper\PaperList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

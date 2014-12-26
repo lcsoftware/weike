@@ -18,13 +18,10 @@ namespace App.Resource
                 //"~/Frameworks/bootstrap/css/bootstrap.min.css",
                 //"~/Frameworks/bootstrap/css/bootstrap-theme.min.css",
                 "~/Css/common.css",
-                //"~/Css/construction.css",
                 "~/Css/footer.css",
                 "~/Css/forum.css",
                 "~/Css/header.css",
                 "~/Css/index.css",
-                //"~/Css/mooc.css",
-                //"~/Css/reverse.css",
                 "~/Css/side_left.css"));
 
             bundles.Add(new ScriptBundle("~/js/framework").Include(
@@ -49,6 +46,8 @@ namespace App.Resource
                 "~/scripts/Resource/ResourceControllers.js", 
                 "~/scripts/Knowledge/KnowService.js",
                 "~/scripts/Knowledge/KnowControllers.js", 
+                "~/scripts/Paper/PaperService.js",
+                "~/scripts/Paper/PaperControllers.js", 
                 "~/scripts/User/UserService.js", 
                 "~/scripts/User/UserControllers.js",
                 "~/scripts/app.js"));
