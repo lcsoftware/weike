@@ -12,16 +12,15 @@
         <!--侧边导航开始-->
         <div class="side_box">
             <ul class="side_nav">
-                <li><a href="#">资料库</a></li>
-                <li class="active"><a href="#">习题库</a></li>
-                <li><a href="#">试卷库</a></li>
-                <li ><a href="#">知识结构</a></li>
-            </ul> 
+                <li ng-class="{active:actived==1}"><a ui-sref="content.resource">资料库</a></li>
+                <li ng-class="{active:actived==2}"><a ui-sref="content.paper">试卷库</a></li>
+                <li ng-class="{active:actived==3}"><a ui-sref="content.exercise">习题库</a></li>
+                <li ng-class="{active:actived==4}"><a ui-sref="content.knowledge">知识结构</a></li>
+            </ul>
         </div>
         <!--侧边导航结束-->
     </div>
     <!--首页左边模块结束-->
-
     <!--右侧主题内容开始-->
     <div class="main_content">
         <!--右侧头部公告开始-->
@@ -40,9 +39,7 @@
         </div>
         <!--右侧头部公告结束-->
         <div class="coursesite_box" ui-view></div>
-        <div class="coursesite_box">
-           
-        </div>
+       
     </div>
     <!--右侧主题内容结束-->
 

@@ -1,7 +1,8 @@
 ﻿'use strict';
 
-angular.module('app.knowledge.controllers', [])
-    .controller('KnowledgeCtrl', ['$scope', function ($scope) {
+var appKnow = angular.module('app.knowledge.controllers', []);
 
-    }]);
+appKnow.controller('KnowledgeCtrl', ['$scope', function ($scope) {
+
+}]);
 

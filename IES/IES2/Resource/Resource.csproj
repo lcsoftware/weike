@@ -240,7 +240,7 @@
     <Content Include="Scripts\Exercise\ExerciseControllers.js" />
     <Content Include="Scripts\Exercise\ExerciseService.js" />
     <Content Include="Scripts\PageAffect\index.js" />
-    <Content Include="Scripts\Paper\PaperController.js" />
+    <Content Include="Scripts\Paper\PaperControllers.js" />
     <Content Include="Scripts\Paper\PaperService.js" />
     <Content Include="Scripts\Resource\ResourceControllers.js" />
     <Content Include="Scripts\Resource\ResourceService.js" />

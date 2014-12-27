@@ -9,6 +9,7 @@ var appModule = angular.module('app', [
     'app.user.controllers',
     'app.content.controllers',
     'app.resource.controllers',
+    'app.paper.controllers',
     'app.knowledge.controllers',
     'app.exercise.controllers'
 ]);
@@ -23,9 +24,9 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         //内容区
         .state('content', { url: '/content', abstract:true, templateUrl: '/views/Shared/Content', controller: 'ContentCtrl' })
         //我的资料
-        .state('content.resource', { url: '/resource/:index', templateUrl: '/views/Resource/ResourceList', controller: 'ResourceCtrl' })
+        .state('content.resource', { url: '/resource', templateUrl: '/views/Resource/ResourceList', controller: 'ResourceCtrl' })
         //试卷
-        .state('content.paper', { url: '/paper/:index', templateUrl: '/views/Paper/PaperList', controller: 'PaperCtrl' })
+        .state('content.paper', { url: '/paper', templateUrl: '/views/Paper/PaperList', controller: 'PaperCtrl' })
 
         .state('otherwise', {
             url: '*path',

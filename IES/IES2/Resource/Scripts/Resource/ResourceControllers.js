@@ -1,7 +1,8 @@
 ﻿'use strict';
 
-angular.module('app.resource.controllers', [])
-    .controller('ResourceCtrl', ['$scope', function ($scope) {
+var appResource = angular.module('app.resource.controllers', []);
 
-    }]);
+appResource.controller('ResourceCtrl', ['$scope', function ($scope) {
+    $scope.$emit('onActived', 1);
+}]);
 
