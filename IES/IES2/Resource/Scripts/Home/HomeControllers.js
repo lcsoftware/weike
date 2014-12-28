@@ -3,9 +3,11 @@
 var appHome = angular.module('app.home.controllers', []);
 
 appHome.controller('HomeCtrl', ['$scope', '$state', function ($scope, $state) {
-    $scope.toResource = function () {
-        $state.go('content.resource');
-    }
+    $state.go('content.resource');
+
+    //$scope.toResource = function () {
+    //    $state.go('content.resource');
+    //}
 }]);
 
 /// 错误处理
