@@ -26,7 +26,7 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         //我的资料
         .state('content.resource', { url: '/resource', templateUrl: '/views/Resource/ResourceList', controller: 'ResourceCtrl' })
         //试卷
-        .state('content.paper', { url: '/paper', templateUrl: '/views/Paper/PaperList', controller: 'PaperCtrl' })
+        .state('content.paper', { url: '/paper', templateUrl: '/views/Paper/PaperList', controller: 'PaperListCtrl' })
 
         .state('otherwise', {
             url: '*path',

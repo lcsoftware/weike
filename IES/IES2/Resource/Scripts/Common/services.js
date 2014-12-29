@@ -11,6 +11,7 @@ aService.constant('authProviderUrl', '/DataProvider/Authority/AuthProvider.aspx'
 aService.constant('resourceProviderUrl', '/DataProvider/Resource/ResourceProvider.aspx');
 aService.constant('knowProviderUrl', '/DataProvider/Knowledge/KnowProvider.aspx');
 aService.constant('exerciseProviderUrl', '/DataProvider/Exercise/ExerciseProvider.aspx');
+aService.constant('paperProviderUrl', '/DataProvider/Paper/PaperProvider.aspx');
 
 ///XHR调用
 aService.factory('httpService', ['$http', '$q', function ($http, $q) {

@@ -65,7 +65,7 @@ namespace IES.Common.Data
         /// <returns></returns>
         public List<ResourceDict> Resource_Dict_PaperType_Get()
         {
-            return CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("PaperType")).ToList<ResourceDict>();
+            return CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("Paper.PaperType")).ToList<ResourceDict>();
         }
 
 
