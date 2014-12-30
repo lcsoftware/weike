@@ -76,7 +76,7 @@ namespace IES.Common.Data
         /// <returns></returns>
         public List<ResourceDict> Resource_Dict_FileType_Get()
         {
-            return CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("FileType")).ToList<ResourceDict>();
+            return CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("File.FileType")).ToList<ResourceDict>();
         }
 
         /// <summary>
