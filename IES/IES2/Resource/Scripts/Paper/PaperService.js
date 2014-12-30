@@ -14,10 +14,13 @@ aService.factory('PaperService', ['httpService', 'paperProviderUrl', function (h
         });
     }
 
-    service.search = function (paper, pageSize, pageIndex) {
+    /// 试卷列表查询
+    service.paperSearch = function (paper, pageSize, pageIndex, callback) {
         var url = paperProviderUrl + '/Paper_Search'
-        var param = {}
-
+        var param = { model: paper, pageSize: pageSize, pageIndex: pageIndex };
+        httpService.post(url, param, function (data) {
+            if (callback) callback(data.d);
+        });
     }
     return service;
 }]);

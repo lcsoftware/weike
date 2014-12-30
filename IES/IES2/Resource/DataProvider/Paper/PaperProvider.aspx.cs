@@ -2,7 +2,7 @@
  * Copyright(c) 2014 Eastday, All Rights Reserved.   
  * File             : PaperProvider.aspx.cs
  * Description      : 试卷数据访问
- * Author           : fenglujian
+ * Author           : zhaotianyu 
  * Created          : 2014-12-29  
  * Revision History : 
 ******************************************************************/
