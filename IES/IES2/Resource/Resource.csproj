@@ -338,6 +338,10 @@
       <Project>{8f3fc7c7-5384-481e-a3c5-084504f8eed8}</Project>
       <Name>IES.Common.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IES.G2S.Resource.BLL\IES.G2S.Resource.BLL.csproj">
+      <Project>{7893d3de-1517-443b-9c4a-191ec233a073}</Project>
+      <Name>IES.G2S.Resource.BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
       <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
       <Name>IES.Resource.Model</Name>
