@@ -9,6 +9,7 @@
 namespace App.Resource.DataProvider.Paper
 {
     using IES.Common.Data;
+    using IES.G2S.Resource.BLL;
     using IES.Resource.Model;
     using System;
     using System.Collections.Generic;
@@ -25,5 +26,11 @@ namespace App.Resource.DataProvider.Paper
             IList<ResourceDict> dicts = new ResourceCommonData().Resource_Dict_PaperType_Get();
             return dicts;
         }
+
+        [WebMethod]
+        public static IList<Paper> Paper_Search(Paper model, int pageSize, int pageIndex)
+        {
+            return new PaperBLL().Paper_Search(model, pageSize, pageIndex);
+        } 
     }
 }

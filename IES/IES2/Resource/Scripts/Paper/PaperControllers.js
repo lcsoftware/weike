@@ -29,6 +29,7 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
         $scope.createrSelection = v;
     }
 
+    ///根据条件查找列表数据
     var find = function (typeSelection, createrSelection) { 
         console.log(typeSelection, createrSelection);
     }

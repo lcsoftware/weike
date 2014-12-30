@@ -13,5 +13,11 @@ aService.factory('PaperService', ['httpService', 'paperProviderUrl', function (h
             if (callback) callback(data.d);
         });
     }
+
+    service.search = function (paper, pageSize, pageIndex) {
+        var url = paperProviderUrl + '/Paper_Search'
+        var param = {}
+
+    }
     return service;
 }]);
