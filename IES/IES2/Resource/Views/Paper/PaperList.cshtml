@@ -16,10 +16,8 @@
             <a href="javascript:;" class="topic_import">
                 <em><i class="icon"></i></em>
                 <span>新建试卷</span>
-                <ul class="batch_list">
-                    <li>智能型试卷</li>
-                    <li>答题卡试卷</li>
-                    <li>自测型试卷</li>
+                <ul class="batch_list" >
+                    <li ng-repeat ="item in paperTypes" ng-bind="item.name"></li>
                 </ul>
             </a>
             <a href="javascript:;" class="import_exercise"><em><i class="icon"></i></em><span>导出</span></a>
@@ -29,19 +27,16 @@
     <div class="filter_box">
         <dl class="filter_list">
             <dt>试卷类型</dt>
-            <dd>
-                <a class="active" href="#"><span>不限</span></a>
-                <a href="#"><span>智能型试卷</span></a>
-                <a href="#"><span>答题卡试卷</span></a>
-                <a href="#"><span>自测型试卷</span></a>
+            <dd >
+                <a ng-class="{active:typeSelection==item.id}" ng-click="typeChanged(item.id);" style="cursor:pointer" ng-repeat="item in conditionPaperTypes"><span ng-bind="item.name"></span></a>
             </dd>
         </dl>
         <dl class="filter_list">
             <dt>创建人</dt>
             <dd>
-                <a class="active" href="#"><span>不限</span></a>
-                <a href="#"><span>自己</span></a>
-                <a href="#"><span>他人</span></a>
+                <a ng-class="{active:createrSelection==-1}" ng-click="createrChanged(-1)" style="cursor:pointer"><span>不限</span></a>
+                <a ng-class="{active:createrSelection==1}" ng-click="createrChanged(1)" style="cursor:pointer"><span>自己</span></a>
+                <a ng-class="{active:createrSelection==2}" ng-click="createrChanged(2)" style="cursor:pointer"><span>他人</span></a>
             </dd>
         </dl>
         <span class="guanbi"><i class="icon"></i></span>

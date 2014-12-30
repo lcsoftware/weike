@@ -138,6 +138,7 @@
     <Content Include="DataProvider\Authority\AuthProvider.aspx" />
     <Content Include="DataProvider\Exercise\ExerciseProvider.aspx" />
     <Content Include="DataProvider\Knowledge\KnowProvider.aspx" />
+    <Content Include="DataProvider\Paper\PaperProvider.aspx" />
     <Content Include="DataProvider\Resource\ResourceProvider.aspx" />
     <Content Include="DataProvider\User\UserProvider.aspx" />
     <Content Include="Frameworks\angular\angular-animate.js" />
@@ -303,6 +304,13 @@
     <Compile Include="DataProvider\Knowledge\KnowProvider.aspx.designer.cs">
       <DependentUpon>KnowProvider.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DataProvider\Paper\PaperProvider.aspx.cs">
+      <DependentUpon>PaperProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Paper\PaperProvider.aspx.designer.cs">
+      <DependentUpon>PaperProvider.aspx</DependentUpon>
+    </Compile>
     <Compile Include="DataProvider\Resource\ResourceProvider.aspx.cs">
       <DependentUpon>ResourceProvider.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -325,7 +333,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\IES.Common.Data\IES.Common.Data.csproj">
+      <Project>{8f3fc7c7-5384-481e-a3c5-084504f8eed8}</Project>
+      <Name>IES.Common.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
+      <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
+      <Name>IES.Resource.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
