@@ -20,6 +20,13 @@ namespace App.Resource.DataProvider.Paper
     using System.Web.UI.WebControls;
     public partial class PaperProvider : System.Web.UI.Page
     {
+
+        [WebMethod]
+        public static Paper PaperMake()
+        {
+            return new Paper();
+        }
+
         [WebMethod]
         public static IList<ResourceDict> GetPaperTypes()
         {
