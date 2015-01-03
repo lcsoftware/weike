@@ -3,17 +3,21 @@
 var appPaper = angular.module('app.paper.controllers', ['app.paper.services']);
 
 appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope, PaperService) {
-    $scope.$emit('onActived', 2);
+    $scope.$emit('onActived', 'B23');
 
     $scope.keyword = '';
 
     $scope.paperTypes = [];
     $scope.conditionPaperTypes = [];
 
-    $scope.tabs = [{ name: '个人资料', id: '0' }];
-
     $scope.typeSelection = -1;
     $scope.createrSelection = -1; 
+
+    $scope.tabs = [
+        { id: 1, name: '毛泽东思想和中国特色社会主义毛泽东思想和中国特色社会主义' },
+        { id: 2, name: '大学英语' },
+        { id: 3, name: '形式与政策' }
+    ];
 
     $scope.$watch('typeSelection', function (newValue) {
         find(newValue, $scope.createrSelection);
@@ -29,6 +33,10 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
 
     $scope.createrChanged = function (v) {
         $scope.createrSelection = v;
+    }
+
+    $scope.tabChanged = function (tab) {
+        console.log(tab);
     }
 
     var find = function (typeSelection, createrSelection) { 

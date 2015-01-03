@@ -1,8 +1,6 @@
 ﻿<div class="exercise_nav">
     <ul class="exercise_nav_list">
-        <li class="active"><a class="first_nav" href="#">毛泽东思想和中国特色社会主义毛泽东思想和中国特色社会主义</a></li>
-        <li><a class="first_nav" href="#">大学英语</a></li>
-        <li><a class="first_nav" href="#">形势与政策</a></li>
+        <li ng-repeat="item in tabs"><a class="first_nav" href="#" style="cursor:pointer" ng-click="tabChanged(item.id);" ng-bind="item.name"></a></li>
     </ul>
 </div>
 <div class="exercise_search">
