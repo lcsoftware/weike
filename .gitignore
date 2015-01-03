@@ -7,7 +7,7 @@
 *.sln.docstates
 Uploads
 # Build results
-
+bin
 [Dd]ebug/
 [Rr]elease/
 x64/
