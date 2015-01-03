@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * File.cs
 *
 * 功 能： N/A
@@ -9,19 +9,19 @@
 * V0.01  2014/12/4 17:26:47   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
 namespace IES.Resource.Model
 {
     /// <summary>
-    /// 文件表
+    /// 文件表
     /// </summary>
     [Serializable]
-    public partial class File:IResource 
+    public partial class File : IResource, IFile
     {
         public File()
         { }
@@ -40,7 +40,7 @@ namespace IES.Resource.Model
         private int _filetype = 9;
         private string _brief;
         private string _keys;
-        private int _filesize = 0;
+        private long _filesize = 0;
         private string _pingyin;
         private int _timelength = 0;
         private string _rarindexpage;
@@ -64,7 +64,7 @@ namespace IES.Resource.Model
         }
 
         /// <summary>
-        /// 文件夹编号
+        /// 文件夹编号
         /// </summary>
         public int FolderID
         {
@@ -72,7 +72,7 @@ namespace IES.Resource.Model
             get { return _folderid; }
         }
         /// <summary>
-        /// 我的资料库为0 ，>0为在线课程编号
+        /// 我的资料库为0 ，>0为在线课程编号
         /// </summary>
         public int OCID
         {
@@ -80,7 +80,7 @@ namespace IES.Resource.Model
             get { return _ocid; }
         }
         /// <summary>
-        /// 0 表示我的资料库，>1 表示课程的编号
+        /// 0 表示我的资料库，>1 表示课程的编号
         /// </summary>
         public int CourseID
         {
@@ -104,13 +104,20 @@ namespace IES.Resource.Model
             get { return _subjectid2; }
         }
         /// <summary>
-        /// 创建人编号
+        /// 创建人编号
         /// </summary>
         public int CreateUserID
         {
             set { _createuserid = value; }
             get { return _createuserid; }
         }
+
+        /// <summary>
+        /// 文件创建人姓名
+        /// </summary>
+        public string CreateUserName { get; set; }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -128,7 +135,7 @@ namespace IES.Resource.Model
             get { return _filetitle; }
         }
         /// <summary>
-        /// 文件上传的名称
+        /// 文件上传的名称
         /// </summary>
         public string FileName
         {
@@ -170,7 +177,7 @@ namespace IES.Resource.Model
         /// <summary>
         /// 文件大小 字节单位
         /// </summary>
-        public int FileSize
+        public long FileSize
         {
             set { _filesize = value; }
             get { return _filesize; }
@@ -192,7 +199,7 @@ namespace IES.Resource.Model
             get { return _timelength; }
         }
         /// <summary>
-        /// 对于压缩包HTML文件，访问首页名称
+        /// 对于压缩包HTML文件，访问首页名称
         /// </summary>
         public string RarIndexPage
         {
@@ -272,7 +279,7 @@ namespace IES.Resource.Model
             get { return _istransfer; }
         }
         /// <summary>
-        /// 删除状态
+        /// 删除状态
         /// </summary>
         public bool IsDeleted
         {

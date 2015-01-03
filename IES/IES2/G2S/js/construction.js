@@ -158,9 +158,22 @@ $(function(){
 		run_number:1         //运动张数,超过可见数量就默认显示可见数量
 	});
 	//更换版面
-	$('.version_box').hover(function(){
-		$(this).css('background','#393939');
-		$(this).find('.change_version').show();	
+	$('.version_box').hover(function () {
+	    $(this).css('background', '#393939');
+	    $(this).find('.change_version').show();
+		//var oLeft = $(this).offset().left;
+		//var oScroll = $(this).scrollTop();
+		//if (oLeft != 0) {
+		//    var strwidth = parseInt($(".change_version").width());
+		//    $(".change_version").css('left', '-' + (strwidth + 29) + 'px');
+		//    $(".change_version").css('left', 'none');
+		//    $(".change_version").css('right', '200px');
+		//} else {
+		//    $(".change_version").removeAttr("style");
+		//    $(this).find('.change_version').show();
+		//}
+		
+
 	},function(){
 		$(this).css('background','#727272');
 		$(this).find('.change_version').hide();	
@@ -171,12 +184,22 @@ $(function(){
 	})
 	
 	//导航
-	$('.column_list li').hover(function(){
-		$(this).children('.column_btn').show();
-		$(this).addClass('active').siblings().removeClass('active');	
-	},function(){
-		$(this).children('.column_btn').hide();
-		$(this).removeClass('active');
+	//$('.column_list li').hover(function () {
+	//    $(this).children('.column_btn').show();
+	//	$(this).addClass('active').siblings().removeClass('active');	
+	//},function(){
+	//	$(this).children('.column_btn').hide();
+	//	$(this).removeClass('active');
+    //})
+
+	$('.column_list li').live('hover', function () {
+	    if (event.type == 'mouseover') {
+	        $(this).children('.column_btn').show();
+	        $(this).addClass('active').siblings().removeClass('active');
+	    } else {
+	        $(this).children('.column_btn').hide();
+	        $(this).removeClass('active');
+	    }
 	})
 	
 	$('.img_list li').hover(function(){
@@ -192,12 +215,9 @@ $(function(){
 		$('.pop_600').show().css('top',oScroll+100);		
 	})
 	
-	$('.add_columns').live('click',function(){
-		var oHeight = $(document).height();
-		var oScroll = $(window).scrollTop();
-		$('.pop_bg').show().css('height',oHeight);
-		$('.pop_400').show().css('top',oScroll+100);
-	})
+	//$('.add_columns').live('click',function(){
+	  
+	//})
 	
 	$('.add_list').live('click',function(){
 		var oHeight = $(document).height();
@@ -206,10 +226,10 @@ $(function(){
 		$('.pop_800').show().css('top',oScroll+100);
 	})
 	
-	var screenWidth = $(window).width();
-	var boxWidth = $('.main_content').width();
-	var sideWidth = $('.side_left').width();
-	$('.main_content').css('left',(screenWidth-boxWidth+sideWidth)/2);
+	//var screenWidth = $(window).width();
+	//var boxWidth = $('.main_content').width();
+	//var sideWidth = $('.side_left').width();
+	//$('.main_content').css('left',(screenWidth-boxWidth+sideWidth)/2); 与site_left有冲突
 	
 	//关闭弹出层
 	$('.icon_close').click(function(){

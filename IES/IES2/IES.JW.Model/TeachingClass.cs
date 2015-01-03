@@ -69,6 +69,10 @@ namespace IES.JW.Model
 			set{ _termid=value;}
 			get{return _termid;}
 		}
+
+
+        public int? OrganizationID { get; set; }
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -110,13 +114,16 @@ namespace IES.JW.Model
 			get{return _enddate;}
 		}
 		/// <summary>
-		/// 添加来源，0 为管理员；  -1 教务系统数据联动 ； 1为教师本人添加的教学班学生；2 MOOC教学班
+        /// 添加来源，1  教务系统数据联动 ；2 管理员添加；  3：教师本人添加的教学班学生；
 		/// </summary>
 		public int Source
 		{
 			set{ _source=value;}
 			get{return _source;}
 		}
+
+        public int UserID { get; set; }
+
 		/// <summary>
 		/// 
 		/// </summary>

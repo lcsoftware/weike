@@ -26,22 +26,20 @@ namespace IES.SYS.Model
 		public AuModule()
 		{}
 		#region Model
-		private int _moduleid;
+		private string  _moduleid;
 		private int _sysid;
 		private int _scope;
 		private string _name;
-		private int _parentid=0;
-		private string _url;
-		private bool _ismenu= false;
-		private string _icon;
-		private bool _isshow= true;
+        private string  _parentid ;
+
+
 		private string _brief;
 		private bool _isdeleted= false;
 		private int _orde=1;
 		/// <summary>
 		/// 
 		/// </summary>
-		public int ModuleID
+		public string  ModuleID
 		{
 			set{ _moduleid=value;}
 			get{return _moduleid;}
@@ -73,43 +71,24 @@ namespace IES.SYS.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		public int ParentID
+		public string  ParentID
 		{
 			set{ _parentid=value;}
 			get{return _parentid;}
 		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string URL
-		{
-			set{ _url=value;}
-			get{return _url;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public bool IsMenu
-		{
-			set{ _ismenu=value;}
-			get{return _ismenu;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string Icon
-		{
-			set{ _icon=value;}
-			get{return _icon;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public bool IsShow
-		{
-			set{ _isshow=value;}
-			get{return _isshow;}
-		}
+
+
+        public bool IsClassify { get; set; }
+
+
+
+
+
+        public bool IsThirdApp { get; set; }
+
+        public int OpenLevel { get; set; }
+
+
 		/// <summary>
 		/// 
 		/// </summary>

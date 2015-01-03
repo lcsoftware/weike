@@ -89,6 +89,16 @@ namespace IES.CC.Forum.Model
 			set{ _score=value;}
 			get{return _score;}
 		}
+
+        /// <summary>
+        /// 关注用户编号
+        /// </summary>
+        public int UserID
+        {
+            get;
+            set;
+        }
+
 		#endregion Model
 
 	}

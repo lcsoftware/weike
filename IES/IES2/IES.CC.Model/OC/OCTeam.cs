@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * OCTeam.cs
 *
 * 功 能： N/A
@@ -9,27 +9,28 @@
 * V0.01  2014/12/2 20:19:31   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
 namespace IES.CC.OC.Model
 {
 	/// <summary>
-	/// 我的课程团队，课程主讲教师
+	/// 我的课程团队，课程主讲教师
 	/// </summary>
 	[Serializable]
 	public partial class OCTeam
 	{
+
 		public OCTeam()
 		{}
 		#region Model
 		private int _teamid;
 		private int _ocid;
 		private int _userid;
-		private int? _owneruserid=0;
+		//private int? _owneruserid=0;
 		private int _role=0;
 		private string _brief;
 		private int? _status=0;
@@ -58,16 +59,21 @@ namespace IES.CC.OC.Model
 			set{ _userid=value;}
 			get{return _userid;}
 		}
+
+        /// <summary>
+        /// 用户姓名
+        /// </summary>
+        public string UserName { get; set; }
+
+
+        /// <summary>
+        /// 职称：教授副教授讲师等
+        /// </summary>
+        public string Ranks { get; set; }
+
+
 		/// <summary>
-		/// 属于哪个用户的助教，默认是课程负责人的助教
-		/// </summary>
-		public int? OwnerUserID
-		{
-			set{ _owneruserid=value;}
-			get{return _owneruserid;}
-		}
-		/// <summary>
-		/// 0 课程创建人、 1 课程负责人 ;  2 主讲教师  ;  3 助教（需对功能模块授权） ；4 教学督导（该用户不体现在教学团队中，系统默认创建，教学督导有对资源建设、互动的浏览权限）。
+		/// 0 课程创建人、 1 课程负责人 ;  2 主讲教师  ;  3 助教（需对功能模块授权） ；4 教学督导（该用户不体现在教学团队中，系统默认创建，教学督导有对资源建设、互动的浏览权限）。
 		/// </summary>
 		public int Role
 		{
@@ -75,7 +81,7 @@ namespace IES.CC.OC.Model
 			get{return _role;}
 		}
 		/// <summary>
-		/// 简介
+		/// 简介
 		/// </summary>
 		public string Brief
 		{
@@ -98,6 +104,13 @@ namespace IES.CC.OC.Model
 			set{ _applydate=value;}
 			get{return _applydate;}
 		}
+
+        /// <summary>
+        /// 是否处于锁定状态
+        /// </summary>
+        public bool IsLocked { get; set; }
+
+
 		#endregion Model
 
 	}

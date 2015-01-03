@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{431EA610-662F-4B4B-926D-8ED6B0638D01}</ProjectGuid>
+    <ProjectGuid>{B40A5886-A6B1-4410-B593-ABC00169E7CB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IES.G2S.Portal.BLL</RootNamespace>
@@ -19,6 +19,7 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,8 +48,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="HelpBLL.cs" />
+    <Compile Include="LinkBLL.cs" />
+    <Compile Include="NewsBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IES.G2S.Portal.DAL\IES.G2S.Portal.DAL.csproj">
+      <Project>{86c14e11-3306-49f8-b3d6-06a7fe833517}</Project>
+      <Name>IES.G2S.Portal.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.G2S.Portal.IBLL\IES.G2S.Portal.IBLL.csproj">
+      <Project>{311a78b5-92ff-4b16-8b68-84f332152a38}</Project>
+      <Name>IES.G2S.Portal.IBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.Portal.Model\IES.Portal.Model.csproj">
+      <Project>{fe20d931-fa50-461b-81c9-59d7171863cb}</Project>
+      <Name>IES.Portal.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

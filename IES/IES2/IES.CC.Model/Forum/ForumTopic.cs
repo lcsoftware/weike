@@ -47,6 +47,9 @@ namespace IES.CC.Forum.Model
 			set{ _topicid=value;}
 			get{return _topicid;}
 		}
+
+        public int OCID { get; set; }
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -57,13 +60,24 @@ namespace IES.CC.Forum.Model
 		}
 
         /// <summary>
-        /// 论坛版块
+        /// 论坛版块论 坛版块编号,0为小组讨论或MOOC章节讨论
         /// </summary>
         public int ForumTypeID
         {
             set { _forumtypeid = value; }
             get { return _forumtypeid; }
         }
+
+
+        /// <summary>
+        /// 小组讨论的任务编号
+        /// </summary>
+        public int GroupTaskID { set; get; }
+
+        /// <summary>
+        /// 主题对应的章节编号
+        /// </summary>
+        public int ChapterID { set; get; }
 
 		/// <summary>
 		/// 发帖人
@@ -73,6 +87,14 @@ namespace IES.CC.Forum.Model
 			set{ _userid=value;}
 			get{return _userid;}
 		}
+
+        /// <summary>
+        /// 发帖人姓名
+        /// </summary>
+        public string  UserName { set;get;   }
+
+
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -97,14 +119,7 @@ namespace IES.CC.Forum.Model
 			set{ _updatetime=value;}
 			get{return _updatetime;}
 		}
-		/// <summary>
-		/// 浏览次数
-		/// </summary>
-		public int Clicks
-		{
-			set{ _clicks=value;}
-			get{return _clicks;}
-		}
+
 		/// <summary>
 		/// 置顶
 		/// </summary>
@@ -130,7 +145,7 @@ namespace IES.CC.Forum.Model
 			get{return _isclosed;}
 		}
 		/// <summary>
-		/// 0常规主题，  1 FC主题 ， 2 MOOC主题
+        /// 0常规主题，  1 FC主题 ， 2 MOOC主题；3小组讨论主题
 		/// </summary>
 		public int TopicType
 		{
@@ -145,6 +160,38 @@ namespace IES.CC.Forum.Model
 			set{ _tags=value;}
 			get{return _tags;}
 		}
+
+        /// <summary>
+        /// 最后回帖人姓名
+        /// </summary>
+        public string LastUserName { set; get; }
+
+        /// <summary>
+        /// 最后回复时间
+        /// </summary>
+        public DateTime LastUpdateTime { set; get; }
+
+
+        /// <summary>
+        /// 浏览次数
+        /// </summary>
+        public int Clicks
+        {
+            set { _clicks = value; }
+            get { return _clicks; }
+        }
+
+        /// <summary>
+        /// 回复总数
+        /// </summary>
+        public int Responses { get; set; }
+
+        /// <summary>
+        /// 被赞的总数
+        /// </summary>
+        public int Goods { get; set; }
+
+
 		#endregion Model
 
 	}

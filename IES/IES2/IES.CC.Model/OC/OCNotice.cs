@@ -83,13 +83,24 @@ namespace IES.CC.OC.Model
 			get{return _updatetime;}
 		}
 		/// <summary>
-		/// 是否置顶
+		/// 是否置顶 或重要通知
 		/// </summary>
 		public bool IsTop
 		{
 			set{ _istop=value;}
 			get{return _istop;}
 		}
+
+
+        public bool  IsSms { get; set; }
+
+        public bool IsEmail { get; set; }
+
+        /// <summary>
+        /// 适用所有学生
+        /// </summary>
+        public bool IsAll { get; set; }
+
 		/// <summary>
 		/// 置顶截至时间
 		/// </summary>
@@ -98,6 +109,24 @@ namespace IES.CC.OC.Model
 			set{ _enddate=value;}
 			get{return _enddate;}
 		}
+
+        /// <summary>
+        /// 最后回复人
+        /// </summary>
+        public string LastUser { get; set; }
+
+        /// <summary>
+        /// 最后回复时间
+        /// </summary>
+        public DateTime LastResponseTime { get; set; }
+
+        /// <summary>
+        /// 回复总数
+        /// </summary>
+        public string ResponseCount { get; set; }
+
+
+
 		#endregion Model
 
 	}

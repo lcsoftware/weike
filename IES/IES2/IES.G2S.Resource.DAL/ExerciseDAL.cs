@@ -98,6 +98,9 @@ namespace IES.G2S.Resource.DAL
         #endregion 
 
         #region 新增
+
+
+
         /// <summary>
         /// 添加习题的通用信息，问答题
         /// </summary>
@@ -141,7 +144,7 @@ namespace IES.G2S.Resource.DAL
                         p1.Add("@OwnerUserID", model.exercise.OwnerUserID );
                         p1.Add("@CreateUserID", model.exercise.CreateUserID);
                         p1.Add("@Name", ken.Name );
-                        conn.Execute("Exercise_Ken_ADD", p1, commandType: CommandType.StoredProcedure);
+                        conn.Execute("Exercise_Ken_Edit", p1, commandType: CommandType.StoredProcedure);
                     }
 
                     foreach (var key in model.keylist )
@@ -154,7 +157,7 @@ namespace IES.G2S.Resource.DAL
                         p1.Add("@OwnerUserID", model.exercise.OwnerUserID);
                         p1.Add("@CreateUserID", model.exercise.CreateUserID);
                         p1.Add("@Name", key.Name);
-                        conn.Execute("Exercise_Key_ADD", p1, commandType: CommandType.StoredProcedure);
+                        conn.Execute("Exercise_Key_Edit", p1, commandType: CommandType.StoredProcedure);
                     }
 
                     foreach (var attach in model.attachmentlist )
@@ -279,10 +282,242 @@ namespace IES.G2S.Resource.DAL
 
         #endregion 
 
-        #region 更新
+        #region 对象更新
+
+        public static bool ExerciseCommon_Upd(ExerciseCommon model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+
+                    p.Add("@ExerciseID", model.exercise.ExerciseID);
+                    p.Add("@ExerciseType", model.exercise.ExerciseType);
+                    p.Add("@Diffcult", model.exercise.Diffcult);
+                    p.Add("@Scope", model.exercise.Scope);
+                    p.Add("@ShareRange", model.exercise.ShareRange);
+                    p.Add("@Brief", model.exercise.Brief);
+                    p.Add("@Conten", model.exercise.Conten);
+                    p.Add("@Answer", model.exercise.Answer);
+                    p.Add("@Analysis", model.exercise.Analysis);
+                    p.Add("@ScorePoint", model.exercise.ScorePoint);
+                    p.Add("@Score", model.exercise.Score);
+                    p.Add("@IsRand", model.exercise.IsRand);
+                    conn.Execute("Exercise_Upd", p, commandType: CommandType.StoredProcedure);
+
+                    foreach (var ken in model.kenlist)
+                    {
+                        var p1 = new DynamicParameters();
+                        p1.Add("@ExerciseID", model.exercise.ExerciseID);
+                        p1.Add("@KenID", ken.KenID);
+                        p1.Add("@OCID", model.exercise.OCID);
+                        p1.Add("@CourseID", model.exercise.CourseID);
+                        p1.Add("@OwnerUserID", model.exercise.OwnerUserID);
+                        p1.Add("@CreateUserID", model.exercise.CreateUserID);
+                        p1.Add("@Name", ken.Name);
+                        conn.Execute("Exercise_Ken_Edit", p1, commandType: CommandType.StoredProcedure);
+                    }
+
+                    foreach (var key in model.keylist)
+                    {
+                        var p1 = new DynamicParameters();
+                        p1.Add("@ExerciseID", model.exercise.ExerciseID);
+                        p1.Add("@KeyID", key.KeyID);
+                        p1.Add("@OCID", model.exercise.OCID);
+                        p1.Add("@CourseID", model.exercise.CourseID);
+                        p1.Add("@OwnerUserID", model.exercise.OwnerUserID);
+                        p1.Add("@CreateUserID", model.exercise.CreateUserID);
+                        p1.Add("@Name", key.Name);
+                        conn.Execute("Exercise_Key_Edit", p1, commandType: CommandType.StoredProcedure);
+                    }
+
+                    foreach (var attach in model.attachmentlist)
+                    {
+                        var p1 = new DynamicParameters();
+                        p1.Add("@ExerciseID", model.exercise.ExerciseID);
+                        p1.Add("@Guid", attach.Guid);
+                        conn.Execute("Exercise_Attachment_Edit", p1, commandType: CommandType.StoredProcedure);
+                    }
+
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// 选择题更新
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool ExerciseInfo_Upd(ExerciseInfo model)
+        {
+            try
+            {
+                ExerciseCommon_Upd(model.exercisecommon);
+                ExerciseChoice_Upd(model);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 答题卡习题更新
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool ExerciseAnswercardInfo_Upd(ExerciseAnswercardInfo model)
+        {
+            try
+            {
+                ExerciseCommon_Upd(model.exercisecommon);
+                ExerciseAnswercard_Upd(model);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 选择题的选项更新
+        /// </summary>
+        /// <param name="exercisechoicelist"></param>
+        /// <returns></returns>
+        public static bool ExerciseChoice_Upd(ExerciseInfo model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    List<ExerciseChoice> exercisechoicelist = model.exercisechoicelist;
+                    foreach (var choice in exercisechoicelist)
+                    {
+                        var p1 = new DynamicParameters();
+                        p1.Add("@ChoiceID", choice.ChoiceID);
+                        p1.Add("@Conten", choice.Conten);
+                        p1.Add("@IsCorrect", choice.IsCorrect);
+                        p1.Add("@Grou", choice.Grou);
+                        p1.Add("@OrderNum", choice.OrderNum);
+                        conn.Execute("ExerciseChoice_Upd", p1, commandType: CommandType.StoredProcedure);
+                    }
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 答题卡内容更新
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool ExerciseAnswercard_Upd(ExerciseAnswercardInfo model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    List<ExerciseAnswercard> exerciseanswercardlist = model.exerciseanswercardlist;
+                    foreach (var answercard in exerciseanswercardlist)
+                    {
+                        var p1 = new DynamicParameters();
+                        p1.Add("@ExerciseID", model.exercisecommon.exercise.ExerciseID);
+                        p1.Add("@CorrectAnswer", answercard.CorrectAnswer);
+                        p1.Add("@Score", answercard.Score);
+                        p1.Add("@Type", answercard.Type);
+                        p1.Add("@ChoiceNum", answercard.ChoiceNum);
+                        conn.Execute("ExerciseAnswercard_Upd", p1, commandType: CommandType.StoredProcedure);
+                    }
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
 
         #endregion 
-      
+
+        #region 单个属性更新
+
+        public static bool Exercise_Diffcult_Upd(Exercise model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ExerciseID", model.ExerciseID);
+                    conn.Execute("Exercise_Diffcult_Upd", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+
+            }
+        }
+
+
+        public static bool Exercise_Scope_Upd(Exercise model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ExerciseID", model.ExerciseID);
+                    conn.Execute("Exercise_Scope_Upd", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+
+            }
+        }
+
+        public static bool Exercise_ShareRange_Upd(Exercise model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ExerciseID", model.ExerciseID);
+                    conn.Execute("Exercise_ShareRange_Upd", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+
+            }
+        }
+
+
+
+
+
+        #endregion 
+
         #region 属性批量操作
 
         /// <summary>

@@ -15,6 +15,7 @@ namespace IES.G2S.SYS.DAL
     {
         /// <summary>
         /// 存储服务器新增
+
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -43,7 +44,7 @@ namespace IES.G2S.SYS.DAL
         {
             try
             {
-                using (var conn = DbHelper.ResourceService())
+                using (var conn = DbHelper.SysService())
                 {
                     return conn.Query<ResourceServer>("ResourceServer_List", null, commandType: CommandType.StoredProcedure).ToList();
                 }
@@ -56,6 +57,7 @@ namespace IES.G2S.SYS.DAL
 
         /// <summary>
         /// 存储服务器删除
+
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -63,7 +65,7 @@ namespace IES.G2S.SYS.DAL
         {
             try
             {
-                using (var conn = DbHelper.ResourceService())
+                using (var conn = DbHelper.SysService())
                 {
                     var p = new DynamicParameters();
                     p.Add("@ServerID", model.ServerID);

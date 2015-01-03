@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * OCSite.cs
 *
 * 功 能： N/A
@@ -9,10 +9,10 @@
 * V0.01  2014/12/2 20:19:29   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
 namespace IES.CC.OC.Model
@@ -38,6 +38,7 @@ namespace IES.CC.OC.Model
 		private bool _uselive= true;
 		private bool _usemoocplan= false;
 		private bool _isdeleted= false;
+        private int _language;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -62,6 +63,13 @@ namespace IES.CC.OC.Model
 			set{ _displaystyle=value;}
 			get{return _displaystyle;}
 		}
+        /// <summary>
+        /// 语言 1为中文 0为英文
+        /// </summary>
+        public int Language {
+            set { _language = value; }
+            get { return _language; }
+        }
 		/// <summary>
 		/// 建设模式 ： 1 利用平台， 0外部链接
 		/// </summary>
@@ -70,6 +78,7 @@ namespace IES.CC.OC.Model
 			set{ _buildmode=value;}
 			get{return _buildmode;}
 		}
+
 		/// <summary>
 		/// 外部链接地址
 		/// </summary>
@@ -87,7 +96,7 @@ namespace IES.CC.OC.Model
 			get{return _templateid;}
 		}
 		/// <summary>
-		/// 课程推荐词
+		/// 课程推荐词
 		/// </summary>
 		public string Brief
 		{
@@ -103,7 +112,7 @@ namespace IES.CC.OC.Model
 			get{return _useindexpage;}
 		}
 		/// <summary>
-		/// 是否开启教学资料
+		/// 是否开启教学资料
 		/// </summary>
 		public bool UseResource
 		{
@@ -127,7 +136,7 @@ namespace IES.CC.OC.Model
 			get{return _usemoocplan;}
 		}
 		/// <summary>
-		/// 1 删除  ； 0 未删除
+		/// 1 删除  ； 0 未删除
 		/// </summary>
 		public bool IsDeleted
 		{

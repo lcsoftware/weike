@@ -47,17 +47,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuBLL.cs" />
+    <Compile Include="LogBLL.cs" />
+    <Compile Include="NoticeBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceServerBLL.cs" />
+    <Compile Include="UserBLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IES.AOP.G2S\IES.AOP.G2S.csproj">
       <Project>{c4205a08-b166-4a43-ae4f-b07e5aa782ef}</Project>
       <Name>IES.AOP.G2S</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IES.Cache\IES.Cache.csproj">
+      <Project>{7a302f72-5f5f-41af-9c2a-5c27e03a47d4}</Project>
+      <Name>IES.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.CC.Model\IES.CC.Model.csproj">
+      <Project>{93a1e0e7-a049-4ea7-b349-845a81462d42}</Project>
+      <Name>IES.CC.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IES.G2S.SYS.DAL\IES.G2S.SYS.DAL.csproj">
       <Project>{99ed2fc9-2d3b-499f-9fd4-df04054b85ea}</Project>
       <Name>IES.G2S.SYS.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.G2S.SYS.IBLL\IES.G2S.SYS.IBLL.csproj">
+      <Project>{75ef2a1b-5483-4c1d-9d99-81ba3ee35127}</Project>
+      <Name>IES.G2S.SYS.IBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.Security\IES.Security.csproj">
+      <Project>{c93539d1-c8a9-46ee-a2b9-ecf46b9da47e}</Project>
+      <Name>IES.Security</Name>
     </ProjectReference>
     <ProjectReference Include="..\IES.SYS.Model\IES.SYS.Model.csproj">
       <Project>{ca2b5379-05a2-44ab-bb4f-c49fd02677d0}</Project>

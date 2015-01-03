@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * Attachment.cs
 *
 * 功 能： N/A
@@ -9,19 +9,19 @@
 * V0.01  2014/11/28 16:20:47   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
 namespace IES.Resource.Model
 {
 	/// <summary>
-	/// 附件表
+	/// 附件表
 	/// </summary>
 	[Serializable]
-	public partial class Attachment
+    public partial class Attachment : IResource, IFile
 	{
 		public Attachment()
 		{}
@@ -30,11 +30,11 @@ namespace IES.Resource.Model
 		private int _serverid;
 		private string _filename;
 		private string _title;
-		private int _filesize;
+		private long _filesize;
 		private string _source;
 		private int _sourceid=0;
 		private DateTime _updatetime= DateTime.Now;
-		private Guid _guid;
+		private string _guid;
         private string _downurl;
         private string _viewurl;
         private string _reffileid;
@@ -48,7 +48,7 @@ namespace IES.Resource.Model
 			get{return _attachmentid;}
 		}
 		/// <summary>
-		/// 存储服务器编号
+		/// 存储服务器编号
 		/// </summary>
 		public int ServerID
 		{
@@ -72,9 +72,9 @@ namespace IES.Resource.Model
 			get{return _title;}
 		}
 		/// <summary>
-		/// 文件大小字节为单位
+		/// 文件大小字节为单位
 		/// </summary>
-		public int FileSize
+		public long FileSize
 		{
 			set{ _filesize=value;}
 			get{return _filesize;}
@@ -106,7 +106,7 @@ namespace IES.Resource.Model
 		/// <summary>
 		/// 临时上传的文件，SourceID未知前 可以用该字段，如果SourceID明确后需要更新sourceID
 		/// </summary>
-		public Guid Guid
+        public string Guid
 		{
 			set{ _guid=value;}
 			get{return _guid;}

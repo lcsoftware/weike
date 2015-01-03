@@ -1,0 +1,28 @@
+﻿@using IES.SYS.Model;
+@using IES.Cache;
+@using IES.Security;
+@using IES.SYS.Model;
+@using IES.G2S.SYS.BLL;
+@using IES.Service;
+@{
+    List<Menu> DropDownMenuList = AuService.Menu_UserDropDown_List();
+}
+
+<div class='public_header' id='topest' ng-controller="UserPermissionController">
+    <div class='header_center'>
+        <div class='company_logo'><img src='/Images/company_logo.png' width='70' height='30' alt=''>上海卓越睿新数码科技有限公司</div>
+        <div class='user_box'>
+            <p class='user_name'><img src=@UserService.CurrentUserIMG width='20' height='20' />@UserService.CurrentUser.UserName<span class='icon icon_arrow'></span></p>
+            <ul class='user_info'>
+                @foreach (var menu in DropDownMenuList)
+                {
+                    <li><a href=@menu.URL>@menu.Title</a></li>
+                }
+            </ul>
+        </div>
+        <ul class='nav_box'>
+            <li ng-click="MemuChecked(this)" ng-repeat="menu in UserMemu" ng-model="{true: '1', false: '0'}[isshow]" ng-class="{true: 'active', false: ''}[isActive]"><a href='#'>{{menu.Title}}</a></li>
+        </ul>
+    </div>
+   
+</div>

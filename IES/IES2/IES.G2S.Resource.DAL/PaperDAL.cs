@@ -12,13 +12,14 @@ using IES.Resource.Model;
 
 namespace IES.G2S.Resource.DAL
 {
-
     /// <summary>
     /// 试卷库
     /// </summary>
     public class PaperDAL
     {
-        #region  列表 
+
+        #region  列表
+
         /// <summary>
         /// 试卷列表
         /// </summary>
@@ -32,7 +33,7 @@ namespace IES.G2S.Resource.DAL
         /// <param name="PageSize"></param>
         /// <param name="PageIndex"></param>
         /// <returns></returns>
-        public static List<Paper> Paper_Search( Paper paper, int PageSize, int PageIndex)
+        public static List<Paper> Paper_Search(Paper paper, int PageSize, int PageIndex)
         {
             try
             {
@@ -59,18 +60,16 @@ namespace IES.G2S.Resource.DAL
             }
 
         }
+        #endregion
 
-        #endregion 
-
-
-        #region 获取详细信息
+        #region 详细信息
 
         /// <summary>
         /// 创建不同的试卷信息
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static IPaper   CreatePaper(Paper model)
+        public static IPaper CreatePaper(Paper model)
         {
             return new Paper();
 
@@ -82,14 +81,14 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        private  static Paper  Paper_Get(Paper  model)
+        private static Paper Paper_Get(Paper model)
         {
             try
             {
                 using (IDbConnection conn = DbHelper.ResourceService())
                 {
                     var p = new DynamicParameters();
-                    p.Add("@PaperID", model.PaperID );
+                    p.Add("@PaperID", model.PaperID);
                     return conn.Query<Paper>("Paper_Get", p, commandType: CommandType.StoredProcedure).SingleOrDefault<Paper>();
 
                 }
@@ -125,11 +124,11 @@ namespace IES.G2S.Resource.DAL
                     var papertacticlist = multi.Read<PaperTactic>().ToList();
                     pd.PaperID = paper.PaperID;
                     pd.Type = paper.Type;
-                    pd.paper = paper ;
+                    pd.paper = paper;
                     pd.papergrouplist = grouplist;
                     pd.attachmentlist = attachmentlist;
                     pd.exerciselist = paperexerciselist;
-                    pd.papertacticlist = papertacticlist ;
+                    pd.papertacticlist = papertacticlist;
 
                     return pd;
                 }
@@ -211,18 +210,16 @@ namespace IES.G2S.Resource.DAL
             }
         }
 
+        #endregion
 
+        #region  新增
 
-        #endregion 
-
-
-        #region 新增
         /// <summary>
         /// 试卷基本信息添加
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static bool Paper_ADD( Paper model )
+        public static bool Paper_ADD(Paper model)
         {
             try
             {
@@ -246,7 +243,7 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static bool PaperCardInfo_ADD( PaperCardInfo  model )
+        public static bool PaperCardInfo_ADD(PaperCardInfo model)
         {
             try
             {
@@ -270,7 +267,7 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static bool PaperDefineInfo_ADD( PaperDefineInfo model )
+        public static bool PaperDefineInfo_ADD(PaperDefineInfo model)
         {
             try
             {
@@ -285,19 +282,33 @@ namespace IES.G2S.Resource.DAL
             catch (Exception e)
             {
                 return false;
-            }  
+            }
 
         }
 
 
-        #endregion 
+        #endregion
+
+        #region 对象更新
 
 
-        #region 更新
 
 
-        #endregion 
+        #endregion
 
+        #region 单个批量更新
+
+
+
+
+        #endregion
+
+        #region 属性批量操作
+
+
+
+
+        #endregion
 
         #region 删除
         /// <summary>

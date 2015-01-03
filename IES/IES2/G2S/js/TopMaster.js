@@ -1,8 +1,8 @@
 ﻿jQuery(document).ready(function () {
-    $G2S.DomAdd("http://localhost:5093/js/index.js");
-    $G2S.DomAdd("http://localhost:5093/css/index.css");
-    $G2S.DomAdd("http://localhost:5093/css/header.css");
-    GetTop();
+    //$G2S.DomAdd("http://localhost:5093/js/index.js");
+    //$G2S.DomAdd("http://localhost:5093/css/index.css");
+    //$G2S.DomAdd("http://localhost:5093/css/header.css");
+    //  GetTop();
 });
 
 
@@ -16,7 +16,7 @@ function GetTop()
         strHtml += "<div class='public_header' id='topest'>";
         strHtml += "        <div class='header_center'>";
         strHtml += "            <div class='company_logo'>";
-        strHtml += "                <img src='../images/company_logo.png' width='70' height='30' alt=''>上海卓越睿新数码科技有限公司";
+        strHtml += "                <img src='/Images/company_logo.png' width='70' height='30' alt=''>上海卓越睿新数码科技有限公司";
         strHtml += "            </div>";
         strHtml += "            <div class='user_box'>";
         strHtml += "                <p class='user_name'>";

@@ -30,7 +30,6 @@ namespace IES.CC.Forum.Model
 		private int _courseid;
 		private string _title;
 		private int _orde;
-		private bool _istop= false;
 		private string _brief;
 		private bool _ispublic= true;
 		private int? _userid;
@@ -43,6 +42,9 @@ namespace IES.CC.Forum.Model
 			set{ _forumtypeid=value;}
 			get{return _forumtypeid;}
 		}
+
+        public int OCID { get; set; }
+
 		/// <summary>
 		/// 是否设为精选版块
 		/// </summary>
@@ -70,11 +72,8 @@ namespace IES.CC.Forum.Model
 		/// <summary>
 		/// 是否设为精选版块
 		/// </summary>
-		public bool IsTop
-		{
-			set{ _istop=value;}
-			get{return _istop;}
-		}
+        public bool IsIsEssence
+        { get; set; }
 		/// <summary>
 		/// 
 		/// </summary>

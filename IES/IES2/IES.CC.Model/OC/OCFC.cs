@@ -22,8 +22,8 @@ namespace IES.CC.OC.Model
 	/// </summary>
 	[Serializable]
 	public partial class OCFC
-	{
-		public OCFC()
+    {
+        public OCFC()
 		{}
 		#region Model
 		private int _fcid;
@@ -35,8 +35,9 @@ namespace IES.CC.OC.Model
 		private string _brief;
 		private int _orde=1;
 		private bool _isdeleted= false;
+        private DateTime _endtime;
 		/// <summary>
-		/// 
+        /// 翻转课堂id
 		/// </summary>
 		public int FCID
 		{
@@ -44,7 +45,7 @@ namespace IES.CC.OC.Model
 			get{return _fcid;}
 		}
 		/// <summary>
-		/// 
+        /// 翻转课堂课程id
 		/// </summary>
 		public int OCID
 		{
@@ -52,7 +53,7 @@ namespace IES.CC.OC.Model
 			get{return _ocid;}
 		}
 		/// <summary>
-		/// 
+		/// 创建人id
 		/// </summary>
 		public int UserID
 		{
@@ -60,7 +61,7 @@ namespace IES.CC.OC.Model
 			get{return _userid;}
 		}
 		/// <summary>
-		/// 
+		/// 开始周
 		/// </summary>
 		public int StartWeek
 		{
@@ -68,7 +69,7 @@ namespace IES.CC.OC.Model
 			get{return _startweek;}
 		}
 		/// <summary>
-		/// 
+		/// 结束周
 		/// </summary>
 		public int EndWeek
 		{
@@ -107,6 +108,15 @@ namespace IES.CC.OC.Model
 			set{ _isdeleted=value;}
 			get{return _isdeleted;}
 		}
+
+        /// <summary>
+        /// 结束时间
+        /// </summary>
+        public DateTime EndTime
+        {
+            set { _endtime = value; }
+            get { return _endtime; }
+        }
 		#endregion Model
 
 	}

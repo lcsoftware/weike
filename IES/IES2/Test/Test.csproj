@@ -89,6 +89,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="login.aspx" />
     <Content Include="packages.config" />
     <Content Include="Configs\log4net.config" />
     <Content Include="Configs\jwaop.config" />
@@ -103,6 +104,7 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="myspace.aspx" />
+    <Content Include="Pages\WebForm1.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -113,12 +115,26 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="login.aspx.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="login.aspx.designer.cs">
+      <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
     <Compile Include="myspace.aspx.cs">
       <DependentUpon>myspace.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="myspace.aspx.designer.cs">
       <DependentUpon>myspace.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -127,9 +143,13 @@
       <Project>{c4205a08-b166-4a43-ae4f-b07e5aa782ef}</Project>
       <Name>IES.AOP.G2S</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IES.Common.Data\IES.Common.Data.csproj">
-      <Project>{8f3fc7c7-5384-481e-a3c5-084504f8eed8}</Project>
-      <Name>IES.Common.Data</Name>
+    <ProjectReference Include="..\IES.Cache\IES.Cache.csproj">
+      <Project>{7a302f72-5f5f-41af-9c2a-5c27e03a47d4}</Project>
+      <Name>IES.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.Common\IES.Common.csproj">
+      <Project>{dbb225c3-ad3b-469c-a8df-ca8dfc4ae304}</Project>
+      <Name>IES.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\IES.G2S.Resource.BLL\IES.G2S.Resource.BLL.csproj">
       <Project>{7893d3de-1517-443b-9c4a-191ec233a073}</Project>
@@ -139,9 +159,29 @@
       <Project>{972577f0-3061-4659-933c-b065185daf80}</Project>
       <Name>IES.G2S.Resource.IBLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IES.G2S.SYS.BLL\IES.G2S.SYS.BLL.csproj">
+      <Project>{f51fea70-1bfa-43cd-88c8-235d9b3f644f}</Project>
+      <Name>IES.G2S.SYS.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.G2S.SYS.IBLL\IES.G2S.SYS.IBLL.csproj">
+      <Project>{75ef2a1b-5483-4c1d-9d99-81ba3ee35127}</Project>
+      <Name>IES.G2S.SYS.IBLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
       <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
       <Name>IES.Resource.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.Security\IES.Security.csproj">
+      <Project>{c93539d1-c8a9-46ee-a2b9-ecf46b9da47e}</Project>
+      <Name>IES.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.Service\IES.Service.csproj">
+      <Project>{3a3c9b64-1cd3-4eca-9dbd-ce5b4f3f833e}</Project>
+      <Name>IES.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.SYS.Model\IES.SYS.Model.csproj">
+      <Project>{ca2b5379-05a2-44ab-bb4f-c49fd02677d0}</Project>
+      <Name>IES.SYS.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

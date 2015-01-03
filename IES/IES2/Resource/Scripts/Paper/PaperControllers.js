@@ -5,30 +5,15 @@ var appPaper = angular.module('app.paper.controllers', ['app.paper.services']);
 appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope, PaperService) {
     $scope.$emit('onActived', 2);
 
-    $scope.paper = {};
+    $scope.keyword = '';
 
     $scope.paperTypes = [];
     $scope.conditionPaperTypes = [];
 
+    $scope.tabs = [{ name: '个人资料', id: '0' }];
+
     $scope.typeSelection = -1;
     $scope.createrSelection = -1; 
-
-    PaperService.paperMake(function (data) {
-        $scope.paper = data;
-    });
-
-    ///初始化试卷类型
-    PaperService.getPaperTypes(function (data) {
-        $scope.paperTypes = data;
-        if ($scope.paperTypes.length > 0) {
-            var item = {};
-            angular.copy($scope.paperTypes, $scope.conditionPaperTypes);
-            angular.copy($scope.conditionPaperTypes[0], item);
-            $scope.conditionPaperTypes.insert(0, item);
-            item.id = -1;
-            item.name = '不限';
-        }
-    });
 
     $scope.$watch('typeSelection', function (newValue) {
         find(newValue, $scope.createrSelection);
@@ -46,14 +31,22 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
         $scope.createrSelection = v;
     }
 
-    ///根据条件查找列表数据
     var find = function (typeSelection, createrSelection) { 
-        var model = {};
-        model.Type = typeSelection;
-
         console.log(typeSelection, createrSelection);
     }
-
-
+    ///初始化试卷类型
+    PaperService.getPaperTypes(function (data) {
+        $scope.paperTypes = data;
+        if ($scope.paperTypes.length > 0) {
+            var item = {};
+            angular.copy($scope.paperTypes[0], item);
+            item.id = -1;
+            item.name = '不限';
+            $scope.conditionPaperTypes.push(item);
+            angular.forEach($scope.paperTypes, function (v) {
+                $scope.conditionPaperTypes.push(v);
+            });
+        }
+    });
 
 }]); 

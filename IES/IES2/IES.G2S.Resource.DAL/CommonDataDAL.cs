@@ -13,7 +13,7 @@ namespace IES.G2S.Resource.DAL
 {
     public class CommonDataDAL
     {
-
+        #region 列表
         public static List<ResourceDict> ResourceDict_List()
         {
             try
@@ -29,5 +29,7 @@ namespace IES.G2S.Resource.DAL
             }
 
         }
+
+        #endregion 
     }
 }

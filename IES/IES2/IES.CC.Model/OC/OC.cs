@@ -22,8 +22,17 @@ namespace IES.CC.OC.Model
 	/// </summary>
 	[Serializable]
 	public partial class OC
-	{
-		public OC()
+    {
+
+        #region 补充信息
+
+ 
+
+
+
+        #endregion 
+
+        public OC()
 		{}
 		#region Model
 		private int _ocid;
@@ -71,6 +80,13 @@ namespace IES.CC.OC.Model
 			set{ _subjectid=value;}
 			get{return _subjectid;}
 		}
+
+
+        /// <summary>
+        /// 在线课程网站适用课程分类名称
+        /// </summary>
+        public string  SubjectName { get; set; }
+
 		/// <summary>
 		/// 课程标签 多个之间用空格分隔
 		/// </summary>

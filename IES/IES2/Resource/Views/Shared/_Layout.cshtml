@@ -1,4 +1,19 @@
-﻿<!DOCTYPE html>
+﻿
+@using IES.SYS.Model;
+@using IES.Cache;
+@using IES.Security;
+@using IES.SYS.Model;
+@using IES.G2S.SYS.BLL;
+@using IES.Service;
+@{
+    List<Menu> DropDownMenuList = AuService.Menu_UserDropDown_List();
+
+    List<Menu> TopMenulist = AuService.Menu_Top_List(2);
+}
+
+
+
+<!DOCTYPE html>
 <html lang="en" ng-app="app">
 <head>
     <meta charset="utf-8">
@@ -21,30 +36,24 @@
                 </div>
                 <div class="user_box">
                     <p class="user_name">
-                        <img src="http://placehold.it/20x20/cccccc" width="20" height="20" />
-                        王小明
+                        <img src=@UserService.CurrentUserIMG width="20" height="20" />
+                        @UserService.CurrentUser.UserName
                         <span class="icon icon_arrow"></span>
                     </p>
                     <ul class="user_info">
-                        <li><a href="#">消息中心</a></li>
-                        <li><a href="#">在线帮助</a></li>
-                        <li><a href="#">帐号管理</a></li>
-                        <li><a href="#">我的通讯录</a></li>
-                        <li><a href="#">我的回收站</a></li>
-                        <li><a href="#">返回主页</a></li>
-                        <li><a href="#">退出系统</a></li>
+                        @foreach (var menu in DropDownMenuList)
+                        {
+                            <li><a href=@menu.URL>@menu.Title</a></li>
+                        }
                     </ul>
                 </div>
                 <ul class="nav_box">
-                    <li><a href="#">教学管理</a></li>
-                    <li class="active"><a href="#">我的资源</a></li>
-                    <li><a href="#">我的评价</a></li>
-                    <li><a href="#">管理评估</a></li>
-                    <li><a href="#">实践实习</a></li>
-                    <li><a href="#">质量工程</a></li>
-                    <li><a href="#">我的直播</a></li>
-                    <li><a href="#">我的录制</a></li>
-                    <li><a href="#">教务管理</a></li>
+
+                    @foreach (var menu in TopMenulist)
+                    {
+                        <li><a href=@menu.URL>@menu.Title</a></li>
+                    }
+
                 </ul>
             </div>
         </div>

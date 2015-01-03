@@ -1,0 +1,137 @@
+﻿/*公共样式 */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,select,textarea,p,blockquote,th,td,hr,button,figure,menu{margin:0;padding:0;}
+body{font:12px/22px Tahoma,Arial,\5b8b\4f53,sans-serif;}
+h1,h2,h3,h4,h5,h6{font-size:100%;}
+table{border-collapse:collapse;border-spacing:0;}
+ol,ul{list-style:none;}
+a img{border:none; vertical-align:top;}
+input,select{font-family:'Microsoft YaHei';}
+a{ text-decoration:none;}a:hover{ text-decoration: none;}
+body{ font-family:'Microsoft YaHei'; background:#e4e4e4;}
+
+
+.btn_box{ margin-top:20px; text-align:center;}
+.btn_box a{ display:inline-block; height:30px; line-height:30px; padding:0 25px; border:1px solid #ccc; margin-left:10px; font-size:14px;}
+.cancel{ color:#666; background:#f2f2f2;}
+.cancel:hover{ background:#dad7d7;}
+.keep{ color:#fff; background:#374760;}
+.keep:hover{ background:#303d51;}
+.save{ background:#cc0000; color:#fff;}
+.save:hover{ background:#b00606;}
+.icon{ display:inline-block; width:16px; height:16px; background:url(../images/icon_index.png) no-repeat;}
+
+/*弹出框样式*/
+.pop_bg{display:none; width:100%; height:100%; position:absolute; top:0; left:0;background-color: rgba(0, 0, 0, 0.4); filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr=#88000000, endColorstr=#88000000); z-index:998;}
+.pop_600{ display:none;width:600px; position:absolute; left:50%; margin-left:-300px; top:200px; background:#fff; z-index:999; }
+.pop_600 h4{ height:40px; line-height:40px; background:#1e5975; font-size:14px; color:#fff; padding-left:13px;}
+.icon_close{ background-position:-37px -128px; position:absolute; right:12px; top:12px; cursor:pointer;}
+.pop_400{ display:none; width:400px; position:absolute; left:50%; margin-left:-200px; top:200px; background:#fff; z-index:999;}
+.pop_400 h4{ height:40px; line-height:40px; background:#1e5975; font-size:14px; color:#fff; padding-left:13px;}
+.pop_800{ display:none; width:800px; position:absolute; top:200px; left:50%; margin-left:-400px; z-index:999; background:#fff;}
+.pop_800 h4{ height:40px; line-height:40px; background:#1e5975; font-size:14px; color:#fff; padding-left:13px;}
+
+.wrap_box{ padding:19px; border:1px solid #ccc; overflow:hidden; zoom:1;}
+.brief_box textarea{ width:348px; height:88px; overflow:auto; border:1px solid #e2e3ea; color:#999; font-size:12px; padding:5px; resize:none;}
+.brief_box p{ font-size:13px; color:#666; margin-top:20px;}
+.brief_box p input{ width:48px; height:30px; line-height:30px\9; text-align:center; border:1px solid #ccc;}
+.brief_box p span{ color:#ff0000; font-weight:bold; padding-left:10px;}
+.upload_btn{ height:25px; line-height:25px; overflow:hidden; zoom:1; color:#999;}
+.upload_btn a{ float:left; margin-right:10px; overflow:hidden; zoom:1; width:105px; height:25px; background:url(../images/add_bg.gif) no-repeat; color:#fff;}
+.upload_btn a em{ width:25px; height:25px; float:left;}
+.upload_btn a em i{ margin:4px 0 0 4px;}
+.upload_btn a span{ display:block; overflow:hidden; width:80px; text-align:center;}
+.upload_btn a:hover{ background:url(../images/add_bg_hover.gif) no-repeat;}
+.icon_up{ background-position:-32px -16px;}
+.icon_add{ background-position:-53px 0;}
+.data_table{ width:100%; margin-top:10px; border:1px solid #ccc;}
+.data_table tr.active{ background:#f2f2f2;}
+.data_table tr td{ height:39px; line-height:39px; color:#666; border-bottom:1px solid #ccc;}
+.data_name{ padding-left:13px;}
+.data_name i{ float:left; margin:7px 10px 0 0;}
+.data_btn i{ float:left; margin-right:10px; cursor:pointer;}
+.icon_flag{ background-position:-32px -32px;}
+.icon_flag2{ background-position:-32px -48px;}
+.icon_delete{ background-position:-37px -192px;}
+.video_time input{ width:45px; height:30px; line-height:30px\9; margin:0 5px; text-align:center; border:1px solid #ccc;}
+.video_time span{ color:#999;}
+.know_name{ padding-left:13px; font-size:14px;}
+.know_name input{ float:left; width:340px; padding:0 5px; height:30px; line-height:30px\9; border:1px solid #ccc; color:#999; font-family:'Microsoft YaHei'; margin:3px 5px 0 0;}
+.know_name b{ color:#ff0000;}
+.important_degree{ width:114px; height:30px; line-height:30px; color:#999; border:1px solid #ccc;font-family:'Microsoft YaHei';}
+.theme{ padding-left:13px; font-size:14px;}
+.theme input{ display:block; width:490px; padding:0 5px; height:30px; line-height:30px\9; color:#999; border:1px solid #ccc;}
+.search_box{ position:relative; width:192px;}
+.search_box input{ display:block; width:170px; padding:0 10px; height:30px; line-height:30px\9; border:1px solid #ccc; color:#999;}
+.search_box a{ position:absolute; right:10px; top:7px; cursor:pointer;}
+.icon_search{ background-position:-37px -144px;}
+.course_data_box{ margin-top:10px; overflow:hidden; zoom:1;}
+.course_data_nav{ height:31px; border-bottom:1px solid #ccc;}
+.course_data_nav li{ float:left; margin-right:4px;}
+.course_data_nav li a{ display:block; width:100px; height:30px; line-height:30px; text-align:center; background:#eff0f2; color:#999; border:1px solid #ccc; border-bottom:0; font-size:14px;}
+.course_data_nav li.active a{ background:#fff; color:#333;margin-top:1px;}
+.course_data_box .data_table{ margin-top:0; border-top:0;}
+.file_tit{ padding-left:13px; font-size:13px;}
+.file_tit input{ height:39px; vertical-align:middle; margin-right:5px;}
+.file_name{ overflow:hidden; zoom:1; color:#333; padding-left:13px;}
+.file_name input{ float:left; height:39px; vertical-align:middle; margin-right:8px;}
+.file_name i{ float:left; margin:7px 10px 0 0;}
+.page_box{ float:right; margin-right:36px; overflow:hidden; zoom:1;}
+.page_box a{ display:inline-block; height:25px; color:#333; line-height:25px; padding:0 8px; border:1px solid #ccc;}
+.page_box a:hover,.page_box a.active{ background:#878787; border:1px solid #777;}
+.page_box span{ color:#999; padding:0 5px;}
+.page_box span input{ width:30px; height:20px; text-align:center; line-height:20px\9; border:1px solid #ccc; margin:0 5px;}
+.operation_box{ margin-top:10px; height:27px; line-height:27px; overflow:hidden; zoom:1;}
+.all_select{ float:left; margin-left:14px; font-size:13px; color:#666;}
+.all_select input{ float:left; height:27px; vertical-align:middle; margin-right:6px;}
+.operation_box .page_box{ margin-right:0;}
+.select_btn{ display:block; width:80px; margin:23px auto 14px; font-size:14px; color:#fff; background:#374760; height:30px; line-height:30px; text-align:center; border:1px solid #ccc;}
+.select_btn:hover{ background:#2c384b;}
+.selected_box{ height:49px; border:1px solid #ccc; border-top:0; position:relative; overflow:hidden; zoom:1;}
+.selected_box .btn_box{ margin-top:8px;}
+.selected_num{ color:#333; position:absolute; top:13px; left:30px;}
+.curri_table{ width:100%;}
+.curri_table tr th,.curri_table tr td{ height:30px; line-height:30px; vertical-align:middle;}
+.curri_table tr th{ text-align:left; font-size:13px; color:#333; background:#e4e4e4;}
+.curri_table tr td{ color:#666;}
+.on_study{ font-size:13px; color:#666;}
+.student_table tr th{ color:#fff; font-weight:normal;}
+.page{ margin-top:10px; overflow:hidden; zoom:1;}
+.page .page_box{ margin-right:0;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

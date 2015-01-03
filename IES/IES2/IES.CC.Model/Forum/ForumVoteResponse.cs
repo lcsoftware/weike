@@ -71,6 +71,15 @@ namespace IES.CC.Forum.Model
 			set{ _userid=value;}
 			get{return _userid;}
 		}
+
+        /// <summary>
+        /// 该元素投票统计,改属性属于proc数据
+        /// </summary>
+        public int Proc_VoteCount { get; set; }
+        
+
+
+
 		#endregion Model
 
 	}

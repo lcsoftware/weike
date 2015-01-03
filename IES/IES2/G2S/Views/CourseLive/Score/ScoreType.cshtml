@@ -1,0 +1,17 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout.cshtml";
+}
+<div ng-controller="ScoreTypeCtrl">
+    <button ng-click="ScoreType_List()">出来</button>
+    <button ng-click="ScoreType_Add()">新增</button>
+    <ul>
+        <li ng-repeat="item in ScoreTypeItem|filter:{'ParentID':'0'}">
+            <a>{{item.Name}}</a>
+            <ul>
+                <li ng-repeat="it in ScoreTypeItem|filter:{'ParentID':item.ScoreTypeID}">
+                    <a>-->{{it.Name}}{{it.IsSystem==1?'  (系统)':''}}</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

@@ -22,8 +22,15 @@ namespace IES.JW.Model
 	/// </summary>
 	[Serializable]
 	public partial class Organization
-	{
-		public Organization()
+    {
+        #region  补充信息
+        public string OrganizationTypeName { get; set; }
+
+        public int ChildNoeds { get; set; }
+
+        #endregion 
+
+        public Organization()
 		{}
 		#region Model
 		private int _organizationid;

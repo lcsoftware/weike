@@ -23,6 +23,20 @@ namespace IES.CC.OC.Model
 	[Serializable]
 	public partial class OCNoticeObj
 	{
+
+
+        #region 补充信息
+
+        /// <summary>
+        /// j教学班名称
+        /// </summary>
+        public string classname { get; set; }
+
+
+
+        #endregion 
+
+
 		public OCNoticeObj()
 		{}
 		#region Model

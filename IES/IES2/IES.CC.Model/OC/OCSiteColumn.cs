@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * OCSiteColumn.cs
 *
 * 功 能： N/A
@@ -9,12 +9,13 @@
 * V0.01  2014/12/2 20:19:30   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
+using System.Collections.Generic;
 namespace IES.CC.OC.Model
 {
 	/// <summary>
@@ -24,7 +25,9 @@ namespace IES.CC.OC.Model
 	public partial class OCSiteColumn
 	{
 		public OCSiteColumn()
-		{}
+		{
+            Children = new List<OCSiteColumn>();
+        }
 		#region Model
 		private int _columnid;
 		private int _ocid;
@@ -37,6 +40,7 @@ namespace IES.CC.OC.Model
 		private DateTime _createtime= DateTime.Now;
 		private DateTime _updatetime= DateTime.Now;
 		private int _contenttype=0;
+        private int _haschild = 0;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -125,6 +129,16 @@ namespace IES.CC.OC.Model
 			set{ _contenttype=value;}
 			get{return _contenttype;}
 		}
+        /// <summary>
+        ///是否有子集
+        /// </summary>
+        public int HasChild {
+            set { _haschild = value; }
+            get { return _haschild; }
+        }
+
+        public List<OCSiteColumn> Children { get; set; } 
+
 		#endregion Model
 
 	}

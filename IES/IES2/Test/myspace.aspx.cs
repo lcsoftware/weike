@@ -118,8 +118,8 @@ namespace Test
 
         protected void Button3_Click(object sender, EventArgs e)
         {
-            IES.Common.Data.ResourceCommonData rc = new IES.Common.Data.ResourceCommonData();
-            List<ResourceDict>   List =   rc.Resource_Dict_Diffcult_Get();
+            //IES.Common.Data.ResourceCommonData rc = new IES.Common.Data.ResourceCommonData();
+            //List<ResourceDict>   List =   rc.Resource_Dict_Diffcult_Get();
 
 
         }

@@ -57,7 +57,7 @@ namespace IES.JW.Model
 			get{return _userid;}
 		}
 		/// <summary>
-		/// 添加人员编号，0 为管理员；  -1 教务系统数据联动 ； 1为教师本人添加的教学班学生；2表示学生自己注册的
+        /// 添加人员编号， 1 教务系统数据联动 ； 2 为管理员；  3为教师本人添加的教学班学生；4表示学生自己注册的
 		/// </summary>
 		public int Source
 		{
@@ -65,7 +65,7 @@ namespace IES.JW.Model
 			get{return _source;}
 		}
 		/// <summary>
-		/// 审核状态 ：0待审核， 1 通过 ，2 通过
+        /// 审核状态 ：审核状态 ：0拒绝， 1待审核 ，2通过
 		/// </summary>
 		public int Status
 		{
@@ -80,6 +80,15 @@ namespace IES.JW.Model
 			set{ _regdate=value;}
 			get{return _regdate;}
 		}
+
+
+        /// <summary>
+        /// 驳回理由
+        /// </summary>
+        public string Reason { get; set; }
+
+
+
 		#endregion Model
 
 	}

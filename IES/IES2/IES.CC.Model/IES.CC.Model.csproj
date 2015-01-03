@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forum\ForumResponseInfo.cs" />
     <Compile Include="Forum\ForumTopicInfo.cs" />
     <Compile Include="Forum\ForumTopicType.cs" />
     <Compile Include="Forum\ForumClass.cs" />
@@ -54,16 +55,22 @@
     <Compile Include="Forum\ForumResponse.cs" />
     <Compile Include="Forum\ForumTopic.cs" />
     <Compile Include="Forum\ForumType.cs" />
+    <Compile Include="Forum\ForumTypeInfo.cs" />
     <Compile Include="Forum\ForumVote.cs" />
+    <Compile Include="Forum\ForumVoteInfo.cs" />
     <Compile Include="Forum\ForumVoteItem.cs" />
     <Compile Include="Forum\ForumVoteResponse.cs" />
     <Compile Include="OC\OC.cs" />
     <Compile Include="OC\OCClass.cs" />
+    <Compile Include="OC\OCClassInfo.cs" />
+    <Compile Include="OC\OCClassRegInfo.cs" />
+    <Compile Include="OC\OCClassRegStudent.cs" />
     <Compile Include="OC\OCFC.cs" />
     <Compile Include="OC\OCFCClass.cs" />
     <Compile Include="OC\OCFCFile.cs" />
     <Compile Include="OC\OCFCGroup.cs" />
     <Compile Include="OC\OCFCGroupUser.cs" />
+    <Compile Include="OC\OCFCInfo.cs" />
     <Compile Include="OC\OCFCLive.cs" />
     <Compile Include="OC\OCFCLiveGroup.cs" />
     <Compile Include="OC\OCFCOffline.cs" />
@@ -73,12 +80,32 @@
     <Compile Include="OC\OCMoocOffline.cs" />
     <Compile Include="OC\OCMoocRecruit.cs" />
     <Compile Include="OC\OCNotice.cs" />
+    <Compile Include="OC\OCNoticeInfo.cs" />
     <Compile Include="OC\OCNoticeObj.cs" />
     <Compile Include="OC\OCNoticeResponse.cs" />
     <Compile Include="OC\OCSite.cs" />
     <Compile Include="OC\OCSiteColumn.cs" />
     <Compile Include="OC\OCTeam.cs" />
+    <Compile Include="OC\OCTeamClass.cs" />
+    <Compile Include="OC\OCTeamInfo.cs" />
+    <Compile Include="OC\OCUserAuInfo.cs" />
+    <Compile Include="PBL\Group.cs" />
+    <Compile Include="PBL\GroupAffairs.cs" />
+    <Compile Include="PBL\GroupComment.cs" />
+    <Compile Include="PBL\GroupFileType.cs" />
+    <Compile Include="PBL\GroupMember.cs" />
+    <Compile Include="PBL\GroupMode.cs" />
+    <Compile Include="PBL\GroupModeInfo.cs" />
+    <Compile Include="PBL\GroupResult.cs" />
+    <Compile Include="PBL\GroupTask.cs" />
+    <Compile Include="PBL\GroupTaskGroup.cs" />
+    <Compile Include="PBL\GroupTaskProgressInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Score\Score.cs" />
+    <Compile Include="Score\ScoreManageInfo.cs" />
+    <Compile Include="Score\ScoreType.cs" />
+    <Compile Include="Score\ScoreWeight.cs" />
+    <Compile Include="Score\ScoreWithInfo.cs" />
     <Compile Include="Test\Test.cs" />
     <Compile Include="Test\TestAnswer.cs" />
     <Compile Include="Test\TestCheck.cs" />
@@ -89,8 +116,17 @@
     <Compile Include="Test\TestUser.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="PBL\" />
     <Folder Include="Survey\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IES.JW.Model\IES.JW.Model.csproj">
+      <Project>{5bbc1895-4b66-4445-af6d-f6711cb3266f}</Project>
+      <Name>IES.JW.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.SYS.Model\IES.SYS.Model.csproj">
+      <Project>{ca2b5379-05a2-44ab-bb4f-c49fd02677d0}</Project>
+      <Name>IES.SYS.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -54,7 +54,11 @@
     <Compile Include="AuUserInfo.cs" />
     <Compile Include="AuUserRoleOrg.cs" />
     <Compile Include="CfgSchool.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="Notice.cs" />
+    <Compile Include="NoticeObject.cs" />
+    <Compile Include="NoticeUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceServer.cs" />
     <Compile Include="Sys.cs" />

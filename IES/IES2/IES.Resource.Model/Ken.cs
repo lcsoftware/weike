@@ -33,7 +33,7 @@ namespace IES.Resource.Model
         private int _createuserid = 0;
         private string _name;
         private string _pingyin;
-        private string _requirement = "了解";
+        private int _requirement = 1;
         private DateTime _updatetime = DateTime.Now;
         /// <summary>
         /// 主键
@@ -59,6 +59,12 @@ namespace IES.Resource.Model
             set { _ocid = value; }
             get { return _ocid; }
         }
+
+        /// <summary>
+        /// 知识点对应的章节编号
+        /// </summary>
+        public int ChapterID { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -94,7 +100,7 @@ namespace IES.Resource.Model
         /// <summary>
         /// 了解,理解,掌握
         /// </summary>
-        public string Requirement
+        public int Requirement
         {
             set { _requirement = value; }
             get { return _requirement; }

@@ -27,6 +27,11 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         .state('content.resource', { url: '/resource', templateUrl: '/views/Resource/ResourceList', controller: 'ResourceCtrl' })
         //试卷
         .state('content.paper', { url: '/paper', templateUrl: '/views/Paper/PaperList', controller: 'PaperListCtrl' })
+        //习题
+        .state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
+        //知识点
+        .state('content.ken', { url: '/Knowledge', templateUrl: '/views/Knowledge/KnowledgeList', controller: 'KnowledgeListCtrl' })
+
 
         .state('otherwise', {
             url: '*path',

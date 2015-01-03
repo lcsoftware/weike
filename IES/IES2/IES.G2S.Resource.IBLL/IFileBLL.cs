@@ -11,8 +11,10 @@ namespace IES.G2S.Resource.IBLL
     public interface  IFileBLL
     {
 
-        #region 文件夹操作
+        #region 文件夹
 
+
+        #region  列表
         /// <summary>
         /// 文件夹列表
         /// </summary>
@@ -27,15 +29,42 @@ namespace IES.G2S.Resource.IBLL
         /// <returns></returns>
         List<Folder> Folder_Tree(Folder model);
 
+        #endregion
+
+
+        #region 详细信息
+
+        #endregion
+
+
+        #region  新增
+
+
         Folder Folder_ADD(Folder model);
 
+
+        #endregion
+
+
+        #region 对象更新
+
+
         bool Folder_Upd(Folder model);
+
+        #endregion
+
+
+        #region 单个批量更新
+
 
         bool Folder_Move(Folder source, Folder Target);
 
 
 
-        bool Folder_Del(Folder model);
+        #endregion
+
+
+        #region 属性批量操作
 
         /// <summary>
         /// 文件夹批量删除
@@ -45,10 +74,23 @@ namespace IES.G2S.Resource.IBLL
         bool Folder_Batch_Del(List<Folder> folderlist);
 
 
+        #endregion
+
+
+        #region 删除
+
+        bool Folder_Del(Folder model);
+
+        #endregion
+
+
         #endregion 
 
 
-        #region 文件操作
+        #region 文件
+
+        #region  列表
+
         /// <summary>
         /// 文件查询
         /// </summary>
@@ -58,35 +100,58 @@ namespace IES.G2S.Resource.IBLL
         /// <returns></returns>
         List<File> File_Search(File model, int PageSize, int PageIndex);
 
+        #endregion
+
+
+        #region 详细信息
+
+        #endregion
+
+
+        #region  新增
+
         File File_ADD(File model);
+
+        #endregion
+
+        #region 对象更新
+
+
+
+        #endregion
+
+
+        #region 单个批量更新
+
 
         bool File_ShareRange(File model);
 
-        bool File_Batch_ShareRange( List<File> model );
-
-
         bool File_Attribute(File model, List<Chapter> chapterlist, List<Ken> kenlist);
 
-        bool File_Keys(File model, List<Key> keylist );
-             
+        bool File_Keys(File model, List<Key> keylist);
+
         bool File_Move(File source, Folder Target);
+
+
+        #endregion
+
+
+        #region 属性批量操作
+
+        bool File_Batch_ShareRange(List<File> model);
+
+        #endregion
+
+        #region 删除
+
+
 
         bool File_Del(File model);
 
 
+        #endregion
 
-
-
-
-        #endregion 
-
-
-
-
-
-
-
-
+        #endregion
 
     }
 }

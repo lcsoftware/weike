@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Delivery.cs" />
     <Compile Include="DH.cs" />
     <Compile Include="EMail.cs" />
     <Compile Include="HtmlHelp.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Public.cs" />
     <Compile Include="Rand.cs" />
     <Compile Include="Secret.cs" />
+    <Compile Include="StringHelp.cs" />
     <Compile Include="Thumbnail.cs" />
   </ItemGroup>
   <ItemGroup>

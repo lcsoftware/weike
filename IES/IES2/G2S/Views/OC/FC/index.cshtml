@@ -1,0 +1,137 @@
+﻿<link href="~/Css/reverse.css" rel="stylesheet" />
+
+
+<div class="main_content" ng-controller="FCController">
+    <div class="classroom_box">
+        <select class="classroom_time">
+            <option>2012-2013学年第一学期</option>
+            <option>2012-2013学年第二学期</option>
+        </select>
+        <a class="add_classroom" href="javascript:;"><em><i class="icon_con icon_add"></i></em><span>新增翻转课堂</span></a>
+    </div>
+    <div class="reverse_course_box" ng-repeat="fcInfo in fcInfoList">
+        <div class="reverse_course_list">
+            <div class="course_intro">
+                <div class="course_intro_l">
+                    <h5>{{termName}}{{OCName}}翻转课程</h5>
+                    <p><i>总进度：</i><span class="learning_progress"><em></em></span><b>48%</b></p>
+                    <p>教学班：<font>07级英语1班，</font><font>07级英语2班，</font><font>07级英语3班，</font><font>07级英语4班</font></p>
+                    <classlist ng-model="fc"></classlist>
+                </div>
+                <div class="course_intro_r">
+                    <img src="http://placehold.it/250x90/cccccc" width="250" height="90" />
+                    <p>开始日期：{{fcInfo.ocfc.UpdateTime }}<br>总学生数：{{fc.FCStudentCount}}<br>总小组数：{{fc.FCLiveGroupCount}}</p>
+                </div>
+            </div>
+
+            <div class="course_detail" id="cd_{{fc.FCID}}">
+                <ul class="course_item">
+                    <li class="active"><a href="javascript:;">线上内容</a><img src="../../images/dian.png" width="9" height="9" alt=""></li>
+                    <li><a href="javascript:;">线下课堂</a></li>
+                    <li><a href="javascript:;">学生评分</a></li>
+                </ul>
+                <div class="item_detail" style="display:block;">
+
+                    <div class="group_learning">
+                        <div class="progress_tit">
+                            <p>小组学习进度<a href="javascript:;">[督促]</a></p>
+                            <span class="groups"><i class="label_gray"></i>番茄组</span>
+                            <span class="groups"><i class="label_red"></i>南瓜组</span>
+                        </div>
+                        <ul class="progress_bar">
+                            <li class="bar_red" style="width:100%;">
+                                <div class="group_detail">
+                                    <p>荠菜组</p>
+                                    <span class="learning_time">时长：03:34:00</span>
+                                    <span class="progress_num">进度：67%</span>
+                                </div>
+                            </li>
+
+                            <li class="bar_green" style="width:90%;">
+                                <div class="group_detail">
+                                    <p>荠菜组</p>
+                                    <span class="learning_time">时长：03:34:00</span>
+                                    <span class="progress_num">进度：67%</span>
+                                </div>
+                            </li>
+                            <li class="bar_green" style="width:85%;">
+                                <div class="group_detail">
+                                    <p>荠菜组</p>
+                                    <span class="learning_time">时长：03:34:00</span>
+                                    <span class="progress_num">进度：67%</span>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <div class="item_detail_r">
+                        <div class="tip_box">
+                            <p>您有<span>3</span>份待批作业</p>
+                            <a href="javascript:;">[批阅]</a>
+                        </div>
+                        <div class="topic_box">
+                            <div class="topic_tit">
+                                <a class="check_all" href="javascript:;"><em><i class="icon_r icon_search"></i></em><span>查看全部</span></a>
+                                <p><b>论题互动</b><span>最活跃：南瓜组</span>，最潜水：白菜组</p>
+
+                            </div>
+                            <ul class="topic_list">
+                                <li>
+                                    <p class="topic_theme">关于此次学习的案例讨论<span>发帖：14 | 回复：6</span></p>
+                                    <div class="topic_detail">
+                                        <img src="http://placehold.it/50x50/cccccc" width="50" height="50" />
+                                        <div class="topic_detail_r">
+                                            <span class="user_reply">张三<b>回复于1小时前</b></span>
+                                            <p>我看到了一个特好的案例，给大家分享一下，链接地址：</p>
+                                            <a href="#">http://dreamsky.github.io</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="topic_theme">关于此次学习的案例讨论<span>发帖：14 | 回复：6</span></p>
+                                    <div class="topic_detail">
+                                        <img src="http://placehold.it/50x50/cccccc" width="50" height="50" />
+                                        <div class="topic_detail_r">
+                                            <span class="user_reply">张三<b>回复于1小时前</b></span>
+                                            <p>我看到了一个特好的案例，给大家分享一下，链接地址：</p>
+                                            <a href="#">http://dreamsky.github.io</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="topic_theme">关于此次学习的案例讨论<span>发帖：14 | 回复：6</span></p>
+                                    <div class="topic_detail">
+                                        <img src="http://placehold.it/50x50/cccccc" width="50" height="50" />
+                                        <div class="topic_detail_r">
+                                            <span class="user_reply">张三<b>回复于1小时前</b></span>
+                                            <p>我看到了一个特好的案例，给大家分享一下，链接地址：</p>
+                                            <a href="#">http://dreamsky.github.io</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p class="topic_theme">关于此次学习的案例讨论<span>发帖：14 | 回复：6</span></p>
+                                    <div class="topic_detail">
+                                        <img src="http://placehold.it/50x50/cccccc" width="50" height="50" />
+                                        <div class="topic_detail_r">
+                                            <span class="user_reply">张三<b>回复于1小时前</b></span>
+                                            <p>我看到了一个特好的案例，给大家分享一下，链接地址：</p>
+                                            <a href="#">http://dreamsky.github.io</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="reverse_unfold" ng-click="Up_Down(this)" id="unfold_{{fc.FCID}}" ng-model="fc.FCID">展开 ∨</div>
+
+    </div>
+
+
+</div>

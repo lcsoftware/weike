@@ -1,0 +1,317 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/Views/OC/Team/index.css" rel="stylesheet" />
+
+<!--右侧主题内容开始-->
+<div class="main_content" ng-controller="TeamController">
+    <!--右侧头部公告开始-->
+    @*<div class="right_header">
+            <p class="freshman"><i class="icon icon_question"></i><a href="#" target="_blank">新手向导</a></p>
+            <div class="notice_box">
+                <ul class="notice_list">
+                    <li style="display:block;"><i class="icon notice_icon"></i>上海卓越《课程中心》4.0版本正式上线，特此公告，此次版本将全面兼容MOOCs课程，功能与界面更友好</li>
+                    <li><i class="icon notice_icon"></i>线，特此公告，此次版本将全面兼容MOOCs课程，功能与界面更友好</li>
+                </ul>
+                <div class="notice_btn">
+                    <a class="icon prev_btn" href="javascript:;"></a>
+                    <a class="icon next_btn" href="javascript:;"></a>
+                </div>
+            </div>
+        </div>*@
+    <!--右侧头部公告结束-->
+    <div class="coursesite_box">
+        @*<div class="exercise_nav">
+                <ul class="exercise_nav_list">
+                    <li class="active"><a class="first_nav" href="#">大学英语</a></li>
+                    <li><a class="first_nav" href="#">国际英语</a></li>
+                </ul>
+                <a class="scan_more" href="#">查看更多<i class="icon"></i></a>
+            </div>*@
+        <div class="create_step">
+
+            <div class="add_course course_set" ng-repeat="Team in TeamInfo | filter:{ OcTeam.Role:1 }">
+                <b ng-show="$index=1" class="set_tit">课程主讲教师</b>
+                <div class="course_photo">
+                    <img src="http://placehold.it/150x150/cccccc" width="150" height="150" />
+                </div>
+                <div class="add_property">
+                    <dl>
+                        <dt>姓名：</dt>
+                        <dd>
+                            <input type="text" disabled="disabled" value="{{Team.OcTeam.UserName}}" placeholder="">
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>职称：</dt>
+                        <dd>
+                            <input type="text" disabled="disabled" value="{{Team.OcTeam.Ranks}}" placeholder="" />
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>简介：</dt>
+                        <dd>
+                            <textarea class="brief" placeholder="建议不超过200字以内">{{Team.OcTeam.Brief}}</textarea>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>班级：{{Team.OcTeam.OcTeamClass}}</dt>
+                        <dd>
+                            <p class="class_detail">
+                                <span ng-repeat="teamClass in Team.OcTeamClass">
+                                    {{teamClass.ClassName}}（{{teamClass.StudentCount}}人），
+                                </span>
+                            </p><a href="#">[管理教学班]</a>
+                        </dd>
+                    </dl>
+                </div>
+                <a ng-show="$index=1" class="unfold" href="javascript:;">[收起]</a>
+            </div>
+            <div ng-show="showAddTeacher" class="add_course course_set teacher_detail">
+                <div class="course_photo">
+                    <img src="http://placehold.it/150x150/cccccc" width="150" height="150" />
+                </div>
+                <div class="add_property">
+                    <dl>
+                        <dt>姓名：</dt>
+                        <dd>
+                            <input type="text" placeholder="" ng-model="OcTeam.UserName"><b>*</b><a class="select_user" ng-click="showdialog()">[选择站内用户]</a>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>职称：</dt>
+                        <dd>
+                            <input disabled="disabled" ng-model="OcTeam.Ranks" type="text">
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>简介：</dt>
+                        <dd>
+                            <textarea class="brief" placeholder="建议不超过200字以内" ng-model="OcTeam.Brief"></textarea>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>班级：</dt>
+                        <dd>
+                            <p class="class_detail"></p><a href="#"></a>
+                        </dd>
+                    </dl>
+                </div>
+                <span class="close_btn" ng-click="hidaddteacher()">X</span>
+            </div>
+            <a class="add_teacher" ng-click="showaddteacher()">+&nbsp;添加主讲人</a>
+        </div>
+        <div class="add_course course_set">
+            <b class="set_tit">教学团队成员</b>
+            <div class="add_member">
+                <ul class="member" ng-repeat="Teams in TeamInfo">
+                    <li class="active">
+                        <img src="http://placehold.it/100x100/cccccc" width="100" height="100" />
+                        <span ng-show="Teams.OcTeam.Role==1" class="icon">&nbsp;&nbsp;创</span>
+                        <p>{{Teams.OcTeam.UserName}}</p>
+                        <a ng-show="Teams.OcTeam.Role>1" class="icon reedit" ng-click="EditTeam(Teams.OcTeam)"></a>
+                        <a ng-show="Teams.OcTeam.Role>1" class="icon throw" ng-click="DelTeam(Teams.OcTeam)"></a>
+                    </li>
+                    @*<li>
+                            <img src="http://placehold.it/100x100/cccccc" width="100" height="100" />
+                            <p>{{Teams.OcTeam.UserName}}</p>
+                            <a class="icon reedit" href="javascript:;"></a>
+                            <a class="icon throw" href="javascript:;"></a>
+                        </li>*@
+                </ul>
+                <a class="add_new" href="javascript:;"><img src="../../images/add_new.jpg" width="100" height="100" alt=""></a>
+            </div>
+        </div>
+        <div class="btn_box">
+            <a class="save" href="javascript:;">保存</a>
+            <a class="cancel" href="javascript:;">取消</a>
+        </div>
+    </div>
+
+</div>
+<!--右侧主题内容结束-->
+<div class="pop_bg"></div>
+<div ng-show="showDialog" class="pop_400">
+    <h4>选择站内用户</h4>
+    <div class="form_box">
+        <div class="search_name">
+            <p><label>用户姓名：</label><input class="name_box" type="text"></p>
+            <a href="#">[搜索]</a>
+        </div>
+    </div>
+    <span class="icon close_pop"></span>
+    <div class="search_content">
+        <div class="user_search">
+            <input type="text" placeholder='请输入“工号” “姓名” 关键字'>
+            <b>*</b>
+            <a href="#">搜索</a>
+        </div>
+        <table class="class_box">
+            <tr>
+                <th width="120">工号</th>
+                <th width="120">姓名</th>
+                <th>所属机构</th>
+            </tr>
+            <tr>
+                <td><input type="radio"><label>39018</label></td>
+                <td>刘晓明</td>
+                <td>文学院</td>
+            </tr>
+            <tr>
+                <td><input type="radio"><label>39076</label></td>
+                <td>王金</td>
+                <td>机械工程学院</td>
+            </tr>
+            <tr>
+                <td><input type="radio"><label>39018</label></td>
+                <td>刘晓明</td>
+                <td>文学院</td>
+            </tr>
+            <tr>
+                <td><input type="radio"><label>39018</label></td>
+                <td>刘晓明</td>
+                <td>文学院</td>
+            </tr>
+            <tr>
+                <td><input type="radio"><label>39076</label></td>
+                <td>王金</td>
+                <td>机械工程学院</td>
+            </tr>
+            <tr>
+                <td><input type="radio"><label>39018</label></td>
+                <td>刘晓明</td>
+                <td>文学院</td>
+            </tr>
+            <tr>
+                <td><input type="radio"><label>39018</label></td>
+                <td>刘晓明</td>
+                <td>文学院</td>
+            </tr>
+            <tr>
+                <td><input type="radio"><label>39076</label></td>
+                <td>王金</td>
+                <td>机械工程学院</td>
+            </tr>
+            <tr>
+                <td><input type="radio"><label>39018</label></td>
+                <td>刘晓明</td>
+                <td>文学院</td>
+            </tr>
+            <tr>
+                <td><input type="radio"><label>39018</label></td>
+                <td>刘晓明</td>
+                <td>文学院</td>
+            </tr>
+        </table>
+        <div class="page_box">
+            <a class="prev" href="javascript:;">前一页</a>
+            <a href="#">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <span class="more">...</span>
+            <a href="#">8</a>
+            <a class="prev" href="javascript:;">后一页</a>
+            <span>共229条，到第<input type="text">页</span>
+            <a class="confirm" href="#">确认</a>
+        </div>
+    </div>
+</div>
+<div class="pop_600">
+    <h4>添加新成员</h4>
+    <span class="icon close_pop"></span>
+    <div class="member_detail">
+        <div class="form_box">
+            <div class="search_name">
+                <p><label>用户姓名：</label><input class="name_box" type="text"></p>
+                <a href="#">[搜索]</a>
+            </div>
+        </div>
+        <div class="member_search">
+            <div class="class_accord">
+                <div class="class_tit">
+                    <b>按班级授权</b>
+                    <p><input type="checkbox"><label>全选</label></p>
+                </div>
+                <div class="class_member_box">
+                    <ul class="check_list">
+                        <li><input type="checkbox"></li>
+                        <li><input type="checkbox"></li>
+                        <li><input type="checkbox"></li>
+                    </ul>
+                    <ul class="member_list">
+                        <li><span>国际英语1班（39人）陈晨</span></li>
+                        <li><span>国际英语2班（39人）陈晨、郭涛</span></li>
+                        <li><span>国际英语1班（39人）陈晨、郭绍林</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="class_accord function_accord">
+                <div class="class_tit">
+                    <b>按功能授权</b>
+                    <p><input type="checkbox"><label>全选</label></p>
+                </div>
+                <div class="class_member_box">
+                    <ul class="course_management">
+                        <li>
+                            <span><input type="checkbox"></span>
+                            <div class="function_r">
+                                <b>课程建设</b>
+                            </div>
+                        </li>
+                        <li>
+                            <span></span>
+                            <div class="function_r">
+                                <p><input type="checkbox"><label>课程网站建设</label></p>
+                                <p><input type="checkbox"><label>学生管理</label></p>
+                                <p><input type="checkbox"><label>MOOC教程建设</label></p>
+                                <p><input type="checkbox"><label>教学团队管理</label></p>
+                            </div>
+                        </li>
+                        <li>
+                            <span><input type="checkbox"></span>
+                            <div class="function_r">
+                                <b>资源建设</b>
+                            </div>
+                        </li>
+                        <li>
+                            <span></span>
+                            <div class="function_r">
+                                <p><input type="checkbox"><label>知识点管理</label></p>
+                                <p><input type="checkbox"><label>习题库管理</label></p>
+                                <p><input type="checkbox"><label>资料管理</label></p>
+                                <p><input type="checkbox"><label>试卷库管理</label></p>
+                            </div>
+                        </li>
+                        <li>
+                            <span><input type="checkbox"></span>
+                            <div class="function_r">
+                                <b>师生互动</b>
+                            </div>
+                        </li>
+                        <li>
+                            <span></span>
+                            <div class="function_r">
+                                <p><input type="checkbox"><label>答疑论坛管理</label></p>
+                                <p><input type="checkbox"><label>成绩管理</label></p>
+                                <p><input type="checkbox"><label>作业考试管理</label></p>
+                                <p><input type="checkbox"><label>学习进度管理</label></p>
+                                <p><input type="checkbox"><label>教学投票管理</label></p>
+                                <p><input type="checkbox"><label>课程运行统计</label></p>
+                                <p><input type="checkbox"><label>PBL教学管理</label></p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="btn_box">
+            <a class="save" href="javascript:;">保存</a>
+            <a class="cancel" href="javascript:;">取消</a>
+        </div>
+    </div>
+
+</div>
+

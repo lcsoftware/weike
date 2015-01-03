@@ -1,0 +1,66 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Views/OC/Team/index.css" rel="stylesheet" />
+
+<div class="coursesite_box">
+    <div class="wrap_box">
+        <div class="form_select">
+            <div class="class_name_box">
+                <label class="table_tit">招生方式：</label>
+                <input type="radio" name="JoinType">
+                随时加入<input type="radio" name="JoinType">
+                统一开班
+
+            </div>
+            <div class="teach_date">不设定统一的入学时间，录取后，可立刻开始学习。学生遵循课程时间表的指引和约束，在要求的时间内，完成课程的在线学习、课程考试</div>
+            <div class="teach_date">教师设定统一的开课时间，以及对应的教学计划，学生在同一时间开始学习。学生遵循教师设置的教学任务时间，完成课程的在线学习、面授、及课程考试</div>
+            <div class="teach_date">
+                <label class="table_tit">招生日期：</label>
+                <p>
+                    <input class="start_date" type="text">
+                    <label class="icon date_icon"></label>
+                </p>
+                <span>~</span>
+                <p>
+                    <input class="end_date" type="text">
+                    <label class="icon date_icon"></label>
+                </p>
+                <b>*</b>
+            </div>
+            <div class="teach_date">
+                <label class="table_tit">教学运行：</label>
+                <p>
+                    <input class="start_date" type="text">
+                    <label class="icon date_icon"></label>
+                </p>
+                <span>~</span>
+                <p>
+                    <input class="end_date" type="text">
+                    <label class="icon date_icon"></label>
+                </p>
+                <b>*</b>
+            </div>
+            <div class="teach_date">
+
+                <label class="table_tit">人数限制：</label>
+                <input class="class_name" type="text">
+            </div>
+            <p class="teacher_select">
+                <label class="table_tit">指定教学班：</label>
+                <select>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                </select>
+                <b>*</b><a href="#">[管理教学班]</a>
+            </p>
+
+            <p class="open_register"><input type="checkbox"><label>启用注册码</label><input class="register_num" type="text"></p>
+        </div>
+        <div class="btn_box">
+            <a class="save" href="javascript:;">保存</a>
+            <a class="cancel" href="javascript:;">取消</a>
+        </div>
+    </div>
+</div>

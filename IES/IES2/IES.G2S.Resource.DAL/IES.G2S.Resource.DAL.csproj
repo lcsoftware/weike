@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttachmentDAL.cs" />
     <Compile Include="ChapterDAL.cs" />
     <Compile Include="CommonDataDAL.cs" />
     <Compile Include="ExerciseDAL.cs" />
@@ -76,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="dapperdemo.txt" />
+    <Content Include="region.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
