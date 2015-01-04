@@ -27,7 +27,8 @@
 
                 @foreach (var menu in LeftMenu)
                 {
-                    <li id="@menu.MenuID" ng-class="{active:actived==@menu.MenuID.ToString()}"><a ui-sref="@menu.URL">@menu.Title</a></li>
+                    @*<li id="@menu.MenuID" ng-class="{active:actived==@menu.MenuID.ToString()}"><a ui-sref="@menu.URL">@menu.Title</a></li>*@
+                <li id="@menu.MenuID" ui-sref-active="active"><a ui-sref=@menu.URL>@menu.Title</a></li>
                 }
 
 
