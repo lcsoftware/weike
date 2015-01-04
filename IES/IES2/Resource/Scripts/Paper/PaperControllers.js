@@ -40,7 +40,6 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
     }
 
     var find = function (typeSelection, createrSelection) { 
-        console.log(typeSelection, createrSelection);
     }
     ///初始化试卷类型
     PaperService.getPaperTypes(function (data) {

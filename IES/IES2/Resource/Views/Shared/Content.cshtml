@@ -7,7 +7,7 @@
 
 @{
     List<Menu> LeftMenu = AuService.Menu_Left_List("B2", 2);
-    
+
 }
 
 <div class="main_all main_course">
@@ -27,8 +27,7 @@
 
                 @foreach (var menu in LeftMenu)
                 {
-                    @*<li id="@menu.MenuID" ng-class="{active:actived==@menu.MenuID.ToString()}"><a ui-sref="@menu.URL">@menu.Title</a></li>*@
-                <li id="@menu.MenuID" ui-sref-active="active"><a ui-sref=@menu.URL>@menu.Title</a></li>
+                    <li id="@menu.MenuID"  ng-class="{'active':actived===@menu.MenuID}"><a ui-sref="@menu.URL">@menu.Title</a></li>
                 }
 
 
@@ -56,10 +55,10 @@
         </div>
         <!--右侧头部公告结束-->
         <div class="coursesite_box" ui-view>
-                
+
 
         </div>
-       
+
     </div>
     <!--右侧主题内容结束-->
 
