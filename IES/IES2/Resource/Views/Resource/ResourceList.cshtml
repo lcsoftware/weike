@@ -28,7 +28,7 @@
     <dl class="filter_list">
         <dt>文件类型</dt>
         <dd>
-            <a href="#" ng-repeat="item in fileTypes"><span ng-bind="item.name"></span></a>
+            <a href="#" ng-class="{active:fileSelection==item.id}" ng-click="typeChanged(item.id);" ng-repeat="item in fileTypes"><span ng-bind="item.name"></span></a>
             @*<a ng-class="{active:actived==2}" href="#"><span>智能型试卷</span></a>
             <a ng-class="{active:actived==3}" href="#"><span>答题卡试卷</span></a>
             <a ng-class="{active:actived==4}" href="#"><span>自测型试卷</span></a>*@
@@ -37,9 +37,9 @@
     <dl class="filter_list">
         <dt>上传时间</dt>
         <dd>
-            <a class="active" href="#"><span>不限</span></a>
-            <a href="#"><span>自己</span></a>
-            <a href="#"><span>他人</span></a>
+            <a href="#" ng-class="{active:timeSelection==item.id}" ng-click="timeChanged(item.id);" ng-repeat="item in timePass"><span ng-bind="item.name"></span></a>
+            @*<a href="#"><span>自己</span></a>
+            <a href="#"><span>他人</span></a>*@
         </dd>
     </dl>
     <dl class="filter_list">
@@ -47,9 +47,7 @@
             使用权限
         </dt>
         <dd>
-            <a class="active" href="#"><span>不限</span></a>
-            <a href="#"><span>自己</span></a>
-            <a href="#"><span>他人</span></a>
+            <a href="#" ng-class="{active:shareSelection==item.id}" ng-click="shareChanged(item.id);" ng-repeat="item in shareRange"><span ng-bind="item.name"></span></a>            
         </dd>
     </dl>
     <span class="guanbi"><i class="icon"></i></span>
