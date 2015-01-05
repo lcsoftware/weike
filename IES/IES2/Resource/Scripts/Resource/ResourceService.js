@@ -1,11 +1,10 @@
 ﻿'use strict';
 
-var aService = angular.module('app.res.services', []);
+var aService = angular.module('app.res.services', ['app.common.services']);
 
-aService.factory('resourceService', ['$http', function ($http) {
+aService.factory('resourceService', ['httpService', function (httpService) {
     var service = {};
 
-<<<<<<< HEAD
     service.Resource_Dict_FileType_Get = function (callback) {
         var url = '/DataProvider/Resource/ResourceProvider.aspx/Resource_Dict_FileType_Get';
         var param = {};
@@ -22,7 +21,5 @@ aService.factory('resourceService', ['$http', function ($http) {
         httpService.post(url, param, callback);
     }
 
-=======
->>>>>>> 401bc7c75e28e47471b651cc44c5b24708657140
     return service;
 }]);

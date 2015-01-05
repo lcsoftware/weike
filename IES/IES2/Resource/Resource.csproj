@@ -244,6 +244,7 @@
     <Content Include="Scripts\Common\directives.js" />
     <Content Include="Scripts\Common\filters.js" />
     <Content Include="Scripts\Common\services.js" />
+    <Content Include="Scripts\Common\tools.js" />
     <Content Include="Scripts\Home\HomeControllers.js" />
     <Content Include="Scripts\Knowledge\KnowControllers.js" />
     <Content Include="Scripts\Knowledge\KnowService.js" />

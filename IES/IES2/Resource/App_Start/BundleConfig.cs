@@ -33,9 +33,10 @@ namespace App.Resource
                 ));
           
             bundles.Add(new ScriptBundle("~/js/app").Include(
+                "~/scripts/Common/tools.js",
                 "~/scripts/Common/filters.js",
-                "~/scripts/Common/services.js",
                 "~/scripts/Common/directives.js",
+                "~/scripts/Common/services.js",
 
                 "~/scripts/Home/HomeControllers.js", 
                 "~/scripts/Authority/AuthService.js", 
