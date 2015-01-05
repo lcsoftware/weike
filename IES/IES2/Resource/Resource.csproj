@@ -241,6 +241,7 @@
     <Content Include="login.aspx" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\Authority\AuthService.js" />
+    <Content Include="Scripts\Common\assistant.js" />
     <Content Include="Scripts\Common\directives.js" />
     <Content Include="Scripts\Common\filters.js" />
     <Content Include="Scripts\Common\services.js" />

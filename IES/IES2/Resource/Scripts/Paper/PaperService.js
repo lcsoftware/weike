@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var aService = angular.module('app.paper.services', []);
+var aService = angular.module('app.paper.services', ['app.common.assistant']);
 
 aService.factory('PaperService', ['httpService', 'paperProviderUrl', function (httpService, paperProviderUrl) {
     var service = {};
