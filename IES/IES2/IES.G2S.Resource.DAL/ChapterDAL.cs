@@ -40,6 +40,59 @@ namespace IES.G2S.Resource.DAL
 
         }
 
+
+        /// <summary>
+        /// 章节关联的文件列表
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static List<File> Chapter_File_List(Chapter model , Ken ken )
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ChapterID", model.ChapterID);
+                    p.Add("@UserID", model.CreateUserID);
+                    p.Add("@KenID", ken.KenID);
+                    return conn.Query<File>("Chapter_File_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
+        /// <summary>
+        /// 章节关联的习题信息
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static List<Exercise> Chapter_Exercise_List(Chapter model, Ken ken)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ChapterID", model.ChapterID);
+                    p.Add("@UserID", model.CreateUserID);
+                    p.Add("@KenID", ken.KenID );
+                    return conn.Query<Exercise>("Chapter_Exercise_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
+
+
             
 
         #endregion 
@@ -115,6 +168,33 @@ namespace IES.G2S.Resource.DAL
             }
 
         }
+
+
+        /// <summary>
+        /// 章节移动
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool Chapter_ParentID_Upd(Chapter model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ChapterID", model.ChapterID);
+                    p.Add("@ParentID", model.ParentID );
+                    conn.Execute("Chapter_ParentID_Upd", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }   
+
 
 
         #endregion 

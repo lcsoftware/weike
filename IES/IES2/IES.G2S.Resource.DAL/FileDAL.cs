@@ -17,12 +17,37 @@ namespace IES.G2S.Resource.DAL
     public class FileDAL
     {
 
-        /// <summary>
-        /// 添加文件夹
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public static Folder Folder_ADD(Folder model)
+        #region 文件夹
+
+        #region  列表
+        public static List<Folder> Folder_List(Folder model)
+        {
+
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@OCID", model.OCID);
+                    p.Add("@ParentID", model.ParentID);
+                    p.Add("@UserID", model.CreateUserID);
+                    return conn.Query<Folder>("Folder_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<Folder>();
+            }
+        }
+
+        #endregion
+
+        #region 详细信息
+
+        #endregion 
+
+        #region  新增
+        public static Folder   Folder_ADD(Folder model)
         {
             try
             {
@@ -36,8 +61,6 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@CourseID", model.CourseID);
                     p.Add("@ParentID", model.ParentID);
                     p.Add("@FolderName", model.FolderName);
-                    p.Add("@ParentID", model.ParentID);
-                    p.Add("@ShareRange", model.ShareRange);
                     p.Add("@Brief", model.Brief);
 
                     conn.Execute("Folder_ADD", p, commandType: CommandType.StoredProcedure);
@@ -48,18 +71,30 @@ namespace IES.G2S.Resource.DAL
             }
             catch (Exception e)
             {
-                return model;
+                return null  ;
             }
 
 
 
         }
 
+
+
+        #endregion
+
+        #region 对象更新
+
+
+        #endregion
+
+        #region 单个属性更新
+
         /// <summary>
-        /// 文件夹删除
+        /// 文件夹重命名
         /// </summary>
-        /// <param name="id"></param>
-        public static bool Folder_Del(Folder model )
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool Folder_Name_Upd(Folder model)
         {
             try
             {
@@ -67,18 +102,51 @@ namespace IES.G2S.Resource.DAL
                 {
                     var p = new DynamicParameters();
                     p.Add("@FolderID", model.FolderID);
-                    conn.Execute("Folder_Del", p, commandType: CommandType.StoredProcedure);
+                    p.Add("@FolderName", model.FolderName);
+                    conn.Execute("Folder_Name_Upd", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }
             }
             catch (Exception e)
             {
-                return false ;
+                return false;
             }
         }
 
 
-        public static bool Folder_Batch_Del( List<Folder> folderlist )
+        /// <summary>
+        /// 文件夹移动
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool Folder_ParentID_Upd(Folder model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@FolderID", model.FolderID);
+                    p.Add("@ParentID", model.ParentID);
+                    conn.Execute("Folder_ParentID_Upd", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+
+
+        #endregion 
+
+        #region 属性批量操作
+
+
+
+        public static bool Folder_Batch_Del(List<Folder> folderlist)
         {
             try
             {
@@ -96,7 +164,7 @@ namespace IES.G2S.Resource.DAL
                         recordparam.Add(record);
                     }
 
-                    var ids = new TableValueParameter("@ids", "IDList", recordparam );
+                    var ids = new TableValueParameter("@ids", "IDList", recordparam);
                     conn.Execute("Folder_Batch_Del", ids, commandType: CommandType.StoredProcedure);
                     return true;
                 }
@@ -107,33 +175,45 @@ namespace IES.G2S.Resource.DAL
             }
         }
 
+        #endregion
+
+        #region 删除
+
+        /// <summary>
+        /// 文件夹删除
+        /// </summary>
+        /// <param name="id"></param>
+        public static bool Folder_Del(Folder model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@FolderID", model.FolderID);
+                    conn.Execute("Folder_Del", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        #endregion 
+
+        #endregion
+
+        #region  文件
+
+        #region  列表
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static List<Folder> Folder_List(Folder model)
-        {
-
-            try
-            {
-                using (var conn = DbHelper.ResourceService())
-                {
-                    var p = new DynamicParameters();
-                    p.Add("@OCID", model.OCID);
-                    p.Add("@ParentID", model.ParentID);
-                    p.Add("@ShareRange", model.ShareRange);
-                    p.Add("@UserID", model.CreateUserID);
-                    return conn.Query<Folder>("Folder_List", p, commandType: CommandType.StoredProcedure).ToList();
-                }
-            }
-            catch (Exception e)
-            {
-                return new List<Folder>();
-            }
-        }
-
         public static List<File> File_Search(File file, int PageSize, int PageIndex)
         {
             try
@@ -160,6 +240,236 @@ namespace IES.G2S.Resource.DAL
             }
 
         }
+
+        #endregion
+
+        #region 详细信息
+
+        #endregion
+
+        #region  新增
+
+
+
+
+        #endregion
+
+        #region 对象更新
+
+
+
+        #endregion
+
+        #region 单个属性更新
+
+        /// <summary>
+        /// 文件共享范围设置
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool File_ShareRange_Upd(File model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@FileID", model.FileID );
+                    p.Add("@ShareRange", model.ShareRange);
+                    conn.Execute("File_ShareRange_Upd", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 文件移动设置
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool File_FolderID_Upd(File model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@FileID", model.FileID);
+                    p.Add("@FolderID", model.FolderID);
+                    conn.Execute("File_FolderID_Upd", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// 文件重命名
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool File_FileTitle_Upd(File model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@FileID", model.FileID);
+                    p.Add("@FileTitle", model.FileTitle );
+                    conn.Execute("File_FileTitle_Upd", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public static bool File_Key_Edit(File model, Key key, Ken ken)
+        {
+
+            return true;
+        }
+
+        public static bool File_Ken_Edit(File model, Key key, Ken ken)
+        {
+
+            return true;
+        }
+
+        #endregion
+
+        #region 属性批量操作
+
+        public static bool File_Batch_ShareRange(List<File> filelist)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var recordparam = new List<SqlDataRecord>();
+                    var recordcolumn = new[]
+                    {
+                        new SqlMetaData("id", SqlDbType.Int)
+                    };
+                    foreach (var r in filelist)
+                    {
+                        var record = new SqlDataRecord(recordcolumn);
+                        record.SetInt32(0, r.FileID);
+                        recordparam.Add(record);
+                    }
+
+                    var ids = new TableValueParameter("@ids", "IDList", recordparam);
+                    conn.Execute("File_Batch_ShareRange", ids, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+
+        public static bool File_Batch_FolderID(List<File> filelist)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var recordparam = new List<SqlDataRecord>();
+                    var recordcolumn = new[]
+                    {
+                        new SqlMetaData("id", SqlDbType.Int)
+                    };
+                    foreach (var r in filelist)
+                    {
+                        var record = new SqlDataRecord(recordcolumn);
+                        record.SetInt32(0, r.FileID);
+                        recordparam.Add(record);
+                    }
+
+                    var ids = new TableValueParameter("@ids", "IDList", recordparam);
+                    conn.Execute("File_Batch_FolderID", ids, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+
+        public static bool File_Batch_Del( List<File> filelist )
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var recordparam = new List<SqlDataRecord>();
+                    var recordcolumn = new[]
+                    {
+                        new SqlMetaData("id", SqlDbType.Int)
+                    };
+                    foreach ( var r in filelist )
+                    {
+                        var record = new SqlDataRecord(recordcolumn);
+                        record.SetInt32(0, r.FileID);
+                        recordparam.Add(record);
+                    }
+
+                    var ids = new TableValueParameter("@ids", "IDList", recordparam);
+                    conn.Execute("File_Batch_Del", ids, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+
+        #endregion
+
+        #region 删除
+
+
+        public static bool File_Del(File model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@FileID", model.FileID);
+                    conn.Execute("File_Del", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+
+
+        #endregion
+
+
+        #endregion 
 
     }
 }

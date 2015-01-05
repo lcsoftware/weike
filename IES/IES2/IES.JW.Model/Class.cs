@@ -22,9 +22,20 @@ namespace IES.JW.Model
 	/// </summary>
 	[Serializable]
 	public partial class Class
-	{
-		public Class()
-		{}
+    {
+
+        #region 
+
+        public int rowscount { get; set; }
+
+        public string OrganizationName { get; set; }
+
+        public string UserName { get; set; }
+
+        #endregion 
+
+        public Class()
+        {}
 		#region Model
 		private int _classid;
 		private string _classno;

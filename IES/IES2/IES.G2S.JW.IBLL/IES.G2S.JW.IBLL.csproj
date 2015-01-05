@@ -47,6 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IClassBLL.cs" />
+    <Compile Include="ICourseBLL.cs" />
+    <Compile Include="IOrganizationBLL.cs" />
+    <Compile Include="ISpecialtyBLL.cs" />
+    <Compile Include="ITermBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -47,9 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassBLL.cs" />
+    <Compile Include="CourseBLL.cs" />
+    <Compile Include="OrganizationBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecialtyBLL.cs" />
+    <Compile Include="TermBLL.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IES.AOP.G2S\IES.AOP.G2S.csproj">
+      <Project>{c4205a08-b166-4a43-ae4f-b07e5aa782ef}</Project>
+      <Name>IES.AOP.G2S</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IES.G2S.JW.DAL\IES.G2S.JW.DAL.csproj">
       <Project>{cac6bc0b-b6ef-4fb6-a249-dd29d18aa657}</Project>
       <Name>IES.G2S.JW.DAL</Name>

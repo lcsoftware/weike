@@ -27,7 +27,7 @@ namespace IES.CC.Forum.Model
 		{}
 		#region Model
 		private int _voteitemid;
-		private int _forumvoteid;
+		private int _voteid;
 		private string _conten;
 		private int _orde=1;
 		/// <summary>
@@ -41,10 +41,10 @@ namespace IES.CC.Forum.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		public int ForumVoteID
+		public int VoteID
 		{
-			set{ _forumvoteid=value;}
-			get{return _forumvoteid;}
+			set{ _voteid=value;}
+			get{return _voteid;}
 		}
 		/// <summary>
 		/// 

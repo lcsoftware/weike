@@ -27,7 +27,7 @@ namespace IES.SYS.Model
 		{}
 		#region Model
 		private int _actionid;
-		private int _moduleid;
+		private string   _moduleid;
 		private string _name;
 		private int _orde;
 		private string _url;
@@ -42,7 +42,7 @@ namespace IES.SYS.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		public int ModuleID
+        public string ModuleID
 		{
 			set{ _moduleid=value;}
 			get{return _moduleid;}

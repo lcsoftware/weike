@@ -1,4 +1,5 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿using IES.JW.Model;
+/**  版本信息模板在安装目录下，可自行修改。
 * OCFCClass.cs
 *
 * 功 能： N/A
@@ -17,12 +18,20 @@
 using System;
 namespace IES.CC.OC.Model
 {
+
+
 	/// <summary>
 	/// 翻转课堂教学班
 	/// </summary>
 	[Serializable]
 	public partial class OCFCClass
 	{
+        #region 补充信息
+        public TeachingClass TeachingClassInfo { set; get; }
+
+
+        #endregion
+
 		public OCFCClass()
 		{}
 		#region Model

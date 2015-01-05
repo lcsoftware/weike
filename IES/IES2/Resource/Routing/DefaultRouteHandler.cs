@@ -10,11 +10,18 @@ namespace App.Resource.Routing
     using System.Web;
     using System.Web.Routing;
     using System.Web.WebPages;
-
+    using IES.Security;
     public class DefaultRouteHandler : IRouteHandler
     {
         public IHttpHandler GetHttpHandler(RequestContext requestContext)
         {
+
+            //if (IESCookie.GetCookieValue("ies") == string.Empty)
+            //{
+            //    HttpContext.Current.Response.Redirect("login.aspx");
+            //}
+
+
             // Use cases:
             //     ~/            -> ~/views/index.cshtml
             //     ~/about       -> ~/views/about.cshtml or ~/views/about/index.cshtml

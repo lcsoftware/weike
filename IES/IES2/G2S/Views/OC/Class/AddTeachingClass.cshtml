@@ -1,0 +1,104 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Views/OC/Team/index.css" rel="stylesheet" />
+
+<div class="coursesite_box">
+    <div class="wrap_box">
+        <div class="form_select">
+            <div class="class_name_box">
+                <label class="table_tit">教学班名称：</label>
+                <p><input class="class_name" type="text"><b>*</b></p>
+                <p class="open_register"><input type="checkbox"><label>启用注册码</label><input class="register_num" type="text"></p>
+            </div>
+            <div class="teach_date">
+                <label class="table_tit">授课起止日期：</label>
+                <p>
+                    <input class="start_date" type="text">
+                    <label class="icon date_icon"></label>
+                </p>
+                <span>~</span>
+                <p>
+                    <input class="end_date" type="text">
+                    <label class="icon date_icon"></label>
+                </p>
+                <b>*</b>
+            </div>
+            <p class="teacher_select">
+                <label class="table_tit">授课教师：</label>
+                <select>
+                    <option></option>
+                    <option></option>
+                    <option></option>
+                </select>
+                <b>*</b>
+            </p>
+        </div>
+        <div class="class_management stu_management">
+            <h5>教学班学生（20）</h5>
+            <div class="function_list">
+                <a class="function_add" href="javascript:;"><i class="icon"></i>新增</a>
+                <a class="function_export" href="javascript:;"><i class="icon"></i>导出</a>
+                <a class="function_edit" href="javascript:;"><i class="icon"></i>编辑</a>
+                <a class="function_delete" href="javascript:;"><i class="icon"></i>删除</a>
+            </div>
+            <div class="class_wrap">
+                <table class="class_box">
+                    <tr>
+                        <th class="has_border" width="20"><input type="checkbox"></th>
+                        <th width="115">学号</th>
+                        <th width="95">姓名</th>
+                        <th width="195">专业</th>
+                        <th width="195">行政班</th>
+                        <th>来源</th>
+                    </tr>
+                    <tr>
+                        <td class="has_border"><input type="checkbox"></td>
+                        <td>3091817313</td>
+                        <td>李四</td>
+                        <td>机械自动化</td>
+                        <td>04机械自动化2班</td>
+                        <td>课表</td>
+                    </tr>
+                    <tr>
+                        <td class="has_border"><input type="checkbox"></td>
+                        <td>3091817313</td>
+                        <td>李四</td>
+                        <td>机械自动化</td>
+                        <td>04机械自动化2班</td>
+                        <td>课表</td>
+                    </tr>
+                    <tr>
+                        <td class="has_border"><input type="checkbox"></td>
+                        <td>3091817313</td>
+                        <td>李四</td>
+                        <td>机械自动化</td>
+                        <td>04机械自动化2班</td>
+                        <td>课表</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="loading">加载中...</div>
+        <div class="all_select">
+            <p><input type="checkbox">全选</p>
+            <div class="page_box">
+                <a class="prev" href="javascript:;">前一页</a>
+                <a href="#">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <span class="more">...</span>
+                <a href="#">8</a>
+                <a class="prev" href="javascript:;">后一页</a>
+                <span>共229条，到第<input type="text">页</span>
+                <a class="confirm" href="#">确认</a>
+            </div>
+        </div>
+
+        <div class="btn_box">
+            <a class="save" href="javascript:;">保存</a>
+            <a class="cancel" href="javascript:;">取消</a>
+        </div>
+    </div>
+</div>

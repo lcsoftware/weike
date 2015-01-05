@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * Notice.cs
 *
 * 功 能： N/A
@@ -9,10 +9,10 @@
 * V0.01  2014/12/2 9:12:46   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
 namespace IES.SYS.Model
@@ -22,8 +22,19 @@ namespace IES.SYS.Model
 	/// </summary>
 	[Serializable]
 	public partial class Notice
-	{
-		public Notice()
+    {
+
+        #region  补充信息
+
+        public int ReadNoticeID { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public int rowscount { get; set; }
+
+        #endregion 
+
+        public Notice()
 		{}
 		#region Model
 		private int _noticeid;
@@ -33,7 +44,7 @@ namespace IES.SYS.Model
 		private bool _istop= false;
 		private DateTime? _enddate;
 		private int _sysid=1;
-		private int _type=0;
+
 		/// <summary>
 		/// 
 		/// </summary>
@@ -90,14 +101,11 @@ namespace IES.SYS.Model
 			set{ _sysid=value;}
 			get{return _sysid;}
 		}
-		/// <summary>
-		/// 接收对象 ： 0 全部 ，1教师 ，2 学生
-		/// </summary>
-		public int Type
-		{
-			set{ _type=value;}
-			get{return _type;}
-		}
+
+
+
+        public int UserID { get; set; }
+
 		#endregion Model
 
 	}

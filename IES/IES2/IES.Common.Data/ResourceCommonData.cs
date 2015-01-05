@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using IES.Resource.Model;
 using IES.G2S.Resource.DAL;
-
+using IES.Cache;
 namespace IES.Common.Data
 {
     /// <summary>
@@ -18,7 +18,17 @@ namespace IES.Common.Data
         /// <returns></returns>
         public List<ResourceDict> Resource_Dict_Get()
         {
-            return CommonDataDAL.ResourceDict_List();
+            ICache cache = CacheFactory.Create();
+            if (!cache.Exists(string.Empty, "ResourceDict"))
+            {
+                List<ResourceDict> resourcedictlist = CommonDataDAL.ResourceDict_List();
+                cache.Set(string.Empty, "ResourceDict", resourcedictlist);
+                return resourcedictlist;
+            }
+            else
+            {
+                return cache.Get<List<ResourceDict>>(string.Empty, "ResourceDict");
+            }
         }
 
         /// <summary>
@@ -27,7 +37,7 @@ namespace IES.Common.Data
         /// <returns></returns>
         public List<ResourceDict> Resource_Dict_ExerciseType_Get()
         {
-           return  CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("ExerciseType")).ToList<ResourceDict>();
+            return CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("Exercise.ExerciseType")).ToList<ResourceDict>();
 
         }
 
@@ -37,7 +47,7 @@ namespace IES.Common.Data
         /// <returns></returns>
         public List<ResourceDict> Resource_Dict_Diffcult_Get()
         {
-            return CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("Diffcult")).ToList<ResourceDict>();
+            return CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("Exercise.Diffcult")).ToList<ResourceDict>();
         }
 
         /// <summary>
@@ -46,7 +56,7 @@ namespace IES.Common.Data
         /// <returns></returns>
         public List<ResourceDict> Resource_Dict_Scope_Get()
         {
-            return CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("Scope")).ToList<ResourceDict>();
+            return CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("Exercise.Scope")).ToList<ResourceDict>();
 
         }
 
@@ -56,7 +66,7 @@ namespace IES.Common.Data
         /// <returns></returns>
         public List<ResourceDict> Resource_Dict_CardExerciseType_Get()
         {
-            return CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("ExerciseAnswercardType")).ToList<ResourceDict>();
+            return CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("Exercise.ExerciseAnswercardType")).ToList<ResourceDict>();
         }
 
         /// <summary>
@@ -97,5 +107,21 @@ namespace IES.Common.Data
             return CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("ShareRange")).ToList<ResourceDict>();
 
         }
+
+
+        /// <summary>
+        /// 获取知识点掌握程度
+        /// </summary>
+        /// <returns></returns>
+        public List<ResourceDict> Resource_Dict_Requirement_Get()
+        {
+            return CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("Ken.Requirement")).ToList<ResourceDict>();
+        }
+
+
+
+
+
+
     }
 }

@@ -1,8 +1,6 @@
 ﻿<div class="exercise_nav">
     <ul class="exercise_nav_list">
-        <li class="active"><a class="first_nav" href="#">毛泽东思想和中国特色社会主义毛泽东思想和中国特色社会主义</a></li>
-        <li><a class="first_nav" href="#">大学英语</a></li>
-        <li><a class="first_nav" href="#">形势与政策</a></li>
+        <li ng-repeat="item in tabs"><a class="first_nav" href="#" style="cursor:pointer" ng-click="tabChanged(item.id);" ng-bind="item.name"></a></li>
     </ul>
 </div>
 <div class="exercise_search">
@@ -26,6 +24,7 @@
 </div>
 <div class="filter_box">
     <dl class="filter_list">
+<<<<<<< HEAD
         <dt>文件类型</dt>
         <dd>
             <a href="#" ng-class="{active:fileSelection==item.id}" ng-click="typeChanged(item.id);" ng-repeat="item in fileTypes"><span ng-bind="item.name"></span></a>
@@ -40,12 +39,18 @@
             <a href="#" ng-class="{active:timeSelection==item.id}" ng-click="timeChanged(item.id);" ng-repeat="item in timePass"><span ng-bind="item.name"></span></a>
             @*<a href="#"><span>自己</span></a>
             <a href="#"><span>他人</span></a>*@
+=======
+        <dt>试卷类型</dt>
+        <dd>
+            <a class="active" href="#"><span>不限</span></a>
+            <a href="#"><span>智能型试卷</span></a>
+            <a href="#"><span>答题卡试卷</span></a>
+            <a href="#"><span>自测型试卷</span></a>
+>>>>>>> 401bc7c75e28e47471b651cc44c5b24708657140
         </dd>
     </dl>
     <dl class="filter_list">
-        <dt>
-            使用权限
-        </dt>
+        <dt>创建人</dt>
         <dd>
             <a href="#" ng-class="{active:shareSelection==item.id}" ng-click="shareChanged(item.id);" ng-repeat="item in shareRange"><span ng-bind="item.name"></span></a>            
         </dd>

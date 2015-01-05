@@ -50,6 +50,12 @@ namespace IES.DataBase
             get { return ConfigurationManager.ConnectionStrings["ies_sysconnn"].ConnectionString; }
         }
 
+        private static string ies_connn
+        {
+            get { return ConfigurationManager.ConnectionStrings["ies_connn"].ConnectionString; }
+        }
+
+
         /// <summary>
         /// 返回一个存储资源的数据库链接
         /// </summary>
@@ -110,6 +116,17 @@ namespace IES.DataBase
         public static IDbConnection SysService()
         {
             SqlConnection conn = new SqlConnection(ies_sysconnn);
+            conn.Open();
+            return conn;
+        }
+
+        /// <summary>
+        /// 获取通用的数据连接
+        /// </summary>
+        /// <returns></returns>
+        public static IDbConnection CommonService()
+        {
+            SqlConnection conn = new SqlConnection(ies_connn);
             conn.Open();
             return conn;
         }

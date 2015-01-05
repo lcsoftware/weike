@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * Course.cs
 *
 * 功 能： N/A
@@ -9,21 +9,32 @@
 * V0.01  2014/12/1 13:35:31   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
 namespace IES.JW.Model
 {
 	/// <summary>
-	/// 课程表
+	/// 课程表
 	/// </summary>
 	[Serializable]
 	public partial class Course
-	{
-		public Course()
+    {
+        #region 补充信息
+
+        public int rowscount { get; set; }
+        public string OrganizationName { get; set; }
+        public string CourseTypeName { get; set; }
+        public string SubjectName1 { get; set; }
+        public string SubjectName2 { get; set; }
+        public string TeachingTypeName { get; set; }
+
+        #endregion 
+
+        public Course()
 		{}
 		#region Model
 		private int _courseid;
@@ -34,7 +45,7 @@ namespace IES.JW.Model
 		private int _organizationid;
 		private int _subjectid1=0;
 		private int _subjectid2=0;
-		private string _coursetype;
+		private int _coursetypeID;
 		private decimal? _hours;
 		private decimal? _credit;
 		private int _teachingtypeid=0;
@@ -88,7 +99,7 @@ namespace IES.JW.Model
 			get{return _termno;}
 		}
 		/// <summary>
-		/// 开课机构
+		/// 开课机构
 		/// </summary>
 		public int OrganizationID
 		{
@@ -112,12 +123,12 @@ namespace IES.JW.Model
 			get{return _subjectid2;}
 		}
 		/// <summary>
-		/// 课程类别，示例：必修，选修，通选
+		/// 课程类别，示例：必修，选修，通选
 		/// </summary>
-		public string CourseType
+		public int CourseTypeID
 		{
-			set{ _coursetype=value;}
-			get{return _coursetype;}
+			set{ _coursetypeID=value;}
+			get{return _coursetypeID;}
 		}
 		/// <summary>
 		/// 
@@ -144,7 +155,7 @@ namespace IES.JW.Model
 			get{return _teachingtypeid;}
 		}
 		/// <summary>
-		/// 课程简介
+		/// 课程简介
 		/// </summary>
 		public string Introduction
 		{
@@ -152,7 +163,7 @@ namespace IES.JW.Model
 			get{return _introduction;}
 		}
 		/// <summary>
-		/// 课程简介英文
+		/// 课程简介英文
 		/// </summary>
 		public string IntroductionEn
 		{
@@ -200,7 +211,7 @@ namespace IES.JW.Model
 			get{return _teamen;}
 		}
 		/// <summary>
-		/// 教学进度表
+		/// 教学进度表
 		/// </summary>
 		public string Schedule
 		{

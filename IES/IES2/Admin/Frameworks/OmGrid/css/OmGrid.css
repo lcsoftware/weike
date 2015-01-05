@@ -1,0 +1,118 @@
+﻿/* 
+====== 标题 
+*/
+.item_title
+{
+    background-color: #737373;
+    height: 27px;
+    line-height: 27px;
+    color: White;
+}
+/* 
+====== 行 
+*/
+.item_row
+{
+    height: 25px;
+    line-height: 25px;
+}
+
+.item_row td
+{
+	border-top:solid 1px #FAF8F1;
+	border-bottom:solid 1px #FAF8F1;
+}
+
+.item_even
+{
+    background-color: #faf8f1;
+}
+.item_odd
+{
+    background-color: #eae7da;
+}
+.item_over
+{
+    background-color: #D6D3C5;
+}
+.item_cked
+{
+    background-color: #ccc4a9;
+}
+
+/* 
+====== 行按钮
+*/
+.item_btn
+{
+	width: 18px;
+	height: 18px;
+	background: url(images/item_btn.gif) no-repeat 0px 0px;
+	cursor:pointer;
+	display:none;
+}
+.item_btnS
+{
+	background-position: 0px 0px;
+}
+.item_btnH
+{
+	background-position: -18px 0px;
+}
+
+.item_inputlabel
+{
+	border:0px;
+	background-color:Transparent;	
+}
+/* 
+====== 行事件框
+*/
+.item_jslist
+{
+	display: none; 
+	position:absolute; 
+	border: #bfc4c9 1px solid; 
+	width: 100px;
+	background-color: #fff;
+}
+
+.item_jslist div
+{
+	height:24px;
+	line-height:24px;
+	overflow:hidden;
+	cursor:pointer;
+	font-size:12px;
+	position:relative;
+}
+
+.iframe_cover
+{
+	position:absolute;
+	width:100%;
+	top:0px;
+	left:0px;
+	border:0px;
+	z-index:-1;
+}
+
+.ckb_div
+{
+	height:13px;
+	width:13px;
+	overflow:hidden;
+	display:table;
+	background:url('images/checkbox.gif') 0px 0px;
+	margin:3px;
+}
+
+.ckb_part
+{
+	background:url('images/checkbox.gif') 13px 0px;
+}
+
+.ckb_all
+{
+	background:url('images/checkbox.gif') 26px 0px;
+}

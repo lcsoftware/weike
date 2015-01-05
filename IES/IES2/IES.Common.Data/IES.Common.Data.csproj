@@ -11,14 +11,10 @@
     <AssemblyName>IES.Common.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -53,6 +49,10 @@
     <Compile Include="UserCommonData.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IES.Cache\IES.Cache.csproj">
+      <Project>{7a302f72-5f5f-41af-9c2a-5c27e03a47d4}</Project>
+      <Name>IES.Cache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IES.CC.Model\IES.CC.Model.csproj">
       <Project>{93a1e0e7-a049-4ea7-b349-845a81462d42}</Project>
       <Name>IES.CC.Model</Name>

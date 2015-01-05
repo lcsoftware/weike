@@ -1,13 +1,14 @@
-﻿using IES.Resource.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+<<<<<<< HEAD
 using IES.Common.Data;
 using IES.G2S.Resource.BLL;
+=======
+>>>>>>> 401bc7c75e28e47471b651cc44c5b24708657140
 
 namespace App.Resource.DataProvider.Resource
 {
@@ -17,6 +18,7 @@ namespace App.Resource.DataProvider.Resource
         {
 
         }
+<<<<<<< HEAD
         #region 文件列表
         /// <summary>
         /// 获取资源的文件类型
@@ -97,5 +99,7 @@ namespace App.Resource.DataProvider.Resource
             }
         }
         #endregion
+=======
+>>>>>>> 401bc7c75e28e47471b651cc44c5b24708657140
     }
 }

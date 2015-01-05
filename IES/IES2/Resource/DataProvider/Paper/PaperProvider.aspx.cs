@@ -2,14 +2,13 @@
  * Copyright(c) 2014 Eastday, All Rights Reserved.   
  * File             : PaperProvider.aspx.cs
  * Description      : 试卷数据访问
- * Author           : zhaotianyu 
+ * Author           : fenglujian
  * Created          : 2014-12-29  
  * Revision History : 
 ******************************************************************/
 namespace App.Resource.DataProvider.Paper
 {
     using IES.Common.Data;
-    using IES.G2S.Resource.BLL;
     using IES.Resource.Model;
     using System;
     using System.Collections.Generic;
@@ -23,14 +22,8 @@ namespace App.Resource.DataProvider.Paper
         [WebMethod]
         public static IList<ResourceDict> GetPaperTypes()
         {
-            IList<ResourceDict> dicts = new ResourceCommonData().Resource_Dict_PaperType_Get();
+            IList<ResourceDict> dicts = ResourceCommonData.Resource_Dict_PaperType_Get();//  new ResourceCommonData()..Resource_Dict_PaperType_Get();
             return dicts;
         }
-
-        [WebMethod]
-        public static IList<Paper> Paper_Search(Paper model, int pageSize, int pageIndex)
-        {
-            return new PaperBLL().Paper_Search(model, pageSize, pageIndex);
-        } 
     }
 }

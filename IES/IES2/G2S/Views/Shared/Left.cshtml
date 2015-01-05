@@ -1,0 +1,30 @@
+﻿@using IES.G2S.SYS.BLL;
+@using IES.SYS.Model;
+@using IES.Cache;
+@using IES.Security;
+@using IES.SYS.Model;
+@using IES.G2S.SYS.BLL;
+@using IES.Service;
+
+@{
+    List<Menu> Menulist = AuService.Menu_Left_List("B1", 2);
+}
+
+<div class='side_left' ng-controller="UserPermissionLeftController ">
+    <div class='user'>
+        <img src=@UserService.CurrentUserIMG width='110' height='100' />
+        <a class='teacher_name' href='#'>@UserService.CurrentUser.UserName</a>
+        <a class='switch_btn' href='#'>教师端<i class='icon icon_arrow'></i></a>
+        <span class='icon_24 icon_user'></span>
+    </div>
+   
+    <div class='side_box'>
+        <ul class='side_nav'>
+            @foreach (var menu in Menulist)
+            {
+                <li><a href=@menu.URL>@menu.Title</a></li>
+            }
+        </ul>
+        <a class='more_tool' href='javascript:;'>更多工具<i class='icon icon_more'></i></a>
+    </div>
+</div>

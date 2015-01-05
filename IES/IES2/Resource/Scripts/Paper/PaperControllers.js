@@ -3,7 +3,7 @@
 var appPaper = angular.module('app.paper.controllers', ['app.paper.services']);
 
 appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope, PaperService) {
-    $scope.$emit('onActived', 2);
+    $scope.$emit('onActived', 'B23');
 
     $scope.keyword = '';
 
@@ -12,6 +12,12 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
 
     $scope.typeSelection = -1;
     $scope.createrSelection = -1; 
+
+    $scope.tabs = [
+        { id: 1, name: '毛泽东思想和中国特色社会主义毛泽东思想和中国特色社会主义' },
+        { id: 2, name: '大学英语' },
+        { id: 3, name: '形式与政策' }
+    ];
 
     $scope.$watch('typeSelection', function (newValue) {
         find(newValue, $scope.createrSelection);
@@ -29,23 +35,24 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
         $scope.createrSelection = v;
     }
 
-    ///根据条件查找列表数据
-    var find = function (typeSelection, createrSelection) { 
-        var model = {};
-        model.Type = typeSelection;
+    $scope.tabChanged = function (tab) {
+        console.log(tab);
+    }
 
-        console.log(typeSelection, createrSelection);
+    var find = function (typeSelection, createrSelection) { 
     }
     ///初始化试卷类型
     PaperService.getPaperTypes(function (data) {
-        $scope.paperTypes = data; 
+        $scope.paperTypes = data;
         if ($scope.paperTypes.length > 0) {
             var item = {};
-            angular.copy($scope.paperTypes, $scope.conditionPaperTypes);
-            angular.copy($scope.conditionPaperTypes[0], item);
-            $scope.conditionPaperTypes.insert(0, item);
+            angular.copy($scope.paperTypes[0], item);
             item.id = -1;
-            item.name = '不限'; 
+            item.name = '不限';
+            $scope.conditionPaperTypes.push(item);
+            angular.forEach($scope.paperTypes, function (v) {
+                $scope.conditionPaperTypes.push(v);
+            });
         }
     });
 

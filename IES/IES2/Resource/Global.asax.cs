@@ -9,6 +9,7 @@ namespace App.Resource
     using System.Web;
     using System.Web.Optimization;
     using System.Web.Routing;
+    using IES.SYS.Model;
 
     public class Application : HttpApplication
     {
@@ -16,6 +17,7 @@ namespace App.Resource
         {
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            IES.Service.AuService.AuLoad(); //用户授权信息加载
         }
     }
 }

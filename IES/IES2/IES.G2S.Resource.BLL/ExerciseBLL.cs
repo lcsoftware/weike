@@ -36,6 +36,7 @@ namespace IES.G2S.Resource.BLL
 
         #region 详细信息
 
+
         [PermissionsCallHandler(Order = 2)]
         [ExceptionCallHandler(Order = 1)]
         public IES.Resource.Model.IExercise Exercise_Get(IExercise model)
@@ -44,7 +45,6 @@ namespace IES.G2S.Resource.BLL
 
             return ExerciseDAL.Exercise_Get(model);
         }
-
 
 
         #endregion 
@@ -66,7 +66,7 @@ namespace IES.G2S.Resource.BLL
 
             if (model is ExerciseCommon)
             {
-                ExerciseDAL.ExerciseCommon_ADD( model as ExerciseCommon  );
+                ExerciseDAL.ExerciseCommon_ADD(model as ExerciseCommon);
             }
 
             if (model is ExerciseInfo)
@@ -80,7 +80,7 @@ namespace IES.G2S.Resource.BLL
 
         #endregion 
 
-        #region 更新
+        #region 对象更新
 
         public bool Exercise_Upd(IExercise  model)
         {
@@ -109,7 +109,66 @@ namespace IES.G2S.Resource.BLL
 
         #endregion 
 
-        #region 删除 
+        #region 单个属性更新
+
+        public bool Exercise_Diffcult_Upd(Exercise model)
+        {
+            return ExerciseDAL.Exercise_Diffcult_Upd(model);
+        }
+
+        public bool Exercise_Scope_Upd(Exercise model)
+        {
+            return ExerciseDAL.Exercise_Scope_Upd(model);
+        }
+
+        public bool Exercise_ShareRange_Upd(Exercise model)
+        {
+            return ExerciseDAL.Exercise_ShareRange_Upd(model);
+        }
+
+
+        #endregion 
+
+        #region 属性批量操作
+
+        public bool Exercise_Batch_Diffcult(List<IExercise> list, int diffcult)
+        {
+
+            return ExerciseDAL.Exercise_Batch_Diffcult(list, diffcult);
+
+        }
+
+        public bool Exercise_Batch_Del(List<IExercise> list)
+        {
+            return ExerciseDAL.Exercise_Batch_Del(list);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="scope"></param>
+        /// <returns></returns>
+        public bool Exercise_Batch_Scope(List<IExercise> list, int scope)
+        {
+            return ExerciseDAL.Exercise_Batch_Scope(list, scope);
+        }
+
+        /// <summary>
+        /// 习题批量设置共享范围
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="sharerange"></param>
+        /// <returns></returns>
+        public bool Exercise_Batch_ShareRange(List<IExercise> list, int sharerange)
+        {
+            return ExerciseDAL.Exercise_Batch_ShareRange(list, sharerange);
+        }
+
+
+        #endregion 
+
+        #region 删除
 
         [PermissionsCallHandler(Order = 2)]
         [ExceptionCallHandler(Order = 1)]

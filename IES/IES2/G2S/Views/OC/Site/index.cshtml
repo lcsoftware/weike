@@ -1,0 +1,312 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout2.cshtml";
+}
+
+<!DOCTYPE html>
+
+<div ng-controller="SiteController">
+    <div class="construction_box">
+        <div class="construction_header">
+            <div class="construction_tit">
+                <h2>课程网站建设模式</h2>
+                <ul class="pattern_box">
+                    <li class="active"><a href="#">本站建设模式</a><i class="icon_24 icon_right"></i></li>
+                    <li><a href="#" ng-click="OCSite_Get();">外部链接模式</a><i class="icon_24 icon_right"></i></li>
+                </ul>
+                <div class="btn_box">
+                    <a class="save" href="javascript:;">保存</a>
+                    <a class="preview" href="javascript:;">预览</a>
+                </div>
+            </div>
+        </div>
+        <div class="side_left across_nav  " id="side_top">
+            <div class="version_box">
+                <a class="version_btn" href="#">更换版面<i class="icon_con"></i></a>
+                <div class="change_version">
+                    <ul class="version_list">
+                        <li class="active" id="active_1" ng-click="chickbanmian(1)">
+
+                            <img src="~/Images/banmian1.jpg" width="149" height="149" alt="">
+                            <i class="icon_24 icon_right"></i>
+                            <i class="icon_24 icon_eye"></i>
+                        </li>
+                        <li id="active_2" ng-click="chickbanmian(2)">
+                            <img src="~/Images/banmian2.jpg" width="149" height="149" alt="">
+                            <i class="icon_24 icon_right"></i>
+                            <i class="icon_24 icon_eye"></i>
+                        </li>
+                        <li id="active_3" ng-click="chickbanmian(3)">
+                            <img src="~/Images/banmian3.jpg" width="149" height="149" alt="">
+                            <i class="icon_24 icon_right"></i>
+                            <i class="icon_24 icon_eye"></i>
+                        </li>
+                    </ul>
+                    <div class="language_box">
+                        <p>选择网站栏目<br>显示语言</p>
+                        <a class="chinese" id="Language_1" ng-click="OCSite_Language_Upd(1)" href="#">中文</a>
+                        <a class="english" id="Language_0" ng-click="OCSite_Language_Upd(0)" href="#">English</a>
+                    </div>
+                </div>
+            </div>
+            <div class="column_box">
+                <a class="add_columns" role="button" data-toggle="modal" href="#myModal">新增主栏目</a>
+                <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h3 id="myModalLabel">新建栏目</h3>
+                    </div>
+                    <div style='padding:10px 18px;overflow:hidden; zoom:1;'>
+                        <div class='section_list'>
+                            <label>名称：</label>
+                            <input class='column_name' ng-model="txt_column_name" required  type='text' placeholder=''>
+                            
+                        </div>
+                        <div class='section_list'>
+                            <label>内容：</label>
+                            <div class='column_content'>
+                                <div class='column_style'>
+                                    <span><input type='radio' name='rad_addcolumns' ng-model="rad_addcolumns" ng-value="1">富文本编辑器</span>
+                                    <p>（适用于内容自由编排，支持word排版后导入）</p>
+                                </div>
+                                <div class='column_style'>
+                                    <span><input type='radio' ng-model="rad_addcolumns" ng-value="3" name='rad_addcolumns'>列表形式</span>
+                                    <p>（适用于新闻等版面，以列表样式一条条呈现）</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                        <button class="btn btn-primary" ng-click="OCSiteColumn_ADD()" data-dismiss="modal">保存</button>
+                    </div>
+                </div>
+                <ul class="column_list">
+                    <li ng-repeat="Column in ColumnList">
+                        <a href="#" ng-click="OCSiteColumn_Conten_Upd(Column.ContentType)"><i class="icon_con filling"></i>{{Column.Title}}  <em class="icon_con icon_fold"></em></a>
+                        <ul class="second_nav">
+                            <li ng-repeat="Column1 in Column.Children" ng-model="Column.ContentType">
+                                <a href="#"><i class="icon_con filling"></i>{{Column1.Title}}</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main_content">
+            <div class="banner_box" >
+                <img src="http://placehold.it/1000x200/cccccc" width="1000" height="200" alt="" />
+                <a href="javascript:;"></a>
+            </div>
+            <h2 >首页<span>（最后更新：陈晨 2014-03-21）</span></h2>
+            <div id="div_indexhome" class="main_all" >
+                <div class="main_l">
+                    <div class="add_course">
+                        <div class="upload_course">
+                            <img src="http://placehold.it/280x150/cccccc" width="280" height="150" alt="" />
+                            <p>
+                                <a href="javascript:;">上传</a>
+                                <b>*</b>
+                                <span>图片最佳尺寸280*150像素</span>
+                            </p>
+                        </div>
+                        <div class="course_detail">
+                            <div class="course_document">
+                                <h4>课程档案</h4>
+                                <a class="icon icon_write" href="javascript:;"></a>
+                            </div>
+                            <div class="text_box">
+                                <p>负 责 人：<span>孙慧丽</span></p>
+                                <p>创建日期：<span>2014-09-21</span></p>
+                                <p>所属分类：<span>大学教育 &gt; 哲学</span></p>
+                                <p>课程标签：<span>哲学，创新，批判性思维</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="add_course">
+                        <div class="course_document">
+                            <h4>主讲教师</h4>
+                            <a class="icon icon_write" href="javascript:;"></a>
+                        </div>
+                        <div class="teacher_box">
+                            <div class="teacher_name">
+                                <img src="http://placehold.it/60x60/cccccc" width="60" height="60" alt="" />
+                                <span>孙慧丽<br>教授</span>
+                            </div>
+                            <p>产品经理，负责教学信息化系统需求分析实践，关注用户逻辑设计，六年来经历了数十个985，211大学的教学信息化项目。</p>
+                        </div>
+                        <div class="teacher_box">
+                            <div class="teacher_name">
+                                <img src="http://placehold.it/60x60/cccccc" width="60" height="60" alt="" />
+                                <span>王晓晓<br>副教授</span>
+                            </div>
+                            <p>产品经理，负责教学信息化系统需求分析实践，关注用户逻辑设计，六年来经历了数十个985，211大学的教学信息化项目。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="main_r">
+                    <div class="upload_video">
+                        <div class="upload_course">
+                            <img src="http://placehold.it/265x150/cccccc" width="265" height="150" alt="" />
+                            <p>
+                                <a href="javascript:;">上传</a>
+                                <b>*</b>
+                            </p>
+                        </div>
+                        <div class="course_recom">
+                            <h4>课程推荐词<span>*</span></h4>
+                            <textarea id="txt_name" placeholder="建议不超过150字符"></textarea>
+                        </div>
+                    </div>
+                    <div class="upload_video">
+                        <div class="course_document">
+                            <h4>课程视频</h4>
+                            <span>（说明：如果创建了MOOC的进阶式教程，访问者可免费观看第一章视频，此外您也可以自行上传视频）</span>
+                        </div>
+                        <div class="video_box">
+                            <div class="video_item">
+                                <ul class="video_list">
+                                    <li>
+                                        <img src="http://placehold.it/180x100/cccccc" width="180" height="100" alt="" />
+                                        <i class="icon icon_delete"></i>
+                                    </li>
+                                    <li>
+                                        <img src="http://placehold.it/180x100/cccccc" width="180" height="100" alt="" />
+                                    </li>
+                                    <li>
+                                        <img src="http://placehold.it/180x100/cccccc" width="180" height="100" alt="" />
+                                        <i class="icon icon_delete"></i>
+                                    </li>
+                                    <li>
+                                        <img src="http://placehold.it/180x100/cccccc" width="180" height="100" alt="" />
+                                    </li>
+                                    <li>
+                                        <img src="http://placehold.it/180x100/cccccc" width="180" height="100" alt="" />
+                                    </li>
+                                </ul>
+                            </div>
+                            <a class="icon_con icon_l" href="javascript:;"></a>
+                            <a class="icon_con icon_r" href="javascript:;"></a>
+                        </div>
+                        <p class="video_upload">
+                            <a href="javascript:;">上传</a>
+                            <b>*</b>
+                        </p>
+                    </div>
+                    <div class="upload_video">
+                        <div class="course_document">
+                            <h4>课程通知</h4>
+                            <a class="issue_btn" href="javascript:;">
+                                <em><i class="icon"></i></em>
+                                <b>发布通知</b>
+                            </a>
+                        </div>
+                        <div class="course_content">
+                            <img src="~/Images/expression.png" width="96" height="96" alt="">
+                            <p>没有找到任何内容</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="main_all" id="div_ewebeditor" style=" display:none;">
+                <div>
+                    <input type="hidden" name="oEditor1" id="oEditor1" runat="server" />
+                    <iframe id="frmoEditor1" runat="server" src="~/Frameworks/eWebEditor/ewebeditor.htm?id=oEditor1&style=coolblue"
+                            frameborder="0" scrolling="no" width="1000" height="450" style="display: block;"></iframe>
+                </div>
+
+            </div>
+            <div class="knowledge_box" id="div_mainList" style=" display:none;">
+                <table class="knowledge_list">
+                    <tr>
+                        <td colspan="2"><p><input type="checkbox">全选</p></td>
+                    </tr>
+                    <tr>
+                        <td width="790"><p><input type="checkbox">全球首宗干细胞培植完整器官移植</p></td>
+                        <td>
+                            2014-01-30
+                            <div class="modify_btn">
+                                <a class="icon icon_delete_gray" href="javascript:;"></a>
+                                <a class="icon icon_write" href="javascript:;"></a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="790"><p><input type="checkbox">DNA芯片及其用途</p></td>
+                        <td>
+                            2014-01-30
+                            <div class="modify_btn">
+                                <a class="icon icon_delete_gray" href="javascript:;"></a>
+                                <a class="icon icon_write" href="javascript:;"></a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="790"><p><input type="checkbox">全球首宗干细胞培植完整器官移植</p></td>
+                        <td>
+                            2014-01-30
+                            <div class="modify_btn">
+                                <a class="icon icon_delete_gray" href="javascript:;"></a>
+                                <a class="icon icon_write" href="javascript:;"></a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="790"><p><input type="checkbox">DNA芯片及其用途</p></td>
+                        <td>
+                            2014-01-30
+                            <div class="modify_btn">
+                                <a class="icon icon_delete_gray" href="javascript:;"></a>
+                                <a class="icon icon_write" href="javascript:;"></a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="790"><p><input type="checkbox">全球首宗干细胞培植完整器官移植</p></td>
+                        <td>
+                            2014-01-30
+                            <div class="modify_btn">
+                                <a class="icon icon_delete_gray" href="javascript:;"></a>
+                                <a class="icon icon_write" href="javascript:;"></a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="load_box">加载中…</div>
+                <div class="pick_box">
+                    <p><input type="checkbox">全选</p>
+                    <div class="page_box">
+                        <a class="prev" href="javascript:;">前一页</a>
+                        <a href="#">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <span class="more">...</span>
+                        <a href="#">8</a>
+                        <a class="prev" href="javascript:;">后一页</a>
+                        <span>共229条，到第<input type="text">页</span>
+                        <a class="confirm" href="#">确认</a>
+                    </div>
+                </div>
+            </div>
+                <div class="btn_box">
+                    <a href="javascript:;" class="preview_green">预览</a>
+                    <a href="javascript:;" class="save">保存</a>
+                </div>
+            </div>
+    </div>
+    <!--左侧导航-->
+
+    <input type="hidden" id="hid_sidemod" ng-model="hid_sidemod" value="1" />   
+    
+
+    
+</div>
+
+
+
+
+

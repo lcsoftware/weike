@@ -55,6 +55,12 @@ namespace IES.CC.OC.Model
 			set{ _userid=value;}
 			get{return _userid;}
 		}
+
+
+        public string  UserName { get; set; }
+
+
+
 		/// <summary>
 		/// 
 		/// </summary>

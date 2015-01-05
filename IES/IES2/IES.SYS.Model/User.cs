@@ -1,4 +1,5 @@
 ﻿/**  版本信息模板在安装目录下，可自行修改。
+
 * User.cs
 *
 * 功 能： N/A
@@ -10,21 +11,48 @@
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
 *┌──────────────────────────────────┐
+
 *│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+
 *│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+
 *└──────────────────────────────────┘
+
 */
 using System;
 namespace IES.SYS.Model
 {
 	/// <summary>
 	/// 用户表
+
 	/// </summary>
 	[Serializable]
 	public partial class User
 	{
 		public User()
 		{}
+
+        #region 补充信息
+
+        /// <summary>
+        /// 用户图片信息
+        /// </summary>
+        public string img { get; set; }
+        /// <summary>
+        /// 教学组织名
+        /// </summary>
+        public string organizationname { get; set; }
+        /// <summary>
+        /// 专业名
+        /// </summary>
+        public string specialtyname { get; set; }
+        /// <summary>
+        /// 班级名
+        /// </summary>
+        public string classname { get; set; }
+
+        #endregion 
+
 		#region Model
 		private int _userid;
 		private string _userno;
@@ -40,8 +68,11 @@ namespace IES.SYS.Model
 		private int? _entrydate;
 		private int _specialtyid=0;
 		private int _classid=0;
+        private int _disksize;
 		private bool _islocked= false;
 		private int _usertype=2;
+        private bool _isregister=false;
+        private string _brief;
 		private bool _isdeleted= false;
 		/// <summary>
 		/// 
@@ -69,6 +100,7 @@ namespace IES.SYS.Model
 		}
 		/// <summary>
 		/// 英文名
+
 		/// </summary>
 		public string UserNameEn
 		{
@@ -77,6 +109,7 @@ namespace IES.SYS.Model
 		}
 		/// <summary>
 		/// 登录名
+
 		/// </summary>
 		public string LoginName
 		{
@@ -107,6 +140,10 @@ namespace IES.SYS.Model
 			set{ _email=value;}
 			get{return _email;}
 		}
+
+        public string Tel { get; set; }
+
+
 		/// <summary>
 		/// 移动电话
 		/// </summary>
@@ -123,6 +160,12 @@ namespace IES.SYS.Model
 			set{ _organizationid=value;}
 			get{return _organizationid;}
 		}
+
+        /// <summary>
+        /// 组织机构名称
+        /// </summary>
+        public string OrganizationName { get; set; }
+
 		/// <summary>
 		/// 职称
 		/// </summary>
@@ -147,14 +190,29 @@ namespace IES.SYS.Model
 			set{ _specialtyid=value;}
 			get{return _specialtyid;}
 		}
+
+
+
 		/// <summary>
 		/// 行政班编号
+
 		/// </summary>
 		public int ClassID
 		{
 			set{ _classid=value;}
 			get{return _classid;}
 		}
+
+        /// <summary>
+        /// 分配的磁盘配额
+
+        /// </summary>
+        public int DiskSize
+        {
+            set { _disksize = value; }
+            get { return _disksize; }
+        }
+
 		/// <summary>
 		/// 是否锁定
 		/// </summary>
@@ -165,14 +223,34 @@ namespace IES.SYS.Model
 		}
 		/// <summary>
 		/// 用户类别： 0:超级管理员，1:子管理员，2:学生，3:教师，4:系统外用户
+
 		/// </summary>
 		public int UserType
 		{
 			set{ _usertype=value;}
 			get{return _usertype;}
 		}
+        /// <summary>
+        /// 登录状态
+
+        /// </summary>
+        public bool IsRegister
+        {
+            set { _isregister = value; }
+            get { return _isregister; }
+        }
+        /// <summary>
+        /// 简介
+
+        /// </summary>
+        public string Brief
+        {
+            set { _brief = value; }
+            get { return _brief; }
+        }
 		/// <summary>
 		/// 删除状态
+
 		/// </summary>
 		public bool IsDeleted
 		{

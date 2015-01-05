@@ -36,6 +36,8 @@ namespace IES.Resource.Model
 		private int _diffcult=1;
 		private int _scope=1;
 		private int _sharerange=2;
+        private string _keys = string.Empty;
+        private string _kens = string.Empty;
 		private string _brief;
 		private string _conten;
 		private string _answer;
@@ -86,6 +88,11 @@ namespace IES.Resource.Model
 			set{ _createuserid=value;}
 			get{return _createuserid;}
 		}
+
+        public string CreateUserName { get; set; }
+
+
+
 		/// <summary>
 		/// 复合题小题 通过该编号找到题干
 		/// </summary>
@@ -127,6 +134,26 @@ namespace IES.Resource.Model
 			set{ _sharerange=value;}
 			get{return _sharerange;}
 		}
+
+        /// <summary>
+        /// 关键习题字添加通过其他方法
+        /// </summary>
+        public string Keys
+        {
+            get { return _keys; }
+        }
+
+        /// <summary>
+        /// 知识点新增通过其他方法
+        /// </summary>
+        public string  Kens
+        {
+            get { return _kens; }
+
+        }
+
+
+
 		/// <summary>
 		/// 习题的注释说明
 		/// </summary>

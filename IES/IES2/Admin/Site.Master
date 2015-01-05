@@ -1,0 +1,49 @@
+﻿<%@ master language="C#" autoeventwireup="true" codebehind="Site.master.cs" inherits="Admin.SiteMaster" %>
+<%@ Register src="Views/Share/Top.ascx" tagname="Top" tagprefix="uc1" %>
+<%@ Register src="Views/Share/Left.ascx" tagname="Left" tagprefix="uc2" %>
+<%@ Register src="Views/Share/Foot.ascx" tagname="Foot" tagprefix="uc3" %>
+<%@ Register src="Views/Share/Notice.ascx" tagname="Notice" tagprefix="uc4" %>
+<!DOCTYPE html>
+<html lang="zh">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - 系统管理</title>
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/js") %>
+    </asp:PlaceHolder>
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+
+</head>
+<body class="admin_wrap" >
+    <form runat="server">
+             <div class="wrap">
+	<div class="public_header">
+        <uc1:Top ID="Top1" runat="server" />
+    </div>
+    <div class="main_all">
+        <div class="side_left">
+            <uc2:Left ID="Left1" runat="server" />
+        </div>
+        <div class="main_content">
+            <div class="right_header">
+                <div class="notice_box">
+                    <uc4:Notice ID="Notice1" runat="server" />
+                </div>
+            </div>
+            <div>
+                <asp:ContentPlaceHolder ID="MainContent" runat="server"> </asp:ContentPlaceHolder>
+            </div>
+        </div>
+    </div>
+        
+	<div class="footer">
+        <uc3:Foot ID="Foot1" runat="server" />
+    </div>
+	<a class="icon backto_top" href="#"></a>
+    <a class="icon_fold" href="javascript:;"></a>
+</div>
+    </form>
+</body>
+</html>

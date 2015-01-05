@@ -1,0 +1,31 @@
+﻿
+@using IES.SYS.Model;
+@using IES.Cache;
+@using IES.Security;
+@using IES.SYS.Model;
+@using IES.G2S.SYS.BLL;
+@using IES.Service;
+@using IES.CC.OC.Model;
+@{
+    string userid = IESCookie.GetCookieValue("ies");
+    IES.SYS.Model.User user = new IES.SYS.Model.User { UserID = Int32.Parse(userid) };
+    user = UserService.User_Get(user);
+    List<OC> oclist = UserService.User_OC_List(user);
+}
+
+<div class="exercise_nav">
+    <ul class="exercise_nav_list">
+        @for (int i = 0; i < oclist.Count; i++)
+        {
+            OC oc = oclist[i];
+            if (i == 0)
+            {
+                <li class="active"><a class="first_nav" href="#">@oc.Name</a></li>
+            }
+            else
+            {
+                <li><a class="first_nav" href="#">@oc.Name</a></li>
+            }
+        }
+    </ul>
+</div>

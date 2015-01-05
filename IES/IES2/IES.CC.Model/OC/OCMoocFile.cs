@@ -23,6 +23,31 @@ namespace IES.CC.OC.Model
 	[Serializable]
 	public partial class OCMoocFile
 	{
+        #region 补充信息
+
+        /// <summary>
+        /// 文件名称
+        /// </summary>
+        public string  FileName { get; set; }
+
+        /// <summary>
+        /// 视频或文件的地址
+        /// </summary>
+        public string  viewurl { get; set; }
+
+        public string downloadurl { get; set; }
+
+
+        public int timelength { get; set; }
+
+        public int  fileyype { get; set; }
+
+        public string ext { get; set; }
+
+        #endregion 
+
+
+
 		public OCMoocFile()
 		{}
 		#region Model
@@ -31,10 +56,6 @@ namespace IES.CC.OC.Model
 		private int _chapterid;
 		private int _fileid;
 		private int _timelimit=0;
-		private string _brief;
-		private bool _ismust= true;
-		private int _planday=0;
-		private int _minhour=0;
 		private int _orde=1;
 		/// <summary>
 		/// 
@@ -76,38 +97,12 @@ namespace IES.CC.OC.Model
 			set{ _timelimit=value;}
 			get{return _timelimit;}
 		}
-		/// <summary>
-		/// 本章节的描述信息
-		/// </summary>
-		public string Brief
-		{
-			set{ _brief=value;}
-			get{return _brief;}
-		}
+
 		/// <summary>
 		/// 是否必学资料
 		/// </summary>
-		public bool IsMust
-		{
-			set{ _ismust=value;}
-			get{return _ismust;}
-		}
-		/// <summary>
-		/// 计划天数
-		/// </summary>
-		public int PlanDay
-		{
-			set{ _planday=value;}
-			get{return _planday;}
-		}
-		/// <summary>
-		/// 最低学时
-		/// </summary>
-		public int MinHour
-		{
-			set{ _minhour=value;}
-			get{return _minhour;}
-		}
+        public bool IsMust { get; set; }
+
 		/// <summary>
 		/// 顺序
 		/// </summary>

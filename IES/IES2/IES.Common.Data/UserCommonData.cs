@@ -7,6 +7,7 @@ using IES.JW.Model;
 using IES.SYS.Model;
 using IES.CC.OC.Model;
 using IES.G2S.SYS.DAL ;
+using IES.Cache;
 
 namespace IES.Common.Data
 {
@@ -16,19 +17,6 @@ namespace IES.Common.Data
     /// </summary>
     public class UserCommonData 
     {
-
-        /// <summary>
-        /// 获取我教授的课程，学习的课程
-        /// 适用范围：资源（文件、习题、试卷库）
-        /// </summary>
-        /// <param name="userid">用户编号</param>
-        /// <param name="Role">角色：1 教师  2 学生 </param>
-        /// <returns></returns>
-        public static  List<Course> UserCourse(int userid, int role)
-        {
-            return new List<Course>();
-        }
-
 
         /// <summary>
         /// 获取用户的在线课程列表
@@ -49,6 +37,9 @@ namespace IES.Common.Data
         {
             return new UserAuInfo();
         }
+
+
+
 
 
 

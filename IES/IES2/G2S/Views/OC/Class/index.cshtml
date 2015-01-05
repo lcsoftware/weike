@@ -1,0 +1,177 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Views/OC/Team/index.css" rel="stylesheet" />
+
+<!--右侧主题内容开始-->
+<div class="main_content">
+    <div class="coursesite_box" ng-controller="ClassController">
+        <div class="wrap_box">
+            <p class="check_info">您有<b ng-bind="RegStudentInfo.length"></b>条新的学生申请<a href="javascript:;">[申请审核]</a></p>
+            <table class="class_box">
+                <tr>
+                    <th class="has_border" width="25"><input type="checkbox"></th>
+                    <th width="90">学号</th>
+                    <th width="80">姓名</th>
+                    <th width="160">专业</th>
+                    <th width="160">行政班</th>
+                    <th width="105">注册日期</th>
+                    <th>申请注册教学班</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="RegStudent in RegStudentInfo">
+                    <td class="has_border"><input type="checkbox"></td>
+                    <td ng-bind="RegStudent.UserNo"></td>
+                    <td ng-bind="RegStudent.UserName"></td>
+                    <td ng-bind="RegStudent.SpecialtyName"></td>
+                    <td ng-bind="RegStudent.ClassName"></td>
+                    <td>2013-12-1</td>
+                    <td ng-bind="RegStudent.TeachingClassName">国际英语1班（39人）陈晨</td>
+                    <td><a class="icon icon_edit"></a></td>
+                </tr>
+                @*<tr>
+                        <td class="has_border"><input type="checkbox"></td>
+                        <td>3091817313</td>
+                        <td>李四</td>
+                        <td>机械自动化</td>
+                        <td>04机械自动化2班</td>
+                        <td>2014-08-03</td>
+                        <td>国际英语1班（39人）陈晨</td>
+                    </tr>*@
+            </table>
+
+            <div class="class_management">
+                <h5>教学班管理<span>（以学年学期为一个学习期，整班全体学生学习时间与进度要求一致，适用于学期课程和在校学生）</span><a href="#">[收起]</a></h5>
+                <div class="class_sort">
+                    <ul class="class_list">
+                        <li class="active"><a href="#">在读班级</a></li>
+                        <li><a href="#">结业班级</a></li>
+                    </ul>
+                    <div class="function_list">
+                        <a href="javascript:;" class="function_add"><i class="icon"></i>新增</a>
+                        <a href="javascript:;" class="function_import active"><i class="icon"></i>导入<em class="muban_load">导入模板下载</em></a>
+                        <a href="javascript:;" class="function_export"><i class="icon"></i>导出</a>
+                        <a href="javascript:;" class="function_edit"><i class="icon"></i>编辑</a>
+                        <a href="javascript:;" class="function_delete"><i class="icon"></i>删除</a>
+                    </div>
+                </div>
+                <div class="class_wrap">
+                    <table class="class_box">
+                        <tr>
+                            <th class="has_border" width="20"><input type="checkbox"></th>
+                            <th width="160">教学班名称</th>
+                            <th width="95">授课开始日期</th>
+                            <th width="95">授课结束日期</th>
+                            <th width="60">学生数</th>
+                            <th width="115">授课教师</th>
+                            <th width="135">其他教学团队</th>
+                            <th>注册码</th>
+                        </tr>
+                        <tr ng-repeat="ClassInfo in OCClassInfo ">
+                            <td class="has_border"><input type="checkbox"></td>
+                            <td ng-bind="ClassInfo.ClassName"></td>
+                            @*<td ng-bind="ClassInfo.StartDate"></td>
+                            <td ng-bind="ClassInfo.EndDate"></td>*@
+                            <td >2014-12-03</td>
+                            <td >2014-12-30</td>
+                            <td ng-bind="ClassInfo.StudentCount"></td>
+                            <td ng-bind="ClassInfo.Teachers"></td>
+                            <td ng-bind="ClassInfo.Teams"></td>
+                            <td>
+                                <a class="open_btn" href="javascript:;">未启用</a>
+                                <ul class="btn_list">
+                                    <li class="icon icon_import"></li>
+                                    <li class="icon icon_export"></li>
+                                    <li class="icon icon_edit"></li>
+                                    <li class="icon icon_delete"></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        @*<tr>
+                                <td class="has_border"><input type="checkbox"></td>
+                                <td>国际英语1班</td>
+                                <td>2014-09-01</td>
+                                <td>2015-02-03</td>
+                                <td>40</td>
+                                <td>陈晨</td>
+                                <td>王小明，张三</td>
+                                <td>
+                                    <a class="open_btn" href="javascript:;">1234567</a>
+                                    <ul class="btn_list">
+                                        <li class="icon icon_import"></li>
+                                        <li class="icon icon_export"></li>
+                                        <li class="icon icon_edit"></li>
+                                        <li class="icon icon_delete"></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="has_border"><input type="checkbox"></td>
+                                <td>国际英语1班</td>
+                                <td>2014-09-01</td>
+                                <td>2015-02-03</td>
+                                <td>40</td>
+                                <td>陈晨</td>
+                                <td>王小明，张三</td>
+                                <td>
+                                    <a class="open_btn" href="javascript:;">未启用</a>
+                                    <ul class="btn_list">
+                                        <li class="icon icon_import"></li>
+                                        <li class="icon icon_export"></li>
+                                        <li class="icon icon_edit"></li>
+                                        <li class="icon icon_delete"></li>
+                                    </ul>
+                                </td>
+                            </tr>*@
+                    </table>
+                </div>
+            </div>
+            <div class="class_management online_class">
+                <h5>网络注册班级<span>（没有固定的学习周长，支持网络上学生自行注册学习课程，何时报名何时开始学习，学完后自动转为结业学生，适用于自由学习者）</span></h5>
+                <div class="class_sort">
+                    <div class="function_list">
+                        <a class="function_add" href="javascript:;"><i class="icon"></i>新增</a>
+                        <a class="function_export" href="javascript:;"><i class="icon"></i>导出</a>
+                        <a class="function_edit" href="javascript:;"><i class="icon"></i>编辑</a>
+                        <a class="function_delete" href="javascript:;"><i class="icon"></i>删除</a>
+                    </div>
+                </div>
+                <div class="class_wrap">
+                    <table class="class_box">
+                        <tr>
+                            <th class="has_border" width="60"></th>
+                            <th width="90">招生方式</th>
+                            <th width="110">招生起止日期</th>
+                            <th width="110">教学运行时间</th>
+                            <th width="65">人数限制</th>
+                            <th width="65">在读学生</th>
+                            <th width="65">在读学生</th>
+                            <th width="65">注册码</th>
+                            <th></th>
+                        </tr>
+                        <tr ng-repeat="RegClass in RegClassInfo">
+                            <td class="has_border"></td>
+                            <td ng-bind="RegClass.JoinType"></td>
+                            <td ng-bind="RegClass.RecruitStartDate"></td>
+                            <td ng-bind="RegClass.StartDate"></td>
+                            <td ng-bind="RegClass.UserLimit"></td>
+                            <td ng-bind="RegClass.LineStudent"></td>
+                            <td ng-bind="RegClass.OffLineStudent"></td>
+                            <td ng-bind="RegClass.RegNum"></td>
+                            <td>
+                                <a class="open_btn" href="javascript:;">未启用</a>
+                                <ul class="btn_list">
+                                    <li class="icon icon_export"></li>
+                                    <li class="icon icon_edit"></li>
+                                    <li class="icon icon_delete"></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <a class="class_inter" href="#">进行课程互动</a>
+        </div>
+    </div>
+</div>
+<!--右侧主题内容结束-->

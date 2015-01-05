@@ -73,6 +73,12 @@ namespace IES.CC.Forum.Model
 			set{ _userid=value;}
 			get{return _userid;}
 		}
+
+        /// <summary>
+        /// 回复人姓名
+        /// </summary>
+        public string  UserName { get; set; }
+
 		/// <summary>
 		/// 
 		/// </summary>

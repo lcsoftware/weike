@@ -35,7 +35,7 @@ namespace IES.SYS.Model
 		private string _nginxfolder;
 		private string _nginxport;
 		private string _pubkey;
-		private bool _ismainserver= true;
+		private bool _isrun= true;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -109,12 +109,12 @@ namespace IES.SYS.Model
 			get{return _pubkey;}
 		}
 		/// <summary>
-		/// 是否是分发服务器
+		/// 是否运行
 		/// </summary>
-		public bool IsMainServer
+		public bool IsRun
 		{
-			set{ _ismainserver=value;}
-			get{return _ismainserver;}
+            set { _isrun = value; }
+            get { return _isrun; }
 		}
 		#endregion Model
 

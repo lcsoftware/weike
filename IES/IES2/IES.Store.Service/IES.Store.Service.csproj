@@ -11,14 +11,10 @@
     <AssemblyName>IES.Store.Service</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,6 +50,14 @@
     <ProjectReference Include="..\IES.G2S.SYS.BLL\IES.G2S.SYS.BLL.csproj">
       <Project>{f51fea70-1bfa-43cd-88c8-235d9b3f644f}</Project>
       <Name>IES.G2S.SYS.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.G2S.SYS.DAL\IES.G2S.SYS.DAL.csproj">
+      <Project>{99ed2fc9-2d3b-499f-9fd4-df04054b85ea}</Project>
+      <Name>IES.G2S.SYS.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.G2S.SYS.IBLL\IES.G2S.SYS.IBLL.csproj">
+      <Project>{75ef2a1b-5483-4c1d-9d99-81ba3ee35127}</Project>
+      <Name>IES.G2S.SYS.IBLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\IES.SYS.Model\IES.SYS.Model.csproj">
       <Project>{ca2b5379-05a2-44ab-bb4f-c49fd02677d0}</Project>

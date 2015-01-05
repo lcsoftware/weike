@@ -15,17 +15,7 @@ namespace IES.G2S.Resource.BLL
     {
 
         #region 列表
-        /// <summary>
-        /// 试卷列表
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="PageSize"></param>
-        /// <param name="PageIndex"></param>
-        /// <returns></returns>
-        public List<Paper> Paper_Search(Paper model, int PageSize, int PageIndex)
-        {
-            return PaperDAL.Paper_Search(model, PageSize, PageIndex);
-        }
+
 
         #endregion
 

@@ -1,0 +1,27 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+
+<div ng-controller="ScoreWeightCtrl">
+    <div>{{ScoreWeight.Name}}</div>
+    <div ng-repeat="item in ScoreWeightItem">
+        <a href="#">{{item.Name}}</a>
+        <input type="text" placeholder="请输入" ng-model="item.Power" value="" />
+        次数:<input type="text" ng-model="item.JoinNum" />
+    </div>
+    <button ng-click="ScoreWeight_List()">出来</button>
+</div>
+<div class="pop_600" style="display:block;" ng-show="false">
+    <h4>成绩加权设置</h4>
+    <span class="icon close_pop"></span>
+    <div class="member_detail">
+        <div class="btn_box">
+            <a class="save" href="javascript:;">保存</a>
+            <a class="cancel" href="javascript:;">返回</a>
+        </div>
+    </div>
+
+</div>

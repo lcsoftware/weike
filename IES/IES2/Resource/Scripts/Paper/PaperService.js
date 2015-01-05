@@ -13,14 +13,5 @@ aService.factory('PaperService', ['httpService', 'paperProviderUrl', function (h
             if (callback) callback(data.d);
         });
     }
-
-    /// 试卷列表查询
-    service.paperSearch = function (paper, pageSize, pageIndex, callback) {
-        var url = paperProviderUrl + '/Paper_Search'
-        var param = { model: paper, pageSize: pageSize, pageIndex: pageIndex };
-        httpService.post(url, param, function (data) {
-            if (callback) callback(data.d);
-        });
-    }
     return service;
 }]);

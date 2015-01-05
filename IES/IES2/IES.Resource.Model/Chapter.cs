@@ -23,6 +23,23 @@ namespace IES.Resource.Model
     [Serializable]
     public partial class Chapter
     {
+        #region 补充信息
+
+        public int FileNum { get; set; }
+
+
+        public int TopicNum { get; set; }
+
+
+        public int TestNum { get; set; }
+
+
+        public int KenNum { get; set; }
+
+
+        #endregion 
+
+
         public Chapter()
         { }
         #region Model
@@ -98,6 +115,15 @@ namespace IES.Resource.Model
             set { _orde = value; }
             get { return _orde; }
         }
+
+
+        public string Brief { get; set; }
+
+        public int PlanDay { get; set; }
+
+        public int MinHour { get; set; }
+
+
         #endregion Model
 
     }

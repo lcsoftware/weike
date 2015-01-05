@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 using IES.G2S.SYS.DAL;
 using IES.SYS.Model;
 using IES.AOP.G2S;
+using IES.G2S.SYS.IBLL;
 
 
 namespace IES.G2S.SYS.BLL
 {
-    public class ResourceServerBLL
+    public class ResourceServerBLL : IResourceServerBLL
     {
         public List<ResourceServer> ResourceServer_List()
         {

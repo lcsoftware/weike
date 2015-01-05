@@ -48,7 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Forum\IForumBLL.cs" />
+    <Compile Include="Score\IScoreWithInfoBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Score\IScoreManageInfoBLL.cs" />
+    <Compile Include="Score\IScoreTypeBLL.cs" />
+    <Compile Include="Score\IScoreWeightBLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IES.CC.Model\IES.CC.Model.csproj">

@@ -13,10 +13,6 @@ aService.constant('knowProviderUrl', '/DataProvider/Knowledge/KnowProvider.aspx'
 aService.constant('exerciseProviderUrl', '/DataProvider/Exercise/ExerciseProvider.aspx');
 aService.constant('paperProviderUrl', '/DataProvider/Paper/PaperProvider.aspx');
 
-Array.prototype.insert = function (index, item) {
-    this.splice(index, 0, item);
-};
-
 ///XHR调用
 aService.factory('httpService', ['$http', '$q', function ($http, $q) {
 

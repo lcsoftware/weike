@@ -53,6 +53,7 @@
     <Compile Include="ExerciseCompInfo.cs" />
     <Compile Include="ExerciseCommon.cs" />
     <Compile Include="IExercise.cs" />
+    <Compile Include="IFile.cs" />
     <Compile Include="IPaper.cs" />
     <Compile Include="IResource.cs" />
     <Compile Include="Key.cs" />

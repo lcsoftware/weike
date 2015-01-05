@@ -16,7 +16,7 @@ namespace IES.G2S.JW.DAL
     /// </summary>
     public class TermDAL
     {
-
+        #region  学期类型列表
         /// <summary>
         /// 学期类型列表
         /// </summary>
@@ -25,7 +25,7 @@ namespace IES.G2S.JW.DAL
         {
             try
             {
-                using (var conn = DbHelper.ResourceService())
+                using (var conn = DbHelper.JWService())
                 {
                     return conn.Query<TermType>("TermType_List", null, commandType: CommandType.StoredProcedure).ToList();
                 }
@@ -35,18 +35,25 @@ namespace IES.G2S.JW.DAL
                 return new List<TermType>();
             }
         }
+        #endregion
 
+        #region 校历列表
         /// <summary>
         /// 校历列表
         /// </summary>
         /// <returns></returns>
-        public static List<Term> Term_List()
+        public static List<Term> Term_List(Term model,int PageSize,int PageIndex)
         {
             try
             {
-                using (var conn = DbHelper.ResourceService())
+                using (var conn = DbHelper.JWService())
                 {
-                    return conn.Query<Term>("Term_List", null, commandType: CommandType.StoredProcedure).ToList();
+                    var p = new DynamicParameters();
+                    p.Add("@TermYear", model.TermYear);
+                    p.Add("@TermTypeID", model.TermTypeID);
+                    p.Add("@PageSize", PageSize);
+                    p.Add("@PageIndex", PageIndex);
+                    return conn.Query<Term>("Term_List", p, commandType: CommandType.StoredProcedure).ToList();
                 }
             }
             catch (Exception e)
@@ -54,10 +61,9 @@ namespace IES.G2S.JW.DAL
                 return new List<Term>();
             }
         }
+        #endregion
 
-
-
-
+        #region  新增
         /// <summary>
         /// 校历添加
         /// </summary>
@@ -84,10 +90,12 @@ namespace IES.G2S.JW.DAL
             }
             catch (Exception e)
             {
-                return model;
+                return null;
             }
         }
+        #endregion
 
+        #region  删除
         /// <summary>
         /// 校历删除
         /// </summary>
@@ -97,7 +105,7 @@ namespace IES.G2S.JW.DAL
         {
             try
             {
-                using (var conn = DbHelper.ResourceService())
+                using (var conn = DbHelper.JWService())
                 {
                     var p = new DynamicParameters();
                     p.Add("@TermID", model.TermID);
@@ -109,7 +117,8 @@ namespace IES.G2S.JW.DAL
             {
                 return false;
             }
-        } 
+        }
+        #endregion
 
     }
 }

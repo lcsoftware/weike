@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttachmentBLL.cs" />
     <Compile Include="ChapterBLL.cs" />
     <Compile Include="ExerciseBLL.cs" />
     <Compile Include="FileBLL.cs" />
@@ -75,6 +76,10 @@
     <ProjectReference Include="..\IES.AOP.G2S\IES.AOP.G2S.csproj">
       <Project>{c4205a08-b166-4a43-ae4f-b07e5aa782ef}</Project>
       <Name>IES.AOP.G2S</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.Cache\IES.Cache.csproj">
+      <Project>{7a302f72-5f5f-41af-9c2a-5c27e03a47d4}</Project>
+      <Name>IES.Cache</Name>
     </ProjectReference>
     <ProjectReference Include="..\IES.G2S.Resource.DAL\IES.G2S.Resource.DAL.csproj">
       <Project>{97ffd6d3-8095-4592-98bd-bccd4af980d3}</Project>

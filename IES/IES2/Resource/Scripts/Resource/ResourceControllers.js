@@ -1,9 +1,8 @@
 ﻿'use strict';
 
-var appResource = angular.module('app.resource.controllers', [
-    'app.res.services'
-]);
+var appResource = angular.module('app.resource.controllers', []);
 
+<<<<<<< HEAD
 appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($scope, resourceService) {
     $scope.$emit('onActived', 1);
     $scope.$on("onActived", function (event, active) {
@@ -59,5 +58,20 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($
             $scope.shareRange.insert(0, item);
         }
     });
+=======
+appResource.controller('ResourceCtrl', ['$scope', function ($scope) {
+    $scope.$emit('onActived', 'B21');
+
+    $scope.tabs = [
+        { id: 0, name: '个人资料' },
+        { id: 1, name: '毛泽东思想和中国特色社会主义毛泽东思想和中国特色社会主义' },
+        { id: 2, name: '大学英语' },
+        { id: 3, name: '形式与政策' }
+    ];
+
+    $scope.tabChanged = function (tab) {
+        console.log(tab);
+    }
+>>>>>>> 401bc7c75e28e47471b651cc44c5b24708657140
 }]);
 
