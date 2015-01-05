@@ -16,6 +16,10 @@ namespace IES.G2S.Resource.BLL
 
         #region 列表
 
+        public List<Paper> Paper_Search(Paper paper, int PageSize, int PageIndex)
+        {
+            return PaperDAL.Paper_Search(paper, PageSize, PageIndex);
+        }
 
         #endregion
 

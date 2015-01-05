@@ -3,10 +3,7 @@
 var appResource = angular.module('app.resource.controllers', ['app.res.services']);
 
 appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($scope, resourceService) {
-    $scope.$emit('onActived', 'B21');
-    $scope.$on("onActived", function (event, active) {
-        $scope.actived = active;
-    });
+
     $scope.fileTypes = [];//文件类型
     $scope.timePass = [];//上传时间
     $scope.shareRange = []; //使用权限

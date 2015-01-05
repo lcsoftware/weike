@@ -23,15 +23,11 @@
         <!--用户信息结束-->
         <!--侧边导航开始-->
         <div class="side_box">
-            <ul class="side_nav">
-
+            <ul class="side_nav"> 
                 @foreach (var menu in LeftMenu)
                 {
                     <li id="@menu.MenuID" ui-sref-active="active"><a ui-sref="@menu.URL">@menu.Title</a></li>
-                }
-
-
-
+                } 
             </ul>
         </div>
         <!--侧边导航结束-->
@@ -54,8 +50,7 @@
             </div>
         </div>
         <!--右侧头部公告结束-->
-        <div class="coursesite_box" ui-view>
-
+        <div class="coursesite_box" ui-view> 
 
         </div>
 
