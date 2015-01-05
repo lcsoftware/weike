@@ -3,7 +3,7 @@
 var appPaper = angular.module('app.paper.controllers', ['app.paper.services']);
 
 appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope, PaperService) {
-    $scope.$emit('onActived', 'B23');
+    $scope.$emit('onActived', "B23");
 
     $scope.keyword = '';
 
