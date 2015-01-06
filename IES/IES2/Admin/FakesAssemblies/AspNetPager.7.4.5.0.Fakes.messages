@@ -1,34 +1,34 @@
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PageChangingEventHandler 生成存根: 类型已密封。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PageChangingEventArgs 生成存根: 类型已密封。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ANPDescriptionAttribute 生成存根: 类型已密封。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ANPCategoryAttribute 生成存根: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ANPDefaultValueAttribute 生成存根: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.SR 生成存根: 类型已密封。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.AspNetPagerIDConverter 生成存根: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ShowPageIndexBox 生成存根: 类型是一个值类型。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PageIndexBoxType 生成存根: 类型是一个值类型。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ShowCustomInfoSection 生成存根: 类型是一个值类型。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PagingButtonType 生成存根: 类型是一个值类型。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.LayoutType 生成存根: 类型是一个值类型。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PagingButtonPosition 生成存根: 类型是一个值类型。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PagingButtonLayoutType 生成存根: 类型是一个值类型。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.NavigationButtonPosition 生成存根: 类型是一个值类型。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.Properties.Resources 生成存根: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 <PrivateImplementationDetails>{3E01C93D-2627-4FA0-96CD-395BD0CF2DF0} 生成存根: 类型不受支持，因为存在内部限制。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.AspNetPager+NavigationButton 生成填充码: 类型是一个枚举。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PageChangingEventHandler 生成填充码: 类型是一个委托。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ANPDescriptionAttribute 生成填充码: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ANPCategoryAttribute 生成填充码: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ANPDefaultValueAttribute 生成填充码: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.SR 生成填充码: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.AspNetPagerIDConverter 生成填充码: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ShowPageIndexBox 生成填充码: 类型是一个枚举。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PageIndexBoxType 生成填充码: 类型是一个枚举。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ShowCustomInfoSection 生成填充码: 类型是一个枚举。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PagingButtonType 生成填充码: 类型是一个枚举。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.LayoutType 生成填充码: 类型是一个枚举。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PagingButtonPosition 生成填充码: 类型是一个枚举。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PagingButtonLayoutType 生成填充码: 类型是一个枚举。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.NavigationButtonPosition 生成填充码: 类型是一个枚举。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.Properties.Resources 生成填充码: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
-D:\ACC4\source\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 <PrivateImplementationDetails>{3E01C93D-2627-4FA0-96CD-395BD0CF2DF0} 生成填充码: 类型不受支持，因为存在内部限制。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PageChangingEventHandler 生成存根: 类型已密封。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PageChangingEventArgs 生成存根: 类型已密封。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ANPDescriptionAttribute 生成存根: 类型已密封。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ANPCategoryAttribute 生成存根: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ANPDefaultValueAttribute 生成存根: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.SR 生成存根: 类型已密封。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.AspNetPagerIDConverter 生成存根: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ShowPageIndexBox 生成存根: 类型是一个值类型。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PageIndexBoxType 生成存根: 类型是一个值类型。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ShowCustomInfoSection 生成存根: 类型是一个值类型。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PagingButtonType 生成存根: 类型是一个值类型。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.LayoutType 生成存根: 类型是一个值类型。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PagingButtonPosition 生成存根: 类型是一个值类型。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PagingButtonLayoutType 生成存根: 类型是一个值类型。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.NavigationButtonPosition 生成存根: 类型是一个值类型。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.Properties.Resources 生成存根: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 <PrivateImplementationDetails>{3E01C93D-2627-4FA0-96CD-395BD0CF2DF0} 生成存根: 类型不受支持，因为存在内部限制。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.AspNetPager+NavigationButton 生成填充码: 类型是一个枚举。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PageChangingEventHandler 生成填充码: 类型是一个委托。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ANPDescriptionAttribute 生成填充码: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ANPCategoryAttribute 生成填充码: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ANPDefaultValueAttribute 生成填充码: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.SR 生成填充码: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.AspNetPagerIDConverter 生成填充码: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ShowPageIndexBox 生成填充码: 类型是一个枚举。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PageIndexBoxType 生成填充码: 类型是一个枚举。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.ShowCustomInfoSection 生成填充码: 类型是一个枚举。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PagingButtonType 生成填充码: 类型是一个枚举。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.LayoutType 生成填充码: 类型是一个枚举。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PagingButtonPosition 生成填充码: 类型是一个枚举。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.PagingButtonLayoutType 生成填充码: 类型是一个枚举。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.NavigationButtonPosition 生成填充码: 类型是一个枚举。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 Wuqi.Webdiyer.Properties.Resources 生成填充码: 类型对 exported or assembly(AspNetPager.7.4.5.0.Fakes) 不可见。
+D:\work\project\weike\IES\IES2\Admin\Fakes\AspNetPager.fakes : warning : 无法为 <PrivateImplementationDetails>{3E01C93D-2627-4FA0-96CD-395BD0CF2DF0} 生成填充码: 类型不受支持，因为存在内部限制。

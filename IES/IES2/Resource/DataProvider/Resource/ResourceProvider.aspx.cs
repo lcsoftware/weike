@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
- 
+
 using IES.G2S.Resource.BLL;
 using IES.Service;
 using IES.CC.OC.Model;
@@ -16,7 +16,7 @@ using IES.CC.OC.Model;
 namespace App.Resource.DataProvider.Resource
 {
     public partial class ResourceProvider : System.Web.UI.Page
-    { 
+    {
         [WebMethod]
         public static IList<OC> User_OC_List()
         {
@@ -30,17 +30,9 @@ namespace App.Resource.DataProvider.Resource
         /// </summary>
         /// <returns></returns>
         [WebMethod]
-        public static List<ResourceDict> Resource_Dict_FileType_Get()
+        public static IList<ResourceDict> Resource_Dict_FileType_Get()
         {
-            try
-            { 
-                List<ResourceDict> list = ResourceCommonData.Resource_Dict_FileType_Get();
-                return list.Count > 0 ? list : null;
-            }
-            catch
-            {
-                return null;
-            }
+            return ResourceCommonData.Resource_Dict_FileType_Get();            
         }
 
         /// <summary>
@@ -48,17 +40,9 @@ namespace App.Resource.DataProvider.Resource
         /// </summary>
         /// <returns></returns>
         [WebMethod]
-        public static List<ResourceDict> Resource_Dict_TimePass_Get()
+        public static IList<ResourceDict> Resource_Dict_TimePass_Get()
         {
-            try
-            { 
-                List<ResourceDict> list = ResourceCommonData.Resource_Dict_TimePass_Get();
-                return list.Count > 0 ? list : null;
-            }
-            catch
-            {
-                return null;
-            }
+            return ResourceCommonData.Resource_Dict_TimePass_Get();
         }
 
         /// <summary>
@@ -66,17 +50,9 @@ namespace App.Resource.DataProvider.Resource
         /// </summary>
         /// <returns></returns>
         [WebMethod]
-        public static List<ResourceDict> Resource_Dict_ShareRange_Get()
+        public static IList<ResourceDict> Resource_Dict_ShareRange_Get()
         {
-            try
-            { 
-                List<ResourceDict> list = ResourceCommonData.Resource_Dict_ShareRange_Get();
-                return list.Count > 0 ? list : null;
-            }
-            catch
-            {
-                return null;
-            }
+            return ResourceCommonData.Resource_Dict_ShareRange_Get();
         }
 
         /// <summary>
@@ -87,18 +63,30 @@ namespace App.Resource.DataProvider.Resource
         /// <param name="PageIndex"></param>
         /// <returns></returns>
         [WebMethod]
-        public static List<File> File_Search(File file, int PageSize, int PageIndex)
+        public static IList<File> File_Search(File file, int PageSize, int PageIndex)
+        {
+            return new FileBLL().File_Search(file, PageSize, PageIndex);
+        }
+        /// <summary>
+        /// 删除文件功能
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool File_Del(IList<File> file)
         {
             try
             {
-                IES.G2S.Resource.BLL.FileBLL bll = new IES.G2S.Resource.BLL.FileBLL();
-                List<File> list = bll.File_Search(file, PageSize, PageIndex);
-                return list.Count > 0 ? list : null;
+                for (int i = 0; i < file.Count; i++)
+                {
+                    new FileBLL().File_Del(file[i]);
+                }
+                return true;
             }
             catch
             {
-                return null;
-            }
+                return false;
+            }           
         }
         #endregion
     }

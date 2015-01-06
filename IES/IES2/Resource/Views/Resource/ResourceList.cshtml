@@ -31,7 +31,7 @@
                     <li class="batch_delete">批量删除</li>
                 </ul>
             </a>
-            <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字"><span class="icon" href="#"></span></p>
+            <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="searchKey"><span class="icon" ng-click="filterChanged();"></span></p>
         </div>
     </div>
     <div class="filter_box">
@@ -56,15 +56,15 @@
     </div>
     <table class="course_data">
         <tr>
-            <th width="400">
+            <th width="650">
                 <div class="data_name">
-                    <input type="checkbox">
+                    <input type="checkbox" ng-click="checkALL()">
                     <p>文件名称</p>
                     <i class="icon arrow"></i>
                 </div>
             </th>
-            <th width="90">文件格式</th>
-            <th width="270">文件大小</th>           
+            <th width="100">文件格式</th>
+            <th width="100">文件大小</th>           
             <th>
                 <div class="data_name">
                     <p>修改日期</p>
@@ -75,9 +75,9 @@
         <tr ng-repeat="item in data">
             <td>
                 <div class="data_name">
-                    <input type="checkbox">
+                    <input type="checkbox" checklist-model="checks" ng-click="checkAdd(item)" checklist-value="item">
                     <i class="icon_24 doc"></i>
-                    <p ng-bind="item.FileName"></p>
+                    <p ng-bind="item.FileName" ng-click="menuClick(item)"></p>
                 </div>
             </td>
             <td ng-bind="item.FileType"></td>
@@ -99,24 +99,24 @@
             <a href="#">确认</a>
         </div>
     </div>
-    @*<ul class="mouse_right">
-            <li class="active attribute"><p><i class="icon data_property"></i>资料属性</p></li>
-            <li class="rename"><p><i class="icon data_rename"></i>重命名</p></li>
-            <li>
-                <p><i class="icon data_rights"></i>浏览权限</p>
-                <ul class="right_obj">
-                    <li><i class="icon"></i>全校师生</li>
-                    <li><i class="icon"></i>课程学生</li>
-                    <li><i class="icon"></i>社会大众</li>
-                    <li><i class="icon"></i>关闭开放</li>
-                </ul>
-            </li>
-            <li><p><i class="icon video"></i>视频剪辑</p></li>
-            <li><p><i class="icon data_move"></i>移动资料</p></li>
-            <li><p><i class="icon data_share"></i>共享资料</p></li>
-            <li><p><i class="icon data_download"></i>下载资料</p></li>
-            <li><p><i class="icon data_remove"></i>删除资料</p></li>
-            <li><p><i class="icon data_cite"></i>引用资料</p></li>
-        </ul>*@
+    <ul class="mouse_right" ng-show="menuShow">
+        <li class="active attribute"><p><i class="icon data_property"></i>资料属性</p></li>
+        <li class="rename"><p><i class="icon data_rename"></i>重命名</p></li>
+        <li>
+            <p><i class="icon data_rights"></i>浏览权限</p>
+            <ul class="right_obj">
+                <li><i class="icon"></i>全校师生</li>
+                <li><i class="icon"></i>课程学生</li>
+                <li><i class="icon"></i>社会大众</li>
+                <li><i class="icon"></i>关闭开放</li>
+            </ul>
+        </li>
+        <li><p><i class="icon video"></i>视频剪辑</p></li>
+        <li><p><i class="icon data_move"></i>移动资料</p></li>
+        <li><p><i class="icon data_share"></i>共享资料</p></li>
+        <li><p><i class="icon data_download"></i>下载资料</p></li>
+        <li><p><i class="icon data_remove"></i>删除资料</p></li>
+        <li><p><i class="icon data_cite"></i>引用资料</p></li>
+    </ul>
 </div>
 <script src="/Scripts/PageAffect/index.js" type="text/javascript"></script>

@@ -120,7 +120,7 @@ namespace IES.G2S.Resource.BLL
 
         public bool File_Del(File model)
         {
-            return true;
+            return FileDAL.File_Del(model);
         }
 
 

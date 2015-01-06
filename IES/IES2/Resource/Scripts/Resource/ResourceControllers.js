@@ -11,6 +11,9 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($
     $scope.timeSelection = -1;
     $scope.shareSelection = -1;
     $scope.tabSelection = -1;
+    $scope.checksSelect = [];//复选框选中的值
+    $scope.menuShow = false;//是否显示点击菜单
+    $scope.menuItem = {};//点击文件名弹出的菜单，记录该数据
 
     $scope.fileChanged = function (v) {
         $scope.fileSelection = v;
@@ -29,6 +32,12 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($
 
     $scope.tabChanged = function (tab) {        
         $scope.tabSelection = tab;
+    }
+    //是否显示菜单栏
+    $scope.menuClick = function (file)
+    {
+        $scope.menuShow == true ? $scope.menuShow = false : $scope.menuShow = true;
+        $scope.menuItem = file;
     }
 
     //搜索框查询
@@ -76,6 +85,19 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($
             $scope.shareRange.insert(0, item);
         }
     });
+
+    //复选框值
+    $scope.checkAdd = function(file)
+    {
+        if (file) {
+            $scope.checksSelect.push(file);
+        }        
+    }
+    //全选
+    $scope.checkALL = function()
+    {
+
+    }
 
     resourceService.User_OC_List(function (data) {
         if (data.d) {
