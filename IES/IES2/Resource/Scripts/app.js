@@ -25,16 +25,18 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         .state('content', { url: '/content', abstract:true, templateUrl: '/views/Shared/Content', controller: 'ContentCtrl' })
         //我的资料
         .state('content.resource', { url: '/resource', templateUrl: '/views/Resource/ResourceList', controller: 'ResourceCtrl' })
+
         //试卷
         .state('content.paper', { url: '/paper', templateUrl: '/views/Paper/PaperList', controller: 'PaperListCtrl' })
         //新增智能试卷
         .state('content.newsmart', { url: '/paper', templateUrl: '/views/Paper/PaperList', controller: 'PaperListCtrl' })
         //新增智能试卷
-        .state('content.addsmart', { url: '/addsmart', templateUrl: '/views/Paper/AddSmart', controller: 'PaperSmartCtrl' })
+        .state('content.addsmart', { url: '/paper/smart', templateUrl: '/views/Paper/AddSmart', controller: 'PaperSmartCtrl' })
         //新增自测型试卷
-        .state('content.addtest', { url: '/addtest', templateUrl: '/views/Paper/AddTest', controller: 'PaperTestCtrl' })
+        .state('content.addtest', { url: '/paper/test', templateUrl: '/views/Paper/AddTest', controller: 'PaperTestCtrl' })
         //新增答题卡试卷
-        .state('content.addsheet', { url: '/addsheet', templateUrl: '/views/Paper/AddSheet', controller: 'PaperSheetCtrl' })
+        .state('content.addsheet', { url: '/paper/sheet', templateUrl: '/views/Paper/AddSheet', controller: 'PaperSheetCtrl' })
+
         //习题
         .state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
         //知识点

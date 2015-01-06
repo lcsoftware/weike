@@ -19,7 +19,7 @@ namespace App.Resource
                 //"~/Frameworks/bootstrap/css/bootstrap-theme.min.css",
                 "~/Css/common.css",
                 "~/Css/footer.css",
-                "~/Css/forum.css",
+                //"~/Css/forum.css",
                 "~/Css/header.css",
                 "~/Css/index.css",
                 "~/Css/side_left.css"));
