@@ -10,7 +10,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($
     $scope.fileSelection = -1;
     $scope.timeSelection = -1;
     $scope.shareSelection = -1;
-    $scope.tabSelection = 0;
+    $scope.tabSelection = -1;
 
     $scope.fileChanged = function (v) {
         $scope.fileSelection = v;
@@ -27,14 +27,20 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($
 
     $scope.tabs = [];
 
-    $scope.tabChanged = function (tab) {
-        console.log(tab);
+    $scope.tabChanged = function (tab) {        
         $scope.tabSelection = tab;
     }
 
     //搜索框查询
     $scope.filterChanged = function () {
-        console.log(11111);
+        var file = {};
+        var pageSize = 10;
+        var pageIndex = 1;
+        resourceService.File_Search(file, pageSize, pageIndex, function (data) {
+            if (data.d) {
+                $scope.data = data.d;
+            }
+        });
     }
 
     //文件类型初始化
@@ -76,7 +82,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($
             $scope.tabs = data.d;
             var item = {};
             angular.copy($scope.tabs[0], item);
-            item.id = -1;
+            item.OCID = -1;
             item.Name = '个人资料';
             $scope.tabs.insert(0, item);
         }
