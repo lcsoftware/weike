@@ -96,7 +96,7 @@
             <a style="cursor:pointer" ng-click="pageChanged(lastPageIndex);" ng-bind="lastPageIndex"></a>
             <a class="prev" style="cursor:pointer" ng-click="next();">后一页</a>
             <span>共{{rowCount}}条，到第<input type="text" ng-model="absIndex">页</span>
-            <a style="cursor:pointer" ng-click="pageChanged(absIndex);">确认</a>
+            <a style="cursor:pointer" ng-click="pageService.change(absIndex);">确认</a>
         </div>
     </div>
 </div>
