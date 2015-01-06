@@ -8,9 +8,11 @@
 ******************************************************************/
 namespace App.Resource.DataProvider.Paper
 {
+    using IES.CC.OC.Model;
     using IES.Common.Data;
     using IES.G2S.Resource.BLL;
     using IES.Resource.Model;
+    using IES.Service;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -45,6 +47,13 @@ namespace App.Resource.DataProvider.Paper
         {
             Paper model = new Paper();
             return new PaperBLL().Paper_Get(model);
+        }
+
+        [WebMethod]
+        public static IList<OC> User_OC_List()
+        {
+            var user = UserService.CurrentUser;
+            return UserService.User_OC_List(user); 
         }
     }
 }

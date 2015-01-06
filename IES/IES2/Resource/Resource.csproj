@@ -148,6 +148,7 @@
     <Content Include="DataProvider\Knowledge\KnowProvider.aspx" />
     <Content Include="DataProvider\Paper\PaperProvider.aspx" />
     <Content Include="DataProvider\Resource\ResourceProvider.aspx" />
+    <Content Include="DataProvider\Shared\ContentProvider.aspx" />
     <Content Include="DataProvider\User\UserProvider.aspx" />
     <Content Include="Frameworks\angular\angular-animate.js" />
     <Content Include="Frameworks\angular\angular-animate.min.js" />
@@ -328,6 +329,13 @@
     </Compile>
     <Compile Include="DataProvider\Resource\ResourceProvider.aspx.designer.cs">
       <DependentUpon>ResourceProvider.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\Shared\ContentProvider.aspx.cs">
+      <DependentUpon>ContentProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Shared\ContentProvider.aspx.designer.cs">
+      <DependentUpon>ContentProvider.aspx</DependentUpon>
     </Compile>
     <Compile Include="DataProvider\User\UserProvider.aspx.cs">
       <DependentUpon>UserProvider.aspx</DependentUpon>
