@@ -284,6 +284,9 @@
     <None Include="Properties\PublishProfiles\IES.pubxml" />
     <Content Include="Views\Exercise\ExerciseList.cshtml" />
     <Content Include="Views\Paper\PaperList.cshtml" />
+    <Content Include="Views\Paper\AddSmart.cshtml" />
+    <Content Include="Views\Paper\AddTest.cshtml" />
+    <Content Include="Views\Paper\AddSheet.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

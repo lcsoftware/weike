@@ -2,7 +2,7 @@
 <div class="coursesite_box">
     <div class="exercise_nav">
         <ul class="exercise_nav_list">
-            <li ng-repeat="item in tabs"><a class="first_nav" style="cursor:pointer" ng-click="tabChanged(item.id);" ng-bind="item.Name"></a></li>
+            <li ng-repeat="item in tabs" ng-class="{active:tabSelection==item.OCID}"><a class="first_nav" style="cursor:pointer" ng-click="tabChanged(item.OCID);" ng-bind="item.Name"></a></li>
         </ul>
     </div>
     <div class="exercise_search">
@@ -30,11 +30,12 @@
             </dd>
         </dl>
         <dl class="filter_list">
-            <dt>创建人</dt>
+            <dt>创建时间</dt>
             <dd>
-                <a ng-class="{active:createrSelection==-1}" ng-click="createrChanged(-1)" style="cursor:pointer"><span>不限</span></a>
-                <a ng-class="{active:createrSelection==1}" ng-click="createrChanged(1)" style="cursor:pointer"><span>自己</span></a>
-                <a ng-class="{active:createrSelection==2}" ng-click="createrChanged(2)" style="cursor:pointer"><span>他人</span></a>
+                <a ng-class="{active:dateSelection==-1}" ng-click="dateChanged(-1)" style="cursor:pointer"><span>不限</span></a>
+                <a ng-class="{active:dateSelection==1}" ng-click="dateChanged(-1)" style="cursor:pointer"><span>一周内</span></a>
+                <a ng-class="{active:dateSelection==2}" ng-click="dateChanged(1)" style="cursor:pointer"><span>一个月内</span></a>
+                <a ng-class="{active:dateSelection==3}" ng-click="dateChanged(2)" style="cursor:pointer"><span>半年内</span></a>
             </dd>
         </dl>
         <dl class="filter_list">
@@ -50,7 +51,7 @@
             <th width="350">
                 <div class="data_name">
                     <input type="checkbox">
-                    <p >试卷名称</p>
+                    <p>试卷名称</p>
                     <i class="icon arrow"></i>
                 </div>
             </th>
@@ -89,16 +90,13 @@
     </table>
     <div class="resource_page">
         <div class="page_box">
-            <a class="prev" href="javascript:;">前一页</a>
-            <a href="#">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <span class="more">...</span>
-            <a href="#">8</a>
-            <a class="prev" href="javascript:;">后一页</a>
-            <span>共229条，到第<input type="text">页</span>
-            <a href="#">确认</a>
+            <a class="prev" style="cursor:pointer" ng-click="previous();">前一页</a>
+            <a ng-repeat="item in pageNums" style="cursor:pointer" ng-click="pageChanged(item);" ng-bind="item"></a>
+            <span class="more" ng-click="pageMore();">...</span>
+            <a style="cursor:pointer" ng-click="pageChanged(lastPageIndex);" ng-bind="lastPageIndex"></a>
+            <a class="prev" style="cursor:pointer" ng-click="next();">后一页</a>
+            <span>共{{rowCount}}条，到第<input type="text" ng-model="absIndex">页</span>
+            <a style="cursor:pointer" ng-click="pageChanged(absIndex);">确认</a>
         </div>
     </div>
 </div>

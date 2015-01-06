@@ -13,12 +13,14 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
     $scope.shareRangeFilters = [];
 
     $scope.paperTypeSelection = -1;
-    $scope.createrSelection = -1; 
-    $scope.shareRangeSelection = -1;    
+    $scope.dateSelection = -1;
+    $scope.shareRangeSelection = -1;
+    $scope.tabSelection = -1;
 
     $scope.tabs = [];
 
     $scope.tabChanged = function (tab) {
+        $scope.tabSelection = tab;
         console.log(tab);
     }
 
@@ -27,8 +29,8 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
         $scope.filterChanged();
     }
 
-    $scope.createrChanged = function (v) {
-        $scope.createrSelection = v;
+    $scope.dateChanged = function (v) {
+        $scope.dateSelection = v;
         $scope.filterChanged();
     }
 
@@ -83,6 +85,16 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
     PaperService.User_OC_List(function (data) {
         if (data.d) {
             $scope.tabs = data.d;
+            $scope.tabSelection = $scope.tabs[0].OCID;
         }
     });
 }]); 
+
+appPaper.controller('PaperSmartCtrl', ['$scope', 'PaperService', function ($scope, PaperService) {
+}]);
+
+appPaper.controller('PaperTestCtrl', ['$scope', 'PaperService', function ($scope, PaperService) {
+}]);
+
+appPaper.controller('PaperSheetCtrl', ['$scope', 'PaperService', function ($scope, PaperService) {
+}]);

@@ -7,7 +7,7 @@
     </div>
     <div class="exercise_search">
         <div class="select_condition">
-            <p class="current_course"><i class="icon_24"></i>大学英语 > 第一册课程资料</p>
+            <p class="current_course">个人资料</p>
         </div>
         <div class="exercise_btn">
             <span class="sort_box">[筛选]</span>
@@ -20,15 +20,15 @@
                     <li>
                         浏览权限
                         <ul class="permissions">
-                            <li><p><i class="icon"></i>全校师生</p></li>
+                            <li class="current"><p><i class="icon"></i>全校师生</p></li>
                             <li><p><i class="icon"></i>课程学生</p></li>
                             <li><p><i class="icon"></i>社会大众</p></li>
                             <li><p><i class="icon"></i>关闭开放</p></li>
                         </ul>
                     </li>
-                    <li>批量共享</li>
-                    <li>批量移动</li>
-                    <li>批量删除</li>
+                    <li class="batch_share">批量共享</li>
+                    <li class="batch_move">批量移动</li>
+                    <li class="batch_delete">批量删除</li>
                 </ul>
             </a>
             <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="searchKey"><span class="icon" ng-click="filterChanged();"></span></p>
@@ -119,3 +119,4 @@
             <li><p><i class="icon data_cite"></i>引用资料</p></li>
         </ul>*@
 </div>
+<script src="/Scripts/PageAffect/index.js" type="text/javascript"></script>

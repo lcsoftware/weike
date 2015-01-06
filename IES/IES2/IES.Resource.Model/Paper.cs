@@ -179,6 +179,8 @@ namespace IES.Resource.Model
 			set{ _isdeleted=value;}
 			get{return _isdeleted;}
 		}
+
+        public int rowscount { get; set; }
 		#endregion Model
 
 	}
