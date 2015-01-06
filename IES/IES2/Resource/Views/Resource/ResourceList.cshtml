@@ -31,14 +31,14 @@
                     <li>批量删除</li>
                 </ul>
             </a>
-            <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字"><span class="icon" href="#"></span></p>
+            <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="searchKey"><span class="icon" ng-click="filterChanged();"></span></p>
         </div>
     </div>
     <div class="filter_box">
         <dl class="filter_list">
             <dt>文件类型</dt>
             <dd>
-                <a href="#" ng-class="{active:fileSelection==item.id}" ng-click="typeChanged(item.id);" ng-repeat="item in fileTypes"><span ng-bind="item.name"></span></a>
+                <a href="#" ng-class="{active:fileSelection==item.id}" ng-model="type" ng-click="typeChanged(item.id);" ng-repeat="item in fileTypes"><span ng-bind="item.name"></span></a>
             </dd>
         </dl>
         <dl class="filter_list">
