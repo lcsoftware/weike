@@ -13,7 +13,7 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
 
     $scope.paperTypeSelection = -1;
     $scope.createrSelection = -1; 
-    $scope.shareRangeSelection = -1;
+    $scope.shareRangeSelection = -1;    
 
     $scope.tabs = [
         { id: 1, name: '毛泽东思想和中国特色社会主义毛泽东思想和中国特色社会主义' },

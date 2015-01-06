@@ -10,15 +10,19 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($
     $scope.fileSelection = -1;
     $scope.timeSelection = -1;
     $scope.shareSelection = -1;
+    $scope.tabSelection = 0;
 
     $scope.fileChanged = function (v) {
-        $scope.typeSelection = v;
+        $scope.fileSelection = v;
+        $scope.filterChanged();
     }
     $scope.timeChanged = function (v) {
         $scope.timeSelection = v;
+        $scope.filterChanged();
     }
     $scope.shareChanged = function (v) {
         $scope.shareSelection = v;
+        $scope.filterChanged();
     }
 
     $scope.tabs = [
@@ -30,6 +34,12 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($
 
     $scope.tabChanged = function (tab) {
         console.log(tab);
+        $scope.tabSelection = tab;
+    }
+
+    //搜索框查询
+    $scope.filterChanged = function () {
+        console.log(11111);
     }
 
     //文件类型初始化

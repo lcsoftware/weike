@@ -1,6 +1,6 @@
 ﻿<div class="exercise_nav">
     <ul class="exercise_nav_list">
-        <li ng-repeat="item in tabs"><a class="first_nav" href="#" style="cursor:pointer" ng-click="tabChanged(item.id);" ng-bind="item.name"></a></li>
+        <li ng-repeat="item in tabs" ng-class="{active:tabSelection==item.id}"><a class="first_nav" style="cursor:pointer" ng-click="tabChanged(item.id);" ng-bind="item.name"></a></li>
     </ul>
 </div>
 <div class="exercise_search">
@@ -19,7 +19,7 @@
             </ul>
         </a>
         <a href="javascript:;" class="import_exercise"><em><i class="icon"></i></em><span>导出</span></a>
-        <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字"><span class="icon" href="#"></span></p>
+        <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="searchKey"><span class="icon" ng-click="filterChanged();"></span></p>
     </div>
 </div>
 <div class="filter_box">
@@ -37,7 +37,7 @@
     <dl class="filter_list">
         <dt>创建人</dt>
         <dd>
-            <a href="#" ng-class="{active:shareSelection==item.id}" ng-click="shareChanged(item.id);" ng-repeat="item in shareRange"><span ng-bind="item.name"></span></a>            
+            <a href="#" ng-class="{active:shareSelection==item.id}" ng-click="shareChanged(item.id);" ng-repeat="item in shareRange"><span ng-bind="item.name"></span></a>
         </dd>
     </dl>
     <span class="guanbi"><i class="icon"></i></span>
