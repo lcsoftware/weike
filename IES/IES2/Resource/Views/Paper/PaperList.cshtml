@@ -2,7 +2,7 @@
 <div class="coursesite_box">
     <div class="exercise_nav">
         <ul class="exercise_nav_list">
-            <li ng-repeat="item in tabs"><a class="first_nav" style="cursor:pointer" ng-click="tabChanged(item.id);" ng-bind="item.name"></a></li>
+            <li ng-repeat="item in tabs"><a class="first_nav" style="cursor:pointer" ng-click="tabChanged(item.id);" ng-bind="item.Name"></a></li>
         </ul>
     </div>
     <div class="exercise_search">
@@ -50,7 +50,7 @@
             <th width="350">
                 <div class="data_name">
                     <input type="checkbox">
-                    <p>试卷名称</p>
+                    <p >试卷名称</p>
                     <i class="icon arrow"></i>
                 </div>
             </th>
@@ -60,20 +60,21 @@
             <th width="80">总分</th>
             <th>最后修改日期</th>
         </tr>
-        <tr>
+        <tr ng-repeat="item in data">
             <td>
                 <div class="data_name">
                     <input type="checkbox">
                     <i class="icon_24 paper"></i>
-                    <p>测试试卷</p>
+                    <p ng-bind="item.Papername"></p>
+                    <input class="rename_test" type="text" ng-model="item.Papername">
                 </div>
             </td>
-            <td>张明宇</td>
-            <td>智能型试卷</td>
-            <td>50</td>
-            <td>100</td>
+            <td ng-bind="item.CreateUserID"></td>
+            <td ng-bind="item.Type"></td>
+            <td ng-bind="item.Num"></td>
+            <td ng-bind="item.Score"></td>
             <td>
-                2014-10-23
+                {{item.UpdateTime}}
                 <div class="topic_icon">
                     <a href="javascript:;" class="icon delete_topic"></a>
                     <a href="javascript:;" class="icon icon_preview">
@@ -84,75 +85,20 @@
                     <a href="javascript:;" class="icon edit_topic"></a>
                 </div>
             </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="data_name">
-                    <input type="checkbox">
-                    <i class="icon_24 paper"></i>
-                    <p>测试试卷</p>
-                </div>
-            </td>
-            <td>张明宇</td>
-            <td>智能型试卷</td>
-            <td>50</td>
-            <td>100</td>
-            <td>
-                2014-10-23
-                <div class="topic_icon">
-                    <a href="javascript:;" class="icon delete_topic"></a>
-                    <a href="javascript:;" class="icon icon_preview">
-                        <div class="icon_content">
-                            <span></span><p>预览</p>
-                        </div>
-                    </a>
-                    <a href="javascript:;" class="icon edit_topic"></a>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="data_name">
-                    <input type="checkbox">
-                    <i class="icon_24 paper"></i>
-                    <p>测试试卷</p>
-                </div>
-            </td>
-            <td>张明宇</td>
-            <td>智能型试卷</td>
-            <td>50</td>
-            <td>100</td>
-            <td>
-                2014-10-23
-                <div class="topic_icon">
-                    <a href="javascript:;" class="icon delete_topic"></a>
-                    <a href="javascript:;" class="icon icon_preview">
-                        <div class="icon_content">
-                            <span></span><p>预览</p>
-                        </div>
-                    </a>
-                    <a href="javascript:;" class="icon edit_topic"></a>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="data_name">
-                    <input type="checkbox">
-                    <i class="icon_24 paper"></i>
-                    <p>测试试卷</p>
-                </div>
-            </td>
-            <td>张明宇</td>
-            <td>智能型试卷</td>
-            <td>50</td>
-            <td>100</td>
-            <td>
-                2014-10-23
-                <div class="topic_icon">
-                    <a href="javascript:;" class="icon icon_preview"></a>
-                </div>
-            </td>
-        </tr>
+        </tr> 
     </table>
+    <div class="resource_page">
+        <div class="page_box">
+            <a class="prev" href="javascript:;">前一页</a>
+            <a href="#">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <span class="more">...</span>
+            <a href="#">8</a>
+            <a class="prev" href="javascript:;">后一页</a>
+            <span>共229条，到第<input type="text">页</span>
+            <a href="#">确认</a>
+        </div>
+    </div>
 </div>

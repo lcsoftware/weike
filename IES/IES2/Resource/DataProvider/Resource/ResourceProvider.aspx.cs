@@ -9,15 +9,19 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
  
 using IES.G2S.Resource.BLL;
+using IES.Service;
+using IES.CC.OC.Model;
 
 
 namespace App.Resource.DataProvider.Resource
 {
     public partial class ResourceProvider : System.Web.UI.Page
-    {
-        protected void Page_Load(object sender, EventArgs e)
+    { 
+        [WebMethod]
+        public static IList<OC> User_OC_List()
         {
-
+            var user = UserService.CurrentUser;
+            return UserService.User_OC_List(user);
         }
 
         #region 文件列表

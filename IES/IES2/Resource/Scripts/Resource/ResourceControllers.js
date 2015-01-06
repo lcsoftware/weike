@@ -25,12 +25,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($
         $scope.filterChanged();
     }
 
-    $scope.tabs = [
-        { id: 0, name: '个人资料' },
-        { id: 1, name: '毛泽东思想和中国特色社会主义毛泽东思想和中国特色社会主义' },
-        { id: 2, name: '大学英语' },
-        { id: 3, name: '形式与政策' }
-    ];
+    $scope.tabs = [];
 
     $scope.tabChanged = function (tab) {
         console.log(tab);
@@ -74,5 +69,16 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($
             $scope.shareRange = data.d;
             $scope.shareRange.insert(0, item);
         }
-    }); 
+    });
+
+    resourceService.User_OC_List(function (data) {
+        if (data.d) {
+            $scope.tabs = data.d;
+            var item = {};
+            angular.copy($scope.tabs[0], item);
+            item.id = -1;
+            item.Name = '个人资料';
+            $scope.tabs.insert(0, item);
+        }
+    });
 }]);

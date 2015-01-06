@@ -7,6 +7,7 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
     $scope.searchKey = '';
 
     $scope.model = {};
+    $scope.data = [];
     $scope.paperTypes = [];
     $scope.paperTypeFilters = [];
     $scope.shareRangeFilters = [];
@@ -15,11 +16,11 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
     $scope.createrSelection = -1; 
     $scope.shareRangeSelection = -1;    
 
-    $scope.tabs = [
-        { id: 1, name: '毛泽东思想和中国特色社会主义毛泽东思想和中国特色社会主义' },
-        { id: 2, name: '大学英语' },
-        { id: 3, name: '形式与政策' }
-    ];
+    $scope.tabs = [];
+
+    $scope.tabChanged = function (tab) {
+        console.log(tab);
+    }
 
     $scope.paperTypeChanged = function (v) {
         $scope.paperTypeSelection = v;
@@ -38,16 +39,19 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
 
     ///查询
     $scope.filterChanged = function () { 
-        console.log(11111);
-    }
-
-    $scope.tabChanged = function (tab) {
-        console.log(tab);
-    }
+        var paper = {};
+        var pageSize = 10;
+        var pageIndex = 1;
+        PaperService.search(paper, pageSize, pageIndex, function (data) {
+            if (data.d) { 
+                $scope.data = data.d;
+            }
+        });
+    } 
 
     ///初始化试卷类型
     PaperService.getPaperTypes(function (data) {
-        $scope.paperTypes = data;
+        $scope.paperTypes = data.d;
         if ($scope.paperTypes.length > 0) {
             angular.copy($scope.paperTypes, $scope.paperTypeFilters);
             var item = {};
@@ -60,8 +64,8 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
 
     ///初始化使用权限
     PaperService.getShareRanges(function (data) {
-        if (data) {
-            $scope.shareRangeFilters = data;
+        if (data.d) {
+            $scope.shareRangeFilters = data.d;
             var item = {};
             angular.copy($scope.shareRangeFilters[0], item);
             item.id = -1;
@@ -69,11 +73,16 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
             $scope.shareRangeFilters.insert(0, item);
         }
     }); 
-
+    ///创建Paper对象
     PaperService.paperGet(function (data) {
-        if (data) {
-            $scope.model = data; 
+        if (data.d) {
+            $scope.model = data.d;
         }
     });
-
+    ///获取课程列表
+    PaperService.User_OC_List(function (data) {
+        if (data.d) {
+            $scope.tabs = data.d;
+        }
+    });
 }]); 
