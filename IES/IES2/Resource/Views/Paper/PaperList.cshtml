@@ -19,14 +19,14 @@
                 </ul>
             </a>
             <a href="javascript:;" class="import_exercise"><em><i class="icon"></i></em><span>导出</span></a>
-            <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字"><span class="icon" href="#"></span></p>
+            <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="searchKey"><span class="icon" ng-click="filterChanged();"></span></p>
         </div>
     </div>
     <div class="filter_box">
         <dl class="filter_list">
             <dt>试卷类型</dt>
             <dd >
-                <a ng-class="{active:typeSelection==item.id}" ng-click="typeChanged(item.id);" style="cursor:pointer" ng-repeat="item in conditionPaperTypes"><span ng-bind="item.name"></span></a>
+                <a ng-class="{active:paperTypeSelection==item.id}" ng-click="paperTypeChanged(item.id);" style="cursor:pointer" ng-repeat="item in paperTypeFilters"><span ng-bind="item.name"></span></a>
             </dd>
         </dl>
         <dl class="filter_list">
@@ -35,6 +35,12 @@
                 <a ng-class="{active:createrSelection==-1}" ng-click="createrChanged(-1)" style="cursor:pointer"><span>不限</span></a>
                 <a ng-class="{active:createrSelection==1}" ng-click="createrChanged(1)" style="cursor:pointer"><span>自己</span></a>
                 <a ng-class="{active:createrSelection==2}" ng-click="createrChanged(2)" style="cursor:pointer"><span>他人</span></a>
+            </dd>
+        </dl>
+        <dl class="filter_list">
+            <dt>使用权限</dt>
+            <dd>
+                <a ng-class="{active:shareRangeSelection==item.id}" ng-click="shareRangeChanged(item.id);" style="cursor:pointer" ng-repeat="item in shareRangeFilters"><span ng-bind="item.name"></span></a>
             </dd>
         </dl>
         <span class="guanbi"><i class="icon"></i></span>

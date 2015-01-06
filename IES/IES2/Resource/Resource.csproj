@@ -241,9 +241,11 @@
     <Content Include="login.aspx" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\Authority\AuthService.js" />
+    <Content Include="Scripts\Common\assistant.js" />
     <Content Include="Scripts\Common\directives.js" />
     <Content Include="Scripts\Common\filters.js" />
     <Content Include="Scripts\Common\services.js" />
+    <Content Include="Scripts\Common\tools.js" />
     <Content Include="Scripts\Home\HomeControllers.js" />
     <Content Include="Scripts\Knowledge\KnowControllers.js" />
     <Content Include="Scripts\Knowledge\KnowService.js" />
@@ -357,6 +359,22 @@
     <ProjectReference Include="..\IES.CC.Model\IES.CC.Model.csproj">
       <Project>{93a1e0e7-a049-4ea7-b349-845a81462d42}</Project>
       <Name>IES.CC.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.CommonDAL\IES.CommonDAL.csproj">
+      <Project>{08c92fc8-f22f-4237-91a1-d191babf91a9}</Project>
+      <Name>IES.CommonDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.Common\IES.Common.csproj">
+      <Project>{dbb225c3-ad3b-469c-a8df-ca8dfc4ae304}</Project>
+      <Name>IES.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.G2S.Resource.BLL\IES.G2S.Resource.BLL.csproj">
+      <Project>{7893d3de-1517-443b-9c4a-191ec233a073}</Project>
+      <Name>IES.G2S.Resource.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.G2S.Resource.IBLL\IES.G2S.Resource.IBLL.csproj">
+      <Project>{972577f0-3061-4659-933c-b065185daf80}</Project>
+      <Name>IES.G2S.Resource.IBLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\IES.JW.Model\IES.JW.Model.csproj">
       <Project>{5bbc1895-4b66-4445-af6d-f6711cb3266f}</Project>
