@@ -7,6 +7,7 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
     $scope.searchKey = '';
 
     $scope.model = {};
+    $scope.data = [];
     $scope.paperTypes = [];
     $scope.paperTypeFilters = [];
     $scope.shareRangeFilters = [];
@@ -42,6 +43,9 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
         var pageSize = 10;
         var pageIndex = 1;
         PaperService.search(paper, pageSize, pageIndex, function (data) {
+            if (data.d) { 
+                $scope.data = data.d;
+            }
         });
     } 
 
