@@ -1,0 +1,44 @@
+-- =============================================    
+-- Author:      王胜辉    
+-- Create date: 20141127    
+-- Description: 获取试卷的列表信息    
+-- =============================================    
+alter proc [dbo].[Paper_Search]    
+ @Searchkey nvarchar(200) = '' , --查询关键字    
+ @OCID int = 1 ,     
+ @Type int = -1 , -- 试卷类型    
+ @Scope int = -1, -- 试卷适用范围   (使用权限)  
+ @UpdateTime smalldatetime = '2010-1-1' ,-- 上传日期 ，需要从业务层计算 >= @UploadTime    
+ @PageSize int = 20 ,                          
+ @PageIndex int = 1       
+as     
+ SET NOCOUNT ON;    
+    
+	DECLARE @lowerLimit INT                                    
+	DECLARE @upperLimit INT   
+ 
+    SET @lowerLimit = @PageSize * ( @PageIndex - 1 )                                    
+    SET @upperLimit = @PageSize *   @PageIndex     
+    ;
+    
+    
+	with CTE as                                    
+    (   
+		select Row_Number() OVER( ORDER BY Updatetime Desc ) as rownum , t1.PaperID 
+		from dbo.Paper t1
+		where OCID = @OCID and t1.UpdateTime > @UpdateTime
+		and ( t1.[Type] = @Type or @Type < 1 )
+		and ( @Scope < 1 or t1.Scope = @Scope )
+		and ( t1.Papername like '%'+@Searchkey + '%' or @Searchkey = '') 
+	)
+	select t2.PaperID, t2.Papername, t2.[Type], t2.Scope , t2.Num ,t2.Score ,t2.UpdateTime ,
+	t3.UserName ,
+	( select count(*) from CTE ) as rowscount 
+	from CTE t1
+	inner join Paper t2 on t1.PaperID = t2.PaperID
+	inner join IES.dbo.User_S t3 on t3.UserID = t2.CreateUserID
+	where t1.rownum BETWEEN @lowerLimit AND @upperLimit
+
+    
+     
+    
