@@ -404,7 +404,7 @@ $(function(){
 	
 	//新建文件夹
 	$('.add_topic').live('click',function(){
-		var content ="<tr><td><div class=\"data_name\"><input type=\"checkbox\"><i class=\"icon_24 file\"></i><input class=\"name_file\" type=\"text\"></div></td><td>文件夹</td><td>256M</td><td>2014-10-23</td></tr>"
+	    var content = "<tr><td><div class=\"data_name\"><input type=\"checkbox\"><i class=\"icon_24 file\"></i><input class=\"name_file\" type=\"text\" ng-model=\"Name\" ng-mouseleave=\"add(Name)\"></div></td><td>文件夹</td><td>256M</td><td>2014-10-23</td></tr>"
 		$('.course_data').append(content);	
 	})	
 	

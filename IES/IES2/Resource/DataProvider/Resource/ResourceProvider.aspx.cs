@@ -101,6 +101,26 @@ namespace App.Resource.DataProvider.Resource
         {
             return new FileBLL().Folder_List(folder);
         }
+        /// <summary>
+        /// 新建文件夹
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static Folder Folder_ADD(Folder folder)
+        {
+            return new FileBLL().Folder_ADD(folder);
+        }
+        /// <summary>
+        /// 修改文件夹名称
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool Folder_Name_Upd(Folder folder)
+        {
+            return new FileBLL().Folder_Name_Upd(folder);
+        } 
         #endregion
     }
 }
