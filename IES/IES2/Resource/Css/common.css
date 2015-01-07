@@ -47,7 +47,7 @@ body{ font-family:'Microsoft YaHei';}
 /*翻页*/
 .page_box{ margin-top:10px; overflow:hidden; zoom:1; text-align:center;}
 .page_box a{ display:inline-block; height:25px; color:#666; line-height:25px; padding:0 8px; border:1px solid #cbcbcb;}
-.page_box a:hover,.page_box a.active{ background:#374760; border:1px solid #2a3950; color:#fff;}
+.page_box a.active,.page_box a:hover,.page_box a.active{ background:#374760; border:1px solid #2a3950; color:#fff;}
 .page_box span{ color:#999; padding:0 5px;}
 .page_box span input{ width:30px; height:20px; text-align:center; line-height:20px\9; border:1px solid #ccc; margin:0 5px;}
 
@@ -156,11 +156,11 @@ body{ font-family:'Microsoft YaHei';}
 .guanbi i{ display:block; width:16px; height:16px; background-position:-37px -160px; margin:5px 0 0 5px;}
 
 /*资料表格列表*/
-.course_data{ width:100%; border-bottom:1px solid #cccccc;color:#666; overflow:hidden; zoom:1;}
+.course_data{ width:100%; border-bottom:1px solid #cccccc;color:#666;}
 .course_data tr th{ height:45px; line-height:45px; text-align:left; padding-left:10px; font-weight:normal; overflow:hidden; }
 .course_data tr td{ line-height:45px; padding-left:10px; border-top:1px solid #ccc; position:relative;}
-.course_data tr td .data_name p{ float:none; overflow:hidden;} 
-.data_name{ overflow:hidden; zoom:1;}
+.data_tit{ width:200px; float:left; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;} 
+.data_name{ height:45px; line-height:45px;}
 .data_name input{ display:block; float:left; margin-right:10px; height:45px; vertical-align:middle;}
 .data_name p{ float:left;}
 .data_name i{ display:block; float:left; cursor:pointer;}
