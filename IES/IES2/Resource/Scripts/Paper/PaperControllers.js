@@ -1,6 +1,9 @@
 ﻿'use strict';
 
-var appPaper = angular.module('app.paper.controllers', ['app.paper.services']);
+var appPaper = angular.module('app.paper.controllers', [
+    'app.paper.services',
+    'app.common.services'
+]);
 
 appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', 'pageService', function ($scope, PaperService, pageService) {
 
@@ -12,9 +15,6 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', 'pageService', f
     $scope.paperTypeFilters = [];
     $scope.shareRangeFilters = [];
 
-    $scope.paperTypeSelection = -1;
-    $scope.dateSelection = -1;
-    $scope.shareRangeSelection = -1;
     $scope.tabSelection = -1;
 
     $scope.tabs = [];
@@ -24,44 +24,44 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', 'pageService', f
         console.log(tab);
     }
 
-    $scope.paperTypeChanged = function (v) {
-        $scope.paperTypeSelection = v;
+    $scope.typeChanged = function (v) {
+        $scope.model.Type = v;
         $scope.filterChanged();
     }
 
     $scope.dateChanged = function (v) {
-        $scope.dateSelection = v;
-        $scope.filterChanged();
+        ///TODO $scope.model无对应字段
+        //$scope.filterChanged();
     }
 
-    $scope.shareRangeChanged = function (v) {
-        $scope.shareRangeSelection = v;
+    $scope.scopeChanged = function (v) {
+        $scope.model.Scope = v;
         $scope.filterChanged();
     }
 
     ///分页
     $scope.pageService = pageService;
-
-    $scope.pageService.init(10, 1, change);
-
-    var change = function(pageIndex, pageSize){
-
-    }
-
-
-    ///查询
-    $scope.filterChanged = function () { 
-        var paper = {};
-        var pageSize = 10;
-        var pageIndex = 1;
-        PaperService.search(paper, pageSize, pageIndex, function (data) {
-            if (data.d) { 
+ 
+    ///换页
+    var changePageFunc = function(pageIndex, pageSize){
+        PaperService.search($scope.model, pageSize, pageIndex, function (data) {
+            if (data.d) {
                 $scope.data = data.d;
             }
         });
-    }
+    } 
 
-
+    ///查询
+    $scope.filterChanged = function () { 
+        var pageSize = 10;
+        var pageIndex = 1;
+        PaperService.search($scope.model, pageSize, pageIndex, function (data) {
+            if (data.d && data.d.length > 0) { 
+                $scope.data = data.d;
+                $scope.pageService.init(pageSize, pageIndex, $scope.data[0].rowscount, changePageFunc);
+            }
+        });
+    } 
 
     ///初始化试卷类型
     PaperService.getPaperTypes(function (data) {
@@ -91,6 +91,9 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', 'pageService', f
     PaperService.paperGet(function (data) {
         if (data.d) {
             $scope.model = data.d;
+            $scope.model.Type = -1;
+            $scope.model.Scope = -1;
+            $scope.model.UpdateTime = new Date();
         }
     });
     ///获取课程列表
