@@ -19,14 +19,14 @@
                 </ul>
             </a>
             <a href="javascript:;" class="import_exercise"><em><i class="icon"></i></em><span>导出</span></a>
-            <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="searchKey"><span class="icon" ng-click="filterChanged();"></span></p>
+            <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="model.Papername"><span class="icon" ng-click="filterChanged();"></span></p>
         </div>
     </div>
     <div class="filter_box">
         <dl class="filter_list">
             <dt>试卷类型</dt>
             <dd >
-                <a ng-class="{active:paperTypeSelection==item.id}" ng-click="paperTypeChanged(item.id);" style="cursor:pointer" ng-repeat="item in paperTypeFilters"><span ng-bind="item.name"></span></a>
+                <a ng-class="{active:model.Type==item.id}" ng-click="typeChanged(item.id);" style="cursor:pointer" ng-repeat="item in paperTypeFilters"><span ng-bind="item.name"></span></a>
             </dd>
         </dl>
         <dl class="filter_list">
@@ -41,7 +41,7 @@
         <dl class="filter_list">
             <dt>使用权限</dt>
             <dd>
-                <a ng-class="{active:shareRangeSelection==item.id}" ng-click="shareRangeChanged(item.id);" style="cursor:pointer" ng-repeat="item in shareRangeFilters"><span ng-bind="item.name"></span></a>
+                <a ng-class="{active:model.Scope==item.id}" ng-click="scopeChanged(item.id);" style="cursor:pointer" ng-repeat="item in shareRangeFilters"><span ng-bind="item.name"></span></a>
             </dd>
         </dl>
         <span class="guanbi"><i class="icon"></i></span>
@@ -90,13 +90,15 @@
     </table>
     <div class="resource_page">
         <div class="page_box">
-            <a class="prev" style="cursor:pointer" ng-click="previous();">前一页</a>
-            <a ng-repeat="item in pageNums" style="cursor:pointer" ng-click="pageChanged(item);" ng-bind="item"></a>
-            <span class="more" ng-click="pageMore();">...</span>
-            <a style="cursor:pointer" ng-click="pageChanged(lastPageIndex);" ng-bind="lastPageIndex"></a>
-            <a class="prev" style="cursor:pointer" ng-click="next();">后一页</a>
-            <span>共{{rowCount}}条，到第<input type="text" ng-model="absIndex">页</span>
-            <a style="cursor:pointer" ng-click="pageService.change(absIndex);">确认</a>
+            <a class="prev" style="cursor:pointer" ng-click="pageService.nextGroup();">&lt;&lt;</a>
+            <a class="prev" style="cursor:pointer" ng-click="pageService.next();">&lt;</a>
+            <a class="active" style="cursor:pointer" ng-click="pageService.change(item);" ng-repeat="item in pageService.pages" ng-bind="item"></a>
+            <a class="prev" style="cursor:pointer" ng-click="pageService.previous();">&gt;</a>
+            <a class="prev" style="cursor:pointer" ng-click="pageService.prevGroup();">&gt;&gt;</a>
+            <span>
+                Go To Page:
+                <select ng-model="pageService.pageIndex" ng-change="pageService.locate(pageService.pageIndex);" ng-options="item for item in allPages"></select> 
+            </span>
         </div>
     </div>
 </div>
