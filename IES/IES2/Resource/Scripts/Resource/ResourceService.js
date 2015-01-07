@@ -27,6 +27,10 @@ aService.factory('resourceService', ['httpService', function (httpService) {
         var param = { file: file, pageSize: pageSize, pageIndex: pageIndex };
         ajaxPost('File_Search', param, callback);
     }
+    //删除
+    service.File_Del = function () {
+        ajaxPost('File_Del', { file: file }, callback);
+    }
     ///课程列表
     service.User_OC_List = function (callback) {
         ajaxPost('User_OC_List', null, callback);

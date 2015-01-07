@@ -35,3 +35,44 @@ aService.factory('httpService', ['$http', '$q', function ($http, $q) {
 
     return service;
 }]);
+
+aService.factory('pageService', ['httpService', function (httpService) {
+
+    var service = {};
+    ///页大小
+    service.size = 10;
+    ///当前页索引
+    service.current = 1;
+    ///记录数据
+    service.rows = 0; 
+
+    var changeFn = null;
+
+    ///初始化页大小、当前页、分页函数等
+    service.init = function (size, current, changeFunc) {
+        service.size = size || 10;
+        service.current = current || 1;
+        changeFn = changeFunc;
+    }
+
+    ///下一页
+    service.next = function () {
+        service.change(service.current + 1);
+    }
+
+    ///上一页
+    service.previous = function () {
+        service.change(service.current - 1); 
+    }
+
+    ///切换至某页
+    service.change = function (pageIndex) { 
+        var total = service.rows / service.size + service.rows % service.size;
+        if (pageIndex >= 1 && pageIndex < total) { 
+            service.current = pageIndex;
+            if (changeFn) changeFn(service.current, service.size);
+        } 
+    }
+
+    return service;
+}]);

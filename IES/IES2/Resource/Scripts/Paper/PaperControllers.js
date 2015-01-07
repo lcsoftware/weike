@@ -2,7 +2,7 @@
 
 var appPaper = angular.module('app.paper.controllers', ['app.paper.services']);
 
-appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope, PaperService) {
+appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', 'pageService', function ($scope, PaperService, pageService) {
 
     $scope.searchKey = '';
 
@@ -39,6 +39,16 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
         $scope.filterChanged();
     }
 
+    ///分页
+    $scope.pageService = pageService;
+
+    $scope.pageService.init(10, 1, change);
+
+    var change = function(pageIndex, pageSize){
+
+    }
+
+
     ///查询
     $scope.filterChanged = function () { 
         var paper = {};
@@ -49,7 +59,9 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', function ($scope
                 $scope.data = data.d;
             }
         });
-    } 
+    }
+
+
 
     ///初始化试卷类型
     PaperService.getPaperTypes(function (data) {
