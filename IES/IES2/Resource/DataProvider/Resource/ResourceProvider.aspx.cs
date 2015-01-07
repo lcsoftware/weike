@@ -32,7 +32,7 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static IList<ResourceDict> Resource_Dict_FileType_Get()
         {
-            return ResourceCommonData.Resource_Dict_FileType_Get();            
+            return ResourceCommonData.Resource_Dict_FileType_Get();
         }
 
         /// <summary>
@@ -86,7 +86,20 @@ namespace App.Resource.DataProvider.Resource
             catch
             {
                 return false;
-            }           
+            }
+        }
+        #endregion
+
+        #region 文件夹列表
+        /// <summary>
+        /// 文件夹查询列表
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static IList<Folder> Folder_List(Folder folder)
+        {
+            return new FileBLL().Folder_List(folder);
         }
         #endregion
     }
