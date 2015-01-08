@@ -12,7 +12,7 @@
         <div class="exercise_btn">
             <span class="sort_box">[筛选]</span>
             <a class="topic_import" href="javascript:;"><em><i class="icon"></i></em><span>上传文件</span></a>
-            <a class="add_topic" href="javascript:;"><em><i class="icon"></i></em><span>新建文件夹</span></a>
+            <a  href="javascript:;" ng-click="AddFolder()"><em><i class="icon"></i></em><span>新建文件夹</span></a>
             <a class="batch_box" href="javascript:;">
                 <em><i class="icon"></i></em>
                 <span>批量操作</span>
@@ -55,32 +55,34 @@
         <span class="guanbi"><i class="icon"></i></span>
     </div>
     <table class="course_data">
-        <tr>
-            <th width="620">
-                <div class="data_name">
-                    <input type="checkbox">
-                    <p>文件名称</p>
-                    <i class="icon arrow"></i>
-                </div>
-            </th>
-            <th width="120">
-                <div class="data_name">
-                    <p>文件格式</p>
-                    <i class="icon arrow"></i>
-                </div>
-            </th>
-            <th width="120">文件大小</th>
-            <th>修改日期</th>
-        </tr>
+        <thead>
+            <tr>
+                <th width="620">
+                    <div class="data_name">
+                        <input type="checkbox">
+                        <p>文件名称</p>
+                        <i class="icon arrow"></i>
+                    </div>
+                </th>
+                <th width="120">
+                    <div class="data_name">
+                        <p>文件格式</p>
+                        <i class="icon arrow"></i>
+                    </div>
+                </th>
+                <th width="120">文件大小</th>
+                <th>修改日期</th>
+            </tr>
+        </thead>
         <tr ng-repeat="item in folders">
             <td>
                 <div class="data_name">
                     <input type="checkbox" checklist-model="checks" ng-click="checkAdd(item)" checklist-value="item">
                     <i class="icon_24 doc"></i>
                     <p class="data_tit" ng-bind="item.FolderName"></p>
-                    <input class="rename_test" value="{{item.FolderName}}" ng-mouseleave="updName(item)" type="text">
+                    <input class="rename_test" ng-model="item.FolderName" ng-blur="updName(item)" type="text">
                     <div class="file_operation">
-                        <div class="more_operation">
+                        <div class="more_operation" @*ng-click="mToggle(this);"*@>
                             <span>...</span>
                             <ul class="mouse_right">
                                 <li><p><i class="icon data_property"></i>资料属性</p></li>
@@ -97,21 +99,37 @@
             </td>
             <td></td>
             <td></td>
-            <td ng-bind="item.CreateTime"></td>
-        </tr>        
+            <td ng-bind="item.CreateTime | dateFormat"></td>
+        </tr>
+        @*<tbody>
+                <tr ng-repeat="item in folders">
+                    <td>
+                        <div class="data_name">
+                            <input type="checkbox">
+                            <i class="icon_24 ppt"></i>
+                            <p class="data_tit">第一册第一章重点单词</p>
+                            <input class="rename_test" value="第一册第一章重点单词" type="text">
+                            <div class="file_operation">
+                                <div class="more_operation" ng-click="mToggle(this);">
+                                    <span>...</span>
+                                    <ul class="mouse_right">
+                                        <li><p><i class="icon data_property"></i>资料属性</p></li>
+                                        <li><p><i class="icon data_rename"></i>重命名</p></li>
+                                        <li><p><i class="icon data_download"></i>下载资料</p></li>
+                                        <li><p><i class="icon video"></i>视频剪辑</p></li>
+                                        <li><p><i class="icon data_remove"></i>删除资料</p></li>
+                                    </ul>
+                                </div>
+                                <a class="icon data_move" href="javascript:;"></a>
+                                <a class="icon data_share" href="javascript:;"></a>
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>*@
     </table>
-    <div class="resource_page">
-        <div class="page_box">
-            <a class="prev" style="cursor:pointer" ng-click="pageService.nextGroup();">&lt;&lt;</a>
-            <a class="prev" style="cursor:pointer" ng-click="pageService.next();">&lt;</a>
-            <a class="active" style="cursor:pointer" ng-click="pageService.change(item);" ng-repeat="item in pageService.pages" ng-bind="item"></a>
-            <a class="prev" style="cursor:pointer" ng-click="pageService.previous();">&gt;</a>
-            <a class="prev" style="cursor:pointer" ng-click="pageService.prevGroup();">&gt;&gt;</a>
-            <span>
-                Go To Page:
-                <select ng-model="pageService.pageIndex" ng-change="pageService.locate(pageService.pageIndex);" ng-options="item for item in allPages"></select>
-            </span>
-        </div>
-    </div>    
 </div>
 <script src="/Scripts/PageAffect/index.js" type="text/javascript"></script>

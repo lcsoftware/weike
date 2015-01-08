@@ -39,20 +39,15 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     var load = function()
     {
         $scope.filterChanged();
-    }
-
-    ///分页
-    $scope.pageService = pageService;
-
-    ///换页
-    var changePageFunc = function (pageIndex, pageSize) {
-        PaperService.search($scope.model, pageSize, pageIndex, function (data) {
-            if (data.d) {
-                $scope.data = data.d;
-            }
-        });
-    }
+    }   
     
+    $scope.mToggle = function (a) {
+        console.log(a);
+        $('.more_operation').hover(function () {
+            a.find('.mouse_right').toggle();
+        })
+    }
+
     //查询
     $scope.filterChanged = function () {
         var folder = {};
@@ -60,8 +55,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         var pageIndex = 1;
         resourceService.Folder_List(folder, function (data) {
             if (data.d) {
-                $scope.folders = data.d;
-                $scope.pageService.init(pageSize, pageIndex, $scope.data[0].rowscount, changePageFunc);
+                $scope.folders = data.d;                
             }
         });
     }
@@ -114,13 +108,34 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
 
     $scope.updName = function(item)
-    {        
-        var folder = { FolderName: item.FolderName, FolderID: item.FolderID };
-        resourceService.Folder_Name_Upd(folder,function (data) {
-            if (data.d) {
-                $scope.filterChanged();
-            }
-        });
+    {
+        //新建
+        if (item.FolderID == 0) {
+            var folder = { FolderName: item.FolderName };
+            resourceService.Folder_Name_Upd(folder, function (data) {
+                if (data.d) {
+                    $scope.filterChanged();
+                }
+            });
+        }
+        else {//修改            
+            var folder = { FolderName: item.FolderName, FolderID: item.FolderID };
+            resourceService.Folder_Name_Upd(item, function (data) {
+                if (data.d) {
+                    $scope.filterChanged();
+                }
+            });
+        }
+    }
+
+    //新建文件夹
+    $scope.AddFolder = function()
+    {
+        resourceService.Folder_Get(function (data) {
+            var folder = data.d;
+            folder.FolderName = 'NewFolder';
+            $scope.folders.push(folder);
+        });        
     }
 
     load();

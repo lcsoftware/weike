@@ -45,6 +45,11 @@ aService.factory('resourceService', ['httpService', function (httpService) {
     service.Folder_Name_Upd = function (folder, callback) {
         ajaxPost('Folder_Name_Upd', { folder: folder }, callback);
     }
+    //获取文件夹空对象
+    service.Folder_Get = function(callback)
+    {
+        ajaxPost('Folder_Get', null, callback);
+    }
     
     ///课程列表
     service.User_OC_List = function (callback) {

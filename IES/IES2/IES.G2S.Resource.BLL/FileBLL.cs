@@ -17,7 +17,10 @@ namespace IES.G2S.Resource.BLL
 
         #region 文件夹操作
 
-
+        public Folder Folder_Get()
+        {
+            return FileDAL.Folder_Get();
+        }
 
         public List<Folder> Folder_List(Folder folder)
         {
