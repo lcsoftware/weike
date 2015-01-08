@@ -19,6 +19,13 @@ namespace IES.G2S.Resource.DAL
 
         #region 文件夹
 
+        #region 空对象
+        public static Folder Folder_Get()
+        {
+            return new Folder();
+        }
+        #endregion
+
         #region  列表
         public static List<Folder> Folder_List(Folder model)
         {

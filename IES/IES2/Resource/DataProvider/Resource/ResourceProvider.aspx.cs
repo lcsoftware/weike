@@ -32,7 +32,7 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static IList<ResourceDict> Resource_Dict_FileType_Get()
         {
-            return ResourceCommonData.Resource_Dict_FileType_Get();            
+            return ResourceCommonData.Resource_Dict_FileType_Get();
         }
 
         /// <summary>
@@ -86,7 +86,49 @@ namespace App.Resource.DataProvider.Resource
             catch
             {
                 return false;
-            }           
+            }
+        }
+        #endregion
+
+        #region 文件夹列表
+        /// <summary>
+        /// 文件夹查询列表
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static IList<Folder> Folder_List(Folder folder)
+        {
+            return new FileBLL().Folder_List(folder);
+        }
+        /// <summary>
+        /// 新建文件夹
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static Folder Folder_ADD(Folder folder)
+        {
+            return new FileBLL().Folder_ADD(folder);
+        }
+        /// <summary>
+        /// 修改文件夹名称
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool Folder_Name_Upd(Folder folder)
+        {
+            return new FileBLL().Folder_Name_Upd(folder);
+        } 
+        /// <summary>
+        /// 获取文件夹空对象
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod]
+        public static Folder Folder_Get()
+        {
+            return new FileBLL().Folder_Get();
         }
         #endregion
     }

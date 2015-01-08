@@ -2,29 +2,31 @@
 
 var appResource = angular.module('app.resource.controllers', ['app.res.services']);
 
-appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($scope, resourceService) {
-
+appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageService', function ($scope, resourceService, pageService) {
+    $scope.model = {};
     $scope.fileTypes = [];//文件类型
     $scope.timePass = [];//上传时间
     $scope.shareRange = []; //使用权限
-    $scope.fileSelection = -1;
-    $scope.timeSelection = -1;
-    $scope.shareSelection = -1;
+    $scope.model.fileSelection = -1;
+    $scope.model.timeSelection = -1;
+    $scope.model.shareSelection = -1;
     $scope.tabSelection = -1;
     $scope.checksSelect = [];//复选框选中的值
-    $scope.menuShow = false;//是否显示点击菜单
-    $scope.menuItem = {};//点击文件名弹出的菜单，记录该数据
+    $scope.folders = [];//文件夹数组
+    
+    
+    $scope.fileShow = false;//是否显示
 
     $scope.fileChanged = function (v) {
-        $scope.fileSelection = v;
+        $scope.model.fileSelection = v;
         $scope.filterChanged();
     }
     $scope.timeChanged = function (v) {
-        $scope.timeSelection = v;
+        $scope.model.timeSelection = v;
         $scope.filterChanged();
     }
     $scope.shareChanged = function (v) {
-        $scope.shareSelection = v;
+        $scope.model.shareSelection = v;
         $scope.filterChanged();
     }
 
@@ -33,21 +35,27 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($
     $scope.tabChanged = function (tab) {        
         $scope.tabSelection = tab;
     }
-    //是否显示菜单栏
-    $scope.menuClick = function (file)
+    
+    var load = function()
     {
-        $scope.menuShow == true ? $scope.menuShow = false : $scope.menuShow = true;
-        $scope.menuItem = file;
+        $scope.filterChanged();
+    }   
+    
+    $scope.mToggle = function (a) {
+        console.log(a);
+        $('.more_operation').hover(function () {
+            a.find('.mouse_right').toggle();
+        })
     }
 
-    //搜索框查询
+    //查询
     $scope.filterChanged = function () {
-        var file = {};
+        var folder = {};
         var pageSize = 10;
         var pageIndex = 1;
-        resourceService.File_Search(file, pageSize, pageIndex, function (data) {
+        resourceService.Folder_List(folder, function (data) {
             if (data.d) {
-                $scope.data = data.d;
+                $scope.folders = data.d;                
             }
         });
     }
@@ -99,6 +107,38 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', function ($
 
     }
 
+    $scope.updName = function(item)
+    {
+        //新建
+        if (item.FolderID == 0) {
+            var folder = { FolderName: item.FolderName };
+            resourceService.Folder_Name_Upd(folder, function (data) {
+                if (data.d) {
+                    $scope.filterChanged();
+                }
+            });
+        }
+        else {//修改            
+            var folder = { FolderName: item.FolderName, FolderID: item.FolderID };
+            resourceService.Folder_Name_Upd(item, function (data) {
+                if (data.d) {
+                    $scope.filterChanged();
+                }
+            });
+        }
+    }
+
+    //新建文件夹
+    $scope.AddFolder = function()
+    {
+        resourceService.Folder_Get(function (data) {
+            var folder = data.d;
+            folder.FolderName = 'NewFolder';
+            $scope.folders.push(folder);
+        });        
+    }
+
+    load();
     resourceService.User_OC_List(function (data) {
         if (data.d) {
             $scope.tabs = data.d;

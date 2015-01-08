@@ -41,4 +41,60 @@ as
 
     
      
+
+
+
+
+USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[File_Search]    Script Date: 01/07/2015 16:53:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================  
+-- Author:      王胜辉  
+-- Create date: 20141127  
+-- Description: 获取资料的列表信息  
+-- =============================================  
+ALTER proc [dbo].[File_Search]  
+ @Searchkey nvarchar(200) = '' , --查询关键字  
+ @OCID int = 0 , -- 我的资料库courseid=-1  ,OCID=0 
+ @CourseID int = 1 , --课程编号
+ @FolderID int = 0 , -- 表示根文件夹下   
+ @FileType int = -1, -- 文件类型  
+ @UploadTime smalldatetime ='2011-1-1',-- 上传日期 ，需要从业务层计算 >= @UploadTime  
+ @ShareRange int = -1  ,  
+ @UserID int =1 ,  
+ @PageSize int = 20 ,                        
+ @PageIndex int = 1     
+as   
+ SET NOCOUNT ON;  
+  
+ DECLARE @lowerLimit INT                                      
+ DECLARE @upperLimit INT     
+   
+SET @lowerLimit = @PageSize * ( @PageIndex - 1 )                                      
+SET @upperLimit = @PageSize *   @PageIndex       
+  
+ 
+ select FileID, OCID, CourseID, FolderID, SubjectID1, SubjectID2, 
+ CreateUserID, CreateUserName, OwnerUserID, FileTitle, t1.FileName, Ext, 
+ FileType, Brief, Keys, FileSize, pingyin, TimeLength, RarIndexPage, 
+ UploadTime, Orde, ShareRange, AllowDownload, ServerID, Clicks, Downloads, IsTransfer
+ from  dbo.[File] t1
+ where IsDeleted = 0  and t1.OCID = @OCID 
+ and CreateUserID = @UserID and FolderID = @FolderID 
+   
+   
+ --获取习题列表，满足条件的筛选通过（ f_Exercise_Cacu_GetExeriseList ）,复杂算法必须独立放到外面函数或存储过程中执行  
+ ;  
+  
+   
+  
+   
+  
+   
+  
+  
     
