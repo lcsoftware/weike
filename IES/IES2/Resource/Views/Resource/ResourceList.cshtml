@@ -72,7 +72,7 @@
                 </div>
             </th>
         </tr>
-        <tr ng-repeat="item in data">
+        @*<tr ng-repeat="item in data">
             <td>
                 <div class="data_name">
                     <input type="checkbox" checklist-model="checks" ng-click="checkAdd(item)" checklist-value="item">
@@ -83,6 +83,33 @@
             <td ng-bind="item.FileType"></td>
             <td ng-bind="item.FileSize"></td>
             <td ng-bind="item.UploadTime"></td>
+        </tr>*@
+        <tr>
+            <td>
+                <div class="data_name">
+                    <input type="checkbox">
+                    <i class="icon_24 doc"></i>
+                    <p class="data_tit">第一册第一章重点单词</p>
+                    <input class="rename_test" value="第一册第一章重点单词" type="text">
+                    <div class="file_operation">
+                        <div class="more_operation">
+                            <span>...</span>
+                            <ul class="mouse_right">
+                                <li><p><i class="icon data_property"></i>资料属性</p></li>
+                                <li><p><i class="icon data_rename"></i>重命名</p></li>
+                                <li><p><i class="icon data_download"></i>下载资料</p></li>
+                                <li><p><i class="icon video"></i>视频剪辑</p></li>
+                                <li><p><i class="icon data_remove"></i>删除资料</p></li>
+                            </ul>
+                        </div>
+                        <a class="icon data_move" href="javascript:;"></a>
+                        <a class="icon data_share" href="javascript:;"></a>
+                    </div>
+                </div>
+            </td>
+            <td>文件夹</td>
+            <td>256MB</td>
+            <td>2014-10-23</td>
         </tr>
     </table>
     <div class="resource_page">
