@@ -153,4 +153,11 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $scope.tabs.insert(0, item);
         }
     });
+
+    $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
+        //下面是在table render完成后执行的js
+        $('.more_operation').hover(function () {
+            $(this).find('.mouse_right').toggle();
+        })
+    });
 }]);

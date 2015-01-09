@@ -74,7 +74,7 @@
                 <th>修改日期</th>
             </tr>
         </thead>
-        <tr ng-repeat="item in folders">
+        <tr ng-repeat="item in folders" on-finish-render-filters>
             <td>
                 <div class="data_name">
                     <input type="checkbox" checklist-model="checks" ng-click="checkAdd(item)" checklist-value="item">
