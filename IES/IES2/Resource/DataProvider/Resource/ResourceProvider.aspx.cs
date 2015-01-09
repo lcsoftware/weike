@@ -121,6 +121,15 @@ namespace App.Resource.DataProvider.Resource
         {
             return new FileBLL().Folder_Name_Upd(folder);
         }
+        /// <summary>
+        /// 获得空对象
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod]
+        public static Folder Folder_Get()
+        {
+            return new FileBLL().Folder_Get();
+        }
         #endregion
     }
 }

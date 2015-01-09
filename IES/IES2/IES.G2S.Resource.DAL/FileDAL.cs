@@ -37,7 +37,6 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@OCID", model.OCID);
                     p.Add("@ParentID", model.ParentID);
                     p.Add("@UserID", model.CreateUserID);
-                    p.Add("@FolderID", model.FolderID);
                     return conn.Query<Folder>("Folder_List", p, commandType: CommandType.StoredProcedure).ToList();
                 }
             }

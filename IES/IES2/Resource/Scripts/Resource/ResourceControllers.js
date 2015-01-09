@@ -131,7 +131,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         resourceService.Folder_Get(function (data) {
             var folder = data.d;
             folder.FolderName = 'NewFolder';
-            folder.model.ParentID = $scope.ParentID;
+            folder.ParentID = $scope.model.ParentID;
             $scope.folders.push(folder);
         });
     }
