@@ -30,8 +30,7 @@ namespace IES.G2S.Resource.BLL
         {
             return FileDAL.Folder_List(model).ToList();
         }
-
-
+        
         [PermissionsCallHandler(Order = 2)]
         [ExceptionCallHandler(Order = 1)]
         public IES.Resource.Model.Folder Folder_ADD(Folder model)
