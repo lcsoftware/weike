@@ -40,7 +40,7 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         //习题
         .state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
         //知识点
-        .state('content.ken', { url: '/Knowledge', templateUrl: '/views/Knowledge/KnowledgeList', controller: 'KnowledgeListCtrl' })
+        .state('content.Knowledge', { url: '/Knowledge', templateUrl: '/views/Knowledge/KnowledgeList', controller: 'KnowledgeListCtrl' })
 
 
         .state('otherwise', {

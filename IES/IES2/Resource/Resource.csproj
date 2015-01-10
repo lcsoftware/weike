@@ -141,6 +141,7 @@
     <Content Include="Css\header.css" />
     <Content Include="Css\index.css" />
     <Content Include="Css\mooc.css" />
+    <Content Include="Css\resource.css" />
     <Content Include="Css\reverse.css" />
     <Content Include="Css\side_left.css" />
     <Content Include="DataProvider\Authority\AuthProvider.aspx" />
@@ -278,7 +279,6 @@
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\UserList.cshtml" />
     <Content Include="Views\_PageStart.cshtml" />
-    <Content Include="Views\Knowledge\ViewPage1.cshtml" />
     <Content Include="Views\Shared\Content.cshtml" />
     <Content Include="Views\Resource\ResourceList.cshtml" />
     <None Include="Properties\PublishProfiles\IES.pubxml" />
@@ -287,6 +287,7 @@
     <Content Include="Views\Paper\AddSmart.cshtml" />
     <Content Include="Views\Paper\AddTest.cshtml" />
     <Content Include="Views\Paper\AddSheet.cshtml" />
+    <Content Include="Views\Knowledge\KnowledgeList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
