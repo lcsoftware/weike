@@ -2,10 +2,11 @@
 
 var appPaper = angular.module('app.paper.controllers', [
     'app.paper.services',
-    'app.common.services'
+    'app.common.services',
+    'app.content.services'
 ]);
 
-appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', 'pageService', function ($scope, PaperService, pageService) {
+appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', 'contentService', 'pageService', function ($scope, PaperService, contentService, pageService) {
 
     $scope.searchKey = '';
 
@@ -97,7 +98,7 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', 'pageService', f
         }
     });
     ///获取课程列表
-    PaperService.User_OC_List(function (data) {
+    contentService.User_OC_List(function (data) {
         if (data.d) {
             $scope.tabs = data.d;
             $scope.tabSelection = $scope.tabs[0].OCID;

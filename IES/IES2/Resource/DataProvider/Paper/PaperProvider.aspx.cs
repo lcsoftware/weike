@@ -47,13 +47,7 @@ namespace App.Resource.DataProvider.Paper
         {
             Paper model = new Paper();
             return new PaperBLL().Paper_Get(model);
-        }
-
-        [WebMethod]
-        public static IList<OC> User_OC_List()
-        {
-            var user = UserService.CurrentUser;
-            return UserService.User_OC_List(user); 
-        }
+        } 
+        
     }
 }

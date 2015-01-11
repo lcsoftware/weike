@@ -39,10 +39,14 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
 
         //习题
         .state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
-        //知识点
-        .state('content.Knowledge', { url: '/Knowledge', templateUrl: '/views/Knowledge/KnowledgeList', controller: 'KnowledgeListCtrl' })
 
-
+        //知识点 
+        .state('content.knowledge', { url: '/knowledge', templateUrl: '/views/Knowledge/Knowledge', controller: 'KnowledgeCtrl' })
+        //知识点 按章节
+        .state('content.knowledge.chapter', { url: '/chapter', templateUrl: '/views/Knowledge/KnowledgeChapter', controller: 'KnowChapterCtrl' })
+        //知识点 按知识点
+        .state('content.knowledge.topic', { url: '/topic', templateUrl: '/views/Knowledge/KnowledgeTopic', controller: 'KnowTopicCtrl' })
+ 
         .state('otherwise', {
             url: '*path',
             templateUrl: '/views/404',

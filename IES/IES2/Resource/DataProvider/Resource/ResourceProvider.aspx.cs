@@ -17,13 +17,6 @@ namespace App.Resource.DataProvider.Resource
 {
     public partial class ResourceProvider : System.Web.UI.Page
     {
-        [WebMethod]
-        public static IList<OC> User_OC_List()
-        {
-            var user = UserService.CurrentUser;
-            return UserService.User_OC_List(user);
-        }
-
         #region 文件列表
         /// <summary>
         /// 获取资源的文件类型

@@ -90,7 +90,7 @@ SET @upperLimit = @PageSize *   @PageIndex
  --获取习题列表，满足条件的筛选通过（ f_Exercise_Cacu_GetExeriseList ）,复杂算法必须独立放到外面函数或存储过程中执行  
  ;  
   
-   
+update IES_sys.dbo.Menu set URL='content.knowledge.topic'  where MenuID='B24'   
   
    
   

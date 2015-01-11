@@ -1,8 +1,11 @@
 ﻿'use strict';
 
-var appResource = angular.module('app.resource.controllers', ['app.res.services']);
+var appResource = angular.module('app.resource.controllers', [
+    'app.res.services',
+    'app.content.services'
+]);
 
-appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageService', function ($scope, resourceService, pageService) {
+appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageService', 'contentService', function ($scope, resourceService, pageService, contentService) {
     $scope.model = {};
     $scope.fileTypes = [];//文件类型
     $scope.timePass = [];//上传时间
@@ -143,7 +146,8 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
 
     load();
-    resourceService.User_OC_List(function (data) {
+
+    contentService.User_OC_List(function (data) {
         if (data.d) {
             $scope.tabs = data.d;
             var item = {};

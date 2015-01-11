@@ -22,7 +22,7 @@ namespace App.Resource
                 "~/Css/resource.css",
                 //"~/Css/forum.css",
                 "~/Css/header.css",
-                "~/Css/index.css",
+                //"~/Css/index.css",
                 "~/Css/side_left.css"));
 
             bundles.Add(new ScriptBundle("~/js/framework").Include(
@@ -43,6 +43,7 @@ namespace App.Resource
                 "~/scripts/Home/HomeControllers.js", 
                 "~/scripts/Authority/AuthService.js", 
                 "~/scripts/Shared/ContentControllers.js",
+                "~/scripts/Shared/ContentService.js",
                 "~/scripts/Exercise/ExerciseService.js",
                 "~/scripts/Exercise/ExerciseControllers.js", 
                 "~/scripts/Resource/ResourceService.js",

@@ -12,6 +12,10 @@ namespace IES.G2S.Resource.BLL
 {
     public class ChapterBLL:IChapterBLL 
     {
+        public IList<Chapter> Chapter_List(Chapter model)
+        {
+            return ChapterDAL.Chapter_List(model);
+        }
         public bool Chapter_Del(Chapter model)
         {
             return ChapterDAL.Chapter_Del(model);

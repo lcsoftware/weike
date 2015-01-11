@@ -1,7 +1,9 @@
 ﻿'use strict';
 
-angular.module('app.content.controllers', [])
-    .controller('ContentCtrl', ['$scope', function ($scope) {
+var contentApp = angular.module('app.content.controllers', []);
+contentApp.controller('ContentCtrl', ['$scope', function ($scope) {
 
-    }]);
+}]);
+
+
 
