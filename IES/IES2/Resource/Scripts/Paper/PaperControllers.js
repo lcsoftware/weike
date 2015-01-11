@@ -16,14 +16,11 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', 'contentService'
     $scope.paperTypeFilters = [];
     $scope.shareRangeFilters = [];
 
-    $scope.tabSelection = -1;
-
-    $scope.tabs = [];
-
-    $scope.tabChanged = function (tab) {
-        $scope.tabSelection = tab;
-        console.log(tab);
-    }
+    contentService.User_OC_List(function (data) {
+        if (data.d) {
+            $scope.$parent.chapters = data.d;
+        }
+    });
 
     $scope.typeChanged = function (v) {
         $scope.model.Type = v;

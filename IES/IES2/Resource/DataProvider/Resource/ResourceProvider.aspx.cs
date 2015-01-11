@@ -1,20 +1,27 @@
-﻿using IES.Common.Data;
-using IES.Resource.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Services;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-
-using IES.G2S.Resource.BLL;
-using IES.Service;
-using IES.CC.OC.Model;
-
-
+﻿ /* **************************************************************
+ * Copyright(c) 2014 IES, All Rights Reserved.   
+ * File             : ResourceProvider.aspx.cs
+ * Description      : 试卷数据访问
+ * Author           : shujianhua 
+ * Created          : 2014-12-29  
+ * Revision History : 
+******************************************************************/
 namespace App.Resource.DataProvider.Resource
 {
+    using IES.Common.Data;
+    using IES.Resource.Model;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Services;
+    using System.Web.UI;
+    using System.Web.UI.WebControls;
+
+    using IES.G2S.Resource.BLL;
+    using IES.Service;
+    using IES.CC.OC.Model;
+
     public partial class ResourceProvider : System.Web.UI.Page
     {
         #region 文件列表

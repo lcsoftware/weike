@@ -1,135 +1,128 @@
 ﻿<!--右侧头部公告结束-->
-<div class="coursesite_box">
-    <div class="exercise_nav">
-        <ul class="exercise_nav_list">
-            <li ng-repeat="item in tabs" ng-class="{active:tabSelection==item.OCID}"><a class="first_nav" style="cursor:pointer" ng-click="tabChanged(item.OCID);" ng-bind="item.Name"></a></li>
-        </ul>
+<div class="exercise_search">
+    <div class="select_condition">
+        <p class="current_course">个人资料</p>
     </div>
-    <div class="exercise_search">
-        <div class="select_condition">
-            <p class="current_course">个人资料</p>
-        </div>
-        <div class="exercise_btn">
-            <span class="sort_box">[筛选]</span>
-            <a class="topic_import" href="javascript:;"><em><i class="icon"></i></em><span>上传文件</span></a>
-            <a href="javascript:;" ng-click="AddFolder()"><em><i class="icon"></i></em><span>新建文件夹</span></a>
-            <a class="batch_box" href="javascript:;">
-                <em><i class="icon"></i></em>
-                <span>批量操作</span>
-                <ul class="batch_list">
-                    <li>
-                        浏览权限
-                        <ul class="permissions">
-                            <li class="current"><p><i class="icon"></i>全校师生</p></li>
-                            <li><p><i class="icon"></i>课程学生</p></li>
-                            <li><p><i class="icon"></i>社会大众</p></li>
-                            <li><p><i class="icon"></i>关闭开放</p></li>
+    <div class="exercise_btn">
+        <span class="sort_box">[筛选]</span>
+        <a class="topic_import" href="javascript:;"><em><i class="icon"></i></em><span>上传文件</span></a>
+        <a href="javascript:;" ng-click="AddFolder()"><em><i class="icon"></i></em><span>新建文件夹</span></a>
+        <a class="batch_box" href="javascript:;">
+            <em><i class="icon"></i></em>
+            <span>批量操作</span>
+            <ul class="batch_list">
+                <li>
+                    浏览权限
+                    <ul class="permissions">
+                        <li class="current"><p><i class="icon"></i>全校师生</p></li>
+                        <li><p><i class="icon"></i>课程学生</p></li>
+                        <li><p><i class="icon"></i>社会大众</p></li>
+                        <li><p><i class="icon"></i>关闭开放</p></li>
+                    </ul>
+                </li>
+                <li class="batch_share">批量共享</li>
+                <li class="batch_move">批量移动</li>
+                <li class="batch_delete">批量删除</li>
+            </ul>
+        </a>
+        <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="model.searchKey"><span class="icon" ng-click="filterChanged();"></span></p>
+    </div>
+</div>
+<div class="filter_box">
+    <dl class="filter_list">
+        <dt>文件类型</dt>
+        <dd>
+            <a href="#" ng-class="{active:model.fileSelection==item.id}" ng-click="typeChanged(item.id);" ng-repeat="item in fileTypes"><span ng-bind="item.name"></span></a>
+        </dd>
+    </dl>
+    <dl class="filter_list">
+        <dt>上传时间</dt>
+        <dd>
+            <a href="#" ng-class="{active:model.timeSelection==item.id}" ng-click="timeChanged(item.id);" ng-repeat="item in timePass"><span ng-bind="item.name"></span></a>
+    </dl>
+    <dl class="filter_list">
+        <dt>使用权限</dt>
+        <dd>
+            <a href="#" ng-class="{active:model.shareSelection==item.id}" ng-click="shareChanged(item.id);" ng-repeat="item in shareRange"><span ng-bind="item.name"></span></a>
+        </dd>
+    </dl>
+    <span class="guanbi"><i class="icon"></i></span>
+</div>
+<table class="course_data">
+    <thead>
+        <tr>
+            <th width="620">
+                <div class="data_name">
+                    <input type="checkbox">
+                    <p>文件名称</p>
+                    <i class="icon arrow"></i>
+                </div>
+            </th>
+            <th width="120">
+                <div class="data_name">
+                    <p>文件格式</p>
+                    <i class="icon arrow"></i>
+                </div>
+            </th>
+            <th width="120">文件大小</th>
+            <th>修改日期</th>
+        </tr>
+    </thead>
+    <tr ng-repeat="item in folders" on-finish-render-filters>
+        <td>
+            <div class="data_name">
+                <input type="checkbox" checklist-model="checks" ng-click="checkAdd(item)" checklist-value="item">
+                <i class="icon_24 doc"></i>
+                <p class="data_tit" ng-bind="item.FolderName"></p>
+                <input class="rename_test" ng-model="item.FolderName" ng-blur="updName(item)" type="text">
+                <div class="file_operation">
+                    <div class="more_operation" @*ng-click="mToggle(this);"*@>
+                        <span>...</span>
+                        <ul class="mouse_right">
+                            <li><p><i class="icon data_property"></i>资料属性</p></li>
+                            <li><p><i class="icon data_rename"></i>重命名</p></li>
+                            <li><p><i class="icon data_download"></i>下载资料</p></li>
+                            <li><p><i class="icon video"></i>视频剪辑</p></li>
+                            <li><p><i class="icon data_remove"></i>删除资料</p></li>
                         </ul>
-                    </li>
-                    <li class="batch_share">批量共享</li>
-                    <li class="batch_move">批量移动</li>
-                    <li class="batch_delete">批量删除</li>
-                </ul>
-            </a>
-            <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="model.searchKey"><span class="icon" ng-click="filterChanged();"></span></p>
-        </div>
-    </div>
-    <div class="filter_box">
-        <dl class="filter_list">
-            <dt>文件类型</dt>
-            <dd>
-                <a href="#" ng-class="{active:model.fileSelection==item.id}" ng-click="typeChanged(item.id);" ng-repeat="item in fileTypes"><span ng-bind="item.name"></span></a>
-            </dd>
-        </dl>
-        <dl class="filter_list">
-            <dt>上传时间</dt>
-            <dd>
-                <a href="#" ng-class="{active:model.timeSelection==item.id}" ng-click="timeChanged(item.id);" ng-repeat="item in timePass"><span ng-bind="item.name"></span></a>
-        </dl>
-        <dl class="filter_list">
-            <dt>使用权限</dt>
-            <dd>
-                <a href="#" ng-class="{active:model.shareSelection==item.id}" ng-click="shareChanged(item.id);" ng-repeat="item in shareRange"><span ng-bind="item.name"></span></a>
-            </dd>
-        </dl>
-        <span class="guanbi"><i class="icon"></i></span>
-    </div>
-    <table class="course_data">
-        <thead>
-            <tr>
-                <th width="620">
+                    </div>
+                    <a class="icon data_move" href="javascript:;"></a>
+                    <a class="icon data_share" href="javascript:;"></a>
+                </div>
+            </div>
+        </td>
+        <td></td>
+        <td></td>
+        <td ng-bind="item.CreateTime | dateFormat"></td>
+    </tr>
+    @*<tbody>
+            <tr ng-repeat="item in folders">
+                <td>
                     <div class="data_name">
                         <input type="checkbox">
-                        <p>文件名称</p>
-                        <i class="icon arrow"></i>
-                    </div>
-                </th>
-                <th width="120">
-                    <div class="data_name">
-                        <p>文件格式</p>
-                        <i class="icon arrow"></i>
-                    </div>
-                </th>
-                <th width="120">文件大小</th>
-                <th>修改日期</th>
-            </tr>
-        </thead>
-        <tr ng-repeat="item in folders" on-finish-render-filters>
-            <td>
-                <div class="data_name">
-                    <input type="checkbox" checklist-model="checks" ng-click="checkAdd(item)" checklist-value="item">
-                    <i class="icon_24 doc"></i>
-                    <p class="data_tit" ng-bind="item.FolderName"></p>
-                    <input class="rename_test" ng-model="item.FolderName" ng-blur="updName(item)" type="text">
-                    <div class="file_operation">
-                        <div class="more_operation" @*ng-click="mToggle(this);"*@>
-                            <span>...</span>
-                            <ul class="mouse_right">
-                                <li><p><i class="icon data_property"></i>资料属性</p></li>
-                                <li><p><i class="icon data_rename"></i>重命名</p></li>
-                                <li><p><i class="icon data_download"></i>下载资料</p></li>
-                                <li><p><i class="icon video"></i>视频剪辑</p></li>
-                                <li><p><i class="icon data_remove"></i>删除资料</p></li>
-                            </ul>
-                        </div>
-                        <a class="icon data_move" href="javascript:;"></a>
-                        <a class="icon data_share" href="javascript:;"></a>
-                    </div>
-                </div>
-            </td>
-            <td></td>
-            <td></td>
-            <td ng-bind="item.CreateTime | dateFormat"></td>
-        </tr>
-        @*<tbody>
-                <tr ng-repeat="item in folders">
-                    <td>
-                        <div class="data_name">
-                            <input type="checkbox">
-                            <i class="icon_24 ppt"></i>
-                            <p class="data_tit">第一册第一章重点单词</p>
-                            <input class="rename_test" value="第一册第一章重点单词" type="text">
-                            <div class="file_operation">
-                                <div class="more_operation" ng-click="mToggle(this);">
-                                    <span>...</span>
-                                    <ul class="mouse_right">
-                                        <li><p><i class="icon data_property"></i>资料属性</p></li>
-                                        <li><p><i class="icon data_rename"></i>重命名</p></li>
-                                        <li><p><i class="icon data_download"></i>下载资料</p></li>
-                                        <li><p><i class="icon video"></i>视频剪辑</p></li>
-                                        <li><p><i class="icon data_remove"></i>删除资料</p></li>
-                                    </ul>
-                                </div>
-                                <a class="icon data_move" href="javascript:;"></a>
-                                <a class="icon data_share" href="javascript:;"></a>
+                        <i class="icon_24 ppt"></i>
+                        <p class="data_tit">第一册第一章重点单词</p>
+                        <input class="rename_test" value="第一册第一章重点单词" type="text">
+                        <div class="file_operation">
+                            <div class="more_operation" ng-click="mToggle(this);">
+                                <span>...</span>
+                                <ul class="mouse_right">
+                                    <li><p><i class="icon data_property"></i>资料属性</p></li>
+                                    <li><p><i class="icon data_rename"></i>重命名</p></li>
+                                    <li><p><i class="icon data_download"></i>下载资料</p></li>
+                                    <li><p><i class="icon video"></i>视频剪辑</p></li>
+                                    <li><p><i class="icon data_remove"></i>删除资料</p></li>
+                                </ul>
                             </div>
+                            <a class="icon data_move" href="javascript:;"></a>
+                            <a class="icon data_share" href="javascript:;"></a>
                         </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>*@
-    </table>
-</div>
+                    </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>*@
+</table>
 <script src="/Scripts/PageAffect/index.js" type="text/javascript"></script>

@@ -138,7 +138,6 @@ namespace IES.G2S.Resource.DAL
 
         }
 
-
         #endregion 
 
 

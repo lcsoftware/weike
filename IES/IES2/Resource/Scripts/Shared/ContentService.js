@@ -10,5 +10,10 @@ contentApp.factory('contentService', ['httpService', function (httpService) {
         httpService.post(url, null, callback);
     }
 
+    service.Chapter_List = function (chapter, callback) {
+        var url = '/DataProvider/Shared/ContentProvider.aspx/Chapter_List';
+        httpService.post(url, { model: chapter }, callback);
+    }
+
     return service;
 }]);

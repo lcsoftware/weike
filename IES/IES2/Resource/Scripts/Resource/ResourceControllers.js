@@ -13,14 +13,21 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.model.FileType = -1;
     $scope.model.timeSelection = -1;
     $scope.model.ShareRange = -1;
-    $scope.tabSelection = -1;
     $scope.checksSelect = [];//复选框选中的值
     $scope.folders = [];//文件夹数组
     $scope.model.ParentID = 0;//上级ID
 
-
     $scope.fileShow = false;//是否显示
-
+    contentService.User_OC_List(function (data) {
+        if (data.d) {
+            $scope.$parent.chapters = data.d;
+            var item = {};
+            angular.copy($scope.chapters[0], item);
+            item.OCID = -1;
+            item.Name = '个人资料';
+            $scope.chapters.insert(0, item);
+        }
+    });
     $scope.fileChanged = function (v) {
         $scope.model.FileType = v;
         $scope.filterChanged();
@@ -32,12 +39,6 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.shareChanged = function (v) {
         $scope.model.ShareRange = v;
         $scope.filterChanged();
-    }
-
-    $scope.tabs = [];
-
-    $scope.tabChanged = function (tab) {
-        $scope.tabSelection = tab;
     }
 
     var load = function () {
@@ -147,16 +148,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     load();
 
-    contentService.User_OC_List(function (data) {
-        if (data.d) {
-            $scope.tabs = data.d;
-            var item = {};
-            angular.copy($scope.tabs[0], item);
-            item.OCID = -1;
-            item.Name = '个人资料';
-            $scope.tabs.insert(0, item);
-        }
-    });
+   
 
     $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
         //下面是在table render完成后执行的js

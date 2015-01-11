@@ -50,8 +50,13 @@
             </div>
         </div>
         <!--右侧头部公告结束-->
-        <div class="coursesite_box" ui-view> 
-
+        <div class="coursesite_box"> 
+            <div class="exercise_nav">
+                <ul class="exercise_nav_list">
+                    <li ng-repeat="chapter in chapters" ng-class="{active:chapterSelection==chapter.OCID}"><a class="first_nav" style="cursor:pointer" ng-click="chapterChanged(chapter);" ng-bind="chapter.Name"></a></li>
+                </ul>
+            </div>
+            <div ui-view></div>
         </div>
 
     </div>

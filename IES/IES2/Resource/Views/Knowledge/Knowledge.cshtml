@@ -1,9 +1,4 @@
-﻿<div class="exercise_nav">
-    <ul class="exercise_nav_list">
-        <li ng-repeat="item in tabs" ng-class="{active:tabSelection==item.OCID}"><a class="first_nav" style="cursor:pointer" ng-click="tabChanged(item.OCID);" ng-bind="item.Name"></a></li>
-    </ul>
-</div>
-<div class="exercise_search">
+﻿<div class="exercise_search">
     <div class="select_condition">
         <ul class="knowledge_sort">
             <li ui-sref-active="active"><a ui-sref="content.knowledge.topic">按知识点</a></li>

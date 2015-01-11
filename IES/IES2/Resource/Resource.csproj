@@ -145,7 +145,6 @@
     <Content Include="Css\reverse.css" />
     <Content Include="Css\side_left.css" />
     <Content Include="DataProvider\Authority\AuthProvider.aspx" />
-    <Content Include="DataProvider\Chapter\ChapterProvider.aspx" />
     <Content Include="DataProvider\Exercise\ExerciseProvider.aspx" />
     <Content Include="DataProvider\Knowledge\KnowProvider.aspx" />
     <Content Include="DataProvider\Paper\PaperProvider.aspx" />
@@ -309,13 +308,6 @@
     </Compile>
     <Compile Include="DataProvider\Authority\AuthProvider.aspx.designer.cs">
       <DependentUpon>AuthProvider.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="DataProvider\Chapter\ChapterProvider.aspx.cs">
-      <DependentUpon>ChapterProvider.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="DataProvider\Chapter\ChapterProvider.aspx.designer.cs">
-      <DependentUpon>ChapterProvider.aspx</DependentUpon>
     </Compile>
     <Compile Include="DataProvider\Exercise\ExerciseProvider.aspx.cs">
       <DependentUpon>ExerciseProvider.aspx</DependentUpon>

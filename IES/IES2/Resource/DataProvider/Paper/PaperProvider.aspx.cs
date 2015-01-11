@@ -1,5 +1,5 @@
 ﻿/* **************************************************************
- * Copyright(c) 2014 Eastday, All Rights Reserved.   
+ * Copyright(c) 2014 IES, All Rights Reserved.   
  * File             : PaperProvider.aspx.cs
  * Description      : 试卷数据访问
  * Author           : fenglujian
