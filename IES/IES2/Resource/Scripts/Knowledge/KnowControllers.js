@@ -8,6 +8,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', function ($scop
     contentService.User_OC_List(function (data) {
         if (data.d) {
             $scope.$parent.chapters = data.d;
+            $scope.$parent.chapterSelection = data.d[0].OCID;
         }
     });
 }]);
