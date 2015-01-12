@@ -20,3 +20,19 @@ directiveApp.directive('onFinishRenderFilters', function ($timeout) {
         }
     };
 });
+
+directiveApp.directive('showDialog', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            element.bind('click', tanchu);
+            //弹出层方法
+            function tanchu() {
+                var oHeight = $(document).height();
+                var oScroll = $(window).scrollTop();
+                $('.pop_bg').show().css('height', oHeight);
+                $('.pop_600').show().css('top', oScroll + 200);
+            }
+        }
+    }
+});

@@ -19,6 +19,7 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', 'contentService'
     contentService.User_OC_List(function (data) {
         if (data.d) {
             $scope.$parent.chapters = data.d;
+            $scope.$parent.chapterSelection = data.d[0].OCID;
         }
     });
 

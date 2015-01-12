@@ -23,10 +23,11 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         if (data.d) {
             $scope.$parent.chapters = data.d;
             var item = {};
-            angular.copy($scope.chapters[0], item);
+            angular.copy($scope.$parent.chapters[0], item);
             item.OCID = -1;
             item.Name = '个人资料';
-            $scope.chapters.insert(0, item);
+            $scope.$parent.chapters.insert(0, item);
+            $scope.$parent.chapterSelection = item.OCID;
         }
     });
     $scope.typeChanged = function (v) {
