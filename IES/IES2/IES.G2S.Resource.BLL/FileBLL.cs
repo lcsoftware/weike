@@ -21,6 +21,10 @@ namespace IES.G2S.Resource.BLL
         {
             return FileDAL.Folder_Get();
         }
+        public Folder Folder_GetModel(Folder folder)
+        {
+            return FileDAL.Folder_GetModel(folder);
+        }
 
         public List<Folder> Folder_List(Folder folder)
         {
@@ -41,6 +45,11 @@ namespace IES.G2S.Resource.BLL
         public bool Folder_Name_Upd(Folder model)
         {
             return FileDAL.Folder_Name_Upd(model); ;
+        }
+
+        public bool Folder_ParentID_Upd(Folder model)
+        {
+            return FileDAL.Folder_ParentID_Upd(model);
         }
 
         public bool Folder_Upd(Folder model)

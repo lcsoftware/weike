@@ -19,10 +19,27 @@ namespace IES.G2S.Resource.DAL
 
         #region 文件夹
 
-        #region 空对象
+        #region 单个对象,空对象
         public static Folder Folder_Get()
         {
             return new Folder();
+        }
+
+        public static Folder Folder_GetModel(Folder folder)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@FolderID", folder.FolderID);
+                    return conn.Query<Folder>("Folder_Get", p, commandType: CommandType.StoredProcedure).SingleOrDefault<Folder>();
+                }
+            }
+            catch (Exception e)
+            {
+                return new Folder();
+            }
         }
         #endregion
         

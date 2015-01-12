@@ -95,6 +95,132 @@ update IES_sys.dbo.Menu set URL='content.knowledge.topic'  where MenuID='B24'
    
   
    
+
+Use IES
+GO
+/****** Object:  UserDefinedFunction [dbo].[f_AttachmentListGet]    Script Date: 01/10/2015 08:59:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================  
+-- Author:      王胜辉  
+-- Create date: 20150110
+-- Description: 获取文件的下载地址 
+-- =============================================  
+  
+create function [dbo].[f_Resource_URL_Get]      
+(   
+   @FileID int 
+)        
+returns @temp table( 
+	FileID int ,  DownURL nvarchar(500) ,  ViewURL nvarchar(500) )      
+as       
+begin      
+        
+    declare @serverID int ,@FileName nvarchar(200)
+    select @serverID =  ServerID ,  @FileName = [FileName] from  IES_Resource.dbo.[File] t1   
+    where FileID = @FileID
+    
+    
+      
+     insert into @temp( FileID , DownURL , ViewURL )
+	 select @FileID as FileID , 
+	 'http://'+t1.Host+':'+t1.IISPort+ '/'+t1.IISFolder+'/'+ @FileName as DownURL,
+	 'http://'+t1.Host+':'+t1.NginxPort+ '/'+t1.NginxFolder+'/'+ @FileName as ViewURL
+	  from  IES.dbo.ResourceServer t1
+	inner join ( select ID from dbo.f_Math_DeliveryValueList( @serverID, 4096 ) )t2
+	on t1.ServerID = t2.ID 
+      
+    return       
+end      
   
   
+USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[Folder_Get]    Script Date: 01/10/2015 09:25:22 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+-- =============================================
+-- Author:      王胜辉
+-- Create date: 20141208
+-- Description: 文件夹的详细信息
+-- =============================================
+
+create proc [dbo].[Folder_Get]
+	@FolderID int
+as 
+	select FolderID, OCID, CourseID , CreateUserID, OwnerUserID, ParentID,
+	FolderName, Brief, Orde , CreateTime
+	from dbo.Folder
+	where FolderID = @FolderID and  IsDeleted = 0 
+    
+
+USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[File_Get]    Script Date: 01/10/2015 09:19:45 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+-- =============================================
+-- Author:      王胜辉
+-- Create date: 20141208
+-- Description: 文件的详细信息
+-- =============================================
+
+create proc [dbo].[File_Get]
+	@FileID int = 1
+as 
+	select t1.FileID, t1.OCID, t1.CourseID, t1.FolderID, t1.SubjectID1, t1.SubjectID2,
+	t1.CreateUserID, t1.CreateUserName, t1.OwnerUserID, t1.FileTitle, t1.[FileName], t1.Ext, t1.FileType,
+	t1.Brief, t1.Keys, t1.FileSize, t1.pingyin, t1.TimeLength, t1.RarIndexPage, t1.UploadTime, t1.Orde, 
+	t1.ShareRange, t1.AllowDownload, 
+	t1.ServerID, t1.Clicks, t1.Downloads, t1.IsTransfer , t2.DownURL, t2.ViewURL
+	from dbo.[File] t1
+	inner join ( select top 1 * from  IES.dbo.f_Resource_URL_Get(@FileID ) ) t2
+	on t1.FileID = t2.FileID 
+	
+	where t1.FileID = @FileID and IsDeleted = 0 
+    
+
+USE [IES]
+GO
+/****** Object:  UserDefinedFunction [dbo].[f_Math_DeliveryValueList]    Script Date: 01/10/2015 09:26:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+      
+-- =============================================      
+-- Author:      王胜辉      
+-- Create date: 20141231     select * from [dbo].[f_Math_DeliveryValueList]  ( 1, 4096 ) 
+-- Description: 获取取模运算结果列表  ，最大支持4096
+-- =============================================      
+ALTER function [dbo].[f_Math_DeliveryValueList]          
+(          
+   @i int  = 1     ,
+   @modevalue int  
+)            
+returns @tb table(   ID  int    )          
+as           
+begin          
+     
+ 
+	 while( @i > 0  )
+	 begin
+		if( @i >= @modevalue )
+			insert into @tb values ( @modevalue )
+		set  @i =  @i % @modevalue
+		set  @modevalue = @modevalue / 2
+	 end 
+
+    return           
+end 
     

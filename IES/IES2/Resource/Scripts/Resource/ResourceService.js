@@ -50,6 +50,18 @@ aService.factory('resourceService', ['httpService', function (httpService) {
     {
         ajaxPost('Folder_Get', null, callback);
     }
+    //获得文件夹对象
+    service.Folder_GetModel = function (folder,callback) {
+        ajaxPost('Folder_GetModel', {folder:folder}, callback);
+    }
+    //文件夹移动
+    service.Folder_ParentID_Upd = function (folder, callback) {
+        ajaxPost('Folder_ParentID_Upd', { folder: folder }, callback);
+    }
+    //删除文件夹
+    service.Folder_Del = function (folder, callback) {
+        ajaxPost('Folder_Del', { folder: folder }, callback);
+    }
     
     ///课程列表
     service.User_OC_List = function (callback) {

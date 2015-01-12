@@ -130,6 +130,37 @@ namespace App.Resource.DataProvider.Resource
         {
             return new FileBLL().Folder_Get();
         }
+        /// <summary>
+        /// 获得文件夹对象
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod]
+        public static Folder Folder_GetModel(Folder folder)
+        {
+            return new FileBLL().Folder_GetModel(folder);
+        }
+
+        /// <summary>
+        /// 文件夹移动
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool Folder_ParentID_Upd(Folder folder)
+        {
+            return new FileBLL().Folder_ParentID_Upd(folder);
+        }
+
+        /// <summary>
+        /// 删除文件夹
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool Folder_Del(Folder folder)
+        {
+            return new FileBLL().Folder_Del(folder);
+        }
         #endregion
     }
 }
