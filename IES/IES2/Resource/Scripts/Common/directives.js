@@ -24,15 +24,30 @@ directiveApp.directive('onFinishRenderFilters', function ($timeout) {
 directiveApp.directive('showDialog', function () {
     return {
         restrict: 'A',
+        scope: {
+            bgClass: '@',
+            popClass: '@',
+            cancelClass: '@',
+        },
         link: function (scope, element, attrs) {
-            element.bind('click', tanchu);
+            element.bind('click', tanchu); 
+            var cancelCls = '.' + scope.cancelClass;
+            $(cancelCls).bind('click', function () {
+                var bgCls = '.' + scope.bgClass;
+                var popCls = '.' + scope.popClass;
+                $(bgCls).hide();
+                $(popCls).hide();
+            }); 
+
             //弹出层方法
             function tanchu() {
                 var oHeight = $(document).height();
                 var oScroll = $(window).scrollTop();
-                $('.pop_bg').show().css('height', oHeight);
-                $('.pop_600').show().css('top', oScroll + 200);
+                var bgCls = '.' + scope.bgClass;
+                var popCls = '.' + scope.popClass; 
+                $(bgCls).show().css('height', oHeight);
+                $(popCls).show().css('top', oScroll + 200);
             }
         }
     }
-});
+}); 

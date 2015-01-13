@@ -6,8 +6,8 @@
         </ul>
     </div>
     <div class="exercise_btn">
-        <a class="topic_import" href="javascript:;"><em><i class="icon"></i></em><span>添加知识点</span></a>
-        <a class="topic_import" href="javascript:;"><em><i class="icon"></i></em><span>添加章节</span></a>
+        <a class="topic_import" style="cursor:pointer" ng-click="changeItem(2)" show-dialog bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel"><em><i class="icon"></i></em><span>添加知识点</span></a>
+        <a class="topic_import" style="cursor:pointer" ng-click="changeItem(1)" show-dialog bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel"><em><i class="icon"></i></em><span>添加章节</span></a>
     </div>
 </div>
 <p class="guide_word">点击左侧[章节]，查看该章节右侧关联知识点</p>
@@ -15,33 +15,45 @@
 </div>
 
 <div class="pop_bg"></div>
-<div class="pop_600">
-    <h4>课程中心上传组件</h4>
+<div class="pop_400">
+    <h4>添加章节</h4>
     <span class="icon close_pop"></span>
-    <ul class="upload_list">
-        <li>
-            <i class="icon_24 pdf"></i>
-            <div class="data_detail">
-                <p>2014工作指导方案.pdf<span>153kb</span></p>
-                <em></em>
+    <div class="pop_wrap">
+        <div class="add_knowledge">
+            <div class="point_box" ng-show="itemType==1">
+                <label ng-bind="itemName"></label>
+                <input type="text">
             </div>
-            <a class="remove_data" href="javascript:;">×</a>
-        </li>
-        <li>
-            <i class="icon_24 doc"></i>
-            <div class="data_detail">
-                <p>2014工作指导方案.pdf<span>153kb</span></p>
-                <em></em>
+            <div class="point_box" ng-show="itemType==1">
+                <label>关联知识点</label>
+                <select>
+                    <option>请选择关联知识点</option>
+                    <option>请选择关联知识点</option>
+                </select>
+            </div> 
+            <div class="point_box" ng-show="itemType==2">
+                <label>知识点名称</label>
+                <input type="text">
+            </div> 
+            <div class="point_box" ng-show="itemType==2">
+                <label>关联章节</label>
+                <select>
+                    <option>请选择关联章节</option>
+                    <option>请选择关联章节</option>
+                </select>
             </div>
-            <a class="remove_data" href="javascript:;">×</a>
-        </li>
-        <li>
-            <i class="icon_24 mp3"></i>
-            <div class="data_detail">
-                <p>2014工作指导方案.pdf<span>153kb</span></p>
-                <em></em>
+            <div class="point_box">
+                <label>重要程度</label>
+                <select>
+                    <option>请选择重要程度</option>
+                    <option>请选择重要程度</option>
+                </select>
             </div>
-            <a class="remove_data" href="javascript:;">×</a>
-        </li>
-    </ul>
+        </div>
+        <div class="btn_box">
+            <a href="javascript:;" class="save">确定并继续</a>
+            <a href="javascript:;" class="save">保存</a>
+            <a href="javascript:;" class="cancel" ng-click="cancel()">取消</a>
+        </div>
+    </div>
 </div>
