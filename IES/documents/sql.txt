@@ -224,3 +224,33 @@ begin
     return           
 end 
     
+USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[Folder_List]    Script Date: 01/13/2015 17:47:57 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================  
+-- Author:      王胜辉  
+-- Create date: 20141127  
+-- Description: 获取资料文件夹列表信息  
+-- =============================================  
+ALTER proc [dbo].[Folder_List]  
+ @OCID int = 0 , -- 我的资料库OCID=0   
+ @ParentID int = 0 , -- 表示根文件夹下  
+ @UserID int = 0   
+as   
+ SET NOCOUNT ON;  
+  
+  
+ select FolderID, OCID, CourseID, CreateUserID, OwnerUserID, ParentID, FolderName, Brief, Orde, CreateTime  
+ from dbo.Folder  
+ where IsDeleted = 0 AND (@ParentID = -1 or ParentID = @ParentID) and OCID = @OCID   
+ and ( (  CreateUserID = @UserID or OwnerUserID = @UserID  ) or @UserID = 0 )  
+   
+   
+  
+   
+  
+  

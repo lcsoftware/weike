@@ -151,7 +151,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     //获取移动列表
     $scope.mobileFolder = function (item) {
         if (item) {
-            var folder = { FolderID: item.FolderID }
+            var folder = { ParentID: -1 }
             $scope.FolderID = item.FolderID;
             resourceService.Folder_List(folder, function (data) {
                 if (data.d) {
@@ -257,6 +257,22 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $(this).addClass('current').siblings().removeClass('current');
         }, function () {
             $(this).removeClass('current');
+        })
+
+        $('.select_box').live('click', function () {
+            if (!$(this).hasClass('click')) {
+                $(this).addClass('click');
+                $('.folder_list').show();
+            } else {
+                $(this).removeClass('click');
+                $('.folder_list').hide();
+            }
+
+        })
+        $('.folder_list li').hover(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+        }, function () {
+            $(this).removeClass('active');
         })
     });
 }]);

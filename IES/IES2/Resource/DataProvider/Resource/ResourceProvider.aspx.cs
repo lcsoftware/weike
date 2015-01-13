@@ -91,6 +91,7 @@ namespace App.Resource.DataProvider.Resource
         #endregion
 
         #region 文件夹列表
+
         /// <summary>
         /// 文件夹查询列表
         /// </summary>
@@ -99,8 +100,43 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static IList<Folder> Folder_List(Folder folder)
         {
-            return new FileBLL().Folder_List(folder);
+            folder.ParentID = -1;
+            IList<Folder> allFolders = new FileBLL().Folder_List(folder); 
+            if (allFolders.Any())
+            {
+                var newFolders = from v in allFolders where v.ParentID == 0 select v;
+                foreach (var item in newFolders)
+                {
+                    var children = from v in allFolders where v.ParentID == item.FolderID select v;
+                    foreach (var child in children)
+                    {
+                        item.Children.Add(child);
+                    }                    
+                }
+                return newFolders.ToList();
+            }
+            return allFolders;
         }
+
+        private static void BuildFolderRelation(IList<Folder> allFolders, Folder folder, IList<Folder> newFolders)
+        {
+            if (folder != null && !newFolders.Contains(folder))
+            {
+                newFolders.Add(folder);
+            }
+            foreach (var childFolder in allFolders)
+            {
+                if (folder != null && childFolder.ParentID == folder.FolderID)
+                {
+                    folder.Children.Add(childFolder);
+                }
+                else if (!newFolders.Contains(childFolder))
+                {
+                    BuildFolderRelation(allFolders, childFolder, newFolders);
+                }
+            }
+        }
+
         /// <summary>
         /// 新建文件夹
         /// </summary>
