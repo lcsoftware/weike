@@ -63,9 +63,9 @@ namespace App.Resource.DataProvider.Resource
         /// <param name="PageIndex"></param>
         /// <returns></returns>
         [WebMethod]
-        public static IList<File> File_Search(File file, int PageSize, int PageIndex)
+        public static IList<File> File_Search(File file, int pageSize, int pageIndex)
         {
-            return new FileBLL().File_Search(file, PageSize, PageIndex);
+            return new FileBLL().File_Search(file, pageSize, pageIndex);
         }
         /// <summary>
         /// 删除文件功能
