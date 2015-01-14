@@ -96,9 +96,47 @@
         <td></td>
         <td ng-bind="item.CreateTime | dateFormat"></td>
     </tr>
+    <tr ng-repeat="item in files" on-finish-render-filters>
+        <td>
+            <div class="data_name">
+                <input type="checkbox" checklist-model="checks" ng-click="checkAdd(item)" checklist-value="item">
+                <i class="icon_24 doc"></i>
+                <p class="data_tit" ng-bind="item.FileName"></p>
+                <input class="rename_test" ng-model="item.FolderName" ng-blur="updFileName(item)" type="text">
+                <div class="file_operation">
+                    <div class="more_operation">
+                        <span>...</span>
+                        <ul class="mouse_right">
+                            <li><p><i class="icon data_property"></i>资料属性</p></li>
+                            <li class="attribute" ng-click="mobileFolder(item)" show-dialog bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel"><p><i class="icon data_move"></i>移动资料</p></li>
+                            <li><p><i class="icon data_rename"></i>重命名</p></li>
+                            <li><p><i class="icon data_download"></i>下载资料</p></li>
+                            <li><p><i class="icon video"></i>视频剪辑</p></li>
+                            <li ng-click="delFile(item)"><p><i class="icon data_remove"></i>删除资料</p></li>
+                        </ul>
+                    </div>
+                    <a class="icon data_move" style="cursor:pointer"></a>
+                    <a class="icon data_share" href="javascript:;"></a>
+                </div>
+            </div>
+        </td>
+        <td ng-bind="item.FileType"></td>
+        <td ng-bind="item.FileSize"></td>
+        <td ng-bind="item.CreateTime | dateFormat"></td>
+    </tr>
 </table>
 
-
+<div class="pop_400">
+    <h4>删除</h4>
+    <span class="icon close_pop"></span>
+    <div class="pop_wrap">
+        <p class="confirm_tip">是否确定删除已选择的文件？</p>
+        <div class="btn_box">
+            <a href="javascript:;" class="save">确定</a>
+            <a href="javascript:;" class="cancel">取消</a>
+        </div>
+    </div>
+</div>
 <div class="pop_bg"></div>
 <div class="pop_400">
     <h4>移动文件</h4>
@@ -187,4 +225,15 @@
             <a href="javascript:;" class="cancel">取消</a>
         </div>
     </div>*@
+<div class="pop_400">
+    <h4>删除</h4>
+    <span class="icon close_pop"></span>
+    <div class="pop_wrap">
+        <p class="confirm_tip">是否确定删除已选择的文件？</p>
+        <div class="btn_box">
+            <a href="javascript:;" class="save">确定</a>
+            <a href="javascript:;" class="cancel">取消</a>
+        </div>
+    </div>
+</div>
 <script src="/Scripts/PageAffect/index.js" type="text/javascript"></script>

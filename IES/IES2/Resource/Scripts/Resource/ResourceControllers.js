@@ -15,8 +15,11 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.model.ShareRange = -1;
     $scope.checksSelect = [];//复选框选中的值
     $scope.folders = [];//文件夹数组
+    $scope.files = [];//文件数组
+
     $scope.model.ParentID = 0;//上级ID
     $scope.mobiles = [];//移动文件夹数据    
+
 
     $scope.fileShow = false;//是否显示
     contentService.User_OC_List(function (data) {
@@ -94,6 +97,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     //单击文件夹名称方法,进入文件夹
     $scope.folderClick = function (item) {
         $scope.model.ParentID = item.FolderID;
+        
         $scope.filterChanged();
     }
 
@@ -102,6 +106,13 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         resourceService.Folder_List($scope.model, function (data) {
             if (data.d) {
                 $scope.folders = data.d;
+            }
+        });
+        var pageSize = 10;
+        var pageIndex = 1;
+        resourceService.File_Search($scope.model, pageSize, pageIndex, function (data) {
+            if (data.d) {
+                $scope.files = data.d;
             }
         });
     }
@@ -273,6 +284,11 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $(this).addClass('active').siblings().removeClass('active');
         }, function () {
             $(this).removeClass('active');
+        })
+
+        //我的资源首页批量删除
+        $('.batch_delete').live('click', function () {
+            tanchu($('.pop_400').eq(2));
         })
     });
 }]);
