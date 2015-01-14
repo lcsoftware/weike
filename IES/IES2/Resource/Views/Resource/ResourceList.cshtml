@@ -116,7 +116,9 @@
                         <li>
                             <a class="first_folder" href="#">文件夹名称</a>
                             <ul class="second_folder">
-                                <li><a href="#">二级文件夹名称</a></li>
+                                <li>
+                                    <a href="#">二级文件夹名称</a>
+                                </li>
                                 <li><a href="#">二级文件夹名称</a></li>
                                 <li><a href="#">二级文件夹名称</a></li>
                             </ul>
@@ -124,7 +126,7 @@
                         <li><a class="first_folder" href="#">文件夹名称</a></li>
                         <li><a class="first_folder" href="#">文件夹名称</a></li>*@
 
-                    <li ng-repeat="item in mobiles" ng-include="'mobile_renderer.html'">
+                    <li ng-repeat="item in mobiles" ng-include="'mobile_renderer.html'" on-finish-repeat>
                         <a class="first_folder" href="#" ng-bind="item.FolderName"></a>
                     </li>
                 </ul>
@@ -139,28 +141,48 @@
 
 <script type="text/ng-template" id="mobile_renderer.html">
     <a class="first_folder" href="#" ng-bind="item.FolderName"></a>
-    <ul class="second_folder" ng-repeat="secondItem in item.Children">
-        <li><a href="#" ng-bind="secondItem.FolderName"></a></li>
-    </ul>
+    <ul class="second_folder">
+        <li ng-repeat="secondItem in item.Children"><a href="#" ng-bind="secondItem.FolderName"></a></li>
+    </ul> 
+</script>
+
+
+<script>
+    $('.select_box').live('click', function () {
+        if (!$(this).hasClass('click')) {
+            $(this).addClass('click');
+            $('.folder_list').show();
+        } else {
+            $(this).removeClass('click');
+            $('.folder_list').hide();
+        }
+
+    });
+
+    $('.folder_list li').hover(function () {
+        $(this).addClass('active').siblings().removeClass('active');
+    }, function () {
+        $(this).removeClass('active');
+    });
 </script>
 
 @*<script type="text/ng-template" id="nodes_renderer.html">
-    <div ui-tree-handle class="tree-node tree-node-content">
-        <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
-        {{node.title}}
-        <a class="pull-right btn btn-danger btn-xs" nodrag ng-click="remove(this)"><span class="glyphicon glyphicon-remove"></span></a>
-        <a class="pull-right btn btn-primary btn-xs" nodrag ng-click="newSubItem(this)" style="margin-right: 8px;"><span class="glyphicon glyphicon-plus"></span></a>
-    </div>
-    <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
-        <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)">
-        </li>
-    </ol>
-</script>
-<div ui-tree id="tree-root">
-    <ol ui-tree-nodes="" ng-model="data">
-        <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)"></li>
-    </ol>
-</div>*@
+        <div ui-tree-handle class="tree-node tree-node-content">
+            <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+            {{node.title}}
+            <a class="pull-right btn btn-danger btn-xs" nodrag ng-click="remove(this)"><span class="glyphicon glyphicon-remove"></span></a>
+            <a class="pull-right btn btn-primary btn-xs" nodrag ng-click="newSubItem(this)" style="margin-right: 8px;"><span class="glyphicon glyphicon-plus"></span></a>
+        </div>
+        <ol ui-tree-nodes="" ng-model="node.nodes" ng-class="{hidden: collapsed}">
+            <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)">
+            </li>
+        </ol>
+    </script>
+    <div ui-tree id="tree-root">
+        <ol ui-tree-nodes="" ng-model="data">
+            <li ng-repeat="node in data" ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)"></li>
+        </ol>
+    </div>*@
 
 
 @*<div class="pop_bg"></div>

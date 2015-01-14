@@ -259,6 +259,22 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $(this).removeClass('current');
         })
 
+        //$('.select_box').live('click', function () {
+        //    if (!$(this).hasClass('click')) {
+        //        $(this).addClass('click');
+        //        $('.folder_list').show();
+        //    } else {
+        //        $(this).removeClass('click');
+        //        $('.folder_list').hide();
+        //    }
+
+        //})
+      
+    });
+
+
+    $scope.onRepeatFinished = function (onRepeatFinishedEvent) {
+
         $('.select_box').live('click', function () {
             if (!$(this).hasClass('click')) {
                 $(this).addClass('click');
@@ -268,11 +284,14 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                 $('.folder_list').hide();
             }
 
-        })
+        });
+
         $('.folder_list li').hover(function () {
             $(this).addClass('active').siblings().removeClass('active');
         }, function () {
             $(this).removeClass('active');
-        })
-    });
+        });
+
+        console.log('ssssss');
+    }
 }]);
