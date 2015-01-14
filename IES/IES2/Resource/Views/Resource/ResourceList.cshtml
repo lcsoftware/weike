@@ -150,23 +150,23 @@
                     <span></span>
                 </div>
                 <ul class="folder_list">
-                    @*<li class="active"><a class="first_folder" href="#">文件夹名称</a></li>
-                        <li>
-                            <a class="first_folder" href="#">文件夹名称</a>
-                            <ul class="second_folder">
-                                <li>
-                                    <a href="#">二级文件夹名称</a>
-                                </li>
-                                <li><a href="#">二级文件夹名称</a></li>
-                                <li><a href="#">二级文件夹名称</a></li>
-                            </ul>
-                        </li>
-                        <li><a class="first_folder" href="#">文件夹名称</a></li>
-                        <li><a class="first_folder" href="#">文件夹名称</a></li>*@
-
-                    <li ng-repeat="item in mobiles" ng-include="'mobile_renderer.html'" on-finish-repeat>
-                        <a class="first_folder" href="#" ng-bind="item.FolderName"></a>
+                    <li class="active"><a class="first_folder" href="#">文件夹名称</a></li>
+                    <li>
+                        <a class="first_folder" href="#">文件夹名称</a>
+                        <ul class="second_folder">
+                            <li>
+                                <a href="#">二级文件夹名称</a>
+                            </li>
+                            <li><a href="#">二级文件夹名称</a></li>
+                            <li><a href="#">二级文件夹名称</a></li>
+                        </ul>
                     </li>
+                    <li><a class="first_folder" href="#">文件夹名称</a></li>
+                    <li><a class="first_folder" href="#">文件夹名称</a></li>
+
+                    @*<li ng-repeat="item in mobiles" ng-include="'mobile_renderer.html'" on-finish-repeat>
+                            <a class="first_folder" href="#" ng-bind="item.FolderName"></a>
+                        </li*@>
                 </ul>
             </dd>
         </dl>
@@ -181,28 +181,28 @@
     <a class="first_folder" href="#" ng-bind="item.FolderName"></a>
     <ul class="second_folder">
         <li ng-repeat="secondItem in item.Children"><a href="#" ng-bind="secondItem.FolderName"></a></li>
-    </ul> 
+    </ul>
 </script>
 
 
-<script>
-    $('.select_box').live('click', function () {
-        if (!$(this).hasClass('click')) {
-            $(this).addClass('click');
-            $('.folder_list').show();
-        } else {
-            $(this).removeClass('click');
-            $('.folder_list').hide();
-        }
+@*<script>
+        $('.select_box').live('click', function () {
+            if (!$(this).hasClass('click')) {
+                $(this).addClass('click');
+                $('.folder_list').show();
+            } else {
+                $(this).removeClass('click');
+                $('.folder_list').hide();
+            }
 
-    });
+        });
 
-    $('.folder_list li').hover(function () {
-        $(this).addClass('active').siblings().removeClass('active');
-    }, function () {
-        $(this).removeClass('active');
-    });
-</script>
+        $('.folder_list li').hover(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+        }, function () {
+            $(this).removeClass('active');
+        });
+    </script>*@
 
 @*<script type="text/ng-template" id="nodes_renderer.html">
         <div ui-tree-handle class="tree-node tree-node-content">
