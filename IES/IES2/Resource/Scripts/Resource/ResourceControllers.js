@@ -308,5 +308,3 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         });
     }
 }]);
-
-appResource.directive('')
