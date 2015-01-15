@@ -15,7 +15,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', function ($scop
     });
 
     $scope.item = {};
-    $scope.itemName = '';
+    $scope.itemName = 'ssss';
     $scope.itemType = 1;
     $scope.changeItem = function (itemType) {
         $scope.itemType = itemType;
@@ -24,6 +24,10 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', function ($scop
 
     $scope.cancel = function () {
         console.log('cancel fired!');
+    }
+
+    $scope.selected = function () {
+        console.log('selected fired!'); 
     }
 
     $scope.save = function () {

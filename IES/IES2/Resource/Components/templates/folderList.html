@@ -1,23 +1,71 @@
-﻿<ul class="folder_list">
-    <li class="active"><a class="first_folder" href="#">文件夹名称</a></li>
-    <li>
-        <a class="first_folder" href="#">文件夹名称</a>
-        <ul class="second_folder">
+﻿<div>
+    <div class="pop_bg"></div>
+    <!--<div class="pop_400">
+        <div class="select_box">
+            <input type="text" placeholder="请选择">
+            <span></span>
+        </div>
+        <ul class="folder_list">
+            <li class="active"><a class="first_folder" href="#">文件夹名称</a></li>
             <li>
-                <a href="#">二级文件夹名称</a>
+                <a class="first_folder" href="#">文件夹名称</a>
+                <ul class="second_folder">
+                    <li>
+                        <a href="#">二级文件夹名称</a>
+                    </li>
+                    <li><a href="#">二级文件夹名称</a></li>
+                    <li><a href="#">二级文件夹名称</a></li>
+                </ul>
             </li>
-            <li><a href="#">二级文件夹名称</a></li>
-            <li><a href="#">二级文件夹名称</a></li>
+            <li><a class="first_folder" href="#">文件夹名称</a></li>
+            <li><a class="first_folder" href="#">文件夹名称</a></li>
         </ul>
-    </li>
-    <li><a class="first_folder" href="#">文件夹名称</a></li>
-    <li><a class="first_folder" href="#">文件夹名称</a></li> 
-</ul>
+        <div class="btn_box">
+            <a href="javascript:;" class="save">确定并继续</a>
+            <a href="javascript:;" class="save">保存</a>
+            <a href="javascript:;" class="cancel" ng-click="onCancel();" id="btnCancel">取消</a>
+        </div>
+    </div>-->
 
+    <div class="pop_400">
+        <h4>移动文件</h4>
+        <span class="icon close_pop"></span>
+        <div class="pop_wrap">
+            <dl class="folder">
+                <dt>文件夹</dt>
+                <dd>
+                    <div class="select_box">
+                        <input type="text" placeholder="请选择" ng-model="itemName" ng-bind="itemName" value="ssss" />
+                        <span></span>
+                    </div>
+                    <ul class="folder_list">
+                        <li class="active"><a class="first_folder" href="#" ng-click="onSelected();" item-name="itemName">文件夹名称</a></li>
+                        <li>
+                            <a class="first_folder" href="#" ng-click="onSelected();">文件夹名称</a>
+                            <ul class="second_folder">
+                                <li>
+                                    <a href="#">二级文件夹名称</a>
+                                    <ul class="second_folder"> 
+                                        <li>
+                                            <a href="#" ng-click="onSelected();">三级文件夹名称</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">二级文件夹名称</a></li>
+                                <li><a href="#">二级文件夹名称</a></li>
+                            </ul>
+                        </li>
+                        <li><a class="first_folder" href="#">文件夹名称</a></li>
+                        <li><a class="first_folder" href="#">文件夹名称</a></li>
+                    </ul>
+                </dd>
+            </dl>
+            <div class="btn_box">
+                <a href="javascript:;" class="save">确定</a>
+                <a href="javascript:;" class="cancel" ng-click="onCancel();">取消</a>
+            </div>
+        </div>
 
-<script type="text/ng-template" id="mobile_renderer.html">
-    <a class="first_folder" href="#" ng-bind="item.FolderName"></a>
-    <ul class="second_folder">
-        <li ng-repeat="secondItem in item.Children"><a href="#" ng-bind="secondItem.FolderName"></a></li>
-    </ul>
-</script>
+    </div>
+
+</div>

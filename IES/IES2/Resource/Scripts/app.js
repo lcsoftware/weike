@@ -4,6 +4,7 @@ var appModule = angular.module('app', [
     'ui.router',
     'app.filters',
     'app.directives',
+    'app.custom.directives',
     'app.common.services',
     'app.home.controllers', 
     'app.user.controllers',

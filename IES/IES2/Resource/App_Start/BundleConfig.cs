@@ -25,7 +25,7 @@ namespace App.Resource
                 "~/Css/side_left.css"));
 
             bundles.Add(new ScriptBundle("~/js/framework").Include(
-                "~/Frameworks/jquery/jquery-1.7.2.min.js",
+                "~/Frameworks/jquery/jquery-1.8.3.min.js",
                 "~/Frameworks/bootstrap/js/bootstrap.min.js",
                 "~/Frameworks/angular/angular.js",
                 "~/Frameworks/angular/angular-cookies.js",
@@ -39,6 +39,8 @@ namespace App.Resource
                 "~/scripts/Common/filters.js",
                 "~/scripts/Common/directives.js",
                 "~/scripts/Common/services.js",
+
+                "~/Components/js/components.js", 
 
                 "~/scripts/Home/HomeControllers.js", 
                 "~/scripts/Authority/AuthService.js", 

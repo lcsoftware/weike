@@ -1,0 +1,17 @@
+﻿<div class="file_operation">
+    <div class="more_operation">
+        <span>...</span>
+        <ul class="mouse_right">
+            <li id="liA"><p><i class="icon data_property"></i>资料属性</p></li>
+            <li show-dialog bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel">
+                <p><i class="icon data_move"></i>移动资料</p>
+            </li>
+            <li id="liB"><p><i class="icon data_rename"></i>重命名</p></li>
+            <li><p><i class="icon data_download"></i>下载资料</p></li>
+            <li><p><i class="icon video"></i>视频剪辑</p></li>
+            <li ng-click="delFolder(item)"><p><i class="icon data_remove"></i>删除资料</p></li>
+        </ul>
+    </div>
+    <a class="icon data_move" style="cursor:pointer" ng-click="returnPage(item)"></a>
+    <a class="icon data_share" href="javascript:;"></a>
+</div>

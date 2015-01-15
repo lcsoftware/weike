@@ -21,19 +21,6 @@ directiveApp.directive('onFinishRenderFilters', function ($timeout) {
     };
 });
 
-directiveApp.directive('onFinishRepeat', function ($timeout) {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attr) {
-            if (scope.$last === true) {
-                $timeout(function () {
-                    scope.$emit('onRepeatFinished');
-                });
-            }
-        }
-    };
-});
-
 directiveApp.directive('showDialog', function () {
     return {
         restrict: 'A',

@@ -5,55 +5,83 @@
             <li ui-sref-active="active"><a ui-sref="content.knowledge.chapter">按章节</a></li>
         </ul>
     </div>
-    <div class="exercise_btn">
-        <a class="topic_import" style="cursor:pointer" ng-click="changeItem(2)" show-dialog bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel"><em><i class="icon"></i></em><span>添加知识点</span></a>
-        <a class="topic_import" style="cursor:pointer" ng-click="changeItem(1)" show-dialog bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel"><em><i class="icon"></i></em><span>添加章节</span></a>
-    </div>
-</div>
-<p class="guide_word">点击左侧[章节]，查看该章节右侧关联知识点</p>
-<div class="knowledge_box" ui-view> 
-</div>
-
-<div class="pop_bg"></div>
-<div class="pop_400">
-    <h4>添加章节</h4>
-    <span class="icon close_pop"></span>
-    <div class="pop_wrap">
-        <div class="add_knowledge">
-            <div class="point_box" ng-show="itemType==1">
-                <label ng-bind="itemName"></label>
-                <input type="text">
-            </div>
-            <div class="point_box" ng-show="itemType==1">
-                <label>关联知识点</label>
-                <select>
-                    <option>请选择关联知识点</option>
-                    <option>请选择关联知识点</option>
-                </select>
-            </div> 
-            <div class="point_box" ng-show="itemType==2">
-                <label>知识点名称</label>
-                <input type="text">
-            </div> 
-            <div class="point_box" ng-show="itemType==2">
-                <label>关联章节</label>
-                <select>
-                    <option>请选择关联章节</option>
-                    <option>请选择关联章节</option>
-                </select>
-            </div>
-            <div class="point_box">
-                <label>重要程度</label>
-                <select>
-                    <option>请选择重要程度</option>
-                    <option>请选择重要程度</option>
-                </select>
-            </div>
+    <folder-list on-cancel="cancel()" on-selected="selected()"></folder-list>
+    @*<div class="pop_bg"></div>
+    <div class="pop_400">
+        <div class="select_box">
+            <input type="text" placeholder="请选择">
+            <span></span>
         </div>
+        <ul class="folder_list">
+            <li class="active"><a class="first_folder" href="#">文件夹名称</a></li>
+            <li>
+                <a class="first_folder" href="#">文件夹名称</a>
+                <ul class="second_folder">
+                    <li>
+                        <a href="#">二级文件夹名称</a>
+                    </li>
+                    <li><a href="#">二级文件夹名称</a></li>
+                    <li><a href="#">二级文件夹名称</a></li>
+                </ul>
+            </li>
+            <li><a class="first_folder" href="#">文件夹名称</a></li>
+            <li><a class="first_folder" href="#">文件夹名称</a></li>
+        </ul>
         <div class="btn_box">
             <a href="javascript:;" class="save">确定并继续</a>
             <a href="javascript:;" class="save">保存</a>
             <a href="javascript:;" class="cancel" ng-click="cancel()">取消</a>
-        </div>
+        </div> 
+    </div>*@
+    <div class="exercise_btn">
+        <a class="topic_import" style="cursor:pointer" ng-click="changeItem(2)" show-dialog bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel"><em><i class="icon"></i></em><span>添加知识点</span></a>
+        @*<a class="topic_import" style="cursor:pointer" ng-click="changeItem(1)" show-dialog bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel"><em><i class="icon"></i></em><span>添加章节</span></a>*@
     </div>
 </div>
+<p class="guide_word">点击左侧[章节]，查看该章节右侧关联知识点</p>
+<div class="knowledge_box" ui-view>
+</div>
+
+@*<div class="pop_bg"></div>
+    <div class="pop_400">
+        <h4>添加章节</h4>
+        <span class="icon close_pop"></span>
+        <div class="pop_wrap">
+            <div class="add_knowledge">
+                <div class="point_box" ng-show="itemType==1">
+                    <label ng-bind="itemName"></label>
+                    <input type="text">
+                </div>
+                <div class="point_box" ng-show="itemType==1">
+                    <label>关联知识点</label>
+                    <select>
+                        <option>请选择关联知识点</option>
+                        <option>请选择关联知识点</option>
+                    </select>
+                </div>
+                <div class="point_box" ng-show="itemType==2">
+                    <label>知识点名称</label>
+                    <input type="text">
+                </div>
+                <div class="point_box" ng-show="itemType==2">
+                    <label>关联章节</label>
+                    <select>
+                        <option>请选择关联章节</option>
+                        <option>请选择关联章节</option>
+                    </select>
+                </div>
+                <div class="point_box">
+                    <label>重要程度</label>
+                    <select>
+                        <option>请选择重要程度</option>
+                        <option>请选择重要程度</option>
+                    </select>
+                </div>
+            </div>
+            <div class="btn_box">
+                <a href="javascript:;" class="save">确定并继续</a>
+                <a href="javascript:;" class="save">保存</a>
+                <a href="javascript:;" class="cancel" ng-click="cancel()">取消</a>
+            </div>
+        </div>
+    </div>*@
