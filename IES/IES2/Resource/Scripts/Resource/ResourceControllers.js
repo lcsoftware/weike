@@ -270,16 +270,16 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $(this).removeClass('current');
         })
 
-        //$('.select_box').live('click', function () {
-        //    if (!$(this).hasClass('click')) {
-        //        $(this).addClass('click');
-        //        $('.folder_list').show();
-        //    } else {
-        //        $(this).removeClass('click');
-        //        $('.folder_list').hide();
-        //    }
+        $('.select_box').live('click', function () {
+            if (!$(this).hasClass('click')) {
+                $(this).addClass('click');
+                $('.folder_list').show();
+            } else {
+                $(this).removeClass('click');
+                $('.folder_list').hide();
+            }
 
-        //})
+        })
       
     });
 
