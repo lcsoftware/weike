@@ -1,0 +1,23 @@
+﻿<ul class="folder_list">
+    <li class="active"><a class="first_folder" href="#">文件夹名称</a></li>
+    <li>
+        <a class="first_folder" href="#">文件夹名称</a>
+        <ul class="second_folder">
+            <li>
+                <a href="#">二级文件夹名称</a>
+            </li>
+            <li><a href="#">二级文件夹名称</a></li>
+            <li><a href="#">二级文件夹名称</a></li>
+        </ul>
+    </li>
+    <li><a class="first_folder" href="#">文件夹名称</a></li>
+    <li><a class="first_folder" href="#">文件夹名称</a></li> 
+</ul>
+
+
+<script type="text/ng-template" id="mobile_renderer.html">
+    <a class="first_folder" href="#" ng-bind="item.FolderName"></a>
+    <ul class="second_folder">
+        <li ng-repeat="secondItem in item.Children"><a href="#" ng-bind="secondItem.FolderName"></a></li>
+    </ul>
+</script>

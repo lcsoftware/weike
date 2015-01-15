@@ -17,12 +17,11 @@ namespace App.Resource
             bundles.Add(new StyleBundle("~/content/css/app").Include(
                 //"~/Frameworks/bootstrap/css/bootstrap.min.css",
                 //"~/Frameworks/bootstrap/css/bootstrap-theme.min.css",
+                "~/Frameworks/angularTree/angular-ui-tree.min.css",
                 "~/Css/common.css",
                 "~/Css/footer.css",
                 "~/Css/resource.css",
-                //"~/Css/forum.css",
                 "~/Css/header.css",
-                //"~/Css/index.css",
                 "~/Css/side_left.css"));
 
             bundles.Add(new ScriptBundle("~/js/framework").Include(
@@ -30,7 +29,8 @@ namespace App.Resource
                 "~/Frameworks/bootstrap/js/bootstrap.min.js",
                 "~/Frameworks/angular/angular.js",
                 "~/Frameworks/angular/angular-cookies.js",
-                "~/Frameworks/angular/angular-ui-router.js"
+                "~/Frameworks/angularTree/angular-ui-tree.min.js",
+                "~/Frameworks/angular/angular-ui-router.js" 
                 ));
           
             bundles.Add(new ScriptBundle("~/js/app").Include(

@@ -133,6 +133,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Components\templates\folderList.html" />
     <Content Include="Css\app.css" />
     <Content Include="Css\common.css" />
     <Content Include="Css\construction.css" />
@@ -151,6 +152,8 @@
     <Content Include="DataProvider\Resource\ResourceProvider.aspx" />
     <Content Include="DataProvider\Shared\ContentProvider.aspx" />
     <Content Include="DataProvider\User\UserProvider.aspx" />
+    <Content Include="Frameworks\angularTree\angular-ui-tree.min.css" />
+    <Content Include="Frameworks\angularTree\angular-ui-tree.min.js" />
     <Content Include="Frameworks\angular\angular-animate.js" />
     <Content Include="Frameworks\angular\angular-animate.min.js" />
     <Content Include="Frameworks\angular\angular-cookies.js" />
@@ -414,6 +417,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Components\js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
