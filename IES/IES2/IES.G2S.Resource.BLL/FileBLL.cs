@@ -93,9 +93,9 @@ namespace IES.G2S.Resource.BLL
         /// <param name="PageSize"></param>
         /// <param name="PageIndex"></param>
         /// <returns></returns>
-        public List<File> File_Search( File file , int PageSize, int PageIndex)
+        public List<File> File_Search( File file )
         {
-            return FileDAL.File_Search( file , PageSize, PageIndex).ToList();
+            return FileDAL.File_Search( file ).ToList();
         }
 
 

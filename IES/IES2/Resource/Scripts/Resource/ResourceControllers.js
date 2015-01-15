@@ -97,7 +97,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     //单击文件夹名称方法,进入文件夹
     $scope.folderClick = function (item) {
         $scope.model.ParentID = item.FolderID;
-        
+
         $scope.filterChanged();
     }
 
@@ -108,9 +108,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                 $scope.folders = data.d;
             }
         });
-        var pageSize = 10;
-        var pageIndex = 1;
-        resourceService.File_Search($scope.model, pageSize, pageIndex, function (data) {
+        resourceService.File_Search($scope.model, function (data) {
             if (data.d) {
                 $scope.files = data.d;
             }
@@ -199,11 +197,11 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             for (var i = 0; i < length; i++) {
                 var folder = { FolderID: $scope.checksSelect[i].FolderID };
                 resourceService.Folder_Del(folder, function (data) {
-                    if(data.d)
+                    if (data.d)
                         $scope.filterChanged();
                 });
             }
-            
+
         }
     }
 
@@ -280,7 +278,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             }
 
         })
-      
+
     });
 
 
@@ -293,7 +291,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             } else {
                 $(this).removeClass('click');
                 $('.folder_list').hide();
-            } 
+            }
         });
 
         $('.folder_list li').hover(function () {

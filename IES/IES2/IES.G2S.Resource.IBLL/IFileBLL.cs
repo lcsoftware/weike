@@ -98,7 +98,7 @@ namespace IES.G2S.Resource.IBLL
         /// <param name="PageSize"></param>
         /// <param name="PageIndex"></param>
         /// <returns></returns>
-        List<File> File_Search(File model, int PageSize, int PageIndex);
+        List<File> File_Search(File model);
 
         #endregion
 

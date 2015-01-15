@@ -23,8 +23,8 @@ aService.factory('resourceService', ['httpService', function (httpService) {
         ajaxPost('Resource_Dict_ShareRange_Get', null, callback);
     }
     ///查询文件
-    service.File_Search = function (file, pageSize, pageIndex, callback) {
-        var param = { file: file, pageSize: pageSize, pageIndex: pageIndex };
+    service.File_Search = function (file, callback) {
+        var param = { file: file };
         ajaxPost('File_Search', param, callback);
     }    
     //删除文件

@@ -237,7 +237,7 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static List<File> File_Search(File file, int PageSize, int PageIndex)
+        public static List<File> File_Search(File file)
         {
             try
             {
@@ -252,8 +252,8 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@UploadTime", file.UploadTime);
                     p.Add("@ShareRange", file.ShareRange);
                     p.Add("@UserID", file.CreateUserID);
-                    p.Add("@PageSize", PageSize);
-                    p.Add("@PageIndex", PageIndex);
+                    //p.Add("@PageSize", PageSize);
+                    //p.Add("@PageIndex", PageIndex);
                     return conn.Query<File>("File_Search", p, commandType: CommandType.StoredProcedure).ToList();
                 }
             }

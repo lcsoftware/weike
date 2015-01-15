@@ -63,9 +63,9 @@ namespace App.Resource.DataProvider.Resource
         /// <param name="PageIndex"></param>
         /// <returns></returns>
         [WebMethod]
-        public static IList<File> File_Search(File file, int pageSize, int pageIndex)
+        public static IList<File> File_Search(File file)
         {
-            return new FileBLL().File_Search(file, pageSize, pageIndex);
+            return new FileBLL().File_Search(file);
         }
         /// <summary>
         /// 删除文件功能
@@ -100,20 +100,23 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static IList<Folder> Folder_List(Folder folder)
         {
-            folder.ParentID = -1;
+            //folder.ParentID = -1;
             IList<Folder> allFolders = new FileBLL().Folder_List(folder); 
             if (allFolders.Any())
             {
                 var newFolders = from v in allFolders where v.ParentID == 0 select v;
-                foreach (var item in newFolders)
+                if (newFolders.Count() > 0)
                 {
-                    var children = from v in allFolders where v.ParentID == item.FolderID select v;
-                    foreach (var child in children)
+                    foreach (var item in newFolders)
                     {
-                        item.Children.Add(child);
-                    }                    
+                        var children = from v in allFolders where v.ParentID == item.FolderID select v;
+                        foreach (var child in children)
+                        {
+                            item.Children.Add(child);
+                        }
+                    }
+                    return newFolders.ToList();
                 }
-                return newFolders.ToList();
             }
             return allFolders;
         }
