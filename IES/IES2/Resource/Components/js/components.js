@@ -66,65 +66,29 @@ app.directive('fileOperation', function () {
     directive.restrict = 'EA';
 
     directive.scope = {
-        onSelected: '&',
-        onCancel: '&'
+        onProperty: '&',
+        onRename: '&',
+        onDownload: '&',
+        onVideo: '&',
+        onRemove: '&'
     }
 
     directive.templateUrl = '/Components/templates/fileOperation.html';
+ 
+    directive.link = function (scope, elem, iAttrs) {
+        //弹出右键菜单
+        elem.find('.more_operation').hover(function () {
+            $(this).find('.mouse_right').toggle();
+        });
 
-    directive.compile = function () {
-        var c = {};
-
-        c.pre = function (scope, iElem, iAttrs) { 
-            //弹出右键菜单
-            $('.more_operation').hover(function () {
-                $(this).find('.mouse_right').toggle();
-            });
-
-            //$('.mouse_right li').hover(function () {
-            //    $(this).addClass('active').siblings().removeClass('active');
-            //    $(this).find('.right_obj').show();
-            //}, function () {
-            //    $(this).removeClass('active');
-            //    $(this).find('.right_obj').hide();
-            //});
-            console.log('pre' + iElem);
-        };
-
-        c.post = function (scope, iElem, iAttrs) {
-            //弹出右键菜单
-            //$('.more_operation').hover(function () {
-            //    $(this).find('.mouse_right').toggle();
-            //});
-            console.log('post' + iElem);
-            iElem.find('liA').hover(function () {
-                $(this).addClass('active').siblings().removeClass('active');
-                $(this).find('.right_obj').show();
-            }, function () {
-                $(this).removeClass('active');
-                $(this).find('.right_obj').hide();
-            });
-
-            iElem.find('liB').hover(function () {
-                $(this).addClass('active').siblings().removeClass('active');
-                $(this).find('.right_obj').show();
-            }, function () {
-                $(this).removeClass('active');
-                $(this).find('.right_obj').hide();
-            });
-            //$('.mouse_right li').hover(function () {
-            //    $(this).addClass('active').siblings().removeClass('active');
-            //    $(this).find('.right_obj').show();
-            //}, function () {
-            //    $(this).removeClass('active');
-            //    $(this).find('.right_obj').hide();
-            //});
-        }; 
-        return c;
-    }
-
-    directive.link = function (scope, iElem, iAttrs) {
-        console.log('link');
+        //右键菜单表现形式
+        elem.find('.mouse_right li').hover(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+            $(this).find('.right_obj').show();
+        }, function () {
+            $(this).removeClass('active');
+            $(this).find('.right_obj').hide();
+        });
     }
 
     return directive;

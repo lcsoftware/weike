@@ -207,7 +207,13 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     load();
 
+    $scope.fireProperty = function () {
+        console.log('fireProperty');
+    }
 
+    $scope.fireRemove = function (item) {
+        console.log(item);
+    }
 
     $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
         //下面是在table render完成后执行的js
