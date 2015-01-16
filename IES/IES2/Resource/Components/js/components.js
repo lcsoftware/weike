@@ -93,3 +93,75 @@ app.directive('fileOperation', function () {
 
     return directive;
 });
+
+app.directive('addKnowledge', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.scope = {
+        name: '=',
+        chapter: '=',
+        chapters: '=',
+        importance: '=',
+        importances: '=',
+        onSaveAdd: '&',
+        onSave: '&',
+        onCancel: '&'
+    }
+
+    directive.templateUrl = '/Components/templates/addKnowledge.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        //弹出右键菜单
+        var oHeight = $(document).height();
+        var oScroll = $(window).scrollTop();
+        var bgCls = '.' + scope.bgClass;
+        var popCls = '.' + scope.popClass;
+        elem.find('.pop_bg').show().css('height', oHeight);
+        elem.find('.pop_400').show().css('top', oScroll + 200);
+
+
+        elem.find('#btnCancel,#btnSave').bind('click', function () {
+            elem.hide();
+        }) 
+    }
+
+    return directive;
+});;
+
+
+app.directive('addChapter', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.scope = {
+        name: '=',
+        knowledge: '=',
+        knowledges: '=',
+        importance: '=',
+        importances: '=',
+        onSaveAdd: '&',
+        onSave: '&',
+        onCancel: '&'
+    }
+
+    directive.templateUrl = '/Components/templates/addChapter.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        //弹出右键菜单
+        var oHeight = $(document).height();
+        var oScroll = $(window).scrollTop();
+        var bgCls = '.' + scope.bgClass;
+        var popCls = '.' + scope.popClass;
+        elem.find('.pop_bg').show().css('height', oHeight);
+        elem.find('.pop_400').show().css('top', oScroll + 200); 
+
+        elem.find('#btnCancel,#btnSave').bind('click', function () {
+            elem.hide();
+        })
+    }
+
+    return directive;
+});

@@ -4,38 +4,12 @@
             <li ui-sref-active="active"><a ui-sref="content.knowledge.topic">按知识点</a></li>
             <li ui-sref-active="active"><a ui-sref="content.knowledge.chapter">按章节</a></li>
         </ul>
-    </div>
-    <folder-list on-cancel="cancel()" on-selected="selected()"></folder-list>
-    @*<div class="pop_bg"></div>
-    <div class="pop_400">
-        <div class="select_box">
-            <input type="text" placeholder="请选择">
-            <span></span>
-        </div>
-        <ul class="folder_list">
-            <li class="active"><a class="first_folder" href="#">文件夹名称</a></li>
-            <li>
-                <a class="first_folder" href="#">文件夹名称</a>
-                <ul class="second_folder">
-                    <li>
-                        <a href="#">二级文件夹名称</a>
-                    </li>
-                    <li><a href="#">二级文件夹名称</a></li>
-                    <li><a href="#">二级文件夹名称</a></li>
-                </ul>
-            </li>
-            <li><a class="first_folder" href="#">文件夹名称</a></li>
-            <li><a class="first_folder" href="#">文件夹名称</a></li>
-        </ul>
-        <div class="btn_box">
-            <a href="javascript:;" class="save">确定并继续</a>
-            <a href="javascript:;" class="save">保存</a>
-            <a href="javascript:;" class="cancel" ng-click="cancel()">取消</a>
-        </div> 
-    </div>*@
+    </div> 
+    <add-knowledge id="eByKnowledge" style="display:none;"></add-knowledge>
+    <add-chapter id="eByChapter" style="display:none;"></add-chapter>
     <div class="exercise_btn">
-        <a class="topic_import" style="cursor:pointer" ng-click="changeItem(2)" show-dialog bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel"><em><i class="icon"></i></em><span>添加知识点</span></a>
-        @*<a class="topic_import" style="cursor:pointer" ng-click="changeItem(1)" show-dialog bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel"><em><i class="icon"></i></em><span>添加章节</span></a>*@
+        <a class="topic_import" style="cursor:pointer" dialog-show dialog-id="eByKnowledge"><em><i class="icon"></i></em><span>添加知识点</span></a>
+        <a class="topic_import" style="cursor:pointer" dialog-show dialog-id="eByChapter"><em><i class="icon"></i></em><span>添加章节</span></a>
     </div>
 </div>
 <p class="guide_word">点击左侧[章节]，查看该章节右侧关联知识点</p>

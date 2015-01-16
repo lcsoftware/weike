@@ -33,6 +33,10 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', function ($scop
     $scope.save = function () {
 
     } 
+
+    $scope.dddd = function () {
+        $()
+    }
 }]);
 
 appKnow.controller('KnowChapterCtrl', ['$scope', 'contentService', function ($scope, contentService) {

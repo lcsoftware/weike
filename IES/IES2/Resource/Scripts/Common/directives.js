@@ -21,6 +21,21 @@ directiveApp.directive('onFinishRenderFilters', function ($timeout) {
     };
 });
 
+directiveApp.directive('dialogShow', function () {
+    return {
+        restrict: 'EA',
+        scope: {
+            dialogId: '@'
+        },
+        link: function (scope, element, attrs) {
+            element.bind('click', function () {
+                var elem = '#' + scope.dialogId;
+                $(elem ).show();
+            });
+        }
+    }
+});
+
 directiveApp.directive('showDialog', function () {
     return {
         restrict: 'A',
