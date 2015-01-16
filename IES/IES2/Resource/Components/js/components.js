@@ -20,7 +20,7 @@ app.directive('folderList', function () {
     directive.compile = function () {
         var c = {};
 
-        c.pre = function(scope, iElem, iAttrs){
+        c.pre = function (scope, iElem, iAttrs) {
             $('.cancel').bind('click', function () {
                 console.log('33333333333333333');
             });
@@ -33,8 +33,8 @@ app.directive('folderList', function () {
                     $(this).removeClass('click');
                     $('.folder_list').hide();
                     directive.scope.itemName = 'fffff';
-                } 
-            }); 
+                }
+            });
 
             $('.folder_list li').hover(function () {
                 $(this).addClass('active').siblings().removeClass('active');
@@ -48,11 +48,11 @@ app.directive('folderList', function () {
 
         };
 
-        c.post = function(scope, iElem, iAttrs){
-           
+        c.post = function (scope, iElem, iAttrs) {
+
         };
 
-        return c; 
+        return c;
     }
 
     return directive;
@@ -74,7 +74,7 @@ app.directive('fileOperation', function () {
     }
 
     directive.templateUrl = '/Components/templates/fileOperation.html';
- 
+
     directive.link = function (scope, elem, iAttrs) {
         //弹出右键菜单
         elem.find('.more_operation').hover(function () {
@@ -124,7 +124,7 @@ app.directive('addKnowledge', function () {
 
         elem.find('#btnCancel,#btnSave').bind('click', function () {
             elem.hide();
-        }) 
+        })
     }
 
     return directive;
@@ -156,11 +156,35 @@ app.directive('addChapter', function () {
         var bgCls = '.' + scope.bgClass;
         var popCls = '.' + scope.popClass;
         elem.find('.pop_bg').show().css('height', oHeight);
-        elem.find('.pop_400').show().css('top', oScroll + 200); 
+        elem.find('.pop_400').show().css('top', oScroll + 200);
 
         elem.find('#btnCancel,#btnSave').bind('click', function () {
             elem.hide();
         })
+    }
+
+    return directive;
+});
+
+app.directive('folder', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.scope = {
+        onOpen: '&',
+        onBlur: '&',
+        folderName: '='
+    }
+
+    directive.templateUrl = '/Components/templates/folder.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        //重命名表现形式
+        elem.find('.data_tit').live('dblclick', function () {
+            $(this).hide();
+            $(this).next().show().select();
+        });
     }
 
     return directive;
