@@ -115,6 +115,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         });
     }
     $scope.updFolderName = function (item) {
+        console.log('updFolderName', item);
         //新建
         if (item.FolderID == 0) {
             var folder = { FolderName: item.FolderName, ParentID: $scope.model.ParentID };

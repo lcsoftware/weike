@@ -135,6 +135,7 @@
   <ItemGroup>
     <Content Include="Components\js\components.js" />
     <Content Include="Components\templates\fileOperation.html" />
+    <Content Include="Components\templates\folder.html" />
     <Content Include="Components\templates\folderList.html" />
     <Content Include="Css\app.css" />
     <Content Include="Css\common.css" />

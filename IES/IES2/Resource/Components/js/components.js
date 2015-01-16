@@ -93,3 +93,28 @@ app.directive('fileOperation', function () {
 
     return directive;
 });
+
+
+app.directive('folder', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.scope = {
+        onOpen: '&',
+        onBlur: '&',
+        folderName: '='
+    }
+
+    directive.templateUrl = '/Components/templates/folder.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        //重命名表现形式
+        elem.find('.data_tit').live('dblclick', function () {
+            $(this).hide();
+            $(this).next().show().select();
+        }); 
+    }
+
+    return directive;
+});
