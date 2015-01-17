@@ -8,8 +8,8 @@
         <a class="icon delete_icon" href="javascript:;"></a>
     </div>
     <ul class="chapter_item">
-        <li class="active">
-            <a class="first_chapter" href="javascript:;">第一章 如何设计一门混合式课程<i class="icon fold_btn"></i></a>
+        <li class="active" ng-repeat="chapter in chapters">
+            <a class="first_chapter" href="javascript:;" ng-bind="chapter.title"><i class="icon fold_btn"></i></a>
             <ul class="second_item">
                 <li><a class="first_chapter" href="javascript:;">1.1 混合式教学的简要说明</a></li>
                 <li><a class="first_chapter" href="javascript:;">1.2 学生眼中的好老师</a></li>

@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,select,textarea,p,blockquote,th,td,hr,button,figure,menu{margin:0;padding:0;}
 body{font:12px/22px Tahoma,Arial,\5b8b\4f53,sans-serif;}
@@ -11,8 +11,8 @@ a{ text-decoration:none;}a:hover{ text-decoration: none;}
 body{ font-family:'Microsoft YaHei';}
 
 /*公用图片icon样式*/
-.icon{ display:inline-block; width:16px; height:16px; background:url(../images/icon_index.png) no-repeat;}
-.icon_24{ display:inline-block; width:24px; height:24px; background:url(../images/icon_24.png) no-repeat;}
+.icon{ display:inline-block; width:16px; height:16px; background:url(/images/icon_index.png) no-repeat;}
+.icon_24{ display:inline-block; width:24px; height:24px; background:url(/images/icon_24.png) no-repeat;}
 .backto_top{ display:block; width:40px; height:40px; position:fixed; bottom:60px; left:50%; margin-left:610px; background-position:-69px -40px;}
 
 /*框架*/

@@ -150,10 +150,12 @@
     <Content Include="Css\reverse.css" />
     <Content Include="Css\side_left.css" />
     <Content Include="DataProvider\Authority\AuthProvider.aspx" />
+    <Content Include="DataProvider\Chapter\ChapterProvider.aspx" />
     <Content Include="DataProvider\Exercise\ExerciseProvider.aspx" />
     <Content Include="DataProvider\Knowledge\KnowProvider.aspx" />
     <Content Include="DataProvider\Paper\PaperProvider.aspx" />
     <Content Include="DataProvider\Resource\ResourceProvider.aspx" />
+    <Content Include="DataProvider\Shared\AssistProvider.aspx" />
     <Content Include="DataProvider\Shared\ContentProvider.aspx" />
     <Content Include="DataProvider\User\UserProvider.aspx" />
     <Content Include="Frameworks\angularTree\angular-ui-tree.min.css" />
@@ -202,6 +204,10 @@
     <Content Include="Images\add_bg.gif" />
     <Content Include="Images\add_bg_hover.gif" />
     <Content Include="Images\add_new.jpg" />
+    <Content Include="Images\banmian1.jpg" />
+    <Content Include="Images\banmian2.jpg" />
+    <Content Include="Images\banmian3.jpg" />
+    <Content Include="Images\big_pie.png" />
     <Content Include="Images\btn_list.gif" />
     <Content Include="Images\company_logo.png" />
     <Content Include="Images\company_logo2.png" />
@@ -221,6 +227,7 @@
     <Content Include="Images\icon_mooc.png" />
     <Content Include="Images\icon_reverse.png" />
     <Content Include="Images\left_bg.gif" />
+    <Content Include="Images\lock.png" />
     <Content Include="Images\main_bg.gif" />
     <Content Include="Images\main_bg2.gif" />
     <Content Include="Images\menuLineBg.png" />
@@ -229,29 +236,37 @@
     <Content Include="Images\module2.gif" />
     <Content Include="Images\module3.gif" />
     <Content Include="Images\no_discuss.gif" />
+    <Content Include="Images\pie.png" />
+    <Content Include="Images\pie2.png" />
+    <Content Include="Images\pie_hover.png" />
     <Content Include="Images\preview_banner.jpg" />
     <Content Include="Images\preview_bg.jpg" />
     <Content Include="Images\quote_l.gif" />
     <Content Include="Images\quote_r.gif" />
+    <Content Include="Images\resource_btn.gif" />
     <Content Include="Images\round.png" />
     <Content Include="Images\round_hover.png" />
     <Content Include="Images\side_left.gif" />
     <Content Include="Images\small.png" />
     <Content Include="Images\small_click.png" />
     <Content Include="Images\smile.png" />
+    <Content Include="Images\smile2.png" />
+    <Content Include="Images\tag1.png" />
+    <Content Include="Images\tag2.png" />
     <Content Include="Images\text_box.jpg" />
     <Content Include="Images\text_box2.jpg" />
     <Content Include="Images\text_box3.jpg" />
     <Content Include="Images\text_box4.jpg" />
     <Content Include="Images\text_box5.jpg" />
     <Content Include="Images\tip_text.png" />
+    <Content Include="Images\unlock.png" />
     <Content Include="Images\version_btn.png" />
     <Content Include="Images\yuan.png" />
     <Content Include="Images\yuan_hover.png" />
     <Content Include="login.aspx" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\Authority\AuthService.js" />
-    <Content Include="Scripts\Common\assistant.js" />
+    <Content Include="Scripts\Chapter\ChapterService.js" />
     <Content Include="Scripts\Common\directives.js" />
     <Content Include="Scripts\Common\filters.js" />
     <Content Include="Scripts\Common\services.js" />
@@ -268,6 +283,7 @@
     <Content Include="Scripts\Resource\ResourceService.js" />
     <Content Include="Scripts\Shared\ContentControllers.js" />
     <Content Include="Scripts\Shared\ContentService.js" />
+    <Content Include="Scripts\Shared\AssistService.js" />
     <Content Include="Scripts\User\UserControllers.js" />
     <Content Include="Scripts\User\UserService.js" />
     <Content Include="apple-touch-icon-precomposed.png" />
@@ -317,6 +333,13 @@
     <Compile Include="DataProvider\Authority\AuthProvider.aspx.designer.cs">
       <DependentUpon>AuthProvider.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DataProvider\Chapter\ChapterProvider.aspx.cs">
+      <DependentUpon>ChapterProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Chapter\ChapterProvider.aspx.designer.cs">
+      <DependentUpon>ChapterProvider.aspx</DependentUpon>
+    </Compile>
     <Compile Include="DataProvider\Exercise\ExerciseProvider.aspx.cs">
       <DependentUpon>ExerciseProvider.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -344,6 +367,13 @@
     </Compile>
     <Compile Include="DataProvider\Resource\ResourceProvider.aspx.designer.cs">
       <DependentUpon>ResourceProvider.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\Shared\AssistProvider.aspx.cs">
+      <DependentUpon>AssistProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Shared\AssistProvider.aspx.designer.cs">
+      <DependentUpon>AssistProvider.aspx</DependentUpon>
     </Compile>
     <Compile Include="DataProvider\Shared\ContentProvider.aspx.cs">
       <DependentUpon>ContentProvider.aspx</DependentUpon>

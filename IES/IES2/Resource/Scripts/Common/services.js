@@ -2,6 +2,10 @@
 
 var aService = angular.module('app.common.services', ['ngCookies']);
 
+aService.value('version', '0.1');
+
+aService.constant('appName', 'IES')
+
 ///XHR调用
 aService.factory('httpService', ['$http', '$q', function ($http, $q) {
 
@@ -10,6 +14,12 @@ aService.factory('httpService', ['$http', '$q', function ($http, $q) {
     service.get = function (url, thenFn) {
         $http.get(url).then(thenFn);
     }
+
+    service.ajaxPost = function (url, method, param, callback) {
+        var url = url + '/' + method;
+        service.post(url, param, callback);
+    }
+
     //异步post
     service.post = function (url, param, thenFn, errFn) {
         $http.post(url, param)

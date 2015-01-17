@@ -2,12 +2,12 @@
     <div class="pop_bg"></div>
     <div class="pop_400">
         <h4>添加知识点</h4>
-        <span class="icon close_pop"></span>
+        <span class="icon close_pop" ng-click="onCancel()"></span>
         <div class="pop_wrap">
             <div class="add_knowledge">
                 <div class="point_box">
                     <label>知识点名称</label>
-                    <input type="text" ng-model="name">
+                    <input type="text" ng-model="knowledge" required>
                 </div>
                 <div class="point_box">
                     <label>关联章节</label>

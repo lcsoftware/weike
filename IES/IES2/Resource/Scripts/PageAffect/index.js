@@ -346,16 +346,16 @@ $(function(){
 	})
 	
 	//弹出层方法
-	function tanchu(popbox){
-		var oHeight = $(document).height();
-		var oScroll = $(window).scrollTop();
-		$('.pop_bg').show().css('height',oHeight);
-		popbox.show().css('top',oScroll+200);
-	}
+	//function tanchu(popbox){
+	//	var oHeight = $(document).height();
+	//	var oScroll = $(window).scrollTop();
+	//	$('.pop_bg').show().css('height',oHeight);
+	//	popbox.show().css('top',oScroll+200);
+	//}
 	//关闭弹出层
-	$('.close_pop').live('click',function(){
-		$('.pop_bg,.pop_400,.pop_600,.pop_800').hide();
-	})
+	//$('.close_pop').live('click',function(){
+	//	$('.pop_bg,.pop_400,.pop_600,.pop_800').hide();
+	//})
 	
 	/*$('.function_add').live('click',function(){
 		tanchu($('.pop_600'));		

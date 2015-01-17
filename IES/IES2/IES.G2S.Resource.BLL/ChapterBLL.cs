@@ -31,5 +31,10 @@ namespace IES.G2S.Resource.BLL
             return ChapterDAL.Chapter_Upd(model);
         }
 
+        public Chapter Chapter_Get()
+        {
+            return new Chapter();
+        }
+
     }
 }

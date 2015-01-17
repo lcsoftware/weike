@@ -4,12 +4,9 @@
 @using IES.SYS.Model;
 @using IES.G2S.SYS.BLL;
 @using IES.Service;
-
-@{
-    List<Menu> LeftMenu = AuService.Menu_Left_List("B2", 2);
-
-}
-
+ @{
+    List<Menu> LeftMenu = AuService.Menu_Left_List("B2", 2); 
+} 
 <div class="main_all main_course">
     <!--首页左边模块开始-->
     <div class="side_left">
@@ -53,7 +50,7 @@
         <div class="coursesite_box"> 
             <div class="exercise_nav">
                 <ul class="exercise_nav_list">
-                    <li ng-repeat="chapter in chapters" ng-class="{active:chapterSelection==chapter.OCID}"><a class="first_nav" style="cursor:pointer" ng-click="chapterChanged(chapter);" ng-bind="chapter.Name"></a></li>
+                    <li ng-repeat="course in courses" ng-class="{active:courseSelection==course.OCID}"><a class="first_nav" style="cursor:pointer" ng-click="courseChanged(chapter);" ng-bind="course.Name"></a></li>
                 </ul>
             </div>
             <div ui-view></div>

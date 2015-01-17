@@ -1,10 +1,14 @@
 ﻿'use strict';
 
 var appKnow = angular.module('app.knowledge.controllers', [
-    'app.content.services'
+    'app.content.services',
+    'app.chapter.services',
+    'app.knowledge.services',
+    'app.assist.services',
 ]);
 
-appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', function ($scope, contentService) {
+appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeService', 'chapterService', 'assistService',
+    function ($scope, contentService, knowledgeService, chapterService, assistService) {
 
     ///初始化课程
     contentService.User_OC_List(function (data) {
@@ -14,48 +18,66 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', function ($scop
         }
     });
 
-    $scope.item = {};
-    $scope.itemName = 'ssss';
-    $scope.itemType = 1;
-    $scope.changeItem = function (itemType) {
-        $scope.itemType = itemType;
-        $scope.itemName = itemType === 2 ? "知识点名称" : "章节名称";
+    /// 添加知识点
+    $scope.importances = [];
+    $scope.importance = {};
+
+    assistService.getImportances(function (data) {
+        if (data.length > 0) {
+            $scope.importances = data;
+            $scope.importance = $scope.importances[0];
+        }
+    });
+
+    $scope.knowledge = {};
+    $scope.knowledge.name = '';
+    $scope.knowledge.chapter = {};
+    $scope.knowledge.chapters = [];
+
+    chapterService.init_ChapterList(function (data) {
+        if (data.d && data.d.length > 0) { 
+            $scope.knowledge.chapters = data.d; 
+            $scope.knowledge.chapter = $scope.knowledge.chapters[0];
+        }
+    });
+
+    $scope.knowledge.save = function () {
+        console.log('save fired');
+    }
+    $scope.knowledge.saveNew = function () {
+        console.log('saveNew fired');
+    }
+    $scope.knowledge.cancel = function () {
+        $scope.knowledge = {};
     }
 
-    $scope.cancel = function () {
-        console.log('cancel fired!');
+    $scope.chapter = {};
+    $scope.chapter.name = 'sss';
+    $scope.chapter.knowledge = {};
+    $scope.chapter.knowledges = [];
+
+    $scope.chapter.save = function () {
+        console.log('save fired');
     }
-
-    $scope.selected = function () {
-        console.log('selected fired!'); 
+    $scope.chapter.saveNew = function () {
+        console.log('saveNew fired');
     }
-
-    $scope.save = function () {
-
-    } 
-
-    $scope.dddd = function () {
-        $()
+    $scope.chapter.cancel = function () {
+        console.log('cancel fired');
     }
+    /// end 添加知识点
+
 }]);
 
 appKnow.controller('KnowChapterCtrl', ['$scope', 'contentService', function ($scope, contentService) {
- 
-   
 
-    $scope.$on('willChapterChanged', function (event, chapter) {
-        contentService.Chapter_List(chapter, function (data) {
-            if (data) {
-                $scope.chapters = data.d;
-            }
-        });
+    $scope.$on('willCourseChanged', function (event, course) {
     });
 }]);
 
 appKnow.controller('KnowTopicCtrl', ['$scope', 'PaperService', function ($scope, PaperService) {
 
-    $scope.$on('chapterChanged', function (event, chapter) {
-
+    $scope.$on('willCourseChanged', function (event, course) {
     });
 }]);
 

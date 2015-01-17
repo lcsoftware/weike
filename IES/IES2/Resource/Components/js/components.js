@@ -2,63 +2,6 @@
 
 var app = angular.module('app.custom.directives', []);
 
-app.directive('folderList', function () {
-    var directive = {};
-
-    directive.restrict = 'EA';
-
-    directive.scope = {
-        itemName: '@',
-        onSelected: '&',
-        onCancel: '&'
-    }
-
-    directive.replace = true;
-
-    directive.templateUrl = '/Components/templates/folderList.html';
-
-    directive.compile = function () {
-        var c = {};
-
-        c.pre = function (scope, iElem, iAttrs) {
-            $('.cancel').bind('click', function () {
-                console.log('33333333333333333');
-            });
-
-            $('.select_box').live('click', function () {
-                if (!$(this).hasClass('click')) {
-                    $(this).addClass('click');
-                    $('.folder_list').show();
-                } else {
-                    $(this).removeClass('click');
-                    $('.folder_list').hide();
-                    directive.scope.itemName = 'fffff';
-                }
-            });
-
-            $('.folder_list li').hover(function () {
-                $(this).addClass('active').siblings().removeClass('active');
-            }, function () {
-                $(this).removeClass('active');
-            });
-
-            $('li a').bind('click', function () {
-                $('.select_box').click();
-            });
-
-        };
-
-        c.post = function (scope, iElem, iAttrs) {
-
-        };
-
-        return c;
-    }
-
-    return directive;
-});
-
-
 
 app.directive('fileOperation', function () {
     var directive = {};
@@ -100,12 +43,12 @@ app.directive('addKnowledge', function () {
     directive.restrict = 'EA';
 
     directive.scope = {
-        name: '=',
+        knowledge: '=',
         chapter: '=',
         chapters: '=',
         importance: '=',
         importances: '=',
-        onSaveAdd: '&',
+        onSaveNew: '&',
         onSave: '&',
         onCancel: '&'
     }
@@ -122,9 +65,9 @@ app.directive('addKnowledge', function () {
         elem.find('.pop_400').show().css('top', oScroll + 200);
 
 
-        elem.find('#btnCancel,#btnSave').bind('click', function () {
+        elem.find('#btnCancel,#btnSave,.close_pop').bind('click', function () {
             elem.hide();
-        })
+        }) 
     }
 
     return directive;
@@ -137,12 +80,12 @@ app.directive('addChapter', function () {
     directive.restrict = 'EA';
 
     directive.scope = {
-        name: '=',
+        chapter: '=',
         knowledge: '=',
         knowledges: '=',
         importance: '=',
         importances: '=',
-        onSaveAdd: '&',
+        onSaveNew: '&',
         onSave: '&',
         onCancel: '&'
     }

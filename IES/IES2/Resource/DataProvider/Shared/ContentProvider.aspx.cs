@@ -27,21 +27,6 @@ namespace App.Resource.DataProvider.Shared
         {
             var user = UserService.CurrentUser;
             return UserService.User_OC_List(user);
-        }
-        #region Chapter
-
-        [WebMethod]
-        public static IList<Chapter> Chapter_List(Chapter model)
-        {
-            return new ChapterBLL().Chapter_List(model);
-        }
-
-        [WebMethod]
-        public static Chapter Chapter_Get()
-        {
-            return new Chapter();
-        }
-
-        #endregion
+        } 
     }
 }

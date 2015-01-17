@@ -15,9 +15,11 @@ namespace IES.G2S.Resource.BLL
     /// 知识点
     /// </summary>
     public class KenBLL : IKenBLL
-    {
-
-
+    { 
+        public IList<Ken> Ken_List(Ken model)
+        {
+            return KenDAL.Ken_List(model);
+        }
         public bool Ken_Del( Ken model)
         {
             return KenDAL.Ken_Del(model);
