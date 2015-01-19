@@ -18,6 +18,7 @@ namespace App.Resource
                 //"~/Frameworks/bootstrap/css/bootstrap.min.css",
                 //"~/Frameworks/bootstrap/css/bootstrap-theme.min.css",
                 "~/Frameworks/angularTree/angular-ui-tree.min.css",
+                "~/Css/app.css",
                 "~/Css/common.css",
                 "~/Css/footer.css",
                 "~/Css/resource.css",
