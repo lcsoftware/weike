@@ -5,11 +5,15 @@ var contentApp = angular.module('app.content.services', []);
 contentApp.factory('contentService', ['httpService', function (httpService) {
     var service = {};
 
+    var url = '/DataProvider/Shared/ContentProvider.aspx';
+
     ///在线课程列表
     service.User_OC_List = function (callback) {
-        var url = '/DataProvider/Shared/ContentProvider.aspx/User_OC_List';
-        httpService.post(url, null, callback);
-    } 
+        httpService.ajaxPost(url, 'User_OC_List', null, callback);
+    }
 
+    service.OC_Get = function (callback) {
+        httpService.ajaxPost(url, 'OC_Get', null, callback);
+    }
     return service;
 }]);

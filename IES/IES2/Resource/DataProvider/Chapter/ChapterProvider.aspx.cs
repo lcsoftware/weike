@@ -31,7 +31,7 @@ namespace App.Resource.DataProvider.Chapter
             return new ChapterBLL().Chapter_Get();
         }
         [WebMethod]
-        public static bool Chapter_ADD(Chapter model)
+        public static Chapter Chapter_ADD(Chapter model)
         {
             return new ChapterBLL().Chapter_ADD(model);
         }

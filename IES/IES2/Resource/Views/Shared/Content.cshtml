@@ -50,7 +50,7 @@
         <div class="coursesite_box"> 
             <div class="exercise_nav">
                 <ul class="exercise_nav_list">
-                    <li ng-repeat="course in courses" ng-class="{active:courseSelection==course.OCID}"><a class="first_nav" style="cursor:pointer" ng-click="courseChanged(chapter);" ng-bind="course.Name"></a></li>
+                    <li ng-repeat="course in courses" ng-class="{active:currentCourse.CourseID == course.CourseID}"><a class="first_nav" style="cursor:pointer" ng-click="courseChanged(course);" ng-bind="course.Name"></a></li>
                 </ul>
             </div>
             <div ui-view></div>

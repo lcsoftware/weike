@@ -22,7 +22,7 @@ namespace IES.G2S.Resource.IBLL
         #region  新增
 
 
-        bool Chapter_ADD(Chapter model);
+        Chapter Chapter_ADD(Chapter model);
 
 
         #endregion

@@ -15,6 +15,10 @@ aService.factory('chapterService', ['httpService', function (httpService) {
         httpService.ajaxPost(chapterProviderUrl, 'Chapter_List', { model: model }, callback);
     }
 
+    service.Chapter_ADD = function (model, callback) {
+        httpService.ajaxPost(chapterProviderUrl, 'Chapter_ADD', { model: model }, callback);
+    }
+
     service.init_ChapterList = function (callback) {
         service.Chapter_Get(function (data) {
             var model = data.d;

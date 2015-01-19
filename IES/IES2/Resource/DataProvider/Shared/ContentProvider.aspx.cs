@@ -27,6 +27,12 @@ namespace App.Resource.DataProvider.Shared
         {
             var user = UserService.CurrentUser;
             return UserService.User_OC_List(user);
+        }
+
+        [WebMethod]
+        public static OC OC_Get()
+        {
+            return new OC();
         } 
     }
 }

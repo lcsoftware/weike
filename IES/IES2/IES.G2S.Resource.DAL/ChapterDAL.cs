@@ -112,7 +112,7 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static bool  Chapter_ADD(Chapter model)
+        public static Chapter Chapter_ADD(Chapter model)
         {
             try
             {
@@ -128,12 +128,12 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@ParentID", model.ParentID );
                     conn.Execute("Chapter_ADD", p, commandType: CommandType.StoredProcedure);
                     model.ChapterID = p.Get<int>("ChapterID");
-                    return true;
+                    return model;
                 }
             }
             catch (Exception e)
             {
-                return false ;
+                return null;
             }
 
         }

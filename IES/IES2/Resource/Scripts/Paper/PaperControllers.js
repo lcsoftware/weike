@@ -8,6 +8,8 @@ var appPaper = angular.module('app.paper.controllers', [
 
 appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', 'contentService', 'pageService', function ($scope, PaperService, contentService, pageService) {
 
+    $scope.$emit('willResetCourse');
+
     $scope.searchKey = '';
 
     $scope.model = {};
@@ -16,12 +18,6 @@ appPaper.controller('PaperListCtrl', ['$scope', 'PaperService', 'contentService'
     $scope.paperTypeFilters = [];
     $scope.shareRangeFilters = [];
 
-    contentService.User_OC_List(function (data) {
-        if (data.d) {
-            $scope.$parent.chapters = data.d;
-            $scope.$parent.chapterSelection = data.d[0].OCID;
-        }
-    });
 
     $scope.typeChanged = function (v) {
         $scope.model.Type = v;

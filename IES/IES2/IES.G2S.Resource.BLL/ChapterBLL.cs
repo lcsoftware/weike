@@ -21,7 +21,7 @@ namespace IES.G2S.Resource.BLL
             return ChapterDAL.Chapter_Del(model);
         }
 
-        public bool Chapter_ADD(Chapter model)
+        public Chapter Chapter_ADD(Chapter model)
         {
             return ChapterDAL.Chapter_ADD(model);
         }

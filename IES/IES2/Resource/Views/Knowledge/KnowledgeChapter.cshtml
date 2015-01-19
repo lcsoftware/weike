@@ -1,6 +1,6 @@
 ﻿<div class="chapter_knowledge">
     <div class="chapter_btn">
-        <a class="icon_con add_btn" href="javascript:;"></a>
+        <a class="icon_con add_btn" ng-click="addChapter();"></a>
         <a class="icon_con up_btn" href="javascript:;"></a>
         <a class="icon_con down_btn" href="javascript:;"></a>
         <a class="icon_con right_btn" href="javascript:;"></a>
@@ -9,12 +9,16 @@
     </div>
     <ul class="chapter_item">
         <li class="active" ng-repeat="chapter in chapters">
-            <a class="first_chapter" ng-bind="chapter.title"><i class="icon fold_btn"></i></a>
+            <a class="first_chapter" ng-bind="chapter.Title"><i class="icon fold_btn"></i></a>
             <ul class="second_item">
                 <li ui-sref-active="active" ng-repeat="child in chapters | chapterParent:chapter"><a class="first_chapter" href="javascript:;" ng-bind="child.title"></a></li>
             </ul>
         </li> 
-        <li ng-show="canEdit"><a class="first_chapter" href="javascript:;">第六章 <input type="text" ng-model="newChapterTitle"></a></li>
+        <li ng-show="canEdit">
+            <a class="first_chapter" href="javascript:;">
+                <input type="text" ng-model="title" placeholder="请输入章节标题" ng-blur="onBlur(title)">
+            </a>
+        </li>
     </ul>
 </div>
 
@@ -23,9 +27,9 @@
         <a ui-sref-active="active" ui-sref="" ng-repeat="knowledge in knowledges" ng-bind="knowledge.title"></a>
     </div>
     <ul class="chapter_list">
-        <li ui-sref-active="active"><a ui-sref="">关联资料</a></li>
+        @*<li ui-sref-active="active"><a ui-sref="">关联资料</a></li>
         <li ui-sref-active="active"><a ui-sref="">关联习题</a></li>
-        <li ui-sref-active="active"><a ui-sref="">关联话题</a></li> 
+        <li ui-sref-active="active"><a ui-sref="">关联话题</a></li>*@ 
     </ul>
     <div class="connect_item">
         <table class="data_list">
