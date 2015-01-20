@@ -344,6 +344,22 @@ $(function(){
 	$('.links_list li').click(function(){
 		$(this).addClass('active').siblings().removeClass('active');	
 	})
+
+	$('.batch_list li').hover(function () {
+	    $(this).addClass('active').siblings().removeClass('active');
+	}, function () {
+	    $(this).removeClass('active');
+	})
+	$('.batch_list li').hover(function () {
+	    $(this).addClass('active').siblings().removeClass('active');
+	}, function () {
+	    $(this).removeClass('active');
+	})
+	$('.permissions li').hover(function () {
+	    $(this).addClass('current').siblings().removeClass('current');
+	}, function () {
+	    $(this).removeClass('current');
+	})
 	
 	//弹出层方法
 	//function tanchu(popbox){

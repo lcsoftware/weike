@@ -37,16 +37,23 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                 course.Name = '个人资料';
                 $scope.$parent.courses.insert(0, course);
                 $scope.$parent.course = course;
+                $scope.model.OCID = course.OCID;
+                $scope.model.CourseID = course.CourseID;
+                $scope.filterChanged();
             }
         });
     }
 
     ///添加个人资料 OCID=-1
-    buildPersonal();
+    //buildPersonal();
 
     ///课程切换
     $scope.$on('willCourseChanged', function (event, course) {
-        console.log('willCourseChanged');
+        //console.log(course);
+        $scope.model.ParentID = 0;
+        $scope.model.OCID = course.OCID;
+        $scope.model.CourseID = course.CourseID;
+        $scope.filterChanged();
     });
     ///课程加载完成
     $scope.$on('courseLoaded', function (course) {
@@ -104,7 +111,8 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $scope.shareRanges = data.d;
             $scope.shareRanges.insert(0, item);
         }
-    });
+    });    
+
 
     //复选框值
     $scope.checkAdd = function (file) {
@@ -140,7 +148,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         console.log('updFolderName', item);
         //新建
         if (item.FolderID == 0) {
-            var folder = { FolderName: item.FolderName, ParentID: $scope.model.ParentID };
+            var folder = { FolderName: item.FolderName, ParentID: $scope.model.ParentID, OCID: item.OCID };
             resourceService.Folder_ADD(folder, function (data) {
                 if (data.d) {
                     $scope.filterChanged();
@@ -163,6 +171,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             var folder = data.d;
             folder.FolderName = 'NewFolder';
             folder.ParentID = $scope.model.ParentID;
+            folder.OCID = $scope.model.OCID;
             $scope.folders.push(folder);
         });
     }
@@ -240,16 +249,31 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.bgShow = true;
         $scope.folder = item;
     }
+    //批量删除文件夹弹出框
+    $scope.fireRemoveAll = function () {
+        $scope.delIsShow = true;
+        $scope.bgShow = true;
+    }
+    //移动文件弹出框
+    $scope.fireMobile = function () {
+        $scope.mobileIsShow = true;
+        $scope.bgShow = true;
+    }
+
+
     //删除文件夹弹出框点击确定按钮
-    $scope.folderDelClikc = function()
-    {
-        $scope.delFolder($scope.folder);
+    $scope.folderDelClick = function () {
+        if ($scope.folder.length > 0) {
+            $scope.delFolder($scope.folder);
+        }
+        else if ($scope.checksSelect.length > 0) {
+            $scope.delALLFolder();
+        }
         $scope.close();
     }
 
     //关闭删除文件夹弹出框
-    $scope.close = function()
-    {
+    $scope.close = function () {
         $scope.delIsShow = false;
         $scope.bgShow = false;
         $scope.mobileIsShow = false;
@@ -298,6 +322,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         }, function () {
             $(this).removeClass('active');
         })
+
         $('.batch_list li').hover(function () {
             $(this).addClass('active').siblings().removeClass('active');
         }, function () {

@@ -13,7 +13,9 @@ app.directive('fileOperation', function () {
         onRename: '&',
         onDownload: '&',
         onVideo: '&',
-        onRemove: '&'
+        onRemove: '&',
+        onReturnPage: '&',
+        onMobile: '&'
     }
 
     directive.templateUrl = '/Components/templates/fileOperation.html';
@@ -67,7 +69,7 @@ app.directive('addKnowledge', function () {
 
         elem.find('#btnCancel,#btnSave,.close_pop').bind('click', function () {
             elem.hide();
-        }) 
+        })
     }
 
     return directive;

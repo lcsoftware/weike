@@ -14,15 +14,17 @@
                 <li>
                     浏览权限
                     <ul class="permissions">
-                        <li class="current"><p><i class="icon"></i>全校师生</p></li>
-                        <li><p><i class="icon"></i>课程学生</p></li>
-                        <li><p><i class="icon"></i>社会大众</p></li>
-                        <li><p><i class="icon"></i>关闭开放</p></li>
+                        <li ng-repeat="item in shareRanges">
+                            <p><i ng-class="{icon:isShareRange==item.id}"></i>{{item.name}}</p>
+                        </li>
+                        @*<li><p><i class="icon"></i>课程学生</p></li>
+                            <li><p><i class="icon"></i>社会大众</p></li>
+                            <li><p><i class="icon"></i>关闭开放</p></li>*@
                     </ul>
                 </li>
                 <li class="batch_share">批量共享</li>
                 <li class="batch_move">批量移动</li>
-                <li class="batch_delete" ng-click="delALLFolder()">批量删除</li>
+                <li class="batch_delete" ng-click="fireRemoveAll()">批量删除</li>
             </ul>
         </a>
         <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="model.searchKey"><span class="icon" ng-click="filterChanged();"></span></p>
@@ -68,19 +70,21 @@
             <th>修改日期</th>
         </tr>
     </thead>
-    <tr ng-repeat="item in folders" >
+    <tr ng-repeat="item in folders">
         <td>
             <div class="data_name">
-                <input type="checkbox" checklist-model="checks" ng-click="checkAdd(item)" checklist-value="item"> 
+                <input type="checkbox" checklist-model="checks" ng-click="checkAdd(item)" checklist-value="item">
                 <folder folder-name="item.FolderName" on-open="folderClick(item)" on-blur="updFolderName(item)"></folder>
-                <file-operation on-property="fireProperty()" on-remove="fireRemove(item)"></file-operation> 
+                <file-operation on-property="fireProperty()" on-remove="fireRemove(item)" on-return-page="returnPage(item)"
+                                on-mobile="fireMobile()">
+                </file-operation>
             </div>
         </td>
         <td>文件夹</td>
         <td></td>
         <td ng-bind="item.CreateTime | dateFormat"></td>
     </tr>
-    <tr ng-repeat="item in files" >
+    <tr ng-repeat="item in files">
         <td>
             <div class="data_name">
                 <input type="checkbox" checklist-model="checks" ng-click="checkAdd(item)" checklist-value="item">
@@ -116,7 +120,7 @@
     <div class="pop_wrap">
         <p class="confirm_tip">是否确定删除已选择的文件？</p>
         <div class="btn_box">
-            <a class="save" ng-click="folderDelClikc()">确定</a>
+            <a class="save" ng-click="folderDelClick()">确定</a>
             <a class="cancel" ng-click="close()">取消</a>
         </div>
     </div>
@@ -124,16 +128,34 @@
 <div class="pop_bg" ng-show="bgShow"></div>
 <div class="pop_400" ng-show="mobileIsShow">
     <h4>移动文件</h4>
-    <span class="icon close_pop"></span>
+    <span class="icon close_pop" ng-click="close()"></span>
     <div class="pop_wrap">
         <dl class="folder">
-            <dt>文件夹</dt>
-            <dd>
-                <div class="select_box">
+            @*<dt>文件夹</dt>*@
+            @*<dd>*@
+            @*<div class="select_box">
                     <input type="text" placeholder="请选择">
                     <span></span>
+                </div>*@
+            <div ui-tree id="tree-root">
+                <ol ui-tree-nodes="" ng-model="data">
+                    <li ng-repeat="node in mobiles" ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)"></li>
+                </ol>
+            </div>
+            <script type="text/ng-template" id="nodes_renderer.html">
+                <div ui-tree-handle class="tree-node tree-node-content">
+                    <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+                    {{node.FolderName}}
+                    <a class="pull-right btn btn-danger btn-xs" nodrag ng-click="remove(this)"><span class="glyphicon glyphicon-remove"></span></a>
+                    <a class="pull-right btn btn-primary btn-xs" nodrag ng-click="newSubItem(this)" style="margin-right: 8px;"><span class="glyphicon glyphicon-plus"></span></a>
                 </div>
-                <ul class="folder_list">
+                <ol ui-tree-nodes="" ng-model="node.Children" ng-class="{hidden: collapsed}">
+                    <li ng-repeat="node in node.Children" ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)">
+                    </li>
+                </ol>
+            </script>
+
+            @*<ul class="folder_list">
                     <li class="active"><a class="first_folder" href="#">文件夹名称</a></li>
                     <li>
                         <a class="first_folder" href="#">文件夹名称</a>
@@ -148,25 +170,25 @@
                     <li><a class="first_folder" href="#">文件夹名称</a></li>
                     <li><a class="first_folder" href="#">文件夹名称</a></li>
 
-                    @*<li ng-repeat="item in mobiles" ng-include="'mobile_renderer.html'" on-finish-repeat>
+                    <li ng-repeat="item in mobiles" ng-include="'mobile_renderer.html'" on-finish-repeat>
                             <a class="first_folder" href="#" ng-bind="item.FolderName"></a>
-                        </li>*@
-                </ul>
-            </dd>
+                        </li>
+                </ul>*@
+            @*</dd>*@
         </dl>
         <div class="btn_box">
-            <a href="javascript:;" class="save">确定</a>
-            <a href="javascript:;" class="cancel">取消</a>
+            <a class="save">确定</a>
+            <a class="cancel" ng-click="close()">取消</a>
         </div>
     </div>
 </div>
 
-<script type="text/ng-template" id="mobile_renderer.html">
-    <a class="first_folder" href="#" ng-bind="item.FolderName"></a>
-    <ul class="second_folder">
-        <li ng-repeat="secondItem in item.Children"><a href="#" ng-bind="secondItem.FolderName"></a></li>
-    </ul>
-</script>
+@*<script type="text/ng-template" id="mobile_renderer.html">
+        <a class="first_folder" href="#" ng-bind="item.FolderName"></a>
+        <ul class="second_folder">
+            <li ng-repeat="secondItem in item.Children"><a href="#" ng-bind="secondItem.FolderName"></a></li>
+        </ul>
+    </script>*@
 
 
 @*<script>
