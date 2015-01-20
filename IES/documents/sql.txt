@@ -291,5 +291,54 @@ as
  --获取习题列表，满足条件的筛选通过（ f_Exercise_Cacu_GetExeriseList ）,复杂算法必须独立放到外面函数或存储过程中执行  
  ;  
   
+USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[Chapter_ADD]    Script Date: 01/20/2015 19:56:58 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================  
+-- Author:      王胜辉  
+-- Create date: 20141127  
+-- Description: 章节新增  
+-- =============================================  
+  
+ALTER proc [dbo].[Chapter_ADD]  
+	@ChapterID int output , 
+	@OCID int ,
+    @CourseID int ,  
+    @OwnerUserID int ,
+    @CreateUserID int ,   
+    @Title nvarchar(500) ,   
+    @ParentID int  
+as   
+  
+ SET NOCOUNT ON;  
    
+  
+ set @ChapterID = 0   
+   
+/* select   @ChapterID = ChapterID 
+ from  dbo.Chapter  
+ where  OCID = @OCID*/
+   
+ --if( @ChapterID = 0 )  
+ --begin  
+  insert into dbo.Chapter( OCID ,  CourseID, OwnerUserID , CreateUserID , Title, ParentID, Orde  )  
+   values (  @OCID , @CourseID, @OwnerUserID , @CreateUserID  , @Title , @ParentID  , dbo.[f_Cacu_Chapter_GetOrder]( @OCID,@ParentID  )   )  
+     set @ChapterID = @@identity      
+ --end   
+  
+  
+  
+  
+   
+   
+   
+  
+  
+  
+     
   
