@@ -8,18 +8,18 @@
         <a class="icon delete_icon" href="javascript:;"></a>
     </div>
     <ul class="chapter_item">
-        <li class="active" ng-repeat="chapter in chapters">
-            <a class="first_chapter" ng-bind="chapter.Title" ng-dblclick="editChapter(chapter)" ng-show="chapter.ChapterID!=editChapterId">
+        <li class="active" ng-repeat="item in ocChapters">
+            <a class="first_chapter" ng-bind="item.Title" ng-dblclick="editChapter(item)" ng-show="item.ChapterID!=editChapterId">
                 <i class="icon fold_btn"></i>
             </a>
             <a class="first_chapter" ng-show="chapter.ChapterID==editChapterId">
                 <input type="text" ng-model="chapter.Title" placeholder="请输入章节标题" ng-blur="onBlurEdit(chapter)">
             </a>
             @*<ul class="second_item">
-                    <li ui-sref-active="active" ng-repeat="child in chapters "><a class="first_chapter" href="javascript:;" ng-bind="child.title"></a></li>
-                </ul>*@
+                <li ui-sref-active="active" ng-repeat="child in chapters "><a class="first_chapter" href="javascript:;" ng-bind="child.title"></a></li>
+            </ul>*@
         </li>
-        <li ng-show="canEdit">
+        <li ng-show="canAdd">
             <a class="first_chapter" href="javascript:;">
                 <input type="text" ng-model="title" placeholder="请输入章节标题" ng-blur="onBlurAdd(title)">
             </a>
@@ -32,9 +32,9 @@
         <a ui-sref-active="active" ui-sref="" ng-repeat="knowledge in knowledges" ng-bind="knowledge.title"></a>
     </div>
     <ul class="chapter_list">
-        @*<li ui-sref-active="active"><a ui-sref="">关联资料</a></li>
-            <li ui-sref-active="active"><a ui-sref="">关联习题</a></li>
-            <li ui-sref-active="active"><a ui-sref="">关联话题</a></li>*@
+        <li ng-class="{active:association.selection == 1}"><a ng-click="association.linkDoc()">关联资料</a></li>
+        <li ng-class="{active:association.selection == 2}"><a ng-click="association.linkExercise()">关联习题</a></li>
+        <li ng-class="{active:association.selection == 3}"><a ng-click="association.linkTopic()">关联话题</a></li>
     </ul>
     <div class="connect_item">
         <table class="data_list">

@@ -36,7 +36,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                 course.OCID = -1;
                 course.Name = '个人资料';
                 $scope.$parent.courses.insert(0, course);
-                $scope.$parent.currentCourse = course;
+                $scope.$parent.course = course;
             }
         });
     }

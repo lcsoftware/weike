@@ -101,7 +101,7 @@ app.directive('addChapter', function () {
         elem.find('.pop_bg').show().css('height', oHeight);
         elem.find('.pop_400').show().css('top', oScroll + 200);
 
-        elem.find('#btnCancel,#btnSave').bind('click', function () {
+        elem.find('#btnCancel,#btnSave,.close_pop').bind('click', function () {
             elem.hide();
         })
     }
