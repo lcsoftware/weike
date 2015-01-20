@@ -48,7 +48,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.$on('willCourseChanged', function (event, course) {
         console.log('willCourseChanged');
     });
-
+    ///课程加载完成
     $scope.$on('courseLoaded', function (course) {
         buildPersonal();
     });
