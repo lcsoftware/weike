@@ -20,6 +20,11 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.model.ParentID = 0;//上级ID
     $scope.mobiles = [];//移动文件夹数据    
 
+    $scope.delIsShow = false;//删除弹出框
+    $scope.mobileIsShow = false;//移动弹出框
+    $scope.bgShow = false;//背景置灰
+
+    $scope.folder = {};//文件夹对象
 
     $scope.fileShow = false;//是否显示
 
@@ -208,6 +213,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             }
         });
     }
+
     //批量删除文件夹
     $scope.delALLFolder = function () {
         if ($scope.checksSelect.length > 0) {
@@ -228,9 +234,25 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.fireProperty = function () {
         console.log('fireProperty');
     }
-
+    //删除文件夹弹出框
     $scope.fireRemove = function (item) {
-        console.log(item);
+        $scope.delIsShow = true;
+        $scope.bgShow = true;
+        $scope.folder = item;
+    }
+    //删除文件夹弹出框点击确定按钮
+    $scope.folderDelClikc = function()
+    {
+        $scope.delFolder($scope.folder);
+        $scope.close();
+    }
+
+    //关闭删除文件夹弹出框
+    $scope.close = function()
+    {
+        $scope.delIsShow = false;
+        $scope.bgShow = false;
+        $scope.mobileIsShow = false;
     }
 
     $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
