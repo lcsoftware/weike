@@ -67,7 +67,9 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
 
     $scope.model = {};
     $scope.chapters = [];
+    $scope.editChapterId = -1;
     $scope.canEdit = false;
+    $scope.canAdd = false;
     $scope.currCourse = {};
 
     $scope.$on('willCourseChanged', function (event, course) {
@@ -77,14 +79,12 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
         chapterService.Chapter_List($scope.model, function (data) {
             $scope.chapters = data.d;
         });
-        console.log('willCourseChanged');
     });
 
     $scope.$on('courseLoaded', function (course) {
         $scope.currCourse = course;
         $scope.model.OCID = $scope.currCourse.OhID;
         $scope.model.CourseID = $scope.currCourse.CourseID;
-        console.log('courseLoaded');
     });
 
     chapterService.Chapter_Get(function (data) {
@@ -98,12 +98,16 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
     ///添加章节
     $scope.addChapter = function () {
         var newCahpter = angular.copy($scope.model);
-        newCahpter.id = -1;
-        $scope.canEdit = true;
+        newCahpter.id = 0;
+        $scope.canAdd = true;
+    }
+    ///编辑
+    $scope.editChapter = function (chapter) {
+        $scope.editChapterId = chapter.ChapterID;
     }
 
-    ///章节输入框失去焦点
-    $scope.onBlur = function (title) {
+    ///添加章节输入框失去焦点
+    $scope.onBlurAdd = function (title) {
         var newChapter = angular.copy($scope.model);
         newChapter.Title = title;
 
@@ -111,6 +115,15 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
             if (data.d) {
                 $scope.chapters.push(data.d);
                 $scope.title = '';
+                $scope.canAdd = false;
+            }
+        });
+    }
+
+    $scope.onBlurEdit = function (chapter) {
+        chapterService.Chapter_Upd(chapter, function (data) {
+            if (data.d) {
+                $scope.editChapterId = -1;
             }
         });
     }
