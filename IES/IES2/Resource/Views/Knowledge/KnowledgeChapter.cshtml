@@ -10,9 +10,9 @@
     <ul class="chapter_item">
         <li class="active" ng-repeat="chapter in chapters">
             <a class="first_chapter" ng-bind="chapter.Title"><i class="icon fold_btn"></i></a>
-            <ul class="second_item">
-                <li ui-sref-active="active" ng-repeat="child in chapters | chapterParent:chapter"><a class="first_chapter" href="javascript:;" ng-bind="child.title"></a></li>
-            </ul>
+            @*<ul class="second_item">
+                <li ui-sref-active="active" ng-repeat="child in chapters "><a class="first_chapter" href="javascript:;" ng-bind="child.title"></a></li>
+            </ul>*@
         </li> 
         <li ng-show="canEdit">
             <a class="first_chapter" href="javascript:;">

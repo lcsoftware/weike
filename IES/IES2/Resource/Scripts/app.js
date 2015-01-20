@@ -63,7 +63,7 @@ appModule.run(['$templateCache', '$rootScope', '$state', '$stateParams', 'httpSe
             var view = angular.element('#ui-view');
             $templateCache.put(view.data('tmpl-url'), view.html());
 
-            $rootScope.title = 'IES';
+            $rootScope.appTitle = 'IES';
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
 

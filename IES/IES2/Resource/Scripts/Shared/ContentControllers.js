@@ -11,14 +11,14 @@ contentApp.controller('ContentCtrl', ['$scope', 'contentService', function ($sco
         if (data.d) {
             $scope.courses = data.d;
             $scope.currentCourse = data.d[0];
-            $scope.$broadcast('willCourseChanged', { course: $scope.currentCourse });
-            $scope.$broadcast('courseLoaded', { course: $scope.currentCourse });
+            $scope.$broadcast('willCourseChanged', $scope.currentCourse);
+            $scope.$broadcast('courseLoaded', $scope.currentCourse);
         }
     });
 
     $scope.courseChanged = function (course) {
         $scope.currentCourse = course;
-        $scope.$broadcast('willCourseChanged', { course: $scope.currentCourse });
+        $scope.$broadcast('willCourseChanged', $scope.currentCourse);
     }
 
     $scope.$on('willResetCourse', function () {
@@ -26,7 +26,7 @@ contentApp.controller('ContentCtrl', ['$scope', 'contentService', function ($sco
             if (data.d) {
                 $scope.courses = data.d;
                 $scope.currentCourse = data.d[0];
-                $scope.$broadcast('willCourseChanged', { course: $scope.currentCourse });
+                $scope.$broadcast('willCourseChanged', $scope.currentCourse);
             }
         });
     });

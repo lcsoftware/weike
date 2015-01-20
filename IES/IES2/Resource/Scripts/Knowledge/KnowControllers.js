@@ -68,16 +68,23 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
     $scope.model = {};
     $scope.chapters = [];
     $scope.canEdit = false;
+    $scope.currCourse = {};
 
     $scope.$on('willCourseChanged', function (event, course) {
-        $scope.model.OCID = course.OCID;
+        $scope.currCourse = course;
+        $scope.model.OCID = $scope.currCourse.OCID;
+        $scope.model.CourseID = $scope.currCourse.CourseID;
         chapterService.Chapter_List($scope.model, function (data) {
             $scope.chapters = data.d;
         });
+        console.log('willCourseChanged');
     });
 
     $scope.$on('courseLoaded', function (course) {
-        $scope.model.OCID = course.OCID;
+        $scope.currCourse = course;
+        $scope.model.OCID = $scope.currCourse.OhID;
+        $scope.model.CourseID = $scope.currCourse.CourseID;
+        console.log('courseLoaded');
     });
 
     chapterService.Chapter_Get(function (data) {
@@ -103,6 +110,7 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
         chapterService.Chapter_ADD(newChapter, function (data) {
             if (data.d) {
                 $scope.chapters.push(data.d);
+                $scope.title = '';
             }
         });
     }

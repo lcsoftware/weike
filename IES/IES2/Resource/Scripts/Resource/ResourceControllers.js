@@ -23,17 +23,32 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     $scope.fileShow = false;//是否显示
 
-    $scope.$on('courseLoaded', function () {
+    var buildPersonal = function () {
         contentService.OC_Get(function (data) {
-            var course = data.d;
-            course.OCID = -1;
-            course.Name = '个人资料';
-            $scope.$parent.courses.insert(0, course);
-            $scope.$parent.currentCourse = course;
+            if ($scope.$parent.courses.length === 0 ||
+                $scope.$parent.courses[0].OCID !== -1) {
+                var course = data.d;
+                course.OCID = -1;
+                course.Name = '个人资料';
+                $scope.$parent.courses.insert(0, course);
+                $scope.$parent.currentCourse = course;
+            }
         });
+    }
+
+    ///添加个人资料 OCID=-1
+    buildPersonal();
+
+    ///课程切换
+    $scope.$on('willCourseChanged', function (event, course) {
+        console.log('willCourseChanged');
     });
 
-    
+    $scope.$on('courseLoaded', function (course) {
+        buildPersonal();
+    });
+
+
 
     $scope.typeChanged = function (v) {
         $scope.model.FileType = v;
