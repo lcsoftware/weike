@@ -1,10 +1,10 @@
-﻿ /* **************************************************************
- * Copyright(c) 2014 IES, All Rights Reserved.   
- * File             : ResourceProvider.aspx.cs
- * Description      : 试卷数据访问
- * Author           : shujianhua 
- * Created          : 2014-12-29  
- * Revision History : 
+﻿/* **************************************************************
+* Copyright(c) 2014 IES, All Rights Reserved.   
+* File             : ResourceProvider.aspx.cs
+* Description      : 试卷数据访问
+* Author           : shujianhua 
+* Created          : 2014-12-29  
+* Revision History : 
 ******************************************************************/
 namespace App.Resource.DataProvider.Resource
 {
@@ -88,6 +88,17 @@ namespace App.Resource.DataProvider.Resource
                 return false;
             }
         }
+
+        /// <summary>
+        /// 文件新增
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static File File_ADD(File file)
+        {
+            return new FileBLL().File_ADD(file);
+        }
         #endregion
 
         #region FolderRelation
@@ -100,11 +111,14 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static IList<FolderRelation> FolderRelation_List(Folder folder, File file)
         {
+            //if (folder.ParentID == 0) folder.ParentID = -1;
             IList<Folder> allFolders = new FileBLL().Folder_List(folder);
+            
+            file.FolderID = folder.ParentID;
             IList<File> allFiles = new FileBLL().File_Search(file);
             IList<FolderRelation> allFolderRelations = new List<FolderRelation>();
             //TODO
-            
+
             foreach (var item in allFolders)
             {
                 FolderRelation fr = new FolderRelation();
@@ -119,7 +133,7 @@ namespace App.Resource.DataProvider.Resource
             foreach (var item in allFiles)
             {
                 FolderRelation fr = new FolderRelation();
-                fr.Id = item.FolderID;
+                fr.Id = item.FileID;
                 fr.Name = item.FileName;
                 fr.OCID = item.OCID;
                 fr.ParentID = item.FolderID;
@@ -129,22 +143,34 @@ namespace App.Resource.DataProvider.Resource
             }
 
             IList<FolderRelation> roots = new List<FolderRelation>();
+
             foreach (var root in allFolderRelations)
             {
-                if (root.ParentID == folder.ParentID) roots.Add(root);
+                //if (folder.ParentID == -1) folder.ParentID = 0;
+                if (root.RelationType == FileType.Folder)
+                {
+                    if (root.ParentID == folder.ParentID) roots.Add(root);
+                }
+                else
+                {
+                    roots.Add(root);
+                }
             }
 
-            //var roots = from v in allFolderRelations where v.ParentID == 0 && v.RelationType == FileType.Folder select v;
+
             foreach (var root in roots)
             {
-                BuildRelationFolder(allFolderRelations, root);
+                if (root.RelationType == FileType.Folder)
+                {
+                    BuildRelationFolder(allFolderRelations, root);
+                }
             }
-            return roots; 
+            return roots.ToList<FolderRelation>();
         }
 
         private static void BuildRelationFolder(IList<FolderRelation> allFolders, FolderRelation root)
         {
-            var children = from v in allFolders 
+            var children = from v in allFolders
                            where v.ParentID == root.Id
                            select v;
             foreach (var child in children)
@@ -169,14 +195,15 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static IList<Folder> Folder_List(Folder folder)
         {
-            if (folder.ParentID==0)
+            if (folder.ParentID == 0)
             {
                 folder.ParentID = -1;
             }
-            
-            IList<Folder> allFolders = new FileBLL().Folder_List(folder);  
+
+            IList<Folder> allFolders = new FileBLL().Folder_List(folder);            
+
             return allFolders;
-        }        
+        }
 
         /// <summary>
         /// 新建文件夹

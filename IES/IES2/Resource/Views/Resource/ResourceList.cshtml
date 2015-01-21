@@ -5,7 +5,7 @@
     </div>
     <div class="exercise_btn">
         <span class="sort_box">[筛选]</span>
-        <a class="topic_import" href="javascript:;"><em><i class="icon"></i></em><span>上传文件</span></a>
+        <a class="topic_import" ng-click="AddFile()"><em><i class="icon"></i></em><span>上传文件</span></a>
         <a href="javascript:;" ng-click="AddFolder()"><em><i class="icon"></i></em><span>新建文件夹</span></a>
         <a class="batch_box" href="javascript:;">
             <em><i class="icon"></i></em>
@@ -114,16 +114,16 @@
                     <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)">
                         <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
                     </a>
-                    {{node.FolderName}}
+                    {{node.Name}}
                 </div>
                 <ol ui-tree-nodes="" ng-model="node.Children" ng-class="{hidden: collapsed}">
-                    <li ng-repeat="node in node.Children" ng-class="{mobileSelected:node.FolderID==folder.FolderID}" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)" ng-click="selectedMobile(node)">
+                    <li ng-repeat="node in node.Children" ng-class="{mobileSelected:node.Id==folder.Id}" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)" ng-click="selectedMobile(node)">
                     </li>
                 </ol>
             </script>
             <div ui-tree id="tree-root">
                 <ol ui-tree-nodes="" ng-model="mobile">
-                    <li ng-repeat="node in mobiles" ng-class="{mobileSelected:node.FolderID==folder.FolderID}" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)" ng-click="selectedMobile(node)"></li>
+                    <li ng-repeat="node in mobiles" ng-class="{mobileSelected:node.Id==folder.Id}" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)" ng-click="selectedMobile(node)"></li>
                 </ol>
             </div>
 
