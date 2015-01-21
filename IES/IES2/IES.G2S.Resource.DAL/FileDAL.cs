@@ -272,7 +272,39 @@ namespace IES.G2S.Resource.DAL
 
         #region  新增
 
+        public static File File_ADD(File model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@FileID", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    p.Add("@OCID", model.OCID);
+                    p.Add("@CourseID", model.CourseID);
+                    p.Add("@FolderID", model.FolderID);
+                    p.Add("@CreateUserID", model.CreateUserID);
+                    p.Add("@CreateUserName", model.CreateUserName);
+                    p.Add("@OwnerUserID", model.OwnerUserID);                    
+                    p.Add("@FileTitle", model.FileTitle);
+                    p.Add("@FileName", model.FileName);
+                    p.Add("@Ext", model.Ext);
+                    p.Add("@FileType", model.FileType);
+                    p.Add("@FileSize", model.FileSize);
+                    p.Add("@pingyin", model.pingyin);
+                    p.Add("@ServerID", model.ServerID);
 
+                    conn.Execute("File_ADD", p, commandType: CommandType.StoredProcedure);
+                    model.FolderID = p.Get<int>("FileID");
+
+                    return model;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
 
 
         #endregion
