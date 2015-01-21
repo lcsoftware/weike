@@ -22,8 +22,26 @@ namespace App.Resource.DataProvider.Chapter
         [WebMethod]
         public static IList<Chapter> Chapter_List(Chapter model)
         {
-            return new ChapterBLL().Chapter_List(model);
+            IList<Chapter> allChapters = new ChapterBLL().Chapter_List(model);
+            var roots = from v in allChapters where v.ParentID == 0 select v;
+            foreach (var chapter in roots)
+            {
+                BuildRelationChapter(allChapters, chapter);
+            } 
+            return roots.ToList();
         }
+
+        private static void BuildRelationChapter(IList<Chapter> allChapters, Chapter root)
+        {            
+            var chapters = from v in allChapters where v.ParentID == root.ChapterID select v;
+            foreach (var chapter in chapters)
+            {
+                chapter.ChapterParent = root;
+                root.Children.Add(chapter);
+                BuildRelationChapter(allChapters, chapter);
+            }
+        }
+
 
         [WebMethod]
         public static Chapter Chapter_Get()

@@ -9,15 +9,13 @@
     </div>
     <ul class="chapter_item">
         <li class="active" ng-repeat="item in ocChapters">
-            <a class="first_chapter" ng-bind="item.Title" ng-dblclick="editChapter(item)" ng-show="item.ChapterID!=editChapterId">
+            <a class="first_chapter">
                 <i class="icon fold_btn"></i>
+                {{item.Title}}
             </a>
-            <a class="first_chapter" ng-show="chapter.ChapterID==editChapterId">
-                <input type="text" ng-model="chapter.Title" placeholder="请输入章节标题" ng-blur="onBlurEdit(chapter)">
-            </a>
-            @*<ul class="second_item">
-                <li ui-sref-active="active" ng-repeat="child in chapters "><a class="first_chapter" href="javascript:;" ng-bind="child.title"></a></li>
-            </ul>*@
+            <ul class="second_item">
+                <li ng-class="{active:selection==child.ChapterID}" ng-repeat="child in item.Children"><a class="first_chapter" ng-bind="child.title" ng-click="chapterSelected(child)"></a></li>
+            </ul>
         </li>
         <li ng-show="canAdd">
             <a class="first_chapter" href="javascript:;">

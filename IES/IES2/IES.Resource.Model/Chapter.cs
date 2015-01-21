@@ -15,6 +15,7 @@
 *└──────────────────────────────────┘
 */
 using System;
+using System.Collections.Generic;
 namespace IES.Resource.Model
 {
     /// <summary>
@@ -41,7 +42,9 @@ namespace IES.Resource.Model
 
 
         public Chapter()
-        { }
+        {
+            this.Children = new List<Chapter>();
+        }
         #region Model
         private int _chapterid;
         private int _ocid = 0;
@@ -51,6 +54,10 @@ namespace IES.Resource.Model
         private string _title;
         private int _parentid = 0;
         private int? _orde = 1;
+
+        public IList<Chapter> Children { get; set; }
+        public Chapter ChapterParent { get; set; }
+
         /// <summary>
         /// 主键
         /// </summary>
