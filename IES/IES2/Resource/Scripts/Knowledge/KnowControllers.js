@@ -141,9 +141,17 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
         $scope.chapterPick = chapter;
     }
 
-    var resetOrder = function (baseChapter) {
+    /*
+        顺序号设置，以10000为初值（第一个子节点值）
+        新增章节：
+    */
 
-    }
+    var getNeighbors = function (allChapters, baseChapter) {
+        var length = allChapters.length;
+        for (var i = 0; i < length; i++) {
+            var chapter = allChapters[i];
+        }
+    } 
 
     $scope.moveLeft = function () {
         var chapter = $scope.chapterPick;

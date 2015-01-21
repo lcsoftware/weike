@@ -5,7 +5,7 @@
  * Author           : zhaotianyu
  * Created          : 2015-01-17  
  * Revision History : 
-******************************************************************/ 
+******************************************************************/
 namespace App.Resource.DataProvider.Chapter
 {
     using System;
@@ -27,12 +27,12 @@ namespace App.Resource.DataProvider.Chapter
             foreach (var chapter in roots)
             {
                 BuildRelationChapter(allChapters, chapter);
-            } 
+            }
             return roots.ToList();
         }
 
         private static void BuildRelationChapter(IList<Chapter> allChapters, Chapter root)
-        {            
+        {
             var chapters = from v in allChapters where v.ParentID == root.ChapterID select v;
             foreach (var chapter in chapters)
             {
@@ -59,6 +59,25 @@ namespace App.Resource.DataProvider.Chapter
         {
             return new ChapterBLL().Chapter_Upd(model);
         }
+
+        [WebMethod]
+        public static bool Chapter_Batch_Upd(IList<Chapter> models)
+        {
+            var bll = new ChapterBLL();
+            foreach (var model in models)
+            {
+                bll.Chapter_Upd(model);
+            }
+            return true;
+        }
+
+        //[WebMethod]
+        //public static IList<Chapter> ChapterMoveLeft(IList<Chapter> allChapters, Chapter chapter)
+        //{
+        //    var chapters = from v in allChapters where v 
+
+        //    return allChapters;
+        //} 
 
         [WebMethod]
         public static bool Chapter_Del(Chapter model)
