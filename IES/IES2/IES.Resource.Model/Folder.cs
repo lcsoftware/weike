@@ -139,6 +139,8 @@ namespace IES.Resource.Model
         }
 
         public IList<Folder> Children { get; set; }
+
+        public Folder FolderParent { get; set; }
         #endregion Model
 
     }

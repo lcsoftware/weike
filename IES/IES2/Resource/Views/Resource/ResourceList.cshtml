@@ -70,48 +70,20 @@
             <th>修改日期</th>
         </tr>
     </thead>
-    <tr ng-repeat="item in folders">
+    <tr ng-repeat="item in folderRelations">
         <td>
             <div class="data_name">
                 <input type="checkbox" checklist-model="checks" ng-click="checkAdd(item)" checklist-value="item">
-                <folder folder-name="item.FolderName" on-open="folderClick(item)" on-blur="updFolderName(item)"></folder>
+                <folder folder-name="item.Name" on-open="folderClick(item)" on-blur="updFolderName(item)"></folder>
                 <file-operation on-property="fireProperty()" on-remove="fireRemove(item)" on-return-page="returnPage(item)"
-                                on-mobile="fireMobile()">
+                                on-mobile="fireMobile(item)">
                 </file-operation>
             </div>
         </td>
-        <td>文件夹</td>
+        <td></td>
         <td></td>
         <td ng-bind="item.CreateTime | dateFormat"></td>
-    </tr>
-    <tr ng-repeat="item in files">
-        <td>
-            <div class="data_name">
-                <input type="checkbox" checklist-model="checks" ng-click="checkAdd(item)" checklist-value="item">
-                <i class="icon_24 doc"></i>
-                <p class="data_tit" ng-bind="item.FileName"></p>
-                <input class="rename_test" ng-model="item.FolderName" ng-blur="updFileName(item)" type="text">
-                <div class="file_operation">
-                    <div class="more_operation">
-                        <span>...</span>
-                        <ul class="mouse_right">
-                            <li><p><i class="icon data_property"></i>资料属性</p></li>
-                            <li class="attribute" ng-click="mobileFolder(item)" show-dialog bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel"><p><i class="icon data_move"></i>移动资料</p></li>
-                            <li><p><i class="icon data_rename"></i>重命名</p></li>
-                            <li><p><i class="icon data_download"></i>下载资料</p></li>
-                            <li><p><i class="icon video"></i>视频剪辑</p></li>
-                            <li ng-click="delFile(item)"><p><i class="icon data_remove"></i>删除资料</p></li>
-                        </ul>
-                    </div>
-                    <a class="icon data_move" style="cursor:pointer"></a>
-                    <a class="icon data_share" href="javascript:;"></a>
-                </div>
-            </div>
-        </td>
-        <td ng-bind="item.FileType"></td>
-        <td ng-bind="item.FileSize"></td>
-        <td ng-bind="item.CreateTime | dateFormat"></td>
-    </tr>
+    </tr>    
 </table>
 
 <div class="pop_400" ng-show="delIsShow">
@@ -132,28 +104,50 @@
     <div class="pop_wrap">
         <dl class="folder">
             @*<dt>文件夹</dt>*@
-            @*<dd>*@
+            <dd>
             @*<div class="select_box">
                     <input type="text" placeholder="请选择">
                     <span></span>
                 </div>*@
-            <div ui-tree id="tree-root">
-                <ol ui-tree-nodes="" ng-model="data">
-                    <li ng-repeat="node in mobiles" ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)"></li>
-                </ol>
-            </div>
             <script type="text/ng-template" id="nodes_renderer.html">
                 <div ui-tree-handle class="tree-node tree-node-content">
-                    <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+                    <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)">
+                        <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
+                    </a>
                     {{node.FolderName}}
-                    <a class="pull-right btn btn-danger btn-xs" nodrag ng-click="remove(this)"><span class="glyphicon glyphicon-remove"></span></a>
-                    <a class="pull-right btn btn-primary btn-xs" nodrag ng-click="newSubItem(this)" style="margin-right: 8px;"><span class="glyphicon glyphicon-plus"></span></a>
                 </div>
                 <ol ui-tree-nodes="" ng-model="node.Children" ng-class="{hidden: collapsed}">
-                    <li ng-repeat="node in node.Children" ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)">
+                    <li ng-repeat="node in node.Children" ng-class="{mobileSelected:node.FolderID==folder.FolderID}" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)" ng-click="selectedMobile(node)">
                     </li>
                 </ol>
             </script>
+            <div ui-tree id="tree-root">
+                <ol ui-tree-nodes="" ng-model="mobile">
+                    <li ng-repeat="node in mobiles" ng-class="{mobileSelected:node.FolderID==folder.FolderID}" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)" ng-click="selectedMobile(node)"></li>
+                </ol>
+            </div>
+
+
+
+
+
+            @*<div ui-tree id="tree-root">
+                    <ol ui-tree-nodes="" ng-model="data">
+                        <li ng-repeat="node in mobiles" ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)"></li>
+                    </ol>
+                </div>
+                <script type="text/ng-template" id="nodes_renderer.html">
+                    <div ui-tree-handle class="tree-node tree-node-content">
+                        <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)"><span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span></a>
+                        {{node.FolderName}}
+                        <a class="pull-right btn btn-danger btn-xs" nodrag ng-click="remove(this)"><span class="glyphicon glyphicon-remove"></span></a>
+                        <a class="pull-right btn btn-primary btn-xs" nodrag ng-click="newSubItem(this)" style="margin-right: 8px;"><span class="glyphicon glyphicon-plus"></span></a>
+                    </div>
+                    <ol ui-tree-nodes="" ng-model="node.Children" ng-class="{hidden: collapsed}">
+                        <li ng-repeat="node in node.Children" ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)">
+                        </li>
+                    </ol>
+                </script>*@
 
             @*<ul class="folder_list">
                     <li class="active"><a class="first_folder" href="#">文件夹名称</a></li>
@@ -174,10 +168,10 @@
                             <a class="first_folder" href="#" ng-bind="item.FolderName"></a>
                         </li>
                 </ul>*@
-            @*</dd>*@
+            </dd>
         </dl>
         <div class="btn_box">
-            <a class="save">确定</a>
+            <a class="save" ng-click="updFolderMobile()">确定</a>
             <a class="cancel" ng-click="close()">取消</a>
         </div>
     </div>

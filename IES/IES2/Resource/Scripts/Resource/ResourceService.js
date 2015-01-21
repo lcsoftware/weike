@@ -62,6 +62,11 @@ aService.factory('resourceService', ['httpService', function (httpService) {
     service.Folder_Del = function (folder, callback) {
         ajaxPost('Folder_Del', { folder: folder }, callback);
     }
+
+    //查询列表方法
+    service.FolderRelation_List = function (folder, file, callback) {
+        ajaxPost('FolderRelation_List', { folder: folder,file:file }, callback);
+    }
     
     ///课程列表
     service.User_OC_List = function (callback) {

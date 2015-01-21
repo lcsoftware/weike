@@ -2,7 +2,8 @@
 
 var appResource = angular.module('app.resource.controllers', [
     'app.res.services',
-    'app.content.services'
+    'app.content.services',
+    'ui.tree'
 ]);
 
 appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageService', 'contentService', function ($scope, resourceService, pageService, contentService) {
@@ -17,8 +18,10 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.folders = [];//文件夹数组
     $scope.files = [];//文件数组
 
+    $scope.folderRelations = [];//文件夹文件数组
+
     $scope.model.ParentID = 0;//上级ID
-    $scope.mobiles = [];//移动文件夹数据    
+    $scope.mobiles = [];//移动文件夹数据
 
     $scope.delIsShow = false;//删除弹出框
     $scope.mobileIsShow = false;//移动弹出框
@@ -52,8 +55,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         //console.log(course);
         $scope.model.ParentID = 0;
         $scope.model.OCID = course.OCID;
-        $scope.model.CourseID = course.CourseID;
-        $scope.filterChanged();
+        $scope.model.CourseID = course.CourseID;        
     });
     ///课程加载完成
     $scope.$on('courseLoaded', function (course) {
@@ -75,9 +77,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.filterChanged();
     }
 
-    var load = function () {
-        $scope.filterChanged();
-    }
+   
 
     //文件类型初始化
     resourceService.Resource_Dict_FileType_Get(function (data) {
@@ -111,7 +111,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $scope.shareRanges = data.d;
             $scope.shareRanges.insert(0, item);
         }
-    });    
+    });
 
 
     //复选框值
@@ -126,23 +126,28 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
     //单击文件夹名称方法,进入文件夹
     $scope.folderClick = function (item) {
-        $scope.model.ParentID = item.FolderID;
-
+        $scope.model.ParentID = item.Id;
         $scope.filterChanged();
     }
 
     //查询
     $scope.filterChanged = function () {
-        resourceService.Folder_List($scope.model, function (data) {
-            if (data.d) {
-                $scope.folders = data.d;
+        resourceService.FolderRelation_List($scope.model, $scope.model, function (data) {
+            if (data.d.length > 0) {
+                $scope.folderRelations = data.d;
             }
         });
-        resourceService.File_Search($scope.model, function (data) {
-            if (data.d) {
-                $scope.files = data.d;
-            }
-        });
+        //resourceService.Folder_List($scope.model, function (data) {
+        //    if (data.d.length > 0) {
+        //        $scope.folders = data.d;
+        //    }
+        //    console.log(data.d);
+        //});
+        //resourceService.File_Search($scope.model, function (data) {
+        //    if (data.d.length > 0) {
+        //        $scope.files = data.d;
+        //    }
+        //});
     }
     $scope.updFolderName = function (item) {
         console.log('updFolderName', item);
@@ -189,30 +194,57 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         }
     }
 
+    //移动文件夹选中数据
+    $scope.selectedMobile = function (item) {
+        $scope.folder = item;
+        console.log($scope.folder.FolderID);
+    }
+
+    //移动文件框保存方法
+    $scope.updFolderMobile = function () {
+        var folder = { FolderID: $scope.FolderID, ParentID: $scope.folder.FolderID };
+        resourceService.Folder_ParentID_Upd(folder, function (data) {
+            if (data.d) {
+                $scope.filterChanged();
+                $scope.close();
+            }
+        });
+    }
+
     //获取移动列表
     $scope.mobileFolder = function (item) {
         if (item) {
-            var folder = { ParentID: -1 }
+            var folder = { ParentID: -1, OCID: $scope.model.OCID }
+            //var folder = { ParentID: -1 }
             $scope.FolderID = item.FolderID;
             resourceService.Folder_List(folder, function (data) {
                 if (data.d) {
                     $scope.mobiles = data.d;
-                    $scope.model.FolderID = $scope.mobiles[0].FolderID;
+                    //$scope.model.FolderID = $scope.mobiles[0].FolderID;
+                    for (var i = 0; i < $scope.mobiles.length; i++) {
+                        if ($scope.mobiles[i].FolderID == item.FolderID)
+                            $scope.mobiles.splice(i, 1);
+                        for (var n = 0; n < $scope.mobiles[i].Children.length; n++) {
+                            if ($scope.mobiles[i].Children[n].FolderID == item.FolderID)
+                                $scope.mobiles[i].Children.splice(n, 1);
+                        }
+                    }
+                    console.log($scope.mobiles);
                 }
             });
         }
     }
     //文件夹移动按钮
-    $scope.mobileClick = function () {
-        var folder = { FolderID: $scope.FolderID, ParentID: $scope.ParentID.FolderID }
-        resourceService.Folder_ParentID_Upd(folder, function (data) {
-            if (data.d) {
-                $scope.filterChanged();
-                //关闭弹出层
-                $('.pop_bg,.pop_400').hide();
-            }
-        });
-    }
+    //$scope.mobileClick = function () {
+    //    var folder = { FolderID: $scope.FolderID, ParentID: $scope.ParentID.FolderID }
+    //    resourceService.Folder_ParentID_Upd(folder, function (data) {
+    //        if (data.d) {
+    //            $scope.filterChanged();
+    //            //关闭弹出层
+    //            $('.pop_bg,.pop_400').hide();
+    //        }
+    //    });
+    //}
     //删除文件夹
     $scope.delFolder = function (item) {
         var folder = { FolderID: item.FolderID };
@@ -238,7 +270,6 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         }
     }
 
-    load();
 
     $scope.fireProperty = function () {
         console.log('fireProperty');
@@ -255,9 +286,10 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.bgShow = true;
     }
     //移动文件弹出框
-    $scope.fireMobile = function () {
+    $scope.fireMobile = function (item) {
         $scope.mobileIsShow = true;
         $scope.bgShow = true;
+        $scope.mobileFolder(item);
     }
 
 
@@ -278,6 +310,16 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.bgShow = false;
         $scope.mobileIsShow = false;
     }
+
+
+
+    $scope.visible = function (item) {
+        if ($scope.query && $scope.query.length > 0
+          && item.title.indexOf($scope.query) == -1) {
+            return false;
+        }
+        return true;
+    };
 
     $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
         //下面是在table render完成后执行的js

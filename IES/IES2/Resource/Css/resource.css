@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 
 /*习题库首页*/
@@ -102,6 +102,7 @@
 .more_operation .mouse_right{ display:none; position:absolute; left:0; top:25px; z-index:99;}
 .file_operation a{ float:right; margin:15px 20px 0 0;}
 
+.mobileSelected{background-color: greenyellow !important;}
 
 
 

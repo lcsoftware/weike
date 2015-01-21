@@ -90,6 +90,75 @@ namespace App.Resource.DataProvider.Resource
         }
         #endregion
 
+        #region FolderRelation
+
+        /// <summary>
+        /// 查询列表
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static IList<FolderRelation> FolderRelation_List(Folder folder, File file)
+        {
+            IList<Folder> allFolders = new FileBLL().Folder_List(folder);
+            IList<File> allFiles = new FileBLL().File_Search(file);
+            IList<FolderRelation> allFolderRelations = new List<FolderRelation>();
+            //TODO
+            
+            foreach (var item in allFolders)
+            {
+                FolderRelation fr = new FolderRelation();
+                fr.Id = item.FolderID;
+                fr.Name = item.FolderName;
+                fr.OCID = item.OCID;
+                fr.ParentID = item.ParentID;
+                fr.RelationType = FileType.Folder;
+                fr.CourseId = item.CourseID;
+                allFolderRelations.Add(fr);
+            }
+            foreach (var item in allFiles)
+            {
+                FolderRelation fr = new FolderRelation();
+                fr.Id = item.FolderID;
+                fr.Name = item.FileName;
+                fr.OCID = item.OCID;
+                fr.ParentID = item.FolderID;
+                fr.RelationType = FileType.File;
+                fr.CourseId = item.CourseID;
+                allFolderRelations.Add(fr);
+            }
+
+            IList<FolderRelation> roots = new List<FolderRelation>();
+            foreach (var root in allFolderRelations)
+            {
+                if (root.ParentID == folder.ParentID) roots.Add(root);
+            }
+
+            //var roots = from v in allFolderRelations where v.ParentID == 0 && v.RelationType == FileType.Folder select v;
+            foreach (var root in roots)
+            {
+                BuildRelationFolder(allFolderRelations, root);
+            }
+            return roots; 
+        }
+
+        private static void BuildRelationFolder(IList<FolderRelation> allFolders, FolderRelation root)
+        {
+            var children = from v in allFolders 
+                           where v.ParentID == root.Id
+                           select v;
+            foreach (var child in children)
+            {
+                child.Parent = root;
+                root.Children.Add(child);
+                if (child.RelationType == FileType.Folder)
+                {
+                    BuildRelationFolder(allFolders, child);
+                }
+            }
+        }
+        #endregion
+
         #region 文件夹列表
 
         /// <summary>
@@ -105,44 +174,9 @@ namespace App.Resource.DataProvider.Resource
                 folder.ParentID = -1;
             }
             
-            IList<Folder> allFolders = new FileBLL().Folder_List(folder); 
-            if (allFolders.Any())
-            {
-                var newFolders = from v in allFolders where v.ParentID == 0 select v;
-                if (newFolders.Count() > 0)
-                {
-                    foreach (var item in newFolders)
-                    {
-                        var children = from v in allFolders where v.ParentID == item.FolderID select v;
-                        foreach (var child in children)
-                        {
-                            item.Children.Add(child);
-                        }
-                    }
-                    return newFolders.ToList();
-                }
-            }
+            IList<Folder> allFolders = new FileBLL().Folder_List(folder);  
             return allFolders;
-        }
-
-        private static void BuildFolderRelation(IList<Folder> allFolders, Folder folder, IList<Folder> newFolders)
-        {
-            if (folder != null && !newFolders.Contains(folder))
-            {
-                newFolders.Add(folder);
-            }
-            foreach (var childFolder in allFolders)
-            {
-                if (folder != null && childFolder.ParentID == folder.FolderID)
-                {
-                    folder.Children.Add(childFolder);
-                }
-                else if (!newFolders.Contains(childFolder))
-                {
-                    BuildFolderRelation(allFolders, childFolder, newFolders);
-                }
-            }
-        }
+        }        
 
         /// <summary>
         /// 新建文件夹

@@ -11,7 +11,7 @@ contentApp.controller('ContentCtrl', ['$scope', 'contentService', function ($sco
         if (data.d) {
             $scope.courses = data.d;
             $scope.course = data.d[0];
-            $scope.$broadcast('willCourseChanged', $scope.course);
+            //$scope.$broadcast('willCourseChanged', $scope.course);
             $scope.$broadcast('courseLoaded', $scope.course);
         }
     });

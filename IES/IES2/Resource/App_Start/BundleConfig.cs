@@ -15,7 +15,8 @@ namespace App.Resource
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new StyleBundle("~/content/css/app").Include(
-                //"~/Frameworks/bootstrap/css/bootstrap.min.css",
+                "~/Frameworks/bootstrap/css/bootstrap.min.css",
+                //"~/Frameworks/bootstrap/css/bootstrap.css",
                 //"~/Frameworks/bootstrap/css/bootstrap-theme.min.css",
                 "~/Frameworks/angularTree/angular-ui-tree.min.css",
                 "~/Css/app.css",
@@ -41,7 +42,7 @@ namespace App.Resource
                 "~/scripts/Common/directives.js",
                 "~/scripts/Common/services.js",
 
-                "~/Components/js/components.js", 
+                "~/Components/js/components.js",
 
                 "~/scripts/Home/HomeControllers.js", 
                 "~/scripts/Authority/AuthService.js", 
