@@ -100,7 +100,11 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static IList<Folder> Folder_List(Folder folder)
         {
-            //folder.ParentID = -1;
+            if (folder.ParentID==0)
+            {
+                folder.ParentID = -1;
+            }
+            
             IList<Folder> allFolders = new FileBLL().Folder_List(folder); 
             if (allFolders.Any())
             {
