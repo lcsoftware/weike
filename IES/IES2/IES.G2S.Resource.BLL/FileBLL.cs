@@ -105,6 +105,11 @@ namespace IES.G2S.Resource.BLL
             return FileDAL.File_ADD(model); 
         }
 
+        public bool File_FileTitle_Upd(File model)
+        {
+            return FileDAL.File_FileTitle_Upd(model); 
+        }
+
         public bool File_ShareRange(File model)
         {
             return true;

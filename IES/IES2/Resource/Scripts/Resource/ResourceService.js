@@ -35,6 +35,11 @@ aService.factory('resourceService', ['httpService', function (httpService) {
     service.File_ADD = function (file, callback) {
         ajaxPost('File_ADD', { file: file }, callback);
     }
+    //文件重命名
+    service.File_FileTitle_Upd = function (file, callback) {
+        ajaxPost('File_FileTitle_Upd', { file: file }, callback);
+    }
+
     //查询文件夹
     service.Folder_List = function (folder, callback) {
         var param = { folder: folder };

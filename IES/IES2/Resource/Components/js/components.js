@@ -119,7 +119,8 @@ app.directive('folder', function () {
     directive.scope = {
         onOpen: '&',
         onBlur: '&',
-        folderName: '='
+        folderName: '=',
+        folderExt: '='
     }
 
     directive.templateUrl = '/Components/templates/folder.html';
@@ -130,6 +131,34 @@ app.directive('folder', function () {
             $(this).hide();
             $(this).next().show().select();
         });
+    }
+
+    return directive;
+});
+
+app.directive('batchOperation', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.scope = {
+        onFireRemoveAll: '&',
+        shareRanges: '='
+    }
+
+    directive.templateUrl = '/Components/templates/batchOperation.html';
+
+    directive.link = function (scope, elem, iAttrs) {        
+        $elem.find('.batch_list li').hover(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+        }, function () {
+            $(this).removeClass('active');
+        })
+        $elem.find('.permissions li').hover(function () {
+            $(this).addClass('current').siblings().removeClass('current');
+        }, function () {
+            $(this).removeClass('current');
+        })
     }
 
     return directive;

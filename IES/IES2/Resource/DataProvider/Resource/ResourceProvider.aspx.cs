@@ -99,6 +99,17 @@ namespace App.Resource.DataProvider.Resource
         {
             return new FileBLL().File_ADD(file);
         }
+
+        /// <summary>
+        /// 文件重命名
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool File_FileTitle_Upd(File file)
+        {
+            return new FileBLL().File_FileTitle_Upd(file);
+        }
         #endregion
 
         #region FolderRelation
@@ -112,9 +123,12 @@ namespace App.Resource.DataProvider.Resource
         public static IList<FolderRelation> FolderRelation_List(Folder folder, File file)
         {
             //if (folder.ParentID == 0) folder.ParentID = -1;
-            IList<Folder> allFolders = new FileBLL().Folder_List(folder);
-            
-            file.FolderID = folder.ParentID;
+            //IList<Folder> allFolders = new FileBLL().Folder_List(folder);
+            IList<Folder> allFolders = Folder_List(folder);
+            if(file != null)
+            {
+                file.FolderID = folder.ParentID;
+            }            
             IList<File> allFiles = new FileBLL().File_Search(file);
             IList<FolderRelation> allFolderRelations = new List<FolderRelation>();
             //TODO
@@ -128,17 +142,21 @@ namespace App.Resource.DataProvider.Resource
                 fr.ParentID = item.ParentID;
                 fr.RelationType = FileType.Folder;
                 fr.CourseId = item.CourseID;
+                fr.CreateTime = item.CreateTime;
                 allFolderRelations.Add(fr);
             }
             foreach (var item in allFiles)
             {
                 FolderRelation fr = new FolderRelation();
                 fr.Id = item.FileID;
-                fr.Name = item.FileName;
+                fr.Name = item.FileTitle;
                 fr.OCID = item.OCID;
                 fr.ParentID = item.FolderID;
                 fr.RelationType = FileType.File;
                 fr.CourseId = item.CourseID;
+                fr.FileSize = item.FileSize;
+                fr.Ext = item.Ext;
+                fr.CreateTime = item.UploadTime;
                 allFolderRelations.Add(fr);
             }
 
@@ -146,7 +164,7 @@ namespace App.Resource.DataProvider.Resource
 
             foreach (var root in allFolderRelations)
             {
-                //if (folder.ParentID == -1) folder.ParentID = 0;
+                if (folder.ParentID == -1) folder.ParentID = 0;
                 if (root.RelationType == FileType.Folder)
                 {
                     if (root.ParentID == folder.ParentID) roots.Add(root);
@@ -156,16 +174,15 @@ namespace App.Resource.DataProvider.Resource
                     roots.Add(root);
                 }
             }
-
-
             foreach (var root in roots)
             {
                 if (root.RelationType == FileType.Folder)
                 {
                     BuildRelationFolder(allFolderRelations, root);
                 }
-            }
-            return roots.ToList<FolderRelation>();
+            }            
+             
+            return roots;
         }
 
         private static void BuildRelationFolder(IList<FolderRelation> allFolders, FolderRelation root)
@@ -174,8 +191,7 @@ namespace App.Resource.DataProvider.Resource
                            where v.ParentID == root.Id
                            select v;
             foreach (var child in children)
-            {
-                child.Parent = root;
+            { 
                 root.Children.Add(child);
                 if (child.RelationType == FileType.Folder)
                 {

@@ -1,0 +1,17 @@
+﻿<a class="batch_box" href="javascript:;">
+    <em><i class="icon"></i></em>
+    <span>批量操作</span>
+    <ul class="batch_list">
+        <li>
+            浏览权限
+            <ul class="permissions">
+                <li ng-repeat="item in shareRanges">
+                    <p><i class="icon"></i>{{item.name}}</p>
+                </li>
+            </ul>
+        </li>
+        <li class="batch_share">批量共享</li>
+        <li class="batch_move">批量移动</li>
+        <li class="batch_delete" ng-click="onFireRemoveAll()">批量删除</li>
+    </ul>
+</a>
