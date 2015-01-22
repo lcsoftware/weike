@@ -7,7 +7,8 @@
         <span class="sort_box">[筛选]</span>
         <a class="topic_import" ng-click="AddFile()"><em><i class="icon"></i></em><span>上传文件</span></a>
         <a href="javascript:;" ng-click="AddFolder()"><em><i class="icon"></i></em><span>新建文件夹</span></a>
-        <batch-operation share-ranges="shareRanges" on-fire-remove-all="fireRemoveAll()">
+        <batch-operation share-ranges="shareRanges" on-fire-remove-all="fireRemoveAll()"
+                         on-fire-mobile-batch="fireMobileBatch()">
         </batch-operation>
         <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="model.searchKey"><span class="icon" ng-click="filterChanged();"></span></p>
 </div>
@@ -68,7 +69,7 @@
     </tr>
 </table>
 
-<div class="pop_400" style="display:none;">
+<div class="pop_400"  ng-show="delIsShow">
     <h4>删除</h4>
     <span class="icon close_pop" ng-click="close()"></span>
     <div class="pop_wrap">
@@ -81,9 +82,9 @@
 </div>
 
 <div class="pop_bg" ng-show="bgShow"></div>
-<div class="pop_400" ng-show="mobileIsShow" style="display:none;">
+<div class="pop_400" ng-show="mobileIsShow" >
     <h4>移动文件</h4>
-    <span class="icon close_pop" ng-click="close()"></span>
+    <span class="icon close_pop" ng-click="close()"></span>    
     <div class="pop_wrap">
         <dl class="folder">
             @*<dt>文件夹</dt>*@
@@ -92,21 +93,21 @@
                         <input type="text" placeholder="请选择">
                         <span></span>
                     </div>*@
-                <script type="text/ng-template" id="nodes_renderer.html">
-                    <div ui-tree-handle class="tree-node tree-node-content">
+                <script type="text/ng-template" id="nodes_renderer.html">                    
+                    <div ui-tree-handle class="tree-node tree-node-content" ng-click="selectedMobile(node)" ng-class="{mobileSelected:node.Id==folder.Id}">
                         <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)">
                             <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
                         </a>
-                        {{node.Name}}
+                        <font ng-bind="node.Name"></font>
                     </div>
                     <ol ui-tree-nodes="" ng-model="node.Children" ng-class="{hidden: collapsed}">
-                        <li ng-repeat="node in node.Children" ng-class="{mobileSelected:node.Id==folder.Id}" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)" ng-click="selectedMobile(node)">
+                        <li ng-repeat="node in node.Children" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)">
                         </li>
                     </ol>
                 </script>
                 <div ui-tree id="tree-root">
                     <ol ui-tree-nodes="" ng-model="mobile">
-                        <li ng-repeat="node in mobiles" ng-class="{mobileSelected:node.Id==folder.Id}" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)" ng-click="selectedMobile(node)"></li>
+                        <li ng-repeat="node in mobiles" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)"></li>
                     </ol>
                 </div>
 

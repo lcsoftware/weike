@@ -73,20 +73,9 @@ namespace App.Resource.DataProvider.Resource
         /// <param name="list"></param>
         /// <returns></returns>
         [WebMethod]
-        public static bool File_Del(IList<File> file)
+        public static bool File_Del(File file)
         {
-            try
-            {
-                for (int i = 0; i < file.Count; i++)
-                {
-                    new FileBLL().File_Del(file[i]);
-                }
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            return new FileBLL().File_Del(file);
         }
 
         /// <summary>
@@ -109,6 +98,17 @@ namespace App.Resource.DataProvider.Resource
         public static bool File_FileTitle_Upd(File file)
         {
             return new FileBLL().File_FileTitle_Upd(file);
+        }
+
+        /// <summary>
+        /// 文件移动
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool File_FolderID_Upd(File file)
+        {
+            return new FileBLL().File_FolderID_Upd(file);
         }
         #endregion
 

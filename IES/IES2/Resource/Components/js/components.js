@@ -143,18 +143,19 @@ app.directive('batchOperation', function () {
 
     directive.scope = {
         onFireRemoveAll: '&',
+        onFireMobileBatch: '&',
         shareRanges: '='
     }
 
     directive.templateUrl = '/Components/templates/batchOperation.html';
 
     directive.link = function (scope, elem, iAttrs) {        
-        $elem.find('.batch_list li').hover(function () {
+        elem.find('.batch_list li').hover(function () {
             $(this).addClass('active').siblings().removeClass('active');
         }, function () {
             $(this).removeClass('active');
         })
-        $elem.find('.permissions li').hover(function () {
+        elem.find('.permissions li').hover(function () {
             $(this).addClass('current').siblings().removeClass('current');
         }, function () {
             $(this).removeClass('current');

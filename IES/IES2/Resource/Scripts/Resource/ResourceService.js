@@ -28,7 +28,7 @@ aService.factory('resourceService', ['httpService', function (httpService) {
         ajaxPost('File_Search', param, callback);
     }    
     //删除文件
-    service.File_Del = function () {
+    service.File_Del = function (file, callback) {
         ajaxPost('File_Del', { file: file }, callback);
     }
     //文件新增
@@ -38,6 +38,10 @@ aService.factory('resourceService', ['httpService', function (httpService) {
     //文件重命名
     service.File_FileTitle_Upd = function (file, callback) {
         ajaxPost('File_FileTitle_Upd', { file: file }, callback);
+    }
+    //文件移动
+    service.File_FolderID_Upd = function (file, callback) {
+        ajaxPost('File_FolderID_Upd', { file: file }, callback);
     }
 
     //查询文件夹
