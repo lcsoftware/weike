@@ -24,8 +24,8 @@ namespace IES.Resource.Model
 {
     public enum FileType
     {
-        Folder,
-        File
+        Folder = 0,
+        File = 1
     }
 
     public class FolderRelation
@@ -45,9 +45,14 @@ namespace IES.Resource.Model
 
         public int ParentID { get; set; }
 
+        public long FileSize { get; set; }
+        public string Ext { get; set; }
+
+        public DateTime CreateTime { get; set; }
+
         public IList<FolderRelation> Children { get; set; }
 
-        public FolderRelation Parent { get; set; }
+        //public FolderRelation Parent { get; set; }
 
     }
 }

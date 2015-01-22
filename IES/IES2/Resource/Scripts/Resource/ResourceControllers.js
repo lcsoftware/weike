@@ -129,6 +129,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     //单击文件夹名称方法,进入文件夹
     $scope.folderClick = function (item) {
         $scope.model.ParentID = item.Id;
+        $scope.folderRelation = item;
         $scope.filterChanged();
     }
 
@@ -156,15 +157,15 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     //新建文件
     $scope.AddFile = function () {
-        if ($scope.checksSelect.length > 1) return;
+        if ($scope.folderRelation == null) return;
         var file = {};
-        file.FolderID = $scope.checksSelect[0].Id;
-        file.OCID = $scope.checksSelect[0].OCID;
-        file.CourseID = $scope.checksSelect.CourseID;
+        file.FolderID = $scope.folderRelation.Id;
+        file.OCID = $scope.folderRelation.OCID;
+        file.CourseID = $scope.folderRelation.CourseID;
         file.ShareRange = -1;
         file.FileTitle = '1';
         file.FileName = '1';
-        file.Ext = '.txt';
+        file.Ext = 'txt';
         file.FileSize = '15';
         file.pingyin = 'pingyin';
         resourceService.File_ADD(file, function (data) {
@@ -175,18 +176,27 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
 
     $scope.updFolderName = function (item) {
-        //新建
-        if (item.FolderID == 0) {
-            var folder = { FolderName: item.Name, ParentID: $scope.model.ParentID, OCID: item.OCID };
-            resourceService.Folder_ADD(folder, function (data) {
-                if (data.d) {
-                    $scope.filterChanged();
-                }
-            });
-        }
-        else {//修改            
-            var folder = { FolderName: item.Name, FolderID: item.Id };
-            resourceService.Folder_Name_Upd(folder, function (data) {
+        if (item.RelationType == 0) {
+            //新建
+            if (item.FolderID == 0) {
+                var folder = { FolderName: item.Name, ParentID: $scope.model.ParentID, OCID: item.OCID };
+                resourceService.Folder_ADD(folder, function (data) {
+                    if (data.d) {
+                        $scope.filterChanged();
+                    }
+                });
+            }
+            else {//修改            
+                var folder = { FolderName: item.Name, FolderID: item.Id };
+                resourceService.Folder_Name_Upd(folder, function (data) {
+                    if (data.d) {
+                        $scope.filterChanged();
+                    }
+                });
+            }
+        } else {
+            var file = { FileID: item.Id, FileTitle: item.Name };
+            resourceService.File_FileTitle_Upd(file, function (data) {
                 if (data.d) {
                     $scope.filterChanged();
                 }
@@ -318,7 +328,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
 
     //删除文件夹弹出框点击确定按钮
-    $scope.folderDelClick = function () {
+    $scope.folderDelClick = function () {        
         if ($scope.folder.length > 0) {
             $scope.delFolder($scope.folder);
         }
