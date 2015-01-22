@@ -80,8 +80,14 @@ namespace App.Resource.DataProvider.Chapter
             }
 
             return null;
+        } 
+
+        [WebMethod]
+        public static bool Chapter_Del(Chapter model)
+        {
+            return new ChapterBLL().Chapter_Del(model);
         }
-        
+
         //章节对象排序字段步长
         private const int STEP = 500;
 
@@ -90,52 +96,51 @@ namespace App.Resource.DataProvider.Chapter
         {
             //一级节点不能左移
             if (chapter.ParentID == 0) return null;
-            IList<Chapter> splitChpaters = SplitChpater(allChapters, chapter);
-            //找到父节点
-            var parents = from v in splitChpaters where v.ChapterID == chapter.ParentID select v;
-            var chapterParent = parents.First();
-            var brothers = from v in splitChpaters 
-                           where v.ParentID == chapterParent.ParentID && v.ChapterID >= chapterParent.ChapterID 
-                           orderby v.Orde select v;
+            var chapters = from v in allChapters where v.ChapterID == chapter.ChapterID select v;
+            var ordeChapter = chapters.First();
+            var parents = from v in allChapters where v.ChapterID == chapter.ParentID select v;
+            var parent = parents.First();
+            var brothers = from v in allChapters
+                           where v.ParentID == parent.ParentID && v.ChapterID >= parent.ChapterID
+                           orderby v.Orde
+                           select v;
             if (brothers.Count() == 1)
             {
-                chapter.Orde = brothers.First().Orde + STEP;
+                ordeChapter.Orde = brothers.First().Orde + STEP;
             }
             else
             {
-                //chapter.Orde = brothers.First().Orde + brothers.
+                var nexts = from v in brothers where v.Orde > parent.ChapterID select v;
+                ordeChapter.Orde = ((int)brothers.First().Orde + (int)nexts.First().Orde) / 2;
             }
-
+            new ChapterBLL().Chapter_Upd(ordeChapter);
             return allChapters;
         }
 
-        private static IList<Chapter> SplitChpater(IList<Chapter> allChapters, Chapter excluder)
-        {
-            IList<Chapter> splitChpaters = new List<Chapter>();
-            foreach (var item in allChapters)
-            {
-                SplitChapter(splitChpaters, item, excluder);
-            }
-            return splitChpaters;
-        }
-
-        private static void SplitChapter(IList<Chapter> splitChpaters, Chapter chapter, Chapter excluder)
-        {
-            if (chapter.ChapterID != excluder.ChapterID)
-            {
-                splitChpaters.Add(chapter);
-            }
-            foreach (var item in chapter.Children)
-            {
-                SplitChapter(splitChpaters, item, excluder);
-            }
-        }
-
-
         [WebMethod]
-        public static bool Chapter_Del(Chapter model)
+        public static IList<Chapter> MoveRight(IList<Chapter> allChapters, Chapter chapter)
         {
-            return new ChapterBLL().Chapter_Del(model);
-        }
+            //一级节点不能左移
+            if (chapter.ParentID == 0) return null;
+            var chapters = from v in allChapters where v.ChapterID == chapter.ChapterID select v;
+            var ordeChapter = chapters.First();
+            var parents = from v in allChapters where v.ChapterID == chapter.ParentID select v;
+            var parent = parents.First();
+            var brothers = from v in allChapters
+                           where v.ParentID == parent.ParentID && v.ChapterID >= parent.ChapterID
+                           orderby v.Orde
+                           select v;
+            if (brothers.Count() == 1)
+            {
+                ordeChapter.Orde = brothers.First().Orde + STEP;
+            }
+            else
+            {
+                var nexts = from v in brothers where v.Orde > parent.ChapterID select v;
+                ordeChapter.Orde = ((int)brothers.First().Orde + (int)nexts.First().Orde) / 2;
+            }
+            new ChapterBLL().Chapter_Upd(ordeChapter);
+            return allChapters;
+        } 
     }
 }
