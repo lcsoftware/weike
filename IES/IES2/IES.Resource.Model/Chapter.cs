@@ -56,7 +56,6 @@ namespace IES.Resource.Model
         private int? _orde = 1;
 
         public IList<Chapter> Children { get; set; }
-        public Chapter ChapterParent { get; set; }
 
         /// <summary>
         /// 主键

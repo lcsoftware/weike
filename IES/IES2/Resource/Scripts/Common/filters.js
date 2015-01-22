@@ -19,3 +19,17 @@ appFilter.filter('dateFormat', [function () {
 
     }
 }]);
+
+appFilter.filter('parentID', function () {
+    return function (inputArray, v) {
+        var array = [];
+        if (inputArray != undefined) {
+            for (var i = 0; i < inputArray.length; i++) {
+                if (inputArray[i].ParentID == v) {
+                    array.push(inputArray[i]);
+                }
+            }
+        }
+        return array;
+    }
+});

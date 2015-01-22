@@ -14,7 +14,7 @@
                 {{item.Title}}
             </a>
             <ul class="second_item">
-                <li ng-class="{active:selection==child.ChapterID}" ng-repeat="child in item.Children"><a class="first_chapter" ng-bind="child.title" ng-click="chapterSelected(child)"></a></li>
+                <li ng-class="{active:selection==child.ChapterID}" ng-repeat="child in ocChapters | parentID:item.ParentID "><a class="first_chapter" ng-bind="child.title" ng-click="chapterSelected(child)"></a></li>
             </ul>
         </li>
         <li ng-show="canAdd">
