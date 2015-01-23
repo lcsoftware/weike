@@ -16,6 +16,7 @@
 */
 using System;
 using System.Collections.Generic;
+[assembly: CLSCompliant(true)]
 namespace IES.Resource.Model
 {
     /// <summary>
@@ -43,7 +44,7 @@ namespace IES.Resource.Model
 
         public Chapter()
         {
-            this.Children = new List<Chapter>();
+            //this.Children = new List<Chapter>();
         }
         #region Model
         private int _chapterid;
@@ -55,7 +56,7 @@ namespace IES.Resource.Model
         private int _parentid = 0;
         private int? _orde = 1;
 
-        public IList<Chapter> Children { get; set; }
+        //public IList<Chapter> Children { get; set; }
 
         /// <summary>
         /// 主键

@@ -151,32 +151,43 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
         for (var i = 0; i < length; i++) {
             var chapter = allChapters[i];
         }
-    } 
+    }
 
-    $scope.moveLeft = function () {
-        var chapter = $scope.chapterPick;
-        if (chapter.Parent === 0) return;
-        if (chapter.ChapterParent.ChapterID === 0) {
-            ///二级节点左移，变为一级节点
-            chapter.Parent = 0;
-            chapter.Orde = chapter.ChapterParent.Orde + 1;
-            chapter.ChapterParent = null;
-            resetOrder(chapter);
-        } else if (chapter.ChapterParent.ChapterParent) {
-            chapter.Parent = chapter.ChapterParent.ChapterParent.ChapterID; 
+    ///章节移动成功
+    var moveSuccess = function (data) {
+        if (data.d) {
+            $scope.ocChapters = data.d;
         }
-        chapterService.Chapter_Upd(chapter, function (data) {
+    }
+
+    $scope.move = function (direction) {
+        switch (direction) {
+            case 1:
+                chapterService.MoveLeft($scope.ocChapters, $scope.chapterPick, moveSuccess);
+            case 2:
+                chapterService.MoveRight($scope.ocChapters, $scope.chapterPick, moveSuccess);
+            case 3:
+                chapterService.MoveUp($scope.ocChapters, $scope.chapterPick, moveSuccess);
+            default:
+                chapterService.MoveDown($scope.ocChapters, $scope.chapterPick, moveSuccess);
+                break;
+
+        }
+    }
+
+    $scope.delete = function () {
+        chapterService.Chapter_Del($scope.chapterPick, function (data) {
+            if (data.d === true) {
+                var length = $scope.ocChapters.length;
+                for (var i = 0; i < length; i++) {
+                    if ($scope.ocChapters[i].ChapterID = $scope.chapterPick.ChapterID) {
+                        $scope.ocChapters.splice(i, 1);
+                        break;
+                    }
+                }
+            }
         });
-    }
-
-    $scope.moveRight = function () {
-        var chapter = $scope.chapterPick;
-        if (chapter.ChapterParent && chapter.ChapterParent.ChapterParent) {
-            chapter.Parent = chapter.ChapterParent.ChapterParent.ChapterID;
-            chapterService.Chapter_Upd(chapter, function (data) {
-            });
-        }
-    }
+    } 
 
     ///关联
     $scope.association = {};
