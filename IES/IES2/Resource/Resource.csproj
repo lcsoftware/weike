@@ -316,11 +316,18 @@
     <Content Include="Views\Knowledge\KnowledgeChapter.cshtml" />
     <Content Include="Views\Knowledge\KnowledgeTopic.cshtml" />
     <Content Include="Views\Knowledge\Knowledge.cshtml" />
-
-    <Content Include="Views\Exercise\AddPaper.cshtml" />
-
+    <Content Include="Views\Exercise\ShortAnswer.cshtml">
+      <SubType>
+      </SubType>
+    </Content>
     <Content Include="Views\Shared\Exercise.cshtml" />
-
+    <Content Include="Views\Exercise\Connection.cshtml" />
+    <Content Include="Views\Exercise\FillBlank.cshtml" />
+    <Content Include="Views\Exercise\TrueFalse.cshtml" />
+    <Content Include="Views\Exercise\Listening.cshtml" />
+    <Content Include="Views\Exercise\Noun.cshtml" />
+    <Content Include="Views\Exercise\FillBlank2.cshtml" />
+    <Content Include="Views\Exercise\QuesAnswer.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

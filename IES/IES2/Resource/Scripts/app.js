@@ -43,6 +43,9 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         .state('exercise.fillblank', { url: '/fileblank', templateUrl: '/views/Exercise/FillBlank', controller: 'FillBlankCtrl' })
         //填空客观题
         .state('exercise.fillblank2', { url: '/fileblank2', templateUrl: '/views/Exercise/FillBlank2', controller: 'FillBlank2Ctrl' })
+        //连线题
+        .state('exercise.connection', { url: '/connection', templateUrl: '/views/Exercise/Connection', controller: 'ConnectionCtrl' })
+
 
         //试卷
         .state('content.paper', { url: '/paper', templateUrl: '/views/Paper/PaperList', controller: 'PaperListCtrl' })
