@@ -442,6 +442,32 @@ as
 	SET NOCOUNT ON;
 	delete from Chapter where ChapterID = @ChapterID or ParentID=@ChapterID
 	
-    
+USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[Chapter_Upd]    Script Date: 01/25/2015 18:02:30 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+-- =============================================
+-- Author:      王胜辉
+-- Create date: 20141127
+-- Description: 章节更新
+-- =============================================
+
+ALTER proc [dbo].[Chapter_Upd]
+	@ChapterID int  ,
+    @Title nvarchar(500),
+    @Orde int,
+    @parentID int	
+as 
+
+	SET NOCOUNT ON;
+	
+    Update Chapter set Title = @Title, Orde = @Orde, ParentID=@parentID
+    where ChapterID = @ChapterID    
 
   

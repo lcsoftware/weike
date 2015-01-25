@@ -12,7 +12,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeServi
 
         $scope.$emit('willResetCourse');
 
-        //$scope.chapterModel = {};
+        $scope.chapterModel = {};
         $scope.knowledgeModel = {};
 
         $scope.course = {};
@@ -167,10 +167,13 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
         switch (direction) {
             case 1:
                 chapterService.MoveLeft($scope.ocChapters, $scope.selection, moveSuccess);
+                break;
             case 2:
                 chapterService.MoveRight($scope.ocChapters, $scope.selection, moveSuccess);
+                break;
             case 3:
                 chapterService.MoveUp($scope.ocChapters, $scope.selection, moveSuccess);
+                break;
             default:
                 chapterService.MoveDown($scope.ocChapters, $scope.selection, moveSuccess);
                 break;

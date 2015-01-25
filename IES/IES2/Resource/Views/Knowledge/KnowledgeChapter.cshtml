@@ -8,20 +8,20 @@
         <a class="icon delete_icon" ng-click="delete()"></a>
     </div>
     <ul class="chapter_item">
-        <li ng-class="{'active':selection.ChapterID===item.ChapterID}" ng-repeat="item in ocChapters">
+        <li ng-class="{'active':parentPicker.ChapterID===item.ChapterID}" ng-repeat="item in ocChapters | parentID:0 | orderBy:'Orde'">
             <a class="first_chapter" ng-click="parentSelected(item)" ng-class="{'chapter-selection':parentPicker.ChapterID===item.ChapterID}">
                 <i class="icon fold_btn"></i>
                 {{item.Title}}
             </a>
             <ul class="second_item">
                 <li ng-class="{active:childPicker.ChapterID==child.ChapterID}" ng-repeat="child in ocChapters | parentID:item.ChapterID ">
-                    <a class="first_chapter" ng-bind="child.title" ng-click="childSelected(child)"></a>
+                    <a class="first_chapter" ng-bind="child.Title" ng-click="childSelected(child)"></a>
                 </li>
             </ul>
         </li>
         <li ng-show="canAdd">
             <a class="first_chapter" href="javascript:;">
-                <input type="text" ng-model="title" placeholder="请输入章节标题" ng-blur="onBlurAdd(title)">
+                <input type="text" ng-model="title" placeholder="请输入章节标题" ng-blur="onBlurAdd(title)" autofocus>
             </a>
         </li>
     </ul>

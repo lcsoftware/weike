@@ -35,7 +35,8 @@
                 </div>
                 <div class="user_box">
                     <p class="user_name">
-                        <img src=@UserService.CurrentUserIMG width="20" height="20" />
+                        @*<img src=@UserService.CurrentUserIMG width="20" height="20" />*@
+                        <img src="/images/user.jpg" width="20" height="20" />
                         @UserService.CurrentUser.UserName
                         <span class="icon icon_arrow"></span>
                     </p>
@@ -62,7 +63,8 @@
             <div class="side_left">
                 <!--用户信息开始-->
                 <div class="user">
-                    <img src=@UserService.CurrentUserIMG width="110" height="100" />
+                    @*<img src=@UserService.CurrentUserIMG width="110" height="100" />*@
+                    <img src="/images/user.png" width="110" height="100" />
                     <a class="teacher_name" href="#"> @UserService.CurrentUser.UserName 	</a>
                     <a class="switch_btn" href="#" style="width:120px;">这里是教师端<i class="icon icon_arrow"></i></a>
                     <span class="icon_24 icon_user"></span>
