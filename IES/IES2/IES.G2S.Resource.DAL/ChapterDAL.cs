@@ -125,6 +125,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@OwnerUserID", model.OwnerUserID);
                     p.Add("@CreateUserID", model.CreateUserID); 
                     p.Add("@Title", model.Title );
+                    p.Add("@Orde", model.Orde);
                     p.Add("@ParentID", model.ParentID );
                     conn.Execute("Chapter_ADD", p, commandType: CommandType.StoredProcedure);
                     model.ChapterID = p.Get<int>("ChapterID");
@@ -157,6 +158,8 @@ namespace IES.G2S.Resource.DAL
                     var p = new DynamicParameters();
                     p.Add("@ChapterID", model.ChapterID);
                     p.Add("@Title", model.Title);
+                    p.Add("@Orde", model.Orde);
+                    p.Add("@parentID", model.ParentID);
                     conn.Execute("Chapter_Upd", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }

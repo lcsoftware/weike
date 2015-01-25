@@ -24,8 +24,13 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', function ($
 }]);
 //简答题
 appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', function ($scope, exerciseService) {
+<<<<<<< HEAD
     $scope.$on('willExerciseChange', function (changeParam) {
         
+=======
+    $scope.$on('willExerciseChange', function (event, changeParam) {
+
+>>>>>>> a38840aa68651bbf73d492e1362df917049b43a9
     });
     $scope.model = {};
     $scope.model.ExerciseType = 10;
