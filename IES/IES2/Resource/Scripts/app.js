@@ -27,6 +27,23 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         //我的资料
         .state('content.resource', { url: '/resource', templateUrl: '/views/Resource/ResourceList', controller: 'ResourceCtrl' })
 
+        //试题
+        .state('exercise', { url: '/exercise', abstract: true, templateUrl: '/views/Shared/Exercise', controller: 'ExerciseCtrl' })
+        //简答题
+        .state('exercise.shortanswer', { url: '/shortanswer', templateUrl: '/views/Exercise/ShortAnswer', controller: 'ShortAnswerCtrl' })
+        //听力题
+        .state('exercise.listening', { url: '/listening', templateUrl: '/views/Exercise/Listening', controller: 'ListeningCtrl' })
+        //问答题
+        .state('exercise.quesanswer', { url: '/quesanswer', templateUrl: '/views/Exercise/QuesAnswer', controller: 'QuesanswerCtrl' })
+        //名词解释
+        .state('exercise.noun', { url: '/noun', templateUrl: '/views/Exercise/Noun', controller: 'NounCtrl' })
+        //判断题
+        .state('exercise.truefalse', { url: '/truefalse', templateUrl: '/views/Exercise/TrueFalse', controller: 'TruefalseCtrl' })
+        //填空题
+        .state('exercise.fillblank', { url: '/fileblank', templateUrl: '/views/Exercise/FillBlank', controller: 'FillBlankCtrl' })
+        //填空客观题
+        .state('exercise.fillblank2', { url: '/fileblank2', templateUrl: '/views/Exercise/FillBlank2', controller: 'FillBlank2Ctrl' })
+
         //试卷
         .state('content.paper', { url: '/paper', templateUrl: '/views/Paper/PaperList', controller: 'PaperListCtrl' })
         //新增智能试卷

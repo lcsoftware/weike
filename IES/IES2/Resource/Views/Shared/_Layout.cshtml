@@ -1,5 +1,4 @@
-﻿
-@using IES.SYS.Model;
+﻿@using IES.SYS.Model;
 @using IES.Cache;
 @using IES.Security;
 @using IES.SYS.Model;
@@ -9,9 +8,9 @@
     List<Menu> DropDownMenuList = AuService.Menu_UserDropDown_List();
 
     List<Menu> TopMenulist = AuService.Menu_Top_List(2);
+
+    List<Menu> LeftMenu = AuService.Menu_Left_List("B2", 2);
 }
-
-
 
 <!DOCTYPE html>
 <html lang="en" ng-app="app">
@@ -21,7 +20,7 @@
     <title ng-bind="appTitle">@(PageData["title"] ?? "AngularJS SPA Template for Visual Studio")</title>
     <meta name="description" content="@PageData["description"]">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    @Styles.Render("~/content/css/app") 
+    @Styles.Render("~/content/css/app")
 </head>
 <body class="exercise">
     <!--[if lt IE 9]>
@@ -57,12 +56,59 @@
                 </ul>
             </div>
         </div>
-        <!--公共头部结束--> 
+        <!--公共头部结束-->
+        <div class="main_all main_course">
+            <!--首页左边模块开始-->
+            <div class="side_left">
+                <!--用户信息开始-->
+                <div class="user">
+                    <img src=@UserService.CurrentUserIMG width="110" height="100" />
+                    <a class="teacher_name" href="#"> @UserService.CurrentUser.UserName 	</a>
+                    <a class="switch_btn" href="#" style="width:120px;">这里是教师端<i class="icon icon_arrow"></i></a>
+                    <span class="icon_24 icon_user"></span>
+                </div>
+                <!--用户信息结束-->
+                <!--侧边导航开始-->
+                <div class="side_box">
+                    <ul class="side_nav">
+                        @foreach (var menu in LeftMenu)
+                        {
+                            <li id="@menu.MenuID" ui-sref-active="active"><a ui-sref="@menu.URL">@menu.Title</a></li>
+                        }
+                        <li ui-sref-active="active"><a ui-sref="">简答题</a></li>
+                        <li ui-sref-active="active"><a ui-sref="">问答题</a></li>
+                        <li ui-sref-active="active"><a ui-sref="">填空题</a></li>
+                        <li ui-sref-active="active"><a ui-sref="">听题题</a></li>
+                    </ul>
+                </div>
+                <!--侧边导航结束-->
+            </div>
+            <!--首页左边模块结束-->
+            <!--右侧主题内容开始-->
+            <div class="main_content">
+                <!--右侧头部公告开始-->
+                <div class="right_header">
+                    <p class="freshman"><i class="icon icon_question"></i><a href="#" target="_blank">新手向导</a></p>
+                    <div class="notice_box">
+                        <ul class="notice_list">
+                            <li style="display:block;"><i class="icon notice_icon"></i>上海卓越《课程中心》4.0版本正式上线，特此公告，此次版本将全面兼容MOOCs课程，功能与界面更友好</li>
+                            <li><i class="icon notice_icon"></i>线，特此公告，此次版本将全面兼容MOOCs课程，功能与界面更友好</li>
+                        </ul>
+                        <div class="notice_btn">
+                            <a class="icon prev_btn" href="javascript:;"></a>
+                            <a class="icon next_btn" href="javascript:;"></a>
+                        </div>
+                    </div>
+                </div>
+                <!--右侧头部公告结束-->
+                <div ui-view data-tmpl-url="@Request.RequestContext.RouteData.DataTokens["templateUrl"]">
+                    @RenderBody()
+                </div>
+            </div>
+            <!--右侧主题内容结束-->
 
-        <div ui-view data-tmpl-url="@Request.RequestContext.RouteData.DataTokens["templateUrl"]">
-            @RenderBody()
         </div>
-
+        <a class="icon_fold" href="javascript:;"></a> 
         <!--公用底部开始-->
         <div class="footer">
             <p class="copyright"><img src="/images/company_logo2.png" width="70" height="30" alt="">Copyright©2003-2014，版权所有 www.able-elec.com</p>
