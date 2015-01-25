@@ -5,7 +5,22 @@ var appExercise = angular.module('app.exercise.controllers', [
 ]);
 
 appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', function ($scope, exerciseService) {
+    //课程
+    $scope.courses = [];
+    //试题类型
+    $scope.exerciseTypes = [];
+    //难易程度
+    $scope.difficulties = [];
+    //范围
+    $scope.ranges = [];
+    //标签
+    $scope.lables = [];
+    //知识点
+    $scope.knowledges = [];
 
+    $scope.doChanged = function () {
+        $scope.$broadcast('willExerciseChange', {});
+    }
 }]);
 //简答题
 appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', function ($scope, exerciseService) {

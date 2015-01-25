@@ -382,7 +382,7 @@ as
    
    
   
-  
+    update [IES_Sys].[dbo].[Menu] set URL='exercise.shortanswer' where MenuID='B22' 
   
      
   
