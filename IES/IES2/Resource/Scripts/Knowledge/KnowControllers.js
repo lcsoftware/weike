@@ -12,16 +12,20 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeServi
 
         $scope.$emit('willResetCourse');
 
+        $scope.course = {};
         $scope.chapterModel = {};
         $scope.knowledgeModel = {};
 
-        $scope.course = {};
         $scope.ocChapters = [];
         $scope.ocKnowledges = [];
 
         chapterService.Chapter_Get(function (data) {
-            $scope.chapterModel = data.d; 
-            $scope.chapterModel.OCID = $scope.course.OCID;
+            $scope.chapterModel = data.d;
+        });
+
+        knowledgeService.Ken_Get(function (data) {
+            $scope.knowledgeModel = data.d;
+            $scope.knowledgeModel.UpdateTime = new Date();
         });
 
         var loadChapters = function (model) {
@@ -36,16 +40,33 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeServi
             }
         }
 
+        var loadKnowledges = function (model) {
+            if (model) {
+                knowledgeService.Ken_List(model, function (data) {
+                    $scope.ocKnowledges = data.d;
+                    $scope.chapter.knowledges = data.d;
+                    console.log($scope.chapter.knowledges);
+                    if ($scope.chapter.knowledges.length > 0) {
+                        $scope.chapter.knowledge = $scope.chapter.knowledges[0];
+                    }
+                });
+            }
+        }
+
         $scope.$on('willCourseChanged', function (event, course) {
             $scope.course = course;
             $scope.chapterModel.OCID = $scope.course.OCID;
+            $scope.knowledgeModel.OCID = $scope.course.OCID;
             loadChapters($scope.chapterModel);
+            loadKnowledges($scope.knowledgeModel);
         });
 
         $scope.$on('courseLoaded', function (event, course) {
             $scope.course = course;
-            $scope.chapterModel.OCID = course.OCID;
+            $scope.chapterModel.OCID = $scope.course.OCID;
+            $scope.knowledgeModel.OCID = $scope.course.OCID;
             loadChapters($scope.chapterModel);
+            loadKnowledges($scope.knowledgeModel);
         });
 
 
@@ -66,8 +87,17 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeServi
         $scope.knowledge.chapters = [];
 
         $scope.knowledge.save = function () {
-            console.log('save fired');
-            $scope.$broadcast('knowledgeChanged', $scope.knowledge);
+            knowledgeService.Ken_Get(function (data) {
+                var ken = data.d;
+                ken.OCID = $scope.course.OCID; 
+                ken.CourseID = $scope.course.CourseID; 
+                ken.ChapterID = $scope.knowledge.chapter.ChapterID; 
+                ken.Name = $scope.knowledge.name;
+                ken.UpdateTime = new Date();
+                knowledgeService.Ken_ADD(ken, function (data) {
+                    $scope.$broadcast('knowledgeChanged', $scope.knowledge);
+                });
+            });
         }
         $scope.knowledge.saveNew = function () {
             console.log('saveNew fired');
@@ -122,7 +152,7 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
     $scope.childSelected = function (chapter) {
         $scope.childPicker = chapter;
         $scope.selection = chapter;
-    } 
+    }
 
     $scope.$on('willCourseChanged', function (event, course) {
         $scope.chapter.OCID = course.OCID;
@@ -135,6 +165,10 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
             $scope.chapter.OCID = course.OCID;
             $scope.chapter.CourseID = course.CourseID;
         });
+    });
+
+    $scope.$on('chapterChanged', function (event, chapters) {
+        $scope.knowledge.chapters = chapters;
     });
 
     ///添加章节
@@ -155,10 +189,13 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
             }
         });
     }
-    ///章节移动成功
-    var moveSuccess = function (data) {
-        if (data.d) {
-            $scope.ocChapters = data.d;
+
+    var findById = function (chapterId) {
+        var length = $scope.ocChapters.length;
+        for (var i = 0; i < length; i++) {
+            if ($scope.ocChapters[i].ChapterID === chapterId) {
+                return $scope.ocChapters[i];
+            }
         }
     }
 
@@ -166,18 +203,35 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
         if (!$scope.selection) return;
         switch (direction) {
             case 1:
-                chapterService.MoveLeft($scope.ocChapters, $scope.selection, moveSuccess);
+                chapterService.MoveLeft($scope.ocChapters, $scope.selection, function (data) {
+                    $scope.ocChapters = data.d;
+                    $scope.selection = findById($scope.selection.ChapterID);
+                    $scope.childPicker = $scope.selection;
+                    $scope.parentPicker = findById($scope.selection.ParentID);
+                });
                 break;
             case 2:
-                chapterService.MoveRight($scope.ocChapters, $scope.selection, moveSuccess);
+                chapterService.MoveRight($scope.ocChapters, $scope.selection, function (data) {
+                    $scope.ocChapters = data.d;
+                    $scope.selection = findById($scope.selection.ChapterID);
+                    $scope.childPicker = $scope.selection;
+                    $scope.parentPicker = findById($scope.selection.ParentID);
+                });
                 break;
             case 3:
-                chapterService.MoveUp($scope.ocChapters, $scope.selection, moveSuccess);
+                chapterService.MoveUp($scope.ocChapters, $scope.selection, function (data) {
+                    $scope.ocChapters = data.d;
+                    $scope.selection = findById($scope.selection.ChapterID);
+                });
                 break;
             default:
-                chapterService.MoveDown($scope.ocChapters, $scope.selection, moveSuccess);
+                chapterService.MoveDown($scope.ocChapters, $scope.selection, function (data) {
+                    $scope.ocChapters = data.d;
+                    $scope.selection = findById($scope.selection.ChapterID);
+                });
                 break;
         }
+        $scope.$emit('chapterChanged', $scope.ocChapters);
     }
 
     $scope.delete = function () {

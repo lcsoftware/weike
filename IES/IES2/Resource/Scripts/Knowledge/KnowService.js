@@ -11,8 +11,12 @@ aService.factory('knowledgeService', ['httpService', function (httpService) {
         httpService.ajaxPost(knowProviderUrl, 'Ken_Get', null, callback);
     }
 
-    service.save = function (model, callback) {
+    service.Ken_ADD = function (model, callback) {
         httpService.ajaxPost(knowProviderUrl, 'Ken_ADD', { model: model }, callback);
+    }
+
+    service.Ken_List = function (model, callback) {
+        httpService.ajaxPost(knowProviderUrl, 'Ken_List', { model: model }, callback);
     }
     return service;
 }]);

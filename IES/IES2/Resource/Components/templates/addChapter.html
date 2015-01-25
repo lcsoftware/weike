@@ -7,11 +7,11 @@
             <div class="add_knowledge">
                 <div class="point_box">
                     <label>章节名称</label>
-                    <input type="text" ng-model="name">
+                    <input type="text" ng-model="chapter" required>
                 </div>
                 <div class="point_box">
                     <label>关联知识点</label>
-                    <select ng-model="knowledge" ng-options="item.name for item in knowledges"></select> 
+                    <select ng-model="knowledge" ng-options="item.Name for item in knowledges"></select> 
                 </div>
                 <div class="point_box">
                     <label>重要程度</label>

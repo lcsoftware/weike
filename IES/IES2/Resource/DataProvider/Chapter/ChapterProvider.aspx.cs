@@ -89,7 +89,16 @@ namespace App.Resource.DataProvider.Chapter
         public static bool Chapter_Del(Chapter model)
         {
             return new ChapterBLL().Chapter_Del(model);
-        }      
+        }
+
+        private static Chapter FindByID(IList<Chapter> allChapters, int chapterID)
+        {
+            foreach (var item in allChapters)
+            {
+                if (item.ChapterID == chapterID) return item;
+            }
+            return null;
+        }
 
         [WebMethod]
         public static IList<Chapter> MoveLeft(IList<Chapter> allChapters, Chapter chapter)
@@ -111,9 +120,12 @@ namespace App.Resource.DataProvider.Chapter
             else
             {
                 var nexts = from v in brothers where v.Orde > parent.ChapterID select v;
-                chapter.Orde = nexts.First().Orde - 1;
+                chapter.Orde = nexts.First().Orde + 1;
                 chapter.ParentID = nexts.First().ParentID;
             }
+            var item = FindByID(allChapters, chapter.ChapterID);
+            item.ParentID = chapter.ParentID;
+            item.Orde = chapter.Orde; 
             new ChapterBLL().Chapter_Upd(chapter);
             return allChapters;
         }
@@ -138,7 +150,9 @@ namespace App.Resource.DataProvider.Chapter
                                    select v;
             chapter.Orde = previousChildren.Any() ? previousChildren.Last().Orde + STEP : START;
             chapter.ParentID = previous.ChapterID;
-
+            var item = FindByID(allChapters, chapter.ChapterID);
+            item.ParentID = chapter.ParentID;
+            item.Orde = chapter.Orde; 
             new ChapterBLL().Chapter_Upd(chapter);
             return allChapters;
         }
@@ -155,8 +169,9 @@ namespace App.Resource.DataProvider.Chapter
             var tmp = previous.Orde;
             previous.Orde = chapter.Orde;
             chapter.Orde = tmp;
-            new ChapterBLL().Chapter_Upd(chapter);
-            new ChapterBLL().Chapter_Upd(previous);
+            var bll = new ChapterBLL();
+            bll.Chapter_Upd(chapter);
+            bll.Chapter_Upd(previous);
             foreach (var item in allChapters)
             {
                 if (item.ChapterID == chapter.ChapterID)
@@ -183,8 +198,9 @@ namespace App.Resource.DataProvider.Chapter
             var tmp = next.Orde;
             next.Orde = chapter.Orde;
             chapter.Orde = tmp;
-            new ChapterBLL().Chapter_Upd(chapter);
-            new ChapterBLL().Chapter_Upd(next);
+            var bll = new ChapterBLL();
+            bll.Chapter_Upd(chapter);
+            bll.Chapter_Upd(next);
             foreach (var item in allChapters)
             {
                 if (item.ChapterID == chapter.ChapterID)
