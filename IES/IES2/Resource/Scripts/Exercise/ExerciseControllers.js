@@ -24,7 +24,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', function ($
 }]);
 //简答题
 appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', function ($scope, exerciseService) {
-    $scope.$on('willExerciseChange', function (changeParam) {
+    $scope.$on('willExerciseChange', function (event, changeParam) {
 
     });
 }]);
