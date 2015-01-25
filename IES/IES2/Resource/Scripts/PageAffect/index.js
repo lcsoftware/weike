@@ -361,6 +361,9 @@ $(function(){
 	    $(this).removeClass('current');
 	})
 	
+
+    
+
 	//弹出层方法
 	//function tanchu(popbox){
 	//	var oHeight = $(document).height();
