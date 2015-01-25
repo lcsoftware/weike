@@ -111,7 +111,7 @@
 .mouse_right{ width:98px; background:#fff;}
 .mouse_right li{  cursor:pointer; position:relative;}
 .mouse_right li.active p{ background:#475c7c; color:#fff;}
-.mouse_right li p{padding-left:32px; width:66px; height:30px; line-height:30px; color:#333; position:relative; border:1px solid #ddd; margin-top:-1px; overflow:hidden; zoom:1;}
+.mouse_right li p{padding-left:32px; width:96px; height:30px; line-height:30px; color:#333; position:relative; border:1px solid #ddd; margin-top:-1px; overflow:hidden; zoom:1;}
 .mouse_right li p i{ display:block; width:16px; height:16px; position:absolute; left:8px; top:7px;}
 .data_property{ background-position:-53px -112px;}
 .data_rename{ background-position:-37px 0;}
@@ -306,7 +306,7 @@
 .knowledge_item li a{ display:block; width:80px; height:25px; line-height:25px; text-align:center; color:#666; background:#cccccc;}
 .knowledge_item li a:hover{ background:#b8b3b3;}
 .knowledge_item li a span{ color:#fff; padding-left:10px; font-weight:bold;}
-.paper_content{ margin:20px 50px; overflow:hidden; zoom:1;}
+.paper_content{ margin:20px 0px; overflow:hidden; zoom:1;}
 .add_attach{display:block; width:105px; height:25px; line-height:25px; color:#fff; background:url(../images/add_bg.gif) no-repeat; margin:20px 0 0 20px; overflow:hidden; zoom:1;}
 .add_attach:hover{ background:url(../images/add_bg_hover.gif) no-repeat;}
 .add_attach em{ display:block; width:25px; height:25px; position:relative; float:left;}
