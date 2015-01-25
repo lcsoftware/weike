@@ -48,7 +48,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
 
     ///添加个人资料 OCID=-1
-    //buildPersonal();
+    buildPersonal();
 
     ///课程切换
     $scope.$on('willCourseChanged', function (event, course) {
@@ -59,7 +59,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     });
     ///课程加载完成
     $scope.$on('courseLoaded', function (course) {
-        buildPersonal();
+        buildPersonal(); 
     });
 
 
