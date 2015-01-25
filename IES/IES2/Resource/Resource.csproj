@@ -316,6 +316,7 @@
     <Content Include="Views\Knowledge\KnowledgeChapter.cshtml" />
     <Content Include="Views\Knowledge\KnowledgeTopic.cshtml" />
     <Content Include="Views\Knowledge\Knowledge.cshtml" />
+    <Content Include="Views\Shared\Exercise.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
