@@ -4,3 +4,8 @@
 a{
     cursor:pointer;
 }
+
+.chapter-selection {
+    font-weight:bold;
+    color:red !important;
+}

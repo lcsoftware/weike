@@ -383,6 +383,65 @@ as
    
   
     update [IES_Sys].[dbo].[Menu] set URL='exercise.shortanswer' where MenuID='B22' 
+    
+  USE [IES_Resource]
+-- =============================================  
+-- Author:      王胜辉  
+-- Create date: 20141127  
+-- Description: 章节新增  
+-- =============================================  
   
+ALTER proc [dbo].[Chapter_ADD]  
+	@ChapterID int output , 
+	@OCID int ,
+    @CourseID int ,  
+    @OwnerUserID int ,
+    @CreateUserID int ,   
+    @Title nvarchar(500) ,   
+    @Orde int,
+    @ParentID int  
+as   
+  
+ SET NOCOUNT ON;  
+   
+  
+ set @ChapterID = 0   
+   
+/* select   @ChapterID = ChapterID 
+ from  dbo.Chapter  
+ where  OCID = @OCID*/
+   
+ --if( @ChapterID = 0 )  
+ --begin  
+  insert into dbo.Chapter( OCID ,  CourseID, OwnerUserID , CreateUserID , Title, ParentID, Orde  )  
+  values (  @OCID , @CourseID, @OwnerUserID , @CreateUserID  , @Title , @ParentID  , @Orde)  
+  --外面统一控制顺序
+   --values (  @OCID , @CourseID, @OwnerUserID , @CreateUserID  , @Title , @ParentID  , dbo.[f_Cacu_Chapter_GetOrder]( @OCID,@ParentID  )   )  
+     set @ChapterID = @@identity      
+ --end   
      
+USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[Chapter_Del]    Script Date: 01/25/2015 16:39:04 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+-- =============================================
+-- Author:      王胜辉
+-- Create date: 20141127
+-- Description: 章节删除
+-- =============================================
+
+ALTER proc [dbo].[Chapter_Del]
+	@ChapterID int  ,
+    @UserID int =0 --执行删除的人员编号
+as 
+	SET NOCOUNT ON;
+	delete from Chapter where ChapterID = @ChapterID or ParentID=@ChapterID
+	
+    
+
   

@@ -8,13 +8,15 @@
         <a class="icon delete_icon" ng-click="delete()"></a>
     </div>
     <ul class="chapter_item">
-        <li class="active" ng-repeat="item in ocChapters">
-            <a class="first_chapter">
+        <li ng-class="{'active':selection.ChapterID===item.ChapterID}" ng-repeat="item in ocChapters">
+            <a class="first_chapter" ng-click="parentSelected(item)" ng-class="{'chapter-selection':parentPicker.ChapterID===item.ChapterID}">
                 <i class="icon fold_btn"></i>
                 {{item.Title}}
             </a>
             <ul class="second_item">
-                <li ng-class="{active:selection==child.ChapterID}" ng-repeat="child in ocChapters | parentID:item.ParentID "><a class="first_chapter" ng-bind="child.title" ng-click="chapterSelected(child)"></a></li>
+                <li ng-class="{active:childPicker.ChapterID==child.ChapterID}" ng-repeat="child in ocChapters | parentID:item.ChapterID ">
+                    <a class="first_chapter" ng-bind="child.title" ng-click="childSelected(child)"></a>
+                </li>
             </ul>
         </li>
         <li ng-show="canAdd">

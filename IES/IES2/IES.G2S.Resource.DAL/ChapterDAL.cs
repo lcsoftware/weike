@@ -125,6 +125,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@OwnerUserID", model.OwnerUserID);
                     p.Add("@CreateUserID", model.CreateUserID); 
                     p.Add("@Title", model.Title );
+                    p.Add("@Orde", model.Orde);
                     p.Add("@ParentID", model.ParentID );
                     conn.Execute("Chapter_ADD", p, commandType: CommandType.StoredProcedure);
                     model.ChapterID = p.Get<int>("ChapterID");

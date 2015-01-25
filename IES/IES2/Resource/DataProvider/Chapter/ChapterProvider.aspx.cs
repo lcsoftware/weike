@@ -49,8 +49,17 @@ namespace App.Resource.DataProvider.Chapter
             return new ChapterBLL().Chapter_Get();
         }
         [WebMethod]
-        public static Chapter Chapter_ADD(Chapter model)
+        public static Chapter Chapter_ADD(IList<Chapter> chapters, Chapter model)
         {
+            var brothers = from v in chapters where v.ParentID == model.ParentID orderby v.Orde select v;
+            if (brothers.Any())
+            {
+                model.Orde = brothers.Last().Orde + STEP;
+            }
+            else
+            {
+                model.Orde = START;
+            }
             return new ChapterBLL().Chapter_ADD(model);
         }
 
