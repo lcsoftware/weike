@@ -24,9 +24,37 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', function ($
 }]);
 //简答题
 appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', function ($scope, exerciseService) {
+<<<<<<< HEAD
+    $scope.$on('willExerciseChange', function (changeParam) {
+        
+=======
     $scope.$on('willExerciseChange', function (event, changeParam) {
 
+>>>>>>> a38840aa68651bbf73d492e1362df917049b43a9
     });
+    $scope.model = {};
+    $scope.model.ExerciseType = 10;
+    $scope.model.IsRand = 0;
+    $scope.ExerciseAnswercards = [];//答案数组
+
+    $scope.isRandChange = function (IsRand) {
+        $scope.model.IsRand = IsRand ? 1 : 0;
+        console.log($scope.model.IsRand);
+    }
+
+    //添加选项
+    $scope.AddAnswer = function () {
+        var answer = {};
+        $scope.ExerciseAnswercards.push(answer);
+    }
+    //删除选项
+    $scope.del = function (item) {
+        for (var i = 0; i < $scope.ExerciseAnswercards.length; i++) {
+            if ($scope.ExerciseAnswercards[i].$$hashKey == item.$$hashKey) {
+                $scope.ExerciseAnswercards.splice(i, 1);
+            }
+        }
+    }
 }]);
 
 //听力题
