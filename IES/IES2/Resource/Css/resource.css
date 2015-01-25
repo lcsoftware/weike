@@ -328,6 +328,7 @@
 .default em{ display:block; float:left; width:40px; height:40px; position:relative; border-right:1px solid #ccc;}
 .default em i{ display:block; width:20px; height:14px; background-position:-88px -145px; position:absolute; left:10px; top:13px;}
 .default a{ display:block; float:right; width:40px; height:40px; text-align:center; line-height:40px; border-left:1px solid #ccc; font-family:'Microsoft YaHei'; font-size:20px; color:#234673; font-weight:bold;}
+.default input{ overflow:hidden; height:40px; width:740px; padding:0 30px 0 6px; line-height:40px\9; border:none;}
 .icon_unfold{ display:block; width:11px; height:11px; background-position:-109px -149px; position:absolute; right:55px; top:15px; cursor:pointer;}
 .connect_box{ padding:10px 0; background:#f2f2f2; overflow:hidden; zoom:1;}
 .connect_box select{ display:block; float:left; margin-left:12px; padding:0 5px; width:240px; height:23px; line-height:23px\9; vertical-align:middle; border:1px solid #e4e4e4;}
@@ -580,7 +581,50 @@
 .reply_content{ font-size:13px; color:#333;}
 .reply_time{ color:#999;}
 
-
+/*新增试卷-填空题*/
+.fill_blank{ margin-top:10px;}
+.fill_blank input{ width:781px;}
+/*新增试卷-填空题（客观）*/
+.blank_item{ margin:30px 0 0 -10px; overflow:hidden; zoom:1;}
+.blank_item .default{ float:left; margin-left:10px;}
+.objective_answer{ width:298px;}
+.objective_answer .icon_unfold{ right:15px; top:15px;}
+.objective_answer input{ padding:0 26px 0 4px; width:268px;}
+.alternative_answer{ width:548px;}
+.alternative_answer input{ padding:0 26px 0 4px; width:477px;}
+/*新增试卷-问答题*/
+.question_item{ margin-top:20px; height:22px; padding:0 0 8px 25px; border-bottom:1px solid #374760;}
+.question_item li{ float:left; margin-right:5px;}
+.question_item li a{ display:block; padding:0 15px 6px; height:22px; line-height:22px; font-size:14px; color:#666; font-weight:bold;outline:none; hide-focus:expression(this.hideFocus=true);}
+.question_item li.active a{ border-bottom:3px solid #374760; color:#374760;}
+/*新增试卷-名词解释*/
+.noun_answer{ margin-top:5px; width:806px; padding:5px; height:90px; border:1px solid #ccc; resize:none; font-size:12px;}
+/*新增试卷-听力训练*/
+.paper_wrap{ padding:19px; margin-bottom:40px; border:1px solid #ccc; position:relative;}
+.paper_wrap .default input{ width:700px;}
+.option_select{ float:left; margin:7px 20px 0 0; width:200px; line-height:25px; height:25px; border:1px solid #ccc;}
+.resource_btn{ width:31px; height:96px; background:url(../images/resource_btn.gif) no-repeat; overflow:hidden; zoom:1; position:absolute; right:-31px; top:0; z-index:10;}
+.resource_btn a{ display:block; width:31px; height:31px; margin-bottom:1px;}
+.listening_btn{ display:none; width:90px; position:fixed; top:100px; left:50%; margin-left:400px;z-index:100;}
+.listening_btn li{ margin-bottom:8px;}
+.listening_btn li a{ display:block; width:90px; height:30px; line-height:30px; text-align:center; color:#fff; background:#475c7c; border-radius:3px; }
+.listening_btn li.active a,.listening_btn li a:hover{ background:#f44f4f;}
+/*新增试卷-判断题*/
+.answer_content{ margin-top:30px; height:40px; line-height:40px; overflow:hidden; zoom:1;}
+.answer_content span{ float:left; margin-right:20px; color:#666;}
+.answer_content a{ float:left; margin-left:10px; height:38px; width:38px; text-align:center; color:#666; line-height:38px; border:1px solid #ccc;}
+.answer_content a:hover,.answer_content a.active{ background:#33cc66; border:1px solid #33cc66; color:#fff;}
+/*新增试卷-连线题*/
+.answer_item{ float:left; width:424px; font-weight:normal;}
+.connection_box{ overflow:hidden; zoom:1;}
+.question_box{ float:left; margin-right:10px; width:425px;}
+.question_select{ margin-top:5px;}
+.question_select .icon_unfold{ right:15px; top:15px;}
+.question_select input{ padding:0 26px 0 4px; width:393px;}
+.answer_option{ overflow:hidden;}
+.answer_select{ margin-top:5px;}
+.answer_select input{ width:346px;}
+.add_answer{ width:423px; height:40px; line-height:40px\9; border:1px solid #ccc; margin-top:60px;}
 
 
 
