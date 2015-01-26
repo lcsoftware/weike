@@ -4,49 +4,24 @@
 
     <p class="no_rank"><b class="answer_item">题目</b> <b class="answer_item">答案<span>(保存后，自动打乱顺序)</span></b></p>
     <div class="connection_box">
-        <div class="question_box">
-            <div class="default question_select">
-                <input type="text">
-                <span class="icon icon_unfold"></span>
+        <div ng-repeat="item in Exercises">
+            <div class="question_box">
+                <div class="default question_select">
+                    <input type="text" ng-model="item.Conten">
+                    <span class="icon icon_unfold"></span>
+                </div>
             </div>
-            <div class="default question_select">
-                <input type="text">
-                <span class="icon icon_unfold"></span>
-            </div>
-            <div class="default question_select">
-                <input type="text">
-                <span class="icon icon_unfold"></span>
-            </div>
-            <div class="default question_select">
-                <input type="text">
-                <span class="icon icon_unfold"></span>
-            </div>
-            <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加选项</span></a>
-        </div>
-        <div class="answer_option">
-            <div class="default answer_select">
-                <a href="javascript:;">x</a>
-                <input type="text">
-                <span class="icon icon_unfold"></span>
-            </div>
-            <div class="default answer_select">
-                <a href="javascript:;">x</a>
-                <input type="text">
-                <span class="icon icon_unfold"></span>
-            </div>
-            <div class="default answer_select">
-                <a href="javascript:;">x</a>
-                <input type="text">
-                <span class="icon icon_unfold"></span>
-            </div>
-            <div class="default answer_select">
-                <a href="javascript:;">x</a>
-                <input type="text">
-                <span class="icon icon_unfold"></span>
-            </div>
-            <input class="add_answer" type="text" placeholder="请输入其他干扰项">
-            <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加干扰项</span></a>
-        </div>
+            <div class="answer_option">
+                <div class="default answer_select">
+                    <a ng-click="Del(item)">x</a>
+                    <input type="text" ng-model="item.Answer">
+                    <span class="icon icon_unfold"></span>
+                </div>
+            </div>            
+        </div>        
+        <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加选项</span></a>
+        <input class="add_answer" type="text" placeholder="请输入其他干扰项">
+        <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加干扰项</span></a>
     </div>
     <div class="text_box" style="color:#F00; margin-top:20px;">这里是富文本框这里是富文本框<br>试题解析试题解析</div>
     

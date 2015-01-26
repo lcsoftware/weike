@@ -3,12 +3,12 @@
     <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
 
     <p class="no_rank">默认只有一个填空答案，您可以添加填空答案</p>
-    <div class="default fill_blank">
-        <a href="javascript:;">x</a>
-        <input type="text">
+    <div class="default fill_blank" ng-repeat="item in Exercises">
+        <a ng-click="Del(item)">x</a>
+        <input type="text" ng-model="item.Conten">
         <span class="icon icon_unfold"></span>
     </div>
-    <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加选项</span></a>
+    <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加选项</span></a>
     <div class="text_box" style="color:#F00; margin-top:20px;">这里是富文本框这里是富文本框<br>试题解析试题解析</div>
     
 </div>
