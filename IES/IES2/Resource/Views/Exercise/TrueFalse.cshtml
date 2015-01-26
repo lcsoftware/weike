@@ -1,11 +1,17 @@
 ﻿
-    <div class="paper_content">
-        <div class="text_box" style="color:#F00;">这里是富文本框这里是富文本框</div>
-        <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
-        <p class="answer_content">
-            <span>题目答案</span>
-            <a ng-class="{active:model.answer==1}" ng-model="model.answer" ng-click="answeChange(model.answer)">正确</a>
-            <a ng-class="{active:model.answer==0}" ng-model="model.answer" ng-click="answeChange(model.answer)">错误</a>
-        </p>
-        <div class="text_box" style="color:#F00;">这里是富文本框这里是富文本框<br>试题解析试题解析</div>
+<div class="paper_content">
+    <div class="text_box" style="color:#F00;">
+        <textarea class="form-control" rows="4" ng-model="Attachment.FileName"></textarea>
     </div>
+    <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
+    <p class="answer_content">
+        <span>题目答案</span>
+        <a ng-class="{active:model.answer==1}" ng-model="model.answer" ng-click="answeChange(model.answer)">正确</a>
+        <a ng-class="{active:model.answer==0}" ng-model="model.answer" ng-click="answeChange(model.answer)">错误</a>
+    </p>
+    <div class="text_box" style="color: #F00; margin-top: 20px;">        
+        <textarea class="form-control" rows="4" ng-model="model.Analysis"></textarea>
+        <br>
+        试题解析试题解析
+    </div>
+</div>

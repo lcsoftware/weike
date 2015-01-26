@@ -1,5 +1,7 @@
 ﻿<div class="paper_content">
-    <div class="text_box" style="color:#F00;">这里是富文本框这里是富文本框</div>
+    <div class="text_box" style="color:#F00;">
+        <textarea class="form-control" rows="4" ng-model="Attachment.FileName"></textarea>
+    </div>
     <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
 
     <p class="no_rank"><b class="answer_item">题目</b> <b class="answer_item">答案<span>(保存后，自动打乱顺序)</span></b></p>
@@ -17,12 +19,15 @@
                     <input type="text" ng-model="item.Answer">
                     <span class="icon icon_unfold"></span>
                 </div>
-            </div>            
-        </div>        
+            </div>
+        </div>
         <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加选项</span></a>
         <input class="add_answer" type="text" placeholder="请输入其他干扰项">
         <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加干扰项</span></a>
     </div>
-    <div class="text_box" style="color:#F00; margin-top:20px;">这里是富文本框这里是富文本框<br>试题解析试题解析</div>
-    
+    <div class="text_box" style="color:#F00; margin-top:20px;">
+        <textarea class="form-control" rows="4" ng-model="model.Analysis"></textarea>
+        <br>试题解析试题解析
+    </div>
+
 </div>
