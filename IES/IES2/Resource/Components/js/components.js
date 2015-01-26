@@ -48,8 +48,8 @@ app.directive('addKnowledge', function () {
         knowledge: '=',
         chapter: '=',
         chapters: '=',
-        importance: '=',
-        importances: '=',
+        requireMent: '=',
+        requireMents: '=',
         onSaveNew: '&',
         onSave: '&',
         onCancel: '&'
@@ -85,8 +85,8 @@ app.directive('addChapter', function () {
         chapterName: '=',
         knowledge: '=',
         knowledges: '=',
-        importance: '=',
-        importances: '=',
+        requireMent: '=',
+        requireMents: '=',
         onSaveNew: '&',
         onSave: '&',
         onCancel: '&'

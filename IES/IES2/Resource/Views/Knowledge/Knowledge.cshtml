@@ -4,13 +4,13 @@
             <li ui-sref-active="active"><a ui-sref="content.knowledge.topic">按知识点</a></li>
             <li ui-sref-active="active"><a ui-sref="content.knowledge.chapter">按章节</a></li>
         </ul>
-    </div> 
+    </div>
     <add-knowledge id="eByKnowledge" style="display:none;"
                    knowledge="aKnowledge.name"
                    chapter="aKnowledge.chapter"
                    chapters="ocChapters"
-                   importance="importance"
-                   importances="importances"
+                   require-ment="requireMent"
+                   require-ments="requireMents"
                    on-save-new="aKnowledge.saveNew(aKnowledge)"
                    on-save="aKnowledge.save(aKnowledge)"
                    on-cancel="aKnowledge.cancel()">
@@ -19,8 +19,8 @@
                  chapter-name="aChapter.name"
                  knowledge="aChapter.knowledge"
                  knowledges="ocKnowledges"
-                 importance="importance"
-                 importances="importances"
+                 require-ment="requireMent"
+                 require-ments="requireMents"
                  on-save-new="aChapter.saveNew(aChapter)"
                  on-save="aChapter.save(aChapter)"
                  on-cancel="aChapter.cancel()">

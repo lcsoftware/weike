@@ -16,6 +16,11 @@ namespace IES.G2S.Resource.BLL
         {
             return ChapterDAL.Chapter_List(model);
         }
+        public List<IES.Resource.Model.File> Chapter_File_List(Chapter chapter, Ken ken)
+        {
+            return ChapterDAL.Chapter_File_List(chapter, ken);
+        }
+
         public bool Chapter_Del(Chapter model)
         {
             return ChapterDAL.Chapter_Del(model);

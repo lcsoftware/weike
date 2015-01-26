@@ -6,12 +6,12 @@ var aService = angular.module('app.exercise.services', [
 
 aService.factory('exerciseService', ['httpService', function (httpService) {
     var service = {};
-    var resourceProviderUrl = '/DataProvider/Exercise/ExerciseProvider.aspx';
+    var exerciseProviderUrl = '/DataProvider/Exercise/ExerciseProvider.aspx';
+    
 
-    var ajaxPost = function (method, param, callback) {
-        var url = resourceProviderUrl + '/' + method;
-        httpService.post(url, param, callback);
-    }
+    //service.Resource_Dict_Requirement_Get = function (callback) {
+    //    httpService.ajaxPost(exerciseProviderUrl, 'Resource_Dict_Requirement_Get', null, callback);
+    //}
 
     return service;
 }]);

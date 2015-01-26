@@ -217,5 +217,16 @@ namespace App.Resource.DataProvider.Chapter
             }
             return allChapters;
         }
+
+        [WebMethod]
+        public static List<IES.Resource.Model.File> Chapter_File_List(int chapterId, int kenId)
+        {
+            Chapter chapter = new Chapter();
+            chapter.ChapterID = chapterId;
+            chapter.CreateUserID = 0;
+
+            Ken ken = new Ken() { KenID = kenId };
+            return new ChapterBLL().Chapter_File_List(chapter, ken);
+        }
     }
 }

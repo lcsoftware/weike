@@ -17,13 +17,16 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeServi
 
         $scope.ocChapters = [];
         $scope.ocKnowledges = [];
-        $scope.importances = [];
-        $scope.importance = {};
+        $scope.requireMent = [];
+        $scope.requireMents = {};
 
-        assistService.getImportances(function (data) {
-            if (data.length > 0) {
-                $scope.importances = data;
-                $scope.importance = $scope.importances[0];
+        $scope.selectKnowledge = {};
+
+        assistService.Resource_Dict_Requirement_Get(function (data) {
+            if (data.d.length > 0) {
+                $scope.requireMents = data.d;
+                $scope.requireMent = $scope.requireMents[0];
+                console.log($scope.requireMents);
             }
         });
 
@@ -84,15 +87,17 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeServi
             ken.OCID = $scope.course.OCID;
             ken.CourseID = $scope.course.CourseID;
             ken.ChapterID = knowledge.chapter.ChapterID;
+            ken.Requirement = $scope.requireMent.id;
             ken.Name = knowledge.name;
             ken.UpdateTime = new Date();
             knowledgeService.Ken_ADD(ken, function (data) {
                 $scope.ocKnowledges.push(data.d); 
                 var kenEntry = {
                     ChapterID: data.d.ChapterID,
-                    KenID: data.d.KenID
+                    KenID: data.d.KenID,
+                    
                 }
-                ResourceKenAdd(ken)
+                ResourceKenAdd(kenEntry)
                 if (callback) callback();
             });
         }
@@ -128,11 +133,11 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeServi
             newChapter.Title = chapter.name;
             chapterService.save(newChapter, function (data) {
                 $scope.ocChapters.push(data.d);
-                var ken = {
+                var resourceKen = {
                     ChapterID: data.d.ChapterID,
                     KenID: $scope.aChapter.knowledge.KenID
                 }
-                ResourceKenAdd(ken);
+                ResourceKenAdd(resourceKen);
                 if (callback) callback();
             });
         }
@@ -164,17 +169,30 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
     $scope.childPicker = {};
     $scope.childPicker.ChapterID = -1;
 
-    $scope.selection = null;
+    $scope.chapterSelection = null;
+    $scope.knowSelection = { KenID: 0 };
 
     $scope.parentSelected = function (chapter) {
         $scope.parentPicker = chapter;
-        $scope.selection = chapter;
+        $scope.chapterSelection = chapter;
+        showAssociation($scope.chapterSelection, $scope.knowSelection);
     }
 
     $scope.childSelected = function (chapter) {
         $scope.childPicker = chapter;
-        $scope.selection = chapter;
+        $scope.chapterSelection = chapter;
+        showAssociation($scope.chapterSelection, $scope.knowSelection);
     } 
+
+    $scope.knowSelected = function (knowledge) {
+        $scope.knowSelection = knowledge;
+        showAssociation($scope.chapterSelection, $scope.knowSelection);
+    }
+
+    ///显示关联内容
+    var showAssociation = function (chapter, knowledge) {
+
+    }
 
     ///添加章节
     $scope.addChapter = function () {
@@ -190,12 +208,14 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
 
         chapterService.Chapter_ADD($scope.ocChapters, newChapter, function (data) {
             if (data.d) {
-                $scope.$parent.knowledge.chapters.push(data.d);
+                $scope.ocChapters.push(data.d);
                 $scope.title = '';
                 $scope.canAdd = false;
             }
         });
     }
+
+  
 
     var findById = function (chapterId) {
         var length = $scope.ocChapters.length;
@@ -207,34 +227,34 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
     }
 
     $scope.move = function (direction) {
-        if (!$scope.selection) return;
+        if (!$scope.chapterSelection) return;
         switch (direction) {
             case 1:
-                chapterService.MoveLeft($scope.ocChapters, $scope.selection, function (data) {
+                chapterService.MoveLeft($scope.ocChapters, $scope.chapterSelection, function (data) {
                     $scope.ocChapters = data.d;
-                    $scope.selection = findById($scope.selection.ChapterID);
-                    $scope.childPicker = $scope.selection;
-                    $scope.parentPicker = findById($scope.selection.ParentID);
+                    $scope.chapterSelection = findById($scope.chapterSelection.ChapterID);
+                    $scope.childPicker = $scope.chapterSelection;
+                    $scope.parentPicker = findById($scope.chapterSelection.ParentID);
                 });
                 break;
             case 2:
-                chapterService.MoveRight($scope.ocChapters, $scope.selection, function (data) {
+                chapterService.MoveRight($scope.ocChapters, $scope.chapterSelection, function (data) {
                     $scope.ocChapters = data.d;
-                    $scope.selection = findById($scope.selection.ChapterID);
-                    $scope.childPicker = $scope.selection;
-                    $scope.parentPicker = findById($scope.selection.ParentID);
+                    $scope.chapterSelection = findById($scope.chapterSelection.ChapterID);
+                    $scope.childPicker = $scope.chapterSelection;
+                    $scope.parentPicker = findById($scope.chapterSelection.ParentID);
                 });
                 break;
             case 3:
-                chapterService.MoveUp($scope.ocChapters, $scope.selection, function (data) {
+                chapterService.MoveUp($scope.ocChapters, $scope.chapterSelection, function (data) {
                     $scope.ocChapters = data.d;
-                    $scope.selection = findById($scope.selection.ChapterID);
+                    $scope.chapterSelection = findById($scope.chapterSelection.ChapterID);
                 });
                 break;
             default:
-                chapterService.MoveDown($scope.ocChapters, $scope.selection, function (data) {
+                chapterService.MoveDown($scope.ocChapters, $scope.chapterSelection, function (data) {
                     $scope.ocChapters = data.d;
-                    $scope.selection = findById($scope.selection.ChapterID);
+                    $scope.chapterSelection = findById($scope.chapterSelection.ChapterID);
                 });
                 break;
         }
@@ -242,12 +262,12 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
     }
 
     $scope.delete = function () {
-        if ($scope.selection) {
-            chapterService.Chapter_Del($scope.selection, function (data) {
+        if ($scope.chapterSelection) {
+            chapterService.Chapter_Del($scope.chapterSelection, function (data) {
                 if (data.d === true) {
                     var length = $scope.ocChapters.length;
                     for (var i = 0; i < length; i++) {
-                        if ($scope.ocChapters[i].ChapterID === $scope.selection.ChapterID) {
+                        if ($scope.ocChapters[i].ChapterID === $scope.chapterSelection.ChapterID) {
                             $scope.ocChapters.splice(i, 1);
                             break;
                         }

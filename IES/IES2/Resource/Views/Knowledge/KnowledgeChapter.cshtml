@@ -29,7 +29,8 @@
 
 <div class="chapter_box">
     <div class="filter_knowledge">
-        <a ui-sref-active="active" ui-sref="" ng-repeat="knowledge in knowledges" ng-bind="knowledge.title"></a>
+        <a ng-class="{'active':knowSelection.ID==0}">全部</a>
+        <a ng-class="{'active':knowSelection.ID==knowledge.KenID}" ng-repeat="knowledge in ocKnowledges" ng-click="knowSelected(knowledge)" ng-bind="knowledge.Name"></a>
     </div>
     <ul class="chapter_list">
         <li ng-class="{active:association.selection == 1}"><a ng-click="association.linkDoc()">关联资料</a></li>
