@@ -1,5 +1,7 @@
 ﻿<div class="paper_content">
-    <div class="text_box" style="color:#F00;">这里是富文本框这里是富文本框</div>
+    <div class="text_box" style="color:#F00;">
+        <textarea class="form-control" rows="4" ng-model="Attachment.FileName"></textarea>
+    </div>
     <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
     <div class="blank_item" ng-repeat="item in Exercises">
         <div class="default objective_answer">
@@ -13,5 +15,8 @@
         </div>
     </div>
     <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加选项</span></a>
-    <div class="text_box" style="color:#F00; margin-top:20px;">这里是富文本框这里是富文本框<br>试题解析试题解析</div>    
+    <div class="text_box" style="color:#F00; margin-top:20px;">
+        <textarea class="form-control" rows="4" ng-model="model.Analysis"></textarea>
+        <br>试题解析试题解析
+    </div>
 </div>

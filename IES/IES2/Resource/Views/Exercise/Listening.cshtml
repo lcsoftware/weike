@@ -1,7 +1,9 @@
 ﻿
 <div class="paper_content">
     <div class="paper_wrap">
-        <div class="text_box" style="color:#F00;">这里是富文本框这里是富文本框</div>
+        <div class="text_box" style="color:#F00;">
+            <textarea class="form-control" rows="4" ng-model="Attachment.FileName"></textarea>
+        </div>
         <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
         <p class="no_rank">
             <select class="option_select" ng-model="model.ChoiceNum">
@@ -29,7 +31,9 @@
         </div>
     </div>
     <div class="paper_wrap">
-        <div class="text_box" style="color:#F00;">这里是富文本框这里是富文本框</div>
+        <div class="text_box" style="color:#F00;">
+            <textarea class="form-control" rows="4" ng-model="Attachment.FileName1"></textarea>
+        </div>
         <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
         <p class="no_rank">默认只有一个填空答案，您可以添加填空答案</p>
         <div class="default fill_blank" ng-repeat="item in Contens">
@@ -44,6 +48,10 @@
             <a class="delete_section" href="javascript:;"></a>
         </div>
     </div>
-    <div class="text_box" style="color:#F00;">这里是富文本框这里是富文本框</div>
+    <div class="text_box" style="color: #F00; margin-top: 20px;">
+        <textarea class="form-control" rows="4" ng-model="model.Analysis"></textarea>
+        <br>
+        试题解析试题解析
+    </div>
 
 </div>
