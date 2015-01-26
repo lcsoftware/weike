@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Attachment.cs" />
     <Compile Include="Chapter.cs" />
+    <Compile Include="ChapterKen.cs" />
     <Compile Include="ExerciseAnswercardInfo.cs" />
     <Compile Include="ExerciseCompInfo.cs" />
     <Compile Include="ExerciseCommon.cs" />

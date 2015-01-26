@@ -48,5 +48,7 @@ namespace App.Resource.DataProvider.Knowledge
         {
             return new KenBLL().Ken_Del(model);
         }
+
+        
     }
 }

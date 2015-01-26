@@ -42,36 +42,12 @@
                 <th width="460">文件名称</th>
                 <th>创建人</th>
             </tr>
-            <tr>
+            <tr ng-repeat="item in chapterFiles">
                 <td>
-                    <p class="file_data"><i class="icon_24 doc"></i><span>巴斯通森林</span></p>
+                    <p class="file_data"><i class="icon_24 doc"></i><span ng-bind="item.FileTitle"></span></p>
                 </td>
-                <td>李志伟</td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="file_data"><i class="icon_24 flv"></i><span>巴斯通森林</span></p>
-                </td>
-                <td>李志伟</td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="file_data"><i class="icon_24 ppt"></i><span>巴斯通森林</span></p>
-                </td>
-                <td>李志伟</td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="file_data"><i class="icon_24 mp4"></i><span>巴斯通森林</span></p>
-                </td>
-                <td>李志伟</td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="file_data"><i class="icon_24 html"></i><span>巴斯通森林</span></p>
-                </td>
-                <td>李志伟</td>
-            </tr>
+                <td ng-bind="item.CreateUserName"></td>
+            </tr> 
         </table>
     </div>
     <div class="connect_item">

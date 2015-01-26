@@ -15,5 +15,5 @@ namespace IES.G2S.Resource.IBLL
         Ken Ken_ADD(Ken model);
 
         bool Ken_Upd(Ken model);
-    }
+    } 
 }

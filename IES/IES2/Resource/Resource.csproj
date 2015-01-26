@@ -154,6 +154,7 @@
     <Content Include="DataProvider\Exercise\ExerciseProvider.aspx" />
     <Content Include="DataProvider\Knowledge\KnowProvider.aspx" />
     <Content Include="DataProvider\Paper\PaperProvider.aspx" />
+    <Content Include="DataProvider\ResourceKen\ResourceKenProvider.aspx" />
     <Content Include="DataProvider\Resource\ResourceProvider.aspx" />
     <Content Include="DataProvider\Shared\AssistProvider.aspx" />
     <Content Include="DataProvider\Shared\ContentProvider.aspx" />
@@ -279,6 +280,7 @@
     <Content Include="Scripts\PageAffect\index.js" />
     <Content Include="Scripts\Paper\PaperControllers.js" />
     <Content Include="Scripts\Paper\PaperService.js" />
+    <Content Include="Scripts\ResourceKen\ResourceKenService.js" />
     <Content Include="Scripts\Resource\ResourceControllers.js" />
     <Content Include="Scripts\Resource\ResourceService.js" />
     <Content Include="Scripts\Shared\ContentControllers.js" />
@@ -373,6 +375,13 @@
     </Compile>
     <Compile Include="DataProvider\Paper\PaperProvider.aspx.designer.cs">
       <DependentUpon>PaperProvider.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\ResourceKen\ResourceKenProvider.aspx.cs">
+      <DependentUpon>ResourceKenProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\ResourceKen\ResourceKenProvider.aspx.designer.cs">
+      <DependentUpon>ResourceKenProvider.aspx</DependentUpon>
     </Compile>
     <Compile Include="DataProvider\Resource\ResourceProvider.aspx.cs">
       <DependentUpon>ResourceProvider.aspx</DependentUpon>

@@ -6,24 +6,24 @@
         </ul>
     </div> 
     <add-knowledge id="eByKnowledge" style="display:none;"
-                   knowledge="knowledge.name"
-                   chapter="knowledge.chapter"
-                   chapters="knowledge.chapters"
+                   knowledge="aKnowledge.name"
+                   chapter="aKnowledge.chapter"
+                   chapters="ocChapters"
                    importance="importance"
                    importances="importances"
-                   on-save-new="knowledge.saveNew()"
-                   on-save="knowledge.save()"
-                   on-cancel="knowledge.cancel()">
+                   on-save-new="aKnowledge.saveNew(aKnowledge)"
+                   on-save="aKnowledge.save(aKnowledge)"
+                   on-cancel="aKnowledge.cancel()">
     </add-knowledge>
     <add-chapter id="eByChapter" style="display:none;"
-                 chapter="chapter.name"
-                 knowledge="chapter.knowledge"
-                 knowledges="chapter.knowledges"
+                 chapter-name="aChapter.name"
+                 knowledge="aChapter.knowledge"
+                 knowledges="ocKnowledges"
                  importance="importance"
                  importances="importances"
-                 on-save-new="chapter.saveNew()"
-                 on-save="chapter.save()"
-                 on-cancel="chapter.cancel()">
+                 on-save-new="aChapter.saveNew(aChapter)"
+                 on-save="aChapter.save(aChapter)"
+                 on-cancel="aChapter.cancel()">
     </add-chapter>
     <div class="exercise_btn">
         <a class="topic_import" dialog-show dialog-id="eByKnowledge"><em><i class="icon"></i></em><span>添加知识点</span></a>

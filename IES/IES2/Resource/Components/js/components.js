@@ -82,7 +82,7 @@ app.directive('addChapter', function () {
     directive.restrict = 'EA';
 
     directive.scope = {
-        chapter: '=',
+        chapterName: '=',
         knowledge: '=',
         knowledges: '=',
         importance: '=',
@@ -91,6 +91,8 @@ app.directive('addChapter', function () {
         onSave: '&',
         onCancel: '&'
     }
+
+    directive.replace = true;
 
     directive.templateUrl = '/Components/templates/addChapter.html';
 

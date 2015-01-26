@@ -470,4 +470,19 @@ as
     Update Chapter set Title = @Title, Orde = @Orde, ParentID=@parentID
     where ChapterID = @ChapterID    
 
+-- =============================================  
+-- Author:      王胜辉  
+-- Create date: 20150126
+-- Description: 知识点关联新增  
+-- =============================================    
+create proc [dbo].[ResourceKen_ADD]  
+	@ID int output , 
+	@KenID int ,
+    @ResourceID int ,       
+    @Source nvarchar(30)
+as     
+  set @ID = 0        
   
+  INSERT INTO [dbo].[ResourceKen]([ResourceID],[Source],[KenID])
+  SELECT @ResourceID, @Source, @KenID
+  set @ID = @@identity      

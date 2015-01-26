@@ -53,6 +53,7 @@ namespace App.Resource
                 "~/scripts/Exercise/ExerciseControllers.js", 
                 "~/scripts/Resource/ResourceService.js",
                 "~/scripts/Resource/ResourceControllers.js", 
+                "~/scripts/ResourceKen/ResourceKenService.js", 
                 "~/scripts/Chapter/ChapterService.js",
                 "~/scripts/Knowledge/KnowService.js",
                 "~/scripts/Knowledge/KnowControllers.js", 

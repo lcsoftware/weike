@@ -4,73 +4,19 @@ var appKnow = angular.module('app.knowledge.controllers', [
     'app.content.services',
     'app.chapter.services',
     'app.knowledge.services',
+    'app.resken.services',
     'app.assist.services',
 ]);
 
-appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeService', 'chapterService', 'assistService',
-    function ($scope, contentService, knowledgeService, chapterService, assistService) {
+appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeService', 'chapterService', 'assistService', 'resourceKenService',
+    function ($scope, contentService, knowledgeService, chapterService, assistService, resourceKenService) {
 
         $scope.$emit('willResetCourse');
 
         $scope.course = {};
-        $scope.chapterModel = {};
-        $scope.knowledgeModel = {};
 
         $scope.ocChapters = [];
         $scope.ocKnowledges = [];
-
-        chapterService.Chapter_Get(function (data) {
-            $scope.chapterModel = data.d;
-        });
-
-        knowledgeService.Ken_Get(function (data) {
-            $scope.knowledgeModel = data.d;
-            $scope.knowledgeModel.UpdateTime = new Date();
-        });
-
-        var loadChapters = function (model) {
-            if (model) {
-                chapterService.Chapter_List(model, function (data) {
-                    $scope.ocChapters = data.d;
-                    $scope.knowledge.chapters = data.d;
-                    if ($scope.knowledge.chapters.length > 0) {
-                        $scope.knowledge.chapter = $scope.knowledge.chapters[0];
-                    }
-                });
-            }
-        }
-
-        var loadKnowledges = function (model) {
-            if (model) {
-                knowledgeService.Ken_List(model, function (data) {
-                    $scope.ocKnowledges = data.d;
-                    $scope.chapter.knowledges = data.d;
-                    console.log($scope.chapter.knowledges);
-                    if ($scope.chapter.knowledges.length > 0) {
-                        $scope.chapter.knowledge = $scope.chapter.knowledges[0];
-                    }
-                });
-            }
-        }
-
-        $scope.$on('willCourseChanged', function (event, course) {
-            $scope.course = course;
-            $scope.chapterModel.OCID = $scope.course.OCID;
-            $scope.knowledgeModel.OCID = $scope.course.OCID;
-            loadChapters($scope.chapterModel);
-            loadKnowledges($scope.knowledgeModel);
-        });
-
-        $scope.$on('courseLoaded', function (event, course) {
-            $scope.course = course;
-            $scope.chapterModel.OCID = $scope.course.OCID;
-            $scope.knowledgeModel.OCID = $scope.course.OCID;
-            loadChapters($scope.chapterModel);
-            loadKnowledges($scope.knowledgeModel);
-        });
-
-
-        /// 添加知识点
         $scope.importances = [];
         $scope.importance = {};
 
@@ -81,59 +27,135 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeServi
             }
         });
 
-        $scope.knowledge = {};
-        $scope.knowledge.name = '';
-        $scope.knowledge.chapter = {};
-        $scope.knowledge.chapters = [];
-
-        $scope.knowledge.save = function () {
-            knowledgeService.Ken_Get(function (data) {
-                var ken = data.d;
-                ken.OCID = $scope.course.OCID; 
-                ken.CourseID = $scope.course.CourseID; 
-                ken.ChapterID = $scope.knowledge.chapter.ChapterID; 
-                ken.Name = $scope.knowledge.name;
-                ken.UpdateTime = new Date();
-                knowledgeService.Ken_ADD(ken, function (data) {
-                    $scope.$broadcast('knowledgeChanged', $scope.knowledge);
-                });
+        var loadChapters = function (course) {
+            var model = {};
+            model.OCID = course.OCID;
+            model.CouseID = course.CourseID;
+            chapterService.Chapter_List(model, function (data) {
+                $scope.ocChapters = data.d;
+                if ($scope.ocChapters.length > 0) {
+                    $scope.aKnowledge.chapter = $scope.ocChapters[0];
+                }
             });
         }
-        $scope.knowledge.saveNew = function () {
-            console.log('saveNew fired');
-            var copyObject = angular.copy($scope.knowledge);
-            $scope.$broadcast('knowledgeChanged', copyObject);
+
+        var loadKnowledges = function (course) { 
+            var model = {};
+            model.OCID = course.OCID;
+            model.CouseID = course.CourseID; 
+            knowledgeService.Ken_List(model, function (data) {
+                $scope.ocKnowledges = data.d;
+                $scope.aChapter.knowledges = data.d;
+                if ($scope.ocKnowledges.length > 0) {
+                    $scope.aChapter.knowledge = $scope.ocKnowledges[0];
+                }
+            });
         }
-        $scope.knowledge.cancel = function () {
-            $scope.knowledge = {};
+
+        $scope.$on('willCourseChanged', function (event, course) {
+            $scope.course = course;
+            loadChapters($scope.course);
+            loadKnowledges($scope.course);
+        });
+
+        $scope.$on('courseLoaded', function (event, course) {
+            $scope.course = course;
+            loadChapters($scope.course);
+            loadKnowledges($scope.course);
+        });
+
+
+        /// 添加知识点 
+        $scope.aKnowledge = {};
+        $scope.aKnowledge.name = '';
+        $scope.aKnowledge.chapter = {};
+
+        var ResourceKenAdd = function (ken) {
+            var resKen = {
+                ResourceID: ken.ChapterID,
+                KenID: ken.KenID,
+                Source: 'Chapter'
+            };
+            resourceKenService.ResourceKen_ADD(resKen);
+        }
+
+        var knowledgeSave = function (knowledge, callback) {
+            var ken = {};
+            ken.OCID = $scope.course.OCID;
+            ken.CourseID = $scope.course.CourseID;
+            ken.ChapterID = knowledge.chapter.ChapterID;
+            ken.Name = knowledge.name;
+            ken.UpdateTime = new Date();
+            knowledgeService.Ken_ADD(ken, function (data) {
+                $scope.ocKnowledges.push(data.d); 
+                var kenEntry = {
+                    ChapterID: data.d.ChapterID,
+                    KenID: data.d.KenID
+                }
+                ResourceKenAdd(ken)
+                if (callback) callback();
+            });
+        }
+
+        $scope.aKnowledge.save = function (knowledge) {
+            knowledgeSave(knowledge);
+        }
+
+        $scope.aKnowledge.saveNew = function (knowledge) {
+            knowledgeSave(knowledge, function () {
+                $scope.aKnowledge.name = '';
+            });
+        }
+
+        $scope.aKnowledge.cancel = function () {
+            $scope.aKnowledge = {};
+            $scope.aKnowledge.name = '';
+            $scope.aKnowledge.chapter = {};
         }
 
         /// end 添加知识点
 
         ///添加章节
-        $scope.chapter = {};
-        $scope.chapter.name = 'sss';
-        $scope.chapter.knowledge = {};
-        $scope.chapter.knowledges = [];
+        $scope.aChapter = {};
+        $scope.aChapter.name = '';
+        $scope.aChapter.knowledge = {};
 
-        $scope.chapter.save = function () {
-            console.log('save fired');
-            $scope.$broadcast('chapterChanged', $scope.chapter);
+        var chapterSave = function (chapter, callback)
+        {
+            var newChapter = {};
+            newChapter.OCID = $scope.course.OCID;
+            newChapter.CourseID = $scope.course.CourseID;
+            newChapter.Title = chapter.name;
+            chapterService.save(newChapter, function (data) {
+                $scope.ocChapters.push(data.d);
+                var ken = {
+                    ChapterID: data.d.ChapterID,
+                    KenID: $scope.aChapter.knowledge.KenID
+                }
+                ResourceKenAdd(ken);
+                if (callback) callback();
+            });
         }
-        $scope.chapter.saveNew = function () {
-            console.log('saveNew fired');
-            var copyObject = $scope.chapter;
-            $scope.$broadcast('chapterChanged', copyObject);
+
+        $scope.aChapter.save = function (chapter) {
+            chapterSave(chapter);
         }
-        $scope.chapter.cancel = function () {
-            console.log('cancel fired');
+        $scope.aChapter.saveNew = function (chapter) {
+            chapterSave(chapter, function () {
+                $scope.aChapter.name = '';
+            });
+        }
+
+        $scope.aChapter.cancel = function () {
+            $scope.aChapter = {};
+            $scope.aChapter.name = '';
+            $scope.aChapter.knowledge = {};
         }
         /// end 添加章节 
     }]);
 
 appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($scope, chapterService) {
 
-    $scope.chapter = {};
     $scope.canAdd = false;
 
     $scope.parentPicker = {};
@@ -152,24 +174,7 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
     $scope.childSelected = function (chapter) {
         $scope.childPicker = chapter;
         $scope.selection = chapter;
-    }
-
-    $scope.$on('willCourseChanged', function (event, course) {
-        $scope.chapter.OCID = course.OCID;
-        $scope.chapter.CourseID = course.CourseID;
-    });
-
-    $scope.$on('courseLoaded', function (event, course) {
-        chapterService.Chapter_Get(function (data) {
-            $scope.chapter = data.d;
-            $scope.chapter.OCID = course.OCID;
-            $scope.chapter.CourseID = course.CourseID;
-        });
-    });
-
-    $scope.$on('chapterChanged', function (event, chapters) {
-        $scope.knowledge.chapters = chapters;
-    });
+    } 
 
     ///添加章节
     $scope.addChapter = function () {
@@ -178,7 +183,9 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
 
     ///添加章节输入框失去焦点
     $scope.onBlurAdd = function (title) {
-        var newChapter = angular.copy($scope.chapter);
+        var newChapter = {};
+        newChapter.OCID = $scope.course.OCID;
+        newChapter.CourseID = $scope.course.CourseID;
         newChapter.Title = title;
 
         chapterService.Chapter_ADD($scope.ocChapters, newChapter, function (data) {

@@ -29,6 +29,9 @@ aService.factory('chapterService', ['httpService', function (httpService) {
     service.Chapter_Batch_Upd = function (models, callback) { 
         httpService.ajaxPost(chapterProviderUrl, 'Chapter_Batch_Upd', { models: models }, callback);
     } 
+    service.save = function (model, callback) { 
+        httpService.ajaxPost(chapterProviderUrl, 'Save', { model: model }, callback);
+    } 
     service.MoveLeft = function (allChapters, chapter, callback) {
         httpService.ajaxPost(chapterProviderUrl, 'MoveLeft', { allChapters: allChapters, chapter: chapter }, callback);
     }
