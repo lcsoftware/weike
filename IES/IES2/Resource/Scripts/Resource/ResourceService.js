@@ -6,79 +6,79 @@ var aService = angular.module('app.res.services', [
 
 aService.factory('resourceService', ['httpService', function (httpService) {
     var service = {};
-    var resourceProviderUrl = '/DataProvider/Resource/ResourceProvider.aspx';
+    var url = '/DataProvider/Resource/ResourceProvider.aspx';
 
     service.Resource_Dict_FileType_Get = function (callback) {
-        httpService.ajaxPost('Resource_Dict_FileType_Get', null, callback);
+        httpService.ajaxPost(url, url, 'Resource_Dict_FileType_Get', null, callback);
     }
     service.Resource_Dict_TimePass_Get = function (callback) {
-        httpService.ajaxPost('Resource_Dict_TimePass_Get', null, callback);
+        httpService.ajaxPost(url, 'Resource_Dict_TimePass_Get', null, callback);
     }
     service.Resource_Dict_ShareRange_Get = function (callback) {
-        httpService.ajaxPost('Resource_Dict_ShareRange_Get', null, callback);
+        httpService.ajaxPost(url, 'Resource_Dict_ShareRange_Get', null, callback);
     }
     ///查询文件
     service.File_Search = function (file, callback) {
         var param = { file: file };
-        httpService.ajaxPost('File_Search', param, callback);
+        httpService.ajaxPost(url, 'File_Search', param, callback);
     }    
     //删除文件
     service.File_Del = function (file, callback) {
-        httpService.ajaxPost('File_Del', { file: file }, callback);
+        httpService.ajaxPost(url, 'File_Del', { file: file }, callback);
     }
     //文件新增
     service.File_ADD = function (file, callback) {
-        httpService.ajaxPost('File_ADD', { file: file }, callback);
+        httpService.ajaxPost(url, 'File_ADD', { file: file }, callback);
     }
     //文件重命名
     service.File_FileTitle_Upd = function (file, callback) {
-        httpService.ajaxPost('File_FileTitle_Upd', { file: file }, callback);
+        httpService.ajaxPost(url, 'File_FileTitle_Upd', { file: file }, callback);
     }
     //文件移动
     service.File_FolderID_Upd = function (file, callback) {
-        httpService.ajaxPost('File_FolderID_Upd', { file: file }, callback);
+        httpService.ajaxPost(url, 'File_FolderID_Upd', { file: file }, callback);
     }
 
     //查询文件夹
     service.Folder_List = function (folder, callback) {
         var param = { folder: folder };
-        httpService.ajaxPost('Folder_List', param, callback);
+        httpService.ajaxPost(url, 'Folder_List', param, callback);
     }
     //新增文件夹
     service.Folder_ADD = function (folder, callback)
     {
-        httpService.ajaxPost('Folder_ADD', { folder: folder }, callback);
+        httpService.ajaxPost(url, 'Folder_ADD', { folder: folder }, callback);
     }
     //修改文件夹名称
     service.Folder_Name_Upd = function (folder, callback) {
-        httpService.ajaxPost('Folder_Name_Upd', { folder: folder }, callback);
+        httpService.ajaxPost(url, 'Folder_Name_Upd', { folder: folder }, callback);
     }
     //获取文件夹空对象
     service.Folder_Get = function(callback)
     {
-        httpService.ajaxPost('Folder_Get', null, callback);
+        httpService.ajaxPost(url, 'Folder_Get', null, callback);
     }
     //获得文件夹对象
     service.Folder_GetModel = function (folder,callback) {
-        httpService.ajaxPost('Folder_GetModel', {folder:folder}, callback);
+        httpService.ajaxPost(url, 'Folder_GetModel', {folder:folder}, callback);
     }
     //文件夹移动
     service.Folder_ParentID_Upd = function (folder, callback) {
-        httpService.ajaxPost('Folder_ParentID_Upd', { folder: folder }, callback);
+        httpService.ajaxPost(url, 'Folder_ParentID_Upd', { folder: folder }, callback);
     }
     //删除文件夹
     service.Folder_Del = function (folder, callback) {
-        httpService.ajaxPost('Folder_Del', { folder: folder }, callback);
+        httpService.ajaxPost(url, 'Folder_Del', { folder: folder }, callback);
     }
 
     //查询列表方法
     service.FolderRelation_List = function (folder, file, callback) {
-        httpService.ajaxPost('FolderRelation_List', { folder: folder,file:file }, callback);
+        httpService.ajaxPost(url, 'FolderRelation_List', { folder: folder,file:file }, callback);
     }
     
     ///课程列表
     service.User_OC_List = function (callback) {
-        httpService.ajaxPost('User_OC_List', null, callback);
+        httpService.ajaxPost(url, 'User_OC_List', null, callback);
     }
     return service;
 }]);

@@ -1,7 +1,10 @@
-﻿using System;
+﻿using IES.G2S.Resource.BLL;
+using IES.Resource.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -12,6 +15,12 @@ namespace App.Resource.DataProvider.Exercise
         protected void Page_Load(object sender, EventArgs e)
         {
 
+        }
+
+        [WebMethod]
+        public static bool Exercise_ADD(ExerciseInfo model)
+        {
+            return new ExerciseBLL().Exercise_ADD(model);            
         }
     }
 }

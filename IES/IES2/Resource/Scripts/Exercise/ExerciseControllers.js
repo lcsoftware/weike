@@ -39,8 +39,9 @@ appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', function
     });
 
     $scope.$on('willSubmit', function (event) {
-        console.log($scope.model);
-        console.log($scope.ExerciseAnswercards);
+        exerciseService.Exercise_ADD($scope.model, function (data) {
+            console.log(data.d);
+        });
     });
 
     $scope.$on('willPreview', function (event) {
@@ -48,15 +49,17 @@ appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', function
     });
 
     $scope.model = {};//Exercise对象
-    $scope.model.ExerciseType = 10;//简答题
-    $scope.model.IsRand = 0;//选是否项乱序    
-    $scope.ExerciseAnswercards = [];//答案数组
+    $scope.model.OCID = 0;//-----
 
-    $scope.Attachment = {};//附件对象
+    $scope.model.ExerciseType = 10;//简答题
+    $scope.model.IsRand = 0;//选是否项乱序
+    $scope.model.ExerciseChoice = [];//答案数组
     var answer = { IsCorrect: 0, Conten: '' };
+    $scope.Attachment = {};//附件对象
+    
 
     var init = function () {
-        $scope.ExerciseAnswercards.push(answer);
+        $scope.model.ExerciseChoice.push(answer);
     }
 
     $scope.isRandChange = function (IsRand) {
@@ -65,14 +68,14 @@ appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', function
 
     //添加选项
     $scope.AddAnswer = function () {
-        
-        $scope.ExerciseAnswercards.push(answer);
+        answer = { IsCorrect: 0, Conten: '' };
+        $scope.model.ExerciseChoice.push(answer);
     }
     //删除选项
     $scope.del = function (item) {
-        for (var i = 0; i < $scope.ExerciseAnswercards.length; i++) {
-            if ($scope.ExerciseAnswercards[i].$$hashKey == item.$$hashKey) {
-                $scope.ExerciseAnswercards.splice(i, 1);
+        for (var i = 0; i < $scope.model.ExerciseChoice.length; i++) {
+            if ($scope.model.ExerciseChoice[i].$$hashKey == item.$$hashKey) {
+                $scope.model.ExerciseChoice.splice(i, 1);
             }
         }
     }

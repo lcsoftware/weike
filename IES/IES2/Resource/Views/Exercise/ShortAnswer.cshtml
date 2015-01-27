@@ -23,7 +23,7 @@
         <input type="checkbox" ng-model="model.IsRand" ng-checked="model.IsRand==1" ng-change="isRandChange(model.IsRand)">选项乱序<span>（需选择一个选项作为正确答案）</span>
     </p>
     <ul class="answer_list">
-        <li ng-class="{active:item.IsCorrect==1}" ng-repeat="item in ExerciseAnswercards">
+        <li ng-class="{active:item.IsCorrect==1}" ng-repeat="item in model.ExerciseChoice">
             <div class="default">
                 <em style="cursor:pointer;"><i class="icon" ng-model="item.IsCorrect" ng-click="isCorrectChange(item)"></i></em>
                 <a ng-click="del(item)">x</a>
