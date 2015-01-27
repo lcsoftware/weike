@@ -41,5 +41,10 @@ namespace IES.G2S.Resource.BLL
             return new Chapter();
         }
 
+        public IList<Exercise> Chapter_Exercise_List(Chapter chapter, Ken ken)
+        {
+            return ChapterDAL.Chapter_Exercise_List(chapter, ken);
+        }
+
     }
 }

@@ -112,7 +112,7 @@ namespace App.Resource.DataProvider.Chapter
             var parents = from v in allChapters where v.ChapterID == chapter.ParentID select v;
             var parent = parents.First();
             var brothers = from v in allChapters
-                           where v.ParentID == parent.ParentID && v.ChapterID >= parent.ChapterID
+                           where v.ParentID == parent.ParentID && v.Orde >= parent.Orde
                            orderby v.Orde
                            select v;
             if (brothers.Count() == 1)
@@ -122,8 +122,8 @@ namespace App.Resource.DataProvider.Chapter
             }
             else
             {
-                var nexts = from v in brothers where v.Orde > parent.ChapterID select v;
-                chapter.Orde = nexts.First().Orde + 1;
+                var nexts = from v in brothers where v.Orde > parent.Orde select v;
+                chapter.Orde = nexts.First().Orde - 1;
                 chapter.ParentID = nexts.First().ParentID;
             }
             var item = FindByID(allChapters, chapter.ChapterID);
@@ -227,6 +227,14 @@ namespace App.Resource.DataProvider.Chapter
 
             Ken ken = new Ken() { KenID = kenId };
             return new ChapterBLL().Chapter_File_List(chapter, ken);
+        }
+
+        [WebMethod]
+        public static IList<Exercise> Chapter_Exercise_List(int chapterId, int kenId)
+        {
+            Chapter chapter = new Chapter() { ChapterID = chapterId };
+            Ken ken = new Ken() { KenID = kenId };
+            return new ChapterBLL().Chapter_Exercise_List(chapter, ken);
         }
     }
 }

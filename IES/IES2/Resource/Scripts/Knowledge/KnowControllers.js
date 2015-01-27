@@ -73,10 +73,10 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeServi
         $scope.aKnowledge.name = '';
         $scope.aKnowledge.chapter = {};
 
-        var ResourceKenAdd = function (ken) {
+        var ResourceKenAdd = function (chapterId, kenId) {
             var resKen = {
-                ResourceID: ken.ChapterID,
-                KenID: ken.KenID,
+                ResourceID: chapterId,
+                KenID: kenId,
                 Source: 'Chapter'
             };
             resourceKenService.ResourceKen_ADD(resKen);
@@ -92,12 +92,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeServi
             ken.UpdateTime = new Date();
             knowledgeService.Ken_ADD(ken, function (data) {
                 $scope.ocKnowledges.push(data.d); 
-                var kenEntry = {
-                    ChapterID: data.d.ChapterID,
-                    KenID: data.d.KenID,
-                    
-                }
-                ResourceKenAdd(kenEntry)
+                ResourceKenAdd(data.d.ChapterID, data.d.KenID)
                 if (callback) callback();
             });
         }
@@ -133,11 +128,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeServi
             newChapter.Title = chapter.name;
             chapterService.save(newChapter, function (data) {
                 $scope.ocChapters.push(data.d);
-                var resourceKen = {
-                    ChapterID: data.d.ChapterID,
-                    KenID: $scope.aChapter.knowledge.KenID
-                }
-                ResourceKenAdd(resourceKen);
+                ResourceKenAdd(data.d.ChapterID, $scope.aChapter.knowledge.KenID)
                 if (callback) callback();
             });
         }
@@ -189,9 +180,27 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
         showAssociation($scope.chapterSelection, $scope.knowSelection);
     }
 
+    $scope.chapterFiles = [];
+    $scope.chapterExercises = [];
     ///显示关联内容
     var showAssociation = function (chapter, knowledge) {
-
+        var chapterId = chapter ? chapter.ChapterID : 0;
+        var createUserId = chapter ? chapter.CreateUserID : 0;
+        var kenId = knowledge ? knowledge.KenID : 0;
+        switch ($scope.association.selection) {
+            case 1:
+                chapterService.Chapter_File_List(chapterId, createUserId, kenId, function (data) {
+                    $scope.chapterFiles = data.d;
+                });
+                break;
+            case 2:
+                chapterService.Chapter_File_List(chapterId, createUserId, kenId, function (data) {
+                    $scope.chapterExercises = data.d;
+                });
+                break;
+            default:
+                break;
+        }
     }
 
     ///添加章节
@@ -214,9 +223,7 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
             }
         });
     }
-
-  
-
+ 
     var findById = function (chapterId) {
         var length = $scope.ocChapters.length;
         for (var i = 0; i < length; i++) {
