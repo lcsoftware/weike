@@ -1,67 +1,136 @@
 ﻿<div class="all_knowledge">
     <dl class="knowledge_list">
         <dt>全部知识点</dt>
-        <dd class="active"><a href="#">知识点1</a></dd>
-        <dd><a href="#">知识点2</a></dd>
-        <dd><a href="#">知识点3</a></dd>
-        <dd><a href="#">知识点4</a></dd>
-        <dd><a href="#">知识点5</a></dd>
-        <dd><a href="#">知识点6</a></dd>
-        <dd><a href="#">知识点7</a></dd>
-        <dd><a href="#">知识点8</a></dd>
+        <dd ng-class="{'active':knowSelection.KenID==knowledge.KenID}" ng-repeat="knowledge in ocKnowledges"><a ng-click="knowSelected(knowledge)" ng-bind="knowledge.Name"></a>
     </dl>
     <dl class="knowledge_list">
         <dt>关联章节</dt>
-        <dd><a href="#">第一章 1.1</a></dd>
-        <dd><a href="#">第三章 1.1</a></dd>
-        <dd><a href="#">第三章 1.1</a></dd>
+        <dd ng-repeat="item in knowChapters"><a ng-class="{'active':parentPicker.ChapterID===item.ChapterID}" ng-bind="item.Title"></a></dd>
     </dl>
 </div>
+
+
 <div class="chapter_box">
     <ul class="chapter_list">
-        <li class=""><a href="javascript:;">关联资料</a></li>
-        <li class="active"><a href="javascript:;">关联习题</a></li>
-        <li><a href="javascript:;">关联话题</a></li>
+        <li ng-class="{active:association.selection == 1}"><a ng-click="association.linkDoc()">关联资料</a></li>
+        <li ng-class="{active:association.selection == 2}"><a ng-click="association.linkExercise()">关联习题</a></li>
+        <li ng-class="{active:association.selection == 3}"><a ng-click="association.linkTopic()">关联话题</a></li>
     </ul>
-    <table class="data_list">
-        <tbody>
+
+    <div ng-class="{'connect_item':association.selection!=1}">
+        <table class="data_list">
             <tr>
                 <th width="460">文件名称</th>
                 <th>创建人</th>
             </tr>
-            <tr>
+            <tr ng-repeat="item in chapterFiles">
                 <td>
-                    <p class="file_data"><i class="icon_24 doc"></i><span>巴斯通森林</span></p>
+                    <p class="file_data"><i class="icon_24 doc"></i><span ng-bind="item.FileTitle"></span></p>
                 </td>
-                <td>李志伟</td>
+                <td ng-bind="item.CreateUserName"></td>
             </tr>
-            <tr>
-                <td style="background: rgb(242, 242, 242);">
-                    <p class="file_data"><i class="icon_24 flv"></i><span>巴斯通森林</span></p>
-                </td>
-                <td style="background: rgb(242, 242, 242);">李志伟</td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="file_data"><i class="icon_24 ppt"></i><span>巴斯通森林</span></p>
-                </td>
-                <td>李志伟</td>
-            </tr>
-            <tr>
-                <td style="background: rgb(242, 242, 242);">
-                    <p class="file_data"><i class="icon_24 mp4"></i><span>巴斯通森林</span></p>
-                </td>
-                <td style="background: rgb(242, 242, 242);">李志伟</td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="file_data"><i class="icon_24 html"></i><span>巴斯通森林</span></p>
-                </td>
-                <td>李志伟</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+        </table>
+    </div>
 
+    <div ng-class="{'connect_item':association.selection!=2}">
+        <ul class="topic_list">
+            <li class="show" ng-repeat="item in chapterExercises">
+                <div class="topic_label">
+                    <p class="question_degree simple" ng-class="{'simple':item.ExerciseType==1,'medium':item.ExerciseType==2,'difficult':item.ExerciseType==3}"><input type="checkbox">{{item.ExerciseType}}</p>
+                    <div class="label_list">
+                        <a href="#"><span>标签1</span></a>
+                        <a href="#"><span>标签2</span></a>
+                        <a href="#"><span>标签3</span></a>
+                        <a href="#"><span>标签4</span></a>
+                    </div>
+                    <p class="creator">创建人：{{item.CreateUserName}}<span>最后修改时间：{{item.UpdateTime}}</span></p>
+                </div>
+                <div class="topic_tit">
+                    <h5><b class="course_status shared">已共享</b>国际英语<span>[{{item.ExerciseType}}]</span></h5>
+                    <p class="question" ng-bind="item.Conten">
+                    </p>
+                    <p class="answer" ng-bind="item.Answer">
+                    </p>
+                </div>
+                <div class="mess_box">
+                    <a href="javascript:;" class="icon_24 spread"></a>
+                </div>
+                <div class="topic_icon">
+                    <a href="javascript:;" class="icon delete_topic"></a>
+                    <a href="javascript:;" class="icon share_topic">
+                        <div class="icon_content">
+                            <span></span><p>共享</p>
+                        </div>
+                    </a>
+                    <a href="javascript:;" class="icon edit_topic"></a>
+                </div>
+            </li>
+        </ul>
+    </div>
 
+    <div ng-class="{'connect_item':association.selection!=3}">
+        <ul class="connect_topic">
+            <li>
+                <img src="http://placehold.it/40x40/cccccc" width="40" height="40" />
+                <div class="connect_topic_detail">
+                    <p class="connect_detail"><a href="#">话题标题</a><span class="to_top">置顶</span></p>
+                    <p class="topic_origin">[混合式课程设计与技术平台<1>班] 自由讨论区</p>
+                    <p class="connect_topic_info">来自 [混合式课程设计与技术平台<1>班]  陈建  (2014/09/24)　最后回复 诸葛孔明  7小时前</p>
+                </div>
+            </li>
+            <li>
+                <img src="http://placehold.it/40x40/cccccc" width="40" height="40" />
+                <div class="connect_topic_detail">
+                    <p class="connect_detail"><a href="#">话题标题</a><span class="the_select">精Ⅲ</span></p>
+                    <p class="topic_origin">[混合式课程设计与技术平台<1>班] 自由讨论区</p>
+                    <p class="connect_topic_info">来自 [混合式课程设计与技术平台<1>班]  陈建  (2014/09/24)　最后回复 诸葛孔明  7小时前</p>
+                </div>
+            </li>
+            <li>
+                <img src="http://placehold.it/40x40/cccccc" width="40" height="40" />
+                <div class="connect_topic_detail">
+                    <p class="connect_detail"><a href="#">话题标题</a></p>
+                    <p class="topic_origin">[混合式课程设计与技术平台<1>班] 自由讨论区</p>
+                    <p class="connect_topic_info">来自 [混合式课程设计与技术平台<1>班] <span>[教师]</span>  陈建  (2014/09/24)　最后回复 诸葛孔明  7小时前</p>
+                </div>
+            </li>
+            <li>
+                <img src="http://placehold.it/40x40/cccccc" width="40" height="40" />
+                <div class="connect_topic_detail">
+                    <p class="connect_detail"><a href="#">话题标题</a></p>
+                    <p class="topic_origin">[混合式课程设计与技术平台<1>班] 自由讨论区</p>
+                    <p class="connect_topic_info">来自 [混合式课程设计与技术平台<1>班] <span>[教师]</span>  陈建  (2014/09/24)　最后回复 诸葛孔明  7小时前</p>
+                </div>
+            </li>
+            <li>
+                <img src="http://placehold.it/40x40/cccccc" width="40" height="40" />
+                <div class="connect_topic_detail">
+                    <p class="connect_detail"><a href="#">话题标题</a></p>
+                    <p class="topic_origin">[混合式课程设计与技术平台<1>班] 自由讨论区</p>
+                    <p class="connect_topic_info">来自 [混合式课程设计与技术平台<1>班] <span>[教师]</span>  陈建  (2014/09/24)　最后回复 诸葛孔明  7小时前</p>
+                </div>
+            </li>
+        </ul>
+        <div class="topic_detail_box">
+            <div class="topic_detail">
+                <h5>话题标题</h5>
+                <p class="issue_time">发布于 3 天前　发布人：戴杰</p>
+                <p class="topic_content">大家好，小编又来给童鞋们解答问题啦：<br>小编发现还有很少一部分同学观看视频没有进度<br>这里呢，小编在这个给大家说明几个问题：<br>1，目前我们的手机APP应用在线观看是完全同步视频进度的，<br>2，请观看离线缓存视频的童鞋一定要保证手机流量的开启，这样才能保存视频的进度哦！<br>3，离线下载的视频在观看时是不会产生任何流量的拉，大家放心好了~<br>最后呢小编提醒大家一个注意点，并且要告诉大家一个好消息！<br>（注意点：目前我们的APP在完全离线的状态下观看离线视频是不会保存进度的！~所以一定要保证手机流量的开启哦！~）<br>好消息就是我们会在下面的版本为大家解决完全离线状态下看视频也有进度的问题，啦啦~！~<br>最后谢谢大家支持我们APP应用哦！还有请大家要帮小编宣传宣传，哈哈~~</p>
+                <a class="reply_btn" href="javascript:;">快速回复</a>
+            </div>
+            <ul class="reply_box">
+                <li>
+                    <img src="http://placehold.it/40x40/cccccc" width="40" height="40" />
+                    <div class="reply_detail">
+                        <p class="reply_name">姓名</p>
+                        <p class="reply_content">因为什么选错的？</p>
+                        <p class="reply_time">回复于 3 天前</p>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+</div> 
 

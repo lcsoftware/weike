@@ -9,7 +9,7 @@ aService.factory('resourceService', ['httpService', function (httpService) {
     var url = '/DataProvider/Resource/ResourceProvider.aspx';
 
     service.Resource_Dict_FileType_Get = function (callback) {
-        httpService.ajaxPost(url, url, 'Resource_Dict_FileType_Get', null, callback);
+        httpService.ajaxPost(url, 'Resource_Dict_FileType_Get', null, callback);
     }
     service.Resource_Dict_TimePass_Get = function (callback) {
         httpService.ajaxPost(url, 'Resource_Dict_TimePass_Get', null, callback);

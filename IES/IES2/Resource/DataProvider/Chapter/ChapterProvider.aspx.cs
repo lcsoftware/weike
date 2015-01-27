@@ -163,7 +163,9 @@ namespace App.Resource.DataProvider.Chapter
         [WebMethod]
         public static IList<Chapter> MoveUp(IList<Chapter> allChapters, Chapter chapter)
         {
-            var brothers = from v in allChapters where v.ParentID == chapter.ParentID && v.Orde < chapter.Orde select v;
+            var brothers = from v in allChapters where v.ParentID == chapter.ParentID && v.Orde < chapter.Orde 
+                           orderby v.Orde
+                           select v;
             if (!brothers.Any())
             {
                 return null;
@@ -192,7 +194,9 @@ namespace App.Resource.DataProvider.Chapter
         [WebMethod]
         public static IList<Chapter> MoveDown(IList<Chapter> allChapters, Chapter chapter)
         {
-            var brothers = from v in allChapters where v.ParentID == chapter.ParentID && v.Orde > chapter.Orde select v;
+            var brothers = from v in allChapters where v.ParentID == chapter.ParentID && v.Orde > chapter.Orde 
+                           orderby v.Orde
+                           select v;
             if (!brothers.Any())
             {
                 return null;

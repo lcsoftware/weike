@@ -14,7 +14,7 @@
                 {{item.Title}}
             </a>
             <ul class="second_item">
-                <li ng-class="{active:childPicker.ChapterID==child.ChapterID}" ng-repeat="child in ocChapters | parentID:item.ChapterID ">
+                <li ng-class="{active:childPicker.ChapterID==child.ChapterID}" ng-repeat="child in ocChapters | parentID:item.ChapterID | orderBy:'Orde' ">
                     <a class="first_chapter" ng-bind="child.Title" ng-click="childSelected(child)"></a>
                 </li>
             </ul>
@@ -29,15 +29,15 @@
 
 <div class="chapter_box">
     <div class="filter_knowledge">
-        <a ng-class="{'active':knowSelection.ID==0}">全部</a>
-        <a ng-class="{'active':knowSelection.ID==knowledge.KenID}" ng-repeat="knowledge in ocKnowledges" ng-click="knowSelected(knowledge)" ng-bind="knowledge.Name"></a>
+        <a ng-class="{'active':knowSelection.KenID==0}" ng-click="knowNoLimit()">全部</a>
+        <a ng-class="{'active':knowSelection.KenID==knowledge.KenID}" ng-repeat="knowledge in ocKnowledges" ng-click="knowSelected(knowledge)" ng-bind="knowledge.Name"></a>
     </div>
     <ul class="chapter_list">
         <li ng-class="{active:association.selection == 1}"><a ng-click="association.linkDoc()">关联资料</a></li>
         <li ng-class="{active:association.selection == 2}"><a ng-click="association.linkExercise()">关联习题</a></li>
         <li ng-class="{active:association.selection == 3}"><a ng-click="association.linkTopic()">关联话题</a></li>
     </ul>
-    <div class="connect_item" ng-show="association.selection == 1">
+    <div ng-class="{'connect_item':association.selection!=1}">
         <table class="data_list">
             <tr>
                 <th width="460">文件名称</th>
@@ -51,7 +51,8 @@
             </tr>
         </table>
     </div>
-    <div class="connect_item" ng-show="association.selection == 2">
+
+    <div ng-class="{'connect_item':association.selection!=2}">
         <ul class="topic_list">
             <li class="show" ng-repeat="item in chapterExercises">
                 <div class="topic_label">
@@ -68,7 +69,7 @@
                     <h5><b class="course_status shared">已共享</b>国际英语<span>[{{item.ExerciseType}}]</span></h5>
                     <p class="question" ng-bind="item.Conten">
                     </p>
-                    <p class="answer" ng-bind="item.Answer"> 
+                    <p class="answer" ng-bind="item.Answer">
                     </p>
                 </div>
                 <div class="mess_box">
@@ -83,10 +84,11 @@
                     </a>
                     <a href="javascript:;" class="icon edit_topic"></a>
                 </div>
-            </li> 
+            </li>
         </ul>
     </div>
-    <div class="connect_item" ng-show="association.selection==3">
+
+    <div ng-class="{'connect_item':association.selection!=3}">
         <ul class="connect_topic">
             <li>
                 <img src="http://placehold.it/40x40/cccccc" width="40" height="40" />
