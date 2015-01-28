@@ -517,3 +517,22 @@ as
 	select * from dbo.[Key]
 	where OCID = @OCID	
 	 
+USE [IES_RESOURCE]
+GO
+/****** Object:  StoredProcedure [dbo].[ResourceKen_ADD]    Script Date: 01/28/2015 22:58:48 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================  
+-- Author:      王胜辉  
+-- Create date: 20150126
+-- Description: 知识点关联新增  
+-- =============================================    
+create proc [dbo].[ResourceKen_Del]   
+	@KenID int ,
+    @ResourceID int ,       
+    @Source nvarchar(30)
+as         
+  
+  delete from [dbo].[ResourceKen] where KenID = @KenID and ResourceID = @ResourceID and [Source] = @Source	 

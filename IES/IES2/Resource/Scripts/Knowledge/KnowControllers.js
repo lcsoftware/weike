@@ -23,6 +23,8 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
 
         $scope.selectKnowledge = {};
 
+        $scope.knowHide = true;
+
         assistService.Resource_Dict_Requirement_Get(function (data) {
             if (data.d.length > 0) {
                 $scope.requireMents = data.d;
@@ -165,6 +167,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
         /// 1判断题 ; 2单选题 ; 3 多选题 4填空题（客观）5填空题 ; 6连线题 ;7 排序题 ; 8分析题  9计算题   10问答题 ;
         ///11 翻译题  12听力训练  13写作  14阅读理解  15论述题 ;16 答题卡题型  17自定义题型
         /// </summary>
+        ///编辑习题
         $scope.editExercise = function (exercise) {
             var param = { ExerciseID: exercise.ExerciseID };
             switch (ExerciseType)
@@ -197,6 +200,29 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
                     break;
             }
         }
+        ///习题共享 TODO
+        $scope.shareExercise = function (exercise) {
+
+        }
+        ///习题删除
+        $scope.deleteExercise = function (exercise) {
+            var model = {
+                KenID: $scope.knowSelection.KenID,
+                ResourceID: exercise.ExerciseID,
+                Source: 'Exercise'
+            }
+            resourceKenService.ResourceKen_Del(model, function (data) {
+                if (data.d === true) {
+                    var length = $scope.chapterExercises.length;
+                    for (var i = 0; i < length; i++) {
+                        if ($scope.chapterExercises[i].ExerciseID === exercise.ExerciseID) {
+                            $scope.chapterExercises.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+            });
+        }
 
         $scope.parentPicker = {};
         $scope.parentPicker.ChapterID = -1;
@@ -207,20 +233,25 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
         $scope.chapterSelection = null;
         $scope.knowSelection = { KenID: 0 };
 
-        $scope.parentSelected = function (chapter) {
+        $scope.parentChapterSelected = function (chapter) {
             $scope.parentPicker = chapter;
             $scope.chapterSelection = chapter;
             $scope.showAssociation($scope.chapterSelection, $scope.knowSelection);
         }
 
-        $scope.childSelected = function (chapter) {
+        $scope.childChapterSelected = function (chapter) {
             $scope.childPicker = chapter;
             $scope.chapterSelection = chapter;
             $scope.showAssociation($scope.chapterSelection, $scope.knowSelection);
         }
 
+        $scope.chapterSelected = function (chapter) {
+            $scope.chapterSelection = chapter;
+            $scope.showAssociation($scope.chapterSelection, $scope.knowSelection);
+            console.log($scope.chapterSelection);
+        }
+
         $scope.knowSelected = function (knowledge) {
-            $scope.$broadcast('knowSelected', knowledge);
             $scope.knowSelection = knowledge; 
             $scope.$broadcast('knowledgeChanged', $scope.knowSelection.KenID);
             $scope.showAssociation($scope.chapterSelection, $scope.knowSelection);
@@ -231,12 +262,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
         $scope.association.selection = 1;
         ///资料
         $scope.association.linkDoc = function () {
-            $scope.association.selection = 1;
-            var inputValue = "abcdEFG,ssEFG,ssss";
-            var v = 'EFG';
-            var pattern = '/' + v + '/g';
-            var value = inputValue.replace(/EFG/g, ' ');
-            console.log(value);
+            $scope.association.selection = 1; 
         }
         ///试题
         $scope.association.linkExercise = function () {
@@ -275,6 +301,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
 
 appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($scope, chapterService) {
 
+    $scope.$parent.knowHide = true;
     $scope.canAdd = false;
 
     $scope.knowNoLimit = function () {
@@ -344,7 +371,6 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
                 });
                 break;
         }
-        $scope.$emit('chapterChanged', $scope.ocChapters);
     }
 
     $scope.delete = function () {
@@ -367,6 +393,7 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
 
 appKnow.controller('KnowTopicCtrl', ['$scope', 'resourceKenService', function ($scope, resourceKenService) {
 
+    $scope.$parent.knowHide = false;
     $scope.knowChapters = [];
 
     $scope.$on('knowledgeChanged', function (event, kenId) {

@@ -15,7 +15,7 @@ namespace IES.G2S.Resource.DAL
         #region 新增
 
         /// <summary>
-        /// 知识点新增
+        /// 知识点关联新增
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -42,6 +42,32 @@ namespace IES.G2S.Resource.DAL
 
         }
 
+        /// <summary>
+        /// 知识点关联删除
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool ResourceKen_Del(ResourceKen model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@KenID", model.KenID);
+                    p.Add("@ResourceID", model.ResourceID);
+                    p.Add("@Source", model.Source);
+                    conn.Execute("ResourceKen_Del", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+       
         #endregion
 
         #region 列表

@@ -21,5 +21,11 @@ namespace App.Resource.DataProvider.ResourceKen
         {
             return new ResourceKenBLL().ResourceKen_List_OCID(ocid); 
         }
+
+        [WebMethod]
+        public static bool ResourceKen_Del(IES.Resource.Model.ResourceKen model)
+        {
+            return new ResourceKenBLL().ResourceKen_Del(model);
+        }
     }
 }
