@@ -133,39 +133,47 @@ namespace IES.G2S.Resource.DAL
                     conn.Execute("Exercise_ADD", p, commandType: CommandType.StoredProcedure);
                     model.exercise.ExerciseID = p.Get<int>("ExerciseID");
 
-                    
-                    foreach (var ken in model.kenlist)
+                    if (model.kenlist != null)
                     {
-                        var p1 = new DynamicParameters();
-                        p1.Add("@ExerciseID", model.exercise.ExerciseID );
-                        p1.Add("@KenID", ken.KenID);
-                        p1.Add("@OCID", model.exercise.OCID);
-                        p1.Add("@CourseID", model.exercise.CourseID );
-                        p1.Add("@OwnerUserID", model.exercise.OwnerUserID );
-                        p1.Add("@CreateUserID", model.exercise.CreateUserID);
-                        p1.Add("@Name", ken.Name );
-                        conn.Execute("Exercise_Ken_Edit", p1, commandType: CommandType.StoredProcedure);
+                        foreach (var ken in model.kenlist)
+                        {
+                            var p1 = new DynamicParameters();
+                            p1.Add("@ExerciseID", model.exercise.ExerciseID);
+                            p1.Add("@KenID", ken.KenID);
+                            p1.Add("@OCID", model.exercise.OCID);
+                            p1.Add("@CourseID", model.exercise.CourseID);
+                            p1.Add("@OwnerUserID", model.exercise.OwnerUserID);
+                            p1.Add("@CreateUserID", model.exercise.CreateUserID);
+                            p1.Add("@Name", ken.Name);
+                            conn.Execute("Exercise_Ken_Edit", p1, commandType: CommandType.StoredProcedure);
+                        }
                     }
 
-                    foreach (var key in model.keylist )
+                    if (model.keylist != null)
                     {
-                        var p1 = new DynamicParameters();
-                        p1.Add("@ExerciseID", model.exercise.ExerciseID);
-                        p1.Add("@KeyID", key.KeyID);
-                        p1.Add("@OCID", model.exercise.OCID);
-                        p1.Add("@CourseID", model.exercise.CourseID);
-                        p1.Add("@OwnerUserID", model.exercise.OwnerUserID);
-                        p1.Add("@CreateUserID", model.exercise.CreateUserID);
-                        p1.Add("@Name", key.Name);
-                        conn.Execute("Exercise_Key_Edit", p1, commandType: CommandType.StoredProcedure);
+                        foreach (var key in model.keylist)
+                        {
+                            var p1 = new DynamicParameters();
+                            p1.Add("@ExerciseID", model.exercise.ExerciseID);
+                            p1.Add("@KeyID", key.KeyID);
+                            p1.Add("@OCID", model.exercise.OCID);
+                            p1.Add("@CourseID", model.exercise.CourseID);
+                            p1.Add("@OwnerUserID", model.exercise.OwnerUserID);
+                            p1.Add("@CreateUserID", model.exercise.CreateUserID);
+                            p1.Add("@Name", key.Name);
+                            conn.Execute("Exercise_Key_Edit", p1, commandType: CommandType.StoredProcedure);
+                        }
                     }
 
-                    foreach (var attach in model.attachmentlist )
+                    if (model.attachmentlist != null)
                     {
-                        var p1 = new DynamicParameters();
-                        p1.Add("@ExerciseID", model.exercise.ExerciseID);
-                        p1.Add("@Guid", attach.Guid);
-                        conn.Execute("Exercise_Attachment_ADD", p1, commandType: CommandType.StoredProcedure);
+                        foreach (var attach in model.attachmentlist)
+                        {
+                            var p1 = new DynamicParameters();
+                            p1.Add("@ExerciseID", model.exercise.ExerciseID);
+                            p1.Add("@Guid", attach.Guid);
+                            conn.Execute("Exercise_Attachment_ADD", p1, commandType: CommandType.StoredProcedure);
+                        }
                     }
 
                     return true;

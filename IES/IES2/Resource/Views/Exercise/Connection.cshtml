@@ -1,12 +1,12 @@
 ﻿<div class="paper_content">
     <div class="text_box" style="color:#F00;">
-        <textarea class="form-control" rows="4" ng-model="Attachment.FileName"></textarea>
+        <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Conten"></textarea>
     </div>
     <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
 
     <p class="no_rank"><b class="answer_item">题目</b> <b class="answer_item">答案<span>(保存后，自动打乱顺序)</span></b></p>
     <div class="connection_box">
-        <div ng-repeat="item in Exercises">
+        <div ng-repeat="item in list">
             <div class="question_box">
                 <div class="default question_select">
                     <input type="text" ng-model="item.Conten">
@@ -22,12 +22,14 @@
             </div>
         </div>
         <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加选项</span></a>
-        <input class="add_answer" type="text" placeholder="请输入其他干扰项">
-        <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加干扰项</span></a>
+        <div ng-repeat="item in model.exercisechoicelist">
+            <input class="add_answer" ng-model="item.Conten" type="text" placeholder="请输入其他干扰项">
+        </div>
+        <a class="add_attach" ng-click="AddInterference()"><em><i class="icon"></i></em><span>添加干扰项</span></a>
     </div>
     <div class="text_box" style="color:#F00; margin-top:20px;">
-        <textarea class="form-control" rows="4" ng-model="model.Analysis"></textarea>
-        <br>试题解析试题解析
+        试题解析：
+        <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Analysis"></textarea>
     </div>
 
 </div>

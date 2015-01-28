@@ -2,18 +2,16 @@
 <div class="paper_content">
     <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
     <p class="no_rank">翻译题答案可以为空</p>
-    <div ng-repeat="item in Exercises">
-        <div class="default fill_blank">
-            <a ng-click="Del(item)">x</a>
-            <input type="text" ng-model="item.Conten">
+    <div>
+        <div class="default fill_blank">            
+            <a>x</a>
+            <input type="text" ng-model="model.exercisecommon.exercise.Conten">
             <span class="icon icon_unfold"></span>
         </div>
-        <textarea class="noun_answer" ng-model="item.Answer" placeholder="在此处添加答案..."></textarea>
+        <textarea class="form-control" style="margin-top:5px;" ng-model="model.exercisecommon.exercise.Amswer" placeholder="在此处添加答案..."></textarea>
     </div>
-    <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加选项</span></a>
     <div class="text_box" style="color: #F00; margin-top: 20px;">
-        <textarea class="form-control" rows="4" ng-model="model.Analysis"></textarea>
-        <br>
-        试题解析试题解析
+        试题解析:
+        <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Analysis"></textarea>        
     </div>
 </div>
