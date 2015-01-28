@@ -486,3 +486,20 @@ as
   INSERT INTO [dbo].[ResourceKen]([ResourceID],[Source],[KenID])
   SELECT @ResourceID, @Source, @KenID
   set @ID = @@identity      
+  
+ -- =============================================
+-- Author:      王胜辉
+-- Create date: 20150128
+-- Description: 查询所有ocid下的知识点与章节对应关系
+-- =============================================
+create proc [dbo].[ResourceKen_List_OCID]
+  	@OCID int
+as 
+
+	SET NOCOUNT ON;
+ 
+	
+	select a.* from ResourceKen a, Ken b 
+	where b.OCID=@OCID
+	and a.KenID=b.KenID
+	 

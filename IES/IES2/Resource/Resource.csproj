@@ -186,6 +186,7 @@
     <Content Include="Frameworks\bootstrap\css\bootstrap.min.css" />
     <Content Include="Frameworks\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Frameworks\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Frameworks\checklist-model\checklist-model.js" />
     <Content Include="Frameworks\jquery\jquery-1.7.2.min.js" />
     <Content Include="Frameworks\jquery\jquery-1.8.3.min.js" />
     <Content Include="Global.asax" />

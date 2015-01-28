@@ -14,5 +14,11 @@ namespace IES.G2S.Resource.IBLL
         
         #endregion
 
+        #region List 
+        IList<ResourceKen> ResourceKen_List_OCID(int ocid); 
+        
+        #endregion
+
+
     }
 }

@@ -32,6 +32,7 @@ namespace App.Resource
                 "~/Frameworks/angular/angular.js",
                 "~/Frameworks/angular/angular-cookies.js",
                 "~/Frameworks/angularTree/angular-ui-tree.min.js",
+                "~/Frameworks/checklist-model/checklist-model.js",
                 "~/Frameworks/angular/angular-ui-router.js" 
                 ));
           

@@ -33,3 +33,12 @@ appFilter.filter('parentID', function () {
         return array;
     }
 });
+
+appFilter.filter('keyReplace', function () {
+    return function (inputValue) {
+        if (inputValue != undefined) {
+            return inputValue.replace(/wshgkjqbwhfbxlfrh/g, ' ');
+        }
+        return array;
+    }
+});

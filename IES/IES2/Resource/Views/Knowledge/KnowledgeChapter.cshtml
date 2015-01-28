@@ -14,7 +14,7 @@
                 {{item.Title}}
             </a>
             <ul class="second_item">
-                <li ng-class="{active:childPicker.ChapterID==child.ChapterID}" ng-repeat="child in ocChapters | parentID:item.ChapterID ">
+                <li ng-class="{active:childPicker.ChapterID==child.ChapterID}" ng-repeat="child in ocChapters | parentID:item.ChapterID | orderBy:'Orde' ">
                     <a class="first_chapter" ng-bind="child.Title" ng-click="childSelected(child)"></a>
                 </li>
             </ul>
@@ -29,15 +29,15 @@
 
 <div class="chapter_box">
     <div class="filter_knowledge">
-        <a ng-class="{'active':knowSelection.ID==0}">全部</a>
-        <a ng-class="{'active':knowSelection.ID==knowledge.KenID}" ng-repeat="knowledge in ocKnowledges" ng-click="knowSelected(knowledge)" ng-bind="knowledge.Name"></a>
+        <a ng-class="{'active':knowSelection.KenID==0}" ng-click="knowNoLimit()">全部</a>
+        <a ng-class="{'active':knowSelection.KenID==knowledge.KenID}" ng-repeat="knowledge in ocKnowledges" ng-click="knowSelected(knowledge)" ng-bind="knowledge.Name"></a>
     </div>
     <ul class="chapter_list">
         <li ng-class="{active:association.selection == 1}"><a ng-click="association.linkDoc()">关联资料</a></li>
         <li ng-class="{active:association.selection == 2}"><a ng-click="association.linkExercise()">关联习题</a></li>
         <li ng-class="{active:association.selection == 3}"><a ng-click="association.linkTopic()">关联话题</a></li>
     </ul>
-    <div class="connect_item">
+    <div ng-class="{'connect_item':association.selection!=1}">
         <table class="data_list">
             <tr>
                 <th width="460">文件名称</th>
@@ -48,107 +48,25 @@
                     <p class="file_data"><i class="icon_24 doc"></i><span ng-bind="item.FileTitle"></span></p>
                 </td>
                 <td ng-bind="item.CreateUserName"></td>
-            </tr> 
+            </tr>
         </table>
     </div>
-    <div class="connect_item">
+
+    <div ng-class="{'connect_item':association.selection!=2}">
         <ul class="topic_list">
-            <li class="show">
+            <li class="show" ng-repeat="item in chapterExercises">
                 <div class="topic_label">
-                    <p class="question_degree simple"><input type="checkbox">简单</p>
+                    <p class="question_degree" ng-class="{'simple':item.ExerciseType==1,'medium':item.ExerciseType==2,'difficult':item.ExerciseType==3}"><input type="checkbox">{{item.ExerciseType}}</p>
                     <div class="label_list">
-                        <a href="#"><span>标签1</span></a>
-                        <a href="#"><span>标签2</span></a>
-                        <a href="#"><span>标签3</span></a>
-                        <a href="#"><span>标签4</span></a>
+                        <a href="#"><span ng-bind="item.Keys | keyReplace"></span></a>
                     </div>
-                    <p class="creator">创建人：李明宇<span>最后修改时间：2014-08-18</span></p>
+                    <p class="creator">创建人：{{item.CreateUserName}}<span>最后修改时间：{{item.UpdateTime}}</span></p>
                 </div>
                 <div class="topic_tit">
-                    <h5><b class="course_status shared">已共享</b>国际英语<span>[选择题]</span></h5>
-                    <p class="question">
-                        &mdash;&mdash;What are you busy with?<br>
-                        &mdash;&mdash;We are carrying out a research <input type="text" style="width:20px;"> the causes of cancer.
+                    <h5><span>[{{item.ExerciseType}}]</span></h5>
+                    <p class="question" ng-bind="item.Conten">
                     </p>
-                    <p class="answer">
-                        A:into<br>
-                        B:onto<br>
-                        <b>C:to（正确答案）</b><br>
-                        D:in
-                    </p>
-                </div>
-                <div class="mess_box">
-                    <a href="javascript:;" class="icon_24 spread"></a>
-                </div>
-                <div class="topic_icon">
-                    <a href="javascript:;" class="icon delete_topic"></a>
-                    <a href="javascript:;" class="icon share_topic">
-                        <div class="icon_content">
-                            <span></span><p>共享</p>
-                        </div>
-                    </a>
-                    <a href="javascript:;" class="icon edit_topic"></a>
-                </div>
-            </li>
-            <li>
-                <div class="topic_label">
-                    <p class="question_degree medium"><input type="checkbox">中等</p>
-                    <div class="label_list">
-                        <a href="#"><span>标签1</span></a>
-                        <a href="#"><span>标签2</span></a>
-                        <a href="#"><span>标签3</span></a>
-                        <a href="#"><span>标签4</span></a>
-                    </div>
-                    <p class="creator">创建人：李明宇<span>最后修改时间：2014-08-18</span></p>
-                </div>
-                <div class="topic_tit">
-                    <h5><b class="course_status cited">引用</b>国际英语<span>[选择题]</span></h5>
-                    <p class="question">
-                        &mdash;&mdash;What are you busy with?<br>
-                        &mdash;&mdash;We are carrying out a research <input type="text" style="width:20px;"> the causes of cancer.
-                    </p>
-                    <p class="answer">
-                        A:into<br>
-                        B:onto<br>
-                        <b>C:to（正确答案）</b><br>
-                        D:in
-                    </p>
-                </div>
-                <div class="mess_box">
-                    <a href="javascript:;" class="icon_24 spread"></a>
-                </div>
-                <div class="topic_icon">
-                    <a href="javascript:;" class="icon delete_topic"></a>
-                    <a href="javascript:;" class="icon share_topic">
-                        <div class="icon_content">
-                            <span></span><p>共享</p>
-                        </div>
-                    </a>
-                    <a href="javascript:;" class="icon edit_topic"></a>
-                </div>
-            </li>
-            <li>
-                <div class="topic_label">
-                    <p class="question_degree difficult"><input type="checkbox">较难</p>
-                    <div class="label_list">
-                        <a href="#"><span>标签1</span></a>
-                        <a href="#"><span>标签2</span></a>
-                        <a href="#"><span>标签3</span></a>
-                        <a href="#"><span>标签4</span></a>
-                    </div>
-                    <p class="creator">创建人：李明宇<span>最后修改时间：2014-08-18</span></p>
-                </div>
-                <div class="topic_tit">
-                    <h5><b class="course_status shared">已共享</b>国际英语<span>[选择题]</span></h5>
-                    <p class="question">
-                        &mdash;&mdash;What are you busy with?<br>
-                        &mdash;&mdash;We are carrying out a research <input type="text" style="width:20px;"> the causes of cancer.
-                    </p>
-                    <p class="answer">
-                        A:into<br>
-                        B:onto<br>
-                        <b>C:to（正确答案）</b><br>
-                        D:in
+                    <p class="answer" ng-bind="item.Answer">
                     </p>
                 </div>
                 <div class="mess_box">
@@ -166,7 +84,8 @@
             </li>
         </ul>
     </div>
-    <div class="connect_item" style="display:block;">
+
+    <div ng-class="{'connect_item':association.selection!=3}">
         <ul class="connect_topic">
             <li>
                 <img src="http://placehold.it/40x40/cccccc" width="40" height="40" />
@@ -230,4 +149,3 @@
         </div>
     </div>
 </div>
-

@@ -59,7 +59,7 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         .state('content.addsheet', { url: '/paper/sheet', templateUrl: '/views/Paper/AddSheet', controller: 'PaperSheetCtrl' })
 
         //习题
-        .state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })        
+        //.state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })        
         
 
         //知识点 

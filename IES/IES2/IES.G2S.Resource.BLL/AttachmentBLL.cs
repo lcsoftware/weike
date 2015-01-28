@@ -42,6 +42,8 @@ namespace IES.G2S.Resource.BLL
             return AttachmentDAL.Attachment_Del(model);
         }
 
+      
+
 
     }
 }

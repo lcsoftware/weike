@@ -11,5 +11,9 @@ contentApp.factory('resourceKenService', ['httpService', function (httpService) 
         httpService.ajaxPost(url, 'ResourceKen_ADD', {model: model}, callback);
     } 
 
+    service.ResourceKen_List_OCID = function (ocid, callback) {
+        httpService.ajaxPost(url, 'ResourceKen_List_OCID', { ocid: ocid}, callback);
+    }
+
     return service;
 }]);

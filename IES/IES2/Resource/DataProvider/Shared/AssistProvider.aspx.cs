@@ -24,5 +24,23 @@ namespace App.Resource.DataProvider.Shared
         {
             return ResourceCommonData.Resource_Dict_Requirement_Get();
         }
+
+        [WebMethod]
+        public static IList<ResourceDict> Resource_Dict_Diffcult_Get()
+        {
+            return ResourceCommonData.Resource_Dict_Diffcult_Get();
+        }
+
+        [WebMethod]
+        public static IList<ResourceDict> Resource_Dict_ExerciseType_Get()
+        {
+            return ResourceCommonData.Resource_Dict_ExerciseType_Get();
+        }
+
+        [WebMethod]
+        public static IList<ResourceDict> Resource_Dict_Scope_Get()
+        {
+            return ResourceCommonData.Resource_Dict_Scope_Get();
+        }
     }
 }
