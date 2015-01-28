@@ -8,8 +8,8 @@ var appKnow = angular.module('app.knowledge.controllers', [
     'app.assist.services',
 ]);
 
-appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeService', 'chapterService', 'assistService', 'resourceKenService',
-    function ($scope, contentService, knowledgeService, chapterService, assistService, resourceKenService) {
+appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'knowledgeService', 'chapterService', 'assistService', 'resourceKenService',
+    function ($scope, $state, contentService, knowledgeService, chapterService, assistService, resourceKenService) {
 
         $scope.$emit('willResetCourse');
 
@@ -161,6 +161,42 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeServi
         }
         /// end 添加章节 
 
+        /// <summary>
+        /// 1判断题 ; 2单选题 ; 3 多选题 4填空题（客观）5填空题 ; 6连线题 ;7 排序题 ; 8分析题  9计算题   10问答题 ;
+        ///11 翻译题  12听力训练  13写作  14阅读理解  15论述题 ;16 答题卡题型  17自定义题型
+        /// </summary>
+        $scope.editExercise = function (exercise) {
+            var param = { ExerciseID: exercise.ExerciseID };
+            switch (ExerciseType)
+            {
+                //case 0: //简答题
+                //    $state.go('exercise.shortanswer', param) 
+                //    break;
+                //case 10: //名词解释
+                //    $state.go('exercise.noun', param)
+                //    break;
+                case 12: //听力题
+                    $state.go('exercise.listening', param)
+                    break;
+                case 10: //问答题
+                    $state.go('exercise.quesanswer', param)
+                    break;               
+                case 1: //判断题
+                    $state.go('exercise.truefalse', param)
+                    break;
+                case 5: //填空题
+                    $state.go('exercise.fillblank', param)
+                    break;
+                case 4: //填空客观题
+                    $state.go('exercise.fillblank2', param)
+                    break;
+                case 6:  //连线题
+                    $state.go('exercise.connection', param)
+                    break;
+                default:
+                    break;
+            }
+        }
 
         $scope.parentPicker = {};
         $scope.parentPicker.ChapterID = -1;

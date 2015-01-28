@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="AttachmentDAL.cs" />
     <Compile Include="ChapterDAL.cs" />
+    <Compile Include="KeyDAL.cs" />
     <Compile Include="ResourceKenDAL.cs" />
     <Compile Include="CommonDataDAL.cs" />
     <Compile Include="ExerciseDAL.cs" />

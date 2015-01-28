@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IChapterBLL.cs" />
+    <Compile Include="IKeyBLL.cs" />
     <Compile Include="IResourceKenBLL.cs" />
     <Compile Include="IExerciseBLL.cs" />
     <Compile Include="IFileBLL.cs" />

@@ -14,28 +14,24 @@
             </select>
             <div class="range_applicable">
                 <span>适用范围</span>
-                <p ng-repeat="item in ranges"><input type="checkbox" checklist-value="item.id" checklist-model="rangeSelected.Items" />{{item.name}}</p>
+                <p ng-repeat="item in ranges"><input type="checkbox" ng-click="toggleRange(item)">{{item.name}}</p>
             </div>
         </div>
         <div class="label_box">
             <div class="label_item">
                 <p>
-                    <select>
-                        <option>请选择或输入标签</option>
-                        <option>请选择或输入标签</option>
-                        <option>请选择或输入标签</option>
+                    <select ng-model="keySelection" ng-options="item.name for item in keys">
                     </select>
-                    <a href="javascript:;"><span class="icon"></span></a>
+                    <a ng-click="addKey()"><span class="icon"></span></a>
                 </p>
                 <ul class="item_list">
-                    <li><a href="#">标签1<span>×</span></a></li>
-                    <li><a href="#">标签2<span>×</span></a></li>
+                    <li ng-repeat="item in selectedKeys"><a ng-click="removeKey(item)">{{item.Name}}<span>×</span></a></li>
                 </ul>
             </div>
             <div class="zhishi_box">
                 <a class="connect_knowledge" href="#"><em><i class="icon"></i></em><span>关联知识点</span></a>
                 <ul class="knowledge_item">
-                    <li ng-repeat="item in knowledges"><a ng-click="doChanged();">{{item.Name}}<span>×</span></a></li>
+                    <li ng-repeat="item in knowledges"><a ng-click="removeKnow(item);">{{item.Name}}<span>×</span></a></li>
                 </ul>
             </div>
         </div>

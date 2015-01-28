@@ -30,21 +30,21 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         //试题
         .state('exercise', { url: '/exercise', abstract: true, templateUrl: '/views/Shared/Exercise', controller: 'ExerciseCtrl' })
         //简答题
-        .state('exercise.shortanswer', { url: '/shortanswer', templateUrl: '/views/Exercise/ShortAnswer', controller: 'ShortAnswerCtrl' })
+        .state('exercise.shortanswer', { url: '/shortanswer/:ExerciseID', templateUrl: '/views/Exercise/ShortAnswer', controller: 'ShortAnswerCtrl' })
         //听力题
-        .state('exercise.listening', { url: '/listening', templateUrl: '/views/Exercise/Listening', controller: 'ListeningCtrl' })
+        .state('exercise.listening', { url: '/listening/:ExerciseID', templateUrl: '/views/Exercise/Listening', controller: 'ListeningCtrl' })
         //问答题
-        .state('exercise.quesanswer', { url: '/quesanswer', templateUrl: '/views/Exercise/QuesAnswer', controller: 'QuesanswerCtrl' })
+        .state('exercise.quesanswer', { url: '/quesanswer/:ExerciseID', templateUrl: '/views/Exercise/QuesAnswer', controller: 'QuesanswerCtrl' })
         //名词解释
-        .state('exercise.noun', { url: '/noun', templateUrl: '/views/Exercise/Noun', controller: 'NounCtrl' })
+        .state('exercise.noun', { url: '/noun/:ExerciseID', templateUrl: '/views/Exercise/Noun', controller: 'NounCtrl' })
         //判断题
-        .state('exercise.truefalse', { url: '/truefalse', templateUrl: '/views/Exercise/TrueFalse', controller: 'TruefalseCtrl' })
+        .state('exercise.truefalse', { url: '/truefalse/:ExerciseID', templateUrl: '/views/Exercise/TrueFalse', controller: 'TruefalseCtrl' })
         //填空题
-        .state('exercise.fillblank', { url: '/fileblank', templateUrl: '/views/Exercise/FillBlank', controller: 'FillBlankCtrl' })
+        .state('exercise.fillblank', { url: '/fileblank/:ExerciseID', templateUrl: '/views/Exercise/FillBlank', controller: 'FillBlankCtrl' })
         //填空客观题
-        .state('exercise.fillblank2', { url: '/fileblank2', templateUrl: '/views/Exercise/FillBlank2', controller: 'FillBlank2Ctrl' })
+        .state('exercise.fillblank2', { url: '/fileblank2/:ExerciseID', templateUrl: '/views/Exercise/FillBlank2', controller: 'FillBlank2Ctrl' })
         //连线题
-        .state('exercise.connection', { url: '/connection', templateUrl: '/views/Exercise/Connection', controller: 'ConnectionCtrl' })
+        .state('exercise.connection', { url: '/connection/:ExerciseID', templateUrl: '/views/Exercise/Connection', controller: 'ConnectionCtrl' })
 
 
         //试卷

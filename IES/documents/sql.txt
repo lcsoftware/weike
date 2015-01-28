@@ -502,4 +502,18 @@ as
 	select a.* from ResourceKen a, Ken b 
 	where b.OCID=@OCID
 	and a.KenID=b.KenID
+	
+-- =============================================  
+-- Author:      王胜辉  
+-- Create date: 20150128
+-- Description: 获取标签列表信息  
+-- =============================================  
+create proc [dbo].[Key_List]  
+	 @OCID int 
+as 
+
+	SET NOCOUNT ON;  
+
+	select * from dbo.[Key]
+	where OCID = @OCID	
 	 

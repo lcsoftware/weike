@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="AttachmentBLL.cs" />
     <Compile Include="ChapterBLL.cs" />
+    <Compile Include="KeyBLL.cs" />
     <Compile Include="ResourceKenBLL.cs" />
     <Compile Include="ExerciseBLL.cs" />
     <Compile Include="FileBLL.cs" />

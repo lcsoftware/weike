@@ -2,11 +2,12 @@
 
 var appExercise = angular.module('app.exercise.controllers', [
     'checklist-model',
+    'app.assist.services',
     'app.exercise.services'
 ]);
 
-appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentService', 'knowledgeService',
-    function ($scope, exerciseService, contentService, knowledgeService) {
+appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentService', 'knowledgeService', 'assistService',
+    function ($scope, exerciseService, contentService, knowledgeService, assistService) {
         //课程
         $scope.courses = [];
         //试题类型
@@ -16,38 +17,89 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentSer
         //范围
         $scope.ranges = [];
         //标签
-        $scope.lables = [];
+        $scope.keys = [];
+        //被选择的标签
+        $scope.selectedKeys = [];
         //知识点
-        $scope.knowledges = [];
+        $scope.knowledges = []; 
 
         $scope.course = {};
         $scope.exerciseType = {};
         $scope.difficult = {};
+        $scope.keySelection = {};
         $scope.range = {};
-        $scope.rangeSelected = {
-            Items: []
-        };
+        $scope.rangeSelected = [];
         contentService.User_OC_List(function (data) {
             if (data.d) $scope.courses = data.d;
-        }); 
+        });
 
-        exerciseService.Resource_Dict_ExerciseType_Get(function (data) {
+        assistService.Resource_Dict_ExerciseType_Get(function (data) {
             if (data.d) $scope.exerciseTypes = data.d;
         });
 
-        exerciseService.Resource_Dict_Diffcult_Get(function (data) {
+        assistService.Resource_Dict_Diffcult_Get(function (data) {
             if (data.d) $scope.difficulties = data.d;
         });
 
-        exerciseService.Resource_Dict_Scope_Get(function (data) {
+        assistService.Resource_Dict_Scope_Get(function (data) {
             if (data.d) $scope.ranges = data.d;
         });
 
-        $scope.$watch('course', function(v){
+        $scope.$watch('course', function (v) {
             knowledgeService.Ken_List({ OCID: v.OCID }, function (data) {
                 if (data.d) $scope.knowledges = data.d;
             });
+            assistService.Key_List({ OCID: v.OCID }, function (data) {
+                if (data.d) $scope.keys= data.d;
+            });
         });
+
+        $scope.addKey = function () {
+            if ($scope.keySelection) {
+                $scope.selectedKeys.push($scope.keySelection);
+            }
+        }
+
+        $scope.removeKey = function (key) {
+            var length = $scope.selectedKeys.length;
+            for (var i = 0; i < length; i++) {
+                if ($scope.selectedKeys[i].KeyID === key.KeyID) {
+                    $scope.selectedKeys.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+        $scope.removeKnow = function (knowledge) {
+            var length = $scope.knowledges.length;
+            for (var i = 0; i < length; i++) {
+                if ($scope.knowledges[i].KenID === knowledge.KenID) {
+                    $scope.knowledges.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+        var findByRange = function(rangeId){
+            var length = $scope.rangeSelected.length;
+            for (var i = 0; i < length; i++) {
+                if ($scope.rangeSelected[i].id === rangeId)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        $scope.toggleRange = function (range) {
+            var index = findByRange(range.id);
+            if (index === -1) {
+                $scope.rangeSelected.push(range);
+            } else {
+                $scope.rangeSelected.splice(index, 1);
+            }
+            console.log($scope.rangeSelected);
+        }
 
         $scope.doChanged = function () {
             $scope.$broadcast('willExerciseChange', {});
@@ -56,17 +108,17 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentSer
         $scope.submit = function () {
             $scope.$broadcast('willSubmit');
         }
-        
+
         $scope.preview = function () {
             $scope.$broadcast('willPreview');
         }
 
-   
+
     }]);
 //简答题
 appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', function ($scope, exerciseService) {
 
-    $scope.$on('willExerciseChange', function (event, changeParam) { 
+    $scope.$on('willExerciseChange', function (event, changeParam) {
     });
 
     $scope.$on('willSubmit', function (event) {
@@ -87,7 +139,7 @@ appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', function
     $scope.model.ExerciseChoice = [];//答案数组
     var answer = { IsCorrect: 0, Conten: '' };
     $scope.Attachment = {};//附件对象
-    
+
 
     var init = function () {
         $scope.model.ExerciseChoice.push(answer);
@@ -155,7 +207,7 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', function (
 
     //添加选项
     $scope.AddAnswer = function () {
-        
+
         $scope.ExerciseAnswercards.push(answer);
     }
     //删除选项
@@ -168,7 +220,7 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', function (
     }
 
     //添加选项，填空答案
-    $scope.AddConten = function () {        
+    $scope.AddConten = function () {
         $scope.Contens.push(conten);
     }
     //删除选项,填空答案
@@ -217,7 +269,7 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', function 
     }
     //添加选项
     $scope.Add = function () {
-        
+
         $scope.Exercises.push(model);
     }
     //删除选项
@@ -255,14 +307,14 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', function ($scop
     $scope.model.ExerciseType = 14;//阅读理解
     $scope.Exercises = [];//答案数组
     var model = { Conten: '', Answer: '' };
-    
+
     var init = function () {
         $scope.Exercises.push(model);
     }
 
     //添加选项
     $scope.Add = function () {
-        
+
         $scope.Exercises.push(model);
     }
     //删除选项
@@ -326,7 +378,7 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', function (
 
     //添加选项
     $scope.Add = function () {
-        
+
         $scope.Exercises.push(model);
     }
     //删除选项
@@ -367,7 +419,7 @@ appExercise.controller('FillBlank2Ctrl', ['$scope', 'exerciseService', function 
 
     //添加选项
     $scope.Add = function () {
-        
+
         $scope.Exercises.push(model);
     }
     //删除选项
@@ -407,7 +459,7 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', function 
     }
 
     //添加选项
-    $scope.Add = function () {        
+    $scope.Add = function () {
         $scope.Exercises.push(model);
     }
     //删除选项

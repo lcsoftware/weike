@@ -9,6 +9,7 @@
 namespace App.Resource.DataProvider.Shared
 {
     using IES.Common.Data;
+    using IES.G2S.Resource.BLL;
     using IES.Resource.Model;
     using System;
     using System.Collections.Generic;
@@ -41,6 +42,13 @@ namespace App.Resource.DataProvider.Shared
         public static IList<ResourceDict> Resource_Dict_Scope_Get()
         {
             return ResourceCommonData.Resource_Dict_Scope_Get();
+        }
+
+
+        [WebMethod]
+        public static List<Key> Key_List(Key model)
+        {
+            return new KeyBLL().Key_List(model);
         }
     }
 }
