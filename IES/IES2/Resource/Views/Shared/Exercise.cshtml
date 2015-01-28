@@ -6,26 +6,15 @@
     </div>
     <div class="paper_box">
         <div class="paper_sort">
-            <select class="which_course">
-                <option>适用课程</option>
-                <option>适用课程</option>
-                <option>适用课程</option>
+            <select class="which_course" ng-model="course" ng-options="item.Name for item in courses">
             </select>
-            <select class="question_type">
-                <option>单选题</option>
-                <option>多选题</option>
+            <select class="question_type" ng-model="exerciseType" ng-options="item.name for item in exerciseTypes">
             </select>
-            <select class="difficulty_degree">
-                <option>难易程度</option>
-                <option>简单</option>
-                <option>中等</option>
-                <option>较难</option>
+            <select class="difficulty_degree" ng-model="difficult" ng-options="item.name for item in difficulties">
             </select>
             <div class="range_applicable">
                 <span>适用范围</span>
-                <p><input type="checkbox">作业考试</p>
-                <p><input type="checkbox">学生练习</p>
-                <p><input type="checkbox">正式考试</p>
+                <p ng-repeat="item in ranges"><input type="checkbox" checklist-value="item.id" checklist-model="rangeSelected.Items" />{{item.name}}</p>
             </div>
         </div>
         <div class="label_box">
@@ -46,10 +35,7 @@
             <div class="zhishi_box">
                 <a class="connect_knowledge" href="#"><em><i class="icon"></i></em><span>关联知识点</span></a>
                 <ul class="knowledge_item">
-                    <li><a ng-click="doChanged();">知识点1<span>×</span></a></li>
-                    <li><a ng-click="doChanged();">知识点2<span>×</span></a></li>
-                    <li><a ng-click="doChanged();">知识点3<span>×</span></a></li>
-                    <li><a ng-click="doChanged();">知识点4<span>×</span></a></li>
+                    <li ng-repeat="item in knowledges"><a ng-click="doChanged();">{{item.Name}}<span>×</span></a></li>
                 </ul>
             </div>
         </div>

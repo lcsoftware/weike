@@ -10,5 +10,15 @@ aService.factory('assistService', ['httpService', function (httpService) {
     service.Resource_Dict_Requirement_Get = function (callback) {
         httpService.ajaxPost(url, 'Resource_Dict_Requirement_Get', null, callback);
     }
+
+    service.Resource_Dict_Diffcult_Get = function (callback) {
+        httpService.ajaxPost(url, 'Resource_Dict_Diffcult_Get', null, callback);
+    }
+    service.Resource_Dict_ExerciseType_Get = function (callback) {
+        httpService.ajaxPost(url, 'Resource_Dict_ExerciseType_Get', null, callback);
+    }
+    service.Resource_Dict_Scope_Get = function (callback) {
+        httpService.ajaxPost(url, 'Resource_Dict_Scope_Get', null, callback);
+    }
     return service;
 }])

@@ -1,37 +1,68 @@
 ﻿'use strict';
 
 var appExercise = angular.module('app.exercise.controllers', [
+    'checklist-model',
     'app.exercise.services'
 ]);
 
-appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', function ($scope, exerciseService) {
-    //课程
-    $scope.courses = [];
-    //试题类型
-    $scope.exerciseTypes = [];
-    //难易程度
-    $scope.difficulties = [];
-    //范围
-    $scope.ranges = [];
-    //标签
-    $scope.lables = [];
-    //知识点
-    $scope.knowledges = [];
+appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentService', 'knowledgeService',
+    function ($scope, exerciseService, contentService, knowledgeService) {
+        //课程
+        $scope.courses = [];
+        //试题类型
+        $scope.exerciseTypes = [];
+        //难易程度
+        $scope.difficulties = [];
+        //范围
+        $scope.ranges = [];
+        //标签
+        $scope.lables = [];
+        //知识点
+        $scope.knowledges = [];
 
-    $scope.doChanged = function () {
-        $scope.$broadcast('willExerciseChange', {});
-    }
+        $scope.course = {};
+        $scope.exerciseType = {};
+        $scope.difficult = {};
+        $scope.range = {};
+        $scope.rangeSelected = {
+            Items: []
+        };
+        contentService.User_OC_List(function (data) {
+            if (data.d) $scope.courses = data.d;
+        }); 
 
-    $scope.submit = function () {
-        $scope.$broadcast('willSubmit');
-    }
+        exerciseService.Resource_Dict_ExerciseType_Get(function (data) {
+            if (data.d) $scope.exerciseTypes = data.d;
+        });
+
+        exerciseService.Resource_Dict_Diffcult_Get(function (data) {
+            if (data.d) $scope.difficulties = data.d;
+        });
+
+        exerciseService.Resource_Dict_Scope_Get(function (data) {
+            if (data.d) $scope.ranges = data.d;
+        });
+
+        $scope.$watch('course', function(v){
+            knowledgeService.Ken_List({ OCID: v.OCID }, function (data) {
+                if (data.d) $scope.knowledges = data.d;
+            });
+        });
+
+        $scope.doChanged = function () {
+            $scope.$broadcast('willExerciseChange', {});
+        }
+
+        $scope.submit = function () {
+            $scope.$broadcast('willSubmit');
+        }
         
-    $scope.preview = function () {
-        $scope.$broadcast('willPreview');
-    }
+        $scope.preview = function () {
+            $scope.$broadcast('willPreview');
+        }
 
    
-}]);
+    }]);
 //简答题
 appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', function ($scope, exerciseService) {
 
