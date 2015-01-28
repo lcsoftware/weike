@@ -6,10 +6,7 @@
         </div>
         <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
         <p class="no_rank">
-            <select class="option_select" ng-model="model.ChoiceNum">
-                <option value="0">选项三选一</option>
-                <option value="1">选项四选一</option>
-            </select><input type="checkbox" ng-model="model.IsRand" ng-checked="model.IsRand==1" ng-change="isRandChange(model.IsRand)">选项乱序<span>
+            <input type="checkbox" ng-model="model.IsRand" ng-checked="model.IsRand==1" ng-change="isRandChange(model.IsRand)">选项乱序<span>
                 （需选择一个选项作为正确答案）
             </span>
         </p>

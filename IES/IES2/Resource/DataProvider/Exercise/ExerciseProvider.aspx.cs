@@ -18,6 +18,12 @@ namespace App.Resource.DataProvider.Exercise
         }
 
         [WebMethod]
+        public static ExerciseInfo Exercise_Model_Info()
+        {
+            return new ExerciseInfo() { exercisechoicelist = new List<ExerciseChoice>(), exercisecommon = new ExerciseCommon() };            
+        }
+
+        [WebMethod]
         public static bool Exercise_ADD(ExerciseInfo model)
         {
             return new ExerciseBLL().Exercise_ADD(model);            

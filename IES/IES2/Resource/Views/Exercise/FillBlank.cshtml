@@ -1,19 +1,19 @@
 ﻿<div class="paper_content">
     <div class="text_box" style="color:#F00;">
-        <textarea class="form-control" rows="4" ng-model="Attachment.FileName"></textarea>
+        <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Conten"></textarea>
     </div>
     <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
 
     <p class="no_rank">默认只有一个填空答案，您可以添加填空答案</p>
-    <div class="default fill_blank" ng-repeat="item in Exercises">
+    <div class="default fill_blank" ng-repeat="item in model.exercisechoicelist">
         <a ng-click="Del(item)">x</a>
         <input type="text" ng-model="item.Conten">
         <span class="icon icon_unfold"></span>
     </div>
     <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加选项</span></a>
-    <div class="text_box" style="color: #F00; margin-top: 20px;">        
-        <textarea class="form-control" rows="4" ng-model="model.Analysis"></textarea><br>
-        试题解析试题解析
+    <div class="text_box" style="color: #F00; margin-top: 20px;">
+        试题解析:      
+        <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Analysis"></textarea>       
     </div>
     
 </div>

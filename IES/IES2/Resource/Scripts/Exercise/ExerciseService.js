@@ -14,6 +14,11 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     //}
 
     //习题新增
+    service.Exercise_Model_Info = function (callback) {
+        httpService.ajaxPost(url, 'Exercise_Model_Info', null, callback);
+    }
+
+    //习题新增
     service.Exercise_ADD = function (model, callback) {
         httpService.ajaxPost(url, 'Exercise_ADD', { model: model }, callback);
     }
