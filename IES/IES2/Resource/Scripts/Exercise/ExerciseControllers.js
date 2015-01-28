@@ -21,7 +21,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentSer
         //被选择的标签
         $scope.selectedKeys = [];
         //知识点
-        $scope.knowledges = []; 
+        $scope.knowledges = [];
 
         $scope.course = {};
         $scope.exerciseType = {};
@@ -36,7 +36,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentSer
         assistService.Resource_Dict_ExerciseType_Get(function (data) {
             if (data.d) $scope.exerciseTypes = data.d;
         });
- 
+
         exerciseService.Resource_Dict_Diffcult_Get(function (data) {
             if (data.d) $scope.difficulties = data.d;
         });
@@ -50,7 +50,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentSer
                 if (data.d) $scope.knowledges = data.d;
             });
             assistService.Key_List({ OCID: v.OCID }, function (data) {
-                if (data.d) $scope.keys= data.d;
+                if (data.d) $scope.keys = data.d;
             });
         });
 
@@ -80,11 +80,10 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentSer
             }
         }
 
-        var findByRange = function(rangeId){
+        var findByRange = function (rangeId) {
             var length = $scope.rangeSelected.length;
             for (var i = 0; i < length; i++) {
-                if ($scope.rangeSelected[i].id === rangeId)
-                {
+                if ($scope.rangeSelected[i].id === rangeId) {
                     return i;
                 }
             }
@@ -139,10 +138,6 @@ appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', '$stateP
     $scope.model.exercisechoicelist = [];//答案数组
     var answer = { IsCorrect: false, Conten: '' };
     $scope.Attachment = {};//附件对象
-<<<<<<< HEAD
-
-=======
->>>>>>> ef7d3ca69aa03b359e81f363f2c601fb38c21113
 
     var init = function () {
         exerciseService.Exercise_Model_Info(function (data) {
@@ -220,11 +215,7 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
 
     //添加选项
     $scope.AddAnswer = function () {
-<<<<<<< HEAD
-
-=======
         answer = { IsCorrect: false, Conten: '' };
->>>>>>> ef7d3ca69aa03b359e81f363f2c601fb38c21113
         $scope.ExerciseAnswercards.push(answer);
     }
     //删除选项
@@ -238,10 +229,7 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
 
     //添加选项，填空答案
     $scope.AddConten = function () {
-<<<<<<< HEAD
-=======
         conten = { Conten: '' };
->>>>>>> ef7d3ca69aa03b359e81f363f2c601fb38c21113
         $scope.Contens.push(conten);
     }
     //删除选项,填空答案
@@ -284,12 +272,10 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
     $scope.Attachment = {};//附件对象
 
     var init = function () {
-<<<<<<< HEAD
         $scope.Exercises.push(model);
     }
     //添加选项
     $scope.Add = function () {
-
         $scope.Exercises.push(model);
     }
     //删除选项
@@ -299,14 +285,12 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
                 $scope.Exercises.splice(i, 1);
             }
         }
-=======
         exerciseService.Exercise_Model_Info(function (data) {
             $scope.model = data.d;
             $scope.model.exercisecommon.exercise = {};//Exercise对象
             $scope.model.exercisecommon.exercise.ExerciseType = 10;//问答题
             $scope.textarea = 0;//切换试题解析和得分点
         });
->>>>>>> ef7d3ca69aa03b359e81f363f2c601fb38c21113
     }
     //切换解析和得分点
     $scope.tabTextarea = function () {
@@ -337,7 +321,6 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
     });
 
     $scope.model = {};
-<<<<<<< HEAD
     $scope.model.ExerciseType = 14;//阅读理解
     $scope.Exercises = [];//答案数组
     var model = { Conten: '', Answer: '' };
@@ -358,7 +341,7 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
                 $scope.Exercises.splice(i, 1);
             }
         }
-=======
+    }
     $scope.Attachment = {};//附件对象
 
     var init = function () {
@@ -367,7 +350,6 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
             $scope.model.exercisecommon.exercise = {};//Exercise对象
             $scope.model.exercisecommon.exercise.ExerciseType = 14;//名词解释            
         });
->>>>>>> ef7d3ca69aa03b359e81f363f2c601fb38c21113
     }
     init();
 }]);
@@ -448,13 +430,9 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
 
     //添加选项
     $scope.Add = function () {
-<<<<<<< HEAD
-
         $scope.Exercises.push(model);
-=======
         answer = { Conten: '' };
         $scope.model.exercisechoicelist.push(answer);
->>>>>>> ef7d3ca69aa03b359e81f363f2c601fb38c21113
     }
     //删除选项
     $scope.Del = function (item) {
@@ -507,13 +485,9 @@ appExercise.controller('FillBlank2Ctrl', ['$scope', 'exerciseService', '$statePa
 
     //添加选项
     $scope.Add = function () {
-<<<<<<< HEAD
-
         $scope.Exercises.push(model);
-=======
         answer = { Conten: '', Spare: '' };
         $scope.model.exercisechoicelist.push(answer);
->>>>>>> ef7d3ca69aa03b359e81f363f2c601fb38c21113
     }
     //删除选项
     $scope.Del = function (item) {
@@ -554,8 +528,8 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
 
     $scope.model = {};//Exercise对象
     $scope.Attachment = {};//附件对象
-    
-    
+
+
     var grou = 1;//连线分组
     var answer = {};
 
@@ -581,13 +555,10 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
 
     //添加选项
     $scope.Add = function () {
-<<<<<<< HEAD
         $scope.Exercises.push(model);
-=======
         grou += 1;
         answer = { Conten: '', Answer: '', grou: grou };
         $scope.list.push(answer);
->>>>>>> ef7d3ca69aa03b359e81f363f2c601fb38c21113
     }
     //删除选项
     $scope.Del = function (item) {
