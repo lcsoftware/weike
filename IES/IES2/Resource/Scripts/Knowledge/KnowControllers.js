@@ -27,7 +27,6 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeServi
             if (data.d.length > 0) {
                 $scope.requireMents = data.d;
                 $scope.requireMent = $scope.requireMents[0];
-                console.log($scope.requireMents);
             }
         });
 
@@ -58,7 +57,9 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeServi
 
         var loadResourceKens = function (course) {
             resourceKenService.ResourceKen_List_OCID(course.OCID, function (data) {
-                $scope.resourceKens = data.d;
+                if (data.d) {
+                    $scope.resourceKens = data.d;
+                }
             });
         }
 
@@ -195,6 +196,11 @@ appKnow.controller('KnowledgeCtrl', ['$scope', 'contentService', 'knowledgeServi
         ///资料
         $scope.association.linkDoc = function () {
             $scope.association.selection = 1;
+            var inputValue = "abcdEFG,ssEFG,ssss";
+            var v = 'EFG';
+            var pattern = '/' + v + '/g';
+            var value = inputValue.replace(/EFG/g, ' ');
+            console.log(value);
         }
         ///试题
         $scope.association.linkExercise = function () {
@@ -328,6 +334,7 @@ appKnow.controller('KnowTopicCtrl', ['$scope', 'resourceKenService', function ($
     $scope.knowChapters = [];
 
     $scope.$on('knowledgeChanged', function (event, kenId) {
+        if ($scope.knowSelection.KenID !== kenId) return;
         $scope.knowChapters.length = 0;
         var len1 = $scope.resourceKens.length;
         for (var i = 0; i < len1; i++) {
