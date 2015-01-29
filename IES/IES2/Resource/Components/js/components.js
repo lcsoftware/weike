@@ -166,3 +166,31 @@ app.directive('batchOperation', function () {
 
     return directive;
 });
+
+app.directive('exerciseBatch', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.scope = {
+        onFireRemoveAll: '&',
+        onFireShared: '&'
+    }
+
+    directive.templateUrl = '/Components/templates/exerciseBatch.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        elem.find('.batch_list li').hover(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+        }, function () {
+            $(this).removeClass('active');
+        })
+        elem.find('.permissions li').hover(function () {
+            $(this).addClass('current').siblings().removeClass('current');
+        }, function () {
+            $(this).removeClass('current');
+        })
+    }
+
+    return directive;
+});

@@ -3,10 +3,214 @@
 var appExercise = angular.module('app.exercise.controllers', [
     'checklist-model',
     'app.assist.services',
-    'app.exercise.services'
+    'app.exercise.services',
+    'app.resken.services'
 ]);
 
-appExercise.controller('ExerciseCtrl', ['$scope','$state', 'exerciseService', 'contentService', 'knowledgeService', 'assistService',
+appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenService', 'exerciseService', 'contentService', 'knowledgeService', 'assistService',
+    function ($scope, $state, resourceKenService, exerciseService, contentService, knowledgeService, assistService) {
+        ///课程切换
+        $scope.$on('willCourseChanged', function (event, course) {
+            //console.log(course); 
+        });
+        ///课程加载完成
+        $scope.$on('courseLoaded', function (course) {
+            contentService.OC_Get(function (data) {
+                $scope.$parent.courses.length = 0;
+                var course = angular.copy(data.d);
+                course.OCID = -2;
+                course.CourseID = course.OCID;
+                course.Name = '共享习题';
+                $scope.$parent.courses.insert(0, course);
+
+                course = angular.copy(data.d);
+                course.OCID = -1;
+                course.CourseID = course.OCID;
+                course.Name = '我的习题';
+                $scope.$parent.courses.insert(0, course);
+                $scope.$parent.course = course;
+
+            });
+        });
+
+        //课程
+        $scope.courses = [];
+
+        //试题类型
+        $scope.exerciseTypes = [];
+        //难易程度
+        $scope.difficulties = [];
+        //范围
+        $scope.shareRanges = [];
+        //标签
+        $scope.keys = [];
+        //知识点
+        $scope.knowledges = [];
+
+        $scope.data = {};
+        $scope.data.course = {};
+        $scope.data.exerciseType = {};
+        $scope.data.difficult = {};
+        //知识点
+        $scope.data.knowledge = {};
+        $scope.data.shareRange = {};
+        //被选择的标签
+        $scope.data.key = {};
+
+        contentService.User_OC_List(function (data) {
+            if (data.d) {
+                $scope.courses = data.d;
+                var course = angular.copy($scope.courses[0]);
+                course.OCID = -1;
+                course.CourseID = -1;
+                course.Name = '不限';
+                $scope.courses.insert(0, course);
+                $scope.data.course = $scope.courses[0];
+            }
+        });
+
+        assistService.Resource_Dict_ExerciseType_Get(function (data) {
+            if (data.d) {
+                $scope.exerciseTypes = data.d;
+                var item = angular.copy($scope.exerciseTypes[0]);
+                item.id = -1;
+                item.name = '不限';
+                $scope.exerciseTypes.insert(0, item);
+                $scope.data.exerciseType = $scope.exerciseTypes[0];
+            }
+        });
+
+        assistService.Resource_Dict_Diffcult_Get(function (data) {
+            if (data.d) {
+                $scope.difficulties = data.d;
+                var item = angular.copy( $scope.difficulties[0]);
+                item.id = -1;
+                item.name = '不限';
+                $scope.difficulties.insert(0, item);
+                $scope.data.difficult = $scope.difficulties[0];
+            }
+        });
+
+        assistService.Resource_Dict_ShareRange_Get(function (data) {
+            if (data.d) {
+                $scope.shareRanges = data.d;
+                var item = angular.copy($scope.shareRanges[0]);
+                item.id = -1;
+                item.name = '不限';
+                $scope.shareRanges.insert(0, item);
+                $scope.data.shareRange = $scope.shareRanges[0];
+            }
+        });
+
+        resourceKenService.ResourceKen_List('', 'Exercise', 100, function (data) {
+            if (data.d) {
+                $scope.knowledges = data.d;
+                var item = angular.copy($scope.knowledges[0]);
+                item.KenID = -1;
+                item.Source = '不限';
+                $scope.knowledges.insert(0, item);
+                $scope.data.knowledge = $scope.knowledges[0];
+            }
+        });
+
+        assistService.Resource_Key_List('', 'Exercise', 100, function (data) {
+            if (data.d) {
+                $scope.keys = data.d;
+                var item = angular.copy($scope.keys[0]);
+                item.KeyID = -1;
+                item.Name = '不限';
+                $scope.keys.insert(0, item);
+                $scope.data.key = $scope.keys[0];
+            }
+        });
+
+        $scope.courseChanged = function (item) {
+            $scope.data.course = item;
+        }
+
+        $scope.exerciseTypeChanged = function (item) {
+            $scope.data.exerciseType = item;
+        }
+
+        $scope.difficultChanged = function (item) {
+            $scope.data.difficult = item;
+        }
+
+        $scope.shareRangeChanged = function (item) {
+            $scope.data.shareRange = item;
+        }
+
+        $scope.keyChanged = function (item) {
+            $scope.data.key = item;
+        }
+
+        $scope.knowChanged = function (item) {
+            $scope.data.knowledge = item;
+        }
+
+        ///习题共享 TODO
+        $scope.shareExercise = function (exercise) {
+
+        }
+        ///习题删除
+        $scope.deleteExercise = function (exercise) {
+            var model = {
+                KenID: $scope.knowSelection.KenID,
+                ResourceID: exercise.ExerciseID,
+                Source: 'Exercise'
+            }
+            resourceKenService.ResourceKen_Del(model, function (data) {
+                if (data.d === true) {
+                    var length = $scope.chapterExercises.length;
+                    for (var i = 0; i < length; i++) {
+                        if ($scope.chapterExercises[i].ExerciseID === exercise.ExerciseID) {
+                            $scope.chapterExercises.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+            });
+        }
+        /// <summary>
+        /// 1判断题 ; 2单选题 ; 3 多选题 4填空题（客观）5填空题 ; 6连线题 ;7 排序题 ; 8分析题  9计算题   10问答题 ;
+        ///11 翻译题  12听力训练  13写作  14阅读理解  15论述题 ;16 答题卡题型  17自定义题型
+        /// </summary>
+        ///编辑习题
+        $scope.editExercise = function (exercise) {
+            var param = { ExerciseID: exercise.ExerciseID };
+            switch (exercise.ExerciseType) {
+                case '18': //简答题
+                    $state.go('exercise.shortanswer', param)
+                    break;
+                case '19': //名词解释
+                    $state.go('exercise.noun', param)
+                    break;
+                case '12': //听力题
+                    $state.go('exercise.listening', param)
+                    break;
+                case '10': //问答题
+                    $state.go('exercise.quesanswer', param)
+                    break;
+                case '1': //判断题
+                    $state.go('exercise.truefalse', param)
+                    break;
+                case '5': //填空题
+                    $state.go('exercise.fillblank', param)
+                    break;
+                case '4': //填空客观题
+                    $state.go('exercise.fillblank2', param)
+                    break;
+                case '6':  //连线题
+                    $state.go('exercise.connection', param)
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    }]);
+
+appExercise.controller('ExerciseCtrl', ['$scope', '$state', 'exerciseService', 'contentService', 'knowledgeService', 'assistService',
     function ($scope, $state, exerciseService, contentService, knowledgeService, assistService) {
         //课程
         $scope.courses = [];
@@ -58,7 +262,7 @@ appExercise.controller('ExerciseCtrl', ['$scope','$state', 'exerciseService', 'c
             if (data.d) $scope.ranges = data.d;
         });
 
-        $scope.$watch('data.course', function (v) { 
+        $scope.$watch('data.course', function (v) {
             knowledgeService.Ken_List({ OCID: v.OCID }, function (data) {
                 if (data.d) $scope.data.knowledges = data.d;
             });

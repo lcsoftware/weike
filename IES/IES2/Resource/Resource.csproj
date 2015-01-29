@@ -136,6 +136,7 @@
     <Content Include="Components\js\components.js" />
     <Content Include="Components\templates\addChapter.html" />
     <Content Include="Components\templates\addKnowledge.html" />
+    <Content Include="Components\templates\exerciseBatch.html" />
     <Content Include="Components\templates\fileOperation.html" />
     <Content Include="Components\templates\folder.html" />
     <Content Include="Css\app.css" />
@@ -187,6 +188,7 @@
     <Content Include="Frameworks\bootstrap\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Frameworks\bootstrap\js\bootstrap.min.js" />
     <Content Include="Frameworks\checklist-model\checklist-model.js" />
+    <Content Include="Frameworks\jquery\jquery-1.11.1.min.js" />
     <Content Include="Frameworks\jquery\jquery-1.7.2.min.js" />
     <Content Include="Frameworks\jquery\jquery-1.8.3.min.js" />
     <Content Include="Global.asax" />

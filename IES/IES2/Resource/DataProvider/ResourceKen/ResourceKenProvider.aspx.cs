@@ -23,6 +23,13 @@ namespace App.Resource.DataProvider.ResourceKen
         }
 
         [WebMethod]
+        public static IList<IES.Resource.Model.ResourceKen> ResourceKen_List(string searchKey, string source, int topNum)
+        {
+            var user = IES.Service.UserService.CurrentUser;
+            return new ResourceKenBLL().ResourceKen_List(searchKey, source, user.UserID, topNum); 
+        }
+
+        [WebMethod]
         public static bool ResourceKen_Del(IES.Resource.Model.ResourceKen model)
         {
             return new ResourceKenBLL().ResourceKen_Del(model);

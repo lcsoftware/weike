@@ -1,156 +1,84 @@
-﻿<div class="exercise_nav">
-    <ul class="exercise_nav_list">
-        <li class="active"><a class="first_nav" href="#">毛泽东思想和中国特色社会主义毛泽东思想和中国特色社会主义</a></li>
-        <li><a class="first_nav" href="#">大学英语</a></li>
-        <li><a class="first_nav" href="#">形势与政策</a></li>
-    </ul>
-</div>
-<div class="exercise_search">
+﻿<div class="exercise_search">
     <div class="select_condition">
         <p class="current_course">我的习题</p>
     </div>
     <div class="exercise_btn">
-        <span class="sort_box">[筛选]</span>
-        <a href="javascript:;" class="topic_import">
+        <a class="topic_import" ui-sref="exercise.shortanswer({ExerciseID: -1})">
             <em><i class="icon"></i></em>
-            <span>新建试卷</span>
-            <ul class="batch_list">
-                <li>智能型试卷</li>
-                <li>答题卡试卷</li>
-                <li>自测型试卷</li>
-            </ul>
+            <span>新建习题</span>
         </a>
-        <a href="javascript:;" class="import_exercise"><em><i class="icon"></i></em><span>导出</span></a>
+        <a class="import_exercise" href="javascript:;"><em><i class="icon"></i></em><span>导入</span></a>
+        <exercise-batch on-fire-remove-all="fireRemoveAll()" on-fire-shared="fireShared()"></exercise-batch>
         <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字"><span class="icon" href="#"></span></p>
     </div>
 </div>
 <div class="filter_box">
     <dl class="filter_list">
-        <dt>试卷类型</dt>
+        <dt>课程选择</dt>
         <dd>
-            <a class="active" href="#"><span>不限</span></a>
-            <a href="#"><span>智能型试卷</span></a>
-            <a href="#"><span>答题卡试卷</span></a>
-            <a href="#"><span>自测型试卷</span></a>
+            <a ng-class="{'active':data.course.CourseID==item.CourseID}" ng-click="courseChanged(item)" ng-repeat="item in courses"><span ng-bind="item.Name"></span></a>
         </dd>
     </dl>
     <dl class="filter_list">
-        <dt>创建人</dt>
+        <dt>题目类型</dt>
         <dd>
-            <a class="active" href="#"><span>不限</span></a>
-            <a href="#"><span>自己</span></a>
-            <a href="#"><span>他人</span></a>
+            <a ng-class="{'active':data.exerciseType.id==item.id}" ng-click="exerciseTypeChanged(item)" ng-repeat="item in exerciseTypes"><span ng-bind="item.name"></span></a>
         </dd>
     </dl>
-    <span class="guanbi"><i class="icon"></i></span>
+    <dl class="filter_list">
+        <dt>难易程度</dt>
+        <dd>
+            <a ng-class="{'active':data.difficult.id==item.id}" ng-click="difficultChanged(item)" ng-repeat="item in difficulties"><span ng-bind="item.name"></span></a>
+        </dd>
+    </dl>
+    <dl class="filter_list">
+        <dt>共享权限</dt>
+        <dd>
+            <a ng-class="{'active':data.shareRange.id==item.id}" ng-click="shareRangeChanged(item)" ng-repeat="item in shareRanges"><span ng-bind="item.name"></span></a>
+        </dd>
+    </dl>
+    <dl class="filter_list">
+        <dt>题目标签</dt>
+        <dd>
+            <a ng-class="{'active':data.key.KeyID==item.KeyID}" ng-click="keyChanged(item)" ng-repeat="item in keys"><span ng-bind="item.Name"></span></a>
+        </dd>
+    </dl>
+    <dl class="filter_list">
+        <dt>知识点</dt>
+        <dd>
+            <a ng-class="{'active':data.knowledge.KenID==item.KenID}" ng-click="knowChanged(item)" ng-repeat="item in knowledges"><span ng-bind="item.Source"></span></a>
+        </dd>
+    </dl><span class="guanbi"><i class="icon"></i></span>
 </div>
-<table class="course_data paper_data">
-    <tr>
-        <th width="350">
-            <div class="data_name">
-                <input type="checkbox">
-                <p>试卷名称</p>
-                <i class="icon arrow"></i>
+<div class="topic_detail">
+    <ul class="topic_list">
+        <li class="show" ng-repeat="item in exercises">
+            <div class="topic_label">
+                <p class="question_degree" ng-class="{'simple':item.ExerciseType==1,'medium':item.ExerciseType==2,'difficult':item.ExerciseType==3}"><input type="checkbox">{{item.ExerciseType}}</p>
+                <div class="label_list">
+                    <a href="#"><span ng-bind="item.Keys | keyReplace"></span></a>
+                </div>
+                <p class="creator">创建人：{{item.CreateUserName}}<span>最后修改时间：{{item.UpdateTime}}</span></p>
             </div>
-        </th>
-        <th width="100">创建人</th>
-        <th width="120">试卷类型</th>
-        <th width="90">题目数</th>
-        <th width="80">总分</th>
-        <th>最后修改日期</th>
-    </tr>
-    <tr>
-        <td>
-            <div class="data_name">
-                <input type="checkbox">
-                <i class="icon_24 paper"></i>
-                <p>测试试卷</p>
+            <div class="topic_tit">
+                <h5><span>[{{item.ExerciseType}}]</span></h5>
+                <p class="question" ng-bind="item.Conten">
+                </p>
+                <p class="answer" ng-bind="item.Answer">
+                </p>
             </div>
-        </td>
-        <td>张明宇</td>
-        <td>智能型试卷</td>
-        <td>50</td>
-        <td>100</td>
-        <td>
-            2014-10-23
+            <div class="mess_box">
+                <a class="icon_24 spread" href="javascript:;"></a>
+            </div>
             <div class="topic_icon">
-                <a href="javascript:;" class="icon delete_topic"></a>
-                <a href="javascript:;" class="icon icon_preview">
-                    <div class="icon_content">
-                        <span></span><p>预览</p>
-                    </div>
+                <a ng-click="deleteExercise(item)" class="icon delete_topic"></a>
+                <a ng-click="shareExercise(item)" class="icon share_topic">
+                    @*<div class="icon_content">
+                            <span></span><p>共享</p>
+                        </div>*@
                 </a>
-                <a href="javascript:;" class="icon edit_topic"></a>
+                <a ng-click="editExercise(item)" class="icon edit_topic"></a>
             </div>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <div class="data_name">
-                <input type="checkbox">
-                <i class="icon_24 paper"></i>
-                <p>测试试卷</p>
-            </div>
-        </td>
-        <td>张明宇</td>
-        <td>智能型试卷</td>
-        <td>50</td>
-        <td>100</td>
-        <td>
-            2014-10-23
-            <div class="topic_icon">
-                <a href="javascript:;" class="icon delete_topic"></a>
-                <a href="javascript:;" class="icon icon_preview">
-                    <div class="icon_content">
-                        <span></span><p>预览</p>
-                    </div>
-                </a>
-                <a href="javascript:;" class="icon edit_topic"></a>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <div class="data_name">
-                <input type="checkbox">
-                <i class="icon_24 paper"></i>
-                <p>测试试卷</p>
-            </div>
-        </td>
-        <td>张明宇</td>
-        <td>智能型试卷</td>
-        <td>50</td>
-        <td>100</td>
-        <td>
-            2014-10-23
-            <div class="topic_icon">
-                <a href="javascript:;" class="icon delete_topic"></a>
-                <a href="javascript:;" class="icon icon_preview">
-                    <div class="icon_content">
-                        <span></span><p>预览</p>
-                    </div>
-                </a>
-                <a href="javascript:;" class="icon edit_topic"></a>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <div class="data_name">
-                <input type="checkbox">
-                <i class="icon_24 paper"></i>
-                <p>测试试卷</p>
-            </div>
-        </td>
-        <td>张明宇</td>
-        <td>智能型试卷</td>
-        <td>50</td>
-        <td>100</td>
-        <td>
-            2014-10-23
-            <div class="topic_icon">
-                <a href="javascript:;" class="icon icon_preview"></a>
-            </div>
-        </td>
-    </tr>
-</table>
+        </li>
+    </ul>
+</div>

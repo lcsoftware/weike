@@ -163,6 +163,10 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
         }
         /// end 添加章节 
 
+        ///习题共享 TODO
+        $scope.shareExercise = function (exercise) {
+
+        }
         /// <summary>
         /// 1判断题 ; 2单选题 ; 3 多选题 4填空题（客观）5填空题 ; 6连线题 ;7 排序题 ; 8分析题  9计算题   10问答题 ;
         ///11 翻译题  12听力训练  13写作  14阅读理解  15论述题 ;16 答题卡题型  17自定义题型
@@ -200,10 +204,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
                     break;
             }
         }
-        ///习题共享 TODO
-        $scope.shareExercise = function (exercise) {
-
-        }
+       
         ///习题删除
         $scope.deleteExercise = function (exercise) {
             var model = {
