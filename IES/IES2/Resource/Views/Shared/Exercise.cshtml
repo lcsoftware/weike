@@ -6,11 +6,11 @@
     </div>
     <div class="paper_box">
         <div class="paper_sort">
-            <select class="which_course" ng-model="course" ng-options="item.Name for item in courses">
+            <select class="which_course" ng-model="data.course" ng-options="item.Name for item in courses">
             </select>
-            <select class="question_type" ng-model="exerciseType" ng-options="item.name for item in exerciseTypes">
+            <select class="question_type" ng-model="data.exerciseType" ng-options="item.name for item in exerciseTypes">
             </select>
-            <select class="difficulty_degree" ng-model="difficult" ng-options="item.name for item in difficulties">
+            <select class="difficulty_degree" ng-model="data.difficult" ng-options="item.name for item in difficulties">
             </select>
             <div class="range_applicable">
                 <span>适用范围</span>
@@ -25,13 +25,13 @@
                     <a ng-click="addKey()"><span class="icon"></span></a>
                 </p>
                 <ul class="item_list">
-                    <li ng-repeat="item in selectedKeys"><a ng-click="removeKey(item)">{{item.Name}}<span>×</span></a></li>
+                    <li ng-repeat="item in data.selectedKeys"><a ng-click="removeKey(item)">{{item.Name}}<span>×</span></a></li>
                 </ul>
             </div>
             <div class="zhishi_box">
                 <a class="connect_knowledge" href="#"><em><i class="icon"></i></em><span>关联知识点</span></a>
                 <ul class="knowledge_item">
-                    <li ng-repeat="item in knowledges"><a ng-click="removeKnow(item);">{{item.Name}}<span>×</span></a></li>
+                    <li ng-repeat="item in data.knowledges"><a ng-click="removeKnow(item);">{{item.Name}}<span>×</span></a></li>
                 </ul>
             </div>
         </div>

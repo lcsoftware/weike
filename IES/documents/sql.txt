@@ -536,3 +536,14 @@ create proc [dbo].[ResourceKen_Del]
 as         
   
   delete from [dbo].[ResourceKen] where KenID = @KenID and ResourceID = @ResourceID and [Source] = @Source	 
+  
+INSERT INTO [IES_Resource].[dbo].[Key]([OCID],[CourseID],[OwnerUserID],[CreateUserID],[Name])
+     select 1,1,0,0,'标签01' 
+     union select 1,1,0,0,'标签02' 
+     union select 1,1,0,0,'标签03' 
+     union select 1,1,0,0,'标签04' 
+     union select 1,1,0,0,'标签04' 
+     union select 2,2,0,0,'标签05' 
+     union select 2,2,0,0,'标签06' 
+     union select 2,2,0,0,'标签07' 
+     union select 2,2,0,0,'标签08'   
