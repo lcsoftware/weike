@@ -14,5 +14,10 @@ namespace IES.G2S.Resource.BLL
         {
             return KeyDAL.Key_List(model);
         }
+        public List<IES.Resource.Model.Key> Resource_Key_List(string searchKey, string source, int userId, int topNum)
+        {
+            return KeyDAL.Resource_Key_List(searchKey, source, userId, topNum);
+        }
+        
     }
 }

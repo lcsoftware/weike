@@ -27,6 +27,9 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         //我的资料
         .state('content.resource', { url: '/resource', templateUrl: '/views/Resource/ResourceList', controller: 'ResourceCtrl' })
 
+        //习题列表
+        .state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })        
+
         //试题
         .state('exercise', { url: '/exercise', abstract: true, templateUrl: '/views/Shared/Exercise', controller: 'ExerciseCtrl' })
         //简答题
@@ -58,9 +61,7 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         //新增答题卡试卷
         .state('content.addsheet', { url: '/paper/sheet', templateUrl: '/views/Paper/AddSheet', controller: 'PaperSheetCtrl' })
 
-        //习题
-        //.state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })        
-        
+           
 
         //知识点 
         .state('content.knowledge', { url: '/knowledge', templateUrl: '/views/Knowledge/Knowledge', controller: 'KnowledgeCtrl' })

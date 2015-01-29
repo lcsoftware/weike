@@ -44,11 +44,23 @@ namespace App.Resource.DataProvider.Shared
             return ResourceCommonData.Resource_Dict_Scope_Get();
         }
 
+        [WebMethod]
+        public static IList<ResourceDict> Resource_Dict_ShareRange_Get()
+        {
+            return ResourceCommonData.Resource_Dict_ShareRange_Get();
+        }
 
         [WebMethod]
         public static List<Key> Key_List(Key model)
         {
             return new KeyBLL().Key_List(model);
+        }
+
+        [WebMethod]
+        public static List<Key> Resource_Key_List(string searchKey, string source, int topNum)
+        {
+            var user = IES.Service.UserService.CurrentUser;
+            return new KeyBLL().Resource_Key_List(searchKey, source, user.UserID, topNum);
         }
     }
 }

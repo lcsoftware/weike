@@ -1,3 +1,5 @@
+USE [IES_Resource]
+go
 -- =============================================    
 -- Author:      王胜辉    
 -- Create date: 20141127    
@@ -39,59 +41,10 @@ as
 	inner join IES.dbo.User_S t3 on t3.UserID = t2.CreateUserID
 	where t1.rownum BETWEEN @lowerLimit AND @upperLimit
 
-    
-     
-
-
-
-
-USE [IES_Resource]
-GO
-/****** Object:  StoredProcedure [dbo].[File_Search]    Script Date: 01/07/2015 16:53:19 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================  
--- Author:      王胜辉  
--- Create date: 20141127  
--- Description: 获取资料的列表信息  
--- =============================================  
-ALTER proc [dbo].[File_Search]  
- @Searchkey nvarchar(200) = '' , --查询关键字  
- @OCID int = 0 , -- 我的资料库courseid=-1  ,OCID=0 
- @CourseID int = 1 , --课程编号
- @FolderID int = 0 , -- 表示根文件夹下   
- @FileType int = -1, -- 文件类型  
- @UploadTime smalldatetime ='2011-1-1',-- 上传日期 ，需要从业务层计算 >= @UploadTime  
- @ShareRange int = -1  ,  
- @UserID int =1 ,  
- @PageSize int = 20 ,                        
- @PageIndex int = 1     
-as   
- SET NOCOUNT ON;  
-  
- DECLARE @lowerLimit INT                                      
- DECLARE @upperLimit INT     
-   
-SET @lowerLimit = @PageSize * ( @PageIndex - 1 )                                      
-SET @upperLimit = @PageSize *   @PageIndex       
-  
- 
- select FileID, OCID, CourseID, FolderID, SubjectID1, SubjectID2, 
- CreateUserID, CreateUserName, OwnerUserID, FileTitle, t1.FileName, Ext, 
- FileType, Brief, Keys, FileSize, pingyin, TimeLength, RarIndexPage, 
- UploadTime, Orde, ShareRange, AllowDownload, ServerID, Clicks, Downloads, IsTransfer
- from  dbo.[File] t1
- where IsDeleted = 0  and t1.OCID = @OCID 
- and CreateUserID = @UserID and FolderID = @FolderID 
-   
-   
- --获取习题列表，满足条件的筛选通过（ f_Exercise_Cacu_GetExeriseList ）,复杂算法必须独立放到外面函数或存储过程中执行  
- ;  
-  
+go  
+--更新 url 地址 
 update IES_sys.dbo.Menu set URL='content.knowledge.topic'  where MenuID='B24'   
-  
+go
    
   
    
@@ -107,8 +60,7 @@ GO
 -- Author:      王胜辉  
 -- Create date: 20150110
 -- Description: 获取文件的下载地址 
--- =============================================  
-  
+-- =============================================   
 create function [dbo].[f_Resource_URL_Get]      
 (   
    @FileID int 
@@ -134,7 +86,7 @@ begin
       
     return       
 end      
-  
+go  
   
 USE [IES_Resource]
 GO
@@ -143,8 +95,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
-
 -- =============================================
 -- Author:      王胜辉
 -- Create date: 20141208
@@ -167,8 +117,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
-
 -- =============================================
 -- Author:      王胜辉
 -- Create date: 20141208
@@ -189,7 +137,7 @@ as
 	
 	where t1.FileID = @FileID and IsDeleted = 0 
     
-
+go
 USE [IES]
 GO
 /****** Object:  UserDefinedFunction [dbo].[f_Math_DeliveryValueList]    Script Date: 01/10/2015 09:26:39 ******/
@@ -223,7 +171,7 @@ begin
 
     return           
 end 
-    
+go    
 USE [IES_Resource]
 GO
 /****** Object:  StoredProcedure [dbo].[Folder_List]    Script Date: 01/13/2015 17:47:57 ******/
@@ -248,90 +196,10 @@ as
  from dbo.Folder  
  where IsDeleted = 0 AND (@ParentID = -1 or ParentID = @ParentID) and OCID = @OCID   
  and ( (  CreateUserID = @UserID or OwnerUserID = @UserID  ) or @UserID = 0 )  
-   
-   
-  
-   
-  
- USE [IES_Resource]
-GO
-/****** Object:  StoredProcedure [dbo].[File_Search]    Script Date: 01/15/2015 21:58:00 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- =============================================  
--- Author:      王胜辉  
--- Create date: 20141127  
--- Description: 获取资料的列表信息  
--- =============================================  
-ALTER proc [dbo].[File_Search]  
- @Searchkey nvarchar(200) = '' , --查询关键字  
- @OCID int = 0 , -- 我的资料库courseid=-1  ,OCID=0 
- @CourseID int = 1 , --课程编号
- @FolderID int = 0 , -- 表示根文件夹下   
- @FileType int = -1, -- 文件类型  
- @UploadTime smalldatetime ='2011-1-1',-- 上传日期 ，需要从业务层计算 >= @UploadTime  
- @ShareRange int = -1  ,  
- @UserID int =1    
-as   
- SET NOCOUNT ON;  
     
-  
- 
- select FileID, OCID, CourseID, FolderID, SubjectID1, SubjectID2, 
- CreateUserID, CreateUserName, OwnerUserID, FileTitle, t1.FileName, Ext, 
- FileType, Brief, Keys, FileSize, pingyin, TimeLength, RarIndexPage, 
- UploadTime, Orde, ShareRange, AllowDownload, ServerID, Clicks, Downloads, IsTransfer
- from  dbo.[File] t1
- where IsDeleted = 0  and t1.OCID = @OCID 
- and CreateUserID = @UserID and FolderID = @FolderID 
    
-   
- --获取习题列表，满足条件的筛选通过（ f_Exercise_Cacu_GetExeriseList ）,复杂算法必须独立放到外面函数或存储过程中执行  
- ;  
-  
-USE [IES_Resource]
-GO
-/****** Object:  StoredProcedure [dbo].[Chapter_ADD]    Script Date: 01/20/2015 19:56:58 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
--- =============================================  
--- Author:      王胜辉  
--- Create date: 20141127  
--- Description: 章节新增  
--- =============================================  
-  
-ALTER proc [dbo].[Chapter_ADD]  
-	@ChapterID int output , 
-	@OCID int ,
-    @CourseID int ,  
-    @OwnerUserID int ,
-    @CreateUserID int ,   
-    @Title nvarchar(500) ,   
-    @ParentID int  
-as   
-  
- SET NOCOUNT ON;  
-   
-  
- set @ChapterID = 0   
-   
-/* select   @ChapterID = ChapterID 
- from  dbo.Chapter  
- where  OCID = @OCID*/
-   
- --if( @ChapterID = 0 )  
- --begin  
-  insert into dbo.Chapter( OCID ,  CourseID, OwnerUserID , CreateUserID , Title, ParentID, Orde  )  
-   values (  @OCID , @CourseID, @OwnerUserID , @CreateUserID  , @Title , @ParentID  , dbo.[f_Cacu_Chapter_GetOrder]( @OCID,@ParentID  )   )  
-     set @ChapterID = @@identity      
- --end   
-  
-  
+     
+ go 
   
   USE [IES_Resource]
 GO
@@ -374,16 +242,11 @@ as
  AND (@FileType = -1 or FileType = @FileType)
    
  --获取习题列表，满足条件的筛选通过（ f_Exercise_Cacu_GetExeriseList ）,复杂算法必须独立放到外面函数或存储过程中执行  
- ;  
+ 
+ go 
   
-   
-  
-   
-   
-   
-  
-    update [IES_Sys].[dbo].[Menu] set URL='exercise.shortanswer' where MenuID='B22' 
-    
+update [IES_Sys].[dbo].[Menu] set URL='content.exercise' where MenuID='B22' 
+  go    
   USE [IES_Resource]
 -- =============================================  
 -- Author:      王胜辉  
@@ -419,16 +282,7 @@ as
    --values (  @OCID , @CourseID, @OwnerUserID , @CreateUserID  , @Title , @ParentID  , dbo.[f_Cacu_Chapter_GetOrder]( @OCID,@ParentID  )   )  
      set @ChapterID = @@identity      
  --end   
-     
-USE [IES_Resource]
-GO
-/****** Object:  StoredProcedure [dbo].[Chapter_Del]    Script Date: 01/25/2015 16:39:04 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
-
+go     
 -- =============================================
 -- Author:      王胜辉
 -- Create date: 20141127
@@ -441,23 +295,13 @@ ALTER proc [dbo].[Chapter_Del]
 as 
 	SET NOCOUNT ON;
 	delete from Chapter where ChapterID = @ChapterID or ParentID=@ChapterID
-	
-USE [IES_Resource]
-GO
-/****** Object:  StoredProcedure [dbo].[Chapter_Upd]    Script Date: 01/25/2015 18:02:30 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
-
-
+	 
 -- =============================================
 -- Author:      王胜辉
 -- Create date: 20141127
 -- Description: 章节更新
 -- =============================================
-
+go
 ALTER proc [dbo].[Chapter_Upd]
 	@ChapterID int  ,
     @Title nvarchar(500),
@@ -469,7 +313,7 @@ as
 	
     Update Chapter set Title = @Title, Orde = @Orde, ParentID=@parentID
     where ChapterID = @ChapterID    
-
+go
 -- =============================================  
 -- Author:      王胜辉  
 -- Create date: 20150126
@@ -486,7 +330,7 @@ as
   INSERT INTO [dbo].[ResourceKen]([ResourceID],[Source],[KenID])
   SELECT @ResourceID, @Source, @KenID
   set @ID = @@identity      
-  
+go  
  -- =============================================
 -- Author:      王胜辉
 -- Create date: 20150128
@@ -502,7 +346,7 @@ as
 	select a.* from ResourceKen a, Ken b 
 	where b.OCID=@OCID
 	and a.KenID=b.KenID
-	
+go	
 -- =============================================  
 -- Author:      王胜辉  
 -- Create date: 20150128
@@ -517,13 +361,8 @@ as
 	select * from dbo.[Key]
 	where OCID = @OCID	
 	 
-USE [IES_RESOURCE]
-GO
-/****** Object:  StoredProcedure [dbo].[ResourceKen_ADD]    Script Date: 01/28/2015 22:58:48 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
+go	 
 -- =============================================  
 -- Author:      王胜辉  
 -- Create date: 20150126
@@ -537,62 +376,85 @@ as
   
   delete from [dbo].[ResourceKen] where KenID = @KenID and ResourceID = @ResourceID and [Source] = @Source	 
   
-INSERT INTO [IES_Resource].[dbo].[Key]([OCID],[CourseID],[OwnerUserID],[CreateUserID],[Name])
-     select 1,1,0,0,'标签01' 
-     union select 1,1,0,0,'标签02' 
-     union select 1,1,0,0,'标签03' 
-     union select 1,1,0,0,'标签04' 
-     union select 1,1,0,0,'标签04' 
-     union select 2,2,0,0,'标签05' 
-     union select 2,2,0,0,'标签06' 
-     union select 2,2,0,0,'标签07' 
-     union select 2,2,0,0,'标签08'   
-
-
-
-
+ 
 
 USE [IES_Resource]
 GO
 
-/****** Object:  Table [dbo].[ResourceKey]    Script Date: 01/29/2015 16:14:05 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ResourceKey]') AND type in (N'U'))
-DROP TABLE [dbo].[ResourceKey]
+ 
+-- =============================================  
+-- Author:      王胜辉  
+-- Create date: 20141207
+-- Description: 获取文件、习题相关有效知识点 
+-- =============================================  
+ALTER proc [dbo].[Resource_Ken_List]  
+	@SearchKey nvarchar(50) = '' ,
+	@Source nvarchar(50) = 'File',
+	@UserID int = 0 ,
+	@TopNum int = 20 
+as   
+ SET NOCOUNT ON;  
+  
+  
+	if ( @Source = 'File' )
+	begin
+		select distinct top(@TopNum) t3.KenID , t3.Name As [Source]  
+		from dbo.ResourceKen t1 
+		inner join dbo.[File] t2 on t1.ResourceID = t2.FileID
+		inner join dbo.Ken t3 on t3.KenID = t1.KenID 
+		inner join ( select FileID from  [dbo].[f_Cacu_GetUserAuFileList](@UserID)) t4 on t4.FileID = t2.FileID
+		where t1.Source =  'File' and  ( t3.Name  like '%'+ @SearchKey + '%' or @SearchKey = '')
+	end
+	
+	
+	
+	if ( @Source = 'Exercise' )
+	begin
+		select distinct top(@TopNum) t3.KenID , t3.Name As [Source]    
+		from dbo.ResourceKen t1 
+		inner join dbo.Exercise  t2 on t1.ResourceID = t2.ExerciseID
+		inner join dbo.Ken t3 on t3.KenID = t1.KenID 
+		inner join ( select ExerciseID from  [dbo].[f_Cacu_GetUserAuExerciseList](@UserID)) t4 on t4.ExerciseID = t2.ExerciseID
+		where t1.Source = 'Exercise' and  ( t3.Name  like '%'+ @SearchKey + '%' or @SearchKey = '')
+	end
+go 
+   
+ 
+ 
+ 
+ USE [IES_Resource]
 GO
-
-USE [IES_Resource]
-GO
-
-/****** Object:  Table [dbo].[ResourceKey]    Script Date: 01/29/2015 16:14:05 ******/
+/****** Object:  StoredProcedure [dbo].[Exercise_Upd]    Script Date: 01/30/2015 00:18:55 ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
+-- =============================================
+-- Author:      王胜辉
+-- Create date: 20141207
+-- Description: 习题基本属性修改
+-- =============================================
 
-SET ANSI_PADDING ON
-GO
+ALTER proc [dbo].[Exercise_Upd]
+	 @ExerciseID int  , 
+	 @ExerciseType int ,
+	 @Diffcult int,
+	 @Scope int , 
+	 @ShareRange int = 0  ,  
+	 @Brief nvarchar(1000)      = '' ,
+	 @Conten nvarchar(max)      = '', 
+	 @Answer nvarchar(max)      = '' ,
+	 @Analysis nvarchar(max)    = '' ,
+	 @ScorePoint nvarchar(1000) = '',
+	 @Score  decimal(10,1) , 
+	 @IsRand bit =  0 
+as 
 
-CREATE TABLE [dbo].[ResourceKey](
-	[ID] [int] IDENTITY(1, 1) NOT NULL,
-	[ResourceID] [int] NOT NULL,
-	[Source] [varchar](30) NOT NULL,
-	[KeyID] [int] NOT NULL,
- CONSTRAINT [PK_ResourceKey] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-GO
-
-SET ANSI_PADDING OFF
-GO
-
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'资源编号（习题编号、文件编号）' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ResourceKey', @level2type=N'COLUMN',@level2name=N'ResourceID'
-GO
-
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'来源表：Exercise, File' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ResourceKey', @level2type=N'COLUMN',@level2name=N'Source'
-GO
-
-
+	SET NOCOUNT ON;
+	
+	update t1
+	set   ExerciseType = @ExerciseType, Diffcult = @Diffcult , Scope = @Scope, 
+	ShareRange = @ShareRange , Brief = @Brief , Conten = @Conten , Answer =@Answer , 
+	Analysis = @Analysis , ScorePoint = @ScorePoint , Score = @Score , IsRand = @IsRand , UpdateTime =GETDATE()
+	from Exercise t1
+	where ExerciseID = @ExerciseID

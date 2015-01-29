@@ -50,7 +50,7 @@ namespace App.Resource.DataProvider.Exercise
         {
             
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
-            if (v.ExerciseID > 0)
+            if (v.exercisecommon.exercise.ExerciseID > 0)
             {
                 return new ExerciseBLL().Exercise_Upd(v);
             }

@@ -3,6 +3,7 @@
 var appResource = angular.module('app.resource.controllers', [
     'app.res.services',
     'app.content.services',
+    'checklist-model',
     'ui.tree'
 ]);
 
