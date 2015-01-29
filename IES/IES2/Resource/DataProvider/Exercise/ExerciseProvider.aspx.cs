@@ -28,5 +28,11 @@ namespace App.Resource.DataProvider.Exercise
         {
             return new ExerciseBLL().Exercise_ADD(model);            
         }
+
+        [WebMethod]
+        public static ExerciseInfo ExerciseInfo_Get(ExerciseInfo model)
+        {
+            return new ExerciseBLL().ExerciseInfo_Get(model);
+        }
     }
 }

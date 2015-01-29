@@ -46,6 +46,10 @@ namespace IES.G2S.Resource.BLL
             return ExerciseDAL.Exercise_Get(model);
         }
 
+        public ExerciseInfo ExerciseInfo_Get(ExerciseInfo model)
+        {
+            return ExerciseDAL.ExerciseInfo_Get(model);
+        }
 
         #endregion 
 

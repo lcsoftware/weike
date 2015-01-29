@@ -156,17 +156,20 @@ appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', '$stateP
     $scope.model.exercisechoicelist = [];//答案数组
     var answer = { IsCorrect: false, Conten: '' };
     $scope.Attachment = {};//附件对象
+    $scope.model.exercisecommon.exercise.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
 
     var init = function () {
-        exerciseService.Exercise_Model_Info(function (data) {
-            $scope.model = data.d;
-            answer = { IsCorrect: false, Conten: '' };
-            $scope.model.exercisechoicelist.push(answer);
-            $scope.model.exercisecommon.exercise = {};//Exercise对象
-            $scope.model.exercisecommon.exercise.ExerciseType = 10;//简答题
-            //$scope.model.exercisecommon.exercise.IsRand = false;//选是否项乱序
-            //$scope.model.exercisecommon.exercise.Conten = '';//题干;
-        });
+        if ($scope.model.exercisecommon.exercise.ExerciseID > -1) {
+
+        } else {
+            exerciseService.Exercise_Model_Info(function (data) {
+                $scope.model = data.d;
+                answer = { IsCorrect: false, Conten: '' };
+                $scope.model.exercisechoicelist.push(answer);
+                $scope.model.exercisecommon.exercise = {};//Exercise对象
+                $scope.model.exercisecommon.exercise.ExerciseType = 10;//简答题
+            });
+        }
     }
     $scope.isRandChange = function (IsRand) {
         $scope.model.exercisecommon.exercise.IsRand = !!IsRand;
