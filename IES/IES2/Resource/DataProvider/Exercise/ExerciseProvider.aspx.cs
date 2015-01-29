@@ -17,25 +17,68 @@ namespace App.Resource.DataProvider.Exercise
 
         }
 
+
         [WebMethod]
         public static ExerciseInfo Exercise_Model_Info()
         {
-            return new ExerciseInfo() { 
-                exercisechoicelist = new List<ExerciseChoice>(), 
-                exercisecommon = new ExerciseCommon(),                
-            };            
+            return new ExerciseInfo()
+            {
+                exercisechoicelist = new List<ExerciseChoice>(),
+                exercisecommon = new ExerciseCommon()
+                {
+                    kenlist = new List<Ken>(),
+                    keylist = new List<Key>(),
+                    exercise = new IES.Resource.Model.Exercise(),
+                    attachmentlist = new List<Attachment>()
+                },
+                Children = new ExerciseInfo()
+                {
+                    exercisechoicelist = new List<ExerciseChoice>(),
+                    exercisecommon = new ExerciseCommon()
+                    {
+                        kenlist = new List<Ken>(),
+                        keylist = new List<Key>(),
+                        exercise = new IES.Resource.Model.Exercise(),
+                        attachmentlist = new List<Attachment>()
+                    }
+                }
+            };
         }
 
         [WebMethod]
-        public static bool Exercise_ADD(ExerciseInfo model)
+        public static bool Exercise_ADD(string model)
         {
-            return new ExerciseBLL().Exercise_ADD(model);            
+            
+            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            if (v.ExerciseID > 0)
+            {
+                return new ExerciseBLL().Exercise_Upd(v);
+            }
+            else
+            {
+                bool exerciseRs = new ExerciseBLL().Exercise_ADD(v);
+                if (exerciseRs)
+                {
+                    if (v.Children != null)
+                    {
+                        if (v.exercisecommon.exercise.ExerciseType == 12)
+                        {
+                            v.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+                            return new ExerciseBLL().Exercise_ADD(v.Children);
+                        }
+                    }
+                }
+                return exerciseRs;
+            }
+            
         }
 
         [WebMethod]
-        public static ExerciseInfo ExerciseInfo_Get(ExerciseInfo model)
+        public static ExerciseInfo ExerciseInfo_Get(int model)
         {
-            return new ExerciseBLL().ExerciseInfo_Get(model);
+            var v = new ExerciseInfo();
+            v.ExerciseID = model;
+            return new ExerciseBLL().ExerciseInfo_Get(v);
         }
     }
 }

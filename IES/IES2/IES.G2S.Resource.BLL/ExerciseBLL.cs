@@ -105,7 +105,7 @@ namespace IES.G2S.Resource.BLL
 
             if (model is ExerciseInfo)
             {
-
+                ExerciseDAL.ExerciseInfo_Upd(model as ExerciseInfo);
             }
 
             return true;

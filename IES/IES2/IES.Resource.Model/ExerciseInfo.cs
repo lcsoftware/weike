@@ -11,6 +11,7 @@ namespace IES.Resource.Model
     /// </summary>
     public class ExerciseInfo : IExercise 
     {
+        
         public int ExerciseID { get; set; }
         public int ExerciseType { get; set; }
         /// <summary>
@@ -22,6 +23,8 @@ namespace IES.Resource.Model
         /// 习题选项
         /// </summary>
         public List<ExerciseChoice> exercisechoicelist { get; set; }
+
+        public ExerciseInfo Children { get; set; }
 
     }
 }

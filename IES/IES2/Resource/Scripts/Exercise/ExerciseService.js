@@ -13,9 +13,12 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     //    httpService.ajaxPost(exerciseProviderUrl, 'Resource_Dict_Requirement_Get', null, callback);
     //}
 
-    //习题新增
+    
     service.Exercise_Model_Info = function (callback) {
         httpService.ajaxPost(url, 'Exercise_Model_Info', null, callback);
+    }
+    service.ExerciseInfo_Get = function (model, callback) {
+        httpService.ajaxPost(url, 'ExerciseInfo_Get', { model: model }, callback);
     }
 
     //习题新增

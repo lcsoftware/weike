@@ -547,3 +547,52 @@ INSERT INTO [IES_Resource].[dbo].[Key]([OCID],[CourseID],[OwnerUserID],[CreateUs
      union select 2,2,0,0,'标签06' 
      union select 2,2,0,0,'标签07' 
      union select 2,2,0,0,'标签08'   
+
+
+
+
+
+USE [IES_Resource]
+GO
+
+/****** Object:  Table [dbo].[ResourceKey]    Script Date: 01/29/2015 16:14:05 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ResourceKey]') AND type in (N'U'))
+DROP TABLE [dbo].[ResourceKey]
+GO
+
+USE [IES_Resource]
+GO
+
+/****** Object:  Table [dbo].[ResourceKey]    Script Date: 01/29/2015 16:14:05 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[ResourceKey](
+	[ID] [int] IDENTITY(1, 1) NOT NULL,
+	[ResourceID] [int] NOT NULL,
+	[Source] [varchar](30) NOT NULL,
+	[KeyID] [int] NOT NULL,
+ CONSTRAINT [PK_ResourceKey] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'资源编号（习题编号、文件编号）' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ResourceKey', @level2type=N'COLUMN',@level2name=N'ResourceID'
+GO
+
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'来源表：Exercise, File' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ResourceKey', @level2type=N'COLUMN',@level2name=N'Source'
+GO
+
+
