@@ -104,9 +104,9 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentSer
         }
 
         var findByRange = function (rangeId) {
-            var length = $scope.rangeSelected.length;
+            var length = $scope.data.rangeSelected.length;
             for (var i = 0; i < length; i++) {
-                if ($scope.rangeSelected[i].id === rangeId) {
+                if ($scope.data.rangeSelected[i].id === rangeId) {
                     return i;
                 }
             }
@@ -116,11 +116,11 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentSer
         $scope.toggleRange = function (range) {
             var index = findByRange(range.id);
             if (index === -1) {
-                $scope.rangeSelected.push(range);
+                $scope.data.rangeSelected.push(range);
             } else {
-                $scope.rangeSelected.splice(index, 1);
+                $scope.data.rangeSelected.splice(index, 1);
             }
-            console.log($scope.rangeSelected);
+            console.log($scope.data.rangeSelected);
         }
 
         $scope.doChanged = function () {
@@ -144,7 +144,19 @@ appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', '$stateP
     $scope.$on('willExerciseChange', function (event, changeParam) {
     });
 
-    $scope.$on('willSubmit', function (event) {
+    $scope.$on('willSubmit', function (event, exerciseData) {
+        //顶部关联项
+        $scope.model.exercisecommon.exercise.CourseID = exerciseData.course.CourseID;//课程编号
+        $scope.model.exercisecommon.exercise.Diffcult = parseInt(exerciseData.difficult.id);//难度等级
+        var scope = 0;
+        for (var i = 0; i < exerciseData.rangeSelected.length; i++) {
+            scope += parseInt(exerciseData.rangeSelected[i].id);
+        }
+        $scope.model.exercisecommon.exercise.Scope = scope;
+        for (var i = 0; i < exerciseData.selectedKeys.length; i++) {
+            $scope.model.exercisecommon.keylist.push(exerciseData.selectedKeys[i]);
+        }
+
         exerciseService.Exercise_ADD($scope.model, function (data) {
             if (data.d) {
                 alert('提交成功！');
@@ -153,18 +165,20 @@ appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', '$stateP
         });
     });
 
-    $scope.$on('willPreview', function (event) {
+    $scope.$on('willPreview', function (event, exerciseData) {
 
     });
 
     $scope.model = {};//ExerciseInfo对象
     $scope.model.exercisechoicelist = [];//答案数组
+    $scope.model.exercisecommon = {};
+    
     var answer = { IsCorrect: false, Conten: '' };
     $scope.Attachment = {};//附件对象
-    $scope.model.exercisecommon.exercise.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
+    $scope.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
 
     var init = function () {
-        if ($scope.model.exercisecommon.exercise.ExerciseID > -1) {
+        if ($scope.ExerciseID > -1) {
 
         } else {
             exerciseService.Exercise_Model_Info(function (data) {
@@ -173,6 +187,8 @@ appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', '$stateP
                 $scope.model.exercisechoicelist.push(answer);
                 $scope.model.exercisecommon.exercise = {};//Exercise对象
                 $scope.model.exercisecommon.exercise.ExerciseType = 10;//简答题
+                $scope.model.exercisecommon.exercise.ExerciseID = $scope.ExerciseID;
+                $scope.model.exercisecommon.keylist = [];//习题关联知识点
             });
         }
     }
