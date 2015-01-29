@@ -128,11 +128,11 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentSer
         }
 
         $scope.submit = function () {
-            $scope.$broadcast('willSubmit');
+            $scope.$broadcast('willSubmit', $scope.data);
         }
 
         $scope.preview = function () {
-            $scope.$broadcast('willPreview');
+            $scope.$broadcast('willPreview', $scope.data);
         }
 
 
