@@ -61,13 +61,19 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentSer
             assistService.Key_List({ OCID: v.OCID }, function (data) {
                 if (data.d) {
                     $scope.keys = data.d;
-                    $scope.key = $scope.keys[0];
+                    $scope.keySelection = $scope.keys[0];
                 }
             });
         });
 
         $scope.addKey = function () {
             if ($scope.keySelection) {
+                var length = $scope.selectedKeys.length;
+                for (var i = 0; i < length; i++) {
+                    if ($scope.selectedKeys[i].KeyID === $scope.keySelection.KeyID) {
+                        return;
+                    }
+                }
                 $scope.selectedKeys.push($scope.keySelection);
             }
         }
