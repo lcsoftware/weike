@@ -18,35 +18,39 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentSer
         $scope.ranges = [];
         //标签
         $scope.keys = [];
-        //被选择的标签
-        $scope.selectedKeys = [];
-        //知识点
-        $scope.knowledges = [];
 
-        $scope.course = {};
-        $scope.exerciseType = {};
-        $scope.difficult = {};
         $scope.keySelection = {};
         $scope.range = {};
-        $scope.rangeSelected = [];
+
+        $scope.data = {};
+        $scope.data.course = {};
+        $scope.data.exerciseType = {};
+        $scope.data.difficult = {};
+        //知识点
+        $scope.data.knowledges = [];
+        //已经选择的范围
+        $scope.data.rangeSelected = [];
+        //被选择的标签
+        $scope.data.selectedKeys = [];
+
         contentService.User_OC_List(function (data) {
             if (data.d) {
                 $scope.courses = data.d;
-                $scope.course = $scope.courses[0];
+                $scope.data.course = $scope.courses[0];
             }
         });
 
         assistService.Resource_Dict_ExerciseType_Get(function (data) {
             if (data.d) {
                 $scope.exerciseTypes = data.d;
-                $scope.exerciseType = $scope.exerciseTypes[0];
+                $scope.data.exerciseType = $scope.exerciseTypes[0];
             }
         });
 
         assistService.Resource_Dict_Diffcult_Get(function (data) {
             if (data.d) {
                 $scope.difficulties = data.d;
-                $scope.difficult = $scope.difficulties[0];
+                $scope.data.difficult = $scope.difficulties[0];
             }
         });
 
@@ -54,45 +58,46 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentSer
             if (data.d) $scope.ranges = data.d;
         });
 
-        $scope.$watch('course', function (v) {
+        $scope.$watch('data.course', function (v) { 
             knowledgeService.Ken_List({ OCID: v.OCID }, function (data) {
-                if (data.d) $scope.knowledges = data.d;
+                if (data.d) $scope.data.knowledges = data.d;
             });
             assistService.Key_List({ OCID: v.OCID }, function (data) {
                 if (data.d) {
                     $scope.keys = data.d;
                     $scope.keySelection = $scope.keys[0];
+                    $scope.data.selectedKeys.length = 0;
                 }
             });
         });
 
         $scope.addKey = function () {
             if ($scope.keySelection) {
-                var length = $scope.selectedKeys.length;
+                var length = $scope.data.selectedKeys.length;
                 for (var i = 0; i < length; i++) {
-                    if ($scope.selectedKeys[i].KeyID === $scope.keySelection.KeyID) {
+                    if ($scope.data.selectedKeys[i].KeyID === $scope.keySelection.KeyID) {
                         return;
                     }
                 }
-                $scope.selectedKeys.push($scope.keySelection);
+                $scope.data.selectedKeys.push($scope.keySelection);
             }
         }
 
         $scope.removeKey = function (key) {
-            var length = $scope.selectedKeys.length;
+            var length = $scope.data.selectedKeys.length;
             for (var i = 0; i < length; i++) {
-                if ($scope.selectedKeys[i].KeyID === key.KeyID) {
-                    $scope.selectedKeys.splice(i, 1);
+                if ($scope.data.selectedKeys[i].KeyID === key.KeyID) {
+                    $scope.data.selectedKeys.splice(i, 1);
                     break;
                 }
             }
         }
 
         $scope.removeKnow = function (knowledge) {
-            var length = $scope.knowledges.length;
+            var length = $scope.data.knowledges.length;
             for (var i = 0; i < length; i++) {
-                if ($scope.knowledges[i].KenID === knowledge.KenID) {
-                    $scope.knowledges.splice(i, 1);
+                if ($scope.data.knowledges[i].KenID === knowledge.KenID) {
+                    $scope.data.knowledges.splice(i, 1);
                     break;
                 }
             }
