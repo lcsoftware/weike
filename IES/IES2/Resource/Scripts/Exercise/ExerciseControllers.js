@@ -30,15 +30,24 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentSer
         $scope.range = {};
         $scope.rangeSelected = [];
         contentService.User_OC_List(function (data) {
-            if (data.d) $scope.courses = data.d;
+            if (data.d) {
+                $scope.courses = data.d;
+                $scope.course = $scope.courses[0];
+            }
         });
 
         assistService.Resource_Dict_ExerciseType_Get(function (data) {
-            if (data.d) $scope.exerciseTypes = data.d;
+            if (data.d) {
+                $scope.exerciseTypes = data.d;
+                $scope.exerciseType = $scope.exerciseTypes[0];
+            }
         });
 
-        exerciseService.Resource_Dict_Diffcult_Get(function (data) {
-            if (data.d) $scope.difficulties = data.d;
+        assistService.Resource_Dict_Diffcult_Get(function (data) {
+            if (data.d) {
+                $scope.difficulties = data.d;
+                $scope.difficult = $scope.difficulties[0];
+            }
         });
 
         assistService.Resource_Dict_Scope_Get(function (data) {
@@ -50,7 +59,10 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentSer
                 if (data.d) $scope.knowledges = data.d;
             });
             assistService.Key_List({ OCID: v.OCID }, function (data) {
-                if (data.d) $scope.keys = data.d;
+                if (data.d) {
+                    $scope.keys = data.d;
+                    $scope.key = $scope.keys[0];
+                }
             });
         });
 
