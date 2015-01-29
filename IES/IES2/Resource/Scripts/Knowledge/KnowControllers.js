@@ -172,12 +172,12 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
             var param = { ExerciseID: exercise.ExerciseID };
             switch (ExerciseType)
             {
-                //case 0: //简答题
-                //    $state.go('exercise.shortanswer', param) 
-                //    break;
-                //case 10: //名词解释
-                //    $state.go('exercise.noun', param)
-                //    break;
+                case 18: //简答题
+                    $state.go('exercise.shortanswer', param) 
+                    break;
+                case 19: //名词解释
+                    $state.go('exercise.noun', param)
+                    break;
                 case 12: //听力题
                     $state.go('exercise.listening', param)
                     break;
