@@ -6,8 +6,8 @@ var appExercise = angular.module('app.exercise.controllers', [
     'app.exercise.services'
 ]);
 
-appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentService', 'knowledgeService', 'assistService',
-    function ($scope, exerciseService, contentService, knowledgeService, assistService) {
+appExercise.controller('ExerciseCtrl', ['$scope','$state', 'exerciseService', 'contentService', 'knowledgeService', 'assistService',
+    function ($scope, $state, exerciseService, contentService, knowledgeService, assistService) {
         //课程
         $scope.courses = [];
         //试题类型
@@ -69,6 +69,38 @@ appExercise.controller('ExerciseCtrl', ['$scope', 'exerciseService', 'contentSer
                     $scope.data.selectedKeys.length = 0;
                 }
             });
+        });
+
+        $scope.$watch('data.exerciseType', function (v) {
+            var param = { ExerciseID: -1 };
+            switch (v.id) {
+                case '18': //简答题
+                    $state.go('exercise.shortanswer', param)
+                    break;
+                case '19': //名词解释
+                    $state.go('exercise.noun', param)
+                    break;
+                case '12': //听力题
+                    $state.go('exercise.listening', param)
+                    break;
+                case '10': //问答题
+                    $state.go('exercise.quesanswer', param)
+                    break;
+                case '1': //判断题
+                    $state.go('exercise.truefalse', param)
+                    break;
+                case '5': //填空题
+                    $state.go('exercise.fillblank', param)
+                    break;
+                case '4': //填空客观题
+                    $state.go('exercise.fillblank2', param)
+                    break;
+                case '6':  //连线题
+                    $state.go('exercise.connection', param)
+                    break;
+                default:
+                    break;
+            }
         });
 
         $scope.addKey = function () {
