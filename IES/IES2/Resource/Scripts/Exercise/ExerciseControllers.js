@@ -32,6 +32,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
 
             });
         });
+        //习题列表
+        $scope.exercises = [];
 
         //课程
         $scope.courses = [];
@@ -48,6 +50,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         $scope.knowledges = [];
 
         $scope.data = {};
+        $scope.data.searchKey = '';
         $scope.data.course = {};
         $scope.data.exerciseType = {};
         $scope.data.difficult = {};
@@ -83,7 +86,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         assistService.Resource_Dict_Diffcult_Get(function (data) {
             if (data.d) {
                 $scope.difficulties = data.d;
-                var item = angular.copy( $scope.difficulties[0]);
+                var item = angular.copy($scope.difficulties[0]);
                 item.id = -1;
                 item.name = '不限';
                 $scope.difficulties.insert(0, item);
@@ -126,31 +129,55 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
 
         $scope.courseChanged = function (item) {
             $scope.data.course = item;
+            ExerciseSearch(20, 1);
         }
 
         $scope.exerciseTypeChanged = function (item) {
             $scope.data.exerciseType = item;
+            ExerciseSearch(20, 1);
         }
 
         $scope.difficultChanged = function (item) {
             $scope.data.difficult = item;
+            ExerciseSearch(20, 1);
         }
 
         $scope.shareRangeChanged = function (item) {
             $scope.data.shareRange = item;
+            ExerciseSearch(20, 1);
         }
 
         $scope.keyChanged = function (item) {
             $scope.data.key = item;
+            ExerciseSearch(20, 1);
         }
 
         $scope.knowChanged = function (item) {
             $scope.data.knowledge = item;
+            ExerciseSearch(20, 1);
+        }
+
+        var ExerciseSearch = function (pageSize, pageIndex) {
+            var model = {
+                Conten: $scope.data.searchKey,
+                OCID: $scope.data.course.OCID,
+                CourseID: $scope.data.course.CourseID,
+                ExerciseType: $scope.data.exerciseType.id,
+                Diffcult: $scope.data.difficult.id,
+                Scope: -1,
+                ShareRange: $scope.data.shareRange.id
+            };
+
+            exerciseService.Exercise_Search(model, $scope.data.key, pageSize, pageIndex, function (data) {
+                $scope.exercises.length = 0;
+                if (data.d) {
+                    $scope.exercises = data.d;
+                }
+            });
         }
 
         ///习题共享 TODO
         $scope.shareExercise = function (exercise) {
-
         }
         ///习题删除
         $scope.deleteExercise = function (exercise) {
@@ -179,28 +206,28 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         $scope.editExercise = function (exercise) {
             var param = { ExerciseID: exercise.ExerciseID };
             switch (exercise.ExerciseType) {
-                case '18': //简答题
+                case 18: //简答题
                     $state.go('exercise.shortanswer', param)
                     break;
-                case '19': //名词解释
+                case 19: //名词解释
                     $state.go('exercise.noun', param)
                     break;
-                case '12': //听力题
+                case 12: //听力题
                     $state.go('exercise.listening', param)
                     break;
-                case '10': //问答题
+                case 10: //问答题
                     $state.go('exercise.quesanswer', param)
                     break;
-                case '1': //判断题
+                case 1: //判断题
                     $state.go('exercise.truefalse', param)
                     break;
-                case '5': //填空题
+                case 5: //填空题
                     $state.go('exercise.fillblank', param)
                     break;
-                case '4': //填空客观题
+                case 4: //填空客观题
                     $state.go('exercise.fillblank2', param)
                     break;
-                case '6':  //连线题
+                case 6:  //连线题
                     $state.go('exercise.connection', param)
                     break;
                 default:
@@ -337,26 +364,6 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', 'exerciseService', '
                     break;
                 }
             }
-        }
-
-        var findByRange = function (rangeId) {
-            var length = $scope.rangeSelected.length;
-            for (var i = 0; i < length; i++) {
-                if ($scope.rangeSelected[i].id === rangeId) {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
-        $scope.toggleRange = function (range) {
-            var index = findByRange(range.id);
-            if (index === -1) {
-                $scope.rangeSelected.push(range);
-            } else {
-                $scope.rangeSelected.splice(index, 1);
-            }
-            console.log($scope.rangeSelected);
         }
 
         $scope.doChanged = function () {

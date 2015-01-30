@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('app.custom.directives', []);
+var app = angular.module('app.custom.directives', ['app.assist.services']);
 
 
 app.directive('fileOperation', function () {
@@ -129,10 +129,15 @@ app.directive('folder', function () {
 
     directive.link = function (scope, elem, iAttrs) {
         //重命名表现形式
-        elem.find('.data_tit').live('dblclick', function () {
+        var e = elem.find('.data_tit');
+        e.bind('dblclick', function (e) {
             $(this).hide();
             $(this).next().show().select();
         });
+        //elem.find('.data_tit').live('dblclick', function () {
+        //    $(this).hide();
+        //    $(this).next().show().select();
+        //});
     }
 
     return directive;
@@ -151,7 +156,7 @@ app.directive('batchOperation', function () {
 
     directive.templateUrl = '/Components/templates/batchOperation.html';
 
-    directive.link = function (scope, elem, iAttrs) {        
+    directive.link = function (scope, elem, iAttrs) {
         elem.find('.batch_list li').hover(function () {
             $(this).addClass('active').siblings().removeClass('active');
         }, function () {
@@ -194,3 +199,66 @@ app.directive('exerciseBatch', function () {
 
     return directive;
 });
+
+
+app.directive('exerciseList', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.replace = true;
+
+    directive.scope = {
+        exercise: '=',
+        shareExercise: '&',
+        editExercise: '&',
+        deleteExercise: '&'
+    }
+
+    directive.templateUrl = '/Components/templates/exerciseList.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        elem.hover(function () { $(this).find('.topic_icon').show(); },
+                   function () { $(this).find('.topic_icon').hide(); }
+                  );
+        elem.find('.icon.share_topic,.icon.delete_topic,.icon.edit_topic').hover(
+            function () { $(this).find('.icon_content').show(); },
+            function () { $(this).find('.icon_content').hide(); }
+            );
+    }
+
+    directive.controller = function ($scope, assistService) {
+        $scope.difficulties = [];
+        assistService.Resource_Dict_Diffcult_Get(function (data) {
+            $scope.difficulties = data.d;
+        });
+
+        $scope.getDifficultName = function (difficult) {
+            var length = $scope.difficulties.length;
+            for (var i = 0; i < length; i++) {
+                if ($scope.difficulties[i].id == difficult) {
+                    return $scope.difficulties[i].name;
+                }
+            }
+            return '无';
+        }
+    }
+
+    return directive;
+});
+
+//app.controller('exerciseListCtrl', [$scope, 'assistService', function ($scope, assistService) {
+//    $scope.difficulties = [];
+//    assistService.Resource_Dict_Diffcult_Get(function (data) {
+//        $scope.difficulties = data.d;
+//    });
+
+//    $scope.getDifficultName = function (difficult) {
+//        var length = $scope.difficulties.length;
+//        for (var i = 0; i < length; i++) {
+//            if ($scope.difficulties[i].id === difficult) {
+//                return $scope.difficulties[i].name;
+//            }
+//        }
+//    }
+//}]);

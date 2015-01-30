@@ -37,7 +37,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@Diffcult", model.Diffcult);
                     p.Add("@Scope", model.Scope);
                     p.Add("@ShareRange", model.ShareRange);
-                    p.Add("@Key", key.KeyID);
+                    p.Add("@KeyID", key.KeyID);
                     p.Add("@PageSize", PageSize);
                     p.Add("@PageIndex", PageIndex);
                     return conn.Query<Exercise>("Exercise_Search", p, commandType: CommandType.StoredProcedure).ToList();

@@ -9,7 +9,7 @@
         </a>
         <a class="import_exercise" href="javascript:;"><em><i class="icon"></i></em><span>导入</span></a>
         <exercise-batch on-fire-remove-all="fireRemoveAll()" on-fire-shared="fireShared()"></exercise-batch>
-        <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字"><span class="icon" href="#"></span></p>
+        <p class="search_topic"><input type="text" ng-model="data.searchKey" placeholder="请输入您要搜索的关键字"><span class="icon" href="#"></span></p>
     </div>
 </div>
 <div class="filter_box">
@@ -43,42 +43,46 @@
             <a ng-class="{'active':data.key.KeyID==item.KeyID}" ng-click="keyChanged(item)" ng-repeat="item in keys"><span ng-bind="item.Name"></span></a>
         </dd>
     </dl>
-    <dl class="filter_list">
-        <dt>知识点</dt>
-        <dd>
-            <a ng-class="{'active':data.knowledge.KenID==item.KenID}" ng-click="knowChanged(item)" ng-repeat="item in knowledges"><span ng-bind="item.Source"></span></a>
-        </dd>
-    </dl><span class="guanbi"><i class="icon"></i></span>
+    @*<dl class="filter_list">
+            <dt>知识点</dt>
+            <dd>
+                <a ng-class="{'active':data.knowledge.KenID==item.KenID}" ng-click="knowChanged(item)" ng-repeat="item in knowledges"><span ng-bind="item.Source"></span></a>
+            </dd>
+        </dl>*@
+    <span class="guanbi"><i class="icon"></i></span>
 </div>
 <div class="topic_detail">
     <ul class="topic_list">
-        <li class="show" ng-repeat="item in exercises">
-            <div class="topic_label">
-                <p class="question_degree" ng-class="{'simple':item.ExerciseType==1,'medium':item.ExerciseType==2,'difficult':item.ExerciseType==3}"><input type="checkbox">{{item.ExerciseType}}</p>
-                <div class="label_list">
-                    <a href="#"><span ng-bind="item.Keys | keyReplace"></span></a>
-                </div>
-                <p class="creator">创建人：{{item.CreateUserName}}<span>最后修改时间：{{item.UpdateTime}}</span></p>
-            </div>
-            <div class="topic_tit">
-                <h5><span>[{{item.ExerciseType}}]</span></h5>
-                <p class="question" ng-bind="item.Conten">
-                </p>
-                <p class="answer" ng-bind="item.Answer">
-                </p>
-            </div>
-            <div class="mess_box">
-                <a class="icon_24 spread" href="javascript:;"></a>
-            </div>
-            <div class="topic_icon">
-                <a ng-click="deleteExercise(item)" class="icon delete_topic"></a>
-                <a ng-click="shareExercise(item)" class="icon share_topic">
-                    @*<div class="icon_content">
-                            <span></span><p>共享</p>
-                        </div>*@
-                </a>
-                <a ng-click="editExercise(item)" class="icon edit_topic"></a>
-            </div>
-        </li>
+        <div ng-repeat="item in exercises">
+            <exercise-list exercise="item" edit-exercise="editExercise(item)" share-exercise="shareExercise(item)" delete-exercise="deleteExercise(item)"></exercise-list>
+        </div>
     </ul>
+    @*<ul class="topic_list">
+                <li class="show" ng-repeat="item in exercises">
+                    <div class="topic_label">
+                        <p class="question_degree" ng-class="{'simple':item.ExerciseType==1,'medium':item.ExerciseType==2,'difficult':item.ExerciseType==3}"><input type="checkbox">{{item.ExerciseType}}</p>
+                        <div class="label_list">
+                            <a href="#"><span ng-bind="item.Keys | keyReplace"></span></a>
+                        </div>
+                        <p class="creator">创建人：{{item.CreateUserName}}<span>最后修改时间：{{item.UpdateTime}}</span></p>
+                    </div>
+                    <div class="topic_tit">
+                        <h5><span>[{{item.ExerciseType}}]</span></h5>
+                        <p class="question" ng-bind="item.Conten">
+                        </p>
+                        <p class="answer" ng-bind="item.Answer">
+                        </p>
+                    </div>
+                    <div class="mess_box">
+                        <a class="icon_24 spread" href="javascript:;"></a>
+                    </div>
+                    <div class="topic_icon">
+                        <a ng-click="deleteExercise(item)" class="icon delete_topic"></a>
+                        <a ng-click="shareExercise(item)" class="icon share_topic">
+
+            </a>
+            <a ng-click="editExercise(item)" class="icon edit_topic"></a>
+        </div>
+                </li>
+            </ul>*@
 </div>

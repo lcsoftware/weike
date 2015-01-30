@@ -18,6 +18,12 @@ namespace App.Resource.DataProvider.Exercise
         }
 
         [WebMethod]
+        public static List<IES.Resource.Model.Exercise> Exercise_Search(IES.Resource.Model.Exercise model, Key key, int pageSize, int pageIndex)
+        {
+            return new ExerciseBLL().Exercise_Search(model, key, pageSize, pageIndex);
+        }
+
+        [WebMethod]
         public static ExerciseInfo Exercise_Model_Info()
         {
             return new ExerciseInfo() { exercisechoicelist = new List<ExerciseChoice>(), exercisecommon = new ExerciseCommon() };            

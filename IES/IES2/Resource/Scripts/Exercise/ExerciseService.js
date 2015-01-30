@@ -8,10 +8,15 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     var service = {};
     var url = '/DataProvider/Exercise/ExerciseProvider.aspx';
     
-
-    //service.Resource_Dict_Requirement_Get = function (callback) {
-    //    httpService.ajaxPost(exerciseProviderUrl, 'Resource_Dict_Requirement_Get', null, callback);
-    //}
+    service.Exercise_Search = function (model, key, pageSize, pageIndex, callback) {
+        var param = {
+            model: model,
+            key: key,
+            pageSize: pageSize,
+            pageIndex: pageIndex
+        }
+        httpService.ajaxPost(url, 'Exercise_Search', param, callback);
+    }
 
     //习题新增
     service.Exercise_Model_Info = function (callback) {
