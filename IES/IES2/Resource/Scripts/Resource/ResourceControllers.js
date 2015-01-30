@@ -142,18 +142,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             } else {
                 $scope.folderRelations = [];
             }
-        });
-        //resourceService.Folder_List($scope.model, function (data) {
-        //    if (data.d.length > 0) {
-        //        $scope.folders = data.d;
-        //    }
-        //    console.log(data.d);
-        //});
-        //resourceService.File_Search($scope.model, function (data) {
-        //    if (data.d.length > 0) {
-        //        $scope.files = data.d;
-        //    }
-        //});
+        }); 
     }
 
     //新建文件

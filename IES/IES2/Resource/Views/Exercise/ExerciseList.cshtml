@@ -56,33 +56,5 @@
         <div ng-repeat="item in exercises">
             <exercise-list exercise="item" edit-exercise="editExercise(item)" share-exercise="shareExercise(item)" delete-exercise="deleteExercise(item)"></exercise-list>
         </div>
-    </ul>
-    @*<ul class="topic_list">
-                <li class="show" ng-repeat="item in exercises">
-                    <div class="topic_label">
-                        <p class="question_degree" ng-class="{'simple':item.ExerciseType==1,'medium':item.ExerciseType==2,'difficult':item.ExerciseType==3}"><input type="checkbox">{{item.ExerciseType}}</p>
-                        <div class="label_list">
-                            <a href="#"><span ng-bind="item.Keys | keyReplace"></span></a>
-                        </div>
-                        <p class="creator">创建人：{{item.CreateUserName}}<span>最后修改时间：{{item.UpdateTime}}</span></p>
-                    </div>
-                    <div class="topic_tit">
-                        <h5><span>[{{item.ExerciseType}}]</span></h5>
-                        <p class="question" ng-bind="item.Conten">
-                        </p>
-                        <p class="answer" ng-bind="item.Answer">
-                        </p>
-                    </div>
-                    <div class="mess_box">
-                        <a class="icon_24 spread" href="javascript:;"></a>
-                    </div>
-                    <div class="topic_icon">
-                        <a ng-click="deleteExercise(item)" class="icon delete_topic"></a>
-                        <a ng-click="shareExercise(item)" class="icon share_topic">
-
-            </a>
-            <a ng-click="editExercise(item)" class="icon edit_topic"></a>
-        </div>
-                </li>
-            </ul>*@
+    </ul> 
 </div>

@@ -11,7 +11,7 @@
                          on-fire-mobile-batch="fireMobileBatch()">
         </batch-operation>
         <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="model.searchKey"><span class="icon" ng-click="filterChanged();"></span></p>
-</div>
+    </div>
 </div>
 <div class="filter_box">
     <dl class="filter_list">
@@ -70,7 +70,7 @@
     </tr>
 </table>
 
-<div class="pop_400"  ng-show="delIsShow">
+<div class="pop_400" ng-show="delIsShow">
     <h4>删除</h4>
     <span class="icon close_pop" ng-click="close()"></span>
     <div class="pop_wrap">
@@ -83,18 +83,13 @@
 </div>
 
 <div class="pop_bg" ng-show="bgShow"></div>
-<div class="pop_400" ng-show="mobileIsShow" >
+<div class="pop_400" ng-show="mobileIsShow">
     <h4>移动文件</h4>
-    <span class="icon close_pop" ng-click="close()"></span>    
+    <span class="icon close_pop" ng-click="close()"></span>
     <div class="pop_wrap">
         <dl class="folder">
-            @*<dt>文件夹</dt>*@
-            <dd>
-                @*<div class="select_box">
-                        <input type="text" placeholder="请选择">
-                        <span></span>
-                    </div>*@
-                <script type="text/ng-template" id="nodes_renderer.html">                    
+            <dd> 
+                <script type="text/ng-template" id="nodes_renderer.html">
                     <div ui-tree-handle class="tree-node tree-node-content" ng-click="selectedMobile(node)" ng-class="{mobileSelected:node.Id==folder.Id}">
                         <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)">
                             <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
@@ -110,7 +105,7 @@
                     <ol ui-tree-nodes="" ng-model="mobile">
                         <li ng-repeat="node in mobiles" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)"></li>
                     </ol>
-                </div> 
+                </div>
             </dd>
         </dl>
         <div class="btn_box">

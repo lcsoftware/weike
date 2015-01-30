@@ -376,7 +376,12 @@ as
   
   delete from [dbo].[ResourceKen] where KenID = @KenID and ResourceID = @ResourceID and [Source] = @Source	 
   
-go  
+ 
+
+USE [IES_Resource]
+GO
+
+ 
 -- =============================================  
 -- Author:      王胜辉  
 -- Create date: 20141207
@@ -412,49 +417,44 @@ as
 		inner join ( select ExerciseID from  [dbo].[f_Cacu_GetUserAuExerciseList](@UserID)) t4 on t4.ExerciseID = t2.ExerciseID
 		where t1.Source = 'Exercise' and  ( t3.Name  like '%'+ @SearchKey + '%' or @SearchKey = '')
 	end
-go
-USE [IES_Resource]
+go 
+   
+ 
+ 
+ 
+ USE [IES_Resource]
 GO
-
-/****** Object:  Table [dbo].[ResourceKey]    Script Date: 01/29/2015 20:00:15 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ResourceKey]') AND type in (N'U'))
-DROP TABLE [dbo].[ResourceKey]
-GO
-
-USE [IES_Resource]
-GO
-
-/****** Object:  Table [dbo].[ResourceKey]    Script Date: 01/29/2015 20:00:15 ******/
+/****** Object:  StoredProcedure [dbo].[Exercise_Upd]    Script Date: 01/30/2015 00:18:55 ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
+-- =============================================
+-- Author:      王胜辉
+-- Create date: 20141207
+-- Description: 习题基本属性修改
+-- =============================================
 
-SET ANSI_PADDING ON
-GO
+ALTER proc [dbo].[Exercise_Upd]
+	 @ExerciseID int  , 
+	 @ExerciseType int ,
+	 @Diffcult int,
+	 @Scope int , 
+	 @ShareRange int = 0  ,  
+	 @Brief nvarchar(1000)      = '' ,
+	 @Conten nvarchar(max)      = '', 
+	 @Answer nvarchar(max)      = '' ,
+	 @Analysis nvarchar(max)    = '' ,
+	 @ScorePoint nvarchar(1000) = '',
+	 @Score  decimal(10,1) , 
+	 @IsRand bit =  0 
+as 
 
-CREATE TABLE [dbo].[ResourceKey](
-	[ID] [int] identity(1,1) NOT NULL,
-	[ResourceID] [int] NOT NULL,
-	[Source] [varchar](30) NOT NULL,
-	[KeyID] [int] NOT NULL,
- CONSTRAINT [PK_ResourceKey] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-GO
-
-SET ANSI_PADDING OFF
-GO
-
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'资源编号（习题编号、文件编号）' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ResourceKey', @level2type=N'COLUMN',@level2name=N'ResourceID'
-GO
-
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'来源表：Exercise, File' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'ResourceKey', @level2type=N'COLUMN',@level2name=N'Source'
-GO
-
-
+	SET NOCOUNT ON;
 	
+	update t1
+	set   ExerciseType = @ExerciseType, Diffcult = @Diffcult , Scope = @Scope, 
+	ShareRange = @ShareRange , Brief = @Brief , Conten = @Conten , Answer =@Answer , 
+	Analysis = @Analysis , ScorePoint = @ScorePoint , Score = @Score , IsRand = @IsRand , UpdateTime =GETDATE()
+	from Exercise t1
+	where ExerciseID = @ExerciseID

@@ -70,8 +70,17 @@ namespace IES.G2S.Resource.DAL
             try
             {
                 using (IDbConnection conn = DbHelper.ResourceService())
-                {   
-                    ExerciseInfo ef = new ExerciseInfo();
+                {
+                    ExerciseInfo ef = new ExerciseInfo() {
+                        exercisechoicelist = new List<ExerciseChoice>(),
+                        exercisecommon = new ExerciseCommon()
+                        {
+                            kenlist = new List<Ken>(),
+                            keylist = new List<Key>(),
+                            exercise = new IES.Resource.Model.Exercise(),
+                            attachmentlist = new List<Attachment>()
+                        } 
+                    };
                     var p = new DynamicParameters();
                     p.Add("@ExerciseID", model.ExerciseID);
 
@@ -80,6 +89,10 @@ namespace IES.G2S.Resource.DAL
                     var attachmentlist = multi.Read<Attachment>().ToList();
                     var keylist = multi.Read<Key>().ToList();
                     var kenlist = multi.Read<Ken>().ToList();
+
+                    var exercisechoicelist = multi.Read<ExerciseChoice>().ToList();
+                    ef.exercisechoicelist = exercisechoicelist;
+
                     ef.exercisecommon.exercise = exercise;
                     ef.exercisecommon.attachmentlist = attachmentlist;
                     ef.exercisecommon.kenlist = kenlist;
