@@ -458,3 +458,9 @@ as
 	Analysis = @Analysis , ScorePoint = @ScorePoint , Score = @Score , IsRand = @IsRand , UpdateTime =GETDATE()
 	from Exercise t1
 	where ExerciseID = @ExerciseID
+	
+	
+	
+	
+	
+UPDATE dbo.ResourceDict SET id=4 WHERE Source='Exercise.Scope' AND id=3
