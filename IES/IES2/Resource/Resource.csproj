@@ -161,6 +161,7 @@
     <Content Include="DataProvider\Shared\AssistProvider.aspx" />
     <Content Include="DataProvider\Shared\ContentProvider.aspx" />
     <Content Include="DataProvider\User\UserProvider.aspx" />
+    <Content Include="Frameworks\angularTree\angular-ui-tree.js" />
     <Content Include="Frameworks\angularTree\angular-ui-tree.min.css" />
     <Content Include="Frameworks\angularTree\angular-ui-tree.min.js" />
     <Content Include="Frameworks\angular\angular-animate.js" />
