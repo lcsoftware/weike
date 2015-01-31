@@ -405,6 +405,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
             data.exercisecommon.exercise.Scope = scope;
             //key关键字
             data.exercisecommon.keylist.length = 0;
+            data.exercisecommon.exercise.Keys = '';
             for (var i = 0; i < $scope.data.selectedKeys.length; i++) {
                 data.exercisecommon.keylist.push($scope.data.selectedKeys[i]);
                 data.exercisecommon.exercise.Keys = $scope.data.selectedKeys[i].Name + 'wshgkjqbwhfbxlfrh';
@@ -412,6 +413,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
 
             //ken知识点
             data.exercisecommon.kenlist.length = 0;
+            data.exercisecommon.exercise.Kens = '';
             for (var i = 0; i < $scope.data.knowledges.length; i++) {
                 data.exercisecommon.kenlist.push($scope.data.knowledges[i]);
                 data.exercisecommon.exercise.Kens = $scope.data.knowledges[i].Name + 'wshgkjqbwhfbxlfrh';
