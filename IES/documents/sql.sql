@@ -464,3 +464,134 @@ as
 	
 	
 UPDATE dbo.ResourceDict SET id=4 WHERE Source='Exercise.Scope' AND id=3
+
+
+USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[ExerciseInfo_Get]    Script Date: 01/31/2015 14:25:50 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:      王胜辉
+-- Create date: 20141127
+-- Description: 获取习题的详细信息
+-- Modify [1]:  屈博,   20141128, 简化逻辑判断流程
+-- Modify [2]:  范荣华, 20141129, 更新条件判断
+-- =============================================
+
+ALTER proc [dbo].[ExerciseInfo_Get]
+	@ExerciseID int = 2
+as 
+	SET NOCOUNT ON;
+	
+	
+	-- 获取习题公共信息
+    exec Exercise_Common @ExerciseID
+    
+    -- 2 获取answer
+	SELECT * FROM dbo.ExerciseChoice WHERE ExerciseID=@ExerciseID 
+	
+	
+
+USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[ExerciseChoice_Del]    Script Date: 01/31/2015 15:19:18 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      王胜辉
+-- Create date: 20141207
+-- Description: 习题选项删除
+-- =============================================
+ALTER proc [dbo].[ExerciseChoice_Del]
+	--@ChoiceID  int
+	@ExerciseID  int
+as 
+
+	SET NOCOUNT ON;
+	
+	--update ExerciseChoice set IsDeleted = 1  where  ChoiceID = @ChoiceID
+	
+	DELETE FROM ExerciseChoice WHERE ExerciseID=@ExerciseID
+
+	
+	
+	
+USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[Exercise_Ken_Edit]    Script Date: 01/31/2015 16:39:52 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      王胜辉
+-- Create date: 20141207
+-- Description: 习题的关联知识点新增，该Proc同样适用于修改
+-- =============================================
+
+ALTER proc [dbo].[Exercise_Ken_Edit]
+	 @ExerciseID int ,
+	 @KenID int =0 ,
+	 @OCID int , 
+	 @CourseID int ,
+	 @OwnerUserID int ,
+	 @CreateUserID int ,
+	 @Name nvarchar(200)		
+as 
+
+	SET NOCOUNT ON  ;
+	
+	-- 如果知识点不存在，则创建。或者查询中同名的知识点编号
+	--if  not  exists( select * from dbo.Ken where KenID = @KenID )
+	--begin
+	--	exec [Ken_ADD] @KenID output , @CourseID , @OCID , @CreateUserID , @OwnerUserID , @Name  
+	--end 
+	DELETE FROM ResourceKen WHERE ResourceID=@ExerciseID AND [Source]='Exercise'
+	insert into dbo.ResourceKen( ResourceID, Source, KenID )
+	values ( @ExerciseID , 'Exercise'  , @KenID  )
+
+  
+
+	
+USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[Exercise_Key_Edit]    Script Date: 01/31/2015 16:40:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      王胜辉
+-- Create date: 20141205
+-- Description: 习题的关联关键字新增，该Proc同样适用于修改
+-- =============================================
+
+ALTER proc [dbo].[Exercise_Key_Edit]
+	 @ExerciseID int ,
+	 @KeyID int =0 ,
+	 @OCID int , 
+	 @CourseID int ,
+	 @OwnerUserID int ,
+	 @CreateUserID int ,
+	 @Name nvarchar(200)		
+as 
+
+	SET NOCOUNT ON  ;
+	
+	-- 如果知识点不存在，则创建。或者查询中同名的知识点编号
+	--if  not  exists( select * from dbo.[Key] where KeyID = @KeyID )
+	--begin
+	--	exec [Key_ADD] @KeyID output , @CourseID , @OCID , @CreateUserID , @OwnerUserID , @Name  
+	--end 
+	
+	DELETE FROM ResourceKey WHERE ResourceID=@ExerciseID AND [Source]='Exercise'
+
+	insert into dbo.ResourceKey( ResourceID, Source, KeyID )
+	values ( @ExerciseID , 'Exercise'  , @KeyID  )
+

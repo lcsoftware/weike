@@ -25,6 +25,10 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     service.ExerciseInfo_Get = function (model, callback) {
         httpService.ajaxPost(url, 'ExerciseInfo_Get', { model: model }, callback);
     }
+    service.ExerciseInfo_GetListen = function (model, callback) {
+        httpService.ajaxPost(url, 'ExerciseInfo_GetListen', { model: model }, callback);
+    }
+    
 
     //习题新增
     service.Exercise_ADD = function (model, callback) {

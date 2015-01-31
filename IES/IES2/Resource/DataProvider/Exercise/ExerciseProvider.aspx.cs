@@ -58,7 +58,17 @@ namespace App.Resource.DataProvider.Exercise
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             if (v.exercisecommon.exercise.ExerciseID > 0)
             {
-                return new ExerciseBLL().Exercise_Upd(v);
+                if(new ExerciseBLL().Exercise_Upd(v))
+                {
+                    if (v.Children != null)
+                    {
+                        if (v.exercisecommon.exercise.ExerciseType == 12)
+                        {
+                            //v.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+                            return new ExerciseBLL().Exercise_Upd(v.Children);
+                        }
+                    }
+                }
             }
             else
             {
@@ -76,7 +86,7 @@ namespace App.Resource.DataProvider.Exercise
                 }
                 return exerciseRs;
             }
-            
+            return false;
         }
 
         [WebMethod]
@@ -85,6 +95,14 @@ namespace App.Resource.DataProvider.Exercise
             var v = new ExerciseInfo();
             v.ExerciseID = model;
             return new ExerciseBLL().ExerciseInfo_Get(v);
+        }
+
+        [WebMethod]
+        public static ExerciseInfo ExerciseInfo_GetListen(int model)
+        {
+            var v = new ExerciseInfo();
+            v.ExerciseID = model;
+            return new ExerciseBLL().ExerciseInfo_GetListen(v);
         }
 
         [WebMethod]
