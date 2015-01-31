@@ -215,6 +215,8 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@ScorePoint", model.exercise.ScorePoint);
                     p.Add("@Score", model.exercise.Score);
                     p.Add("@IsRand", model.exercise.IsRand);
+                    p.Add("@Keys", model.exercise.Keys);
+                    p.Add("@Kens", model.exercise.Kens);
                     conn.Execute("Exercise_ADD", p, commandType: CommandType.StoredProcedure);
                     model.exercise.ExerciseID = p.Get<int>("ExerciseID");
 
@@ -397,32 +399,47 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@ScorePoint", model.exercise.ScorePoint);
                     p.Add("@Score", model.exercise.Score);
                     p.Add("@IsRand", model.exercise.IsRand);
+                    p.Add("@Keys", model.exercise.Keys);
+                    p.Add("@Kens", model.exercise.Kens);
                     conn.Execute("Exercise_Upd", p, commandType: CommandType.StoredProcedure);
 
-                    foreach (var ken in model.kenlist)
+
+                    if (model.kenlist.Count > 0)
                     {
-                        var p1 = new DynamicParameters();
-                        p1.Add("@ExerciseID", model.exercise.ExerciseID);
-                        p1.Add("@KenID", ken.KenID);
-                        p1.Add("@OCID", model.exercise.OCID);
-                        p1.Add("@CourseID", model.exercise.CourseID);
-                        p1.Add("@OwnerUserID", model.exercise.OwnerUserID);
-                        p1.Add("@CreateUserID", model.exercise.CreateUserID);
-                        p1.Add("@Name", ken.Name);
-                        conn.Execute("Exercise_Ken_Edit", p1, commandType: CommandType.StoredProcedure);
+                        var pp = new DynamicParameters();
+                        pp.Add("@ExerciseID", model.exercise.ExerciseID);
+                        conn.Execute("Exercise_Ken_Del", pp, commandType: CommandType.StoredProcedure);
+                        foreach (var ken in model.kenlist)
+                        {
+                            var p1 = new DynamicParameters();
+                            p1.Add("@ExerciseID", model.exercise.ExerciseID);
+                            p1.Add("@KenID", ken.KenID);
+                            p1.Add("@OCID", model.exercise.OCID);
+                            p1.Add("@CourseID", model.exercise.CourseID);
+                            p1.Add("@OwnerUserID", model.exercise.OwnerUserID);
+                            p1.Add("@CreateUserID", model.exercise.CreateUserID);
+                            p1.Add("@Name", ken.Name);
+                            conn.Execute("Exercise_Ken_Edit", p1, commandType: CommandType.StoredProcedure);
+                        }
                     }
 
-                    foreach (var key in model.keylist)
+                    if (model.keylist.Count > 0)
                     {
-                        var p1 = new DynamicParameters();
-                        p1.Add("@ExerciseID", model.exercise.ExerciseID);
-                        p1.Add("@KeyID", key.KeyID);
-                        p1.Add("@OCID", model.exercise.OCID);
-                        p1.Add("@CourseID", model.exercise.CourseID);
-                        p1.Add("@OwnerUserID", model.exercise.OwnerUserID);
-                        p1.Add("@CreateUserID", model.exercise.CreateUserID);
-                        p1.Add("@Name", key.Name);
-                        conn.Execute("Exercise_Key_Edit", p1, commandType: CommandType.StoredProcedure);
+                        var pp = new DynamicParameters();
+                        pp.Add("@ExerciseID", model.exercise.ExerciseID);
+                        conn.Execute("Exercise_Key_Del", pp, commandType: CommandType.StoredProcedure);
+                        foreach (var key in model.keylist)
+                        {
+                            var p1 = new DynamicParameters();
+                            p1.Add("@ExerciseID", model.exercise.ExerciseID);
+                            p1.Add("@KeyID", key.KeyID);
+                            p1.Add("@OCID", model.exercise.OCID);
+                            p1.Add("@CourseID", model.exercise.CourseID);
+                            p1.Add("@OwnerUserID", model.exercise.OwnerUserID);
+                            p1.Add("@CreateUserID", model.exercise.CreateUserID);
+                            p1.Add("@Name", key.Name);
+                            conn.Execute("Exercise_Key_Edit", p1, commandType: CommandType.StoredProcedure);
+                        }
                     }
 
                     foreach (var attach in model.attachmentlist)
