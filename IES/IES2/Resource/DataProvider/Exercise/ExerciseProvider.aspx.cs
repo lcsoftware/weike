@@ -58,7 +58,8 @@ namespace App.Resource.DataProvider.Exercise
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             if (v.exercisecommon.exercise.ExerciseID > 0)
             {
-                if(new ExerciseBLL().Exercise_Upd(v))
+                bool rs = new ExerciseBLL().Exercise_Upd(v);
+                if (rs)
                 {
                     if (v.Children != null)
                     {
@@ -69,6 +70,7 @@ namespace App.Resource.DataProvider.Exercise
                         }
                     }
                 }
+                return rs;
             }
             else
             {
@@ -86,7 +88,6 @@ namespace App.Resource.DataProvider.Exercise
                 }
                 return exerciseRs;
             }
-            return false;
         }
 
         [WebMethod]
