@@ -31,5 +31,10 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
         httpService.ajaxPost(url, 'Exercise_ADD', { model: model }, callback);
     }
 
+    //习题删除
+    service.Exercise_Del = function (exerciseID, callback) {
+        httpService.ajaxPost(url, 'Exercise_Del', { exerciseID: exerciseID}, callback);
+    }
+
     return service;
 }]);

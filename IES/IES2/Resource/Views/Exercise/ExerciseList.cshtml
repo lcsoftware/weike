@@ -9,7 +9,8 @@
         </a>
         <a class="import_exercise" href="javascript:;"><em><i class="icon"></i></em><span>导入</span></a>
         <exercise-batch on-fire-remove-all="fireRemoveAll()" on-fire-shared="fireShared()"></exercise-batch>
-        <p class="search_topic"><input type="text" ng-model="data.searchKey" placeholder="请输入您要搜索的关键字"><span class="icon" href="#"></span></p>
+        <p class="search_topic"><input type="text" ng-model="data.searchKey" placeholder="请输入您要搜索的关键字"><span class="icon" ng-click="search()"></span></p>
+
     </div>
 </div>
 <div class="filter_box">

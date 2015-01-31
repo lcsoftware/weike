@@ -70,6 +70,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
             loadChapters($scope.course);
             loadKnowledges($scope.course);
             loadResourceKens($scope.course);
+            $scope.$broadcast('knowledgeChanged', -1);
         });
 
         $scope.$on('courseLoaded', function (event, course) {
@@ -398,7 +399,7 @@ appKnow.controller('KnowTopicCtrl', ['$scope', 'resourceKenService', function ($
     $scope.knowChapters = [];
 
     $scope.$on('knowledgeChanged', function (event, kenId) {
-        if ($scope.knowSelection.KenID !== kenId) return;
+        //if ($scope.knowSelection.KenID !== kenId) return;
         $scope.knowChapters.length = 0;
         var len1 = $scope.resourceKens.length;
         for (var i = 0; i < len1; i++) {

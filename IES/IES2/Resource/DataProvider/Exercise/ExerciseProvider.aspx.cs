@@ -86,5 +86,12 @@ namespace App.Resource.DataProvider.Exercise
             v.ExerciseID = model;
             return new ExerciseBLL().ExerciseInfo_Get(v);
         }
+
+        [WebMethod]
+        public static bool Exercise_Del(int exerciseID)
+        {
+            var v = new IES.Resource.Model.Exercise() { ExerciseID = exerciseID };
+            return new ExerciseBLL().Exercise_Del(v); 
+        }
     }
 }
