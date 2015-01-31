@@ -552,7 +552,7 @@ as
 	--begin
 	--	exec [Ken_ADD] @KenID output , @CourseID , @OCID , @CreateUserID , @OwnerUserID , @Name  
 	--end 
-	DELETE FROM ResourceKen WHERE ResourceID=@ExerciseID AND [Source]='Exercise'
+	--DELETE FROM ResourceKen WHERE ResourceID=@ExerciseID AND [Source]='Exercise'
 	insert into dbo.ResourceKen( ResourceID, Source, KenID )
 	values ( @ExerciseID , 'Exercise'  , @KenID  )
 
@@ -590,8 +590,155 @@ as
 	--	exec [Key_ADD] @KeyID output , @CourseID , @OCID , @CreateUserID , @OwnerUserID , @Name  
 	--end 
 	
-	DELETE FROM ResourceKey WHERE ResourceID=@ExerciseID AND [Source]='Exercise'
+	--DELETE FROM ResourceKey WHERE ResourceID=@ExerciseID AND [Source]='Exercise'
 
 	insert into dbo.ResourceKey( ResourceID, Source, KeyID )
 	values ( @ExerciseID , 'Exercise'  , @KeyID  )
 
+
+USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[Exercise_ADD]    Script Date: 01/31/2015 21:15:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      王胜辉
+-- Create date: 20141127
+-- Description: 习题基本属性新增
+-- Modify [1]:  屈博,   20141128, 简化逻辑判断流程
+-- Modify [2]:  范荣华, 20141129, 更新条件判断
+-- =============================================
+
+ALTER proc [dbo].[Exercise_ADD]
+	 @ExerciseID int output , 
+	 @OCID int ,
+	 @CourseID int  ,
+	 @OwnerUserID int ,
+	 @CreateUserID int , 
+	 @ParentID int = 0 ,
+	 @ExerciseType int ,
+	 @Diffcult int,
+	 @Scope int , 
+	 @ShareRange int = 0  ,  
+	 @Brief nvarchar(1000)      = '' ,
+	 @Conten nvarchar(max)      = '', 
+	 @Answer nvarchar(max)      = '' ,
+	 @Analysis nvarchar(max)    = '' ,
+	 @ScorePoint nvarchar(1000) = '',
+	 @Score  decimal(10,1) , 
+	 @IsRand bit =  0 ,
+	 @Keys nvarchar(max),
+	 @Kens nvarchar(max)
+as 
+
+	SET NOCOUNT ON;
+	
+		
+
+	insert into dbo.Exercise
+	(
+			OCID, CourseID , OwnerUserID , CreateUserID, ParentID , ExerciseType , Diffcult, 
+			Scope , ShareRange, Brief, Conten, Answer, Analysis, ScorePoint, Score, IsRand,Keys,Kens
+	)
+	values
+	(
+		   @OCID, @CourseID, @OwnerUserID, @CreateUserID, @ParentID, @ExerciseType, @Diffcult,
+		   @Scope, @ShareRange, @Brief, @Conten, @Answer, @Analysis, @ScorePoint, @Score, @IsRand,@Keys,@Kens
+	)
+	
+
+	
+	set @ExerciseID = @@identity    
+	
+	
+
+	
+	
+	USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[Exercise_Upd]    Script Date: 01/31/2015 21:16:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      王胜辉
+-- Create date: 20141207
+-- Description: 习题基本属性修改
+-- =============================================
+
+ALTER proc [dbo].[Exercise_Upd]
+	 @ExerciseID int  , 
+	 @ExerciseType int ,
+	 @Diffcult int,
+	 @Scope int , 
+	 @ShareRange int = 0  ,  
+	 @Brief nvarchar(1000)      = '' ,
+	 @Conten nvarchar(max)      = '', 
+	 @Answer nvarchar(max)      = '' ,
+	 @Analysis nvarchar(max)    = '' ,
+	 @ScorePoint nvarchar(1000) = '',
+	 @Score  decimal(10,1) , 
+	 @IsRand bit =  0 ,
+	 @Keys NVARCHAR(max),
+	 @Kens NVARCHAR(max)
+as 
+
+	SET NOCOUNT ON;
+	
+	update t1
+	set   ExerciseType = @ExerciseType, Diffcult = @Diffcult , Scope = @Scope, 
+	ShareRange = @ShareRange , Brief = @Brief , Conten = @Conten , Answer =@Answer , 
+	Analysis = @Analysis , ScorePoint = @ScorePoint , Score = @Score , IsRand = @IsRand , UpdateTime =GETDATE(),
+	Keys=@Keys,Kens=@Kens
+	from Exercise t1
+	where ExerciseID = @ExerciseID
+	
+	
+	
+	USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[Exercise_Ken_Edit]    Script Date: 01/31/2015 21:20:01 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      王胜辉
+-- Create date: 20141207
+-- Description: 习题的关联知识点删除，该Proc同样适用于修改
+-- =============================================
+
+CREATE proc [dbo].[Exercise_Ken_Del]
+	 @ExerciseID int		
+as 
+
+	SET NOCOUNT ON  ;
+	
+	DELETE FROM ResourceKen WHERE ResourceID=@ExerciseID AND [Source]='Exercise'
+	
+	
+	
+USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[Exercise_Ken_Edit]    Script Date: 01/31/2015 21:20:01 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:      王胜辉
+-- Create date: 20141207
+-- Description: 习题的关联关键字删除，该Proc同样适用于修改
+-- =============================================
+
+CREATE proc [dbo].[Exercise_Key_Del]
+	 @ExerciseID int 		
+as 
+
+	SET NOCOUNT ON  ;
+	
+	DELETE FROM ResourceKey WHERE ResourceID=@ExerciseID AND [Source]='Exercise'
+	
