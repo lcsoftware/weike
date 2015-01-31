@@ -407,11 +407,14 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
             data.exercisecommon.keylist.length = 0;
             for (var i = 0; i < $scope.data.selectedKeys.length; i++) {
                 data.exercisecommon.keylist.push($scope.data.selectedKeys[i]);
+                data.exercisecommon.exercise.Keys = $scope.data.selectedKeys[i].Name + 'wshgkjqbwhfbxlfrh';
             }
+
             //ken知识点
             data.exercisecommon.kenlist.length = 0;
             for (var i = 0; i < $scope.data.knowledges.length; i++) {
                 data.exercisecommon.kenlist.push($scope.data.knowledges[i]);
+                data.exercisecommon.exercise.Kens = $scope.data.knowledges[i].Name + 'wshgkjqbwhfbxlfrh';
             }
 
             data.exercisecommon.exercise.ExerciseType = $scope.data.exerciseType.id;
