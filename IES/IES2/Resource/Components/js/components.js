@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('app.custom.directives', ['app.assist.services']);
+var app = angular.module('app.custom.directives', ['app.assist.services', 'ui.tree']);
 
 
 app.directive('fileOperation', function () {

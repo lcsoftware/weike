@@ -157,7 +157,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
             ExerciseSearch(20, 1);
         }
 
-        var ExerciseSearch = function (pageSize, pageIndex) {
+        var ExerciseSearch = function (pageSize, pageIndex) { 
             var model = {
                 Conten: $scope.data.searchKey,
                 OCID: $scope.data.course.OCID,
@@ -166,7 +166,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
                 Diffcult: $scope.data.difficult.id,
                 Scope: -1,
                 ShareRange: $scope.data.shareRange.id
-            };
+            }; 
 
             exerciseService.Exercise_Search(model, $scope.data.key, pageSize, pageIndex, function (data) {
                 $scope.exercises.length = 0;
@@ -175,28 +175,42 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
                 }
             });
         }
+        ExerciseSearch(20, 1);
+        $scope.search = function () {
+            ExerciseSearch(20, 1);
+        }
 
         ///习题共享 TODO
         $scope.shareExercise = function (exercise) {
         }
         ///习题删除
         $scope.deleteExercise = function (exercise) {
-            var model = {
-                KenID: $scope.knowSelection.KenID,
-                ResourceID: exercise.ExerciseID,
-                Source: 'Exercise'
-            }
-            resourceKenService.ResourceKen_Del(model, function (data) {
-                if (data.d === true) {
-                    var length = $scope.chapterExercises.length;
-                    for (var i = 0; i < length; i++) {
-                        if ($scope.chapterExercises[i].ExerciseID === exercise.ExerciseID) {
-                            $scope.chapterExercises.splice(i, 1);
-                            break;
-                        }
+            //var model = {
+            //    KenID: $scope.knowSelection.KenID,
+            //    ResourceID: exercise.ExerciseID,
+            //    Source: 'Exercise'
+            //}
+            exerciseService.Exercise_Del(exercise.ExerciseID, function (data) {
+                var length = $scope.exercises.length;
+                for (var i = 0; i < length; i++) {
+                    if ($scope.exercises[i].ExerciseID == exercise.ExerciseID) {
+                        $scope.exercises.splice(i, 1);
+                        break;
                     }
                 }
+
             });
+            //resourceKenService.ResourceKen_Del(model, function (data) {
+            //    if (data.d === true) {
+            //        var length = $scope.chapterExercises.length;
+            //        for (var i = 0; i < length; i++) {
+            //            if ($scope.chapterExercises[i].ExerciseID === exercise.ExerciseID) {
+            //                $scope.chapterExercises.splice(i, 1);
+            //                break;
+            //            }
+            //        }
+            //    }
+            //});
         }
         /// <summary>
         /// 1判断题 ; 2单选题 ; 3 多选题 4填空题（客观）5填空题 ; 6连线题 ;7 排序题 ; 8分析题  9计算题   10问答题 ;
