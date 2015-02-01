@@ -255,11 +255,12 @@ app.directive('moveFolder', function () {
 
     directive.scope = {
         onMoveFileSubmit: '&',
-        onClose:'&',
-        mobiles: '='
+        onClose: '&',
+        onSelectedMove:'&',
+        files: '='
     }
 
-    directive.templateUrl = '/Components/templates/mobileFolder.html';
+    directive.templateUrl = '/Components/templates/moveFolder.html';
 
     directive.link = function (scope, elem, iAttrs) {        
     }
