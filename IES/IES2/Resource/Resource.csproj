@@ -140,6 +140,7 @@
     <Content Include="Components\templates\exerciseList.html" />
     <Content Include="Components\templates\fileOperation.html" />
     <Content Include="Components\templates\folder.html" />
+    <Content Include="Components\templates\mobileFolder.html" />
     <Content Include="Css\app.css" />
     <Content Include="Css\common.css" />
     <Content Include="Css\construction.css" />
