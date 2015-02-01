@@ -221,7 +221,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
 
     //移动文件夹选中数据
-    $scope.selectedMobile = function (item) {
+    $scope.selectedMove = function (item) {
         $scope.folder = item;
     }
 
@@ -261,17 +261,10 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                 $scope.files = data.d;
                 //$scope.model.FolderID = $scope.files[0].FolderID;
                 for (var n = 0; n < $scope.checksSelect.length; n++) {
-<<<<<<< HEAD
                     for (var i = 0; i < $scope.files.length; i++) {
                         if ($scope.files[i].RelationType == $scope.checksSelect[n].RelationType) {
                             if ($scope.files[i].Id == $scope.checksSelect[n].Id) {
                                 $scope.files.splice(i, 1);
-=======
-                    for (var i = 0; i < $scope.mobiles.length; i++) {                       
-                        if ($scope.mobiles[i].RelationType == $scope.checksSelect[n].RelationType) {
-                            if ($scope.mobiles[i].Id == $scope.checksSelect[n].Id) {
-                                $scope.mobiles.splice(i, 1);
->>>>>>> f68657ddc682ac4312c7fa154aae0a72c677ac8d
                             } else {
                                 mobilesDel($scope.files[i].Children, $scope.checksSelect[n].Id)
                             }
@@ -330,13 +323,8 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     //移动文件弹出框
     $scope.fireMobileBatch = function () {
         if ($scope.checksSelect.length == 0) return;
-<<<<<<< HEAD
-        $scope.moveShow = true;
-        $scope.bgShow = true;
-=======
         $scope.mobileIsShow = true;
-        $scope.bgShow = true;        
->>>>>>> f68657ddc682ac4312c7fa154aae0a72c677ac8d
+        $scope.bgShow = true;
         $scope.mobileFolder();
     }
 
