@@ -84,37 +84,3 @@
 
 <div class="pop_bg" ng-show="bgShow"></div>
 <mobilefolder ng-show="mobileIsShow" on-upd-folder-mobile="updFolderMobile()" on-close="close()" mobiles="mobiles" mobile-is-show="mobileIsShow"></mobilefolder>
-@*<div class="pop_400" ng-show="mobileIsShow">
-    <h4>移动文件</h4>
-    <span class="icon close_pop" ng-click="close()"></span>
-    <div class="pop_wrap">
-        <dl class="folder">
-            <dd> 
-                <script type="text/ng-template" id="nodes_renderer.html">
-                    <div ui-tree-handle class="tree-node tree-node-content" ng-click="selectedMobile(node)" ng-class="{mobileSelected:node.Id==folder.Id}">
-                        <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)">
-                            <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
-                        </a>
-                        <font ng-bind="node.Name"></font>
-                    </div>
-                    <ol ui-tree-nodes="" ng-model="node.Children" ng-class="{hidden: collapsed}">
-                        <li ng-repeat="node in node.Children" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)">
-                        </li>
-                    </ol>
-                </script>
-                <div ui-tree id="tree-root">
-                    <ol ui-tree-nodes="" ng-model="mobile">
-                        <li ng-repeat="node in mobiles" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)"></li>
-                    </ol>
-                </div>
-            </dd>
-        </dl>
-        <div class="btn_box">
-            <a class="save" ng-click="updFolderMobile()">确定</a>
-            <a class="cancel" ng-click="close()">取消</a>
-        </div>
-    </div>
-</div>*@
-
-
-@*<script src="/Scripts/PageAffect/index.js" type="text/javascript"></script>*@

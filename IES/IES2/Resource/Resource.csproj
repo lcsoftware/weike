@@ -136,8 +136,10 @@
     <Content Include="Components\js\components.js" />
     <Content Include="Components\templates\addChapter.html" />
     <Content Include="Components\templates\addKnowledge.html" />
+    <Content Include="Components\templates\dialogConfirm.html" />
     <Content Include="Components\templates\exerciseBatch.html" />
     <Content Include="Components\templates\exerciseList.html" />
+    <Content Include="Components\templates\fileMove.html" />
     <Content Include="Components\templates\fileOperation.html" />
     <Content Include="Components\templates\folder.html" />
     <Content Include="Components\templates\mobileFolder.html" />
@@ -162,6 +164,7 @@
     <Content Include="DataProvider\Shared\AssistProvider.aspx" />
     <Content Include="DataProvider\Shared\ContentProvider.aspx" />
     <Content Include="DataProvider\User\UserProvider.aspx" />
+    <Content Include="Frameworks\angularTree\angular-ui-tree.js" />
     <Content Include="Frameworks\angularTree\angular-ui-tree.min.css" />
     <Content Include="Frameworks\angularTree\angular-ui-tree.min.js" />
     <Content Include="Frameworks\angular\angular-animate.js" />

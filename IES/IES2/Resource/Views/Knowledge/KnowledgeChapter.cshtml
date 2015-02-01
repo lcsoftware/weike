@@ -8,8 +8,8 @@
         <a class="icon delete_icon" ng-click="delete()"></a>
     </div>
     <ul class="chapter_item">
-        <li ng-class="{'active':parentPicker.ChapterID===item.ChapterID}" ng-repeat="item in ocChapters | parentID:0 | orderBy:'Orde'">
-            <a class="first_chapter" ng-click="parentChapterSelected(item)" ng-class="{'chapter-selection':parentPicker.ChapterID===item.ChapterID}">
+        <li ng-class="{'active':parentPicker.ChapterID==item.ChapterID}" ng-repeat="item in ocChapters | parentID:0 | orderBy:'Orde'">
+            <a class="first_chapter" ng-click="parentChapterSelected(item)" ng-class="{'chapter-selection':parentPicker.ChapterID==item.ChapterID}">
                 <i class="icon fold_btn"></i>
                 {{item.Title}}
             </a>
