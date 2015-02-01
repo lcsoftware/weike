@@ -140,9 +140,7 @@
     <Content Include="Components\templates\exerciseList.html" />
     <Content Include="Components\templates\fileOperation.html" />
     <Content Include="Components\templates\folder.html" />
-
     <Content Include="Components\templates\moveFolder.html" />
-
     <Content Include="Css\app.css" />
     <Content Include="Css\common.css" />
     <Content Include="Css\construction.css" />
@@ -303,9 +301,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="robots.txt" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\404.cshtml" />
     <Content Include="Views\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -337,6 +332,7 @@
     <Content Include="Views\Exercise\Noun.cshtml" />
     <Content Include="Views\Exercise\FillBlank2.cshtml" />
     <Content Include="Views\Exercise\QuesAnswer.cshtml" />
+    <Content Include="Web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

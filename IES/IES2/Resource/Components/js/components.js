@@ -247,23 +247,6 @@ app.directive('exerciseList', function () {
     return directive;
 });
 
-//app.controller('exerciseListCtrl', [$scope, 'assistService', function ($scope, assistService) {
-//    $scope.difficulties = [];
-//    assistService.Resource_Dict_Diffcult_Get(function (data) {
-//        $scope.difficulties = data.d;
-//    });
-
-//    $scope.getDifficultName = function (difficult) {
-//        var length = $scope.difficulties.length;
-//        for (var i = 0; i < length; i++) {
-//            if ($scope.difficulties[i].id === difficult) {
-//                return $scope.difficulties[i].name;
-//            }
-//        }
-//    }
-<<<<<<< HEAD
-//}]);
-
 //移动文件
 app.directive('moveFolder', function () {
     var directive = {};
@@ -283,6 +266,3 @@ app.directive('moveFolder', function () {
 
     return directive;
 });
-=======
-//}]);
->>>>>>> f68657ddc682ac4312c7fa154aae0a72c677ac8d
