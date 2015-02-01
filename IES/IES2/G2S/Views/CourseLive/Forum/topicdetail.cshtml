@@ -1,17 +1,281 @@
 ﻿@{
-    Layout = null;
+    // Layout = null;
 }
 
 <!DOCTYPE html>
-
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>论坛-话题详情</title>
+    <link rel="stylesheet" href="../../css/forum.css">
 </head>
-<body>
-    <div>
-    
+
+<body ng-controller="ForumTopicDetialCtrl">
+    <div class="wrap">
+        <!--公共头部开始-->
+
+        <div class="main_all main_course">
+            <!--右侧主题内容开始-->
+            <div class="main_content">
+                <div class="coursesite_box">
+                    <h4>返回课程讨论</h4>
+                    <div class="topic_btn">
+                        <a class="share_btn" href="javascript:;"><i class="icon_forum icon_share"></i>分享</a>
+                        <a href="javascript:;" ng-click="ForumTopic_IsEssence_Upd()"><i class="icon_forum icon_select"></i>设为精华</a>
+                        <a href="javascript:;" ng-click="ForumTopic_IsTop_Upd()"><i class="icon_forum icon_thetop"></i>设为置顶</a>
+                        <a class="move_btn" role="button" data-toggle="modal" data-backdrop="static" href="#moveForum"><i class="icon_forum icon_move"></i>移动版块</a>
+                        <a href="javascript:;" ng-click="ForumTopic_Del()"><i class="icon_forum icon_strike"></i>删除</a>
+                    </div>
+                    <div class="share_content">
+                        <ul class="share_list">
+                            <li ng-class="m.active?'active':''" ng-repeat="m in ForumType_Item|addActive" ng-click="m.active=!m.active">
+                                <i class="icon_forum icon_img  {{m.IsPublic?'icon_chapter':'icon_discuss'}}"></i>
+                                <div class="share_detail">
+                                    <h5 ng-class="m.IsPublic?'chapter_tit':'class_tit'">{{m.Title}}</h5>
+                                    <p> {{m.IsPublic?"公共板块":"班内板块"}}</p>
+                                </div>
+                                <i class="icon_forum icon_corner icon_label"></i>
+                            </li>
+                            @*<li class="active">
+                                    <i class="icon_forum icon_img icon_chapter"></i>
+                                    <div class="share_detail">
+                                        <h5 class="chapter_tit">章节讨论</h5>
+                                        <p>公共板块</p>
+                                    </div>
+                                    <i class="icon_forum icon_corner icon_label"></i>
+                                </li>
+                                <li class="active">
+                                    <i class="icon_forum icon_img icon_discuss"></i>
+                                    <div class="share_detail">
+                                        <h5 class="class_tit">自由讨论区[2班]</h5>
+                                        <p>公共板块</p>
+                                    </div>
+                                    <i class="icon_forum icon_corner icon_label"></i>
+                                </li>
+                                <li class="active">
+                                    <i class="icon_forum icon_img icon_discuss"></i>
+                                    <div class="share_detail">
+                                        <h5 class="class_tit">自由讨论区[2班]</h5>
+                                        <p>公共板块</p>
+                                    </div>
+                                    <i class="icon_forum icon_corner icon_label"></i>
+                                </li>
+                                <li>
+                                    <i class="icon_forum icon_img icon_discuss"></i>
+                                    <div class="share_detail">
+                                        <h5 class="class_tit">自由讨论区[2班]</h5>
+                                        <p>公共板块</p>
+                                    </div>
+                                    <i class="icon_forum icon_corner icon_label"></i>
+                                </li>*@
+                        </ul>
+                        <div class="discuss_btn">
+                            <a class="confirm" href="javascript:;">确定</a>
+                            <a class="cancel" href="javascript:;">取消</a>
+                        </div>
+                    </div>
+                    <div class="bulletin_box">
+                        <h5>{{ForumTopic.Title}} <span ng-show="ForumTopic.IsTop" class="top_vertical">置顶</span> <span ng-show="ForumTopic.IsEssence" class="good_rate">精Ⅲ</span></h5>
+                        <p>{{ForumTopic.Conten}}<span>{{getDateDiff('发布于',ForumTopic.UpdateTime)}} 发布人:{{ForumTopic.UserName}}</span></p>
+                        <a class="reply_btn" href="javascript:;" ng-click="ResponseInit(0)">快速回复</a>
+                        <a class="icon_24 icon_praise icon_zan {{ForumTopic.IsGood?'icon_praise2':''}}" title="{{ForumTopic.IsGood?'取消赞':'赞'}}" ng-click="ForumMy_IsGood_Upd(ForumTopic);" href="javascript:;"></a>
+                    </div>
+                    @*<div class="bulletin_box">
+                            <h5>关于APP视频观看进度问题！<span class="top_vertical">置顶</span><span class="good_rate">精Ⅲ</span></h5>
+                            <p>大家好，小编又来给童鞋们解答问题啦：<br>
+                            小编发现还有很少一部分同学观看视频没有进度<br>
+                            这里呢，小编在这个给大家说明几个问题：<br>
+                            1，目前我们的手机APP应用在线观看是完全同步视频进度的，<br>
+                            2，请观看离线缓存视频的童鞋一定要保证手机流量的开启，这样才能保存视频的进度哦！<br>
+                            3，离线下载的视频在观看时是不会产生任何流量的拉，大家放心好了~<br>
+                            最后呢小编提醒大家一个注意点，并且要告诉大家一个好消息！<br>
+                            注意点：目前我们的APP在完全离线的状态下观看离线视频是不会保存进度的！~所以一定要保证手机流量的开启哦！~）<br>
+                            好消息就是我们会在下面的版本为大家解决完全离线状态下看视频也有进度的问题，啦啦~！~<br>
+                            最后谢谢大家支持我们APP应用哦！还有请大家要帮小编宣传宣传，哈哈~~
+                            <span>发布于  3 天前 发布人:戴杰</span></p>
+                            <a class="reply_btn" href="javascript:;">快速回复</a>
+                            <a class="icon_24 icon_praise icon_zan" href="javascript:;"></a>
+                        </div>*@
+                    <ul class="comment_box">
+                        <li ng-repeat="m in ForumResponseInfo_Item|responseFilter:0|addResponseShow">
+                            <img class="comment_img" src="http://placehold.it/50x50/cccccc" width="50" height="50" />
+                            <div class="comment_detail">
+                                <div class="comment_list">
+                                    <div class="user_comment">
+                                        <p class="comment_name">{{m.UserName}}</p>
+                                        <p class="comment_content"><span ng-bind-html="m.Conten|toHtml"></span><br /></p>
+                                        <p class="reply_time">
+                                            {{getDateDiff('回复于',m.UpdateTime)}}
+
+                                            <a href="javascript:;" ng-click="ResponseInit(m);m.ResponseShow=true;">回复</a>
+                                            <a class="icon icon_remove" href="javascript:;" ng-click="ForumResponse_Del(m)" title="删除"></a>
+                                            @*<a href="javascript:;" ng-click="SetHtml(m)">引用</a>*@
+                                        </p>
+                                    </div>
+                                    <a class="icon_24 icon_praise {{m.IsGood?'icon_praise2':''}}" title="{{m.IsGood?'取消赞':'赞'}}" ng-click="ForumMy_IsGood_Upd(m)" href="javascript:;"></a>
+                                </div>
+                                <div class="reply_box" ng-repeat="m2 in ForumResponseInfo_Item|responseFilter:m.ResponseID">
+                                    <img src="http://placehold.it/40x40/cccccc" width="40" height="40" />
+                                    <div class="reply_detail">
+                                        <div class="reason_box">
+                                            <p class="reason">{{m2.UserName}}　<span ng-bind-html="m2.Conten|toHtml"></span><br /></p>
+                                            <p class="reply_time">
+                                                {{getDateDiff('回复于',m2.UpdateTime)}}
+
+                                                <a href="javascript:;" ng-click="ResponseInit(m2);m.ResponseShow=true;">回复</a>
+                                                <a class="icon icon_remove" href="javascript:;" ng-click="ForumResponse_Del(m2)" title="删除"></a>
+                                                @*<a href="javascript:;" ng-click="SetHtml(m2)">引用</a>*@
+                                            </p>
+
+                                        </div>
+                                        <a class="icon_24 icon_praise {{m2.IsGood?'icon_praise2':''}}" title="{{m2.IsGood?'取消赞':'赞'}}" ng-click="ForumMy_IsGood_Upd(m2)" href="javascript:;"></a>
+                                    </div>
+                                    <div class="reply_box" ng-repeat="m3 in ForumResponseInfo_Item|responseFilter:m2.ResponseID" style="margin-left:50px;">
+                                        <img src="http://placehold.it/40x40/cccccc" width="40" height="40" />
+                                        <div class="reply_detail">
+                                            <div class="reason_box">
+                                                <p class="reason">{{m3.UserName}}　<span ng-bind-html="m3.Conten|toHtml"></span></p>
+                                                <p class="reply_time">{{getDateDiff('回复于',m3.UpdateTime)}}</p>
+                                                <a class="icon icon_remove" href="javascript:;" ng-click="ForumResponse_Del(m3)" style="float:right;" title="删除"></a>
+                                            </div>
+                                            <a class="icon_24 icon_praise {{m3.IsGood?'icon_praise2':''}}" title="{{m3.IsGood?'取消赞':'赞'}}" ng-click="ForumMy_IsGood_Upd(m3)" href="javascript:;"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="response" ng-show="m.ResponseShow">
+                                <form name="myForm">
+                                    <span style="position:relative;top:-5px">回复{{ForumResponse.UserName}}:</span>
+                                    <textarea class="module_explaination" ng-model="ForumResponse.Conten" maxlength="500" placeholder="请输入回复[500个字以内]" required></textarea>
+                                    <input type="button" value="回复" ng-disabled="myForm.$invalid" ng-click="ForumResponse_ADD();m.ResponseShow=false;" />
+                                </form>
+                            </div>
+                        </li>
+                        @*<li>
+                                <img class="comment_img" src="http://placehold.it/50x50/cccccc" width="50" height="50" />
+                                <div class="comment_detail">
+                                    <div class="comment_list">
+                                        <div class="user_comment">
+                                            <p class="comment_name">董大千</p>
+                                            <p class="comment_content">因为什么什么选错的</p>
+                                            <p class="reply_time">
+                                                回复于 3 天前
+                                                <a href="javascript:;">回复</a>
+                                                <a href="javascript:;">引用</a>
+                                            </p>
+                                        </div>
+                                        <a class="icon_24 icon_praise" href="javascript:;"></a>
+                                    </div>
+                                    <div class="reply_box">
+                                        <img src="http://placehold.it/40x40/cccccc" width="40" height="40" />
+                                        <div class="reply_detail">
+                                            <div class="reason_box">
+                                                <p class="reason">杨静　因为什么什么选错的</p>
+                                                <p class="reply_time">回复于 2014/11/11 19:42:09</p>
+                                            </div>
+                                            <a class="icon_24 icon_praise" href="javascript:;"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                                                    <li>
+                                                        <img class="comment_img" src="http://placehold.it/50x50/cccccc" width="50" height="50" />
+                                                        <div class="comment_detail">
+                                                            <div class="comment_list">
+                                                                <div class="user_comment">
+                                                                    <p class="comment_name">董大千</p>
+                                                                    <div class="quote_box">
+                                                                        <span>引用：</span>
+                                                                        <div class="quote_user">
+                                                                            <p>杨静</p>
+                                                                            <p>
+                                                                                我不这样认为
+                                                                                <a href="javascript:;">回复</a>
+                                                                                <a href="javascript:;">引用</a>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p class="comment_content">因为什么什么选错的</p>
+                                                                    <p class="reply_time">
+                                                                        回复于 3 天前
+                                                                        <a href="javascript:;">回复</a>
+                                                                        <a href="javascript:;">引用</a>
+                                                                    </p>
+                                                                </div>
+                                                                <a class="icon_24 icon_praise" href="javascript:;"></a>
+                                                            </div>
+
+                                                        </div>
+                                                    </li>*@
+                    </ul>
+                    <div style="margin-left:30px;" class="text_box">
+                        @*<img src="../../images/text_box2.jpg" width="835" height="150" alt="">*@
+                        <input type="hidden" name="oEditor1" ng-value="" id="oEditor1" />
+                        <iframe id="frmoEditor1" ng- src="../../../../Frameworks/ewebeditor/ewebeditor.htm?id=oEditor1&style=expand600" frameborder="0" scrolling="no" width="870" height="300" style="display: block;"></iframe>
+                    </div>
+                    <a class="upload_btn" href="javascript:;">
+                        <em><i class="icon icon_plus"></i></em>
+                        <span>上传</span>
+                    </a>
+                    <a class="issue_btn" href="javascript:;" ng-click="ResponseInit(0);ForumResponse_ADD()">发布</a>
+                </div>
+            </div>
+            <!--右侧主题内容结束-->
+
+        </div>
     </div>
+    <!--弹出框-->
+    @*<div class="pop_bg"></div>*@
+    <!--提示框-->
+    <div class="pop_400">
+        <h4>提示</h4>
+        <i class="icon icon_close"></i>
+        <div class="tishi_box">
+            <div class="warning_box">
+                <i class="icon_forum icon_warning"></i>内容不能为空！
+            </div>
+        </div>
+    </div>
+    <div class="modal hide fade" style="width:400px;margin-top:200px;" id="moveForum" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <h4>移动版块</h4>
+        <i class="icon icon_close" data-dismiss="modal" aria-hidden="true"></i>
+        <div class="section_box">
+            <select class="section_select" ng-model="selected" ng-options="m.Title for m in ForumType_Item" required>
+                <option value="" selected="selected">请选择您想要移至的版块</option>
+            </select>
+            <div class="btn_box">
+                <a class="confirm" href="javascript:;" ng-click="ForumTopic_ForumTypeID_Upd()" data-dismiss="modal" aria-hidden="true">确定</a>
+                <a class="cancel" data-dismiss="modal" aria-hidden="true">取消</a>
+            </div>
+        </div>
+    </div>
+    <div class="pop_800">
+        <h4>移动版块</h4>
+        <i class="icon icon_close"></i>
+        <div class="section_box">
+            <input class="go_input" type="text" placeholder="请选择想要移至的版块">
+            <div class="section_list">
+                <input type="text" placeholder="请输入版块名称" class="section_name">
+                <ul class="bankuai">
+                    <li><a href="#">在线客服</a></li>
+                    <li><a href="#">自由讨论区[中国式MOOCs共享课程开发&lt;2&gt;班]</a></li>
+                    <li><a href="#">自由讨论区[&lt;3&gt;班]</a></li>
+                    <li><a href="#">自由讨论区[中国式MOOCs共享课程开发&lt;1&gt;班]</a></li>
+                    <li><a href="#">自由讨论区[中国式MOOCs共享课程开发&lt;2&gt;班]</a></li>
+                    <li><a href="#">自由讨论区[&lt;3&gt;班]</a></li>
+                    <li><a href="#">自由讨论区[中国式MOOCs共享课程开发&lt;1&gt;班]</a></li>
+                    <li><a href="#">自由讨论区[中国式MOOCs共享课程开发&lt;1&gt;班]</a></li>
+                </ul>
+
+            </div>
+            <div class="btn_box">
+                <a class="confirm" href="javascript:;">确定</a>
+                <a class="cancel" href="javascript:;">取消</a>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/jquery-1.8.3.min.js"></script>
+    <script src="~/js/forum.js"></script>
 </body>
 </html>
+

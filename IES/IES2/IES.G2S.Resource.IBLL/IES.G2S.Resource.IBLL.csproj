@@ -48,12 +48,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IChapterBLL.cs" />
-    <Compile Include="IKeyBLL.cs" />
-    <Compile Include="IResourceKenBLL.cs" />
     <Compile Include="IExerciseBLL.cs" />
     <Compile Include="IFileBLL.cs" />
     <Compile Include="IKenBLL.cs" />
+    <Compile Include="IKeyBLL.cs" />
     <Compile Include="IPaperBLL.cs" />
+    <Compile Include="IResourceKenBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

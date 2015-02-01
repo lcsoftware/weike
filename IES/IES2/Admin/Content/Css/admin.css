@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 .icon_forum{ display:inline-block; width:16px; height:16px; background:url(../Images/icon_forum.png) no-repeat;}
 .admin_wrap .wrap{ background:#666;}
@@ -103,9 +103,9 @@
 .admin_nav_list li a:hover,.admin_nav_list li.active a{ background:#fff; color:#366061;}
 
 .sousuo_box{ background:#f2f2f2; overflow:hidden; zoom:1;}
-.filter_item{ height:40px; line-height:40px; border-bottom:1px solid #ccc;}
-.filter_btn{ float:right; margin-right:27px; color:#366061;}
-.class_operation{ float:right; margin:5px 5px 0 10px; height:30px; border:1px solid #284a51; position:relative;}
+.filter_item{ padding:4px 24px; height:32px; border-bottom:1px solid #ccc; background:#f2f2f2;}
+.filter_btn{ float:right; color:#366061;}
+.class_operation{ float:right; margin:0 10px; height:30px; border:1px solid #284a51; position:relative;}
 .class_operation a{ display:block; width:100px; height:30px; line-height:30px; border-top:1px solid #284a51; margin-top:-1px; overflow:hidden; zoom:1; color:#fff; background:#366061;}
 .class_operation a:hover{ background:#305556;}
 .class_operation a i{ float:left; margin:7px 3px 0 7px;}
@@ -113,12 +113,12 @@
 .daoru{ background-position:0 -48px;}
 .daochu{ background-position:0 -64px;}
 .download_btn{ background-position:0 -32px;}
-.add_student{ float:right; margin:5px 0 0 20px; width:90px; height:30px; line-height:30px; border:1px solid #366061; background:#284a51; color:#fff;}
+.add_student{ float:right; margin:0 0 0 20px; width:90px; height:30px; line-height:30px; border:1px solid #366061; background:#284a51; color:#fff;}
 .add_student i{ float:left; margin:7px 6px 0;}
 .add_btn{ background-position:0 -16px;}
 .search_btn{ float:right; width:260px; position:relative; overflow:hidden; zoom:1;}
-.search_btn input{ width:233px; margin-top:5px; height:30px; line-height:30px\9; padding:0 20px 0 5px; border:1px solid #ccc;}
-.search_btn i{ position:absolute; top:12px; right:4px; cursor:pointer;}
+.search_btn input{ width:233px; height:30px; line-height:30px\9; padding:0 20px 0 5px; border:1px solid #ccc;}
+.search_btn i{ position:absolute; top:8px; right:4px; cursor:pointer;}
 .search_icon{ background-position:0 0;}
 
 .select_requirement_box{ padding:0 25px 28px 35px; overflow:hidden; zoom:1; border-bottom:1px solid #ccc; clear:both; position:relative;}
@@ -167,6 +167,7 @@
 .operation_box i{ float:left; margin:13px 10px 0 0; cursor:pointer;}
 .edit_btn{ background-position:-16px -32px;}
 .delete_btn{ background-position:-16px -48px;}
+.icon_u425{ display:inline-block; width:16px; height:16px; background:url(../Images/u425.png) no-repeat;}
 
 .admin_wrap .page_box a:hover{ background:#366061; border:1px solid #ccc;}
 .page_wrap{ margin:40px 0; overflow:hidden; zoom:1;}
@@ -243,6 +244,173 @@
 /*出生日期*/
 .birth_date_box{ display:none; padding:10px 0 10px 10px; background:#fff; width:280px; border:1px solid #284a51; position:absolute; top:30px; left:0; z-index:10;}
 .birth_date_box select{ float:left; width:83px; margin-right:10px;}
+
+/*教学安排-校历课节*/
+.term_select{ float:left; width:175px; height:30px; line-height:30px; border:1px solid #ccc;}
+.schedule_table{ width:100%;}
+.schedule_table tr th,.schedule_table tr td{ height:40px; line-height:40px; color:#333;}
+.schedule_table tr th{ text-align:left; border-bottom:1px solid #e8e8e8;}
+.course_table,.schedule_detail{ width:100%;}
+.course_table{ border-bottom:1px solid #ccc;}
+.course_table tr td{ text-align:center;}
+.course_arrange{ display:none;}
+.schedule_operation{ display:none; overflow:hidden; zoom:1; height:40px;}
+.schedule_operation i{ float:left; margin:12px 15px 0 0; cursor:pointer;}
+.fold_icon{ background-position:-48px 0;}
+/*添加校历弹出框*/
+.school_wrap{ padding:20px 40px; border:1px solid #ccc; overflow:hidden; zoom:1;}
+.admin_wrap .pop_800 h4,.admin_wrap .pop_600 h4,.admin_wrap .pop_400 h4{ background:#284a51;}{ background:#284a51;}
+.school_box{ overflow:hidden; zoom:1; margin-left:-30px;}
+.school_box p{ float:left; margin:20px 0 0 30px; line-height:30px;}
+.school_box p label{ float:left; width:70px; margin-right:15px;font-size:13px; color:#333;}
+.school_box p input{ float:left; height:22px; line-height:22px; padding:3px 4px; width:220px; border:1px solid #ccc;}
+.school_box p b{ padding-left:10px; font-size:14px; color:#ff0000;}
+.date_input{ float:left; position:relative;}
+.school_box p  .date_input input{ padding:3px 26px 3px 4px; width:198px;}
+.date_input i{position:absolute; top:7px; right:10px;cursor:pointer;}
+.date_btn{background-position:-16px 0; }
+.course_box{ overflow:hidden; zoom:1; margin-top:20px;}
+.course_tit{ float:left;width:70px; margin-right:15px; font-size:13px; color:#333;}
+.curri_box{ overflow:hidden; width:615px; height:342px; overflow:auto;}
+.curri_table{ width:100%; border:1px solid #e4e4e4;}
+.curri_table tr th,.curri_table tr td{ height:30px; line-height:30px; font-family:'Arial'; font-size:13px; color:#333; border:1px solid #e4e4e4; padding-left:8px;}
+.curri_table tr th{ text-align:left; background:#ccc;}
+.curri_operation{ display:none; height:30px; float:right; overflow:hidden;}
+.curri_operation i{ float:left; margin:7px 15px 0 0; cursor:pointer;}
+.curri_table tr td input{ width:80px; height:22px; line-height:22px; padding:1px 4px; border:1px solid #ccc;}
+.add_course{ display:block; background-position:-48px -16px; cursor:pointer;}
+.admin_wrap .btn_box a.save{ background:#284a51;}
+.admin_wrap .btn_box a.save:hover{ background:#233f45;}
+
+
+/*基础数据-组织机构*/
+/*撤销删除*/
+.delete_tip{ clear:both; height:45px; line-height:45px; background:#ffffcc; text-align:center; color:#333;}
+.delete_tip a{ color:#284a51; padding-left:12px;}
+/*组织机构列表*/
+.organization_box{ margin:20px; overflow:hidden; zoom:1;}
+.organization_tit{ height:22px; padding-bottom:6px; border-bottom:2px solid #c8d6ff;}
+.organization_tit h4{ float:left; height:22px; line-height:22px; padding-bottom:5px; border-bottom:3px solid #366061; font-size:16px; color:#333;}
+.organization_list{ margin-top:10px; overflow:hidden; zoom:1;}
+.organization_list > li > ul{ display:none;}
+.second_organization > li > ul{ display:none;}
+.department_box{ height:40px; line-height:40px; padding:0 20px; border-bottom:1px solid #e4e4e4; overflow:hidden; zoom:1;}
+.menu_btn{ float:left; width:16px; height:40px;outline:none; hide-focus:expression(this.hideFocus=true); }
+.menu_btn i{ margin-top:12px; }
+.btn_fold{background-position:-48px -32px;}
+.department_name{ float:left; margin-left:15px;}
+.department_name a{ font-size:14px; color:#284a51;}
+.department_name span{ color:#999;}
+.edit_box{ display:none; float:left; margin-left:70px; overflow:hidden; zoom:1;}
+.edit_box i{ float:left; margin:12px 12px 0 0; cursor:pointer;}
+.btn_add{ background-position:-64px -16px;}
+.down_btn{ background-position:-64px -48px;}
+.up_btn{ background-position:-64px -32px;}
+.open_btn{ background-position:-48px 0px;}
+.clses_btn{ background-position:-64px 0px;}
+.left_btn{ background-position:-64px -64px;}
+.right_btn{ background-position:-64px -80px;}
+.addss_btn{ background-position:-64px -16px;}
+.second_department_name{ margin-left:40px;}
+/*新增弹出层*/
+.wrap_box{ padding:20px; background:#fff; border:1px solid #ccc; overflow:hidden; zoom:1;}
+.out_wrap{ padding:7px 0; border:1px solid #ccc; border-top:0; overflow:hidden; zoom:1;}
+.out_wrap .btn_box{ margin-top:0;}
+.add_box{ margin-top:-10px; overflow:hidden; zoom:1;}
+.add_item{ margin-top:10px; overflow:hidden; zoom:1; line-height:30px;}
+.add_item dt{ float:left; width:60px; height:30px; margin-right:10px; color:#333;}
+.add_item dd{ overflow:hidden; zoom:1;}
+.add_item dd input[type=text]{ float:left; width:170px; padding:3px 4px; border:1px solid #ccc; height:22px; line-height:22px; color:#333; }
+.add_item dd span{ float:left; margin-left:2px; color:#cc0000; font-size:20px;}
+.num_box{ overflow:hidden; zoom:1;}
+.num_box p{ overflow:hidden; color:#999;}
+.num_box p i{ float:left; margin:7px 6px 0 8px;}
+.default_status{ width:180px; height:30px; position:relative; overflow:hidden; zoom:1;}
+.default_status i{ position:absolute; right:12px; top:7px; cursor:pointer;}
+.unfold_btn{ background-position:-48px -48px;}
+.select_box{ display:none; padding:10px 5px 10px 0; margin-top:-1px; position:relative; z-index:2; border:1px solid #366061; overflow:hidden; zoom:1; }
+.select_box select{ float:left; padding:3px 0 3px 5px; width:135px; height:28px; line-height:28px; margin-left:5px; border:1px solid #366061;}
+.department_select{ float:left; margin-right:10px; width:178px; height:28px; line-height:28px; border:1px solid #ccc;}
+.sort_organization p{ float:left; margin-right:30px; color:#333;}
+.sort_organization p input{ float:left; height:30px; vertical-align:middle; margin-right:3px;}
+
+
+/*管理员端首页-发布通知弹出层*/
+.inform_box{ border:1px solid #ccc; overflow:hidden;}
+.inform_item{ padding:10px 29px; border-bottom:1px solid #ccc;}
+.inform_style{ margin-top:5px; overflow:hidden; color:#333;}
+.inform_style span{ float:left; margin-right:20px;}
+.inform_style span input{ float:left; height:22px; vertical-align:middle; margin-right:4px;}
+.inform_style span em{ font-style:normal; color:#999;}
+.issue_box{ margin-top:10px;}
+.issue_tit{ padding:3px 4px; border:1px solid #ccc; height:22px; line-height:22px; width:530px; color:#999; font-size:12px;}
+.issue_content{margin-top:10px; position:relative;}
+.issue_content textarea{  padding:4px; height:90px; width:530px; resize:none; border:1px solid #ccc;}
+.red_label{ position:absolute; top:5px; left:548px; padding:0; font-size:13px;}
+.inform_setting{ margin-top:5px; overflow:hidden;}
+.inform_setting span{ float:left; color:#333;}
+.inform_setting span input{ float:left; height:22px; vertical-align:middle; margin-right:3px;}
+.inform_setting em{ float:right; color:#999; font-style:normal;}
+.attach_box{ margin-top:10px; overflow:hidden;}
+.attach_btn{ float:left; width:80px; height:30px; line-height:30px; text-align:center; background:#1e5975; color:#fff; border:1px solid #ccc; margin-right:10px; font-size:14px; }
+.attach_btn:hover{ background:#1a4e67;}
+.attach_list{ overflow:hidden;}
+.attach_list li{ float:left; height:60px; overflow:hidden; margin-right:10px;}
+.attach_list li img{ display:block;}
+.file_box{ padding:5px; height:50px; background:#f2f2f2; overflow:hidden; position:relative; width:90px;}
+.file_box i.icon_24{ display:block; margin:0 auto;}
+.file_box p{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#333; margin-top:4px;}
+.file_box span{ display:block; width:20px; height:20px; background:#494949; position:absolute; right:0; top:0; cursor:pointer;}
+.file_box span i{ margin:2px 0 0 2px;}
+.throw_btn{ background-position:-21px -192px;}
+.inform_item2{ background:#f2f2f2; overflow:hidden;}
+.user_select{ overflow:hidden;}
+.user_style{ float:left; width:80px; margin-right:20px; color:#333;}
+.user_style input{ height:22px; vertical-align:middle; float:left; margin-right:3px;}
+.object_box{ width:440px; overflow:hidden;}
+.all_select{ float:left; margin-right:20px; color:#999;}
+.all_select input{ float:left; height:22px; vertical-align:middle; margin-right:3px;}
+.user_select2{ margin-top:10px; overflow:hidden;}
+.object_item{ overflow:hidden; margin-top:10px;}
+.select_btn{ float:left; margin-right:10px; width:80px; height:28px; line-height:28px; text-align:center; border:1px solid #ccc; background:#1e5975; color:#fff; font-size:14px;}
+.select_btn:hover{ background:#1b4e67;}
+.section_box{ float:left; width:342px; overflow:hidden; margin-top:-10px;}
+.section_box span{ float:left; margin:10px 10px 0 0; position:relative;}
+.section_box span a{ display:block; height:30px; line-height:30px; background:#ccc; color:#666; min-width:75px; padding:0 22px 0 8px;}
+.section_box span a:hover{ background:#bdbcbc;}
+.section_box span i{ position:absolute; right:3px; top:7px; cursor:pointer;}
+.remove_btn{ background-position:-16px -16px;}
+.object_box2{ float:left; margin-top:-10px;}
+.issue_btn_box{ padding:15px 0; text-align:center;}
+.issue_btn_box a{ display:inline-block; margin-left:10px; height:28px; line-height:28px; width:80px; text-align:center; border:1px solid #ccc; font-size:14px;}
+.issue_btn{ background:#1e5975; color:#fff;}
+.issue_btn:hover{ background:#1b4f68;}
+.cancel_btn{ background:#f2f2f2; color:#333;}
+.cancel_btn:hover{ background:#f8f8f8;}
+
+/*管理员端首页-选择教师弹出框*/
+.institution{ border:1px solid #ccc; overflow:hidden; font-family:'Arial';}
+.institution_tit{ display:block; height:30px; line-height:30px; border-bottom:1px solid #ccc; background:#f2f2f2; padding-left:10px; font-size:13px; color:#333;}
+.institution_box{ padding:0px; height:250px; overflow:auto;}
+.institution_list{ overflow:hidden; margin-top:-5px;}
+.institution_list li{ margin-top:5px; overflow:hidden;}
+.institution_name{ height:22px; line-height:22px; font-size:13px; color:#333; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.institution_name a{ float:left; margin:4px 8px 0 0; width:13px; height:13px;}
+.institution_name a span{ display:block; line-height:11px; text-align:center;  color:#333; border:1px solid #797979;}
+.check_box{ float:left; width:13px; height:13px; background:url(../Images/checkbox.gif) no-repeat; margin:4px 3px 0 0;}
+.not_check{ background-position:0 0;}
+.checking{ background-position:-26px 0;}
+.checked{ background-position:-13px 0;}
+
+
+
+/*管理员端首页-选择学生弹出框*/
+.stu_box{ overflow:hidden;}
+.stu_box .institution{ width:320px; float:left;}
+.stu_box .grade_box{ width:220px; float:right;}
+.tip_close{ font-family:'Arial'; color:#333;}
+.tip_close span{ display:block; margin-top:5px; text-align:center;}
+.tip_close span b{ font-weight:normal; color:#ff0000;}
 
 
 

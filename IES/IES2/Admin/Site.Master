@@ -16,7 +16,7 @@
     <webopt:bundlereference runat="server" path="~/Content/css" />
 
 </head>
-<body class="admin_wrap" >
+<body class="admin_wrap" id="myBody" >
     <form runat="server">
              <div class="wrap">
 	<div class="public_header">

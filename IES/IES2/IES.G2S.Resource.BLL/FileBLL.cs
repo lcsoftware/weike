@@ -21,10 +21,12 @@ namespace IES.G2S.Resource.BLL
         {
             return FileDAL.Folder_Get();
         }
+
         public Folder Folder_GetModel(Folder folder)
         {
             return FileDAL.Folder_GetModel(folder);
         }
+
 
         public List<Folder> Folder_List(Folder folder)
         {
@@ -34,14 +36,14 @@ namespace IES.G2S.Resource.BLL
         {
             return FileDAL.Folder_List(model).ToList();
         }
-        
+
+
         [PermissionsCallHandler(Order = 2)]
         [ExceptionCallHandler(Order = 1)]
         public IES.Resource.Model.Folder Folder_ADD(Folder model)
         {
             return FileDAL.Folder_ADD(model);
         }
-
         public bool Folder_Name_Upd(Folder model)
         {
             return FileDAL.Folder_Name_Upd(model); ;
@@ -93,26 +95,39 @@ namespace IES.G2S.Resource.BLL
         /// <param name="PageSize"></param>
         /// <param name="PageIndex"></param>
         /// <returns></returns>
-        public List<File> File_Search( File file )
+        public List<File> File_Search( File file , int PageSize, int PageIndex)
         {
-            return FileDAL.File_Search( file ).ToList();
+            return FileDAL.File_Search( file , PageSize, PageIndex).ToList();
+        }
+
+        /// <summary>
+        ///  文件查询列表
+        /// </summary>
+        /// <param name="Searchkey">查询关键字</param>
+        /// <param name="CourseID">课程编号 ，我的资料库courseid=0 </param>
+        /// <param name="FolderID">文件夹编号， 0 表示ParentID=0 </param>
+        /// <param name="FileType">文件类型，视频、word PPT。。。。 </param>
+        /// <param name="UploadTime"> 上传日期 ，需要从业务层计算 >= @UploadTime </param>
+        /// <param name="ShareRange">共享范围</param>
+        /// <param name="UserID">当前用户编号</param>
+        /// <param name="PageSize"></param>
+        /// <param name="PageIndex"></param>
+        /// <returns></returns>
+        public List<File> File_Search(File file)
+        {
+            return FileDAL.File_Search(file).ToList();
         }
 
 
 
         public File File_ADD(File model)
         {
-            return FileDAL.File_ADD(model); 
+            return new File(); 
         }
 
         public bool File_FileTitle_Upd(File model)
         {
-            return FileDAL.File_FileTitle_Upd(model); 
-        }
-
-        public bool File_FolderID_Upd(File model)
-        {
-            return FileDAL.File_FolderID_Upd(model);
+            return FileDAL.File_FileTitle_Upd(model);
         }
 
         public bool File_ShareRange(File model)
@@ -134,6 +149,11 @@ namespace IES.G2S.Resource.BLL
         public bool File_Keys(File model, List<Key> keylist)
         {
             return true;
+        }
+
+        public bool File_FolderID_Upd(File model)
+        {
+            return FileDAL.File_FolderID_Upd(model);
         }
 
 

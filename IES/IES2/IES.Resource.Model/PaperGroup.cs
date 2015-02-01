@@ -22,8 +22,20 @@ namespace IES.Resource.Model
 	/// </summary>
 	[Serializable]
     public partial class PaperGroup
-	{
-		public PaperGroup()
+    {
+        #region  补充属性
+        /// <summary>
+        /// 分组 习题总数  （此属性用于页面展示，不存库）
+        /// </summary>
+        public int ExerciseCount { get; set; }
+
+        /// <summary>
+        /// 分组 习题总分数  （此属性用于页面展示，不存库）
+        /// </summary>
+        public int ExerciseScore { get; set; }
+        #endregion
+
+        public PaperGroup()
 		{}
 		#region Model
 		private int _groupid;

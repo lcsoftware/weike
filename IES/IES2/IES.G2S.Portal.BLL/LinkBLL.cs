@@ -34,6 +34,14 @@ namespace IES.G2S.Portal.BLL
 
         #endregion
 
+        #region 批量删除
+        public bool Link_Batch_Del(string IDS)
+        {
+            return LinkDAL.Link_Batch_Del(IDS);
+        }
+
+        #endregion
+
         #region 更新
 
         public bool Link_Upd(Link model)
@@ -41,6 +49,13 @@ namespace IES.G2S.Portal.BLL
             return LinkDAL.Link_Upd(model);
         }
 
+        #endregion
+
+        #region 详细信息
+        public Link Link_Get(Link model)
+        {
+            return LinkDAL.Link_Get(model);
+        }
         #endregion
     }
 }

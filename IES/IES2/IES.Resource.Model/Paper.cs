@@ -83,6 +83,14 @@ namespace IES.Resource.Model
 			set{ _createuserid=value;}
 			get{return _createuserid;}
 		}
+        /// <summary>
+        /// 创建人姓名
+        /// </summary>
+        public string UserName
+        {
+            get;
+            set;
+        }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -99,6 +107,14 @@ namespace IES.Resource.Model
 			set{ _type=value;}
 			get{return _type;}
 		}
+        /// <summary>
+        /// 类型名称
+        /// </summary>
+        public string TypeName
+        {
+            get;
+            set;
+        }
 		/// <summary>
 		/// 1  作业与网络考试与随机训练 ；  2 学生自测  ；4  正式考试专用
 		/// </summary>
@@ -179,8 +195,6 @@ namespace IES.Resource.Model
 			set{ _isdeleted=value;}
 			get{return _isdeleted;}
 		}
-
-        public int rowscount { get; set; }
 		#endregion Model
 
 	}

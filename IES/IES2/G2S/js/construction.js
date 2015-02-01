@@ -1,5 +1,5 @@
 // JavaScript Document
-(function($){ 
+(function($)    { 
 	$.listScroll = {
 		init: function (data) {
 			this.listEvent(data)
@@ -150,13 +150,21 @@
 	
 })(jQuery);
 
-$(function(){
-	$('.video_item').listScroll({      
-		run_ul: '.video_list', //运动的列表；
-		btn_l : '.icon_l',    //左按钮
-		btn_r : '.icon_r',    //右按钮
-		run_number:1         //运动张数,超过可见数量就默认显示可见数量
-	});
+
+$(function () {
+  
+    //$$(function () {
+    //    $('.video_item').listScroll({
+    //        run_ul: '.video_list', //运动的列表；
+    //        btn_l: '.icon_l',    //左按钮
+    //        btn_r: '.icon_r',    //右按钮
+    //        run_number: 1         //运动张数,超过可见数量就默认显示可见数量
+    //    });
+    //})
+   
+
+	
+    
 	//更换版面
 	$('.version_box').hover(function () {
 	    $(this).css('background', '#393939');
@@ -192,15 +200,23 @@ $(function(){
 	//	$(this).removeClass('active');
     //})
 
-	$('.column_list li').live('hover', function () {
-	    if (event.type == 'mouseover') {
-	        $(this).children('.column_btn').show();
-	        $(this).addClass('active').siblings().removeClass('active');
-	    } else {
-	        $(this).children('.column_btn').hide();
-	        $(this).removeClass('active');
-	    }
-	})
+	//$('.column_list li').live('hover', function () {
+	//    alert(event.type);
+	//    if (event.type == 'mouseover') {
+	//        $(this).children('.column_btn').show();
+	//        $(this).addClass('active').siblings().removeClass('active');
+	//    } else {
+	//        $(this).children('.column_btn').hide();
+	//        $(this).removeClass('active');
+	//    }
+    //})
+	//$('.column_list li').hover(function () {
+	//    $(this).children('.column_btn').show();
+	//    $(this).addClass('active').siblings().removeClass('active');
+	//}, function () {
+	//    $(this).children('.column_btn').hide();
+	//    $(this).removeClass('active');
+	//})
 	
 	$('.img_list li').hover(function(){
 		$(this).addClass('active').siblings().removeClass('active');	
@@ -236,23 +252,17 @@ $(function(){
 		$('.pop_bg,.pop_600,.pop_400,.pop_800').hide();	
 	})
 	
-	$('.knowledge_list tr').hover(function(){
-		$(this).addClass('active').siblings().removeClass('active');	
-	},function(){
-		$(this).removeClass('active');
+	$('.knowledge_list tr').live('hover', function () {
+	    if (event.type == 'mouseover') {
+	        $(this).addClass('active').siblings().removeClass('active');
+	    } else {
+	        $(this).removeClass('active');
+	    }
 	})
+
+
 	
-	$('.group_discuss a').live('click',function(){
-		if(!$(this).hasClass('click')){
-			$(this).addClass('click');
-			$(this).parents('.chapt_box').next().slideDown();
-			$(this).text('[收起]');
-		}else{
-			$(this).removeClass('click');
-			$(this).parents('.chapt_box').next().slideUp();
-			$(this).text('[展开]');
-		}	
-	})
+
 	
 	
 	$('.course_data').each(function(){

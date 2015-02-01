@@ -14,7 +14,7 @@ namespace IES.G2S.Portal.BLL
         #region 列表
         public List<News> News_List(News model, int PageIndex, int PageSize)
         {
-            return NewsDAL.News_List(model, PageIndex, PageSize);
+            return  NewsDAL.News_List(model, PageIndex, PageSize);
         }
         #endregion
 
@@ -36,6 +36,14 @@ namespace IES.G2S.Portal.BLL
 
         #endregion
 
+        #region 批量删除
+        public bool News_Batch_Del(string IDS)
+        {
+            return NewsDAL.News_Batch_Del(IDS);
+        }
+
+        #endregion
+
         #region 更新
 
         public bool News_Upd(News model)
@@ -43,6 +51,20 @@ namespace IES.G2S.Portal.BLL
             return NewsDAL.News_Upd(model);
         }
 
+        #endregion
+
+        #region 详细信息
+        public News News_Get(News model)
+        {
+            return NewsDAL.News_Get(model);         
+        }
+        #endregion
+
+        #region 新闻公告所属板块
+        public List<NewsSection> NewsSection_List()
+        {
+            return NewsDAL.NewsSection_List();
+        }
         #endregion
     }
 }

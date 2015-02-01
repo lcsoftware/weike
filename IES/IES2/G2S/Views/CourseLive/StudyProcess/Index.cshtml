@@ -1,0 +1,70 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Css/progress.css" rel="stylesheet" />
+<script src="~/js/jquery-1.8.3.min.js"></script>
+<script src="~/js/progress.js"></script>
+
+<div ng-controller="StudyProcessController">
+    <div class="main_all">
+     
+        <!--右侧主题内容开始-->
+        <div class="main_content">
+          
+            <div class="coursesite_box">
+                <div class="exercise_nav">
+                    <ul class="exercise_nav_list">
+                        <li class="active"><a class="first_nav" href="#">毛泽东思想和中国特色社会主义毛泽东思想和中国特色社会主义</a></li>
+                        <li><a class="first_nav" href="#">大学英语</a></li>
+                        <li><a class="first_nav" href="#">形式与政策</a></li>
+                        <li><a class="first_nav" href="#">查看更多</a></li>
+                    </ul>
+                </div>
+                <div class="progress_box">
+                    <p class="time_filter">
+                        <span>选择时间段：</span>
+                        <a href="#">本周</a>|
+                        <a href="#">上周</a>|
+                        <a href="#">本月</a>|
+                        <a href="#">最近三十天</a>|
+                        <a href="#">任意月</a>
+                    </p>
+                    <img src="http://placehold.it/1000x400/cccccc" width="1000" height="300" />
+                    
+                </div>
+                <div class="tit_box">
+                    <h5>班级状况</h5>
+                    <a class="operation_btn" href="javascript:;"><em><i class="icon_pro form_btn"></i></em><span>导出表格</span></a>
+                    <p class="search_box"><input type="text" placeholder="搜索班级或老师"><i class="icon_pro search_btn"></i></p>
+                </div>
+                <div class="result_box">
+                    <p class="result_tip">共搜索出2个结果<a href="javascript:;">[返回上一层]</a></p>
+                    <table class="class_table">
+                        <tr>
+                            <th align="left" width="200"><p class="pad20">班级名称<i class="icon_pro rank_btn"></i></p></th>
+                            <th align="left" width="180"><p class="pad20">所属学校</p></th>
+                            <th align="left" width="100"><p class="pad20">辅导老师</p></th>
+                            <th width="90">学生人数<i class="icon_pro rank_btn"></i></th>
+                            <th width="160">班级平均进度<i class="icon_pro rank_btn"></i></th>
+                            <th width="90">高于计划<i class="icon_pro rank_btn"></i></th>
+                            <th width="90">低于计划<i class="icon_pro rank_btn"></i></th>
+                            <th>没有学习<i class="icon_pro rank_btn"></i></th>
+                        </tr>
+                        <tr>
+                            <td><p class="pad20">混合式课程设计与技术平台</p></td>
+                            <td><p class="pad20">华东政法大学</p></td>
+                            <td><p class="pad20">李老师</p></td>
+                            <td align="center">300</td>
+                            <td align="center">38.0</td>
+                            <td align="center">50</td>
+                            <td align="center">60</td>
+                            <td align="center">190</td>
+                        </tr>
+                        
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

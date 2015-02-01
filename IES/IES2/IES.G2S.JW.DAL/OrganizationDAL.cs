@@ -34,7 +34,27 @@ namespace IES.G2S.JW.DAL
                 return new List<Organization>();
             }
         }
-
+        /// <summary>
+        /// 获取教学组织的列表
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static List<ShortOranization> Organization_S_List(ShortOranization model)
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@OrganizationIDs", model.OrganizationIDs);
+                    return conn.Query<ShortOranization>("Organization_S_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<ShortOranization>();
+            }
+        }
         #endregion
 
         #region 详细信息
@@ -67,31 +87,36 @@ namespace IES.G2S.JW.DAL
         #region  新增
 
         /// <summary>
-        /// 新增教学组织
+        /// 新增/编辑教学组织
         /// </summary>
-        public static Organization Organization_ADD(Organization model)
+        public static Organization Organization_Edit(Organization model)
         {
             try
             {
                 using (var conn = DbHelper.JWService())
                 {
                     var p = new DynamicParameters();
-                    p.Add("@OrganizationID", model.OrganizationID, direction: ParameterDirection.Output);
+                    p.Add("@OrganizationID", model.OrganizationID);
                     p.Add("@OrganizationNo", model.OrganizationNo);
                     p.Add("@OrganizationName", model.OrganizationName);
                     p.Add("@OrganizationNameEn", model.OrganizationNameEn);
                     p.Add("@ParentID", model.ParentID);
                     p.Add("@OrganizationTypeID", model.OrganizationTypeID);
                     p.Add("@Introduction", model.Introduction);
-                    //p.Add("@LinkStatus", model.LinkStatus);
-                    conn.Execute("Organization_ADD", p, commandType: CommandType.StoredProcedure);
-                    model.OrganizationID = p.Get<int>("OrganizationID");
+                    p.Add("@IntroductionEn", model.IntroductionEn);
+                    p.Add("@IsShow", model.IsShow);
+                    p.Add("@Link", model.Link);
+                    p.Add("@IsTeaching", model.IsTeaching);
+                    p.Add("@LinkStatus", model.LinkStatus);
+                    p.Add("@op_OrganizationID", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    conn.Execute("Organization_Edit", p, commandType: CommandType.StoredProcedure);
+                    model.OrganizationID = p.Get<int>("op_OrganizationID");
                     return model;
                 }
             }
             catch (Exception)
             {
-                return null ;
+                return null;
             }
         }
 
@@ -104,7 +129,7 @@ namespace IES.G2S.JW.DAL
         {
             try
             {
-                using (var conn=DbHelper.JWService())
+                using (var conn = DbHelper.JWService())
                 {
                     var p = new DynamicParameters();
                     p.Add("@OrganizationID", model.OrganizationID);
@@ -159,5 +184,71 @@ namespace IES.G2S.JW.DAL
         }
 
         #endregion
+
+        #region  获取全部信息
+
+        public static List<Organization> NewsOrganization_List()
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+
+                    return conn.Query<Organization>("NewsOrganization_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+
+        //取消删除
+        public static bool Organization_CancelDel(Organization model)
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@OrganizationID", model.OrganizationID);
+                    conn.Execute("Organization_CancelDel", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// 移动组织机构
+        /// </summary>
+        /// <returns></returns>
+        public static bool Organization_Move(int SelfID, int OptionID, string type)
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@SelfID", SelfID);
+                    p.Add("@OptionID", OptionID);
+                    p.Add("@Type", type);
+                    conn.Execute("Organization_Move", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

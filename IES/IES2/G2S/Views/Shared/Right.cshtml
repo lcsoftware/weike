@@ -1,0 +1,36 @@
+﻿
+
+
+
+<div class="right_side" ng-controller="HomeController">
+    <div class="search_box">
+        <p>
+            <input class="search_input" type="text" ng-model="FileModel.FileTitle" placeholder="资源检索">
+            <a class="icon" href="#"></a>
+        </p>
+    </div>
+    <ul class="kc_list">
+        <li ng-repeat="files in OcResourseList">
+            <div class="kc_detail">
+                <a href="#" target="_blank" title="">
+                    <img src="http://placehold.it/80x60/cccccc" width="80" height="60" />
+                    <span class="icon"></span>
+                </a>
+                <div class="kc_intro">
+                    <h4>{{files.FileName}}</h4>
+                    <p>分布式录播教室</p>
+                </div>
+            </div>
+            <p class="kc_issue">
+                <a class="icon rewrite" target="_self" href=""></a>
+                <a class="icon delete" href="#" ng-click="DelFile(files)"></a>
+                <span>{{files.UploadTime|dateFormat}}&nbsp;&nbsp;|&nbsp;&nbsp;点击：{{files.Clicks}}</span>
+            </p>
+        </li>
+    </ul>
+    <div class="function_btn">
+        <a class="upload_data" href="#" target="_blank">上传资料</a>
+        <a class="add_exercise" href="#" target="_blank">建设习题</a>
+        <a class="add_paper" href="#" target="_blank">建设试卷</a>
+    </div>
+</div>

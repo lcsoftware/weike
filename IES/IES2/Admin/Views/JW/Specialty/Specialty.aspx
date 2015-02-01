@@ -2,133 +2,145 @@
 
 <%@ Register Src="~/Views/Share/SubMenuNav.ascx" TagPrefix="uc1" TagName="SubMenuNav" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-     <script type="text/javascript">
-         function GetListChange(obj) {
-             var sValue = obj.options[obj.options.selectedIndex].value; //这是取值
-             var sText = obj.options[obj.options.selectedIndex].innerHTML; //取文本内容
-             //$('#<%=Change.ClientID%>').click();
-         }
-     </script>
     <script src="../../../Js/G2S.js"></script>
     <link href="../../../Content/Css/admin.css" rel="stylesheet" />
     <script src="../../../Js/admin.js"></script>
-    <script src="Course.js"></script>
+    <script src="../../Portal/Edit.js"></script>
     <uc1:SubMenuNav runat="server" ID="SubMenuNav" />
     <div class="sousuo_box">
         <div class="filter_item">
-            <a class="filter_btn" href="javascript:;">筛选</a>
             <div class="class_operation">
-                <a href="javascript:;"><i class="icon_admin daoru"></i>导入行政班</a>
+                <a href="Specialty.xls"><i class="icon_admin download_btn"></i>模板下载</a>
+                <!--<a href="javascript:NoOpen();"><i class="icon_admin daoru"></i>导入专业</a>
                 <ul>
-                    <a href="javascript:;"><i class="icon_admin download_btn"></i>模板下载</a>
-                    <a href="javascript:;"><i class="icon_admin daochu"></i>导出行政班</a>
-                </ul>
+                    
+                    <a href="javascript:NoOpen();"><i class="icon_admin daochu"></i>导出专业</a>
+                </ul>-->
             </div>
-            <a class="add_student" href="javascript:;"><i class="icon_admin add_btn"></i>新增学生</a>
+            <a class="add_student" href="javascript:ADD();" style="margin-left: 10px"><i class="icon_admin add_btn"></i>新增专业</a>
+            <a class="add_student" href="SpecialtyType.aspx?PID=A112" style="margin-left: 10px"><i class="icon_u425"></i>管理学科</a>
             <p class="search_btn">
-                <input type="text" placeholder="输入姓名、工号搜索学员"><i class="icon_admin search_icon"></i></p>
+                <input id="Key" runat="server" type="text" placeholder="输入编号、名称搜索专业"><a runat="server" style="float: right; position: relative; margin-right: 3px; margin-top: -23px;" onclick="ParmSelect()" onserverclick="btnSelect_Click" class="icon_admin search_icon"></a>
+            </p>
         </div>
         <div class="select_requirement_box">
-            <dl class="requirement_box">
-                <dt>所属机构</dt>
-                <dd>
-                    <div class="all_requirement">
-                        <div class="select_require">
-                            <span class="active"><a href="#">不限</a></span>
-                            <span><a href="#">校长办公室</a></span>
-                            <span><a href="#">校领导</a></span>
-                            <span><a href="#">教务处</a></span>
-                            <span><a href="#">校医院</a></span>
-                            <span><a href="#">国际商务与管理学院</a></span>
-                            <span><a href="#">音乐艺术学院</a></span>
-                            <span><a href="#">经济信息学院</a></span>
-                            <span><a href="#">地球科学学院</a></span>
-                            <span><a href="#">地球科学学院</a></span>
-                            <span><a href="#">国际商务与管理学院</a></span>
-                            <span><a href="#">音乐艺术学院</a></span>
-                        </div>
-                        <a class="fold_btn" href="javascript:;">[更多]</a>
+            <!--数据绑定-->
+            <asp:Repeater runat="server" ID="rptorg" EnableViewState="false">
+                <HeaderTemplate>
+                    <dl class="requirement_box">
+                        <dt>所属机构</dt>
+                        <dd>
+                            <div class="all_requirement">
+                                <div id="orgParm" class="select_require">
+                                    <span onclick="Gbclass(this)" id="-1"><a href="#">不限</a></span>
+                </HeaderTemplate>
+                <ItemTemplate>
+                    <span onclick="Gbclass(this)" id="<%# Eval("OrganizationID")%>"><a href="#"><%# Eval("OrganizationName")%></a></span>
+                </ItemTemplate>
+                <FooterTemplate>
                     </div>
-                    <div class="select_require second_require">
-                        <span class="active"><a href="#">不限</a></span>
-                        <span><a href="#">金融管理</a></span>
-                        <span><a href="#">商务管理</a></span>
-                        <span><a href="#">社会学</a></span>
-                        <span><a href="#">计算机</a></span>
-                        <span><a href="#">市场营销</a></span>
-                        <span><a href="#">经济学</a></span>
+                    <a class="fold_btn" href="javascript:;">[更多]</a>
                     </div>
                 </dd>
-            </dl>
-            <dl class="requirement_box">
-                <dt>创建时间</dt>
-                <dd>
-                    <div class="date_time">
-                        <p>
-                            <input type="text"><i class="icon_admin date_icon"></i></p>
-                        <span>~</span>
-                        <p>
-                            <input type="text"><i class="icon_admin date_icon"></i></p>
+                </dl>
+                </FooterTemplate>
+            </asp:Repeater>
+            <asp:Repeater runat="server" ID="rptschlen" EnableViewState="false">
+                <HeaderTemplate>
+                    <dl class="requirement_box">
+                        <dt>学制</dt>
+                        <dd>
+                            <div class="all_requirement">
+                                <div id="schlenParm" class="select_require">
+                                    <span onclick="Gbclass(this)" id="-1"><a href="#">不限</a></span>
+                </HeaderTemplate>
+                <ItemTemplate>
+                    <span onclick="Gbclass(this)" id="<%# Eval("SchoolingLength")%>"><a href="#"><%# Eval("SchoolingLength")%>年制</a></span>
+                </ItemTemplate>
+                <FooterTemplate>
                     </div>
+                </div>
                 </dd>
-            </dl>
-            <a class="search_button" href="javascript:;">搜索</a>
-            <span class="close_box"><i class="icon_admin shouqi_icon"></i></span>
+                </dl>
+                </FooterTemplate>
+            </asp:Repeater>
+            <!--数据绑定-->
+            <a class="search_button" runat="server" onclick="ParmSelect()" onserverclick="btnSelect_Click">搜索</a>
         </div>
     </div>
     <div class="search_result_box">
         <div class="result_tit">
-            <h4>学生列表<span>（共18条）</span></h4>
-            <p class="show_num">每页显示<select id="sel_pageSize"  onchange="GetListChange(this)"><option value="1">20</option>
-                <option value="2">50</option>
-                <option value="3">100</option>
-                <option value="4">200</option>
-            </select></p>
-            <a href="javascript:;">删除</a>
-            <a href="javascript:;">设置入学年份</a>
-            <a href="javascript:;">批量设置专业</a>
-            <a href="javascript:;">设置为助教</a>
+            <h4>专业列表</h4>
+            <span runat="server" id="number" style="color: #999; font-size: 12px; font-weight: normal; margin-left: 10px"></span>
+            <p class="show_num">
+                每页显示
+                <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
+                    <asp:ListItem>20</asp:ListItem>
+                    <asp:ListItem>50</asp:ListItem>
+                    <asp:ListItem>100</asp:ListItem>
+                    <asp:ListItem>200</asp:ListItem>
+                </asp:DropDownList>
+            </p>
+            <a href="javascript:DelInfo();">删除</a>
         </div>
-        <asp:Button ID="Change" runat="server" Text="" OnClick="Look_Click" Visible="false" />
-        <%--<div id="div_List"></div>
-                <div class="page_wrap" id="div_page_wrap">
-                    
-                </div>--%>
-        <table class="result_table">
+        <!--隐藏控件-->
+        <asp:Button ID="btnInfo" Style="display: none;" runat="server" Text="Button" OnClick="btnInfo_Click" />
+        <asp:HiddenField ID="hfID" runat="server" />
+        <asp:Button ID="BatchDel" Style="display: none;" runat="server" Text="Button" OnClick="BatchDel_Click" />
+        <asp:HiddenField ID="hfIDS" runat="server" />
+        <asp:HiddenField ID="Parms" runat="server" />
+        <!--end-->
+
+        <div id="OmGrid1" style="width: 960px; z-index: 999">
             <asp:Repeater ID="Repeater1" runat="server">
                 <HeaderTemplate>
-                    <tr>
-                        <th width="10"></th>
-                        <th width="30">
-                            <input type="checkbox"></th>
-                        <th width="90">专业编号</th>
-                        <th width="200">专业名称</th>
-                        <th width="200">学科</th>
-                        <th width="200">开设机构</th>
-                        <th width="90">学制</th>
-                        <th width="90">专业方向</th>
-                        <th>操作</th>
-                    </tr>
+                    <table class="result_table">
+                        <colgroup>
+                            <col style="width: 10px"></col>
+                            <col style="width: 50px"></col>
+                            <col style="width: 150px"></col>
+                            <col style="width: 220px"></col>
+                            <col style="width: 180px"></col>
+                            <col style="width: 180px"></col>
+                            <col style="width: 100px"></col>
+                            <col style="width: 70px"></col>
+                        </colgroup>
+                        <tr>
+                            <th></th>
+                            <th>
+                                <input type="checkbox" name="ckbAll" onclick="selectAll()" /></th>
+                            <th>专业编号</th>
+                            <th>专业名称</th>
+                            <th>学科</th>
+                            <th>开设机构</th>
+                            <th>学制</th>
+                            <th>操作</th>
+                        </tr>
                 </HeaderTemplate>
                 <ItemTemplate>
-                    <tr>
+                    <tr class="item item_row" id='<%# Eval("SpecialtyID")%>'>
                         <td></td>
                         <td>
-                            <input id='<%# Eval("SpecialtyID")%>' type="checkbox"></td>
+                            <input name="ckbItem" type="checkbox"></td>
                         <td><%# Eval("SpecialtyNo")%></td>
                         <td><%# Eval("SpecialtyName")%></td>
-                        <td></td>
+                        <td><%# Eval("SpecialtyTypeName") %></td>
                         <td><%#Eval("OrganizationName") %></td>
                         <td><%#Eval("SchoolingLength") %></td>
-                        <td><%#Eval("ParentID") %></td>
                         <td>
-                            <asp:Button ID="btnSetBestAnswer" runat="server" OnCommand="Edit" CommandArgument='<%#Eval("SpecialtyID") %>' Text="编辑" />
+                            <p class='operation_box'>
+                                <i title='编辑' pid='<%#Eval("SpecialtyID")%>' onclick='Edit(this)' class='icon_admin edit_btn'></i>
+                                <i title='删除' id='<%#Eval("SpecialtyID")%>' onclick="Del(this.id)" class='icon_admin delete_btn'></i>
+                            </p>
                         </td>
 
                     </tr>
                 </ItemTemplate>
+                <FooterTemplate>
+                    </table>
+                </FooterTemplate>
             </asp:Repeater>
-        </table>
+        </div>
         <div class="page_wrap">
             <webdiyer:AspNetPager ID="AspNetPager1" runat="server" Width="100%" UrlPaging="true"
                 ShowPageIndexBox="Always" PageIndexBoxType="DropDownList" TextBeforePageIndexBox="Go To Page: "
@@ -137,5 +149,25 @@
             </webdiyer:AspNetPager>
         </div>
     </div>
-
+    <script>
+        function Del(id) {
+            if (confirm("是否确定删除!") == true) {
+                $("#<%=hfID.ClientID %>").val(id);
+                $("#<%=btnInfo.ClientID %>").click();
+            }
+        }
+        function DelBatch(ids) {
+            if (confirm("是否确定删除!") == true) {
+                $("#<%=hfIDS.ClientID %>").val(ids);
+                $("#<%=BatchDel.ClientID %>").click();
+            }
+        }
+        function ParmSelect() {
+            var parm = ParmInfo();
+            $("#<%=Parms.ClientID %>").val(parm);
+        }
+        window.onload = function () {
+            var s = '<%=Getclass()%>';
+        }
+    </script>
 </asp:Content>

@@ -23,6 +23,21 @@ namespace IES.Resource.Model
     [Serializable]
     public partial class Ken
     {
+        #region
+        /// <summary>
+        /// 知识点下的习题数
+        /// </summary>
+        public int ExerciseCount { get; set; }
+        /// <summary>
+        /// 抽题数
+        /// </summary>
+        public int Num { get; set; }
+        /// <summary>
+        /// 题目分数
+        /// </summary>
+        public int Scoreper { get; set; }
+        #endregion
+
         public Ken()
         { }
         #region Model

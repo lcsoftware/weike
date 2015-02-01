@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * PaperExercise.cs
 *
 * 功 能： N/A
@@ -9,22 +9,71 @@
 * V0.01  2014/11/28 16:20:52   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
+using System.Collections.Generic;
 namespace IES.Resource.Model
 {
 	/// <summary>
 	/// 试卷下的习题
 	/// </summary>
 	[Serializable]
-    public partial class PaperExercise 
-	{
-		public PaperExercise()
-		{}
+    public partial class PaperExercise
+    {
+
+        #region 补充信息
+      //  t2.Conten, t2.Kens, t2.Keys , t2.Diffcult,t2.IsRand , t2.ExerciseTypeName , t2.ExerciseType
+
+        /// <summary>
+        /// 习题内容
+        /// </summary>
+        public string Conten { get; set;  }
+
+        /// <summary>
+        /// 知识点
+        /// </summary>
+        public string Kens { get; set; }
+
+
+        /// <summary>
+        /// 关键字
+        /// </summary>
+        public string Keys { get; set; }
+
+
+        /// <summary>
+        /// 难度系统
+        /// </summary>
+        public int Diffcult { get; set; }
+
+        /// <summary>
+        /// 是否随机
+        /// </summary>
+        public bool IsRand { get; set; }
+
+        /// <summary>
+        /// 题型名称
+        /// </summary>
+        public string ExerciseTypeName { get; set; }
+
+
+        /// <summary>
+        /// 题型
+        /// </summary>
+        public int ExerciseType { get; set; }
+
+        public List<ExerciseChoice> ExerciseChoices { get; set; }
+
+        #endregion 
+
+        public PaperExercise()
+		{
+            this.ExerciseChoices = new List<ExerciseChoice>();
+        }
 		#region Model
 		private int _paperexerciseid;
 		private int _paperid;
@@ -83,7 +132,7 @@ namespace IES.Resource.Model
 			get{return _papertacticid;}
 		}
 		/// <summary>
-		/// 习题分值
+		/// 习题分值
 		/// </summary>
 		public decimal Score
 		{

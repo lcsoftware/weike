@@ -7,6 +7,7 @@
     <meta name="description" content="@PageData["description"]">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     @Styles.Render("~/content/css/Layout")
+
 </head>
 <body>
     
@@ -19,7 +20,10 @@
                         @RenderPage("Notice.cshtml")
                         <!--右侧头部公告结束-->
                         <div class="coursesite_box">
-                            @RenderPage("MyOC.cshtml")
+                            @if (Request.Path.ToLower() != "/home/courseindex")
+                            {
+                                @RenderPage("MyOC.cshtml")
+                            }
                             <div id="ui-view" class="main_content " data-tmpl-url="@Request.RequestContext.RouteData.DataTokens["templateUrl"]">
                                 @RenderBody()
                             </div>

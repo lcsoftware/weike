@@ -15,7 +15,6 @@
 *└──────────────────────────────────┘
 */
 using System;
-using System.Collections.Generic;
 namespace IES.Resource.Model
 {
     /// <summary>
@@ -25,9 +24,7 @@ namespace IES.Resource.Model
     public partial class Folder:IResource
     {
         public Folder()
-        {
-            this.Children = new List<Folder>();
-        }
+        { }
         #region Model
         private int _folderid;
         private int _createuserid = 0;
@@ -137,10 +134,6 @@ namespace IES.Resource.Model
             set { _isdeleted = value; }
             get { return _isdeleted; }
         }
-
-        public IList<Folder> Children { get; set; }
-
-        public Folder FolderParent { get; set; }
         #endregion Model
 
     }

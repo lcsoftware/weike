@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonDAL.cs" />
     <Compile Include="OCCommonDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -69,10 +70,6 @@
     <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
       <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
       <Name>IES.Resource.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.SYS.Model\IES.SYS.Model.csproj">
-      <Project>{ca2b5379-05a2-44ab-bb4f-c49fd02677d0}</Project>
-      <Name>IES.SYS.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

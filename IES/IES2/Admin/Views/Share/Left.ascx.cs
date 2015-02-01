@@ -4,10 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using IES.SYS.Model;
+using IES.JW.Model;
 using IES.Cache;
 using IES.Security;
-using IES.G2S.SYS.BLL;
+using IES.G2S.JW.BLL;
 using IES.Service;
 
 using Admin;
@@ -28,7 +28,7 @@ namespace Admin.Views.Share
 
 
 
-            List<IES.SYS.Model.Menu> menulist = AuService.Menu_Left_List(PID, 1);
+            List<IES.JW.Model.Menu> menulist = AuService.Menu_Left_List(PID, 1);
             Repeater1.DataSource = menulist;
             Repeater1.DataBind();
         }

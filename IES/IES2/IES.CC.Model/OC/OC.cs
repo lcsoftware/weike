@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * OC.cs
 *
 * 功 能： N/A
@@ -9,10 +9,10 @@
 * V0.01  2014/12/2 20:19:21   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
 namespace IES.CC.OC.Model
@@ -26,10 +26,21 @@ namespace IES.CC.OC.Model
 
         #region 补充信息
 
- 
+        public string UserName { get; set; }
 
+        public string URL { get; set; }
 
+        public string ChargeUserName { get; set; }
 
+        public int RowNum { get; set; }
+        public string ImgFileUrl { get; set; }
+
+        public int StudentNum { get; set; }
+        public int TeacherNum { get; set; }
+        public int TopicNum { get; set; }
+        public int TestNum { get; set; }
+        public int PBLNum { get; set; }
+        public int SurveyNum { get; set; }
         #endregion 
 
         public OC()
@@ -81,14 +92,19 @@ namespace IES.CC.OC.Model
 			get{return _subjectid;}
 		}
 
-
+        /// <summary>
+        /// 网站模板编号
+        /// </summary>
+        public int TemplateID { get; set; }
+        
         /// <summary>
         /// 在线课程网站适用课程分类名称
         /// </summary>
         public string  SubjectName { get; set; }
 
+
 		/// <summary>
-		/// 课程标签 多个之间用空格分隔
+		/// 课程标签 多个之间用空格分隔
 		/// </summary>
 		public string Tags
 		{
@@ -104,7 +120,7 @@ namespace IES.CC.OC.Model
 			get{return _brief;}
 		}
 		/// <summary>
-		/// 访问量
+		/// 访问量
 		/// </summary>
 		public int Clicks
 		{
@@ -112,7 +128,7 @@ namespace IES.CC.OC.Model
 			get{return _clicks;}
 		}
 		/// <summary>
-		/// 1：中文 2：英文
+		/// 1：中文 2：英文
 		/// </summary>
 		public int? Language
 		{
@@ -120,7 +136,7 @@ namespace IES.CC.OC.Model
 			get{return _language;}
 		}
 		/// <summary>
-		/// 是否是官方课程
+		/// 是否是官方课程
 		/// </summary>
 		public bool IsPortalCourse
 		{
@@ -144,7 +160,7 @@ namespace IES.CC.OC.Model
 			get{return _updatetime;}
 		}
 		/// <summary>
-		/// 删除状态
+		/// 删除状态
 		/// </summary>
 		public bool IsDeleted
 		{

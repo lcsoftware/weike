@@ -20,19 +20,21 @@ namespace Test
         protected void Button1_Click(object sender, EventArgs e)
         {
 
-            IES.SYS.Model.User  user = new IES.SYS.Model.User{ LoginName = tbuser.Text, Pwd = tbpassword.Text };
+            IES.JW.Model.User user = new IES.JW.Model.User { LoginName = tbuser.Text, Pwd = tbpassword.Text };
 
 
             IES.Service.UserService.Login(user);
 
-       
-            //string ReturnUrl = Request.QueryString["ReturnUrl"];
-            //Response.Redirect(ReturnUrl);
+
+            string ReturnUrl = Request.QueryString["ReturnUrl"];
+            Response.Redirect(ReturnUrl);
         }
 
         protected void Button2_Click(object sender, EventArgs e)
         {
             List<IES.Resource.Model.Attachment>  list =  IES.Service.FileService.AttachmentUpload();
+
+
         }
     }
 }

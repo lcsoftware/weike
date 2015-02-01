@@ -10,6 +10,7 @@ namespace IES.Resource.Model
     /// <summary>
     /// 试卷的定义的结构信息，分组、习题、策略等
     /// </summary>
+    [Serializable]
     public class PaperDefineInfo :   IPaper   
     {
 
@@ -23,7 +24,7 @@ namespace IES.Resource.Model
         public Paper paper { get; set; }
 
         /// <summary>
-        /// 试卷的分组
+        /// 试卷的分组
         /// </summary>
         public List<PaperGroup> papergrouplist { get; set; }
 
@@ -35,7 +36,7 @@ namespace IES.Resource.Model
 
 
         /// <summary>
-        /// 试卷分组的策略
+        /// 试卷分组的策略
         /// </summary>
         public List<PaperTactic> papertacticlist { get; set; }
 

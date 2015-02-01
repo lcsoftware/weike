@@ -1,16 +1,37 @@
 ﻿
-@using IES.SYS.Model;
 @using IES.Cache;
 @using IES.Security;
-@using IES.SYS.Model;
-@using IES.G2S.SYS.BLL;
+@using IES.JW.Model;
+@using IES.G2S.JW.BLL;
 @using IES.Service;
 @using IES.CC.OC.Model;
+@using IES.Service.Common;
 @{
     string userid = IESCookie.GetCookieValue("ies");
-    IES.SYS.Model.User user = new IES.SYS.Model.User { UserID = Int32.Parse(userid) };
+    IES.JW.Model.User user = new IES.JW.Model.User { UserID = Int32.Parse(userid) };
     user = UserService.User_Get(user);
     List<OC> oclist = UserService.User_OC_List(user);
+
+    if (Request.QueryString["currentoc"] != null)
+    {
+        Browse.SetCurrentOC(Request.QueryString["currentoc"]);
+    }
+    if (Browse.CurrentOC == "0")
+    {
+        if ( oclist.Count > 0 )
+        { 
+            Browse.SetCurrentOC(oclist[0].OCID.ToString());
+        }
+    }
+    
+    
+    
+}
+@helper gethref(string ocid )
+{
+    var result = Request.Path + "?currentoc=" + ocid;
+    @result
+
 }
 
 <div class="exercise_nav">
@@ -18,13 +39,13 @@
         @for (int i = 0; i < oclist.Count; i++)
         {
             OC oc = oclist[i];
-            if (i == 0)
+            if (oc.OCID.ToString() == Browse.CurrentOC)
             {
-                <li class="active"><a class="first_nav" href="#">@oc.Name</a></li>
+                <li class="active"><a  target="_self" class="first_nav" href=@gethref(@oc.OCID.ToString())  >@oc.Name</a></li>
             }
             else
             {
-                <li><a class="first_nav" href="#">@oc.Name</a></li>
+                <li><a target="_self" class="first_nav" href=@gethref(@oc.OCID.ToString())>@oc.Name</a></li>
             }
         }
     </ul>

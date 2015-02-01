@@ -55,14 +55,14 @@
   <ItemGroup>
     <Compile Include="AttachmentDAL.cs" />
     <Compile Include="ChapterDAL.cs" />
-    <Compile Include="KeyDAL.cs" />
-    <Compile Include="ResourceKenDAL.cs" />
     <Compile Include="CommonDataDAL.cs" />
     <Compile Include="ExerciseDAL.cs" />
     <Compile Include="FileDAL.cs" />
     <Compile Include="KenDAL.cs" />
+    <Compile Include="KeyDAL.cs" />
     <Compile Include="PaperDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceKenDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -47,24 +47,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forum\IForumBLL.cs" />
+    <Compile Include="Forum\IForumTopicBLL.cs" />
+    <Compile Include="Forum\IForumTypeBLL.cs" />
     <Compile Include="Score\IScoreWithInfoBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Score\IScoreManageInfoBLL.cs" />
     <Compile Include="Score\IScoreTypeBLL.cs" />
     <Compile Include="Score\IScoreWeightBLL.cs" />
+    <Compile Include="Test\ITestBLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IES.CC.Model\IES.CC.Model.csproj">
       <Project>{93a1e0e7-a049-4ea7-b349-845a81462d42}</Project>
       <Name>IES.CC.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IES.JW.Model\IES.JW.Model.csproj">
+      <Project>{5bbc1895-4b66-4445-af6d-f6711cb3266f}</Project>
+      <Name>IES.JW.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
+      <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
+      <Name>IES.Resource.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Appointment\" />
     <Folder Include="PBL\" />
     <Folder Include="Progress\" />
-    <Folder Include="Test\" />
     <Folder Include="Vote\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

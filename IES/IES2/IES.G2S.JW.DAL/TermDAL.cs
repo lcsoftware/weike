@@ -42,17 +42,14 @@ namespace IES.G2S.JW.DAL
         /// 校历列表
         /// </summary>
         /// <returns></returns>
-        public static List<Term> Term_List(Term model,int PageSize,int PageIndex)
+        public static List<Term> Term_List(Term model)
         {
             try
             {
                 using (var conn = DbHelper.JWService())
                 {
                     var p = new DynamicParameters();
-                    p.Add("@TermYear", model.TermYear);
-                    p.Add("@TermTypeID", model.TermTypeID);
-                    p.Add("@PageSize", PageSize);
-                    p.Add("@PageIndex", PageIndex);
+                    p.Add("@Key", model.Key);
                     return conn.Query<Term>("Term_List", p, commandType: CommandType.StoredProcedure).ToList();
                 }
             }
@@ -61,36 +58,37 @@ namespace IES.G2S.JW.DAL
                 return new List<Term>();
             }
         }
+
+     
         #endregion
 
-        #region  新增
+        #region  新增或修改
         /// <summary>
         /// 校历添加
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static Term Term_ADD(Term model)
+        public static Term Term_Edit(Term model)
         {
             try
             {
                 using (var conn = DbHelper.JWService())
                 {
                     var p = new DynamicParameters();
-                    p.Add("@TermID", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                    p.Add("@TermNo", model.TermNo);
+                    p.Add("@TermID", model.TermID);
                     p.Add("@TermYear", model.TermYear);
                     p.Add("@TermTypeID", model.TermTypeID);
                     p.Add("@StartDate", model.StartDate);
                     p.Add("@EndDate", model.EndDate);
-                    conn.Execute("Term_ADD", p, commandType: CommandType.StoredProcedure);
-
-                    model.TermID = p.Get<int>("TermID");
+                    p.Add("@op_TermID", "", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    conn.Execute("Term_Edit", p, commandType: CommandType.StoredProcedure);
+                    model.op_TermID = p.Get<Int32>("@op_TermID");
                     return model;
                 }
             }
             catch (Exception e)
             {
-                return null;
+                return new Term();
             }
         }
         #endregion
@@ -120,5 +118,104 @@ namespace IES.G2S.JW.DAL
         }
         #endregion
 
+        #region  根据学期获取课节
+        public static List<Lesson> Lesson_List(Term model)
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@TermID", model.TermID);
+                    return conn.Query<Lesson>("Lesson_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<Lesson>(); ;
+            }
+        }
+        #endregion
+
+        #region  校历详细信息
+        public static TermInfo TermInfo_Get(Term model)
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    TermInfo tf = new TermInfo();
+                    var p = new DynamicParameters();
+                    p.Add("@TermID", model.TermID);
+                    var multi = conn.QueryMultiple("TermInfo_Get", p, commandType: CommandType.StoredProcedure);
+                    var termd = multi.Read<Term>().Single();
+                    var less = multi.Read<Lesson>().ToList();
+                    tf.term = termd;
+                    tf.lesslist = less;
+                    return tf;
+                }
+            }
+            catch (Exception e)
+            {
+                return new TermInfo(); ;
+            }
+        }
+        #endregion
+
+        #region  Lesson新增或修改
+        /// <summary>
+        /// 课节添加
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static Lesson Lesson_Edit(Lesson model)
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@LessonID", model.LessonID);
+                    p.Add("@TermID", model.TermID);
+                    p.Add("@LessonName", model.LessonName);
+                    p.Add("@StartTime", model.StartTime);
+                    p.Add("@EndTime", model.EndTime);
+                    p.Add("@Duration", model.Duration);
+                    conn.Execute("Lesson_Edit", p, commandType: CommandType.StoredProcedure);
+                    model.LessonID = p.Get<int>("@LessonID");
+                    return model;
+                }
+            }
+            catch (Exception e)
+            {
+                return new Lesson();
+            }
+        }
+        #endregion
+
+        #region  Lesson删除
+        /// <summary>
+        /// 课节删除
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool Lesson_Del(Lesson model)
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@LessonID", model.LessonID);
+                    conn.Execute("Lesson_Del", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        #endregion
     }
 }

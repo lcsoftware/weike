@@ -11,12 +11,24 @@ namespace IES.G2S.OC.IBLL.Team
     {
 
         #region  列表
-        List<OCTeamInfo> OCTeam_Get(int OCID);
+
+
+        /// <summary>
+        /// 获取在线课程教学团队列表
+        /// </summary>
+        /// <param name="OCID"></param>
+        /// <returns></returns>
+        List<OCTeam> OCTeam_List(int OCID);
+        /// <summary>
+        /// 获取在线课程教学团队教学班列表
+        /// </summary>
+        /// <param name="OCID"></param>
+        /// <returns></returns>
+        List<OCTeamClass> OCTeamClass_List(OCTeamClass model);
+
         #endregion
 
         #region 详细信息
-
-        OCTeamInfo OCTeam_Get(int OCID, int UserID);
         #endregion
 
         #region  新增
@@ -28,15 +40,10 @@ namespace IES.G2S.OC.IBLL.Team
         #endregion
 
         #region 对象更新
-        bool OCTeam_Role_Upd(int TeamID, int Role);
+        bool OCTeam_Role_Upd(OCTeam model);
         //更新团队简介
-        bool OCTeam_Brief_Upd(int TeamID, int Brief);
-        /// <summary>
-        /// 更新团队成员信息
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        bool OCTeam_Upd(OCTeamInfo model);
+        bool OCTeam_Brief_Upd(OCTeam model);
+        bool OCTeam_Status_Upd(int OCID, OCTeam model);
 
         #endregion
 
@@ -45,6 +52,7 @@ namespace IES.G2S.OC.IBLL.Team
 
         #region 属性批量操作
         #endregion
+
         #region 删除
         /// <summary>
         /// 删除团队成员
@@ -52,13 +60,8 @@ namespace IES.G2S.OC.IBLL.Team
         /// <param name="model"></param>
         /// <returns></returns>
         bool OCTeam_Del(OCTeam model);
-        /// <summary>
-        /// 删除团队成员
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        bool OCTeam_Del(int OCID, int UserID);
         #endregion
+
 
     }
 }

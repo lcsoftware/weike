@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * TeachingClass.cs
 *
 * 功 能： N/A
@@ -9,10 +9,10 @@
 * V0.01  2014/12/1 13:35:36   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
 namespace IES.JW.Model
@@ -22,8 +22,21 @@ namespace IES.JW.Model
 	/// </summary>
 	[Serializable]
 	public partial class TeachingClass
-	{
-		public TeachingClass()
+    {
+        #region 补充信息
+        public int StudentsNumber { get; set; }
+        public int MainUserID { get; set; }
+        public string OtherUserIDS { get; set; }
+        public int rowscount { get; set; }
+        public string CourseName { get; set; }
+        public string UserName { get; set; }
+        public string OrganizationName { get; set; }
+        public string Key { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+
+        #endregion
+        public TeachingClass()
 		{}
 		#region Model
 		private int _teachingclassid;
@@ -62,7 +75,7 @@ namespace IES.JW.Model
 			get{return _classname;}
 		}
 		/// <summary>
-		/// 0表示 教师自己创建的教学班 或者MOOC对外教学班
+		/// 0表示 教师自己创建的教学班 或者MOOC对外教学班
 		/// </summary>
 		public int? TermID
 		{
@@ -90,7 +103,7 @@ namespace IES.JW.Model
 			get{return _startweek;}
 		}
 		/// <summary>
-		/// 开始时间
+		/// 开始时间
 		/// </summary>
 		public DateTime? StartDate
 		{
@@ -122,8 +135,12 @@ namespace IES.JW.Model
 			get{return _source;}
 		}
 
-        public int UserID { get; set; }
 
+        /// <summary>
+        /// 教学班学生总数
+        /// </summary>
+        public int StudentCount { get; set; }
+        
 		/// <summary>
 		/// 
 		/// </summary>

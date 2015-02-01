@@ -24,7 +24,7 @@ namespace IES.G2S.CoursLive.IBLL.Score
         /// <param name="PageIndex">页数</param>
         /// <param name="PageSize">页大小</param>
         /// <returns></returns>
-        List<ScoreManageInfo> ScoreManageInfo_List(ScoreManageInfo smi, int PageIndex = 1); 
+        List<ScoreManageInfo> ScoreManageInfo_List(ScoreManageInfo smi, int PageIndex = 1, int PageSize = 20);
         #endregion
     }
 }

@@ -1,0 +1,71 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout3.cshtml";
+}
+<link href="~/Css/mooc.css" rel="stylesheet" />
+<script src="~/Frameworks/jwplay/jwplayer.js"></script>
+
+
+    <div class="" style="background: #e4e4e4;" ng-controller="MOOCChapterController">
+        <div class="main_all main_allChapter">
+            <h2>《国际英语》 MOOC > 设计向导 > 1.1混合式课程的介绍【小节视频弹题】</h2>
+            <h3>操作指南：在视频播放时，想要插入题目，可直接<span>单击视频界面</span>，便可在当前时间点<span>插入</span>【知识卡】</h3>
+            <div class="video_box">
+                <div class="video_nav">
+                    <ul class="video_list">
+                        <li ng-class="{ true: 'active',false:''}[moocfile.IsActive]" ng-click="ChapterFileClick(this)" ng-repeat=" moocfile in moocfile_list" on-mooc-chapter-file><a href="#"><i ng-show="moocfile.IsMust==0 && moocfile.FinishRate!=100" class="icon_24 icon_elect"></i> <i ng-show="moocfile.IsMust==1" class="icon_24 icon_require"></i>{{moocfile.FileTitle}}</a></li>
+
+                    </ul>
+                    <div class="click_btn">
+                        <a href="#">返回</a>
+                        <a href="#" style=" display:none;">下一节</a>
+                    </div>
+                </div>
+                <div class="shipin_box" style="height:630px;">
+                    <div class="shipin" style="height:630px;">
+                        <div style=" margin-top:10px;" class="" id="div_play"></div>
+                        <div class="video_btn" style="left:60%; top:220px;">
+                            <a class="light_green" href="javascript:;" style=" display:none;">插入习题</a>
+                            <a class="light_blue" role="button" data-toggle="modal" data-backdrop="static" href="#myModal" ng-click="OCMoocVideoInsert_Edit(-1)">插入知识卡</a>
+                            <div id="myModal" class="modal hide fade" style=" width:400px;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                    <h3 id="myModalLabel">插入知识卡<span style=" float:right;">{{noteTime}}</span></h3>
+                                </div>
+
+                                <div class="wrap_box">
+                                    <textarea class="knowledge_box" ng-model="txt_Conten"></textarea>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn" data-dismiss="modal" aria-hidden="true" ng-click="OCMOOCVideoHide()">关闭</button>
+                                    <button class="btn btn-primary" data-dismiss="modal" ng-click="EditOCMoocVideoInsert()">保存</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="exercise_box" style="height:630px;">
+                        <h4> 知识卡：{{moocvideoinsertlength}}</h4>
+                        <ul class="exercise_list">
+                            <li ng-repeat=" moocvideo in moocvideoinsert_list" ng-show="moocvideo.InsertID!=null">
+                                <span class="pause_time">{{moocvideo.Second| formatSeconds}}</span>
+                                <div class="exercise_content" style=" cursor:pointer;" ng-click="VideoSeek(moocvideo.Second)">
+                                    <p class="exercise_tit" style=" line-height:30px;"><span class="label_red">[知识卡]</span>{{moocvideo.Conten}}</p>
+                                </div>
+                                <div class="edit_box">
+                                    <i class="icon icon_throw" ng-click="OCMoocVideoInsert_Del(moocvideo.InsertID)" style="margin: 8px 10px 0 0;"></i>
+                                    <i class="icon icon_edit" ng-click="OCMoocVideoInsert_Edit(moocvideo.InsertID)" style="margin: 8px 10px 0 0;"></i>
+                                </div>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    
+  

@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * Lesson.cs
 *
 * 功 能： N/A
@@ -9,10 +9,10 @@
 * V0.01  2014/12/1 13:35:32   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
 namespace IES.JW.Model
@@ -30,8 +30,8 @@ namespace IES.JW.Model
 		private int _termid=0;
 		private string _lessonno;
 		private string _lessonname;
-		private DateTime _starttime;
-		private DateTime _endtime;
+        private TimeSpan _starttime;
+        private TimeSpan _endtime;
 		private int _duration=40;
 		/// <summary>
 		/// 
@@ -68,7 +68,7 @@ namespace IES.JW.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		public DateTime StartTime
+        public TimeSpan StartTime
 		{
 			set{ _starttime=value;}
 			get{return _starttime;}
@@ -76,7 +76,7 @@ namespace IES.JW.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		public DateTime EndTime
+        public TimeSpan EndTime
 		{
 			set{ _endtime=value;}
 			get{return _endtime;}
@@ -91,6 +91,7 @@ namespace IES.JW.Model
 		}
 		#endregion Model
 
-	}
+
+    }
 }
 

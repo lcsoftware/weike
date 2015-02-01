@@ -13,21 +13,22 @@ namespace IES.G2S.JW.DAL
     public class CourseDAL
     {
         #region  列表
-        public static List<Course> Course_List(string Key,Course model, int PageIndex,int PageSize)
+        public static List<Course> Course_List(Course model, int PageIndex,int PageSize)
         {
             try
             {
                 using (var conn=DbHelper.JWService())
                 {
                     var p = new DynamicParameters();
-                    //p.Add("@CourseNo", model.CourseNo);
-                    //p.Add("@CourseName", model.CourseName);
-                    p.Add("@Key", Key);
+                    p.Add("@Key", model.Key);
+                    p.Add("@TermTypeID", model.TermTypeID);
                     p.Add("@OrganizationID", model.OrganizationID);
                     p.Add("@CourseTypeID", model.CourseTypeID);
                     p.Add("@TeachingTypeID", model.TeachingTypeID);
                     p.Add("@SubjectID1", model.SubjectID1);
                     p.Add("@SubjectID2", model.SubjectID2);
+                    p.Add("@BeginFen", model.BeginFen);
+                    p.Add("@EndFen", model.EndFen);
                     p.Add("@PageIndex", PageIndex);
                     p.Add("@PageSize", PageSize);
                     return conn.Query<Course>("Course_List", p, commandType: CommandType.StoredProcedure).ToList();
@@ -43,28 +44,23 @@ namespace IES.G2S.JW.DAL
 
         #region 详细信息
 
-        //public static CourseInfo CourseInfo_Get(ICourse model)
-        //{
-        //    try
-        //    {
-        //        using (IDbConnection conn=new DynamicParameters())
-        //        {
-        //            CourseInfo cf = new CourseInfo();
-        //            var p = new DynamicParameters();
-        //            p.Add("@CourseID", model.CourseID);
-        //            var multi = conn.QueryMultiple("CourseInfo_Get", p, commandType: CommandType.StoredProcedure);
-        //            var classs = multi.Read<Course>().Single();
-        //            var classroomlist = multi.Read<Classroom>().ToList();
-        //            cf.classcommon.classs = classs;
-        //            cf.classcommon.classroom = classroomlist;
-        //            return cf;
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return null;
-        //    }
-        //}
+        public static Course Course_Get(int CourseID)
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@CourseID", CourseID);
+                    return conn.Query<Course>("Course_Get", p, commandType: CommandType.StoredProcedure).Single();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
         #endregion
 
@@ -102,9 +98,9 @@ namespace IES.G2S.JW.DAL
 
         #endregion
 
-        #region 对象更新
+        #region 对象新增或更新
 
-        public static bool Course_Upd(Course model)
+        public static Course Course_Edit(Course model)
         {
             try
             {
@@ -115,24 +111,33 @@ namespace IES.G2S.JW.DAL
                     p.Add("@CourseNo", model.CourseNo);
                     p.Add("@CourseName", model.CourseName);
                     p.Add("@CourseNameEn", model.CourseNameEn);
+                    p.Add("@TermTypeID", model.TermTypeID);
                     p.Add("@OrganizationID", model.OrganizationID);
                     p.Add("@SubjectID1", model.SubjectID1);
                     p.Add("@SubjectID2", model.SubjectID2);
-                    p.Add("@CourseType", model.CourseTypeID);
+                    p.Add("@CourseTypeID", model.CourseTypeID);
                     p.Add("@Hours", model.Hours);
                     p.Add("@Credit", model.Credit);
                     p.Add("@TeachingTypeID", model.TeachingTypeID);
-                    conn.Execute("Course_Upd", p, commandType: CommandType.StoredProcedure);
-                    return true;
+                    p.Add("@Introduction", model.Introduction);
+                    p.Add("@OutLine", model.OutLine);
+                    p.Add("@Team", model.Team);
+                    p.Add("@Schedule", model.Schedule);
+                    p.Add("@output","", dbType: DbType.String, direction: ParameterDirection.Output);
+                    p.Add("@op_CourseID", "",dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    conn.Execute("Course_Edit", p, commandType: CommandType.StoredProcedure);
+                    model.output = p.Get<string>("@output");
+                    model.op_CourseID = p.Get<int>("@op_CourseID");
+                    return model;
                 }
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
         }
 
-        #endregion
+        #endregion       
 
         #region 单个批量更新
 
@@ -171,5 +176,49 @@ namespace IES.G2S.JW.DAL
         }
 
         #endregion
+
+        #region 批量删除
+        public static bool Course_Batch_Del(string IDS)
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@CourseIDS", IDS);
+                    conn.Execute("Course_Batch_Del", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
+        #endregion
+
+        #region  获取全部信息
+
+        public static List<CourseTeachingType> NewTeacherType_List()
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+
+                    return conn.Query<CourseTeachingType>("NewTeacherType_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        #endregion
+       
     }
 }

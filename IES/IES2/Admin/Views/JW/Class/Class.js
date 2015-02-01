@@ -1,4 +1,5 @@
-﻿var classModule = (function () {
+﻿
+var classModule = (function () {
     var param = []; //private
     return { //exposed to public
         alter: function (values) {
@@ -86,3 +87,4 @@ function page3()
         iframe: { src: 'http://192.168.4.100:5555/G2S/ShowSystem/Index.aspx' }
     });
 }
+

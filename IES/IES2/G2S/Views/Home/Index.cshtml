@@ -1,0 +1,67 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout4.cshtml";
+}
+<script src="~/js/jquery-1.8.3.min.js"></script>
+<link href="~/Css/home.css" rel="stylesheet" />
+<script src="~/js/index.js"></script>
+<!--右侧头部公告结束-->
+<div class="core_content">
+    <div class="course_nav">
+        <ul class="course_arrange">
+            <li class="active"><a href="#">我的课表</a></li>
+            <li><a href="#">我的课程</a></li>
+        </ul>
+        <a class="creat_course" href="#"><i class="icon_24 icon_new"></i>新建课程</a>
+    </div>
+    <div class="course_box" ng-controller="HomeController">
+        <div class="switch_box">
+            <div class="course_switch">
+                <ul class="course_list">
+                    <li ng-repeat="oc in OcList|ocListFilter:'between':PageIndex:'2'" on-get-oc-list>
+                        <div class="img_tit">
+                            <img src="{{oc.ImgFileUrl}}" width="282" height="150" />
+                            <h4>国际英语</h4>
+                            <div class="course_detail">
+                                <h5>{{oc.Name}}<i class="icon"></i></h5>
+                                <p>
+                                    <span>网站学生：{{oc.StudentNum}}</span>
+                                    <span>教学团队：{{oc.TeacherNum}}</span>
+                                    <span>论坛答疑：{{oc.TopicNum}}</span>
+                                    <span>作业考试：{{oc.TestNum}}</span>
+                                    <span>PBL任务：{{oc.PBLNum}}</span>
+                                    <span>教学投票：{{oc.SurveyNum}}</span>
+                                </p>
+                                <a href="#" target="_blank">课程互动</a>
+                            </div>
+                        </div>
+                        <ul class="icon_list">
+                            <li><a target="_self" href="#"><i class="icon_24 fanzhuan"></i>翻转课堂</a></li>
+                            <li><a target="_self" href="../OC/Site/index?currentoc={{oc.OCID}}"><i class="icon_24 site"></i>网站</a></li>
+                            <li><a target="_self" href="../OC/MOOC/index?currentoc={{oc.OCID}}"><i class="icon_24 mooc"></i>MOOC</a></li>
+                            <li><a target="_self" href="../OC/Class/index?currentoc={{oc.OCID}}"><i class="icon_24 student"></i>学生</a></li>
+                            <li><a target="_self" href="../OC/Team/index?currentoc={{oc.OCID}}"><i class="icon_24 team"></i>团队</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+            <a class="icon course_prev" href="javascript:;" ng-click="GetPageList(0)"></a>
+            <a class="icon course_next" href="javascript:;" ng-click="GetPageList(1)"></a>
+        </div>
+        <a class="shouqi" href="#">收起全部课程↑</a>
+        <ul class="course_all">
+            <li ng-repeat="oc in OcList">
+                <a class="course_img" href="#" target="_blank"><img src="{{oc.ImgFileUrl}}" width="114" height="70" /></a>
+                <p>{{oc.Name}}</p>
+                <ul class="small_icon">
+                    <li><a class="icon small_fz" target="_self" href="../OC/Team/index?currentoc={{oc.OCID}}"></a></li>
+                    <li><a class="icon small_site" target="_self" href="../OC/Site/index?currentoc={{oc.OCID}}"></a></li>
+                    <li><a class="icon small_mooc" target="_self" href="../OC/MOOC/index?currentoc={{oc.OCID}}"></a></li>
+                    <li><a class="icon small_stu" target="_self" href="../OC/Class/index?currentoc={{oc.OCID}}"></a></li>
+                    <li><a class="icon small_team" target="_self" href="../OC/Team/index?currentoc={{oc.OCID}}"></a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--右侧主题内容结束-->   

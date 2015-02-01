@@ -15,5 +15,11 @@ namespace IES.G2S.Resource.IBLL
         Ken Ken_ADD(Ken model);
 
         bool Ken_Upd(Ken model);
-    } 
+
+        List<Ken> Ken_List(Ken model);
+
+        List<Ken> ExerciseOrFile_Ken_List(string SearchKey, string Source, int UserID, int TopNum,int OCID);
+
+        List<Ken> Ken_ExerciseCount_List(int OCID, int UserID, int ExerciseType, int Diffcult);
+    }
 }

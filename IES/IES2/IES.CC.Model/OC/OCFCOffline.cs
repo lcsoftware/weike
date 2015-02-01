@@ -22,7 +22,24 @@ namespace IES.CC.OC.Model
 	/// </summary>
 	[Serializable]
 	public partial class OCFCOffline
-	{
+    {
+        #region
+        /// <summary>
+        /// 授课教师名字
+        /// </summary>
+        public string UserName { get; set; }
+        /// <summary>
+        /// 助教名字
+        /// </summary>
+        public string AssUserName { get; set; }
+        /// <summary>
+        /// 线下课堂开始状态
+        /// </summary>
+        public int Status { get; set; }
+        #endregion
+        /// <summary>
+        /// 
+        /// </summary>
 		public OCFCOffline()
 		{}
 		#region Model

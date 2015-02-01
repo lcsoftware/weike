@@ -47,15 +47,40 @@ namespace IES.G2S.CourseLive.DAL.Score
         /// </summary>
         /// <param name="weightID"></param>
         /// <returns></returns>
-        public static bool ScoreWeight_Power_Upd(int? weightID)
+        public static bool ScoreWeight_Power_Upd(ScoreWeight sw)
         {
             try
             {
                 using (var conn = DbHelper.CCService())
                 {
                     var p = new DynamicParameters();
-                    p.Add("@OCID", weightID);
-                    conn.Execute("ScoreWeightInfo_List", p, commandType: CommandType.StoredProcedure);
+                    p.Add("@WeightID", sw.WeightID);
+                    p.Add("@Power", sw.Power);
+                    conn.Execute("ScoreWeight_Power_Upd", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 更改成绩类别加权参与次数
+        /// </summary>
+        /// <param name="sw"></param>
+        /// <returns></returns>
+        public static bool ScoreWeight_JoinNum_Upd(ScoreWeight sw)
+        {
+            try
+            {
+                using (var conn = DbHelper.CCService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@WeightID", sw.WeightID);
+                    p.Add("@JoinNum", sw.JoinNum);
+                    conn.Execute("ScoreWeight_JoinNum_Upd", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }
             }

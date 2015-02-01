@@ -28,8 +28,55 @@ namespace IES.CC.OC.Model
 		{
             Children = new List<OCSiteColumn>();
         }
-		#region Model
-		private int _columnid;
+        #region 补充字段
+        private bool _useindexpage;
+        private bool _useresource;
+        private bool _uselive;
+        private bool _useMoocplan;
+        private bool _isshow;
+        /// <summary>
+        /// 首页是否展示
+        /// </summary>
+        public bool UseIndexPage
+        {
+            set { _useindexpage = value; }
+            get { return _useindexpage; }
+        }
+        /// <summary>
+        /// 课程资源 是否显示
+        /// </summary>
+        public bool UseResource
+        {
+            set { _useresource = value; }
+            get { return _useresource; }
+        }
+        /// <summary>
+        /// 课程互动是否显示
+        /// </summary>
+        public bool UseLive {
+            set { _uselive = value; }
+            get { return _uselive; }  
+        }
+        /// <summary>
+        /// mooc 是否展示
+        /// </summary>
+        public bool UseMoocPlan
+        {
+            set { _useMoocplan = value; }
+            get { return _useMoocplan; }  
+        }
+        /// <summary>
+        /// 是否展示
+        /// </summary>
+        public bool IsShow
+        {
+            set { _isshow = value; }
+            get { return _isshow; }
+        }
+
+        #endregion 
+        #region Model
+        private int _columnid;
 		private int _ocid;
 		private int _userid;
 		private int _parentid=0;

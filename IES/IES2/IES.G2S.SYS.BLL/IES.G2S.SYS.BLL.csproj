@@ -11,14 +11,10 @@
     <AssemblyName>IES.G2S.SYS.BLL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -78,10 +74,6 @@
     <ProjectReference Include="..\IES.Security\IES.Security.csproj">
       <Project>{c93539d1-c8a9-46ee-a2b9-ecf46b9da47e}</Project>
       <Name>IES.Security</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.SYS.Model\IES.SYS.Model.csproj">
-      <Project>{ca2b5379-05a2-44ab-bb4f-c49fd02677d0}</Project>
-      <Name>IES.SYS.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

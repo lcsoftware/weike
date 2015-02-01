@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * ForumType.cs
 *
 * 功 能： N/A
@@ -9,10 +9,10 @@
 * V0.01  2014/12/2 13:12:03   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
 namespace IES.CC.Forum.Model
@@ -25,7 +25,16 @@ namespace IES.CC.Forum.Model
 	{
 		public ForumType()
 		{}
+
+        #region 补充信息
+        public int TeachingClassID { get; set; }  //教学班ID 
+        public int topnum { get; set; }  //置顶帖数量
+        public int essencenum  { get; set; }  //精华帖数量
+        #endregion
+
 		#region Model
+
+        public DateTime CreateDate { get; set; }  //创建时间
 		private int _forumtypeid;
 		private int _courseid;
 		private string _title;
@@ -46,7 +55,7 @@ namespace IES.CC.Forum.Model
         public int OCID { get; set; }
 
 		/// <summary>
-		/// 是否设为精选版块
+		/// 是否设为精选版块
 		/// </summary>
 		public int CourseID
 		{
@@ -70,9 +79,9 @@ namespace IES.CC.Forum.Model
 			get{return _orde;}
 		}
 		/// <summary>
-		/// 是否设为精选版块
+		/// 是否设为精选版块
 		/// </summary>
-        public bool IsIsEssence
+        public bool IsEssence
         { get; set; }
 		/// <summary>
 		/// 
@@ -106,6 +115,9 @@ namespace IES.CC.Forum.Model
 			set{ _isdeleted=value;}
 			get{return _isdeleted;}
 		}
+
+
+        public string UserNmae { get; set; }  //用户名
 		#endregion Model
 
 	}

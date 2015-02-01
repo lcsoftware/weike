@@ -22,9 +22,20 @@ namespace IES.G2S.Resource.IBLL
         /// <param name="PageSize"></param>
         /// <param name="PageIndex"></param>
         /// <returns></returns>
-        List<Paper> Paper_Search(string Searchkey, int CourseID, int PaperType, int Scope , DateTime UploadTime, int ShareRange, int UserID, int PageSize, int PageIndex );
+        List<Paper> Paper_Search(string Searchkey, int OCID, int PaperType, int Scope , DateTime UploadTime, int ShareRange, int UserID, int PageSize, int PageIndex );
 
+        int Paper_ADD(Paper model);
 
+        int PaperGroup_ADD(PaperGroup model);
+
+        bool PaperExercise_ADD(int PaperID, int PaperGroupID, int ExerciseID, int Score, int Order);
+
+        bool PaperUpd(Paper model);
+
+        bool PaperGroupUpd(PaperGroup model);
+
+        bool PaperTactic_Edit(PaperTactic model);
+       
 
     }
 }

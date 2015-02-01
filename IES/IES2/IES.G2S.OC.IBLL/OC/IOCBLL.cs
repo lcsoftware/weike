@@ -56,7 +56,7 @@ namespace IES.G2S.OC.IBLL.OC
         /// </summary>
         /// <param name="column"></param>
         /// <returns></returns>
-        int OCSiteColumn_ADD(IES.CC.OC.Model.OCSiteColumn column);
+        int OCSiteColumn_Edit(IES.CC.OC.Model.OCSiteColumn column);
         /// <summary>
         /// 网站栏目内容更新
         /// </summary>
@@ -101,5 +101,32 @@ namespace IES.G2S.OC.IBLL.OC
         /// <param name="ColumnID"></param>
         /// <param name="Direction"></param>
         void OCSiteColumn_Move(int ColumnID, string Direction);
+        /// <summary>
+        /// 获取网站栏目详细列表
+        /// </summary>
+        /// <param name="?"></param>
+        /// <returns></returns>
+        System.Collections.Generic.List<IES.CC.OC.Model.OCSiteColumn> OCSiteColumn_Get(int ColumnID);
+        /// <summary>
+        /// 获取在线课程的基本信息
+        /// </summary>
+        /// <param name="ColumnID"></param>
+        /// <returns></returns>
+        System.Collections.Generic.List<IES.CC.OC.Model.OC> OC_Get(int ColumnID);
+        /// <summary>
+        /// 获取课程通知列表
+        /// </summary>
+        /// <param name="OCID"></param>
+        /// <param name="UserID"></param>
+        /// <param name="PageIndex"></param>
+        /// <param name="PageSize"></param>
+        /// <returns></returns>
+        System.Collections.Generic.List<OCNotice> OCNotice_List(int OCID, int UserID, int PageIndex, int PageSize);
+        /// <summary>
+        /// 获取网站下视频的预览
+        /// </summary>
+        /// <param name="OCID"></param>
+        /// <returns></returns>
+        System.Collections.Generic.List<IES.Resource.Model.File> File_OCPreviewMP4_List(int OCID);
     }
 }

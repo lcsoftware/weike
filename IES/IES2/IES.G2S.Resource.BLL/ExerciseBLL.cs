@@ -32,6 +32,8 @@ namespace IES.G2S.Resource.BLL
             return ExerciseDAL.Exercise_Search(model, key, PageSize, PageIndex);
         }
 
+        
+
         #endregion 
 
         #region 详细信息
@@ -55,6 +57,7 @@ namespace IES.G2S.Resource.BLL
         {
             return ExerciseDAL.ExerciseInfo_GetListen(model);
         }
+
         #endregion 
 
         #region 新增
@@ -109,7 +112,7 @@ namespace IES.G2S.Resource.BLL
 
             if (model is ExerciseInfo)
             {
-                ExerciseDAL.ExerciseInfo_Upd(model as ExerciseInfo);
+
             }
 
             return true;
@@ -187,6 +190,5 @@ namespace IES.G2S.Resource.BLL
         }
 
         #endregion
-
     }
 }

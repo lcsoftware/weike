@@ -49,9 +49,14 @@
   <ItemGroup>
     <Compile Include="IClassBLL.cs" />
     <Compile Include="ICourseBLL.cs" />
+    <Compile Include="ILogBLL.cs" />
+    <Compile Include="INoticeBLL.cs" />
     <Compile Include="IOrganizationBLL.cs" />
+    <Compile Include="IOrganizationTypeBLL.cs" />
+    <Compile Include="IResourceServerBLL.cs" />
     <Compile Include="ISpecialtyBLL.cs" />
     <Compile Include="ITermBLL.cs" />
+    <Compile Include="IUserBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

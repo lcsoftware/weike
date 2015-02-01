@@ -50,11 +50,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Affairs\AffairsDAL.cs" />
     <Compile Include="Class\ClassDAL.cs" />
     <Compile Include="FC\FCDAL.cs" />
+    <Compile Include="Mooc\MOOCDAL.cs" />
+    <Compile Include="Mooc\MOOCPreviewDAL.cs" />
     <Compile Include="OC\OCClassDAL.cs" />
     <Compile Include="OC\OCDAL.cs" />
+    <Compile Include="OC\OCTemplateDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Site\SiteDAL.cs" />
     <Compile Include="Team\OCTeamDAL.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -70,18 +75,15 @@
       <Project>{5bbc1895-4b66-4445-af6d-f6711cb3266f}</Project>
       <Name>IES.JW.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IES.SYS.Model\IES.SYS.Model.csproj">
-      <Project>{ca2b5379-05a2-44ab-bb4f-c49fd02677d0}</Project>
-      <Name>IES.SYS.Model</Name>
+    <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
+      <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
+      <Name>IES.Resource.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Mooc\" />
-    <Folder Include="Site\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

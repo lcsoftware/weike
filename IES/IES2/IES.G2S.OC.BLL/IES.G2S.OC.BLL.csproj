@@ -47,10 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Affairs\AffairsBLL.cs" />
     <Compile Include="FC\FCBLL.cs" />
+    <Compile Include="Mooc\MOOCBLL.cs" />
+    <Compile Include="Mooc\MOOCPreviewBLL.cs" />
     <Compile Include="OC\OCBLL.cs" />
     <Compile Include="OC\OCClassBLL.cs" />
+    <Compile Include="OC\OCTemplateBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Site\SiteBLL.cs" />
     <Compile Include="Team\OCTeamBLL.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +67,10 @@
       <Project>{93a1e0e7-a049-4ea7-b349-845a81462d42}</Project>
       <Name>IES.CC.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IES.Common\IES.Common.csproj">
+      <Project>{dbb225c3-ad3b-469c-a8df-ca8dfc4ae304}</Project>
+      <Name>IES.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IES.G2S.OC.DAL\IES.G2S.OC.DAL.csproj">
       <Project>{af09fa22-37a6-4659-a574-2e575ee8341d}</Project>
       <Name>IES.G2S.OC.DAL</Name>
@@ -70,9 +79,21 @@
       <Project>{4704f48b-4fa4-4433-a36d-2cc96663f1a0}</Project>
       <Name>IES.G2S.OC.IBLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IES.G2S.Resource.BLL\IES.G2S.Resource.BLL.csproj">
+      <Project>{7893d3de-1517-443b-9c4a-191ec233a073}</Project>
+      <Name>IES.G2S.Resource.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.G2S.Resource.IBLL\IES.G2S.Resource.IBLL.csproj">
+      <Project>{972577f0-3061-4659-933c-b065185daf80}</Project>
+      <Name>IES.G2S.Resource.IBLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IES.JW.Model\IES.JW.Model.csproj">
       <Project>{5bbc1895-4b66-4445-af6d-f6711cb3266f}</Project>
       <Name>IES.JW.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
+      <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
+      <Name>IES.Resource.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\IES.Security\IES.Security.csproj">
       <Project>{c93539d1-c8a9-46ee-a2b9-ecf46b9da47e}</Project>
@@ -81,8 +102,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Class\" />
-    <Folder Include="Mooc\" />
-    <Folder Include="Site\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

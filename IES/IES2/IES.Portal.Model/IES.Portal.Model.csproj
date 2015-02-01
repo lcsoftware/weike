@@ -51,6 +51,7 @@
     <Compile Include="Help.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="News.cs" />
+    <Compile Include="NewsSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

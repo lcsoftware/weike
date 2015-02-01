@@ -14,17 +14,22 @@ namespace IES.G2S.Resource.BLL
         public List<Attachment> Attachment_List(Attachment model)
         {
             ICache cache = CacheFactory.Create();
-            if (!cache.Exists(string.Empty, "Attachment"))
+            if (!cache.Exists(string.Empty, "Attachment" + model.Source ))
             {
                 List<Attachment> attachmentlist = AttachmentDAL.Attachment_List(model);
-                cache.Set(string.Empty, "Attachment", attachmentlist);
+                cache.Set(string.Empty, "Attachment" + model.Source , attachmentlist);
                 return attachmentlist;
             }
             else
             {
-                return cache.Get<List<Attachment>>(string.Empty, "Attachment");
+                return cache.Get<List<Attachment>>(string.Empty, "Attachment" + model.Source);
             }
         }
+
+
+
+
+
 
         public  bool Attachment_ADD(Attachment model)
         {
@@ -41,8 +46,6 @@ namespace IES.G2S.Resource.BLL
         {
             return AttachmentDAL.Attachment_Del(model);
         }
-
-      
 
 
     }

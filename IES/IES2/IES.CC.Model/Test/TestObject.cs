@@ -23,46 +23,21 @@ namespace IES.CC.Test.Model
 	[Serializable]
 	public partial class TestObject
 	{
-		public TestObject()
-		{}
-		#region Model
-		private int _testobjectid;
-		private int _testid;
-		private int _objectid;
-		private int _type;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int TestObjectID
-		{
-			set{ _testobjectid=value;}
-			get{return _testobjectid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int TestID
-		{
-			set{ _testid=value;}
-			get{return _testid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int ObjectID
-		{
-			set{ _objectid=value;}
-			get{return _objectid;}
-		}
-		/// <summary>
-		/// 1. 教学班编号 2.行政班编号  3.学生编号
-		/// </summary>
-		public int Type
-		{
-			set{ _type=value;}
-			get{return _type;}
-		}
-		#endregion Model
+        public int TestObjectID { get; set; }
+        public int OCID { get; set; }
+        public int TestID { get; set; }
+        public int TeachingClassID { get; set; }
+
+        /// <summary>
+        /// 教学班是否全选
+        /// </summary>
+        public bool IsALL { get; set; }
+
+
+        /// <summary>
+        /// 学生编号
+        /// </summary>
+        public string  IDS { get; set; }
 
 	}
 }

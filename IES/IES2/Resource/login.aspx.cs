@@ -34,7 +34,7 @@ namespace Test
         protected void Button1_Click(object sender, EventArgs e)
         {
 
-            IES.SYS.Model.User user = new IES.SYS.Model.User { LoginName = tbuser.Text, Pwd = tbpassword.Text };
+            IES.JW.Model.User user = new IES.JW.Model.User { LoginName = tbuser.Text, Pwd = tbpassword.Text };
             
             if( IES.Service.UserService.Login(user))
             { 

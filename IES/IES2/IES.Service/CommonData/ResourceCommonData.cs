@@ -5,6 +5,7 @@ using System.Text;
 using IES.Resource.Model;
 using IES.G2S.Resource.DAL;
 using IES.Cache;
+
 namespace IES.Common.Data
 {
     /// <summary>

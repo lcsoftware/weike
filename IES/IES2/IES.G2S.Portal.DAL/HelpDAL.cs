@@ -21,6 +21,7 @@ namespace IES.G2S.Portal.DAL
                 using (var conn = DbHelper.PortalService())
                 {
                     var p = new DynamicParameters();
+                    p.Add("@Title", model.Title);
                     p.Add("@PageSize", PageSize);
                     p.Add("@PageIndex", PageIndex);
 
@@ -44,13 +45,11 @@ namespace IES.G2S.Portal.DAL
                     var p = new DynamicParameters();                  
                     p.Add("@Title", model.Title);
                     p.Add("@Content", model.Content);
-                    p.Add("@SysID", model.Sysid);
-                    p.Add("@OrganizationID", model.Organizationid);
-                    p.Add("@ModuleID", model.Moduleid);
+                    p.Add("@SysID", model.SysID);
+                    p.Add("@OrganizationID", model.OrganizationID);
                     p.Add("@Clicks", model.Clicks);
-
                     conn.Execute("Help_ADD", p, commandType: CommandType.StoredProcedure);
-                    model.Helpid = p.Get<int>("HelpID");
+                    model.HelpID = p.Get<int>("HelpID");
                     return model;
                 }
             }
@@ -73,8 +72,29 @@ namespace IES.G2S.Portal.DAL
                 using (var conn = DbHelper.PortalService())
                 {
                     var p = new DynamicParameters();
-                    p.Add("@HelpID", model.Helpid);
+                    p.Add("@HelpID", model.HelpID);
                     conn.Execute("Help_Del", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region 批量删除
+        public static bool Help_Batch_Del(string IDS)
+        {
+            try
+            {
+                using (var conn = DbHelper.PortalService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@HelpIDS", IDS);
+                    conn.Execute("Help_Batch_Del", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }
             }
@@ -95,7 +115,7 @@ namespace IES.G2S.Portal.DAL
                 using (var conn = DbHelper.PortalService())
                 {
                     var p = new DynamicParameters();
-                    p.Add("@HelpID", model.Helpid);
+                    p.Add("@HelpID", model.HelpID);
                     p.Add("@Title", model.Title);
                     p.Add("@Content", model.Content);
                     
@@ -109,6 +129,26 @@ namespace IES.G2S.Portal.DAL
             }
         }
 
+        #endregion
+
+        #region 详细信息
+        public static Help Help_Get(Help model)
+        {
+            try
+            {
+                using (var conn = DbHelper.PortalService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@HelpID", model.HelpID);
+                    return conn.Query<Help>("Help_Get", p, commandType: CommandType.StoredProcedure).Single();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
         #endregion
     }
 }

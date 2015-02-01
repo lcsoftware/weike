@@ -21,9 +21,14 @@ namespace IES.Resource.Model
 	/// 试卷组卷策略
 	/// </summary>
 	[Serializable]
-	public partial class PaperTactic 
-	{
-		public PaperTactic()
+	public partial class PaperTactic
+    {
+        #region  补充
+        public string KenName { get; set; }
+        public string ChapterName { get; set; }
+        public int ExerciseCount { get; set; }
+        #endregion
+        public PaperTactic()
 		{}
 		#region Model
 		private int _papertacticid;
@@ -57,6 +62,10 @@ namespace IES.Resource.Model
 			set{ _groupid=value;}
 			get{return _groupid;}
 		}
+        /// <summary>
+        /// 习题难度
+        /// </summary>
+        public int Diffcult { get; set; }
 		/// <summary>
 		/// 习题题型
 		/// </summary>
@@ -89,6 +98,10 @@ namespace IES.Resource.Model
 			set{ _kenid=value;}
 			get{return _kenid;}
 		}
+        /// <summary>
+        /// 章节id
+        /// </summary>
+        public int ChapterID { get; set; }
 		#endregion Model
 
 	}

@@ -29,7 +29,14 @@ namespace IES.G2S.CoursLive.IBLL.Score
         /// </summary>
         /// <param name="weightID"></param>
         /// <returns></returns>
-        bool ScoreWeight_Power_Upd(int? weightID);
+        bool ScoreWeight_Power_Upd(ScoreWeight sw);
+
+        /// <summary>
+        /// 更改成绩类别加权参与次数
+        /// </summary>
+        /// <param name="weightID"></param>
+        /// <returns></returns>
+        bool ScoreWeight_JoinNum_Upd(ScoreWeight sw);
         #endregion
     }
 }

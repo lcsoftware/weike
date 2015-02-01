@@ -24,10 +24,19 @@ namespace IES.G2S.Portal.IBLL
  
         #endregion
 
+        #region 批量删除
+        bool Link_Batch_Del(string IDS);
+
+        #endregion
+
         #region 更新
 
         bool Link_Upd(Link model);
     
+        #endregion
+
+        #region 详细信息
+        Link Link_Get(Link model);
         #endregion
     }
 }

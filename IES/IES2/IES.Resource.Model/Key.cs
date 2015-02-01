@@ -23,6 +23,12 @@ namespace IES.Resource.Model
     [Serializable]
     public partial class Key
     {
+        #region  补充属性
+        /// <summary>
+        /// 标签下习题数
+        /// </summary>
+        public int ExerciseCount { get; set; }
+        #endregion
         public Key()
         { }
         #region Model

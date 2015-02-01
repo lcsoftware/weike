@@ -14,40 +14,39 @@ namespace IES.G2S.JW.BLL
     public class ClassBLL : IClassBLL
     {
         #region  列表
-        public List<Class> Class_List(Class model, int UserID, int PageIndex, int PageSize)
+        public List<Class> Class_List(Class model, int PageIndex, int PageSize)
         {
-            return ClassDAL.Class_List(model, UserID, PageIndex, PageSize);
+            return ClassDAL.Class_List(model, PageIndex, PageSize);
         }
         #endregion
 
         #region  详细信息
 
-        public IES.JW.Model.IClass Class_Get(IClass model)
+        public Class Class_Get(int ClassID)
         {
-            Class o = model as Class;
+            return ClassDAL.Class_Get(ClassID);
+        }
 
-            return ClassDAL.Class_Get(model);
+        public List<User> ClassStudent_List(int ClassID)
+        {
+            return ClassDAL.ClassStudent_List(ClassID);
         }
 
         #endregion
 
-        #region  新增
+        #region  对象修改或新增
 
-        public Class Class_Add(Class model)
-        {
-            return ClassDAL.Class_ADD(model);
-        }
-
-        #endregion
-
-        #region  对象更新
-
-        public bool Class_Upd(Class model , out string opt )
+        public Class Class_Edit(Class model)
         {
 
-            return ClassDAL.Class_Upd(model, out opt );
+            return ClassDAL.Class_Edit(model);
         }
 
+        //修改行政班下学生
+        public bool ClassStudent_Save(Class model)
+        {
+            return ClassDAL.ClassStudent_Save(model);
+        }
         #endregion
 
         #region 单个对象更新
@@ -56,9 +55,11 @@ namespace IES.G2S.JW.BLL
 
         #endregion
 
-        #region 批量属性操作
-
-
+        #region 批量删除
+        public bool Class_Batch_Del(string IDS)
+        {
+            return ClassDAL.Class_Batch_Del(IDS);
+        }
 
         #endregion
 
@@ -70,5 +71,6 @@ namespace IES.G2S.JW.BLL
         }
 
         #endregion
+
     }
 }

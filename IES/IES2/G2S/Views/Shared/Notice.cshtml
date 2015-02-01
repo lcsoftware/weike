@@ -1,12 +1,12 @@
 ﻿@using IES.Cache;
 @using IES.Security;
-@using IES.SYS.Model;
-@using IES.G2S.SYS.BLL;
+@using IES.JW.Model;
+@using IES.G2S.JW.BLL;
 @using IES.Service;
 @{
     var helpurl = string.Empty;
     string userid = IESCookie.GetCookieValue("ies");
-    IES.SYS.Model.User user = new IES.SYS.Model.User { UserID = Int32.Parse(userid) };
+    IES.JW.Model.User user = new IES.JW.Model.User { UserID = Int32.Parse(userid) };
     user = UserService.User_Get(user);
     List<Notice> noticelist = UserService.User_Notice_List(user);   
 }

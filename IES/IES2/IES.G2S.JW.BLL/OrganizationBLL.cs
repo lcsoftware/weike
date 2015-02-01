@@ -16,12 +16,16 @@ namespace IES.G2S.JW.BLL
         {
             return OrganizationDAL.Organization_List(model);
         }
+        public List<ShortOranization> Organization_S_List(ShortOranization model)
+        {
+            return OrganizationDAL.Organization_S_List(model);
+        }
         #endregion
 
         #region 新增
-        public Organization Organization_ADD(Organization model)
+        public Organization Organization_Edit(Organization model)
         {
-            return OrganizationDAL.Organization_ADD(model);
+            return OrganizationDAL.Organization_Edit(model);
         }
         #endregion
 
@@ -38,5 +42,36 @@ namespace IES.G2S.JW.BLL
             return OrganizationDAL.Organization_Del(model);
         }
         #endregion
+
+        #region  获取全部信息
+
+        public List<Organization> NewsOrganization_List()
+        {
+            return OrganizationDAL.NewsOrganization_List();
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 取消删除组织机构
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public bool Organization_CancelDel(Organization model)
+        {
+            return OrganizationDAL.Organization_CancelDel(model);
+        }
+
+        /// <summary>
+        /// 移动组织机构
+        /// </summary>
+        /// <param name="SelfID"></param>
+        /// <param name="OptionID"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public bool Organization_Move(int SelfID, int OptionID, string type)
+        {
+            return OrganizationDAL.Organization_Move(SelfID, OptionID, type);
+        }
     }
 }

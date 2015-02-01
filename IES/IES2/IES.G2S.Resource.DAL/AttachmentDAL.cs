@@ -70,6 +70,7 @@ namespace IES.G2S.Resource.DAL
                     var p = new DynamicParameters();
                     p.Add("@Guid", model.Guid);
                     p.Add("@SourceID", model.SourceID);
+                    p.Add("@Source", model.Source);
                     conn.Execute("Attachment_SourceID_Upd", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }

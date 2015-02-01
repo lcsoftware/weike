@@ -22,8 +22,34 @@ namespace IES.CC.OC.Model
 	/// </summary>
 	[Serializable]
 	public partial class OCFCLive
-	{
-		public OCFCLive()
+    {
+        #region 补充属性
+        /// <summary>
+        /// 标题
+        /// </summary>
+        public string Title { get; set; }
+        /// <summary>
+        /// 回复数
+        /// </summary>
+        public int Responses { get; set; }
+        /// <summary>
+        /// 最后发帖用户名
+        /// </summary>
+        public string LastUserName { get; set; }
+        /// <summary>
+        /// 最后发帖时间
+        /// </summary>
+        public DateTime LastUpdateTime { get; set; }
+        /// <summary>
+        /// 最后发帖内容
+        /// </summary>
+        public string LastContent { get; set; }
+        /// <summary>
+        /// 论题内容
+        /// </summary>
+        public string Conten { get; set; }
+        #endregion
+        public OCFCLive()
 		{}
 		#region Model
 		private int _fcliveid;
@@ -44,7 +70,7 @@ namespace IES.CC.OC.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		public int OCID
+		public int FCID
 		{
 			set{ _ocid=value;}
 			get{return _ocid;}

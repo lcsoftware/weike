@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IES.SYS.Model;
+using IES.JW.Model;
 
 namespace IES.CC.OC.Model
 {
 
     /// <summary>
-    /// 用户课程权限类
+    /// 用户课程权限类
     /// </summary>
     public class OCUserAuInfo
     {

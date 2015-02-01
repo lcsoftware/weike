@@ -1,0 +1,115 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/Views/OC/Team/common.css">
+<link rel="stylesheet" href="~/Views/OC/Team/side_left.css">
+<link href="~/Views/OC/Team/index.css" rel="stylesheet" />
+<link href="~/Views/OC/Team/class.css" rel="stylesheet" />
+
+<!--右侧主题内容开始-->
+<div class="main_content">
+    <div class="coursesite_box" ng-controller="HistoryClassController">
+
+        <div class="class_item">
+            <div class="item_box">
+                <ul class="class_item_list">
+                    <li class="active"><a href="javascript:;">在读教学班</a></li>
+                    <li><a href="javascript:;">结业教学班</a></li>
+                    <li><a href="javascript:;">网络招生班级</a></li>
+                </ul>
+                <div class="class_operation">
+                    <a href="javascript:;"><em><i class="icon download_btn"></i></em><span>导出全部班级</span></a>
+                    <a href="javascript:;"><em><i class="icon icon_add"></i></em><span>新增教学班</span></a>
+                </div>
+            </div>
+            <div class="class_tip">
+                <p>说明：以学年学期为时间段，整班全体学生学习时间与进度要求一致，适用于学期课程和在校学生</p>
+                <span class="class_search"><input type="text" ng-model="OCClass.Key" placeholder="{{OCClass.Key}}"><i class="icon search_icon" ng-click="SearchClassList()"></i></span>
+            </div>
+            <table class="class_table">
+                <tr>
+                    <th width="30"></th>
+                    <th width="215">教学班名称</th>
+                    <th width="180">教学运行时间</th>
+                    <th width="60">学生数</th>
+                    <th width="150">授课教师</th>
+                    <th width="170">其他教学团队</th>
+                    <th width="60">注册码</th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="occlass in OCClassList" ng-mouseover="Show_btn=true" ng-mouseleave="Show_btn=false">
+                    <td></td>
+                    <td ng-bind="occlass.TeachingClassName">国际英语1班</td>
+                    <td></td>@*{{occlass.StartDate}}~{{occlass.EndDate}}*@
+                    <td ng-bind="occlass.StudentCount">40</td>
+                    <td ng-bind="occlass.Teacherinfo">陈晨</td>
+                    <td ng-bind="occlass.Teaminfo">王小明，张三</td>
+                    <td>
+                        <div class="register_item">
+                            <a class="code_btn" ng-click="RegNum_Upd(occlass)">{{occlass.RegStatus==0?'未启用':occlass.RegNum}}</a>
+
+                        </div>
+                    </td>
+                    <td>
+                        <div class="register_btn" ng-show="true">
+                            <span class="icon icon_throw"></span>
+                            <span class="icon jieye_btn">
+                                <div class="icon_explain" ng-click="OCClass_IsHistroy_Upd(occlass)">设为结业</div>
+                            </span>
+                            <span class="icon import_btn_gray">
+                                <div class="icon_explain">导入学生<a href="/G2S/Views/OC/Class/Student.xls">[下载导入表格]</a></div>
+                            </span>
+                            <span class="icon code_edit" ng-click="OCClass_Edit(occlass)"></span>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="all_select">
+            <div class="page_box">
+                <a class="prev" href="javascript:;">&lt;&lt;</a>
+                <a class="prev" href="javascript:;">&lt;</a>
+                <a href="#">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#">6</a>
+                <a href="#">7</a>
+                <a href="#">8</a>
+                <a href="#">9</a>
+                <a href="#">10</a>
+                <a class="prev" href="javascript:;">&gt;</a>
+                <a class="prev" href="javascript:;">&gt;&gt;</a>
+                <span>
+                    Go To Page:
+                    <select>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+
+
+        <div id="myRegNumModal" class="modal hide fade" style=" width:500px;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <h4>注册码</h4>
+            <span class="icon close_pop"></span>
+            <div class="form_box">
+                <div class="register_box">
+                    注册码：<input type="checkbox" ng-model="OCClass_Upd.RegStatus" ng-checked="OCClass_Upd.RegStatus"><span>启用注册码</span><input class="register_code" type="text" ng-model="OCClass_Upd.RegNum" value="{{OCClass_Upd.RegNum}}">
+                    <p class="code_tip">你需要将注册码，通过其他方式告知你的学生</p>
+                </div>
+                <div class="btn_box">
+                    <a class="save" ng-click="OCClass_RegNum_Upd()" data-dismiss="modal">锁定</a>
+                    <a class="cancel" data-dismiss="modal" aria-hidden="true">取消</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--右侧主题内容结束-->

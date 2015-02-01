@@ -17,7 +17,7 @@ namespace App.G2S
 
     using System.Collections;
     using System.Collections.Generic;
-    using IES.SYS.Model;
+    using IES.JW.Model;
 
     public class Application : HttpApplication
     {
@@ -27,7 +27,7 @@ namespace App.G2S
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             IES.Service.AuService.AuLoad(); //用户授权信息加载
             GetAttachList();
-            RegisterRoutes(RouteTable.Routes);
+            //RegisterRoutes(RouteTable.Routes);
         }
 
         /// <summary>
@@ -38,15 +38,15 @@ namespace App.G2S
             
         }
 
-         public static void RegisterRoutes(RouteCollection routes)
-          {
-               routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-               routes.MapRoute(
-                    "Default1", // Route name
-                    "{controller}/{action}/{id}", // URL with parameters
-                    new { controller = "Home", action = "Index", id = "" });
-                    // Parameter defaults );
-          }
+         //public static void RegisterRoutes(RouteCollection routes)
+         // {
+         //      routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+         //      routes.MapRoute(
+         //           "Default1", // Route name
+         //           "{controller}/{action}/{id}", // URL with parameters
+         //           new { controller = "Home", action = "Index", id = "" });
+         //           // Parameter defaults );
+         // }
 
 
 

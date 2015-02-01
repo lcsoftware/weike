@@ -5,38 +5,28 @@
 <div ng-controller="ScoreManageCtrl">
     <div class="exercise_search">
         <div class="select_condition">
-            <p class="current_course">我的习题</p>
+            <ul class="knowledge_sort">
+                <li><a href="#">成绩明细</a></li>
+                <li class="active"><a href="#">成绩管理</a></li>
+                <li><a href="#">成绩分析</a></li>
+            </ul>
         </div>
         <div class="exercise_btn">
             @*<span class="sort_box">[筛选]</span>*@
+
             <a href="javascript:;" class="import_exercise">
                 <em><i class="icon"></i></em>
                 <span>导出列表</span>
             </a>
             <a href="javascript:;" class="topic_import"><em><i class="icon"></i></em><span>录入成绩</span></a>
+            <a href="javascript:;" class="import_exercise" ng-href="scoretype">
+                <em><i class="icon"></i></em>
+                <span>类别管理</span>
+            </a>
             <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字"><span class="icon" href="#"></span></p>
         </div>
     </div>
-    @*<div class="filter_box">
-            <dl class="filter_list">
-                <dt>试卷类型</dt>
-                <dd>
-                    <a class="active" href="#"><span>不限</span></a>
-                    <a href="#"><span>智能型试卷</span></a>
-                    <a href="#"><span>答题卡试卷</span></a>
-                    <a href="#"><span>自测型试卷</span></a>
-                </dd>
-            </dl>
-            <dl class="filter_list">
-                <dt>创建人</dt>
-                <dd>
-                    <a class="active" href="#"><span>不限</span></a>
-                    <a href="#"><span>自己</span></a>
-                    <a href="#"><span>他人</span></a>
-                </dd>
-            </dl>
-            <span class="guanbi"><i class="icon"></i></span>
-        </div>*@
+    <span>{{selected}}</span>
     <table class="course_data paper_data">
         <tr>
             <th width="350">
@@ -45,15 +35,14 @@
                 </div>
             </th>
             <th width="100">
-                <select>
-                    <option value="-1" selected="selected">成绩类别</option>
-                    <option value="1">作业</option>
+                <select style="width:130px;height:25px;" ng-model="selected" ng-options="m.Name for m in ScoreTypeItem" ng-change="ScoreManageInfo_List();">
+                    <option value="">全部</option>
                 </select>
             </th>
             <th width="120">参加人数</th>
             <th width="90">平均分</th>
             <th width="80">低于60分</th>
-            <th width="80">60~80分</th>
+            <th width="80" title="不包含80分">60分~80分</th>
             <th width="80">大于80分</th>
         </tr>
         <tr ng-repeat="item in ScoreManageInfoItem">
@@ -62,12 +51,12 @@
                     <a>{{item.Name}}</a>
                 </div>
                 <div class="topic_icon" style="display:block;">
-                    <a class="icon icon_write" href="javascript:;"></a>
-                    <a class="icon icon_remove" href="javascript:;"></a>
-                    <a class="icon icon_remove" href="javascript:;"></a>
+                    <a class="icon icon_remove" href="javascript:;" title="删除"></a>
+                    <a class="icon icon_remove" href="javascript:;" title="发放"></a>
+                    <a ng-show="false" class="icon icon_write" href="javascript:;" title="编辑"></a>
                 </div>
             </td>
-            <td>{{item.SoreTypeName}}</td>
+            <td>{{item.ScoreTypeName}}</td>
             <td>{{item.JoinStudent}}</td>
             <td>{{item.AvgScore}}</td>
             <td>{{item.C}}</td>
@@ -135,4 +124,5 @@
             <td>50</td>
         </tr>
     </table>
+    <div id="page" style="margin:20px; margin-left:150px;"></div>
 </div>

@@ -1,0 +1,214 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout2.cshtml";
+}
+<link href="~/Css/construction.css" rel="stylesheet" />
+<!DOCTYPE html>
+
+
+<div ng-controller="PreviewController">
+    
+    <div class="preview_bg">
+        <div class="side_leftPreview across_nav  preview_side" id="side_top">
+            <div class="column_box">
+                <ul class="column_list">
+                    <li ng-repeat="Column in ColumnList" ng-show="Column.IsShow" on-column-get>
+                        <a href="#" ng-click="OCSiteColumn_Conten_Upd(Column.ContentType,Column.Title,Column.ColumnID,0)">
+                            {{Column.Title}}<em ng-class="{1: 'icon_con icon_fold', 0: ''}[{{Column.HasChild}}]"></em>
+                        </a>
+                        <ul class="second_nav">
+                            <li ng-repeat="Column1 in Column.Children" ng-model="Column.ContentType">
+                                <a href="#" ng-click="OCSiteColumn_Conten_Upd(Column1.ContentType,Column1.Title,Column1.ColumnID,1)">
+                                    {{Column1.Title}} <em ng-class="{1: 'icon_con icon_fold', 0: ''}[{{Column1.HasChild}}]"></em>
+                                </a>
+                                <ul>
+                                    <li ng-repeat="Column2 in Column1.Children" ng-model="Column.ContentType">
+                                        <a href="#" ng-click="OCSiteColumn_Conten_Upd(Column2.ContentType,Column2.Title,Column2.ColumnID,2)">
+                                            {{Column2.Title}} <em ng-class="{1: 'icon_con icon_fold', 0: ''}[{{Column2.HasChild}}]"></em>
+                                        </a>
+                                        <ul>
+                                            <li ng-repeat="Column3 in Column2.Children" ng-model="Column.ContentType">
+                                                <a href="#" ng-click="OCSiteColumn_Conten_Upd(Column3.ContentType,Column3.Title,Column3.ColumnID,3)">
+                                                    {{Column3.Title}} <em ng-class="{1: 'icon_con icon_fold', 0: ''}[{{Column3.HasChild}}]"></em>
+                                                </a>
+                                                <ul>
+                                                    <li ng-repeat="Column4 in Column3.Children" ng-model="Column.ContentType">
+                                                        <a href="#" ng-click="OCSiteColumn_Conten_Upd(Column4.ContentType,Column4.Title,Column4.ColumnID,4)">
+                                                            {{Column4.Title}} <em ng-class="{1: 'icon_con icon_fold', 0: ''}[{{Column4.HasChild}}]"></em>
+                                                        </a>
+                                                        <ul>
+                                                            <li ng-repeat="Column5 in Column4.Children" ng-model="Column.ContentType">
+                                                                <a href="#" ng-click="OCSiteColumn_Conten_Upd(Column5.ContentType,Column5.Title,Column5.ColumnID,5)">
+                                                                    {{Column5.Title}} <em ng-class="{1: 'icon_con icon_fold', 0: ''}[{{Column5.HasChild}}]"></em>
+                                                                </a>
+                                                                <ul>
+                                                                    <li ng-repeat="Column6 in Column5.Children" ng-model="Column.ContentType">
+                                                                        <a href="#" ng-click="OCSiteColumn_Conten_Upd(Column6.ContentType,Column6.Title,Column6.ColumnID,6)">
+                                                                            {{Column6.Title}} <em ng-class="{1: 'icon_con icon_fold', 0: ''}[{{Column6.HasChild}}]"></em>
+                                                                        </a>
+                                                                        <ul>
+                                                                            <li ng-repeat="Column7 in Column6.Children" ng-model="Column.ContentType">
+                                                                                <a href="#" ng-click="OCSiteColumn_Conten_Upd(Column7.ContentType,Column7.Title,Column7.ColumnID,7)">
+                                                                                    {{Column7.Title}} <em ng-class="{1: 'icon_con icon_fold', 0: ''}[{{Column7.HasChild}}]"></em>
+                                                                                </a>
+                                                                                <ul>
+                                                                                    <li ng-repeat="Column8 in Column7.Children" ng-model="Column.ContentType">
+                                                                                        <a href="#" ng-click="OCSiteColumn_Conten_Upd(Column8.ContentType,Column8.Title,Column8.ColumnID,8)">
+                                                                                            {{Column8.Title}} <em ng-class="{1: 'icon_con icon_fold', 0: ''}[{{Column8.HasChild}}]"></em>
+                                                                                        </a>
+                                                                                        <ul>
+                                                                                            <li ng-repeat="Column9 in Column8.Children" ng-model="Column.ContentType">
+                                                                                                <a href="#" ng-click="OCSiteColumn_Conten_Upd(Column9.ContentType,Column9.Title,Column9.ColumnID,9)">
+                                                                                                    {{Column9.Title}} <em ng-class="{1: 'icon_con icon_fold', 0: ''}[{{Column9.HasChild}}]"></em>
+                                                                                                </a>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </li>
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main_content">
+            <div class="banner_box">
+                <img src="../../images/preview_banner.jpg" width="1000" height="280" alt="">
+                <h1 >{{Name}}</h1>
+                <p>
+                    一门仰望星空，放飞心情，比较适合在晚上学习的课；<br>一门由多位老师共同精心打造的课；<br>一门不仅仅在于"听"，而更在于"想"的课；
+                </p>
+            </div>
+
+            <div id="div_indexhome" class="main_all">
+                <div class="main_l">
+                    <div class="add_course">
+                        <div class="upload_course">
+                            <img src="http://placehold.it/280x150/cccccc" width="280" height="150" alt="" />
+                        </div>
+                        <div class="course_detail">
+                            <div class="course_document">
+                                <h4>课程档案</h4>
+                            </div>
+                            <div class="text_box">
+                                <p>负 责 人：<span>{{principalname}}</span></p>
+                                <p>创建日期：<span>{{CreateTime}}</span></p>
+                                <p>所属分类：<span>{{SubjectName}}</span></p>
+                                <p>课程标签：<span>{{Tags}}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="add_course">
+                        <div class="course_document">
+                            <h4>主讲教师</h4>
+                        </div>
+                        <div class="teacher_box" ng-repeat="octeam in OCTeam_List">
+                            <div class="teacher_name">
+                                <img src="http://placehold.it/60x60/cccccc" width="60" height="60" alt="" />
+                                <span>{{octeam.UserName}}<br>{{octeam.Ranks}}</span>
+                            </div>
+                            <p>{{octeam.Brief}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="main_r">
+                    <div class="upload_video">
+                        <div class="upload_course">
+                            <img src="http://placehold.it/265x150/cccccc" width="265" height="150" alt="" />
+                        </div>
+                        <div class="course_recom">
+                            <p><img src="../../images/quote_l.gif" width="21" height="14" alt="">{{Brief}}<img src="../../images/quote_r.gif" width="21" height="14" alt=""></p>
+                        </div>
+                    </div>
+                    <div class="upload_video">
+                        <div class="course_document">
+                            <h4>课程视频</h4>
+                        </div>
+                        <div class="video_box">
+                            <div class="video_item">
+                                <ul class="video_list">
+                                    <li ng-repeat="Preview in PreviewMP4List" on-finish-render-filters>
+                                        <img src="http://placehold.it/180x100/cccccc" ng-model="Preview.ViewURL" width="180" height="100" alt="" />
+                                      
+                                    </li>                                
+                                </ul>
+                            </div>
+                            <a class="icon_con icon_l" href="javascript:;"></a>
+                            <a class="icon_con icon_r" href="javascript:;"></a>
+                        </div>
+                    </div>
+                    <div class="upload_video">
+                        <div class="course_document">
+                            <h4>课程通知</h4>
+                        </div>
+                        <div ng-show="OCNoticeCount==0" class="course_content">
+                            <img src="~/Images/expression.png" width="96" height="96" alt="">
+                            <p>没有找到任何内容</p>
+                        </div>
+                        <div class="course_notice">
+                            <ul class="notice_list">
+                                <li ng-repeat="Notice in OCNotice_List">
+                                    <h4>{{Notice.Title}}</h4>
+                                    <p>{{Notice.Conten}}</p>
+                                    <div class="issue_detail">1天前　by {{Notice.LastUser}}　<a href="#">评论</a>（{{Notice.ResponseCount}}）</div>
+                                </li>
+                            </ul>
+                            <div class="page_box" ng-show="OCNotice_List[0].Count>10">
+                                <a class="prev" href="javascript:;">前一页</a>
+                                <a href="#">1</a>
+                                <a href="#">2</a>
+                                <a href="#">3</a>
+                                <a href="#">4</a>
+                                <span class="more">...</span>
+                                <a href="#">8</a>
+                                <a class="prev" href="javascript:;">后一页</a>
+                                <span>共229条，到第<input type="text">页</span>
+                                <a class="confirm" href="#">确认</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main_all" id="div_ewebeditor" style=" display: none; height:auto; min-height:450px; background-color:white; ">
+                <div class="content_box">
+                    <p class="course_guide"><a style=" cursor:pointer; margin-left:15px;"  ng-repeat="Notice in NavnameList"  ng-click="OCSiteColumn_Conten_Upd(Notice.ContentType,Notice.Title,Notice.ColumnID,1)">{{Notice.Title}}<span ng-show="($index+1)!=Column_NavCount">></span></a></p>
+                    <div class="course_nav_box" ng-show="OCColumnCount>0">
+                        <ul class="course_nav">
+                            <li ng-repeat="columnson in ColumnSonList" ng-click="NvaColumnSonClick(this)" ng-class="{true: 'active', false: ''}[columnson.IsShow]"><a href="#">{{columnson.Title}}</a></li>
+
+                        </ul>
+                    </div>
+                    <div class="course_box" id="div_Conten">
+                    </div>
+                </div>
+            </div>
+            <div class="main_all" id="div_mainList" style=" display:none;">
+                <p class="course_guide " style=" background-color:#fff;"><a style=" cursor: pointer; margin-left: 15px;" ng-click="OCSiteColumn_Conten_Upd(Notice.ContentType,Notice.Title,Notice.ColumnID,1)"  ng-repeat="Notice in NavnameList">{{Notice.Title}}<span ng-show="($index+1)!=Column_NavCount">></span></a></p>
+                <table class="knowledge_list" >
+                    <tr ng-repeat="Column in ColumnSonList">
+                        <td width="790"><p style=" cursor:pointer;" ng-click="OCSiteColumn_Conten_Upd(Column.ContentType,Column.Title,Column.ColumnID,1)"> {{Column.Title}}</p></td>
+                        <td>
+                            1
+                        </td>
+                       
+                    </tr>
+                </table>
+                <div ng-show="OCColumnCount==0" class="course_content" style=" background-color:#fff;">
+                    <img src="~/Images/expression.png" width="96" height="96" alt="">
+                    <p>没有找到任何内容</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

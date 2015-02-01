@@ -21,9 +21,10 @@ namespace IES.G2S.Portal.DAL
                 using (var conn = DbHelper.PortalService())
                 {
                     var p = new DynamicParameters();
-                    p.Add("@Title", model.Title);
-                    p.Add("@StartDate", model.Startdate);
-                    p.Add("@EndDatef", model.Enddatef);
+                    p.Add("@Key", model.Key);
+                    p.Add("@SectionID", model.SectionID);
+                    p.Add("@StartTime", model.StartTime);
+                    p.Add("@EndTime", model.EndTime);
                     p.Add("@PageSize", PageSize);
                     p.Add("@PageIndex", PageIndex);
 
@@ -47,19 +48,15 @@ namespace IES.G2S.Portal.DAL
                     var p = new DynamicParameters();
                     p.Add("@Title", model.Title);
                     p.Add("@Content", model.Content);
-                    p.Add("@SectionID", model.Sectionid);
-                    p.Add("@Sectionchild", model.Sectionchild);
-                    p.Add("@CreateDate", model.Createdate);
-                    p.Add("@EndDate", model.Enddate);
-                    p.Add("@Click", model.Clicks);
-                    p.Add("@IsImportant", model.Isimportant);
-                    p.Add("@IsTop", model.Istop);
-                    p.Add("@SysID", model.Sysid);
-                    p.Add("@ModuleID", model.Moduleid);
-                    p.Add("@OrganizationID", model.Organizationid);
-
+                    p.Add("@SectionID", model.SectionID);
+                    p.Add("@CreateDate", model.CreateDate);
+                    p.Add("@EndDate", model.EndDate);
+                    p.Add("@IsImportant", model.IsImportant);
+                    p.Add("@IsTop", model.IsTop);
+                    p.Add("@SysID", model.SysID);
+                    p.Add("@OrganizationID", model.OrganizationID);
                     conn.Execute("News_ADD", p, commandType: CommandType.StoredProcedure);
-                    model.Newsid = p.Get<int>("NewsID");
+                    model.NewsID = p.Get<int>("NewsID");
                     return model;
                 }
             }
@@ -82,8 +79,29 @@ namespace IES.G2S.Portal.DAL
                 using (var conn = DbHelper.PortalService())
                 {
                     var p = new DynamicParameters();
-                    p.Add("@NewsID", model.Newsid);
+                    p.Add("@NewsID", model.NewsID);
                     conn.Execute("News_Del", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region 批量删除
+        public static bool News_Batch_Del(string IDS)
+        {
+            try
+            {
+                using (var conn = DbHelper.PortalService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@NewsIDS", IDS);
+                    conn.Execute("News_Batch_Del", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }
             }
@@ -104,16 +122,15 @@ namespace IES.G2S.Portal.DAL
                 using (var conn = DbHelper.PortalService())
                 {
                     var p = new DynamicParameters();
-                    p.Add("@NewsID", model.Newsid);
+                    p.Add("@NewsID", model.NewsID);
                     p.Add("@Title", model.Title);
                     p.Add("@Content", model.Content);
-                    p.Add("@SectionID", model.Sectionid);
-                    p.Add("@Sectionchild", model.Sectionchild);
-                    p.Add("@CreateDate", model.Createdate);
-                    p.Add("@EndDate", model.Enddate);
-                    p.Add("@IsImportant", model.Isimportant);
-                    p.Add("@IsTop", model.Istop);
-
+                    p.Add("@SectionID", model.SectionID);
+                    p.Add("@CreateDate", model.CreateDate);
+                    p.Add("@EndDate", model.EndDate);
+                    p.Add("@IsImportant", model.IsImportant);
+                    p.Add("@IsTop", model.IsTop);
+                    p.Add("@SysID", model.SysID);
                     conn.Execute("News_Upd", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }
@@ -124,6 +141,45 @@ namespace IES.G2S.Portal.DAL
             }
         }
 
+        #endregion
+
+        #region 详细信息
+        public static News News_Get(News model)
+        {
+            try
+            {
+                using (var conn = DbHelper.PortalService())
+                {                  
+                    var p = new DynamicParameters();
+                    p.Add("@NewsID", model.NewsID);
+                    return conn.Query<News>("News_Get", p, commandType: CommandType.StoredProcedure).Single();                                 
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+        #endregion
+
+        #region 新闻公告所属板块
+        public static List<NewsSection> NewsSection_List()
+        {
+            try
+            {
+                using (var conn = DbHelper.PortalService())
+                {
+                    var p = new DynamicParameters();
+
+                    return conn.Query<NewsSection>("Section_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
         #endregion
     }
 }

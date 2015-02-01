@@ -1,248 +1,135 @@
-﻿<%@ Page  Title="组织机构" MasterPageFile="~/Site.Master"         Language="C#"       AutoEventWireup="true"            CodeBehind="Organization.aspx.cs" Inherits="Admin.Views.JW.Organization.Organization" %>
+﻿<%@ Page Title="组织机构" MasterPageFile="~/Site.Master" Language="C#" AutoEventWireup="true" CodeBehind="Organization.aspx.cs" Inherits="Admin.Views.JW.Organization.Organization" %>
 
 <%@ Register Src="~/Views/Share/SubMenuNav.ascx" TagPrefix="uc1" TagName="SubMenuNav" %>
 
-
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-
-         <uc1:SubMenuNav runat="server" ID="SubMenuNav" />
-         <div class="sousuo_box">
-            	<div class="filter_item">
-                	<a class="filter_btn" href="javascript:;">筛选</a>
-                    <div class="class_operation">
-                    	<a href="javascript:;"><i class="icon_admin daoru"></i>导入行政班</a>
-                        <ul>
-                            <a href="javascript:;"><i class="icon_admin download_btn"></i>模板下载</a>
-                            <a href="javascript:;"><i class="icon_admin daochu"></i>导出行政班</a>
-                        </ul>
-                    </div>
-                    <a class="add_student" href="javascript:;"><i class="icon_admin add_btn"></i>新增学生</a>
-                    <p class="search_btn"><input type="text" placeholder="输入姓名、工号搜索学员"><i class="icon_admin search_icon"></i></p>
-                </div>
-                <div class="select_requirement_box">
-                    <dl class="requirement_box">
-                        <dt>所属机构</dt>
-                        <dd>
-                        	<div class="all_requirement">
-                                <div class="select_require">
-                                    <span class="active"><a href="#">不限</a></span>
-                                    <span><a href="#">校长办公室</a></span>
-                                    <span><a href="#">校领导</a></span>
-                                    <span><a href="#">教务处</a></span>
-                                    <span><a href="#">校医院</a></span>
-                                    <span><a href="#">国际商务与管理学院</a></span>
-                                    <span><a href="#">音乐艺术学院</a></span>
-                                    <span><a href="#">经济信息学院</a></span>
-                                    <span><a href="#">地球科学学院</a></span>
-                                    <span><a href="#">地球科学学院</a></span>
-                                    <span><a href="#">国际商务与管理学院</a></span>
-                                    <span><a href="#">音乐艺术学院</a></span>
-                                </div>
-                                <a class="fold_btn" href="javascript:;">[更多]</a>
-                            </div>
-                            <div class="select_require second_require">
-                            	<span class="active"><a href="#">不限</a></span>
-                            	<span><a href="#">金融管理</a></span>
-                                <span><a href="#">商务管理</a></span>
-                                <span><a href="#">社会学</a></span>
-                                <span><a href="#">计算机</a></span>
-                                <span><a href="#">市场营销</a></span>
-                                <span><a href="#">经济学</a></span>
-                            </div>
-                        </dd>
-                    </dl>
-                    <dl class="requirement_box">
-                        <dt>创建时间</dt>
-                        <dd>
-                        	<div class="date_time">
-                            	<p><input type="text"><i class="icon_admin date_icon"></i></p>
-                            	<span>~</span>
-                                <p><input type="text"><i class="icon_admin date_icon"></i></p>
-                            </div>
-                        </dd>
-                    </dl>
-                    <a class="search_button" href="javascript:;">搜索</a>
-                    <span class="close_box"><i class="icon_admin shouqi_icon"></i></span>
-                </div>
-            </div>
-         <div class="search_result_box">
-                        <div class="result_tit">
-                            <h4>学生列表<span>（共18条）</span></h4>
-                            <p class="show_num">每页显示<select><option>20</option><option>50</option><option>100</option><option>200</option></select></p>
-                            <a href="javascript:;">删除</a>
-                            <a href="javascript:;">设置入学年份</a>
-                            <a href="javascript:;">批量设置专业</a>
-                            <a href="javascript:;">设置为助教</a>
+    <link href="../../../Frameworks/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet" />
+    <link href="Organization.css" rel="stylesheet" />
+    <script src="../../../Frameworks/zTree_v3/js/OrganizatiopnTree.js"></script>
+    <script src="Organization.js"></script>
+    <script src="../../Portal/Edit.js"></script>
+    <uc1:SubMenuNav runat="server" ID="SubMenuNav" />
+    <div class="filter_item">
+        <div class="class_operation">
+            <a href="Organization.xls"><i class="icon_admin download_btn"></i>模板下载</a>
+        </div>
+        <a class="add_student" href="javascript:;" style="margin-left:10px" onclick="ShowBox(0,'无',0)"><i class="icon_admin add_btn"></i>新增机构</a>
+        <p class="search_btn">
+            <input type="text" placeholder="输入编号、名称搜索机构" id="key"><i class="icon_admin search_icon"></i>
+        </p>
+    </div>
+    <p class="delete_tip" style="display: none;">删除成功：<span id="orgName"></span><a href="javascript:;" onclick="Organization_CancelDel()">[撤销删除]</a></p>
+    <div class="organization_box">
+        <div class="organization_tit">
+            <h4>组织机构列表</h4>
+        </div>
+        <ul id="treeDemo" class="ztree organization_list"></ul>
+    </div>
+    <div class="pop_bg"></div>
+    <div style="width: 800px; display: none; height: 440px; overflow-y: auto;" id="box">
+        <div class="wrap_box" style="margin: 0;">
+            <div class="add_box">
+                <dl class="add_item">
+                    <dt>编　号：</dt>
+                    <dd>
+                        <div class="num_box">
+                            <input type="text" style="width: 300px;" name="OrganizationNo" value="">
+                            <span>*</span>
+                            <p style="display: none;" id="NoMsg"><i class="icon_admin wrong_icon"></i>请输入组织机构编号</p>
+                            <p style="display: none;" id="regNoMsg"><i class="icon_admin wrong_icon"></i>编号已存在</p>
                         </div>
-                <table class="result_table">
-                    <tr>
-                        <th width="10"></th>
-                        <th width="30"><input type="checkbox"></th>
-                        <th width="100">用户名<i class="icon_admin rank_btn"></i></th>
-                        <th width="80">姓名</th>
-                        <th width="100">学号<i class="icon_admin rank_btn"></i></th>
-                        <th width="50">性别</th>
-                        <th width="200">所属机构</th>
-                        <th width="80">专业</th>
-                        <th width="70">是否助教</th>
-                        <th width="80">入学年份</th>
-                        <th width="90">行政班</th>
-                        <th>操作</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="checkbox"></td>
-                        <td><p class="user_id">20130142</p></td>
-                        <td>蒋晓军</td>
-                        <td>10101201</td>
-                        <td>女</td>
-                        <td>校长办公室</td>
-                        <td>金融管理</td>
-                        <td>助教</td>
-                        <td>2013</td>
-                        <td>班级0701</td>
-                        <td><p class="operation_box"><i class="icon_admin edit_btn"></i><i class="icon_admin delete_btn"></i></p></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="checkbox"></td>
-                        <td><p class="user_id">20130142</p></td>
-                        <td>蒋晓军</td>
-                        <td>10101201</td>
-                        <td>女</td>
-                        <td>校长办公室</td>
-                        <td>金融管理</td>
-                        <td>助教</td>
-                        <td>2013</td>
-                        <td>班级0701</td>
-                        <td><p class="operation_box"><i class="icon_admin edit_btn"></i><i class="icon_admin delete_btn"></i></p></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="checkbox"></td>
-                        <td><p class="user_id">20130142</p></td>
-                        <td>蒋晓军</td>
-                        <td>10101201</td>
-                        <td>女</td>
-                        <td>校长办公室</td>
-                        <td>金融管理</td>
-                        <td>助教</td>
-                        <td>2013</td>
-                        <td>班级0701</td>
-                        <td><p class="operation_box"><i class="icon_admin edit_btn"></i><i class="icon_admin delete_btn"></i></p></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="checkbox"></td>
-                        <td><p class="user_id">20130142</p></td>
-                        <td>蒋晓军</td>
-                        <td>10101201</td>
-                        <td>女</td>
-                        <td>校长办公室</td>
-                        <td>金融管理</td>
-                        <td>助教</td>
-                        <td>2013</td>
-                        <td>班级0701</td>
-                        <td><p class="operation_box"><i class="icon_admin edit_btn"></i><i class="icon_admin delete_btn"></i></p></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="checkbox"></td>
-                        <td><p class="user_id">20130142</p></td>
-                        <td>蒋晓军</td>
-                        <td>10101201</td>
-                        <td>女</td>
-                        <td>校长办公室</td>
-                        <td>金融管理</td>
-                        <td>助教</td>
-                        <td>2013</td>
-                        <td>班级0701</td>
-                        <td><p class="operation_box"><i class="icon_admin edit_btn"></i><i class="icon_admin delete_btn"></i></p></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="checkbox"></td>
-                        <td><p class="user_id">20130142</p></td>
-                        <td>蒋晓军</td>
-                        <td>10101201</td>
-                        <td>女</td>
-                        <td>校长办公室</td>
-                        <td>金融管理</td>
-                        <td>助教</td>
-                        <td>2013</td>
-                        <td>班级0701</td>
-                        <td><p class="operation_box"><i class="icon_admin edit_btn"></i><i class="icon_admin delete_btn"></i></p></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="checkbox"></td>
-                        <td><p class="user_id">20130142</p></td>
-                        <td>蒋晓军</td>
-                        <td>10101201</td>
-                        <td>女</td>
-                        <td>校长办公室</td>
-                        <td>金融管理</td>
-                        <td>助教</td>
-                        <td>2013</td>
-                        <td>班级0701</td>
-                        <td><p class="operation_box"><i class="icon_admin edit_btn"></i><i class="icon_admin delete_btn"></i></p></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="checkbox"></td>
-                        <td><p class="user_id">20130142</p></td>
-                        <td>蒋晓军</td>
-                        <td>10101201</td>
-                        <td>女</td>
-                        <td>校长办公室</td>
-                        <td>金融管理</td>
-                        <td>助教</td>
-                        <td>2013</td>
-                        <td>班级0701</td>
-                        <td><p class="operation_box"><i class="icon_admin edit_btn"></i><i class="icon_admin delete_btn"></i></p></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="checkbox"></td>
-                        <td><p class="user_id">20130142</p></td>
-                        <td>蒋晓军</td>
-                        <td>10101201</td>
-                        <td>女</td>
-                        <td>校长办公室</td>
-                        <td>金融管理</td>
-                        <td>助教</td>
-                        <td>2013</td>
-                        <td>班级0701</td>
-                        <td><p class="operation_box"><i class="icon_admin edit_btn"></i><i class="icon_admin delete_btn"></i></p></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td><input type="checkbox"></td>
-                        <td><p class="user_id">20130142</p></td>
-                        <td>蒋晓军</td>
-                        <td>10101201</td>
-                        <td>女</td>
-                        <td>校长办公室</td>
-                        <td>金融管理</td>
-                        <td>助教</td>
-                        <td>2013</td>
-                        <td>班级0701</td>
-                        <td><p class="operation_box"><i class="icon_admin edit_btn"></i><i class="icon_admin delete_btn"></i></p></td>
-                    </tr>
-                </table>
-                <div class="page_wrap">
-                    <div class="page_box">
-                        <a class="prev" href="javascript:;">前一页</a>
-                        <a href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#">4</a>
-                        <span class="more">...</span>
-                        <a href="#">8</a>
-                        <a class="prev" href="javascript:;">后一页</a>
-                        <span>共229条，到第<input type="text">页</span>
-                        <a class="confirm" href="#">确认</a>
-                    </div>
-                </div>
+                    </dd>
+                </dl>
+                <dl class="add_item num_box">
+                    <dt>机构名称：</dt>
+                    <dd>
+                        <input type="text" style="width: 300px;" name="OrganizationName">
+                        <span>*</span>
+                        <p style="display: none;" id="NameMsg"><i class="icon_admin wrong_icon"></i>请输入组织机构名称</p>
+                    </dd>
+                </dl>
+                <dl class="add_item">
+                    <dt>英文名称：</dt>
+                    <dd>
+                        <input type="text" style="width: 300px;" name="OrganizationNameEn">
+                        <%--<span>*</span>--%>
+                    </dd>
+                </dl>
+                <dl class="add_item">
+                    <dt>上级机构：</dt>
+                    <dd>
+                        <div class="select_organization">
+                            <p class="default_status" id="OrgName">
+                            </p>
+                        </div>
+                    </dd>
+                </dl>
+                <dl class="add_item">
+                    <dt>机构类别：</dt>
+                    <dd>
+                        <select class="department_select" style="width: 300px;" name="OrganizationType">
+                            
+                        </select>
+                    </dd>
+                </dl>
+                <dl class="add_item">
+                    <dt>门户显示：</dt>
+                    <dd>
+                        <input type="radio" name="IsShow" checked="checked" />&nbsp;&nbsp;是&nbsp;&nbsp;
+                        <input type="radio" name="IsShow" />&nbsp;&nbsp;否
+                    </dd>
+                </dl>
+                <dl class="add_item">
+                    <dt>组织简介： 
+                    </dt>
+                    <dd>
+                        <input type="radio" name="LinkStatus" id="inputOutLink" checked="checked" />&nbsp;&nbsp;启用外部链接&nbsp;&nbsp;
+                        <input type="radio" name="LinkStatus" id="inputIntroduction" />&nbsp;&nbsp;使用内部编辑器
+                    </dd>
+                </dl>
+                <dl class="add_item num_box" id="outLink">
+                    <dt>外部链接：</dt>
+                    <dd>
+                        <input type="text" style="width: 300px;" name="Link" value="http://">
+                        <span>*</span>
+                        <p style="display: none;" id="urlMsg"><i class="icon_admin wrong_icon"></i>请输入正确的Url地址!</p>
+                    </dd>
+                </dl>
+                <dl class="add_item" id="Introduction" style="display: none;">
+                    <dt>中文简介：</dt>
+                    <dd>
+                        <input type="hidden" name="oEditor1" value="" id="oEditor1" />
+                        <iframe id="frmoEditor1" src="../../../../Frameworks/ewebeditor/ewebeditor.htm?id=oEditor1&style=mini" frameborder="0" scrolling="no" width="650" height="250" style="display: block;"></iframe>
+                    </dd>
+                </dl>
+                <dl class="add_item" id="IntroductionEn" style="display: none;">
+                    <dt>英文简介：</dt>
+                    <dd>
+                        <input type="hidden" name="oEditor2" value="" id="oEditor2" />
+                        <iframe id="frmoEditor2" src="../../../../Frameworks/ewebeditor/ewebeditor.htm?id=oEditor2&style=mini" frameborder="0" scrolling="no" width="650" height="250" style="display: block;"></iframe>
+                    </dd>
+                </dl>
+                <dl class="add_item">
+                    <dt>开课机构:</dt>
+                    <dd>
+                        <div class="sort_organization">
+                            <p>
+                                <input type="radio" name="TeachingType" checked="checked">行政类
+                            </p>
+                            <p>
+                                <input type="radio" name="TeachingType">教学类
+                            </p>
+                        </div>
+                    </dd>
+                </dl>
+
             </div>
+        </div>
+        <div class="out_wrap">
+            <div class="btn_box" style="border: 0;">
+                <a class="save" href="javascript:;" onclick="AddOrEdit()">确定</a>
+                <a class="cancel" href="javascript:;" onclick="layer.closeAll();">取消</a>
+            </div>
+        </div>
+    </div>
 </asp:Content>

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using IES.SYS.Model;
+using IES.JW.Model;
 
 namespace IES.Service
 {
 
     /// <summary>
-    /// 用户获取相关的权限
+    /// 用户获取相关的权限
 
     /// </summary>
     public  class AuService
@@ -44,7 +44,7 @@ namespace IES.Service
         /// <returns></returns>
         public static List<Menu> Menu_List()
         {
-            IES.G2S.SYS.BLL.AuBLL aubll = new IES.G2S.SYS.BLL.AuBLL();
+            IES.G2S.JW.BLL.AuBLL aubll = new IES.G2S.JW.BLL.AuBLL();
             return aubll.Menu_List();
         }
 
@@ -54,7 +54,7 @@ namespace IES.Service
         /// <returns></returns>
         public static List<AuModule> AuModule_List()
         {
-            IES.G2S.SYS.BLL.AuBLL aubll = new IES.G2S.SYS.BLL.AuBLL();
+            IES.G2S.JW.BLL.AuBLL aubll = new IES.G2S.JW.BLL.AuBLL();
             return aubll.AuModule_List();
         }
 
@@ -64,7 +64,7 @@ namespace IES.Service
         /// <returns></returns>
         public static List<AuAction> AuAction_List()
         {
-            IES.G2S.SYS.BLL.AuBLL aubll = new IES.G2S.SYS.BLL.AuBLL();
+            IES.G2S.JW.BLL.AuBLL aubll = new IES.G2S.JW.BLL.AuBLL();
             return aubll.AuAction_List();
         }
 
@@ -74,7 +74,7 @@ namespace IES.Service
         /// <returns></returns>
         public static List<AuRole> AuRole_List()
         {
-            IES.G2S.SYS.BLL.AuBLL aubll = new IES.G2S.SYS.BLL.AuBLL();
+            IES.G2S.JW.BLL.AuBLL aubll = new IES.G2S.JW.BLL.AuBLL();
             return aubll.AuRole_List();
         }
 
@@ -84,7 +84,7 @@ namespace IES.Service
         /// <returns></returns>
         public static List<AuRoleModule> AuRoleModule_List()
         {
-            IES.G2S.SYS.BLL.AuBLL aubll = new IES.G2S.SYS.BLL.AuBLL();
+            IES.G2S.JW.BLL.AuBLL aubll = new IES.G2S.JW.BLL.AuBLL();
             return aubll.AuRoleModule_List();
         }
 
@@ -94,12 +94,12 @@ namespace IES.Service
         /// <returns></returns>
         public static List<AuUserRoleOrg> AuUserRoleOrg_List()
         {
-            IES.G2S.SYS.BLL.AuBLL aubll = new IES.G2S.SYS.BLL.AuBLL();
+            IES.G2S.JW.BLL.AuBLL aubll = new IES.G2S.JW.BLL.AuBLL();
             return aubll.AuUserRoleOrg_List();
         }
 
         /// <summary>
-        /// 获取顶部的导航菜单
+        /// 获取顶部的导航菜单
 
         /// </summary>
         /// <param name="model"></param>
@@ -114,7 +114,7 @@ namespace IES.Service
         }
 
         /// <summary>
-        /// 获取左侧的导航菜单
+        /// 获取左侧的导航菜单
 
         /// </summary>
         /// <param name="model"></param>
@@ -124,6 +124,8 @@ namespace IES.Service
         public static List<Menu> Menu_Left_List(string ParentID , int scope )
         {
             List<Menu> leftmenulist = Menu_List().Where( x => x.ParentID.Equals(ParentID) && x.Scope == scope).ToList<Menu>();
+
+
             return leftmenulist;
         }
 
@@ -135,6 +137,34 @@ namespace IES.Service
         {
             List<Menu> userdropdownmenulist = Menu_List().Where(x => x.ParentID.Equals("D") && x.Scope == 0 ).ToList<Menu>();
             return userdropdownmenulist ;
+        }
+
+
+        /// <summary>
+        /// 获取上级菜单列表
+        /// </summary>
+        /// <param name="MenuID"></param>
+        /// <returns></returns>
+        public static Menu ParentMenu(string MenuID)
+        {
+            if (MenuID == null)
+                return new Menu();
+            Menu parentmenu = Menu_List().Where(x => x.MenuID == MenuID.Substring( 0,MenuID.Length -1 ) ).Single<Menu>();
+            return parentmenu;
+        }
+
+
+        /// <summary>
+        /// 当前菜单编号
+        /// </summary>
+        /// <param name="MenuID"></param>
+        /// <returns></returns>
+        public static Menu CurrentMenu( string MenuID )
+        {
+            if (MenuID == null)
+                return new Menu();
+            Menu menu = Menu_List().Where( x => x.MenuID == MenuID ).Single<Menu>();
+            return menu;
         }
 
     }

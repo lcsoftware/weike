@@ -18,7 +18,7 @@ using System;
 namespace IES.JW.Model
 {
 	/// <summary>
-	/// 行政班、自然班
+	/// 教室
 	/// </summary>
 	[Serializable]
 	public partial class Classroom

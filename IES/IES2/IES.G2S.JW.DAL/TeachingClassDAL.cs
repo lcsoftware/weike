@@ -19,18 +19,79 @@ namespace IES.G2S.JW.DAL
 
         #region  列表
 
+        public static List<TeachingClass> TeachingClass_List(TeachingClass model, int PageIndex, int PageSize)
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@Searchkey", model.Key);
+                    p.Add("@OrganizationID", model.OrganizationID);
+                    p.Add("@StartDate", model.StartTime);
+                    p.Add("@EndDate", model.EndTime);
+                    p.Add("@PageSize", PageSize);
+                    p.Add("@PageIndex", PageIndex);
+                    return conn.Query<TeachingClass>("TeachingClass_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<TeachingClass>();
+            }
+        }
 
+        //获取添加的学生信息
+        public static List<TeachingClassStudent> TeachingClassStudent_List(int TeachingClassID, string StudentIDs, int PageIndex, int PageSize)
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@TeachingClassID", TeachingClassID);
+                    p.Add("@StudentIDs", StudentIDs);
+                    p.Add("@PageSize", PageSize);
+                    p.Add("@PageIndex", PageIndex);
+                    return conn.Query<TeachingClassStudent>("TeachingClassStudent_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<TeachingClassStudent>();
+            }
+        }
+
+
+        public static TeachingClassStudent TeachingClassStudent_Edit(TeachingClassStudent model)
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@UserIDS", model.UserIDS);
+                    p.Add("@TeachingClassID",model.TeachingClassID);
+                    conn.Execute("TeachingClassStudent_Edit", p, commandType: CommandType.StoredProcedure);
+                    return model;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
         #endregion
 
         #region 详细信息
 
 
-        public static TeachingClassInfo TeachingClassInfo_Get(TeachingClass model)
+        public static TeachingClassInfo TeachingClassInfo_Get(TeachingClassInfo model)
         {
 
             try
             {
-                using (IDbConnection conn = DbHelper.ResourceService())
+                using (IDbConnection conn = DbHelper.JWService())
                 {
                     TeachingClassInfo tc = new TeachingClassInfo();
                     var p = new DynamicParameters();
@@ -61,14 +122,64 @@ namespace IES.G2S.JW.DAL
 
         #region  新增
 
-
-
+        public static TeachingClass TeachingClass_ADD(TeachingClass model)
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@TeachingClassID", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    p.Add("@ClassNo", model.ClassNo);
+                    p.Add("@ClassName", model.ClassName);
+                    p.Add("@StartDate", model.StartDate);
+                    p.Add("@EndDate", model.EndDate);
+                    p.Add("@CourseID", model.CourseID);
+                    p.Add("@TermID", model.TermID);
+                    p.Add("@OrganizationID", model.OrganizationID);
+                    p.Add("@Source", model.Source);
+                    p.Add("@MainUserID", model.MainUserID);
+                    p.Add("@OtherUserIDS", model.OtherUserIDS);
+                    conn.Execute("TeachingClass_ADD", p, commandType: CommandType.StoredProcedure);
+                    model.TeachingClassID = p.Get<Int32>("@TeachingClassID");
+                    return model;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
         #endregion
 
         #region 对象更新
 
-
+        public static bool TeachingClass_Upd(TeachingClass model)
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@TeachingClassID", model.TeachingClassID);
+                    p.Add("@ClassName", model.ClassName);
+                    p.Add("@StartDate", model.StartDate);
+                    p.Add("@EndDate", model.EndDate);
+                    p.Add("@CourseID", model.CourseID);
+                    p.Add("@TermID", model.TermID);
+                    p.Add("@OrganizationID", model.OrganizationID);
+                    p.Add("@MainUserID", model.MainUserID);
+                    p.Add("@OtherUserIDS", model.OtherUserIDS);
+                    conn.Execute("TeachingClass_Upd", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
         #endregion
 

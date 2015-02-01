@@ -29,7 +29,7 @@ namespace IES.CC.Model.PBL
         /// <summary>
         /// 小组长及小组教师信息
         /// </summary>
-        public string teamleader { get; set; }
+        public string LeaderName { get; set; }
 
 
 

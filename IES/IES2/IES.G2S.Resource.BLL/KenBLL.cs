@@ -15,11 +15,9 @@ namespace IES.G2S.Resource.BLL
     /// 知识点
     /// </summary>
     public class KenBLL : IKenBLL
-    { 
-        public IList<Ken> Ken_List(Ken model)
-        {
-            return KenDAL.Ken_List(model);
-        }
+    {
+
+
         public bool Ken_Del( Ken model)
         {
             return KenDAL.Ken_Del(model);
@@ -33,6 +31,32 @@ namespace IES.G2S.Resource.BLL
         public bool Ken_Upd(Ken model)
         {
            return   KenDAL.Ken_Upd(model);
+        }
+
+
+        public List<Ken> Ken_List(Ken model)
+        {
+            return KenDAL.Ken_List(model);
+        }
+
+
+        /// <summary>
+        /// 获取文件、习题相关有效知识点 
+        /// </summary>
+        /// <param name="SearchKey"></param>
+        /// <param name="Source"></param>
+        /// <param name="UserID"></param>
+        /// <param name="TopNum"></param>
+        /// <returns></returns>
+        public List<Ken> ExerciseOrFile_Ken_List(string SearchKey, string Source, int UserID, int TopNum,int OCID)
+        {
+            return KenDAL.ExerciseOrFile_Ken_List(SearchKey, Source, UserID, TopNum,OCID);
+        }
+
+
+        public List<Ken> Ken_ExerciseCount_List(int OCID, int UserID, int ExerciseType, int Diffcult)
+        {
+            return KenDAL.Ken_ExerciseCount_List(OCID, UserID, ExerciseType, Diffcult);
         }
     }
 }

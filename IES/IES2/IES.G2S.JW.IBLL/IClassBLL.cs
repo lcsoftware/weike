@@ -11,31 +11,32 @@ namespace IES.G2S.JW.IBLL
     {
         #region  列表
 
-        List<Class> Class_List(Class model, int UserID, int PageIndex, int PageSize);
+        List<Class> Class_List(Class model, int PageIndex, int PageSize);
 
         #endregion
 
         #region  详细信息
 
+        Class Class_Get(int ClassID);
+
+        List<User> ClassStudent_List(int ClassID);
 
         #endregion
 
-        #region  新增
 
-        Class Class_Add(Class model );
+        #region  对象修改或删除
 
-        #endregion
-
-        #region  对象更新
-
-        bool Class_Upd(Class model , out string opt );
+        Class Class_Edit(Class model);
 
         #endregion
 
         #region 单个对象更新
         #endregion
 
-        #region 批量属性操作
+        #region 批量删除
+        bool Class_Batch_Del(string IDS);
+
+
         #endregion
 
         #region 删除

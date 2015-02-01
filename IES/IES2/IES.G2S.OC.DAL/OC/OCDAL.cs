@@ -39,13 +39,25 @@ namespace IES.G2S.OC.DAL
            }
        }
 
+       /// <summary>
+       /// 获取所有的在线课程列表
+       /// </summary>
+       /// <returns></returns>
+       public static List<IES.CC.OC.Model.OC> OC_Cache_List()
+       {
+           using (var conn = DbHelper.CCService())
+           {
+               return conn.Query<IES.CC.OC.Model.OC>("OC_Cache_List", null, commandType: CommandType.StoredProcedure).ToList();
+           }
+       }
+
 
         /// <summary>
         /// 添加栏目
         /// </summary>
         /// <param name="column"></param>
         /// <returns></returns>
-        public static int OCSiteColumn_ADD(OCSiteColumn column)
+       public static int OCSiteColumn_Edit(OCSiteColumn column)
         {
             using (var conn = DbHelper.CCService())
             {
@@ -57,7 +69,7 @@ namespace IES.G2S.OC.DAL
                 p.Add("@Title", column.Title);
                 p.Add("@ContentType", column.ContentType);
 
-                conn.Execute("OCSiteColumn_ADD", p, commandType: CommandType.StoredProcedure);
+                conn.Execute("OCSiteColumn_Edit", p, commandType: CommandType.StoredProcedure);
                 return p.Get<int>("ColumnID");
                
             }
@@ -242,6 +254,67 @@ namespace IES.G2S.OC.DAL
                 conn.Execute("OCSiteColumn_Move", p, commandType: CommandType.StoredProcedure);
             }      
         }
+        /// <summary>
+        /// 获取网站栏目详细列表
+        /// </summary>
+        /// <param name="ColumnID"></param>
+        /// <returns></returns>
+        public static List<OCSiteColumn> OCSiteColumn_Get(int ColumnID)
+        {
+            using (var conn = DbHelper.CCService())
+            {
+                var p = new DynamicParameters();
+                p.Add("@ColumnID", ColumnID);
+                return conn.Query<OCSiteColumn>("OCSiteColumn_Get", p, commandType: CommandType.StoredProcedure).ToList();
+            }  
+        }
+         /// <summary>
+        /// 获取在线课程的基本信息
+         /// </summary>
+         /// <param name="OCID"></param>
+         /// <returns></returns>
+        public static List<IES.CC.OC.Model.OC> OC_Get(int OCID) {
+            using (var conn = DbHelper.CCService())
+            {
+                var p = new DynamicParameters();
+                p.Add("@OCID", OCID);
+                return conn.Query<IES.CC.OC.Model.OC>("OC_Get", p, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+         /// <summary>
+        /// 获取课程通知列表
+         /// </summary>
+         /// <param name="OCID"></param>
+         /// <param name="UserID"></param>
+         /// <param name="PageIndex"></param>
+         /// <param name="PageSize"></param>
+         /// <returns></returns>
+        public static List<OCNotice> OCNotice_List(int OCID, int UserID, int PageIndex, int PageSize) {
+            using (var conn = DbHelper.CCService())
+            {
+                var p = new DynamicParameters();
+                p.Add("@OCID", OCID);
+                p.Add("@UserID", UserID);
+                p.Add("@PageIndex", PageIndex);
+                p.Add("@PageSize", PageSize);
+                return conn.Query<IES.CC.OC.Model.OCNotice>("OCNotice_List", p, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }
+         /// <summary>
+        /// 获取网站下视频的预览
+         /// </summary>
+         /// <param name="OCID"></param>
+         /// <returns></returns>
+        public static List<IES.Resource.Model.File> File_OCPreviewMP4_List(int OCID) {
+            using (var conn = DbHelper.CommonService())
+            {
+                var p = new DynamicParameters();
+                p.Add("@OCID", OCID);
+                return conn.Query<IES.Resource.Model.File>("File_OCPreviewMP4_List", p, commandType: CommandType.StoredProcedure).ToList();
+            }
+        }   
+
+
 
 
 

@@ -42,12 +42,12 @@ namespace IES.G2S.Resource.DAL
                     var p = new DynamicParameters();
                     p.Add("@Searchkey", paper.Papername);
                     p.Add("@OCID", paper.OCID);
-                    p.Add("@CourseID", paper.CourseID);
-                    p.Add("@UserID", paper.CreateUserID);
+                    //p.Add("@CourseID", paper.CourseID);
+                    //p.Add("@UserID", paper.CreateUserID);
                     p.Add("@Type", paper.Type);
                     p.Add("@Scope", paper.Scope);
                     p.Add("@UpdateTime", paper.UpdateTime);
-                    p.Add("@ShareScope", paper.ShareScope);
+                    //p.Add("@ShareScope", paper.ShareScope);
 
                     p.Add("@PageSize", PageSize);
                     p.Add("@PageIndex", PageIndex);
@@ -219,24 +219,131 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static bool Paper_ADD(Paper model)
+        public static int Paper_ADD(Paper model)
         {
             try
             {
                 using (var conn = DbHelper.ResourceService())
                 {
+                    var p = new DynamicParameters();
+                    p.Add("@PaperID", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    p.Add("@OCID", model.OCID);
+                    p.Add("@OwnerUserID", model.CourseID);
+                    p.Add("@CourseID", model.OwnerUserID);
+                    p.Add("@CreateUserID", model.CreateUserID);
+                    p.Add("@Papername", model.Papername);
+                    p.Add("@Type", model.Type);
+                    p.Add("@Scope", model.Scope);
+                    p.Add("@ShareScope", model.ShareScope);
+                    p.Add("@TimeLimit", model.TimeLimit);
+                    p.Add("@Brief", model.Brief);
+                    p.Add("@Conten", model.Conten);
+                    p.Add("@Answer", model.Answer);
 
-
-
-                    return true;
+                    conn.Execute("Paper_ADD", p, commandType: CommandType.StoredProcedure);
+                    model.PaperID = p.Get<int>("PaperID");
+                    return model.PaperID;
                 }
             }
             catch (Exception e)
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 新增试卷分组
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static int PaperGroup_ADD(PaperGroup model) 
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@GroupID", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    p.Add("@PaperID", model.PaperID);
+                    p.Add("@GroupName", model.GroupName);
+                    p.Add("@Orde", model.Orde);
+                    p.Add("@Brief", model.Brief);
+                    p.Add("@Timelimit", model.Timelimit);
+
+                    conn.Execute("PaperGroup_ADD", p, commandType: CommandType.StoredProcedure);
+                    model.GroupID = p.Get<int>("GroupID");
+                    return model.GroupID;
+                }
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
+        /// 试卷分组添加习题
+        /// </summary>
+        /// <param name="PaperID"></param>
+        /// <param name="PaperGroupID"></param>
+        /// <param name="ExerciseID"></param>
+        /// <param name="Score"></param>
+        /// <param name="Order"></param>
+        /// <returns></returns>
+        public static bool PaperExercise_ADD(int PaperID,int PaperGroupID,int ExerciseID,int Score,int Order)
+        {
+            try
+            {
+                 using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@PaperID", PaperID);
+                    p.Add("@PaperGroupID", PaperGroupID);
+                    p.Add("@ExerciseID", ExerciseID);
+                    p.Add("@Score", Score);
+                    p.Add("@Order", Order);
+
+                    conn.Execute("PaperExercise_ADD", p, commandType: CommandType.StoredProcedure);
+                    return true; 
+                }
+            }
+            catch (Exception)
             {
                 return false;
             }
         }
 
+        /// <summary>
+        /// 试卷分组添加策略  
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool  PaperTactic_Edit(PaperTactic model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@PaperTacticID", model.PaperTacticID);
+                    p.Add("@PaperID", model.PaperID);
+                    p.Add("@GroupID", model.GroupID);
+                    p.Add("@Diffcult", model.Diffcult);
+                    p.Add("@ExerciseType", model.ExerciseType);
+                    p.Add("@Num", model.Num);
+                    p.Add("@ScorePer", model.ScorePer);
+                    p.Add("@KenID", model.KenID);
+                    p.Add("@ChapterID", model.ChapterID);
+
+                    conn.Execute("PaperTactic_Edit", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// 添加答题卡试卷信息
@@ -290,7 +397,63 @@ namespace IES.G2S.Resource.DAL
         #endregion
 
         #region 对象更新
+        /// <summary>
+        /// 试卷更新
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool PaperUpd(Paper model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@PaperID", model.PaperID);
+                    p.Add("@Papername", model.Papername);
+                    p.Add("@Scope", model.Scope);
+                    p.Add("@ShareScope", model.ShareScope);
+                    p.Add("@TimeLimit", model.TimeLimit);
+                    p.Add("@Brief", model.Brief);
+                    p.Add("@Content", model.Conten);
+                    p.Add("@Answer", model.Answer);
 
+                    conn.Execute("Paper_Upd", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
+        }
+
+        /// <summary>
+        /// 分组更新
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool PaperGroupUpd(PaperGroup model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@GroupID", model.GroupID);
+                    p.Add("@Brief", model.Brief);
+                    p.Add("@Timelimit", model.Timelimit);
+
+                    conn.Execute("PaperGroup_Upd", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
 
 
 

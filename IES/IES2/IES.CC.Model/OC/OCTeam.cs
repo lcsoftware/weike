@@ -19,12 +19,23 @@ namespace IES.CC.OC.Model
 {
 	/// <summary>
 	/// 我的课程团队，课程主讲教师
+
 	/// </summary>
 	[Serializable]
 	public partial class OCTeam
-	{
+    {
+        #region 补充信息
+        public string OCClassNames { get;set;}
+        public string ClassCount { get; set; }
+        public string FunctionCount { get; set; }
+        public string OCTeamClassIDs { get; set; }
+        public string OCTeamModuleIDs { get; set; }
 
-		public OCTeam()
+        public int OwnerUserID { get; set; }
+
+
+        #endregion
+        public OCTeam()
 		{}
 		#region Model
 		private int _teamid;
@@ -34,7 +45,7 @@ namespace IES.CC.OC.Model
 		private int _role=0;
 		private string _brief;
 		private int? _status=0;
-		private DateTime? _applydate= DateTime.Now;
+        //private DateTime? _applydate= DateTime.Now;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -99,11 +110,11 @@ namespace IES.CC.OC.Model
 		/// <summary>
 		/// 申请时间
 		/// </summary>
-		public DateTime? ApplyDate
-		{
-			set{ _applydate=value;}
-			get{return _applydate;}
-		}
+        //public DateTime? ApplyDate
+        //{
+        //    set{ _applydate=value;}
+        //    get{return _applydate;}
+        //}
 
         /// <summary>
         /// 是否处于锁定状态

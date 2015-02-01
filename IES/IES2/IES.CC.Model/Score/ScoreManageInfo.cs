@@ -14,13 +14,12 @@ namespace IES.CC.Model.Score
     [Serializable]
     public class ScoreManageInfo
     {
-        public int rowNum { get; set; }  //行号
         public int OCID { get; set; }  //课程编号
         public int TermID { get; set; }  //学期编号
         public int TestID { get; set; }  //成绩编号
         public string Name { get; set; }  //成绩名称
         public int ScoreTypeID { get; set; }  //成绩类别编号
-        public string SoreTypeName { get; set; }  //成绩类别名称
+        public string ScoreTypeName { get; set; }  //成绩类别名称
         public int JoinStudent { get; set; }  //参与学生总数
         public int C { get; set; }  //60分以下学生人数
         public int B { get; set; }  //60~80分学生人数

@@ -35,7 +35,7 @@ namespace IES.G2S.CourseLive.DAL.Score
                 {
                     var p = new DynamicParameters();
                     p.Add("@TestID", swi.TestID);
-                    p.Add("@StudentName", swi.UserName);
+                    p.Add("@UserName", swi.UserName);
                     p.Add("@ClassID", swi.ClassID);
                     p.Add("@TeachingClassID", swi.TeachingClassID);
                     p.Add("@PageIndex", PageIndex);
