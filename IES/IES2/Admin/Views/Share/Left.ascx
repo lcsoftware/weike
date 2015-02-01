@@ -3,7 +3,7 @@
 <div class="user">
     <img src=<%=Admin.SessionUser.CurrentUserIMG %> width="110" height="100" />
     <a class="teacher_name" href="#">     <%=IES.Service.UserService.CurrentUser.UserName %> </a>
-    <a class="switch_btn" href="#">这里是教师端<i class="icon icon_arrow"></i></a>
+    <a class="switch_btn" href="#">管理员端<i class="icon icon_arrow"></i></a>
 </div>
 <!--用户信息结束-->
 <!--侧边导航开始-->
@@ -15,14 +15,14 @@
             </ItemTemplate>
         </asp:Repeater>
     </ul>
-    <a class="more_tool" href="javascript:;">更多工具<i class="icon icon_more"></i></a>
+  <%--  <a class="more_tool" href="javascript:;">更多工具<i class="icon icon_more"></i></a>--%>
 </div>
 
 <script type="text/javascript">
 
 
   
-    var MenuID = request("PID");
+    var MenuID = request("PID").substr(0, 3);
     if ($(".side_nav #leftmenu" + MenuID).html() != undefined) {
         $("#leftmenu" + MenuID).addClass("active");
     } else {

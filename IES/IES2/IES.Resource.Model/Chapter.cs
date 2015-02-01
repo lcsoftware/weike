@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * Chapter.cs
 *
 * 功 能： N/A
@@ -9,18 +9,18 @@
 * V0.01  2014/12/4 17:26:45   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
 using System.Collections.Generic;
-[assembly: CLSCompliant(true)]
+using System.Linq;
 namespace IES.Resource.Model
 {
     /// <summary>
-    /// 课程章节表
+    /// 课程章节表
     /// </summary>
     [Serializable]
     public partial class Chapter
@@ -38,13 +38,37 @@ namespace IES.Resource.Model
 
         public int KenNum { get; set; }
 
+        public int IsFinish { get; set; }
 
+        public List<ChapterTest> ChapterTests  { get; set; }
+
+        public int IsTest { get; set; }
+        //是否允许学习
+        public int IsAllowStudy { get; set; }
+
+        //是否被选中
+        public bool IsActive { get; set; }
+
+        /// <summary>
+        /// 章节下习题数量
+        /// </summary>
+        public int ExerciseCount { get; set;  }
+        /// <summary>
+        /// 抽题数
+        /// </summary>
+        public int Num { get; set; }
+        /// <summary>
+        /// 题目分数
+        /// </summary>
+        public int Scoreper { get; set; }
+        
         #endregion 
 
 
         public Chapter()
         {
-            //this.Children = new List<Chapter>();
+            Children = new List<Chapter>();
+            ChapterTests = new List<ChapterTest>();
         }
         #region Model
         private int _chapterid;
@@ -55,9 +79,6 @@ namespace IES.Resource.Model
         private string _title;
         private int _parentid = 0;
         private int? _orde = 1;
-
-        //public IList<Chapter> Children { get; set; }
-
         /// <summary>
         /// 主键
         /// </summary>
@@ -75,7 +96,7 @@ namespace IES.Resource.Model
             get { return _ocid; }
         }
         /// <summary>
-        /// 章节对应的课程编号
+        /// 章节对应的课程编号
         /// </summary>
         public int CourseID
         {
@@ -83,7 +104,7 @@ namespace IES.Resource.Model
             get { return _courseid; }
         }
         /// <summary>
-        /// 资源拥有人编号
+        /// 资源拥有人编号
         /// </summary>
         public int OwnerUserID
         {
@@ -91,7 +112,7 @@ namespace IES.Resource.Model
             get { return _owneruserid; }
         }
         /// <summary>
-        /// 创建人编号
+        /// 创建人编号
         /// </summary>
         public int CreateUserID
         {
@@ -130,7 +151,19 @@ namespace IES.Resource.Model
 
         public int MinHour { get; set; }
 
+        public int MoocStatus { get; set; }
+        /// <summary>
+        /// 节测试id (,分割)
+        /// </summary>
+        public string TestIDs { get; set; }
+        /// <summary>
+        /// 子集
+        /// </summary>
+        public List<Chapter> Children { get; set; } 
 
+        
+       
+ 
         #endregion Model
 
     }

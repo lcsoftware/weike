@@ -33,7 +33,7 @@ namespace IES.CC.OC.Model
         /// 教学班编号
 
         /// </summary>
-        public int TeachingClassID { get; set; }
+        public int OCClassID { get; set; }
         #endregion
     }
 }

@@ -1,0 +1,463 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout3.cshtml";
+}
+<link href="~/Css/test.css" rel="stylesheet" />
+<style>
+    .create_next {
+        display: block;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        background: #f2f2f2;
+        border: 1px solid #ccc;
+        margin-top: -15px;
+        font-size: 13px;
+        color: #333;
+        font-family: 'Microsoft YaHei';
+    }
+
+    .delete_btn {
+        display: inline-block;
+        margin-left: 10px;
+        width: 60px;
+        height: 22px;
+        line-height: 22px;
+        text-align: center;
+        background: #999;
+        color: #fff;
+        cursor: pointer;
+    }
+</style>
+
+<div class="add_box" ng-controller="HomeWorkController">
+    <h4>新增作业</h4>
+    <div class="setting_box">
+        <ul class="add_work_info">
+            <li><span>名　　称</span><input type="text" ng-model="Test.Name"></li>
+            <li><span>开始时间</span><input type="text" id="start" class="laydate-icon"></li>
+            <li>
+                <span>成绩类型</span>
+                <select ng-model="Test.ScoreTypeID">
+                    <option ng-repeat="TestScaleType in TestScaleTypeList" ng-value="TestScaleType.ID">{{TestScaleType.Name}}</option>
+                </select>
+            </li>
+            <li><span>对应章节</span><input type="text" ng-model="Test.ChapterName"></li>
+            <li><span>截止时间</span><input type="text" id="end" class="laydate-icon"></li>
+            <li><span>参与人数</span><p class="involve_num">{{sc}}人<a role="button" data-toggle="modal" data-backdrop="static" href="#myModal" ng-click="TeachingClassList_Get()">请选择</a></p></li>
+
+            <li>
+                <span>成绩评定</span>
+                <div class="grading_style">
+                    <p><input type="checkbox" class="ScoreSource" id="Teacher_Score" value="1" ng-model="TS" ng-checked="TS">老师评分</p>
+                    <p><input type="checkbox" class="ScoreSource" id="Student_HP" value="2" ng-model="SH" ng-checked="SH" ng-change="StudentScoreSource_change(SH)">学生互评</p>
+                    <p><input type="checkbox" class="ScoreSource" id="Student_ZP" value="4" ng-model="SZ" ng-checked="SZ" ng-disabled="Student_ZP_Disabled">学生自评</p>
+                </div>
+            </li>
+        </ul>
+        <div class="review_rule">
+            <div class="review_setting">
+                <span>每人评阅<input type="text" ng-model="Test.StudentCheckNum">份</span>
+                <span>有缺评总分减少<input type="text" ng-model="Test.LostScoreDiscount">%</span>
+                <span>评阅截止时间<input class="review_deadline laydate-icon" id="endCheckTime" type="text" ng-value="Test.EndCheckTime | dateFormatAll"></span>
+            </div>
+            <p>学生互评成绩计算规则：1）小于等于3人时，按平均分计算； 2）大于3人时，去掉一个最高分，去掉一个最低分，剩余评分按平均分计算；</p>
+        </div>
+        <div class="expired_setting">
+            <b>过期设置：</b>
+            <span><input name="radion_CJ" type="radio" value="2" ng-model="Test.Delay">允许迟交</span>
+            <span>
+                <input name="radion_CJ" type="radio" value="3" ng-model="Test.Delay">迟交扣分
+                <select ng-model="Test.DelayScoreDiscount">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                </select>
+                %
+            </span>
+            <span><input name="radion_CJ" ng-model="Test.Delay" value="1" type="radio">申请补交</span>
+            <span><input name="radion_CJ" ng-model="Test.Delay" value="0" type="radio">禁止迟交</span>
+        </div>
+        <a class="batch_btn" href="javascript:;" style="display:none">流水批阅设置</a>
+    </div>
+    <div class="work_section" ng-repeat="PaperGroup in PaperDefineInfo.papergrouplist">
+        <div class="section_part">
+            <p class="which_part"><label>{{PaperGroup.GroupName}}</label></p>
+            <p class="section_question">总题数：<b>{{PaperGroup.ExerciseCount}}</b>　总分数：<b>{{PaperGroup.ExerciseScore}}</b></p>
+            @*<p class="start_rank">起始序号<input type="text" value="1"></p>*@
+            <a class="close_section" href="javascript:;"></a>
+            <div class="paper_score">
+                <p><label style="float:left">统一分值</label><input type="text" id="ScoreAll_{{PaperGroup.GroupID}}" value="0"></p>
+                <a href="javascript:;" ng-click="ScoreAll_Click(PaperGroup.GroupID)">设定</a>
+                <span class="delete_btn" ng-click="Group_Del_Click($index)">删除</span>
+            </div>
+        </div>
+
+        <!--题库选题  主页面习题列表开始-->
+        <div>
+            <table class="topic_table" ng-show="PaperDefineInfo.exerciselist.length>0">
+                <tr>
+                    <th width="35">序号</th>
+                    <th width="95">题型</th>
+                    <th width="43">难度</th>
+                    <th width="245">内容</th>
+                    <th width="175">标签</th>
+                    <th width="175">知识点</th>
+                    <th>分值</th>
+                </tr>
+                <tr ng-repeat="ExerciseSave in PaperDefineInfo.exerciselist" ng-if="ExerciseSave.PaperGroupID ==PaperGroup.GroupID">
+                    <td class="first_line" align="center"><b class="exam_num">{{$index+1}}</b></td>
+                    <td>{{ExerciseSave.ExerciseTypeName}}</td>
+                    <td ng-if="ExerciseSave.Diffcult==1"><span class="simple_difficulty">简单</span></td>
+                    <td ng-if="ExerciseSave.Diffcult==2"><span class="medium_difficulty">中等</span></td>
+                    <td ng-if="ExerciseSave.Diffcult==3"><span class="difficulty">较难</span></td>
+                    <td><p class="exam_content">{{ExerciseSave.Conten}}</p></td>
+                    <td><p class="exam_label">{{ExerciseSave.Keys}}</p></td>
+                    <td><p class="knowledge_name">{{ExerciseSave.Kens}}</p></td>
+                    <td><p class="exam_score"><input type="text" ng-model="ExerciseSave.Score" class="Score_Text_{{PaperGroup.GroupID}}" value="0"><i ng-click="Exercise_Del_Click(ExerciseSave.ExerciseID)" class="icon throw_btn"></i></p></td>
+                </tr>
+
+            </table>
+        </div>
+        <!--题库选题  主页面习题列表结束-->
+        <!--智能组卷开始-->
+        <div>
+            <!--智能组卷 选中的题型开始-->
+            <table class="question_table" ng-repeat="exinfo in ExerciseType_Q" ng-if="exinfo.GroupID ==PaperGroup.GroupID">
+                <tr>
+                    <th width="560">
+                        <div class="question_filter">
+                            <b>{{$index+1}}</b>
+                            <p class="exam_type">{{exinfo.ExerciseTypeName}}</p>
+                            <p class="degree_type" ng-if="exinfo.DiffcultID==1"><span class="simple_difficulty">简单</span></p>
+                            <p class="degree_type" ng-if="exinfo.DiffcultID==2"><span class="medium_difficulty">中等</span></p>
+                            <p class="degree_type" ng-if="exinfo.DiffcultID==3"><span class="difficulty">较难</span></p>
+                            <p ng-if="exinfo.ChapterID==0">按标签列题</p>
+                            <p ng-if="exinfo.KenID==0">按知识点列题</p>
+                        </div>
+                    </th>
+                    <th width="60">　总题数</th>
+                    <th width="60">　抽题数</th>
+                    <th><p class="last_column">　分值<i class="icon throw_btn" ng-click="ZNZJ_Exercise_Del(exinfo.ExerciseTypeID)"></i><i ng-click="ZNZJ_Exercise_Edit()" class="icon icon_pen"></i></p></th>
+                </tr>
+                <tr ng-repeat="Tactic in PaperDefineInfo.papertacticlist" ng-if="Tactic.ExerciseType==exinfo.ExerciseTypeID">
+                    <td>
+                        <p class="knowledge_length">{{Tactic.ChapterName}}</p>
+                        <p class="knowledge_length">{{Tactic.KenName}}</p>
+                    </td>
+                    <td>{{Tactic.ExerciseCount}}</td>
+                    <td><b ng-show="Tactic_EditOrAdd=='Add' || ZNZJ_SelectGroupID!=PaperGroup.GroupID">{{Tactic.Num}}</b><input ng-show="Tactic_EditOrAdd=='Edit' && ZNZJ_SelectGroupID==PaperGroup.GroupID" type="text" ng-model="Tactic.Num" onkeyup="value = value.replace(/[^\d]/g, '') " ng-value="0"></td>
+                    <td><b ng-show="Tactic_EditOrAdd=='Add' || ZNZJ_SelectGroupID!=PaperGroup.GroupID">{{Tactic.ScorePer}}</b><input ng-show="Tactic_EditOrAdd=='Edit' && ZNZJ_SelectGroupID==PaperGroup.GroupID" class="Score_Text_{{PaperGroup.GroupID}}" type="text" ng-model="Tactic.ScorePer" ng-value="0"></td>
+                </tr>
+                <tr class="last_row">
+                    <td><p class="knowledge_length"><b>总计</b></p></td>
+                    <td><b>{{exinfo.ExerciseCount}}</b></td>
+                    <td><b>{{exinfo.ExerciseCountChecked}}</b></td>
+                    <td>
+                        <div class="total_operation">
+                            <b>{{exinfo.ExerciseCountScore}}</b>
+                            <div class="total_btn">
+                                <a class="cancel" ng-show="Tactic_EditOrAdd=='Edit' && ZNZJ_SelectGroupID==PaperGroup.GroupID" ng-click="ZNZJ_Exercise_Confirm()" href="javascript:;">取消</a>
+                                <a class="save" ng-show="Tactic_EditOrAdd=='Edit' && ZNZJ_SelectGroupID==PaperGroup.GroupID" ng-click="ZNZJ_Exercise_Confirm()" href="javascript:;">确定</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <!--智能组卷 选中的题型结束-->
+            <!--智能组卷 未选中的题型开始-->
+            <table class="question_table" ng-show="ZNZJ_Show && ZNZJ_SelectGroupID==PaperGroup.GroupID">
+                <tr>
+                    <th width="560">
+                        <div class="question_filter">
+                            <b>&nbsp;</b>
+                            <select class="exam_type" ng-change="ZNZJ_ExerciseTypeID_Change(ExerciseTypeID_ZNXT)" ng-model="ExerciseTypeID_ZNXT">
+                                <option ng-repeat="ExerciseType in ExerciseTypeList" ng-checked="$index==1" ng-value="ExerciseType.id">{{ExerciseType.name}}</option>
+                            </select>
+                            <select class="degree_type" ng-change="ZNZJ_DiffcultID_Change(DiffcultID_ZNXT)" ng-model="DiffcultID_ZNXT">
+                                <option ng-repeat="Diffcult in DiffcultList" ng-checked="$index==1" ng-value="Diffcult.id">{{Diffcult.name}}</option>
+                            </select>
+                            <ul class="form_style">
+                                <li ng-class="{'active' : ZNZJ_Type=='Ken'}" ng-click="ZNZJ_Ken_Click()"><a href="#">按知识点列题</a></li>
+                                <li ng-class="{'active' : ZNZJ_Type=='Chapter'}" ng-click="ZNZJ_Chapter_Click()"><a href="#">按章节列题</a></li>
+                            </ul>
+                        </div>
+                    </th>
+                    <th width="60">　总题数</th>
+                    <th width="60">　抽题数</th>
+                    <th><p class="last_column">　分值</p></th>
+                </tr>
+                <tr ng-repeat="KenExerciseCount in KenExerciseCountList" ng-if="ZNZJ_SelectGroupID==PaperGroup.GroupID" on_exercise_count_select>
+                    <td><p class="knowledge_length">{{KenExerciseCount.Name}}</p></td>
+                    <td>{{KenExerciseCount.ExerciseCount}}</td>
+                    <td><input type="text" ng-model="KenExerciseCount.Num" onkeyup="value = value.replace(/[^\d]/g, '') " ng-value="0"></td>
+                    <td><input type="text" ng-model="KenExerciseCount.Scoreper" class="Score_Text_{{PaperGroup.GroupID}}" ng-value="0"></td>
+                </tr>
+                <tr ng-repeat="ChapterExercise in ChapterExerciseCountList" ng-if="ZNZJ_SelectGroupID==PaperGroup.GroupID" on_exercise_count_select>
+                    <td><p class="knowledge_length">{{ChapterExercise.Title}}</p></td>
+                    <td>{{ChapterExercise.ExerciseCount}}</td>
+                    <td><input type="text" ng-model="ChapterExercise.Num" onkeyup="value = value.replace(/[^\d]/g, '') " ng-value="0"></td>
+                    <td><input type="text" ng-model="ChapterExercise.Scoreper" class="Score_Text_{{PaperGroup.GroupID}}" ng-value="0" /></td>
+
+                </tr>
+                <tr class="last_row" ng-show="(KenExerciseCountList!=null || ChapterExerciseCountList!=null) && ZNZJ_SelectGroupID==PaperGroup.GroupID">
+                    <td><p class="knowledge_length"><b>总计</b></p></td>
+                    <td><b id="EC_{{PaperGroup.GroupID}}">0</b></td>
+                    <td><b id="XC_{{PaperGroup.GroupID}}">0</b></td>
+                    <td>
+                        <div class="total_operation">
+                            <b id="Score_{{PaperGroup.GroupID}}">0</b>
+
+                            <div class="total_btn">
+                                <a class="cancel" href="javascript:;">取消</a>
+                                <a class="save" ng-click="ZNZJ_ADD_Click(PaperGroup.GroupID)" href="javascript:;">确定</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <!--智能组卷 未选中的题型结束-->
+            
+        </div>
+        <!--智能组卷结束-->
+        <div class="section_btn">
+            <a class="paper_btn" href="javascript:;" ng-click="ZNZJ_Click(PaperGroup.GroupID)" ng-show="ZNZJ">智能组卷</a>
+            <a class="question_btn" href="#ExerciseModal" ng-show="TKXT" role="button" data-toggle="modal" data-backdrop="static" ng-click="Init_Exercise(PaperGroup.GroupID)">题库选题</a>
+            <a class="assign_btn" href="#PaperModal" ng-show="ZDSJ" role="button" data-toggle="modal" data-backdrop="static" ng-click="Init_Paper()">指定试卷</a>
+            @*<a class="answer_btn" href="javascript:;" ng-show="DTKCT">答题卡出题</a>*@
+            <a class="offline_btn" role="button" ng-show="XXZY" data-toggle="modal" data-backdrop="static" href="#XXWorkModal" ng-click="XXHomeWork_Eject()">线下作业</a>
+        </div>
+    </div>
+    <a class="create_next" href="javascript:;" ng-show="NEXT" ng-click="Next_Click()">创建下一部分</a>
+    <div class="btn_box">
+        <a class="save" href="javascript:;">预览</a>
+        <a class="save" ng-click="Save_Click()" href="javascript:;">暂存</a>
+        <a class="save" href="javascript:;">保存</a>
+    </div>
+
+    <!--选择学生弹出框开始-->
+    <div id="myModal" class="modal hide fade" style="width:600px;height:430px;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <h4>参与对象选择</h4>
+        <i class="icon icon_close" data-dismiss="modal" aria-hidden="true"></i>
+        <div class="wrap_box">
+            <div class="member_box">
+                <div class="member_select">
+                    <div class="class_select">
+                        <h5>教学班名称</h5>
+                        <ul class="class_list">
+                            <li ng-repeat="teachingclass in TeachingClassList"><i class="default_status"></i><input id="{{teachingclass.TeachingClassID}}" class="TeachingClass_CHX" ng-change="StudentList_TeachingClassID_Get(teachingclass.TeachingClassID,teachingclass.StudentCount,chx)" ng-model="chx" type="checkbox" />{{teachingclass.ClassName}}({{teachingclass.StudentCount}}) </li>
+                        </ul>
+                    </div>
+                    <div class="member_item">
+                        <div class="student_box" style="display:block;">
+                            <table class="member_table">
+                                <tr>
+                                    <th width="15"></th>
+                                    <th width="30"></th>
+                                    <th width="90">学号</th>
+                                    <th width="100">姓名</th>
+                                    <th width="100">行政班</th>
+                                </tr>
+                                <tr ng-repeat="student in StudentList">
+                                    <td><input class="{{student.TeachingClassID}}" id="{{student.UserID}}" ng-model="stuchx" ng-change="Student_Change(stuchx,student.TeachingClassID)" ng-checked="true" type="checkbox" /></td>
+                                    <td><i class="default_status"></i></td>
+                                    <td>{{student.UserNo}}</td>
+                                    <td>{{student.UserName}}</td>
+                                    <td>{{student.ClassName}}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" data-dismiss="modal">保存</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+        </div>
+
+    </div>
+    <!--选择学生弹出框结束-->
+    <!--线下作业弹出框开始-->
+    <div id="XXWorkModal" class="modal hide fade" style="width:600px;height:750px;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <h4>线下作业内容</h4>
+        <i class="icon icon_close" ng-click="ESC()" data-dismiss="modal" aria-hidden="true"></i>
+        <div class="wrap_box">
+            <div class="member_box">
+                <div>
+                    作业内容：
+                    <input type="hidden" name="oEditor1" id="oEditor1" ng-value="frmoEditor1" />
+                    <iframe id="frmoEditor1" src="~/Frameworks/eWebEditor/ewebeditor.htm?id=oEditor1&style=mini"
+                            frameborder="0" scrolling="no" width="550" height="300" style="display: block;"></iframe>
+                </div>
+                <div>
+                    参考答案：
+                    <input type="hidden" name="oEditor1" id="oEditor2" ng-value="frmoEditor2" />
+                    <iframe id="frmoEditor2" src="~/Frameworks/eWebEditor/ewebeditor.htm?id=oEditor1&style=mini"
+                            frameborder="0" scrolling="no" width="550" height="300" style="display: block;"></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="XXHomeWork_Click()" data-dismiss="modal">保存</button>
+            <button class="btn" data-dismiss="modal" ng-click="ESC()" aria-hidden="true">关闭</button>
+        </div>
+
+    </div>
+    <!--线下作业弹出框结束-->
+    <!--题库选题开始-->
+    <div id="ExerciseModal" class="modal hide fade" style="width:1000px;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div>
+            <h4>题库选题</h4>
+            <i class="icon icon_close" ng-click="ESC()" data-dismiss="modal" aria-hidden="true"></i>
+        </div>
+        <div class="exam_box">
+            <div class="exam_filter">
+                <dl class="exam_filter_box">
+                    <dt>筛选</dt>
+                    <dd>
+                        <div class="select_requirement">
+                            <select class="select_type" ng-model="ExerciseTypeID">
+                                <option value="0">全部</option>
+                                <option ng-repeat="ExerciseType in ExerciseTypeList" ng-value="ExerciseType.id">{{ExerciseType.name}}</option>
+                            </select>
+                            <select class="degree_select" ng-model="DiffcultID">
+                                <option value="0">全部</option>
+                                <option ng-repeat="Diffcult in DiffcultList" ng-value="Diffcult.id">{{Diffcult.name}}</option>
+                            </select>
+                            <p class="search_requirement"><input type="text" ng-model="SeaCon" placeholder="请输入关键字"><a class="icon search_icon" ng-click="Sea_Click()" href="javascript:;"></a></p>
+                            <p class="show_box">
+                                每页显示
+                                <select ng-model="PageCount" ng-click="Sea_Click()">
+                                    <option value="10000">全部</option>
+                                    <option value="10">10行</option>
+                                    <option value="20">20行</option>
+                                    <option value="50">50行</option>
+                                </select>
+                            </p>
+                        </div>
+                    </dd>
+                </dl>
+                <dl class="exam_filter_box">
+                    <dt>标签</dt>
+                    <dd>
+                        <div class="label_select">
+                            <a class="{'active': KeyID==0 }" ng-click="Key_Click(0)" href="javascript:;"><span>不限</span></a>
+                            <a ng-repeat="Key in KeyList" id="key_{{Key.KeyID}}" ng-click="Key_Click(Key.KeyID)" href="javascript:;"><span>{{Key.Name}}</span></a>
+                        </div>
+                    </dd>
+                </dl>
+                <dl class="exam_filter_box">
+                    <dt>知识点</dt>
+                    <dd>
+                        <div class="label_select">
+                            <a ng-class="{'active': KenID==0 }" ng-click="Ken_Click(0)" href="javascript:;"><span>不限</span></a>
+                            <a ng-repeat="Ken in KenList" ng-class="{'active':Ken.KenID == KenID }" id="Ken_{{Ken.KenID}}" ng-click="Ken_Click(Ken.KenID)" href="javascript:;"><span>{{Ken.Name}}</span></a>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+            <table class="exam_table">
+                <tr>
+                    <th width="40" align="center"><input ng-model="CHEXALL" ng-change="Change_AllExercise(CHEXALL)" type="checkbox"></th>
+                    <th width="100">题型</th>
+                    <th width="100">难易程度</th>
+                    <th width="400">内容</th>
+                    <th width="180">标签</th>
+                    <th>知识点</th>
+                </tr>
+                <tr ng-repeat="Exercise in ExerciseList">
+                    <td align="center"><input class="chk_exercise" id="{{Exercise.ExerciseID}}" type="checkbox"></td>
+                    <td align="center">{{Exercise.ExerciseTypeName}}</td>
+                    <td align="center" ng-if="Exercise.Diffcult==1"><span class="simple_difficulty">简单</span></td>
+                    <td align="center" ng-if="Exercise.Diffcult==2"><span class="medium_difficulty">中等</span></td>
+                    <td align="center" ng-if="Exercise.Diffcult==3"><span class="difficulty">较难</span></td>
+                    <td><p class="exam_content">{{Exercise.Conten}}</p></td>
+                    <td><p class="exam_label">{{Exercise.Keys}}</p></td>
+                    <td><p class="knowledge_name">{{Exercise.Kens}}</p></td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="modal-footer btn_box">
+            <a class="save" ng-click="ExerciseADD_Click()">新增习题</a>
+            <a class="save" ng-click="Exercise_Save_Click()" data-dismiss="modal">选择</a>
+            <a class="cancel" data-dismiss="modal" ng-click="ESC()" aria-hidden="true">取消</a>
+        </div>
+    </div>
+    <!--题库选题结束-->
+    <!--选择试卷开始-->
+    <div id="PaperModal" class="modal hide fade" style="width:1000px;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <h4>指定试卷</h4>
+        <i class="icon icon_close" ng-click="ESC()" data-dismiss="modal" aria-hidden="true"></i>
+        <div class="exam_box">
+            <div class="exam_filter">
+                <dl class="exam_filter_box">
+                    <dt>筛选</dt>
+                    <dd>
+                        <div class="select_requirement">
+                            <select class="select_type" ng-model="PaperType">
+                                <option value="-1">全部</option>
+                                <option ng-repeat="PageType in PaperTypeList" ng-value="PageType.id">{{PageType.name}}</option>
+                            </select>
+                            <p class="search_requirement"><input type="text" ng-model="PaperCon" placeholder="请输入关键字"><a class="icon search_icon" ng-click="Paper_Search()" href="javascript:;"></a></p>
+                            <p class="show_box">
+                                每页显示
+                                <select ng-model="PaperPageCount" ng-click="Paper_Search()">
+                                    <option value="10000">全部</option>
+                                    <option value="10">10行</option>
+                                    <option value="20">20行</option>
+                                    <option value="50">50行</option>
+                                </select>
+                            </p>
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+            <table class="paper_table">
+                <tr>
+                    <th width="40"></th>
+                    <th width="300">试卷名称</th>
+                    <th width="100">创建人</th>
+                    <th width="100">试卷类型</th>
+                    <th width="100">题目数</th>
+                    <th width="100">总分</th>
+                    <th width="120">考试时长（分钟）</th>
+                    <th>最后修改日期</th>
+                </tr>
+                <tr ng-repeat="Paper in PaperList">
+                    <td><input type="radio" name="PaperRadio" ng-change="Paper_Save_Click()"></td>
+                    <td>{{Paper.Papername}}</td>
+                    <td>{{Paper.UserName}}</td>
+                    <td ng-if="Paper.Type==1">智能型试卷</td>
+                    <td ng-if="Paper.Type==2">自测型试卷</td>
+                    <td ng-if="Paper.Type==3">答题卡试卷</td>
+                    <td>{{Paper.Num}}</td>
+                    <td>{{Paper.Score}}</td>
+                    <td>{{Paper.TimeLimit}}</td>
+                    <td>{{Paper.UpdateTime | dateFormat}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="modal-footer btn_box">
+            <a class="save" data-dismiss="modal">选择</a>
+            <a class="cancel" data-dismiss="modal" ng-click="ESC()" aria-hidden="true">取消</a>
+        </div>
+    </div>
+    <!--选择试卷结束-->
+    <!--新增习题-->
+    <div id="ExerciseADDModal" class="loading-mask" style="display:none">
+    </div>
+    <div class="loading" id="t_div" style="width:400px;height:100px;display:none">
+        <div onmousedown="$G2S.moveEvent(event, 't_div')">
+            <h4>新增习题</h4>
+            <i class="icon icon_close" ng-click="LoginCancel()" data-dismiss="modal" aria-hidden="true"></i>
+        </div>
+        <div class="btn_box modal-footer" style="margin-top:0px;">
+            <a class="save" ng-click="ExerciseADD_Save()">新增完成</a>
+            <a class="cancel" ng-click="LoginCancel()">取消</a>
+        </div>
+    </div>
+    <!--新增习题-->
+</div>

@@ -6,7 +6,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
-using IES.SYS.Model;
+using IES.JW.Model;
 
 namespace Admin
 {
@@ -14,7 +14,7 @@ namespace Admin
     {
         void Application_Start(object sender, EventArgs e)
         {
-            // 在应用程序启动时运行的代码
+            // 在应用程序启动时运行的代码
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             IES.Service.AuService.AuLoad(); //用户授权信息加载

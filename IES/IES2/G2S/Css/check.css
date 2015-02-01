@@ -1,0 +1,24 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+.item_box{ float:left; width:175px; margin-left:25px; height:23px; line-height:23px; border:1px solid #ccc;}
+.batch_box{ float:right; margin-right:10px; width:105px; height:25px; line-height:25px; color:#fff; overflow:hidden; background:url(../Images/add_bg.gif) no-repeat;}
+.batch_box:hover{ background:url(../Images/add_bg_hover.gif) no-repeat;}
+.batch_box em{ float:left; width:25px; height:25px;}
+.batch_box em i{ margin:4px 0 0 4px;}
+.batch_box span{ float:left; width:80px; height:25px; text-align:center;}
+.batch_icon{ background-position:-142px -64px;}
+.refuse_icon{ background-position:-37px -128px;}
+
+.item_table{ width:100%;}
+.item_table tr th,.item_table tr td{ height:40px; line-height:40px; border-bottom:1px solid #ccc;}
+.item_table tr th{ text-align:left; background:#f1f1f1; color:#333;}
+.item_table tr td{ color:#666;}
+.item_table tr th input,.item_table tr td input{ display:block; height:40px; vertical-align:middle;}
+.operation_btn a{ float:left; margin-right:10px; color:#666; outline:none; hide-focus:expression(this.hideFocus=true);}
+.refuse_box{ font-family:'Arial'; font-size:13px;}
+.agree_box{ font-family:'Arial'; font-size:13px;}
+.exercise_nav_list > li >i{ display:block; text-align:center; line-height:15px; color:#fff; font-style:normal; position:absolute; top:14px; right:25px;}
+.tip_icon{ background-position:-142px -192px;}
+.side_nav li{ position:relative;}
+.side_nav li i{ position:absolute; top:13px; right:48px; color:#fff; font-style:normal; line-height:15px; text-align:center;}

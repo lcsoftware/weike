@@ -23,7 +23,6 @@ namespace IES.CC.Model.Score
         public string TeachingClassName { get; set; }  //教学班名称
         public float Score { get; set; }  //学生成核
         public float AvgScore { get; set; }   //平均分
-        public int rowNum { get; set; }  //行号
         public int RowsCount { get; set; } //总行数
     }
 }

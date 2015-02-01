@@ -26,18 +26,18 @@ namespace IES.Resource.Model
 		public Attachment()
 		{}
 		#region Model
-		private int _attachmentid;
+		private int _attachmentid ;
 		private int _serverid;
-		private string _filename;
+		private string _filename = string.Empty ;
 		private string _title;
 		private long _filesize;
-		private string _source;
+        private string _source = string.Empty ;
 		private int _sourceid=0;
 		private DateTime _updatetime= DateTime.Now;
-		private string _guid;
-        private string _downurl;
-        private string _viewurl;
-        private string _reffileid;
+        private string _guid = string.Empty;
+        private string _downurl = string.Empty;
+        private string _viewurl = string.Empty;
+        private string _reffileid = string.Empty;
 
 		/// <summary>
 		/// 主键

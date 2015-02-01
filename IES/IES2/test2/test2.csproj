@@ -134,6 +134,7 @@
     <Content Include="Content\app.less" />
     <Content Include="Content\variables.less" />
     <Content Include="Global.asax" />
+    <Content Include="index.html" />
     <Content Include="Left.html" />
     <Content Include="main.html" />
     <Content Include="Page1.html" />
@@ -482,6 +483,7 @@
     <Content Include="Scripts\vendor\jquery-2.0.3.min.map" />
     <None Include="Scripts\_references.js" />
     <Content Include="Scripts\app.js" />
+    <Content Include="settings.html" />
     <Content Include="top.html" />
     <Content Include="Views\Jasmine\SpecRunner.cshtml" />
     <Content Include="apple-touch-icon-precomposed.png" />

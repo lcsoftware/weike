@@ -250,6 +250,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
         $scope.chapterSelected = function (chapter) {
             $scope.chapterSelection = chapter;
             $scope.showAssociation($scope.chapterSelection, $scope.knowSelection);
+            console.log($scope.chapterSelection);
         }
 
         $scope.knowSelected = function (knowledge) {
@@ -264,17 +265,14 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
         ///资料
         $scope.association.linkDoc = function () {
             $scope.association.selection = 1; 
-            $scope.showAssociation($scope.chapterSelection, $scope.knowSelection);
         }
         ///试题
         $scope.association.linkExercise = function () {
             $scope.association.selection = 2;
-            $scope.showAssociation($scope.chapterSelection, $scope.knowSelection);
         }
         ///话题
         $scope.association.linkTopic = function () {
             $scope.association.selection = 3;
-            $scope.showAssociation($scope.chapterSelection, $scope.knowSelection);
         }
 
 
@@ -292,7 +290,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
                     });
                     break;
                 case 2:
-                    chapterService.Chapter_Exercise_List(chapterId, kenId, function (data) {
+                    chapterService.Chapter_File_List(chapterId, createUserId, kenId, function (data) {
                         $scope.chapterExercises = data.d;
                     });
                     break;

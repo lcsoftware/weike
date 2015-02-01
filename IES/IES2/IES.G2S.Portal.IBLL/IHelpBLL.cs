@@ -24,9 +24,19 @@ namespace IES.G2S.Portal.IBLL
 
         #endregion
 
+        #region 批量删除
+        bool Help_Batch_Del(string IDS);
+
+        #endregion
+
         #region 更新
 
         bool Help_Upd(Help model);
+
+        #endregion
+
+        #region 详细信息
+        Help Help_Get(Help model);
 
         #endregion
     }

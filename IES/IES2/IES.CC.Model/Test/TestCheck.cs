@@ -23,73 +23,29 @@ namespace IES.CC.Test.Model
 	[Serializable]
 	public partial class TestCheck
 	{
-		public TestCheck()
-		{}
-		#region Model
-		private int _testcheckid;
-		private int _testid;
-		private int _userid;
-		private int _objid;
-		private bool _type= true;
-		private bool _status;
-		private DateTime _updatetime= DateTime.Now;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int TestCheckID
-		{
-			set{ _testcheckid=value;}
-			get{return _testcheckid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int TestID
-		{
-			set{ _testid=value;}
-			get{return _testid;}
-		}
-		/// <summary>
-		/// 助教编号
-		/// </summary>
-		public int UserID
-		{
-			set{ _userid=value;}
-			get{return _userid;}
-		}
-		/// <summary>
-		/// 习题编号或者教学班编号
-		/// </summary>
-		public int ObjID
-		{
-			set{ _objid=value;}
-			get{return _objid;}
-		}
-		/// <summary>
-		/// 1 按习题分  ； 2  按教学班 
-		/// </summary>
-		public bool Type
-		{
-			set{ _type=value;}
-			get{return _type;}
-		}
-		/// <summary>
-		/// 批阅状态 0 未完成；   1完成批阅
-		/// </summary>
-		public bool Status
-		{
-			set{ _status=value;}
-			get{return _status;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public DateTime UpdateTime
-		{
-			set{ _updatetime=value;}
-			get{return _updatetime;}
-		}
-		#endregion Model
+        public int TestCheckID { get; set; }
+
+        /// <summary>
+        /// 测试编号
+        /// </summary>
+        public int TestID { get; set; }
+
+        /// <summary>
+        /// 批阅人编号
+        /// </summary>
+        public int UserID { get; set; }
+
+
+        /// <summary>
+        /// 按习题还是教学班   TeachingClass  Exercise
+        /// </summary>
+        public string  Source { get; set; }
+
+        /// <summary>
+        /// 教学班编号、习题编号
+        /// </summary>
+        public int SourceID { get; set; }
+
 
 	}
 }

@@ -1,0 +1,70 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout2.cshtml";
+}
+<!DOCTYPE html>
+<link href="~/Css/mooc.css" rel="stylesheet" />
+<script src="~/js/jquery-1.8.3.min.js"></script>
+
+
+<div ng-controller="MyResourceController">
+    <div class="pop_600" style="display: block; background-color: white;">
+        <h4>从资料库选择</h4>
+        <i class="icon icon_close"></i>
+        <div class="wrap_box">
+            <div class="search_box">
+                <input type="text" placeholder="输入搜索关键字">
+                <a class="icon icon_search" href="javascript:;"></a>
+            </div>
+            <div class="course_data_box">
+                <ul class="course_data_nav">
+                    <li class="active"><a href="#">课程资料</a></li>
+                    <li><a href="#">个人资料</a></li>
+                </ul>
+                <table class="data_table">
+                    <tr>
+                        <td width="405"><p class="file_tit"><input type="checkbox">文件名称</p></td>
+                        <td width="67"><p class="file_tit">大小</p></td>
+                        <td><p class="file_tit">修改日期</p></td>
+                    </tr>
+                    <tr ng-repeat="OCMoocFile in OCFileList">
+                        <td ng-switch on="OCMoocFile.Ext">
+                            <p class="table_file">
+                                <input type="checkbox">
+                                <i ng-switch-when="mp4" class="icon_24 mp4"></i>
+                                <i ng-switch-when="pdf" class="icon_24 pdf"></i>
+                                <i ng-switch-when="jpg" class="icon_24 pic"></i>
+
+                                {{OCMoocFile.FileTitle}}
+                            </p>
+                        </td>
+                        <td><p class="file_name">{{OCMoocFile.FileSize}}5.0M</p></td>
+                        <td><p class="file_name">{{OCMoocFile.UploadTime|dateFormat}}</p></td>
+                    </tr>
+
+                </table>
+                <div>
+                    <div class="operation_box" style="float:left">
+                        <p class="all_select"><input type="checkbox">全选</p>
+
+                    </div>
+                    <div id="page" style="float: right; margin-top:10px;">
+
+                    </div>
+
+                    <div style="clear:both">
+
+
+                    </div>
+                </div>
+                <a class="select_btn" href="javascript:;">选择</a>
+            </div>
+        </div>
+        <div class="selected_box">
+            <p class="selected_num">已选 0</p>
+            <div class="btn_box">
+                <a class="keep" href="javascript:;">保存</a>
+                <a class="cancel" href="javascript:;">取消</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -19,11 +19,11 @@ namespace IES.G2S.Resource.DAL
 
         #region 文件夹
 
-        #region 单个对象,空对象
         public static Folder Folder_Get()
         {
             return new Folder();
         }
+
 
         public static Folder Folder_GetModel(Folder folder)
         {
@@ -41,11 +41,11 @@ namespace IES.G2S.Resource.DAL
                 return new Folder();
             }
         }
-        #endregion
-        
+
         #region  列表
         public static List<Folder> Folder_List(Folder model)
         {
+
             try
             {
                 using (var conn = DbHelper.ResourceService())
@@ -67,10 +67,10 @@ namespace IES.G2S.Resource.DAL
 
         #region 详细信息
 
-        #endregion
+        #endregion 
 
         #region  新增
-        public static Folder Folder_ADD(Folder model)
+        public static Folder   Folder_ADD(Folder model)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace IES.G2S.Resource.DAL
             }
             catch (Exception e)
             {
-                return null;
+                return null  ;
             }
 
 
@@ -163,7 +163,7 @@ namespace IES.G2S.Resource.DAL
 
 
 
-        #endregion
+        #endregion 
 
         #region 属性批量操作
 
@@ -175,6 +175,7 @@ namespace IES.G2S.Resource.DAL
             {
                 using (var conn = DbHelper.ResourceService())
                 {
+
                     var recordparam = new List<SqlDataRecord>();
                     var recordcolumn = new[]
                     {
@@ -187,8 +188,13 @@ namespace IES.G2S.Resource.DAL
                         recordparam.Add(record);
                     }
 
-                    var ids = new TableValueParameter("@ids", "IDList", recordparam);
-                    conn.Execute("Folder_Batch_Del", ids, commandType: CommandType.StoredProcedure);
+                    SqlParameter parameter = new SqlParameter();
+                    parameter.ParameterName = "@IDS";
+                    parameter.SqlDbType = System.Data.SqlDbType.Structured;
+                    parameter.Value = recordparam;
+                    
+                    conn.Execute("Folder_Batch_Del", parameter , commandType: CommandType.StoredProcedure);
+
                     return true;
                 }
             }
@@ -224,13 +230,45 @@ namespace IES.G2S.Resource.DAL
             }
         }
 
-        #endregion
+        #endregion 
 
         #endregion
 
         #region  文件
 
         #region  列表
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static List<File> File_Search(File file, int PageSize, int PageIndex)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@Searchkey", file.FileTitle);
+                    p.Add("@OCID", file.OCID);
+                    p.Add("@CourseID", file.CourseID);
+                    p.Add("@FolderID", file.FolderID);
+                    p.Add("@FileType", file.FileType);
+                    p.Add("@UploadTime", file.UploadTime);
+                    p.Add("@ShareRange", file.ShareRange);
+                    p.Add("@UserID", file.CreateUserID);
+                    p.Add("@PageSize", PageSize);
+                    p.Add("@PageIndex", PageIndex);
+                    return conn.Query<File>("File_Search", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<File>();
+            }
+
+        }
 
         /// <summary>
         /// 
@@ -272,6 +310,13 @@ namespace IES.G2S.Resource.DAL
 
         #region  新增
 
+
+
+
+        #endregion
+
+        #region 对象更新
+
         public static File File_ADD(File model)
         {
             try
@@ -285,7 +330,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@FolderID", model.FolderID);
                     p.Add("@CreateUserID", model.CreateUserID);
                     p.Add("@CreateUserName", model.CreateUserName);
-                    p.Add("@OwnerUserID", model.OwnerUserID);                    
+                    p.Add("@OwnerUserID", model.OwnerUserID);
                     p.Add("@FileTitle", model.FileTitle);
                     p.Add("@FileName", model.FileName);
                     p.Add("@Ext", model.Ext);
@@ -309,12 +354,6 @@ namespace IES.G2S.Resource.DAL
 
         #endregion
 
-        #region 对象更新
-
-
-
-        #endregion
-
         #region 单个属性更新
 
         /// <summary>
@@ -329,7 +368,7 @@ namespace IES.G2S.Resource.DAL
                 using (var conn = DbHelper.ResourceService())
                 {
                     var p = new DynamicParameters();
-                    p.Add("@FileID", model.FileID);
+                    p.Add("@FileID", model.FileID );
                     p.Add("@ShareRange", model.ShareRange);
                     conn.Execute("File_ShareRange_Upd", p, commandType: CommandType.StoredProcedure);
                     return true;
@@ -379,7 +418,7 @@ namespace IES.G2S.Resource.DAL
                 {
                     var p = new DynamicParameters();
                     p.Add("@FileID", model.FileID);
-                    p.Add("@FileTitle", model.FileTitle);
+                    p.Add("@FileTitle", model.FileTitle );
                     conn.Execute("File_FileTitle_Upd", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }
@@ -466,7 +505,7 @@ namespace IES.G2S.Resource.DAL
         }
 
 
-        public static bool File_Batch_Del(List<File> filelist)
+        public static bool File_Batch_Del( List<File> filelist )
         {
             try
             {
@@ -477,7 +516,7 @@ namespace IES.G2S.Resource.DAL
                     {
                         new SqlMetaData("id", SqlDbType.Int)
                     };
-                    foreach (var r in filelist)
+                    foreach ( var r in filelist )
                     {
                         var record = new SqlDataRecord(recordcolumn);
                         record.SetInt32(0, r.FileID);
@@ -524,7 +563,7 @@ namespace IES.G2S.Resource.DAL
         #endregion
 
 
-        #endregion
+        #endregion 
 
     }
 }

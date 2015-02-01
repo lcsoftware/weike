@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Net;
 using System.IO;
-using IES.G2S.SYS.BLL;
-using IES.SYS.Model;
+using IES.G2S.JW.BLL;
+using IES.JW.Model;
 using IES.Cache;
 using IES.Resource.Model;
 using IES.G2S.Resource.BLL;
@@ -22,7 +22,7 @@ namespace IES.Service
     public class StoreServie
     {
         /// <summary>
-        /// 获取所有的存储服务器列表
+        /// 获取所有的存储服务器列表
         /// </summary>
         /// <returns></returns>
         public static List<ResourceServer> ResourceServer_List()
@@ -32,7 +32,7 @@ namespace IES.Service
         }
 
         /// <summary>
-        /// 根据存储编号获取分布存储服务器信息
+        /// 根据存储编号获取分布存储服务器信息
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>

@@ -1,0 +1,174 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout3.cshtml";
+}
+
+<link href="~/Css/test.css" rel="stylesheet" />
+<div ng-controller="MarkController">
+
+        <div class="work_paper">
+            <div class="paper_tit">
+                <h4>作业批次</h4>
+                <div class="paper_operation">
+                    <a href="javascript:;">返回</a>
+                    <a href="javascript:;">下一份</a>
+                </div>
+            </div>
+            <div class="work_paper_box">
+                <div class="work_status">
+                    <p><span>姓　&nbsp;&nbsp;名</span>吴王锁</p>
+                    <p><span>对应章节</span>{{paper.Papername}}</p>
+                    <p><span>成绩类型</span>{{ScaleTypeName}}</p>
+                    <p><span>截止日期</span>{{test.EndDate| dateFormat}}</p>
+                    <p><span>题 目 数</span>2</p>
+                    <p><span>得　&nbsp;&nbsp;分</span><b>20</b></p>
+                    <p><span>作业状态</span>已提交</p>
+                    <p class="last"><span>说明</span></p>
+                </div>
+                <div class="review_box">
+                    <div class="work_setting">
+                        <p><input type="checkbox">仅显示人工批阅题</p>
+                        <p><input type="checkbox">设置为范本</p>
+                    </div>
+                    <div class="section_work" ng-repeat="papergroup in papergrouplist">
+                        <div class="section_tit">
+                            <span>{{papergroup.GroupName}}</span>
+                            <p>总题数：2　总分数：20</p>
+                        </div>
+                        <ul class="question_list">
+                            <li ng-repeat="exercise in exerciselist" ng-show="papergroup.PaperID==exercise.PaperID && papergroup.GroupID==exercise.PaperGroupID">
+                                <div class="issue_box">
+                                    <h4>{{$index+1}}  【{{exercise.ExerciseTypeName}}】  （{{exercise.Score}}分）</h4>
+                                    <p>{{exercise.Conten}}</p>
+                                </div>
+                                <div class="radio_list" ng-repeat="exercisechoices in ExerciseChoices" ng-show="exercisechoices.ExerciseID==exercise.ExerciseID ">
+                                    <p><input type="radio">{{exercisechoices.Conten}}</p>
+
+                                </div>
+                                <p class="answer_tip" style=" display:none;"><i class="icon_test true_btn"></i>回答正确</p>
+                                <p class="answer_tip wrong_answer" style=" display:none;"><i class="icon_test false_btn"></i>正确答案是：B，D</p>
+                            </li>
+                        </ul>
+                          
+                    </div>
+
+                    
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+<div class="evaluation_bg">
+    <a class="fold_btn" href="javascript:;">↓ 点击收缩</a>
+    <div class="evaluation_box">
+        <div class="rate_box">
+            <div class="rate_tit">
+                <p>老师打分　总计<b>29</b>分</p>
+                <span><input type="checkbox">仅显示人工批阅题</span>
+            </div>
+            <table class="rate_table">
+                <tr>
+                    <td width="29">1</td>
+                    <td width="99">单选题</td>
+                    <td width="49">10分</td>
+                    <td width="79"><p class="remark"><a href="javascript:;">评语</a><i class="icon_test select_btn"></i></p></td>
+                    <td><p class="score_detail">得分<input type="text" value="10">分</p></td>
+                </tr>
+                <tr>
+                    <td width="29">2</td>
+                    <td width="99">多选题</td>
+                    <td width="49">10分</td>
+                    <td width="79"><p class="remark"><a href="javascript:;">评语</a></p></td>
+                    <td><p class="score_detail">得分<input type="text" value="0">分</p></td>
+                </tr>
+                <tr>
+                    <td width="29">3</td>
+                    <td width="99">多选题</td>
+                    <td width="49">10分</td>
+                    <td width="79"><p class="remark"><a href="javascript:;">评语</a></p></td>
+                    <td><p class="score_detail">得分<input type="text" value="0">分</p></td>
+                </tr>
+                <tr>
+                    <td width="29">4</td>
+                    <td width="99">多选题</td>
+                    <td width="49">10分</td>
+                    <td width="79"><p class="remark"><a href="javascript:;">评语</a></p></td>
+                    <td><p class="score_detail">得分<input type="text" value="0">分</p></td>
+                </tr>
+                <tr>
+                    <td width="29">5</td>
+                    <td width="99">多选题</td>
+                    <td width="49">10分</td>
+                    <td width="79"><p class="remark"><a href="javascript:;">评语</a><i class="icon_test select_btn"></i></p></td>
+                    <td><p class="score_detail">得分<input type="text" value="0">分</p></td>
+                </tr>
+            </table>
+        </div>
+        <div class="rate_box assess_box">
+            <div class="rate_tit">
+                <p>老师总评价</p>
+                <span><input type="radio">差评</span>
+                <span><input type="radio">中评</span>
+                <span><input type="radio">好评</span>
+            </div>
+            <textarea class="assess_text" placeholder="请输入总评语"></textarea>
+            <p class="assess_tip"><input type="checkbox">批阅完成后，直接发放成绩</p>
+            <div class="assess_btn">
+                <a class="return_btn" href="javascript:;">退回重做</a>
+                <a class="complete_btn" href="javascript:;">完成返回</a>
+                <a class="read_btn" href="javascript:;">批阅下一份</a>
+                <a class="cancel_btn" href="javascript:;">取消</a>
+            </div>
+        </div>
+        <div class="rate_box stu_box">
+            <div class="rate_tit">
+                <p>已批<b>20</b>/100</p>
+                <span><input type="checkbox">仅显示未批阅学生</span>
+            </div>
+            <div class="review_stu">
+                <table class="stu_table">
+                    <tr>
+                        <td class="active"><p class="stu_name">张悦<i class="icon_test select_btn"></i></p></td>
+                        <td><p class="stu_name">李四<i class="icon_test select_btn"></i></p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="stu_name">张悦<i class="icon_test select_btn"></i></p></td>
+                        <td class="active"><p class="stu_name">李四<i class="icon_test remove_btn"></i></p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="stu_name">张悦<i class="icon_test select_btn"></i></p></td>
+                        <td><p class="stu_name">李四<i class="icon_test select_btn"></i></p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="stu_name">张悦<i class="icon_test select_btn"></i></p></td>
+                        <td><p class="stu_name">李四<i class="icon_test select_btn"></i></p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="stu_name">张悦<i class="icon_test select_btn"></i></p></td>
+                        <td><p class="stu_name">李四<i class="icon_test select_btn"></i></p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="stu_name">张悦<i class="icon_test select_btn"></i></p></td>
+                        <td><p class="stu_name">李四<i class="icon_test select_btn"></i></p></td>
+                    </tr>
+                    <tr>
+                        <td><p class="stu_name">张悦<i class="icon_test select_btn"></i></p></td>
+                        <td><p class="stu_name">李四<i class="icon_test select_btn"></i></p></td>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="page_btn">
+                <span class="prev_page">&lt;</span>
+                <a href="#">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <span class="next_page">&gt;</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+    

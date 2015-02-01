@@ -22,7 +22,7 @@ namespace IES.Resource.Model
         public Paper paper { get; set; }
 
         /// <summary>
-        /// 试卷的分组
+        /// 试卷的分组
         /// </summary>
         public List<PaperGroup> papergrouplist { get; set; }
 
@@ -35,6 +35,9 @@ namespace IES.Resource.Model
         /// 分组下的习题
         /// </summary>
         public List<PaperExercise> exerciselist { get; set; }
+
+
+        public List<ExerciseChoice> ExerciseChoices { get; set; }
 
 
     }

@@ -5,10 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-using IES.SYS.Model;
 using IES.Cache;
 using IES.Security;
-using IES.G2S.SYS.BLL;
 using IES.Service;
 
 namespace Admin.Views.Share
@@ -24,7 +22,7 @@ namespace Admin.Views.Share
             }
             if( PID.Length >= 3 )
             { 
-                List<IES.SYS.Model.Menu> menulist = AuService.Menu_Left_List(PID.Substring(0,3), 1);
+                List<IES.JW.Model.Menu> menulist = AuService.Menu_Left_List(PID.Substring(0,3), 1);
                 Repeater1.DataSource = menulist;
             
                 Repeater1.DataBind();

@@ -1,4 +1,5 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿using IES.Resource.Model;
+/**  版本信息模板在安装目录下，可自行修改。
 * OCFCFile.cs
 *
 * 功 能： N/A
@@ -22,8 +23,31 @@ namespace IES.CC.OC.Model
 	/// </summary>
 	[Serializable]
 	public partial class OCFCFile
-	{
-		public OCFCFile()
+    {
+        #region 补充
+        /// <summary>
+        /// 文件name
+        /// </summary>
+        public string FileTitle { get; set; }
+        /// <summary>
+        /// 文件url
+        /// </summary>
+        public string DownUrl { get; set; }
+        /// <summary>
+        /// 文件后缀
+        /// </summary>
+        public string Ext { get; set; }
+        /// <summary>
+        /// 视频时长
+        /// </summary>
+        public string TimeLength { get; set; }
+        /// <summary>
+        /// 格式化的视频时长 hh:mm:ss
+        /// </summary>
+        public string TimeLength_Form { get; set; }
+        #endregion
+
+        public OCFCFile()
 		{}
 		#region Model
 		private int _fcfileid;

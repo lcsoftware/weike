@@ -1,0 +1,87 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="coursesite_box" ng-controller="CourseIndexController">
+    {{ocID}}
+    <h4>课程建设</h4>
+    <div class="create_step">
+        <h5>step1.设置课程基本属性</h5>
+        <div class="add_course">
+            <div class="course_photo">
+                <img src="http://placehold.it/280x150/cccccc" width="280" height="150" />
+                <p><a href="javascript:;">上传</a><b>*</b><span>图片最佳尺寸280*150像素</span></p>
+            </div>
+            <div class="add_property">
+                <dl>
+                    <dt>课程名称：</dt>
+                    <dd>
+                        <input type="text"><b>*</b><a href="#">[选择课程]</a>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>所属分类：</dt>
+                    <dd>
+                        <input class="course_sort" type="text">
+                        <span class="select_btn">+</span>
+                        <b>*</b>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>课程标签：</dt>
+                    <dd>
+                        <input type="text">
+                        <p class="tips">多个标签间请用“，”隔开</p>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="add_course course_set">
+            <b class="set_tit">课程主讲教师</b>
+            <div class="course_photo">
+                <img src="http://placehold.it/150x150/cccccc" width="150" height="150" />
+            </div>
+            <div class="add_property">
+                <dl>
+                    <dt>姓名：</dt>
+                    <dd>
+                        <input type="text" value="陈晨"><b>*</b><a href="#">[选择站内用户]</a>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>职称：</dt>
+                    <dd>
+                        <input type="text">
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>简介：</dt>
+                    <dd>
+                        <textarea class="brief" placeholder="建议不超过200字以内"></textarea>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>班级：</dt>
+                    <dd>
+                        <a href="#">[管理教学班]</a>
+                    </dd>
+                </dl>
+            </div>
+            <span class="close_btn">X</span>
+        </div>
+        <a class="add_teacher" href="javascript:;">+&nbsp;添加主讲人</a>
+    </div>
+    <div class="create_step">
+        <h5>step2.选择下一步建设目标</h5>
+        <ul class="goal_list">
+            <li><img src="../../images/goal1.jpg" width="223" height="203" alt=""></li>
+            <li><img src="../../images/goal2.jpg" width="223" height="203" alt=""></li>
+            <li><img src="../../images/goal3.jpg" width="223" height="203" alt=""></li>
+            <li><img src="../../images/goal4.jpg" width="223" height="203" alt=""></li>
+        </ul>
+    </div>
+    <div class="btn_box btn_box2">
+        <a class="save" href="javascript:;">保存</a>
+        <a class="cancel" href="javascript:;">取消</a>
+    </div>
+</div>

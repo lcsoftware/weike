@@ -23,19 +23,29 @@ namespace IES.JW.Model
 	[Serializable]
 	public partial class Course
     {
-        #region 补充信息
-
-        public int rowscount { get; set; }
-        public string OrganizationName { get; set; }
-        public string CourseTypeName { get; set; }
-        public string SubjectName1 { get; set; }
-        public string SubjectName2 { get; set; }
-        public string TeachingTypeName { get; set; }
-
-        #endregion 
+        
 
         public Course()
 		{}
+
+        #region 补充信息
+        public string TermName { get; set; }
+        public string output { get; set; }
+        public int op_CourseID { get; set; }
+        public int rowscount { get; set; }
+        public string OrganizationName { get; set; }
+        public string CourseTypeName { get; set; }
+        public int TermTypeID { get; set; }
+        public string TermTypeName { get; set; }
+        public string SubjectName1 { get; set; }
+        public string SubjectName2 { get; set; }
+        public string TeachingTypeName { get; set; }
+        public string Key { get; set; }
+        public decimal BeginFen { get; set; }
+        public decimal EndFen { get; set; }
+
+        #endregion 
+
 		#region Model
 		private int _courseid;
 		private string _courseno;

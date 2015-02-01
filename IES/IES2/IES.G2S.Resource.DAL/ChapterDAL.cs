@@ -22,6 +22,29 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        public static List<Chapter> Chapter_List(int OCID)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@OCID",OCID);
+                    return conn.Query<Chapter>("Chapter_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
+        /// <summary>
+        /// 获取章节树形列表
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public static List<Chapter> Chapter_List(Chapter model)
         {
             try
@@ -40,9 +63,8 @@ namespace IES.G2S.Resource.DAL
 
         }
 
-
         /// <summary>
-        /// 章节关联的文件列表
+        /// 章节关联的文件列表
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -67,7 +89,7 @@ namespace IES.G2S.Resource.DAL
         }
 
         /// <summary>
-        /// 章节关联的习题信息
+        /// 章节关联的习题信息
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -91,8 +113,35 @@ namespace IES.G2S.Resource.DAL
 
         }
 
+        /// <summary>
+        /// 章节下习题数量
+        /// </summary>
+        /// <param name="OCID"></param>
+        /// <param name="UserID"></param>
+        /// <param name="ExerciseType"></param>
+        /// <param name="Diffcult"></param>
+        /// <returns></returns>
+        public static List<Chapter> Chapter_ExerciseCount_List(int OCID, int UserID, int ExerciseType, int Diffcult)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@OCID", OCID);
+                    p.Add("@UserID", UserID);
+                    p.Add("@ExerciseType", ExerciseType);
+                    p.Add("@Diffcult", Diffcult);
 
 
+                    return conn.Query<Chapter>("Chapter_ExerciseCount_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch
+            {
+                return new List<Chapter>();
+            }
+        }
             
 
         #endregion 
@@ -120,15 +169,16 @@ namespace IES.G2S.Resource.DAL
                 {
                     var p = new DynamicParameters();
                     p.Add("@ChapterID", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    p.Add("@Orde", dbType: DbType.Int32, direction: ParameterDirection.Output);
                     p.Add("@OCID", model.OCID);
                     p.Add("@CourseID", model.CourseID);
                     p.Add("@OwnerUserID", model.OwnerUserID);
                     p.Add("@CreateUserID", model.CreateUserID); 
                     p.Add("@Title", model.Title );
-                    p.Add("@Orde", model.Orde);
                     p.Add("@ParentID", model.ParentID );
                     conn.Execute("Chapter_ADD", p, commandType: CommandType.StoredProcedure);
                     model.ChapterID = p.Get<int>("ChapterID");
+                    model.Orde = p.Get<int>("Orde");
                     return model;
                 }
             }
@@ -138,6 +188,7 @@ namespace IES.G2S.Resource.DAL
             }
 
         }
+
 
         #endregion 
 
@@ -158,8 +209,11 @@ namespace IES.G2S.Resource.DAL
                     var p = new DynamicParameters();
                     p.Add("@ChapterID", model.ChapterID);
                     p.Add("@Title", model.Title);
+                    p.Add("@Brief", model.Brief);
+                    p.Add("@PlanDay", model.PlanDay);
+                    p.Add("@MinHour", model.MinHour);
+                    p.Add("@MoocStatus", model.MoocStatus);
                     p.Add("@Orde", model.Orde);
-                    p.Add("@parentID", model.ParentID);
                     conn.Execute("Chapter_Upd", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }

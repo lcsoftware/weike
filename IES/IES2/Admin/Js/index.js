@@ -54,30 +54,30 @@
 				if(see==data.run_number){var tabl = see-data.run_number+1}else{var tabl = data.run_number}
 				ImgRrun(runW,index,tabl);
 			});
-			//滚动检测方法
+			//滚动检测方法
 			function ImgRrun(runW,index,tabl){
 				var L = runUl.position().left;
 				if(L%liW!=0 && liW%liW==0 || L%liW==0 && liW%liW!=0){//处理ie少1px的bug
 					L = L-1;
 				}
-				if(L%liW==0){//检测是否运动完毕
+				if(L%liW==0){//检测是否运动完毕
 					if(see==data.run_number){
 						var num = Math.ceil( Math.abs(L)/(liW*data.run_number));
 					}else{
 						var num = Math.ceil( Math.abs(L)/(liW*data.run_number)*data.run_number);
 					}
 					
-					if(L==0 && runW>0){//达到最小值返回最后一个
+					if(L==0 && runW>0){//达到最小值返回最后一个
 						runUl.animate({'left':-(runUl.width()-see*liW)},500);
 						if(see==data.run_number){
 							tabAdd(tabUl.find('li').length-(see-data.run_number)-1)
 						}else{
 							tabAdd(tabUl.find('li').length-see)
 						}
-					}else if(L==-(runUl.width()-see*liW) && runW<0){//达到最大值返回第一个
+					}else if(L==-(runUl.width()-see*liW) && runW<0){//达到最大值返回第一个
 						runUl.animate({'left':0},500);	
 						tabAdd(0)
-					}else{//检测正常左右运动，以及边界检测
+					}else{//检测正常左右运动，以及边界检测
 						
 						var L1 = L+runW;
 						if(L+runW>0){
@@ -106,8 +106,8 @@
 					};
 					
 				}//滚动完毕执行下一次	
-			};//滚动检测方法结束
-			//检测是否可以点击切换
+			};//滚动检测方法结束
+			//检测是否可以点击切换
 			if(see==data.run_number){
 				tabUl.find('li').click(function(){ 
 					var runW = -liW*data.run_number;
@@ -154,9 +154,9 @@
 //图片切换调用
 $('.course_switch').listScroll({      
 	run_ul: '.course_list', //运动的列表；
-	btn_l : '.course_prev',    //左按钮
-	btn_r : '.course_next',    //右按钮
-	run_number:1         //运动张数,超过可见数量就默认显示可见数量
+	btn_l : '.course_prev',    //左按钮
+	btn_r : '.course_next',    //右按钮
+	run_number:1         //运动张数,超过可见数量就默认显示可见数量
 });
 
 $('.icon_fold').live('click',function(){
@@ -178,7 +178,7 @@ $('.icon_fold').live('click',function(){
 
 
 $(function(){
-	//头部导航鼠标经过状态
+	//头部导航鼠标经过状态
 	$('.nav_box li').hover(function(){
 		if($(this).hasClass('active')){
 			$(this).removeClass('hover');	
@@ -246,32 +246,32 @@ $(function(){
 			$(this).html('收起全部课程↑')
 		}	
 	})
-	//评论
-	$(".comment_btn").click(function(){
-		if(!$(this).hasClass("click")){
-			$(this).addClass("click");
-			$(this).html('收起（330）');
-			$(this).parent().next().slideDown();
-		}else{
-			$(this).removeClass("click");
-			$(this).html('评论（330）');
-			$(this).parent().next().slideUp();
-		}
-	});
+	////评论
+	//$(".comment_btn").click(function(){
+	//	if(!$(this).hasClass("click")){
+	//		$(this).addClass("click");
+	//		$(this).html('收起（330）');
+	//		$(this).parent().next().slideDown();
+	//	}else{
+	//		$(this).removeClass("click");
+	//		$(this).html('评论（330）');
+	//		$(this).parent().next().slideUp();
+	//	}
+	//});
 	
-	$('.chat_detail').click(function(){
-		$(this).hide();
-		$(this).next().show().focus();
-		$(this).parent().next().show();
-	})
-	$('.text_area').blur(function(){
-		$(this).hide();
-		$(this).prev().show();
-		$(this).parent().next().show();	
-	})
+	//$('.chat_detail').click(function(){
+	//	$(this).hide();
+	//	$(this).next().show().focus();
+	//	$(this).parent().next().show();
+	//})
+	//$('.text_area').blur(function(){
+	//	$(this).hide();
+	//	$(this).prev().show();
+	//	$(this).parent().next().show();	
+	//})
 	
 	
-	//首页通知状态点击
+	//首页通知状态点击
 	$('.message_nav li').click(function(){
 		$(this).addClass('active').siblings().removeClass('active');	
 	})
@@ -311,7 +311,7 @@ $(function(){
 		})	
 	})
 
-	//我的课表hover上去的状态
+	//我的课表hover上去的状态
 	$('.curriculum').hover(function(){
 		var oWidth = $(this).parents('td').outerWidth(true);
 		if($('.curri_info').length == 0){
@@ -361,14 +361,14 @@ $(function(){
 		$(this).removeClass('active');	
 	})
 	
-	//弹出层方法
+	//弹出层方法
 	function tanchu(popbox){
 		var oHeight = $(document).height();
 		var oScroll = $(window).scrollTop();
 		$('.pop_bg').show().css('height',oHeight);
 		popbox.show().css('top',oScroll+100);
 	}
-	//关闭弹出层
+	//关闭弹出层
 	$('.close_pop').live('click',function(){
 		$('.pop_bg,.pop_400,.pop_600,.pop_800').hide();
 	})
@@ -378,7 +378,7 @@ $(function(){
 		tanchu($('.pop_400'));	
 	})
 	
-	//用户管理-添加新成员
+	//用户管理-添加新成员
 	$('.add_new').live('click',function(){
 		tanchu($('.pop_600'));
 	})
@@ -437,7 +437,7 @@ $(function(){
 		$(this).removeClass('active');	
 	})*/
 	
-	//表格隔行变色&鼠标放上去背景颜色变化
+	//表格隔行变色&鼠标放上去背景颜色变化
 	$('.class_box').each(function(){
 		$(this).find('tr:even').css('background','#f2f2f2');	
 	})
@@ -513,7 +513,7 @@ $(function(){
 		$(this).find('.second_nav').hide();	
 	})
 	
-	//新建文件夹
+	//新建文件夹
 	//$('.add_topic').live('click',function(){
 //		var content ="<tr><td><div class=\"data_name\"><input type=\"checkbox\"><i class=\"icon_24 file\"></i><input class=\"name_file\" type=\"text\"></div></td><td>文件夹</td><td>256M</td><td>2014-10-23</td></tr>"
 //		$('.course_data').append(content);	

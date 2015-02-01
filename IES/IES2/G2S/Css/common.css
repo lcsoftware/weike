@@ -13,9 +13,10 @@ body{ font-family:'Microsoft YaHei';}
 /*公用图片icon样式*/
 .icon{ display:inline-block; width:16px; height:16px; background:url(../Images/icon_index.png) no-repeat;}
 .icon_24{ display:inline-block; width:24px; height:24px; background:url(../Images/icon_24.png) no-repeat;}
+.backto_top{ display:block; width:40px; height:40px; z-index:999; background-position:-69px -40px; position:fixed; bottom:60px; left:50%; margin-left:610px;}
 
 /*框架*/
-.wrap{ padding-bottom:15px; background:#95a3c0; position:relative;}
+.wrap{ background:#95a3c0; position:relative;}
 .main_bg{ position:relative;}
 .main_all{ width:1200px; min-height:800px; overflow:hidden; zoom:1; margin:15px auto 0; position:relative;}
 .main_content{ float:left; overflow:hidden; zoom:1; width:1000px;margin-bottom:-10000px; padding-bottom:10000px; background:#fff; position:relative;}
@@ -28,7 +29,7 @@ body{ font-family:'Microsoft YaHei';}
 .freshman i{ background-position:0 -84px; position:absolute; left:0; top:13px;}
 .notice_box{ float:left; width:750px; overflow:hidden; zoom:1;}
 .notice_list{ float:left; overflow:hidden; zoom:1; margin-left:25px;}
-.notice_list li{ display:none; font-size:12px; color:#666; padding-left:30px; position:relative;}
+.notice_list li{ display:none; width:640px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:12px; color:#666; padding-left:30px; position:relative;}
 .notice_list li i{ background-position:0 -34px; position:absolute; left:0; top:13px;}
 .notice_btn{ float:right; margin:7px 0 0 10px;}
 .notice_btn a{ display:block; float:left; margin-left:1px; width:21px; height:26px;}
@@ -46,32 +47,37 @@ body{ font-family:'Microsoft YaHei';}
 
 /*翻页*/
 .page_box{ margin-top:10px; overflow:hidden; zoom:1; text-align:center;}
-.page_box a{ display:inline-block; height:25px; color:#666; line-height:25px; padding:0 8px; border:1px solid #cbcbcb;}
-.page_box a:hover,.page_box a.active{ background:#374760; border:1px solid #2a3950; color:#fff;}
+.page_box a{ display:inline-block; height:25px; color:#666; line-height:25px; padding:0 6px; border:1px solid #cbcbcb;}
+.page_box a.active,.page_box a:hover,.page_box a.active{ background:#374760; border:1px solid #2a3950; color:#fff;}
 .page_box span{ color:#999; padding:0 5px;}
 .page_box span input{ width:30px; height:20px; text-align:center; line-height:20px\9; border:1px solid #ccc; margin:0 5px;}
 
 /*保存，取消按钮*/
 .btn_box{ margin-top:20px; text-align:center; overflow:hidden; zoom:1; clear:both;}
-.btn_box a{ display:inline-block; margin-right:10px; width:90px; height:32px; line-height:32px; text-align:center; border:1px solid #c9c9c9; font-size:14px; color:#666;}
+.btn_box a{ display:inline-block; margin-right:10px; padding:0 25px; height:32px; line-height:32px; text-align:center; border:1px solid #c9c9c9; font-size:14px; color:#666;}
 .btn_box a.save{ background:#475c7c; color:#fff;}
 .btn_box a.save:hover{ background:#3f516d;}
-.btn_box a.cancel{ background:#999999; color:#fff;}
-.btn_box a.cancel:hover{ background:#838080;}
+.btn_box a.cancel{ background:#f2f2f2; color:#666;}
+.btn_box a.cancel:hover{ background:#e2dfdf;}
+.btn_box a.keep{ background:#cc0000; color:#fff;}
+.btn_box a.keep:hover{ background:#b40909;}
 
 /*教学班表格列表*/
 .search_content .class_box{ margin-top:10px;}
 .class_box{ width:100%; border:1px solid #cbcbcb; background:#fff;}
 .class_box tr th{ height:30px; background:#cccccc; font-size:13px; color:#fff; font-weight:normal; text-align:left; padding-left:5px;}
+.class_box input[type=checkbox]{height:30px; vertical-align:middle; margin-right:3px;}
 .class_box tr.active td{ background:#374760; color:#fff;}
 .class_box tr.active td.has_border{ background:#374760;}
 .class_box tr.active .open_btn{ color:#fff; text-decoration:underline;}
-.class_box tr td{ height:30px; line-height:30px; border-top:1px solid #cbcbcb; margin-top:-1px; overflow:hidden; zoom:1; color:#666; padding-left:5px;}
+.class_box tr.active td i{ display:block;}
+.class_box tr td{ height:30px; line-height:30px; border-top:1px solid #cbcbcb; margin-top:-1px; overflow:hidden; zoom:1; color:#666; padding-left:5px; position:relative;}
 .class_box tr td.has_border,.class_box tr th.has_border{ padding-left:7px;}
 .class_box tr td.has_border{ background:#f2f2f2;}
+/*.class_box tr td.has_border{ background:#f2f2f2;}*/
 
 /*教学班表格列表按钮*/
-.function_list{ height:30px; position:absolute; right:13px; bottom:5px;}
+/*.function_list{ height:30px; position:absolute; right:13px; bottom:5px;}
 .function_list a{ float:left; width:63px; height:30px; line-height:30px; text-align:center; font-size:12px; color:#666; cursor:pointer; position:relative;}
 .function_list a:hover{ background:#384661; color:#fff;}
 .function_list a:hover .muban_load{ display:block;}
@@ -81,12 +87,12 @@ body{ font-family:'Microsoft YaHei';}
 .function_import i{ background-position:-53px -32px;}
 .function_import:hover i{ background:url(../Images/icon_construction.png) no-repeat -64px 0;}
 .function_export i{ background-position:-53px -48px;}
-.function_export:hover i{ background:url(../Images/icon_construction.png) no-repeat -48px -80px;}
+.function_export:hover i{ background:url(../images/Icon_construction.png) no-repeat -48px -80px;}
 .function_edit i{ background-position:-53px -64px;}
 .function_edit:hover i{ background-position:0 -169px;}
 .function_delete i{ background-position:-53px -80px;}
 .function_delete:hover i{ background-position:-37px -128px;}
-.muban_load{ display:none; width:90px; height:30px; line-height:30px; text-align:center; background:#e4e4e4; border-right:1px solid #acacac;border-bottom:1px solid #acacac; position:absolute; top:30px; left:0; z-index:9; font-size:12px; color:#666; font-style:normal;}
+.muban_load{ display:none; width:90px; height:30px; line-height:30px; text-align:center; background:#e4e4e4; border-right:1px solid #acacac;border-bottom:1px solid #acacac; position:absolute; top:30px; left:0; z-index:9; font-size:12px; color:#666; font-style:normal;}*/
 
 /*教学班表格列表操作按钮*/
 .open_btn{ color:#1e5975; text-decoration:underline;}
@@ -102,7 +108,7 @@ body{ font-family:'Microsoft YaHei';}
 .icon_delete:hover{ background-position:-37px -128px;}
 
 /*右侧头部公告以下两个部分*/
-.exercise_search{ padding:10px 0; background:#f2f2f2; height:25px;}
+.exercise_search{ padding:10px 0; background:#f2f2f2; height:25px; border-bottom:1px solid #ccc;}
 .select_condition{ float:left; margin-left:25px;}
 .select_condition select{ display:block; float:left; margin-right:20px; height:25px; line-height:25px\9; background:#fff; border:1px solid #e4e4e4; font-size:12px; color:#666;}
 .current_course{ color:#666; padding-left:35px; position:relative; height:25px;}
@@ -124,7 +130,7 @@ body{ font-family:'Microsoft YaHei';}
 .batch_list li.active{ background:#374760;}
 .batch_list li.active .permissions{ display:block;}
 .search_topic{ float:right; position:relative; }
-.search_topic input{width:170px; padding:0 25px 0 5px; background:#fff; height:23px; line-height:23px; border:1px solid #999999; font-size:12px; color:#666;}
+.search_topic input{width:170px; padding:0 25px 0 5px; background:#fff; height:23px; line-height:23px\9; border:1px solid #999999; font-size:12px; color:#666;}
 .search_topic span{ display:block; width:16px; height:16px; background-position:-37px -144px; position:absolute; right:5px; top:4px; cursor:pointer;}
 
 .exercise_nav{ height:54px; background:#374760; position:relative;}
@@ -156,11 +162,11 @@ body{ font-family:'Microsoft YaHei';}
 .guanbi i{ display:block; width:16px; height:16px; background-position:-37px -160px; margin:5px 0 0 5px;}
 
 /*资料表格列表*/
-.course_data{ width:100%; border-bottom:1px solid #cccccc;color:#666; overflow:hidden; zoom:1;}
+.course_data{ width:100%; border-bottom:1px solid #cccccc;color:#666;}
 .course_data tr th{ height:45px; line-height:45px; text-align:left; padding-left:10px; font-weight:normal; overflow:hidden; }
 .course_data tr td{ line-height:45px; padding-left:10px; border-top:1px solid #ccc; position:relative;}
-.course_data tr td .data_name p{ float:none; overflow:hidden;} 
-.data_name{ overflow:hidden; zoom:1;}
+.data_tit{ width:200px; float:left; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;} 
+.data_name{ height:45px; line-height:45px;}
 .data_name input{ display:block; float:left; margin-right:10px; height:45px; vertical-align:middle;}
 .data_name p{ float:left;}
 .data_name i{ display:block; float:left; cursor:pointer;}
@@ -189,11 +195,17 @@ body{ font-family:'Microsoft YaHei';}
 .pop_600{ display:none;width:600px; position:absolute; left:50%; margin-left:-300px; top:200px; background:#fff; z-index:999; }
 .pop_600 h4{ height:40px; line-height:40px; background:#1e5975; font-size:14px; color:#fff; padding-left:13px;}
 .icon_close{ background-position:-37px -128px; position:absolute; right:12px; top:12px; cursor:pointer;}
+.close_pop{ background-position:-37px -128px; position:absolute; right:12px; top:12px; cursor:pointer;}
 .pop_400{ display:none; width:400px; position:absolute; left:50%; margin-left:-200px; top:200px; background:#fff; z-index:999;}
 .pop_400 h4{ height:40px; line-height:40px; background:#1e5975; font-size:14px; color:#fff; padding-left:13px;}
 .pop_800{ display:none; width:800px; position:absolute; top:200px; left:50%; margin-left:-400px; z-index:999; background:#fff;}
 .pop_800 h4{ height:40px; line-height:40px; background:#1e5975; font-size:14px; color:#fff; padding-left:13px;}
+.pop_1000{ display:none; width:1000px; position:absolute; top:200px; left:50%; margin-left:-400px; z-index:999; background:#fff;}
+.pop_1000 h4{ height:40px; line-height:40px; background:#1e5975; font-size:14px; color:#fff; padding-left:13px;}
+.pop_wrap{ padding:20px; border:1px solid #ccc;}
 
-
-
+.knowledge_sort{ overflow:hidden; zoom:1;}
+.knowledge_sort li{ float:left; margin-right:10px;}
+.knowledge_sort li a{ display:block; height:23px; line-height:23px; padding:0 15px; font-size:12px; color:#666;}
+.knowledge_sort li.active a,.knowledge_sort li a:hover{ background:#475c7c; color:#fff;}
 

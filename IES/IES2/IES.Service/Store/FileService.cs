@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Net;
 using System.IO;
-using IES.G2S.SYS.BLL;
-using IES.SYS.Model;
+using IES.G2S.JW.BLL;
+using IES.JW.Model;
 using IES.Cache;
 using IES.Resource.Model;
 using IES.G2S.Resource.BLL;
@@ -26,7 +26,7 @@ namespace IES.Service
         /// </summary>
         public const string viewurl = "{0}://{1}:{2}/{3}/{4}";
 
-        #region 判断文件存在否
+        #region 判断文件存在否
 
         /// <summary>
         /// 判断远程文件是否存在
@@ -77,7 +77,7 @@ namespace IES.Service
 
         #endregion 
 
-        #region 获取系统所有的附件表
+        #region 获取系统所有的附件表
         /// <summary>
         /// 获取附件列表
         /// </summary>
@@ -88,6 +88,16 @@ namespace IES.Service
             AttachmentBLL attachmentBLL = new AttachmentBLL();
             return attachmentBLL.Attachment_List(model);
         }
+
+        public static List<Attachment> Attachment_UserIMG_List()
+        {
+            Attachment model = new Attachment { Source = "User" };
+            AttachmentBLL attachmentBLL = new AttachmentBLL();
+            return attachmentBLL.Attachment_List(model);
+        }
+
+
+
 
         #endregion 
 
@@ -128,6 +138,20 @@ namespace IES.Service
             }
             return attachmentlist;
         }
+
+
+        /// <summary>
+        /// 附件关联
+        /// </summary>
+        /// <param name="attachmentlist"></param>
+        /// <returns></returns>
+        public static bool AttachmentRelation(  Attachment attachment  ) 
+        {
+            return IES.G2S.Resource.DAL.AttachmentDAL.Attachment_SourceID_Upd(attachment);
+        }
+
+
+
 
         /// <summary>
         /// 资料上传

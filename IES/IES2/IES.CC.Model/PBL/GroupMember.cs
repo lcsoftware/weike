@@ -73,7 +73,7 @@ namespace IES.CC.Model.PBL
 			get{return _isstudent;}
 		}
 		/// <summary>
-		/// 1 小组长 ； 2 小组指导教师
+        /// 1 小组长; 2小组指导教师;   0 普通身份
 		/// </summary>
 		public int Role
 		{

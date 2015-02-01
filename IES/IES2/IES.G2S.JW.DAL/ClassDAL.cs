@@ -18,22 +18,17 @@ namespace IES.G2S.JW.DAL
     public  class ClassDAL
     {
         #region  列表
-        public static List<Class> Class_List(Class model, int userID,  int PageIndex,int PageSize)
+        public static List<Class> Class_List(Class model, int PageIndex,int PageSize)
         {
             try
             {
                 using (var conn = DbHelper.JWService())
                 {
                     var p = new DynamicParameters();
-                    //p.Add("@ClassID", model.ClassID);
-                    p.Add("@classNo", model.ClassNo);
-                    p.Add("@className", model.ClassName);
-                    p.Add("@userID", userID);
-                    //p.Add("@OrganizationID", model.OrganizationID);
-                    //p.Add("@SpecialtyID", model.SpecialtyID);
-                    //p.Add("@TeacherID", model.TeacherID);
-                    //p.Add("@EntryDate", model.EntryDate);
-                    //p.Add("@Classroom", classroom.ClassroomID);
+                    p.Add("@Key", model.Key);
+                    p.Add("@OrganizationID", model.OrganizationID);
+                    p.Add("@StartTime", model.StartTime);
+                    p.Add("@EndTime", model.EndTime);
                     p.Add("@PageSize", PageSize);
                     p.Add("@PageIndex", PageIndex);
                     return conn.Query<Class>("Class_List", p, commandType: CommandType.StoredProcedure).ToList();
@@ -48,72 +43,56 @@ namespace IES.G2S.JW.DAL
         #endregion
 
         #region 详细信息
-
-        public static IClass Class_Get(IClass model)
-        {
-            return new ClassCommon();
-        }
-
-        public static ClassInfo ClassInfo_Get(IClass model)
-        {
-            try
-            {
-                using (IDbConnection conn = DbHelper.JWService())
-                {
-                    ClassInfo cf = new ClassInfo();
-                    var p = new DynamicParameters();
-                    p.Add("@ClassID", model.ClassID);
-                    var multi = conn.QueryMultiple("ClassInfo_Get", p, commandType: CommandType.StoredProcedure);
-                    var classs = multi.Read<Class>().Single();
-                    var classroomlist = multi.Read<Classroom>().ToList();
-                    cf.classcommon.classs = classs;
-                    cf.classcommon.classroom = classroomlist;
-                    return cf;
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        #endregion
-
-        #region  新增
-
         /// <summary>
-        /// 新增行政班
+        /// 获取行政班的详细信息
         /// </summary>
-        public static Class Class_ADD(Class model)
+        /// <param name="ClassID"></param>
+        /// <returns></returns>
+        public static Class Class_Get(int ClassID)
         {
             try
             {
                 using (var conn=DbHelper.JWService())
                 {
                     var p = new DynamicParameters();
-                    p.Add("@ClassID", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                    p.Add("@ClassNo", model.ClassNo);
-                    p.Add("@ClassName", model.ClassName);
-                    p.Add("@OrganizationID", model.OrganizationID);
-                    p.Add("@TeacherID", model.TeacherID);
-                    p.Add("@EntryDate", DateTime.Now.ToLongDateString().ToString());
-                    conn.Execute("Class_ADD", p, commandType: CommandType.StoredProcedure);
-                    model.ClassID = p.Get<int>("ClassID");
-                    return model;
+                    p.Add("@ClassID", ClassID);
+                    return conn.Query<Class>("Class_Get", p, commandType: CommandType.StoredProcedure).Single();
                 }
             }
             catch (Exception)
-            {                
-                return null ;
+            {
+                
+                throw;
             }
-
         }
 
+        /// <summary>
+        /// 获取行政班下的学生列表
+        /// </summary>
+        /// <param name="ClassID"></param>
+        /// <returns></returns>
+        public static List<User> ClassStudent_List(int ClassID)
+        {
+            try
+            {
+                using (var conn=DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ClassID", ClassID);
+                    return conn.Query<User>("ClassStudent_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
 
         #endregion
 
-        #region 对象更新
-        public static bool Class_Upd(Class model ,out string opt )
+        #region 对象修改或删除
+        public static Class Class_Edit(Class model)
         {
             try
             {
@@ -124,22 +103,42 @@ namespace IES.G2S.JW.DAL
                     p.Add("@ClassNo", model.ClassNo);
                     p.Add("@ClassName", model.ClassName);
                     p.Add("@OrganizationID", model.OrganizationID);
+                    p.Add("@SpecialtyID", model.SpecialtyID);
                     p.Add("@TeacherID", model.TeacherID);
                     p.Add("@EntryDate", model.EntryDate);
-                    p.Add("@output", dbType: DbType.String, direction: ParameterDirection.Output);
-                    conn.Execute("Class_Upd", p, commandType: CommandType.StoredProcedure);
-                    opt = p.Get<string>("output");
+                    p.Add("@output","", dbType: DbType.String, direction: ParameterDirection.Output);
+                    p.Add("@op_ClassID", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    conn.Execute("Class_Edit", p, commandType: CommandType.StoredProcedure);
+                    model.output = p.Get<string>("@output");
+                    model.op_ClassID = p.Get<int>("@op_ClassID");
+                    return model;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        //修改行政班下学生
+        public static bool ClassStudent_Save(Class model)
+        {
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ClassID", model.ClassID);
+                    p.Add("@StudentIDs", model.StudentIDs);
+                    conn.Execute("ClassStudent_Save", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }
             }
             catch (Exception)
             {
-                opt = "操作失败";
-                return false;
+                return false ;
             }
         }
-
-
         #endregion
 
         #region 单个批量更新
@@ -149,14 +148,27 @@ namespace IES.G2S.JW.DAL
 
         #endregion
 
-        #region 属性批量操作
+        #region 批量删除
         /// <summary>
         /// 行政班数据批量操作
         /// </summary>
         /// <returns></returns>
-        public static bool Class_Batch_Del()
+        public static bool Class_Batch_Del( string IDS  )
         {
-            return true;
+            try
+            {
+                using (var conn = DbHelper.JWService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ClassIDS", IDS );
+                    conn.Execute("Class_Batch_Del", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
 
@@ -182,5 +194,6 @@ namespace IES.G2S.JW.DAL
         }
 
         #endregion
+
     }
 }

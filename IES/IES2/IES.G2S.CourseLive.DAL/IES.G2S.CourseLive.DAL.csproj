@@ -11,14 +11,10 @@
     <AssemblyName>IES.G2S.CourseLive.DAL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,18 +46,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forum\ForumMyDAL.cs" />
     <Compile Include="Forum\ForumTypeDAL.cs" />
-    <Compile Include="Forum\FourmDAL.cs" />
+    <Compile Include="Forum\ForumTopicDAL.cs" />
     <Compile Include="Forum\ResponseDAL.cs" />
+    <Compile Include="OC\OCClassDAL.cs" />
     <Compile Include="PBL\GroupAffairsDAL.cs" />
     <Compile Include="PBL\GroupDAL.cs" />
-    <Compile Include="PBL\GroupResultDAL.cs" />
-    <Compile Include="PBL\GroupTaskDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Score\ScoreManageInfoDAL.cs" />
     <Compile Include="Score\ScoreWeightDAL.cs" />
     <Compile Include="Score\ScoreTypeDAL.cs" />
     <Compile Include="Score\ScoreWithInfoDAL.cs" />
+    <Compile Include="Test\TestDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IES.CC.Model\IES.CC.Model.csproj">
@@ -76,13 +73,16 @@
       <Project>{5bbc1895-4b66-4445-af6d-f6711cb3266f}</Project>
       <Name>IES.JW.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
+      <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
+      <Name>IES.Resource.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Survey\" />
-    <Folder Include="Test\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

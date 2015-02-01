@@ -1,17 +1,51 @@
 ﻿@{
-    Layout = null;
+    //Layout = null;
 }
 
-<!DOCTYPE html>
+<div class="exercise_search">
+        <div class="select_condition">
+            <ul class="knowledge_sort">
+                <li class="active"><a href="#">成绩明细</a></li>
+                <li><a href="#">成绩管理</a></li>
+                <li><a href="#">成绩分析</a></li>
+            </ul>
+        </div>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
-    <div>
-    
+        <div class="exercise_btn">
+           <span class="sort_box">[筛选]</span>
+            <a href="javascript:;" class="import_exercise">
+                <em><i class="icon"></i></em>
+                <span>导出列表</span>
+            </a>
+            <a href="javascript:;" class="topic_import"><em><i class="icon"></i></em><span>录入成绩</span></a>
+            <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字"><span class="icon" href="#"></span></p>
+        </div>
     </div>
-</body>
-</html>
+    <div>
+        基本信息<br />
+        成绩名称:<input type="text" placeholder="请输入名称" ng-model="Name" /><br />
+        选择学期:<select ng-model="TermID">
+            <option selected="selected" value="1">一学期</option>
+            <option value="1">二学期</option>
+        </select><br /><br />
+        录入类型:
+        <br /><input type="radio" ng-model="ScoreTypeID" />平时成绩
+        <select ng-model="ScoreTypeID">
+            <option selected="selected" value="5">作业</option>
+            <option value="6">MOOC</option>
+            <option>考试</option>
+            <option>投票</option>
+        </select><br />
+        <input type="radio" ng-model="ScoreTypeID" />期中考试<br />
+        <input type="radio" ng-model="ScoreTypeID" />期末考试<br />
+        <input type="radio" ng-model="ScoreTypeID" />毕业论文<br />
+    </div>
+    <div>
+        录入对象<br />
+        <input type="radio"ng-model="type" />添加网站全部学生<br />
+        <input type="radio" />添加网站部分学生
+    </div>
+    <div>
+        录入模式<br />
+        <table></table>
+    </div>

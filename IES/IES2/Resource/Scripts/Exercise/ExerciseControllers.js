@@ -61,7 +61,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         $scope.data.key = {};
 
         contentService.User_OC_List(function (data) {
-            if (data.d && data.d.length > 0) {
+            if (data.d) {
                 $scope.courses = data.d;
                 var course = angular.copy($scope.courses[0]);
                 course.OCID = -1;
@@ -73,7 +73,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         });
 
         assistService.Resource_Dict_ExerciseType_Get(function (data) {
-            if (data.d && data.d.length > 0) {
+            if (data.d) {
                 $scope.exerciseTypes = data.d;
                 var item = angular.copy($scope.exerciseTypes[0]);
                 item.id = -1;
@@ -84,7 +84,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         });
 
         assistService.Resource_Dict_Diffcult_Get(function (data) {
-            if (data.d && data.d.length > 0) {
+            if (data.d) {
                 $scope.difficulties = data.d;
                 var item = angular.copy($scope.difficulties[0]);
                 item.id = -1;
@@ -95,7 +95,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         });
 
         assistService.Resource_Dict_ShareRange_Get(function (data) {
-            if (data.d && data.d.length > 0) {
+            if (data.d) {
                 $scope.shareRanges = data.d;
                 var item = angular.copy($scope.shareRanges[0]);
                 item.id = -1;
@@ -106,7 +106,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         });
 
         resourceKenService.ResourceKen_List('', 'Exercise', 100, function (data) {
-            if (data.d && data.d.length > 0) {
+            if (data.d) {
                 $scope.knowledges = data.d;
                 var item = angular.copy($scope.knowledges[0]);
                 item.KenID = -1;
@@ -117,7 +117,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         });
 
         assistService.Resource_Key_List('', 'Exercise', 100, function (data) {
-            if (data.d && data.d.length > 0) {
+            if (data.d) {
                 $scope.keys = data.d;
                 var item = angular.copy($scope.keys[0]);
                 item.KeyID = -1;

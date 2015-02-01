@@ -24,7 +24,15 @@ namespace IES.JW.Model
 	public partial class Specialty
     {
         #region  补充信息
+        public string Output { get; set; }
 
+        public int op_SpecialtyID { get; set; }
+        public string OrganizationName { get; set; }
+        public string Key { get; set; }
+        /// <summary>
+        /// 学科
+        /// </summary>
+        public string SpecialtyTypeName { get; set; }
         public int rowscount { get; set; }
 
         #endregion
@@ -36,7 +44,7 @@ namespace IES.JW.Model
 		private int? _parentid=0;
 		private string _specialtyname;
 		private string _specialtynameen;
-		private int? _schoolinglength=4;
+		private decimal _schoolinglength=4;
 		private int _organizationid;
 		private int? _specialtytypeid;
 		private string _introduction;
@@ -85,7 +93,7 @@ namespace IES.JW.Model
 		/// <summary>
 		/// 学制
 		/// </summary>
-		public int? SchoolingLength
+		public decimal SchoolingLength
 		{
 			set{ _schoolinglength=value;}
 			get{return _schoolinglength;}
@@ -133,5 +141,16 @@ namespace IES.JW.Model
 		#endregion Model
 
 	}
+    [Serializable]
+    public partial class ShortSpecialty
+    {
+
+        public int SpecialtyID { get; set; }
+        public string  SpecialtyName { get; set; }
+        public int ParentID { get; set; }
+
+        public string SpecialtyIDs { get; set; }
+    }
+
 }
 

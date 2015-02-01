@@ -12,93 +12,86 @@ namespace IES.Portal.Model
         public Link()
         {}
         #region  补充信息
-
+        /// <summary>
+        /// 列表总数
+        /// </summary>
         public int rowscount { get; set; }
 
         #endregion 
 
         #region Model
-        private int _linkid;
-        private string _title;
-        private string _url;
-        private int _sysid;
-        private int _moduleid;
-        private int _organizationid;
-        private bool _isimg;
-        private int _attachmentid;
-        private int _clicks; 
+        private int _LinkID;
+        private string _Title;
+        private string _URL;
+        private int _SysID;
+        private int _OrganizationID;
+        private bool _IsIMG;
+        private int _Clicks;
+
         /// <summary>
-        /// 友情链接ID
+        /// 友情链接编号
         /// </summary>
-        public int Linkid
+        public int LinkID
         {
-            get { return _linkid; }
-            set { _linkid = value; }
+            set { _LinkID = value; }
+            get { return _LinkID; }
         }
+
         /// <summary>
         /// 友情链接标题
         /// </summary>
         public string Title
         {
-            get { return _title; }
-            set { _title = value; }
+            set { _Title = value; }
+            get { return _Title; }
         }
+
         /// <summary>
-        /// 链接地址
+        /// 友情链接地址
         /// </summary>
-        public string Url
+        public string URL
         {
-            get { return _url; }
-            set { _url = value; }
+            set { _URL = value; }
+            get { return _URL; }
         }
+
         /// <summary>
-        /// 系统ID
+        /// 子系统编号
         /// </summary>
-        public int Sysid
+        public int SysID
         {
-            get { return _sysid; }
-            set { _sysid = value; }
+            set { _SysID = value; }
+            get { return _SysID; }
         }
+
         /// <summary>
-        /// 功能模块ID
+        /// 组织机构编号
         /// </summary>
-        public int Moduleid
+        public int OrganizationID
         {
-            get { return _moduleid; }
-            set { _moduleid = value; }
+            set { _OrganizationID = value; }
+            get { return _OrganizationID; }
         }
+
         /// <summary>
-        /// 组织机构ID
+        /// 是否是图片链接
         /// </summary>
-        public int Organizationid
+        public bool IsIMG
         {
-            get { return _organizationid; }
-            set { _organizationid = value; }
+            set { _IsIMG = value; }
+            get { return _IsIMG; }
         }
-        /// <summary>
-        /// 是否图片链接
-        /// </summary>
-        public bool Isimg
-        {
-            get { return _isimg; }
-            set { _isimg = value; }
-        }
-        /// <summary>
-        /// 附件ID
-        /// </summary>
-        public int Attachmentid
-        {
-            get { return _attachmentid; }
-            set { _attachmentid = value; }
-        }
+
         /// <summary>
         /// 点击量
         /// </summary>
         public int Clicks
         {
-            get { return _clicks; }
-            set { _clicks = value; }
+            set { _Clicks = value; }
+            get { return _Clicks; }
         }
+
         #endregion
+
     }
 }

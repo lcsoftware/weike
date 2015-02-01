@@ -12,7 +12,6 @@ namespace IES.G2S.Resource.DAL
 {
     public class KeyDAL
     {
-        #region  列表
 
         /// <summary>
         /// 获取标签列表
@@ -37,6 +36,7 @@ namespace IES.G2S.Resource.DAL
             }
 
         }
+
 
         /// <summary>
         /// 获取标签列表
@@ -64,6 +64,38 @@ namespace IES.G2S.Resource.DAL
             }
 
         }
-        #endregion
+
+        /// <summary>
+        /// 获取文件、习题相关有效关键字 
+        /// </summary>
+        /// <param name="SearchKey"></param>
+        /// <param name="Source"></param>
+        /// <param name="UserID"></param>
+        /// <param name="TopNum"></param>
+        /// <returns></returns>
+        public static List<Key> ExerciseOrFile_Key_List(string SearchKey, string Source, int UserID, int TopNum,int OCID)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@OCID", OCID);
+                    p.Add("@SearchKey", SearchKey);
+                    p.Add("@Source", Source);
+                    p.Add("@UserID", UserID);
+                    p.Add("@TopNum", TopNum);
+
+                    return conn.Query<Key>("Resource_Key_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<Key>();
+            }
+        }
+
+    
+        
     }
 }

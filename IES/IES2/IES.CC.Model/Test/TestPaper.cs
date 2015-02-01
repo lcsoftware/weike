@@ -29,7 +29,6 @@ namespace IES.CC.Test.Model
 		private int _testtacticid;
 		private int _testid;
 		private int _paperid;
-		private int _copypaperid;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -53,14 +52,6 @@ namespace IES.CC.Test.Model
 		{
 			set{ _paperid=value;}
 			get{return _paperid;}
-		}
-		/// <summary>
-		/// 来源的试卷编号
-		/// </summary>
-		public int CopyPaperID
-		{
-			set{ _copypaperid=value;}
-			get{return _copypaperid;}
 		}
 		#endregion Model
 

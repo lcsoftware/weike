@@ -8,6 +8,8 @@ namespace IES.JW.Model
 {
     public class TeachingClassInfo
     {
+        public int TeachingClassID { get; set; }
+
         public TeachingClass teachingclass { get; set; }
 
         public List<TeachingClassStudent> teachingclassstudentlist { get; set; }

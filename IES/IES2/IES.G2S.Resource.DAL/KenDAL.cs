@@ -41,6 +41,36 @@ namespace IES.G2S.Resource.DAL
         }
 
         /// <summary>
+        /// 获取文件、习题相关有效知识点 
+        /// </summary>
+        /// <param name="SearchKey"></param>
+        /// <param name="Source"></param>
+        /// <param name="UserID"></param>
+        /// <param name="TopNum"></param>
+        /// <returns></returns>
+        public static List<Ken> ExerciseOrFile_Ken_List(string SearchKey,string Source,int UserID,int TopNum,int OCID)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@OCID", OCID);
+                    p.Add("@SearchKey", SearchKey);
+                    p.Add("@Source", Source);
+                    p.Add("@UserID", UserID);
+                    p.Add("@TopNum", TopNum);
+
+                    return conn.Query<Ken>("Resource_Ken_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<Ken>();
+            }
+        }
+
+        /// <summary>
         /// 获取知识点的关联文件列表
         /// </summary>
         /// <param name="model"></param>
@@ -62,6 +92,28 @@ namespace IES.G2S.Resource.DAL
                 return null;
             }
 
+        }
+
+
+        public static List<Ken> Ken_ExerciseCount_List(int OCID, int UserID, int ExerciseType, int Diffcult)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@OCID", OCID);
+                    p.Add("@UserID", UserID);
+                    p.Add("@ExerciseType", ExerciseType);
+                    p.Add("@Diffcult", Diffcult);
+
+                    return conn.Query<Ken>("Ken_ExerciseCount_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<Ken>();
+            }
         }
 
         /// <summary>
@@ -102,6 +154,7 @@ namespace IES.G2S.Resource.DAL
 
         /// <summary>
         /// 知识点新增
+
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -140,6 +193,7 @@ namespace IES.G2S.Resource.DAL
 
         /// <summary>
         /// 知识点更新
+
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -183,6 +237,7 @@ namespace IES.G2S.Resource.DAL
 
 
 
+
         #endregion
 
         #region 删除
@@ -190,6 +245,7 @@ namespace IES.G2S.Resource.DAL
 
         /// <summary>
         ///  知识点删除
+
         /// </summary>
         /// <param name="id"></param>
         public static bool Ken_Del(Ken model)

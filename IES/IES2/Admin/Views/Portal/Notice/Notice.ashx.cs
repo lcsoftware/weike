@@ -34,11 +34,11 @@ namespace Admin.Views.Portal.Notice
         //获取通知列表
         public void GetNoticeList(HttpContext context)
         {
-            IES.SYS.Model.Notice notice = new IES.SYS.Model.Notice();
+            IES.JW.Model.Notice notice = new IES.JW.Model.Notice();
             int PageIndex = Convert.ToInt32(context.Request.Params["PageIndex"]);
             int PageSize = Convert.ToInt32(context.Request.Params["PageSize"]);
-            IES.G2S.SYS.BLL.NoticeBLL noticebll = new IES.G2S.SYS.BLL.NoticeBLL();
-            DataTable dt = IES.Common.ListToDateUtil.ListToDataTable<IES.SYS.Model.Notice>(noticebll.Notice_List(notice, PageSize, PageIndex));
+            IES.G2S.JW.BLL.NoticeBLL noticebll = new IES.G2S.JW.BLL.NoticeBLL();
+            DataTable dt = IES.Common.ListToDateUtil.ListToDataTable<IES.JW.Model.Notice>(noticebll.Notice_List(notice, PageSize, PageIndex));
 
             if (dt != null && dt.Rows.Count > 0)
             {

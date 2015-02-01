@@ -10,12 +10,17 @@ namespace IES.G2S.JW.IBLL
     public interface ITermBLL
     {
         #region  列表
-        List<Term> Term_List(Term model, int PageSize, int PageIndex);
+        List<Term> Term_List(Term model);
+        /// <summary>
+        /// 获取校历信息列表
+        /// </summary>
+        /// <returns></returns>
+        List<TermInfo> TermInfo_List();
         #endregion
 
-        #region 新增
+        #region 新增或修改
 
-        Term Term_ADD(Term model);
+        Term Term_Edit(Term model);
 
         #endregion 
 

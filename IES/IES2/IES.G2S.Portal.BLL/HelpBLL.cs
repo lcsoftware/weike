@@ -37,6 +37,14 @@ namespace IES.G2S.Portal.BLL
 
         #endregion
 
+        #region 批量删除
+        public bool Help_Batch_Del(string IDS)
+        {
+            return HelpDAL.Help_Batch_Del(IDS);
+        }
+
+        #endregion
+
         #region 更新
 
         public bool Help_Upd(Help model)
@@ -44,6 +52,13 @@ namespace IES.G2S.Portal.BLL
             return HelpDAL.Help_Upd(model);
         }
 
+        #endregion
+
+        #region 详细信息
+        public Help Help_Get(Help model)
+        {
+            return HelpDAL.Help_Get(model);
+        }
         #endregion
     }
 }

@@ -86,7 +86,7 @@
 .comment_btn:hover{ text-decoration:underline;}
 .issue_detail p{ overflow:hidden; zoom:1; color:#999;}
 .issue_detail p a{ color:#999; padding-left:10px;}
-.comment_box{ display:none; margin-top:10px; padding:10px; background:#f2f2f2; border:1px solid #ededed; position:relative;}
+.comment_box{ display:none; margin-top:10px; padding:10px; background:#f2f2f2; border:1px solid #ededed;}
 .triangle{ display:inline-block; width:0; height:0; line-height:0; overflow:hidden; border-width:7px; border-style:solid; border-color:#fff #fff #f2f2f2; position:absolute; top:-13px; right:30px;}
 .chat_box{ }
 .chat_detail{ width:650px;height:30px; line-height:30px\9; background:#fff; padding:0 8px; color:#999; border:1px solid #d8d8d8;}
@@ -823,6 +823,10 @@ border-bottom:1px solid #e4e4e4;}
 .paper_pop .add_attach{ margin:22px 0 0 18px;}
 .create_next{ display:block; height:40px; line-height:40px; text-align:center; background:#f2f2f2; border:1px solid #ccc; margin-top:-15px; font-size:13px; color:#333;font-family:'Microsoft YaHei';}
 
+
+/*管理员端通知回复*/
+.talkCountTxt {color:#999; margin-right:15px;}
+.fr {float:right; display:inline }
 
 
 

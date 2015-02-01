@@ -1,0 +1,147 @@
+﻿.treeRightCss table {
+}
+
+.tabTagBox {
+    width: 202px;
+    overflow: hidden;
+    position: relative;
+    float: left;
+    z-index: 9;
+    margin: 2px 0;
+    padding-top: 10px;
+}
+
+    .tabTagBox li {
+        float: left;
+        font-size: 12px;
+        width: 200px;
+        line-height: 40px;
+        border-left: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        height: 40px;
+        overflow: hidden;
+        cursor: pointer;
+        background: #F2F2F2;
+    }
+
+#top {
+    height: 50px;
+    font-size: 14px;
+    line-height: 50px;
+    text-indent: 2em;
+    border: 1px solid #ccc;
+}
+
+.tabTagBox li input[type=text] {
+    width: 118px;
+    height: 30px;
+    margin: 0 0 0 0;
+}
+
+.tabTagBox li.current {
+    background: #fff;
+    border-left: 0px;
+    border-right: 0px;
+}
+
+.wod_btn {
+    padding: 5px 15px 5px 15px;
+    height: 30px;
+    width: 60px;
+    background: #284a51;
+    line-height: 30px;
+    color: #fff;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+    .wod_btn:hover {
+        background: #233f45;
+    }
+
+.wrt_btn {
+    padding: 5px 15px 5px 15px;
+    height: 30px;
+    width: 60px;
+    background: #f2f2f2;
+    line-height: 30px;
+    color: #333;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+    .wrt_btn:hover {
+        background: #f8f8f8;
+    }
+
+#tabCon {
+    float: left;
+    width: 760px;
+}
+
+.xf_btn {
+    display: block;
+    line-height: 20px;
+    padding: 3px 8px 3px 8px;
+    width: 44px;
+    height: 24px;
+    background: #fff;
+    margin: 0 0 0 0;
+    border: 1px solid #ccc;
+    text-align: center;
+    color: #000;
+}
+
+.ifm {
+    display: none;
+    width: 60px;
+    height: 52px;
+    position: absolute;
+    z-index: 999;
+    left: -45px;
+    top: 16px;
+}
+
+    .ifm a:hover {
+        background: #E4E4E4;
+    }
+
+    .treeDiv ul {
+    }
+
+        .treeDiv ul li {
+            background: #fff;
+            height: 40px;
+            line-height: 40px;
+            list-style-type: none;
+        }
+
+            .treeDiv ul li.action {
+                background: #366061;
+            }
+
+.checkbox_0 {
+    background: url(../../Content/Images/checkbox_0_thumb.gif) no-repeat;
+    background-position: 10px 10px;
+    width: 30px;
+    height: 40px;
+    float: left;
+}
+
+.checkbox_1 {
+    background: url(../../Content/Images/checkbox_1_thumb.gif) no-repeat;
+    background-position: 10px 10px;
+    width: 30px;
+    height: 40px;
+    float: left;
+}
+
+.checkbox_2 {
+    background: url(../../Content/Images/checkbox_2_thumb.gif) no-repeat;
+    background-position: 10px 10px;
+    width: 30px;
+    height: 40px;
+    float: left;
+}
+.u_203{display:inline-block; width:16px; height:16px; background:url(../../Content/Images/u203.png) no-repeat;}

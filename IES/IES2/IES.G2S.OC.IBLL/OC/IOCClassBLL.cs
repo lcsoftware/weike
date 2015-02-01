@@ -11,31 +11,67 @@ namespace IES.G2S.OC.IBLL.OC
     {
 
         #region  列表
+        ///// <summary>
+        ///// 新的学生申请列表
+        ///// </summary>
+        ///// <param name="OCID"></param>
+        ///// <returns></returns>
+        //List<OCClassRegStudent> OCClass_RegStudent_List(int OCID);
+        /// <summary>
+        /// 获取教学班列表
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        List<OCClass> OCClass_List(OCClass model, int PageIndex, int PageSize);
 
-        List<OCClassInfo> OCClassInfo_List(int OCID, int TeamID, string Searchkey,int IsHistroy );
+        /// <summary>
+        /// 获取教学班学生列表
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        List<OCClassStudent> OCClassStudent_List(OCClass model, int PageIndex, int PageSize);
 
-        List<OCClassRegStudent> OCClassRegStudent_List(int OCID);
-
-        List<OCClassRegInfo> OCClassList(OCClass model, int PageIndex, int PageSize);
+        /// <summary>
+        /// 学生列表
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        List<OCClassStudent> OCClass_Student_List(OCClassStudent model, int PageIndex, int PageSize);
+        ///// <summary>
+        ///// 获取教学班在读学生列表
+        ///// </summary>
+        ///// <param name="model"></param>
+        ///// <returns></returns>
+        //List<OCClassStudent> OCClassStudent_OnLine_List(OCClassStudent model, int PageIndex, int PageSize);
 
         #endregion
 
 
         #region 详细信息
+        /// <summary>
+        /// 获取教学班基本信息
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        OCClassInfo OCClassInfo_Get(OCClass model, int PageIndex, int PageSize);
 
         #endregion
 
 
         #region  新增
-
-      
+        /// <summary>
+        /// 添加教学班
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        OCClass OCClass_Edit(OCClass model);
 
 
         #endregion
 
 
         #region 对象更新
-       
+
 
 
         #endregion
@@ -59,7 +95,8 @@ namespace IES.G2S.OC.IBLL.OC
 
 
         #region 删除
-
+        bool OCClass_Del(OCClass model);
+        bool OCClass_Batch_Del(string OCClassIDs);
 
         #endregion
     }

@@ -8,5 +8,6 @@ namespace IES.CC.Forum.Model
 {
     public class ForumTopicInfo
     {
+
     }
 }

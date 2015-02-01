@@ -11,14 +11,10 @@
     <AssemblyName>IES.Resource.Model</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,10 +45,15 @@
   <ItemGroup>
     <Compile Include="Attachment.cs" />
     <Compile Include="Chapter.cs" />
+    <Compile Include="ChapterInfo.cs" />
     <Compile Include="ChapterKen.cs" />
+    <Compile Include="ChapterTest.cs" />
+    <Compile Include="ExerciseAnswer.cs" />
     <Compile Include="ExerciseAnswercardInfo.cs" />
+    <Compile Include="ExerciseAnswerInfo.cs" />
     <Compile Include="ExerciseCompInfo.cs" />
     <Compile Include="ExerciseCommon.cs" />
+    <Compile Include="ExerciseType.cs" />
     <Compile Include="FolderRelation.cs" />
     <Compile Include="IExercise.cs" />
     <Compile Include="IFile.cs" />

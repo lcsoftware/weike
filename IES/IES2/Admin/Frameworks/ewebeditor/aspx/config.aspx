@@ -1,6 +1,6 @@
 <%@ Page Language="vb"%>
 <%
-    'License = ""
+    'License = "2:7785:2:1:1::192.168.1.166:ca2b5abdb716ca94fbcb4f8b23472e11"
 
 'Username = "admin"
 'Password = "admin"

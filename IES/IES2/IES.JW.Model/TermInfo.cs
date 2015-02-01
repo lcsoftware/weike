@@ -17,6 +17,10 @@ namespace IES.JW.Model
         /// 校历基本属性
         /// </summary>
         public Term term { get; set; }
+        /// <summary>
+        /// 课节
+        /// </summary>
+        public List<Lesson> lesslist { get; set; }
 
     }
 }

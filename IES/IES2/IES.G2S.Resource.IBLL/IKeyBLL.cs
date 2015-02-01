@@ -9,6 +9,8 @@ namespace IES.G2S.Resource.IBLL
 {
     public interface IKeyBLL
     {
-        List<Key> Key_List(Key model);
+        List<Key> ExerciseOrFile_Key_List(string SearchKey, string Source, int UserID, int TopNum,int OCID);
+
+        
     }
 }

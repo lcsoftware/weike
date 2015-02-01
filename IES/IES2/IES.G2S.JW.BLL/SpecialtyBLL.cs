@@ -13,26 +13,30 @@ namespace IES.G2S.JW.BLL
     {
         #region  列表
 
-        public  List<Specialty> Specialty_List(Specialty model,int PageSize,int PageIndex)
+        public List<Specialty> Specialty_List(Specialty model, int PageIndex, int PageSize)
         {
-            return SpecialtyDAL.Specialty_List(model,PageSize,PageIndex);
+            return SpecialtyDAL.Specialty_List(model, PageIndex, PageSize);
+        }
+        public List<ShortSpecialty> Specialty_Short_List(ShortSpecialty model)
+        {
+            return SpecialtyDAL.Specialty_Short_List(model);
+        }
+        #endregion
+
+        #region 详细信息
+
+        public SpecialtyInfo SpecialtyInfo_Get(SpecialtyInfo model)
+        {
+            return SpecialtyDAL.SpecialtyInfo_Get(model);
         }
 
         #endregion
 
-        #region  新增
+        #region  对象修改或新增
 
-        public Specialty Specialty_ADD(Specialty model)
+        public Specialty Specialty_Edit(Specialty model)
         {
-            return SpecialtyDAL.Specialty_ADD(model);
-        }
-        #endregion
-
-        #region  对象更新
-
-        public bool Specialty_Upd(Specialty model)
-        {
-            return SpecialtyDAL.Specialty_Upd(model);
+            return SpecialtyDAL.Specialty_Edit(model);
         }
 
         #endregion
@@ -44,6 +48,37 @@ namespace IES.G2S.JW.BLL
             return SpecialtyDAL.Specialty_Del(model);
         }
 
+        #endregion
+
+        #region  获取全部信息
+
+        public List<Specialty> NewsSpecialty_List()
+        {
+            return SpecialtyDAL.NewsSpecialty_List();
+        }
+
+        #endregion
+
+        #region 批量删除
+        public bool Specialty_Batch_Del(string IDS)
+        {
+            return SpecialtyDAL.Specialty_Batch_Del(IDS);
+        }
+
+        #endregion
+
+        #region 学科树
+        public List<SpecialtyType> SpecialtyType_Tree_List()
+        {
+            return SpecialtyDAL.SpecialtyType_Tree_List();
+        }
+        #endregion
+
+        #region 上级学科
+        public List<SpecialtyType> SpecialtyType_P_List()
+        {
+            return SpecialtyDAL.SpecialtyType_P_List();
+        }
         #endregion
     }
 }

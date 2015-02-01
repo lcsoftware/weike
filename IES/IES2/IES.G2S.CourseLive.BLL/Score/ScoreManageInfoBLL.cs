@@ -25,10 +25,10 @@ namespace IES.G2S.CourseLive.BLL.Score
         /// <param name="PageIndex">页数</param>
         /// <param name="PageSize">页大小</param>
         /// <returns></returns>
-        public List<CC.Model.Score.ScoreManageInfo> ScoreManageInfo_List(CC.Model.Score.ScoreManageInfo smi, int PageIndex = 1)
+        public List<CC.Model.Score.ScoreManageInfo> ScoreManageInfo_List(CC.Model.Score.ScoreManageInfo smi, int PageIndex = 1, int PageSize = 20)
         {
-            return ScoreManageInfoDAL.ScoreManageInfo_List(smi, PageIndex);
-        } 
+            return ScoreManageInfoDAL.ScoreManageInfo_List(smi, PageIndex, PageSize);
+        }
         #endregion
 
     }

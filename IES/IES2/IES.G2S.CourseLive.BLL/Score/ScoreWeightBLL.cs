@@ -1,4 +1,5 @@
-﻿using IES.G2S.CourseLive.DAL.Score;
+﻿using IES.CC.Model.Score;
+using IES.G2S.CourseLive.DAL.Score;
 using IES.G2S.CoursLive.IBLL.Score;
 using System;
 using System.Collections.Generic;
@@ -33,9 +34,14 @@ namespace IES.G2S.CourseLive.BLL.Score
         /// </summary>
         /// <param name="weightID"></param>
         /// <returns></returns>
-        public bool ScoreWeight_Power_Upd(int? weightID)
+        public bool ScoreWeight_Power_Upd(ScoreWeight sw)
         {
-            return ScoreWeightDAL.ScoreWeight_Power_Upd(weightID);
+            return ScoreWeightDAL.ScoreWeight_Power_Upd(sw);
+        }
+
+        public bool ScoreWeight_JoinNum_Upd(ScoreWeight sw)
+        {
+            return ScoreWeightDAL.ScoreWeight_JoinNum_Upd(sw);
         }
         #endregion
 

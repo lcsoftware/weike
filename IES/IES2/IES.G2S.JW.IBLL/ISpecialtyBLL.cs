@@ -11,7 +11,7 @@ namespace IES.G2S.JW.IBLL
     {
         #region 列表
 
-        List<Specialty> Specialty_List(Specialty model, int PageSize, int PageIndex);
+        List<Specialty> Specialty_List(Specialty model, int PageIndex, int PageSize);
 
         #endregion
 
@@ -21,15 +21,9 @@ namespace IES.G2S.JW.IBLL
 
         #endregion
 
-        #region  新增
+        #region  对象修改或新增
 
-        Specialty Specialty_ADD(Specialty model);
-
-        #endregion
-
-        #region  内容更新
-
-        bool Specialty_Upd(Specialty model);
+        Specialty Specialty_Edit(Specialty model);
 
         #endregion
 

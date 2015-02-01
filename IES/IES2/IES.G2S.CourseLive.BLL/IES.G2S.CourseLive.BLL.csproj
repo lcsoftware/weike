@@ -11,14 +11,10 @@
     <AssemblyName>IES.G2S.CourseLive.BLL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,14 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forum\ForumMyBLL.cs" />
     <Compile Include="Forum\ForumTypeBLL.cs" />
-    <Compile Include="Forum\FourmBLL.cs" />
+    <Compile Include="Forum\ForumTopicBLL.cs" />
+    <Compile Include="Forum\ResponseBLL.cs" />
+    <Compile Include="OC\OCClassBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Score\ScoreManageInfoBLL.cs" />
     <Compile Include="Score\ScoreTypeBLL.cs" />
     <Compile Include="Score\ScoreWeightBLL.cs" />
     <Compile Include="Score\ScoreWithInfoBLL.cs" />
     <Compile Include="Test\StudentPaperInfo.cs" />
+    <Compile Include="Test\TestBLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IES.CC.Model\IES.CC.Model.csproj">
@@ -68,6 +68,18 @@
     <ProjectReference Include="..\IES.G2S.CoursLive.IBLL\IES.G2S.CoursLive.IBLL.csproj">
       <Project>{353179d4-af57-4b5b-b097-bab9e4891043}</Project>
       <Name>IES.G2S.CoursLive.IBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.JW.Model\IES.JW.Model.csproj">
+      <Project>{5bbc1895-4b66-4445-af6d-f6711cb3266f}</Project>
+      <Name>IES.JW.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
+      <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
+      <Name>IES.Resource.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.Service\IES.Service.csproj">
+      <Project>{3a3c9b64-1cd3-4eca-9dbd-ce5b4f3f833e}</Project>
+      <Name>IES.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

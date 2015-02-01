@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Top.ascx.cs" Inherits="Admin.Views.Share.Top" %>
 <div class="header_center">
     <div class="company_logo">
-        <img src="/Content/images/company_logo.png" width="70" height="30" alt="">上海卓越睿新数码科技有限公司
+        <img src=<%=IES.Service.Common.ConfigService.CfgSchool_CC.LOGO %> width="70" height="30" alt=""><%=IES.Service.Common.ConfigService.CfgSchool_CC.SchoolName %>
     </div>
     <div class="user_box">
         <p class="user_name">
@@ -30,7 +30,7 @@
 
 
 
-    var MenuID = request("PID");
+    var MenuID = request("PID").substr(0,2);
     if ($(".nav_box #topmenu" + MenuID).html() != undefined) {
         $("#topmenu" + MenuID).addClass("active");
     } else {

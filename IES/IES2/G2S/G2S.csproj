@@ -21,14 +21,10 @@
     <IISExpressUseClassicPipelineMode />
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
     <TargetFrameworkProfile />
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,6 +47,18 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="eWebEditorAdmin, Version=9.8.5406.41987, Culture=neutral, PublicKeyToken=d33bb32e886eaaa8">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\最新版本课程中心\G2S\ewebeditor\bin\eWebEditorAdmin.dll</HintPath>
+    </Reference>
+    <Reference Include="eWebEditorControl, Version=9.8.5406.41988, Culture=neutral, PublicKeyToken=7cd961077e445a3c">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\最新版本课程中心\G2S\ewebeditor\bin\eWebEditorControl.dll</HintPath>
+    </Reference>
+    <Reference Include="eWebEditorServer, Version=9.8.5406.41987, Culture=neutral, PublicKeyToken=70a04d59ad7a0f91">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\最新版本课程中心\G2S\ewebeditor\bin\eWebEditorServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.1.0.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -90,6 +98,8 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -132,11 +142,16 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Tools, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Tools.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CAS.aspx" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\jasmine\jasmine.css" />
     <Content Include="Content\jasmine\jasmine_favicon.png" />
@@ -144,21 +159,42 @@
       <DependentUpon>app.less</DependentUpon>
     </Content>
     <Content Include="Content\app.less" />
+    <Content Include="Content\Private\company_logo.png" />
     <Content Include="Content\SiteTemplate\blue\readme.txt" />
     <Content Include="Content\variables.less" />
     <Content Include="Css\app.css" />
+    <Content Include="Css\bootstrap.css" />
+    <Content Include="Css\check.css" />
+    <Content Include="Css\class.css" />
     <Content Include="Css\common.css" />
     <Content Include="Css\construction.css" />
+    <Content Include="Css\datepicker.css" />
+    <Content Include="Css\face.css" />
     <Content Include="Css\footer.css" />
+    <Content Include="Css\forum.css" />
     <Content Include="Css\header.css" />
+    <Content Include="Css\home.css" />
     <Content Include="Css\index.css" />
     <Content Include="Css\mooc.css" />
+    <Content Include="Css\progress.css" />
     <Content Include="Css\PublicDialog.css" />
+    <Content Include="Css\resource.css" />
     <Content Include="Css\reverse.css" />
     <Content Include="Css\side_left.css" />
+    <Content Include="Css\test.css" />
+    <Content Include="DataProvider\Affairs\AffairsProvider.aspx" />
+    <Content Include="DataProvider\CourseLive\Forum\ForumProvider.aspx" />
     <Content Include="DataProvider\CourseLive\Score\ScoreProvider.aspx" />
+    <Content Include="DataProvider\CourseLive\StudyProcess\StudyProcessProvider.aspx" />
+    <Content Include="DataProvider\CourseLive\Test\MarkingProvider.aspx" />
+    <Content Include="DataProvider\CourseLive\Test\TestProvider.aspx" />
+    <Content Include="DataProvider\Home\HomeProvider.aspx" />
+    <Content Include="DataProvider\Home\NoticesProvider.aspx" />
     <Content Include="DataProvider\OC\Class\ClassProvider.aspx" />
+    <Content Include="DataProvider\OC\CourseIndexProvider.aspx" />
     <Content Include="DataProvider\OC\FC\FCProvider.aspx" />
+    <Content Include="DataProvider\OC\MOOC\MOOCPreview.aspx" />
+    <Content Include="DataProvider\OC\MOOC\MOOCProvider.aspx" />
     <Content Include="DataProvider\OC\Site\SiteProvider.aspx" />
     <Content Include="DataProvider\OC\Team\TeamProvider.aspx" />
     <Content Include="DataProvider\Public\PublicProvider.aspx" />
@@ -170,6 +206,7 @@
     <Content Include="Frameworks\angular\angular-cookies.js" />
     <Content Include="Frameworks\angular\angular-cookies.min.js" />
     <Content Include="Frameworks\angular\angular-csp.css" />
+    <Content Include="Frameworks\angular\angular-file-upload.js" />
     <Content Include="Frameworks\angular\angular-loader.js" />
     <Content Include="Frameworks\angular\angular-loader.min.js" />
     <Content Include="Frameworks\angular\angular-mocks.js" />
@@ -196,6 +233,7 @@
     <Content Include="Frameworks\bootstrap\js\bootstrap-modal.js" />
     <Content Include="Frameworks\bootstrap\js\bootstrap-transition.js" />
     <Content Include="Frameworks\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Frameworks\echarts-2.0.1\echarts-plain-map.js" />
     <Content Include="Frameworks\DLL\System.Web.Mvc.dll" />
     <Content Include="Frameworks\DLL\Tools.dll" />
     <Content Include="Frameworks\ewebeditor\admin\default.aspx" />
@@ -939,7 +977,44 @@
     <Content Include="Frameworks\ewebeditor\_example\replacebycode.aspx" />
     <Content Include="Frameworks\ewebeditor\_example\retrieve.aspx" />
     <Content Include="Frameworks\ewebeditor\_example\standard.aspx" />
+    <Content Include="Frameworks\jPlayer\js\circle.player.js" />
+    <Content Include="Frameworks\jPlayer\js\jplayer.playlist.min.js" />
+    <Content Include="Frameworks\jPlayer\js\Jplayer.swf" />
+    <Content Include="Frameworks\jPlayer\js\jquery-1.8.3.min.js" />
+    <Content Include="Frameworks\jPlayer\js\jquery.grab.js" />
+    <Content Include="Frameworks\jPlayer\js\jquery.jplayer.inspector.js" />
+    <Content Include="Frameworks\jPlayer\js\jquery.jplayer.min.js" />
+    <Content Include="Frameworks\jPlayer\js\jquery.transform.js" />
+    <Content Include="Frameworks\jPlayer\js\mod.csstransforms.min.js" />
+    <Content Include="Frameworks\jPlayer\skin\blue.monday\jplayer.blue.monday.css" />
+    <Content Include="Frameworks\jPlayer\skin\blue.monday\jplayer.blue.monday.jpg" />
+    <Content Include="Frameworks\jPlayer\skin\blue.monday\jplayer.blue.monday.seeking.gif" />
+    <Content Include="Frameworks\jPlayer\skin\blue.monday\jplayer.blue.monday.video.play.png" />
+    <Content Include="Frameworks\jPlayer\skin\circle.skin\bgr.jpg" />
+    <Content Include="Frameworks\jPlayer\skin\circle.skin\buffer.png" />
+    <Content Include="Frameworks\jPlayer\skin\circle.skin\circle.player.css" />
+    <Content Include="Frameworks\jPlayer\skin\circle.skin\controls.jpg" />
+    <Content Include="Frameworks\jPlayer\skin\circle.skin\progress.png" />
+    <Content Include="Frameworks\jPlayer\skin\circle.skin\progress_sprite.jpg" />
+    <Content Include="Frameworks\jPlayer\skin\pink.flag\jplayer.pink.flag.css" />
+    <Content Include="Frameworks\jPlayer\skin\pink.flag\jplayer.pink.flag.jpg" />
+    <Content Include="Frameworks\jPlayer\skin\pink.flag\jplayer.pink.flag.seeking.gif" />
+    <Content Include="Frameworks\jPlayer\skin\pink.flag\jplayer.pink.flag.video.play.png" />
     <Content Include="Frameworks\jquery\jquery-1.11.1.min.js" />
+    <Content Include="Frameworks\jwplay\jwplayer.flash.swf" />
+    <Content Include="Frameworks\jwplay\jwplayer.html5.js" />
+    <Content Include="Frameworks\jwplay\jwplayer.js" />
+    <Content Include="Frameworks\jwplay\jwplayer2.js" />
+    <Content Include="Frameworks\jwplay\pl.swf" />
+    <Content Include="Frameworks\jwplay\swfobject.js" />
+    <Content Include="Frameworks\laydate\laydate.js" />
+    <Content Include="Frameworks\laydate\need\laydate.css" />
+    <Content Include="Frameworks\laydate\skins\dahong\icon.png" />
+    <Content Include="Frameworks\laydate\skins\dahong\laydate.css" />
+    <Content Include="Frameworks\laydate\skins\default\icon.png" />
+    <Content Include="Frameworks\laydate\skins\default\laydate.css" />
+    <Content Include="Frameworks\laydate\skins\molv\icon.png" />
+    <Content Include="Frameworks\laydate\skins\molv\laydate.css" />
     <Content Include="Frameworks\layer\extend\layer.ext.js" />
     <Content Include="Frameworks\layer\layer.min.js" />
     <Content Include="Frameworks\layer\skin\default\icon_ext.png" />
@@ -953,6 +1028,35 @@
     <Content Include="Frameworks\layer\skin\default\xubox_title0.png" />
     <Content Include="Frameworks\layer\skin\layer.css" />
     <Content Include="Frameworks\layer\skin\layer.ext.css" />
+    <Content Include="Frameworks\laypage\laypage.js" />
+    <Content Include="Frameworks\laypage\skin\laypage.css" />
+    <Content Include="Frameworks\My97DatePicker\calendar.js" />
+    <Content Include="Frameworks\My97DatePicker\lang\en.js" />
+    <Content Include="Frameworks\My97DatePicker\lang\zh-cn.js" />
+    <Content Include="Frameworks\My97DatePicker\lang\zh-tw.js" />
+    <Content Include="Frameworks\My97DatePicker\skin\datePicker.gif" />
+    <Content Include="Frameworks\My97DatePicker\skin\default\datepicker.css" />
+    <Content Include="Frameworks\My97DatePicker\skin\default\img.gif" />
+    <Content Include="Frameworks\My97DatePicker\skin\twoer\datepicker-dev.css" />
+    <Content Include="Frameworks\My97DatePicker\skin\twoer\datepicker.css" />
+    <Content Include="Frameworks\My97DatePicker\skin\twoer\img.gif" />
+    <Content Include="Frameworks\My97DatePicker\skin\twoer\img.png" />
+    <Content Include="Frameworks\My97DatePicker\skin\WdatePicker.css" />
+    <Content Include="Frameworks\My97DatePicker\skin\whyGreen\bg.jpg" />
+    <Content Include="Frameworks\My97DatePicker\skin\whyGreen\datepicker.css" />
+    <Content Include="Frameworks\My97DatePicker\skin\whyGreen\img.gif" />
+    <Content Include="Frameworks\My97DatePicker\WdatePicker.js" />
+    <Content Include="Frameworks\My97DatePicker\开发包\lang\en.js" />
+    <Content Include="Frameworks\My97DatePicker\开发包\lang\zh-cn.js" />
+    <Content Include="Frameworks\My97DatePicker\开发包\lang\zh-tw.js" />
+    <Content Include="Frameworks\My97DatePicker\开发包\readme.txt" />
+    <Content Include="Frameworks\My97DatePicker\开发包\skin\datePicker.gif" />
+    <Content Include="Frameworks\My97DatePicker\开发包\skin\default\datepicker.css" />
+    <Content Include="Frameworks\My97DatePicker\开发包\skin\default\img.gif" />
+    <Content Include="Frameworks\My97DatePicker\开发包\skin\WdatePicker.css" />
+    <Content Include="Frameworks\My97DatePicker\开发包\skin\whyGreen\bg.jpg" />
+    <Content Include="Frameworks\My97DatePicker\开发包\skin\whyGreen\datepicker.css" />
+    <Content Include="Frameworks\My97DatePicker\开发包\skin\whyGreen\img.gif" />
     <Content Include="Global.asax" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
@@ -1017,25 +1121,111 @@
     <Content Include="Images\banmian1.jpg" />
     <Content Include="Images\banmian2.jpg" />
     <Content Include="Images\banmian3.jpg" />
+    <Content Include="Images\big_pie.png" />
     <Content Include="Images\btn_list.gif" />
+    <Content Include="Images\btn_list2.gif" />
     <Content Include="Images\company_logo.png" />
     <Content Include="Images\company_logo2.png" />
     <Content Include="Images\cry.png" />
     <Content Include="Images\dian.png" />
     <Content Include="Images\expression.png" />
+    <Content Include="Images\face\88_thumb.gif" />
+    <Content Include="Images\face\angrya_thumb.gif" />
+    <Content Include="Images\face\bba_thumb.gif" />
+    <Content Include="Images\face\bb_thumb.gif" />
+    <Content Include="Images\face\bs2_thumb.gif" />
+    <Content Include="Images\face\bz_thumb.gif" />
+    <Content Include="Images\face\cake.gif" />
+    <Content Include="Images\face\cj_thumb.gif" />
+    <Content Include="Images\face\clock_thumb.gif" />
+    <Content Include="Images\face\close.jpg" />
+    <Content Include="Images\face\close1.jpg" />
+    <Content Include="Images\face\come_thumb.gif" />
+    <Content Include="Images\face\cool_thumb.gif" />
+    <Content Include="Images\face\cry.gif" />
+    <Content Include="Images\face\cza_thumb.gif" />
+    <Content Include="Images\face\dx_thumb.gif" />
+    <Content Include="Images\face\face.gif" />
+    <Content Include="Images\face\faceBg_03.jpg" />
+    <Content Include="Images\face\face_close.jpg" />
+    <Content Include="Images\face\face_jiao.png" />
+    <Content Include="Images\face\face_jiao1.png" />
+    <Content Include="Images\face\fn_thumb.gif" />
+    <Content Include="Images\face\fuyun_thumb.gif" />
+    <Content Include="Images\face\geili_thumb.gif" />
+    <Content Include="Images\face\gg_thumb.gif" />
+    <Content Include="Images\face\good_thumb.gif" />
+    <Content Include="Images\face\gza_thumb.gif" />
+    <Content Include="Images\face\hatea_thumb.gif" />
+    <Content Include="Images\face\hearta_thumb.gif" />
+    <Content Include="Images\face\heia_thumb.gif" />
+    <Content Include="Images\face\horse2_thumb.gif" />
+    <Content Include="Images\face\hsa_thumb.gif" />
+    <Content Include="Images\face\hufen_thumb.gif" />
+    <Content Include="Images\face\hx_thumb.gif" />
+    <Content Include="Images\face\j_thumb.gif" />
+    <Content Include="Images\face\kbsa_thumb.gif" />
+    <Content Include="Images\face\kl_thumb.gif" />
+    <Content Include="Images\face\k_thumb.gif" />
+    <Content Include="Images\face\laugh.gif" />
+    <Content Include="Images\face\lazu_thumb.gif" />
+    <Content Include="Images\face\ldln_thumb.gif" />
+    <Content Include="Images\face\liwu_thumb.gif" />
+    <Content Include="Images\face\lovea_thumb.gif" />
+    <Content Include="Images\face\mb_thumb.gif" />
+    <Content Include="Images\face\mg_thumb.gif" />
+    <Content Include="Images\face\money_thumb.gif" />
+    <Content Include="Images\face\m_thumb.gif" />
+    <Content Include="Images\face\no.gif" />
+    <Content Include="Images\face\ok.gif" />
+    <Content Include="Images\face\otm_thumb.gif" />
+    <Content Include="Images\face\panda_thumb.gif" />
+    <Content Include="Images\face\pig.gif" />
+    <Content Include="Images\face\qq_thumb.gif" />
+    <Content Include="Images\face\rabbit_thumb.gif" />
+    <Content Include="Images\face\sada_thumb.gif" />
+    <Content Include="Images\face\sb_thumb.gif" />
+    <Content Include="Images\face\shamea_thumb.gif" />
+    <Content Include="Images\face\shoutao_thumb.gif" />
+    <Content Include="Images\face\sk_thumb.gif" />
+    <Content Include="Images\face\sleepa_thumb.gif" />
+    <Content Include="Images\face\sleepya_thumb.gif" />
+    <Content Include="Images\face\smilea_thumb.gif" />
+    <Content Include="Images\face\sweata_thumb.gif" />
+    <Content Include="Images\face\sw_thumb.gif" />
+    <Content Include="Images\face\tootha_thumb.gif" />
+    <Content Include="Images\face\tza_thumb.gif" />
+    <Content Include="Images\face\t_thumb.gif" />
+    <Content Include="Images\face\unheart.gif" />
+    <Content Include="Images\face\wq_thumb.gif" />
+    <Content Include="Images\face\x_thumb.gif" />
+    <Content Include="Images\face\ye_thumb.gif" />
+    <Content Include="Images\face\yhh_thumb.gif" />
+    <Content Include="Images\face\yw_thumb.gif" />
+    <Content Include="Images\face\z2_thumb.gif" />
+    <Content Include="Images\face\zhh_thumb.gif" />
+    <Content Include="Images\face\zy_thumb.gif" />
+    <Content Include="Images\face\zz2_thumb.gif" />
     <Content Include="Images\fold.gif" />
+    <Content Include="Images\fold2.gif" />
+    <Content Include="Images\fold2_hover.gif" />
     <Content Include="Images\fold_hover.gif" />
     <Content Include="Images\goal1.jpg" />
     <Content Include="Images\goal2.jpg" />
     <Content Include="Images\goal3.jpg" />
     <Content Include="Images\goal4.jpg" />
     <Content Include="Images\icon_24.png" />
+    <Content Include="Images\icon_admin.png" />
     <Content Include="Images\icon_construction.png" />
     <Content Include="Images\icon_forum.png" />
     <Content Include="Images\icon_index.png" />
     <Content Include="Images\icon_mooc.png" />
     <Content Include="Images\icon_reverse.png" />
+    <Content Include="Images\icon_test.png" />
     <Content Include="Images\left_bg.gif" />
+    <Content Include="Images\left_bg2.gif" />
+    <Content Include="Images\line_chart.jpg" />
+    <Content Include="Images\lock.png" />
     <Content Include="Images\main_bg.gif" />
     <Content Include="Images\main_bg2.gif" />
     <Content Include="Images\menuLineBg.png" />
@@ -1044,32 +1234,48 @@
     <Content Include="Images\module2.gif" />
     <Content Include="Images\module3.gif" />
     <Content Include="Images\no_discuss.gif" />
+    <Content Include="Images\online_chart.jpg" />
+    <Content Include="Images\pie.png" />
+    <Content Include="Images\pie2.png" />
+    <Content Include="Images\pie_hover.png" />
     <Content Include="Images\preview_banner.jpg" />
     <Content Include="Images\preview_bg.jpg" />
+    <Content Include="Images\progress_bar.jpg" />
     <Content Include="Images\quote_l.gif" />
     <Content Include="Images\quote_r.gif" />
     <Content Include="Images\round.png" />
     <Content Include="Images\round_hover.png" />
     <Content Include="Images\side_left.gif" />
+    <Content Include="Images\side_left2.gif" />
     <Content Include="Images\small.png" />
     <Content Include="Images\small_click.png" />
     <Content Include="Images\smile.png" />
+    <Content Include="Images\smile2.png" />
+    <Content Include="Images\SpritePlugin.png" />
+    <Content Include="Images\tag1.png" />
+    <Content Include="Images\tag2.png" />
     <Content Include="Images\text_box.jpg" />
     <Content Include="Images\text_box2.jpg" />
     <Content Include="Images\text_box3.jpg" />
     <Content Include="Images\text_box4.jpg" />
     <Content Include="Images\text_box5.jpg" />
     <Content Include="Images\tip_text.png" />
+    <Content Include="Images\unlock.png" />
     <Content Include="Images\version_btn.png" />
+    <Content Include="Images\work_bg.gif" />
     <Content Include="Images\yuan.png" />
     <Content Include="Images\yuan_hover.png" />
+    <Content Include="js\common.js" />
     <Content Include="js\construction.js" />
+    <Content Include="js\face.js" />
     <Content Include="js\FootMaster.js" />
+    <Content Include="js\forum.js" />
     <Content Include="js\G2S.js" />
     <Content Include="js\index.js" />
     <Content Include="js\jquery-1.8.3.min.js" />
     <Content Include="js\leftMaster.js" />
     <Content Include="js\mooc.js" />
+    <Content Include="js\progress.js" />
     <Content Include="js\TopMaster.js" />
     <Content Include="login.aspx" />
     <Content Include="Scripts\app.js" />
@@ -1077,16 +1283,24 @@
     <Content Include="Scripts\Common\filters.js" />
     <Content Include="Scripts\Common\namespace.js" />
     <Content Include="Scripts\Common\services.js" />
+    <Content Include="Scripts\controllers\Affairs\AffairsController.js" />
     <Content Include="Scripts\controllers\CourseLive\Analysis\AnalysisController.js" />
-    <Content Include="Scripts\controllers\CourseLive\Forum\forumcontrol.js" />
+    <Content Include="Scripts\controllers\CourseLive\Forum\ForumController.js" />
     <Content Include="Scripts\controllers\CourseLive\PBL\PBLController.js" />
     <Content Include="Scripts\controllers\CourseLive\Score\ScoreController.js" />
+    <Content Include="Scripts\controllers\CourseLive\StudyProcess\StudyProcessController.js" />
     <Content Include="Scripts\controllers\CourseLive\Survey\SurveyController.js" />
+    <Content Include="Scripts\controllers\CourseLive\Test\DoHomeWork.js" />
+    <Content Include="Scripts\controllers\CourseLive\Test\HomeWorkController.js" />
+    <Content Include="Scripts\controllers\CourseLive\Test\MarkingController.js" />
     <Content Include="Scripts\controllers\CourseLive\Test\TestController.js" />
     <Content Include="Scripts\controllers\Home\HomeController.js" />
+    <Content Include="Scripts\controllers\Home\NoticeController.js" />
     <Content Include="Scripts\controllers\OC\Class\ClassController.js" />
+    <Content Include="Scripts\controllers\OC\CourseIndexController.js" />
     <Content Include="Scripts\controllers\OC\FC\FCController.js" />
     <Content Include="Scripts\controllers\OC\MOOC\MOOCController.js" />
+    <Content Include="Scripts\controllers\OC\MOOC\MOOCPreviewController.js" />
     <Content Include="Scripts\controllers\OC\Site\SiteController.js" />
     <Content Include="Scripts\controllers\OC\Team\TeamController.js" />
     <Content Include="Scripts\controllers\User\Person.js" />
@@ -1101,6 +1315,27 @@
     </Content>
     <Content Include="robots.txt" />
     <Content Include="Scripts\services\services.js" />
+    <Content Include="Service References\TokenService\App.G2S.TokenService.ClearTokenResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\TokenService\App.G2S.TokenService.TokenGetCredenceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Images\face\Thumbs.db" />
+    <None Include="Properties\PublishProfiles\g2s.pubxml" />
+    <None Include="Service References\TokenService\TokenService.disco" />
+    <None Include="Service References\TokenService\configuration91.svcinfo" />
+    <None Include="Service References\TokenService\configuration.svcinfo" />
+    <None Include="Service References\TokenService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Views\CourseLive\Forum\file_upload_plug-in.js" />
+    <Content Include="js\jquery-1.7.1.min.js" />
+    <Content Include="Views\CourseLive\Forum\uploadfile.js" />
+    <Content Include="Views\Home\Notice.ascx" />
+    <Content Include="Views\Home\Notice.js" />
+    <Content Include="Views\Home\test.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1132,7 +1367,6 @@
     <Content Include="Views\Shared\_Layout2.cshtml" />
     <Content Include="Views\Public\OnLearnStudents.cshtml" />
     <Content Include="Views\Public\SearchSiteUser.cshtml" />
-    <Content Include="Views\OC\Team\TeamAdd.cshtml" />
     <Content Include="Views\CourseLive\Score\ScoreType.cshtml" />
     <Content Include="Views\CourseLive\Score\ScoreWeight.cshtml" />
     <Content Include="Views\CourseLive\Score\ScoreWith.cshtml" />
@@ -1148,6 +1382,47 @@
     <Content Include="Views\OC\Class\AddOnLienClass.cshtml" />
     <Content Include="Views\OC\Class\ClassDetials.cshtml" />
     <Content Include="Views\OC\Class\OnlienClassDetials.cshtml" />
+    <Content Include="Views\OC\Site\Preview.cshtml" />
+    <Content Include="Views\Shared\_Layout3.cshtml" />
+    <Content Include="Views\OC\FC\step1.cshtml" />
+    <Content Include="Views\OC\FC\step2.cshtml" />
+    <Content Include="Views\OC\FC\step3.cshtml" />
+    <Content Include="Views\OC\FC\step4.cshtml" />
+    <Content Include="Views\OC\FC\preview.cshtml" />
+    <Content Include="Views\Analysis\Student.cshtml" />
+    <Content Include="Views\Analysis\Teacher.cshtml" />
+    <Content Include="Views\Analysis\Course.cshtml" />
+    <Content Include="Views\LearningPace\Index.cshtml" />
+    <Content Include="Views\LearningPace\Class.cshtml" />
+    <Content Include="Views\LearningPace\Student.cshtml" />
+    <Content Include="Views\LearningPace\Resource.cshtml" />
+    <Content Include="Views\LearningPace\Remind.cshtml" />
+    <Content Include="Views\OC\MOOC\Preview.cshtml" />
+    <Content Include="Views\CourseLive\Test\TestAdd.cshtml" />
+    <Content Include="Views\CourseLive\Test\HomeWorkAdd.cshtml" />
+    <Content Include="Views\OC\MOOC\mooc_chapter.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Affairs\AffairsIndex.cshtml" />
+    <Content Include="DataProvider\Affairs\Affairs_list.json" />
+    <Content Include="Views\OC\MOOC\MyResource.cshtml" />
+    <Content Include="Views\CourseLive\Test\marking.cshtml" />
+    <None Include="Service References\TokenService\TokenService.wsdl" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\CourseLive\Forum\FileUpload.ashx" />
+    <Content Include="Views\User\Account.cshtml" />
+    <Content Include="Views\User\User.cshtml" />
+    <Content Include="Views\User\UserCard.cshtml" />
+    <Content Include="Views\User\MsgList.cshtml" />
+    <Content Include="Views\User\Msg.cshtml" />
+    <Content Include="Views\User\MsgAdd.cshtml" />
+    <Content Include="Views\CourseLive\StudyProcess\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout4.cshtml" />
+    <Content Include="Views\Shared\Right.cshtml" />
+    <Content Include="Views\Home\Notices.cshtml" />
+    <Content Include="Views\Home\Notice.ashx" />
+    <Content Include="Views\CourseLive\Test\DoHomeWork.cshtml" />
+    <Content Include="Views\OC\CourseIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1159,12 +1434,68 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="CAS.aspx.cs">
+      <DependentUpon>CAS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CAS.aspx.designer.cs">
+      <DependentUpon>CAS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\Affairs\AffairsProvider.aspx.cs">
+      <DependentUpon>AffairsProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Affairs\AffairsProvider.aspx.designer.cs">
+      <DependentUpon>AffairsProvider.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\CourseLive\Forum\ForumProvider.aspx.cs">
+      <DependentUpon>ForumProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\CourseLive\Forum\ForumProvider.aspx.designer.cs">
+      <DependentUpon>ForumProvider.aspx</DependentUpon>
+    </Compile>
     <Compile Include="DataProvider\CourseLive\Score\ScoreProvider.aspx.cs">
       <DependentUpon>ScoreProvider.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="DataProvider\CourseLive\Score\ScoreProvider.aspx.designer.cs">
       <DependentUpon>ScoreProvider.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\CourseLive\StudyProcess\StudyProcessProvider.aspx.cs">
+      <DependentUpon>StudyProcessProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\CourseLive\StudyProcess\StudyProcessProvider.aspx.designer.cs">
+      <DependentUpon>StudyProcessProvider.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\CourseLive\Test\MarkingProvider.aspx.cs">
+      <DependentUpon>MarkingProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\CourseLive\Test\MarkingProvider.aspx.designer.cs">
+      <DependentUpon>MarkingProvider.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\CourseLive\Test\TestProvider.aspx.cs">
+      <DependentUpon>TestProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\CourseLive\Test\TestProvider.aspx.designer.cs">
+      <DependentUpon>TestProvider.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\Home\HomeProvider.aspx.cs">
+      <DependentUpon>HomeProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Home\HomeProvider.aspx.designer.cs">
+      <DependentUpon>HomeProvider.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\Home\NoticesProvider.aspx.cs">
+      <DependentUpon>NoticesProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\Home\NoticesProvider.aspx.designer.cs">
+      <DependentUpon>NoticesProvider.aspx</DependentUpon>
     </Compile>
     <Compile Include="DataProvider\OC\Class\ClassProvider.aspx.cs">
       <DependentUpon>ClassProvider.aspx</DependentUpon>
@@ -1173,12 +1504,33 @@
     <Compile Include="DataProvider\OC\Class\ClassProvider.aspx.designer.cs">
       <DependentUpon>ClassProvider.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DataProvider\OC\CourseIndexProvider.aspx.cs">
+      <DependentUpon>CourseIndexProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\OC\CourseIndexProvider.aspx.designer.cs">
+      <DependentUpon>CourseIndexProvider.aspx</DependentUpon>
+    </Compile>
     <Compile Include="DataProvider\OC\FC\FCProvider.aspx.cs">
       <DependentUpon>FCProvider.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="DataProvider\OC\FC\FCProvider.aspx.designer.cs">
       <DependentUpon>FCProvider.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\OC\MOOC\MOOCPreview.aspx.cs">
+      <DependentUpon>MOOCPreview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\OC\MOOC\MOOCPreview.aspx.designer.cs">
+      <DependentUpon>MOOCPreview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DataProvider\OC\MOOC\MOOCProvider.aspx.cs">
+      <DependentUpon>MOOCProvider.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DataProvider\OC\MOOC\MOOCProvider.aspx.designer.cs">
+      <DependentUpon>MOOCProvider.aspx</DependentUpon>
     </Compile>
     <Compile Include="DataProvider\OC\Site\SiteProvider.aspx.cs">
       <DependentUpon>SiteProvider.aspx</DependentUpon>
@@ -1238,16 +1590,39 @@
     <Compile Include="Routing\DefaultRoute.cs" />
     <Compile Include="Routing\DefaultRouteHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\TokenService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="Views\CourseLive\Forum\FileUpload.ashx.cs">
+      <DependentUpon>FileUpload.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Home\Notice.ascx.cs">
+      <DependentUpon>Notice.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Home\Notice.ascx.designer.cs">
+      <DependentUpon>Notice.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Home\Notice.ashx.cs">
+      <DependentUpon>Notice.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Home\test.aspx.cs">
+      <DependentUpon>test.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Home\test.aspx.designer.cs">
+      <DependentUpon>test.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DataProvider\OC\MOOC\" />
     <Folder Include="Frameworks\ewebeditor\sharefile\flash\" />
     <Folder Include="Frameworks\ewebeditor\sharefile\media\" />
     <Folder Include="Frameworks\ewebeditor\sharefile\other\" />
     <Folder Include="Scripts\directives\" />
     <Folder Include="Scripts\filters\" />
-    <Folder Include="Views\Home\" />
     <Folder Include="Views\Product\" />
   </ItemGroup>
   <ItemGroup>
@@ -1266,6 +1641,10 @@
       <Project>{93a1e0e7-a049-4ea7-b349-845a81462d42}</Project>
       <Name>IES.CC.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IES.Common\IES.Common.csproj">
+      <Project>{dbb225c3-ad3b-469c-a8df-ca8dfc4ae304}</Project>
+      <Name>IES.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IES.G2S.CourseLive.BLL\IES.G2S.CourseLive.BLL.csproj">
       <Project>{f8e33182-c952-4e25-9548-adcc088a67d9}</Project>
       <Name>IES.G2S.CourseLive.BLL</Name>
@@ -1278,6 +1657,10 @@
       <Project>{0bd3295f-6ad6-4ec7-addd-77e061786181}</Project>
       <Name>IES.G2S.JW.BLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IES.G2S.JW.IBLL\IES.G2S.JW.IBLL.csproj">
+      <Project>{eda74ad7-b4d0-4c50-bab4-f8b5a7fcc34a}</Project>
+      <Name>IES.G2S.JW.IBLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IES.G2S.OC.BLL\IES.G2S.OC.BLL.csproj">
       <Project>{c4a37ea7-8eb9-4320-84f7-687f184ce520}</Project>
       <Name>IES.G2S.OC.BLL</Name>
@@ -1286,17 +1669,21 @@
       <Project>{4704f48b-4fa4-4433-a36d-2cc96663f1a0}</Project>
       <Name>IES.G2S.OC.IBLL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IES.G2S.SYS.BLL\IES.G2S.SYS.BLL.csproj">
-      <Project>{f51fea70-1bfa-43cd-88c8-235d9b3f644f}</Project>
-      <Name>IES.G2S.SYS.BLL</Name>
+    <ProjectReference Include="..\IES.G2S.Resource.BLL\IES.G2S.Resource.BLL.csproj">
+      <Project>{7893d3de-1517-443b-9c4a-191ec233a073}</Project>
+      <Name>IES.G2S.Resource.BLL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IES.G2S.SYS.IBLL\IES.G2S.SYS.IBLL.csproj">
-      <Project>{75ef2a1b-5483-4c1d-9d99-81ba3ee35127}</Project>
-      <Name>IES.G2S.SYS.IBLL</Name>
+    <ProjectReference Include="..\IES.G2S.Resource.IBLL\IES.G2S.Resource.IBLL.csproj">
+      <Project>{972577f0-3061-4659-933c-b065185daf80}</Project>
+      <Name>IES.G2S.Resource.IBLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\IES.JW.Model\IES.JW.Model.csproj">
       <Project>{5bbc1895-4b66-4445-af6d-f6711cb3266f}</Project>
       <Name>IES.JW.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
+      <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
+      <Name>IES.Resource.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\IES.Security\IES.Security.csproj">
       <Project>{c93539d1-c8a9-46ee-a2b9-ecf46b9da47e}</Project>
@@ -1306,10 +1693,12 @@
       <Project>{3a3c9b64-1cd3-4eca-9dbd-ce5b4f3f833e}</Project>
       <Name>IES.Service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IES.SYS.Model\IES.SYS.Model.csproj">
-      <Project>{ca2b5379-05a2-44ab-bb4f-c49fd02677d0}</Project>
-      <Name>IES.SYS.Model</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\TokenService\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

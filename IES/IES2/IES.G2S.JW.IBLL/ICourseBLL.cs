@@ -11,24 +11,18 @@ namespace IES.G2S.JW.IBLL
     {
         #region  列表
 
-        List<Course> Course_List(String Key,Course model,int PageSize, int PageIndex);
+        List<Course> Course_List(Course model, int PageSize, int PageIndex);
 
         #endregion
 
         #region 详细信息
         #endregion
 
-        #region  新增
+        #region  新增或修改
 
-        Course Course_ADD(Course model);
+        Course Course_Edit(Course model);
 
-        #endregion
-
-        #region  内容更新
-
-        bool Course_Upd(Course model);
-
-        #endregion
+        #endregion      
 
         #region 删除
 

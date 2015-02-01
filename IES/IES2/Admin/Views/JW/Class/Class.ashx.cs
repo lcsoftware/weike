@@ -33,23 +33,23 @@ namespace Admin.Views.JW.Class
         //获取行政班列表
         public void GetClassList(HttpContext context)
         {
-            IES.JW.Model.Class classs = new IES.JW.Model.Class();
-            classs.ClassNo = context.Request.Params["ClassNo"];
-            classs.ClassName = context.Request.Params["ClassName"];
-            int UserID = Convert.ToInt32(context.Request.Params["UserID"]);
-            int PageIndex = Convert.ToInt32(context.Request.Params["PageIndex"]);
-            int PageSize = Convert.ToInt32(context.Request.Params["PageSize"]);          
-            IES.G2S.JW.BLL.ClassBLL coursebll = new IES.G2S.JW.BLL.ClassBLL();
-            DataTable dt = IES.Common.ListToDateUtil.ListToDataTable<IES.JW.Model.Class>(coursebll.Class_List(classs,UserID, PageSize, PageIndex));
+            //IES.JW.Model.Class classs = new IES.JW.Model.Class();
+            //classs.ClassNo = context.Request.Params["ClassNo"];
+            //classs.ClassName = context.Request.Params["ClassName"];
+            //int UserID = Convert.ToInt32(context.Request.Params["UserID"]);
+            //int PageIndex = Convert.ToInt32(context.Request.Params["PageIndex"]);
+            //int PageSize = Convert.ToInt32(context.Request.Params["PageSize"]);          
+            //IES.G2S.JW.BLL.ClassBLL coursebll = new IES.G2S.JW.BLL.ClassBLL();
+            //DataTable dt = IES.Common.ListToDateUtil.ListToDataTable<IES.JW.Model.Class>(coursebll.Class_List(classs,UserID, PageSize, PageIndex));
 
-            if (dt != null && dt.Rows.Count > 0)
-            {
-                context.Response.Write(Tools.JsonConvert.GetJSON(dt));
-            }
-            else
-            {
-                context.Response.Write("empty");
-            }
+            //if (dt != null && dt.Rows.Count > 0)
+            //{
+            //    context.Response.Write(Tools.JsonConvert.GetJSON(dt));
+            //}
+            //else
+            //{
+            //    context.Response.Write("empty");
+            //}
 
             
 

@@ -8,134 +8,17 @@
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
 
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-hgroup,
-nav,
-section {
-  display: block;
-}
 
-audio,
-canvas,
-video {
-  display: inline-block;
-  *display: inline;
-  *zoom: 1;
-}
 
-audio:not([controls]) {
-  display: none;
-}
 
-html {
-  font-size: 100%;
-  -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
-}
 
-a:focus {
-  outline: thin dotted #333;
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px;
-}
-
-a:hover,
-a:active {
-  outline: 0;
-}
-
-sub,
-sup {
-  position: relative;
-  font-size: 75%;
-  line-height: 0;
-  vertical-align: baseline;
-}
-
-sup {
-  top: -0.5em;
-}
-
-sub {
-  bottom: -0.25em;
-}
-
-img {
-  width: auto\9;
-  height: auto;
-  max-width: 100%;
-  vertical-align: middle;
-  border: 0;
-  -ms-interpolation-mode: bicubic;
-}
 
 #map_canvas img,
 .google-maps img {
   max-width: none;
 }
 
-button,
-input,
-select,
-textarea {
-  margin: 0;
-  font-size: 100%;
-  vertical-align: middle;
-}
 
-button,
-input {
-  *overflow: visible;
-  line-height: normal;
-}
-
-button::-moz-focus-inner,
-input::-moz-focus-inner {
-  padding: 0;
-  border: 0;
-}
-
-button,
-html input[type="button"],
-input[type="reset"],
-input[type="submit"] {
-  cursor: pointer;
-  -webkit-appearance: button;
-}
-
-label,
-select,
-button,
-input[type="button"],
-input[type="reset"],
-input[type="submit"],
-input[type="radio"],
-input[type="checkbox"] {
-  cursor: pointer;
-}
-
-input[type="search"] {
-  -webkit-box-sizing: content-box;
-     -moz-box-sizing: content-box;
-          box-sizing: content-box;
-  -webkit-appearance: textfield;
-}
-
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button {
-  -webkit-appearance: none;
-}
-
-textarea {
-  overflow: auto;
-  vertical-align: top;
-}
 
 @media print {
   * {
@@ -221,14 +104,6 @@ textarea {
           box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  line-height: 20px;
-  color: #333333;
-  background-color: #ffffff;
-}
 
 a {
  
@@ -236,7 +111,7 @@ a {
 }
 
 a:hover {
-  text-decoration: underline;
+  /*text-decoration: underline;guokaiju 去除a标签的下划线*/
 }
 
 .img-rounded {
@@ -719,10 +594,9 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 10px 0;
+  /*margin: 10px 0;gkj20150103与construction.css h4 起冲突*/ 
   font-family: inherit;
   font-weight: bold;
-  line-height: 20px;
   color: inherit;
   text-rendering: optimizelegibility;
 }
@@ -1030,15 +904,7 @@ legend small {
   color: #999999;
 }
 
-label,
-input,
-button,
-select,
-textarea {
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 20px;
-}
+
 
 input,
 button,
@@ -1054,7 +920,7 @@ label {
 
 select,
 textarea,
-input[type="text"],
+input[type="text"],  
 input[type="password"],
 input[type="datetime"],
 input[type="datetime-local"],
@@ -1070,27 +936,14 @@ input[type="tel"],
 input[type="color"],
 .uneditable-input {
   display: inline-block;
-  height: 20px;
-  padding: 4px 6px;
-  margin-bottom: 10px;
-  font-size: 14px;
-  line-height: 20px;
-  color: #555555;
-  vertical-align: middle;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
+  -webkit-border-radius: 1px;
+     -moz-border-radius: 1px;
+          border-radius: 1px;
 }
 
-input,
-textarea,
-.uneditable-input {
-  width: 206px;
-}
 
-textarea {
-  height: auto;
-}
+
+
 
 textarea,
 input[type="text"],
@@ -5101,14 +4954,14 @@ input[type="submit"].btn.btn-mini {
 
 .modal-backdrop,
 .modal-backdrop.fade.in {
-  opacity: 0.8;
+  opacity: 0.3;
   filter: alpha(opacity=80);
 }
 
 .modal {
   position: fixed;
   top: 10%;
-  left: 50%;
+  left:50%;
   z-index: 1050;
   width: 560px;
   margin-left: -280px;

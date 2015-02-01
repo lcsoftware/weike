@@ -32,8 +32,7 @@ namespace IES.CC.Test.Model
 		private int _exerciseid;
 		private string _conten;
 		private int? _fileid=0;
-		private string _score;
-		private int? _scoretype;
+		private decimal _score;
 		private string _comment;
 		/// <summary>
 		/// 
@@ -59,6 +58,12 @@ namespace IES.CC.Test.Model
 			set{ _userid=value;}
 			get{return _userid;}
 		}
+
+        /// <summary>
+        /// 本习题的批阅教师编号
+        /// </summary>
+        public int CheckUserID { get; set; }
+
 		/// <summary>
 		/// 标准的习题编号ExerciseID；或者答题卡习题编号CardExerciseID
 		/// </summary>
@@ -86,22 +91,12 @@ namespace IES.CC.Test.Model
 		/// <summary>
 		/// 得分
 		/// </summary>
-		public string Score
+        public decimal Score
 		{
 			set{ _score=value;}
 			get{return _score;}
 		}
-		/// <summary>
-		/// 1.标准百分制
-        ///2.通过、不通过
-        ///3.等级制（中文） 不及格、及格、良好、优秀
-        ///4.等级制（英文） E  D  C  B  A
-		/// </summary>
-		public int? ScoreType
-		{
-			set{ _scoretype=value;}
-			get{return _scoretype;}
-		}
+
 		/// <summary>
 		/// 评语
 		/// </summary>

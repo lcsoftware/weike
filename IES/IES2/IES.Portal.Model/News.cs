@@ -15,145 +15,139 @@ namespace IES.Portal.Model
         /// <summary>
         /// 开始时间
         /// </summary>
-        private DateTime _startdate;
+        public DateTime StartTime { get; set; }
 
-        public DateTime Startdate
-        {
-            get { return _startdate; }
-            set { _startdate = value; }
-        }
         /// <summary>
         /// 结束时间
         /// </summary>
-        private DateTime _enddatef;
-
-        public DateTime Enddatef
-        {
-            get { return _enddatef; }
-            set { _enddatef = value; }
-        }
-
+        public DateTime EndTime { get; set; }
+        /// <summary>
+        /// 所属板块名称
+        /// </summary>
+        public string SectionName { get; set; }
+        /// <summary>
+        /// 关键字
+        /// </summary>
+        public string Key { get; set; }
+        /// <summary>
+        /// 列表总数
+        /// </summary>
         public int rowscount { get; set; }
 
         #endregion
         #region Model
-        private int _newsid;
-        private string _title;
-        private string _content;
-        private int _sectionid;
-        private int _sectionchild;
-        private DateTime _createdate;
-        private DateTime _enddate;
-        private int _clicks;
-        private bool _isimportant;
-        private bool _istop;
-        private int _sysid;
-        private int _moduleid;
-        private int _organizationid; 
+        private int _NewsID;
+        private string _Title;
+        private string _Content;
+        private int _SectionID;
+        private DateTime _CreateDate;
+        private DateTime _EndDate;
+        private int _Clicks;
+        private bool _IsImportant;
+        private bool _IsTop;
+        private int _SysID;
+        private int _OrganizationID;
+
         /// <summary>
-        /// 新闻公告ID
+        /// 新闻公告编号
         /// </summary>
-        public int Newsid
+        public int NewsID
         {
-            get { return _newsid; }
-            set { _newsid = value; }
+            set { _NewsID = value; }
+            get { return _NewsID; }
         }
+
         /// <summary>
-        /// 新闻标题
+        /// 新闻公告标
         /// </summary>
         public string Title
         {
-            get { return _title; }
-            set { _title = value; }
+            set { _Title = value; }
+            get { return _Title; }
         }
+
         /// <summary>
-        /// 新闻内容
+        /// 新闻公告内容
         /// </summary>
         public string Content
         {
-            get { return _content; }
-            set { _content = value; }
+            set { _Content = value; }
+            get { return _Content; }
         }
+
         /// <summary>
-        /// 新闻公告对应的版块编号
+        /// 新闻公告所属板块编号
         /// </summary>
-        public int Sectionid
+        public int SectionID
         {
-            get { return _sectionid; }
-            set { _sectionid = value; }
+            set { _SectionID = value; }
+            get { return _SectionID; }
         }
-        /// <summary>
-        /// 子版块
-        /// </summary>
-        public int Sectionchild
-        {
-            get { return _sectionchild; }
-            set { _sectionchild = value; }
-        }
+
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime Createdate
+        public DateTime CreateDate
         {
-            get { return _createdate; }
-            set { _createdate = value; }
+            set { _CreateDate = value; }
+            get { return _CreateDate; }
         }
+
         /// <summary>
-        /// 结束时间
+        /// 过期时间
         /// </summary>
-        public DateTime Enddate
+        public DateTime EndDate
         {
-            get { return _enddate; }
-            set { _enddate = value; }
+            set { _EndDate = value; }
+            get { return _EndDate; }
         }
+
         /// <summary>
         /// 点击量
         /// </summary>
         public int Clicks
         {
-            get { return _clicks; }
-            set { _clicks = value; }
+            set { _Clicks = value; }
+            get { return _Clicks; }
         }
+
         /// <summary>
-        /// 是否是重要新闻
+        /// 是否重要新闻
         /// </summary>
-        public bool Isimportant
+        public bool IsImportant
         {
-            get { return _isimportant; }
-            set { _isimportant = value; }
+            set { _IsImportant = value; }
+            get { return _IsImportant; }
         }
+
         /// <summary>
         /// 是否置顶
         /// </summary>
-        public bool Istop
+        public bool IsTop
         {
-            get { return _istop; }
-            set { _istop = value; }
+            set { _IsTop = value; }
+            get { return _IsTop; }
         }
+
         /// <summary>
-        /// 系统ID
+        /// 子系统编号
         /// </summary>
-        public int Sysid
+        public int SysID
         {
-            get { return _sysid; }
-            set { _sysid = value; }
+            set { _SysID = value; }
+            get { return _SysID; }
         }
+
         /// <summary>
-        /// 模块ID
+        /// 组织机构编号
         /// </summary>
-        public int Moduleid
+        public int OrganizationID
         {
-            get { return _moduleid; }
-            set { _moduleid = value; }
+            set { _OrganizationID = value; }
+            get { return _OrganizationID; }
         }
-        /// <summary>
-        /// 组织机构ID
-        /// </summary>
-        public int Organizationid
-        {
-            get { return _organizationid; }
-            set { _organizationid = value; }
-        }
+
         #endregion
+       
     }
 }

@@ -1,0 +1,155 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout3.cshtml";
+}
+<link href="~/Css/mooc.css" rel="stylesheet" />
+<script src="~/Frameworks/jwplay/jwplayer.js"></script>
+<div class="wrap_bg" ng-controller="MOOCPreviewController">
+    <div class="preview_box">
+        <div class="preview_video">
+            <div class="video_nav">
+                <ul class="video_list">
+                    <li ng-class="{ true: 'active',false:''}[moocfile.IsActive]" ng-click="ChapterFileClick(this)" ng-repeat=" moocfile in moocfile_list" on-mooc-chapter-file><a href="#"><i ng-show="moocfile.FinishRate>=moocfile.NeedRate" class="icon_24 icon_complete"></i><i ng-show="moocfile.IsMust==0 && moocfile.FinishRate!=100" class="icon_24 icon_elect"></i> <i ng-show="moocfile.IsMust==1  && moocfile.FinishRate!=100" class="icon_24 icon_require"></i>{{moocfile.FileTitle}}</a></li>
+                   
+                </ul>
+                <div class="click_btn" style=" display:none;">
+                    <a href="#">下一节</a>
+                </div>
+            </div>
+            <div style=" margin-top:10px;" class="preview_shipin" id="div_play"></div>
+            
+           
+        </div>
+        <div class="preview_detail">
+            <h4>{{Name}}</h4>
+            <h5>课程负责人：{{ChargeUserName}}</h5>
+            <div class="course_item">
+                <ul class="item_list">
+                    <li class="active"><a href="javascript:;"><i class="icon_mooc icon_catalog"></i>目录</a></li>
+                    <li  style=" display:none;"><a href="javascript:;"><i class="icon_mooc icon_note"></i>笔记</a></li>
+                    <li><a href="javascript:;"><i class="icon_con icon_discuss"></i>讨论</a></li>
+                </ul>
+                <div class="detail_info" style="display:block;">
+                    <div class="catalog_box">
+                        <ul class="catalog_list">
+                            <li ng-repeat="chapterStudy in chapterStudy_list" on-mooc-chapter>
+                                <div class="rate_box">
+                                    <div class="chapter_detail">
+                                        <p>
+                                            <a href="#" title="">{{chapterStudy.Title}}</a>
+                                        </p>
+                                    </div>
+                                    <div class="chapter_list" ng-show="chapterStudy.IsTest==0">
+                                        <p><span ng-click="ChapterLIClick(chapterStudy.ChapterID)" id="sp_{{chapterStudy.ChapterID}}" class="fold_chapter">+</span>第{{$index+1}}章</p>
+                                    </div>
+                                </div>
+                                <ul class="second_chapter">
+                                    <li ng-class="{ true: 'active',false:''}[chapterStudy1.IsActive]"  ng-repeat="chapterStudy1 in chapterStudy.Children">
+                                        <div class="wrap_item">
+                                            <div class="rate_box" ng-if="chapterStudy1.IsTest==0" ng-click="ChapterClick(this)">
+                                                <div class="chapter_detail">
+                                                    <i ng-class="{ 1: 'round_complete icon_mooc',0:'round_gray icon_mooc'}[chapterStudy1.IsFinish]"></i>
+                                                    <p>
+                                                        <span>{{chapterStudy1.FileNum}}资料</span>
+                                                        <a href="#" title="">{{chapterStudy1.Title}}</a>
+                                                    </p>
+                                                </div>
+                                                <div class="chapter_list">
+                                                    <p>{{$index+1}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="rate_box" ng-if="chapterStudy1.IsTest==1" ng-click="ChapterTestClick(this)">
+                                                <div class="chapter_detail">
+                                                    <i ng-class="{ 1: 'round_complete icon_mooc',0:'round_gray icon_mooc'}[chapterStudy1.IsFinish]"></i>
+                                                    <p>
+                                                    
+                                                        <span>{{chapterStudy1.FileNum}}习题</span>
+                                                        <a href="#" title="">{{chapterStudy1.Title}}</a>
+                                                    </p>
+                                                </div>
+                                                <div class="chapter_list">
+                                                    <p>{{$index+1}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="progress_box" style=" display:none;">
+                                                <span class="test"></span>
+                                                <div class="progress_tip">
+                                                    <em></em>
+                                                    本节视频累计观看时间大于【{{Videoprogress}}%】
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="detail_info">
+                    <div class="note_box">
+                        <ul class="note_list">
+                            <li>
+                                <span class="video_pause">00:04:12</span>
+                                <p><span class="note_type1">[知识卡]</span>这里有个知识卡是教师打点建的</p>
+                            </li>
+                            <li>
+                                <span class="video_pause">00:06:34</span>
+                                <p><span class="note_type2">[郭小龙]</span>这个是学生自己添加的笔记内容点击整行可以快速定位到视频的时间段上</p>
+                            </li>
+                            <li>
+                                <span class="video_pause">00:04:12</span>
+                                <p><span class="note_type1">[知识卡]</span>这里有个知识卡是教师打点建的</p>
+                            </li>
+                            <li>
+                                <span class="video_pause">第5页</span>
+                                <p><span class="note_type2">[陈晨]</span>这是文档类笔记的表现方式，在当前页记录的笔记，显示该页页码，学生点击本行后快速定位到该页</p>
+                            </li>
+                        </ul>
+                        <div class="record_box">
+                            <textarea></textarea>
+                            <a class="record_btn" href="javascript:;">记录<br>笔记</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail_info">
+                    <div class="discuss_box">
+                        <ul class="discuss_list">
+                            <li ng-repeat=" forumtopic in forumtopic_list">
+                                <p class="discuss_tit"><span class="note_type1">[节讨论]</span>{{forumtopic.Title}}</p>
+                                <p class="issue_detail">回复 31 | 最后更新 2分钟前</p>
+                            </li>
+                        </ul>
+                        <div class="record_box">
+                            <a class="comment_btn" href="#">发表评论</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="video_detail">
+        <div class="video_info">
+            <div class="chapter_info"><b>{{ChapterzhangName}}</b><span>{{ChapterjieName}}</span></div>
+            <p class="remain_time"  >剩余学习时间 <b>00:08:21</b> | 已答视频题 <b>2/4</b>，正确 <span>1</span></p>
+            <p style=" margin-left:720px; width:50px;height:50px;" id="ddddd"></p>
+        </div>
+        <div class="function_box">
+            <a href="javascript:;"><i class="icon_mooc icon_return"></i>返回空间</a>
+            <a href="javascript:;"><i class="icon_mooc icon_course"></i>课程资料</a>
+            <a href="javascript:;"><i class="icon_mooc icon_teach"></i>教学计划</a>
+            <a href="javascript:;"><i class="icon_mooc icon_index"></i>课程主页</a>
+        </div>
+    </div>
+    <div id="myModal" class="modal hide fade" style=" width:400px;" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            <h3 id="myModalLabel">知识卡<span style=" float:right;">{{noteTime}}</span></h3>
+        </div>
+        <div class="wrap_box">
+            @*<textarea class="knowledge_box" ng-model="txt_Conten" ></textarea>*@
+            <div class="knowledge_box" >{{txt_Conten}}</div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true" ng-click="OCMOOCVideoHide()">关闭</button>
+        </div>
+    </div>
+</div>

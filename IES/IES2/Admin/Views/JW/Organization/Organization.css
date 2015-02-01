@@ -1,0 +1,10 @@
+﻿
+.ztree li span.button.add{margin-left: 2px; margin-right: -1px; background-position: -144px 0; vertical-align: top; *vertical-align: middle;}
+/*ul.ztree{border: 1px solid #ccc; width: 200px; height: 580px; overflow-y: scroll; overflow-x: auto;}*/
+ul.ztree li{overflow: visible; text-overflow: visible; display: block; clear: both;}
+ul.ztree ul{height: auto;}
+.edit_box{margin-left: 70px; float: none;} .edit_box i{float: none; margin-top: 5px;}
+.ztree li a{height: 40px; font-size: 14px; color: #284a51; font-family: "Microsoft YaHei";}
+.ztree li a:hover{text-decoration: none;} 
+.ztree li a.curSelectedNode{height: 40px; background: none; border: 0; color: #05965b;} 
+.ztree li a.tmpTargetNode_inner{background-color: #316ac5; border: 1px solid #316ac5; color: white; height: 40px; opacity: 0.5; padding-top: 0;}

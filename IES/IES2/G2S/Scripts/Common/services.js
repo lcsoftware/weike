@@ -1,10 +1,15 @@
-﻿'use strict';
+﻿
+'use strict';
 
 var aService = angular.module('app.services', ['ngCookies']);
 
 aService.value('version', '0.1');
 
 aService.constant('projectName', '我的项目');
+
+aService.constant('homeProviderUrl', '/DataProvider/Home/HomeProvider.aspx');
+
+aService.constant('courseindexProviderUrl', '/DataProvider/OC/CourseIndexProvider.aspx');
 
 aService.constant('userProviderUrl', '/DataProvider/UserProvider.aspx');
 
@@ -19,6 +24,18 @@ aService.constant('classProviderUrl', '/DataProvider/OC/Class/ClassProvider.aspx
 aService.constant('scoreProviderUrl', '/DataProvider/CourseLive/Score/ScoreProvider.aspx');
 
 aService.constant('UserPermission', '/DataProvider/User/UserProvider.aspx');
+
+aService.constant('moocProviderUrl', '/DataProvider/OC/MOOC/MOOCProvider.aspx');
+
+aService.constant('forumProviderUrl', '/DataProvider/CourseLive/Forum/ForumProvider.aspx');
+
+aService.constant('testProviderUrl', '/DataProvider/CourseLive/Test/TestProvider.aspx');
+aService.constant('MarkingProviderUrl', '/DataProvider/CourseLive/Test/MarkingProvider.aspx');
+
+aService.constant('MOOCPreviewProviderUrl', '/DataProvider/OC/MOOC/MOOCPreview.aspx');
+aService.constant('affairsProviderUrl', '/DataProvider/Affairs/AffairsProvider.aspx');
+
+aService.constant('studyprocessProviderUrl', '/DataProvider/CourseLive/StudyProcess/StudyProcessProvider.aspx');
 
 ///XHR调用
 aService.factory('baseService', ['$http', '$q', function ($http, $q) {

@@ -24,9 +24,9 @@ namespace App.G2S.Routing
             //     ~/xxx         -> ~/views/404.cshtml
 
 
-            if ( IESCookie.GetCookieValue("ies") == null )
+            if (IESCookie.GetCookieValue("ies") == null)
             {
-                HttpContext.Current.Response.Redirect("login.aspx");
+                HttpContext.Current.Response.Redirect("cas.aspx");
             }
 
 

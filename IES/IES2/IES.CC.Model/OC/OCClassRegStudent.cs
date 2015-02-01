@@ -9,6 +9,7 @@ namespace IES.CC.OC.Model
     [Serializable]
     public class OCClassRegStudent
     {
+        public int ID { get; set; }
         public int UserID { get; set; }
         public string UserNo { get; set; }
         public string UserName { get; set; }

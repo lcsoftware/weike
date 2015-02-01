@@ -20,7 +20,7 @@ namespace IES.G2S.JW.IBLL
 
         #region 新增
 
-        Organization Organization_ADD(Organization model);
+        Organization Organization_Edit(Organization model);
 
         #endregion
 
@@ -35,5 +35,21 @@ namespace IES.G2S.JW.IBLL
         bool Organization_Del(Organization model);
 
         #endregion
+
+        /// <summary>
+        /// 取消删除
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        bool Organization_CancelDel(Organization model);
+
+        /// <summary>
+        /// 移动组织机构
+        /// </summary>
+        /// <param name="SelfID"></param>
+        /// <param name="OptionID"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        bool Organization_Move(int SelfID, int OptionID, string type);
     }
 }

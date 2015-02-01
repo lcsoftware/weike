@@ -12,83 +12,86 @@ namespace IES.Portal.Model
         public Help()
         {}
         #region  补充信息
-
+        /// <summary>
+        /// 列表总数
+        /// </summary>
         public int rowscount { get; set; }
 
         #endregion
+
         #region Model
-        private int _helpid;
-        private string _title;
-        private string _content;
-        private int _sysid;
-        private int _organizationid;
-        private int _moduleid;
-        private DateTime _updatetime;
-        private int _clicks;  
+        private int _HelpID;
+        private string _Title;
+        private string _Content;
+        private int _SysID;
+        private int _OrganizationID;
+        private string _UpdateTime;
+        private int _Clicks;
+
         /// <summary>
-        /// 使用指南ID
+        /// 使用指南编号
         /// </summary>
-        public int Helpid
+        public int HelpID
         {
-            get { return _helpid; }
-            set { _helpid = value; }
+            set { _HelpID = value; }
+            get { return _HelpID; }
         }
+
         /// <summary>
         /// 使用指南标题
         /// </summary>
         public string Title
         {
-            get { return _title; }
-            set { _title = value; }
+            set { _Title = value; }
+            get { return _Title; }
         }
+
         /// <summary>
-        /// 内容
+        /// 使用指南内容
         /// </summary>
         public string Content
         {
-            get { return _content; }
-            set { _content = value; }
+            set { _Content = value; }
+            get { return _Content; }
         }
+
         /// <summary>
-        /// 系统ID
+        /// 子系统编号
         /// </summary>
-        public int Sysid
+        public int SysID
         {
-            get { return _sysid; }
-            set { _sysid = value; }
+            set { _SysID = value; }
+            get { return _SysID; }
         }
+
         /// <summary>
-        /// 组织机构ID
+        /// 组织机构编号
         /// </summary>
-        public int Organizationid
+        public int OrganizationID
         {
-            get { return _organizationid; }
-            set { _organizationid = value; }
+            set { _OrganizationID = value; }
+            get { return _OrganizationID; }
         }
-        /// <summary>
-        /// 功能模块ID
-        /// </summary>
-        public int Moduleid
-        {
-            get { return _moduleid; }
-            set { _moduleid = value; }
-        }
+
         /// <summary>
         /// 更新时间
         /// </summary>
-        public DateTime Updatetime
+        public string UpdateTime
         {
-            get { return _updatetime; }
-            set { _updatetime = value; }
+            set { _UpdateTime = value; }
+            get { return _UpdateTime; }
         }
+
         /// <summary>
-        /// 访问量
+        /// 点击量
         /// </summary>
         public int Clicks
         {
-            get { return _clicks; }
-            set { _clicks = value; }
+            set { _Clicks = value; }
+            get { return _Clicks; }
         }
+
         #endregion
+
     }
 }

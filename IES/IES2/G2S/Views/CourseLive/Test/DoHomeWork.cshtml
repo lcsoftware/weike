@@ -1,0 +1,61 @@
+﻿@{
+    Layout = Request.AppRelativeCurrentExecutionFilePath.StartsWith("~/views/") ? null : "~/Views/Shared/_Layout3.cshtml";
+}
+
+<link href="~/Css/test.css" rel="stylesheet" />
+<div ng-controller="DoHomeWorkController">
+
+    <div class="work_paper">
+        <div class="paper_tit">
+            <h4>作业批次</h4>
+            <div class="paper_operation">
+                <a href="javascript:;">返回</a>
+                <a href="javascript:;">下一份</a>
+            </div>
+        </div>
+        <div class="work_paper_box">
+            <div class="work_status">
+                <p><span>姓　&nbsp;&nbsp;名</span>吴王锁</p>
+                <p><span>对应章节</span>{{paper.Papername}}</p>
+                <p><span>成绩类型</span>{{ScaleTypeName}}</p>
+                <p><span>截止日期</span>{{test.EndDate| dateFormat}}</p>
+                <p><span>题 目 数</span>2</p>
+                <p><span>得　&nbsp;&nbsp;分</span><b>20</b></p>
+                <p><span>作业状态</span>已提交</p>
+                <p class="last"><span>说明</span></p>
+            </div>
+            <div class="review_box">
+                <div class="work_setting">
+                    <p><input type="checkbox">仅显示人工批阅题</p>
+                    <p><input type="checkbox">设置为范本</p>
+                </div>
+                <div class="section_work" ng-repeat="papergroup in papergrouplist">
+                    <div class="section_tit">
+                        <span>{{papergroup.GroupName}}</span>
+                        <p>总题数：2　总分数：20</p>
+                    </div>
+                    <ul class="question_list">
+                        <li ng-repeat="exercise in exerciselist" ng-show="papergroup.PaperID==exercise.PaperID && papergroup.GroupID==exercise.PaperGroupID">
+                            <div class="issue_box">
+                                <h4>{{$index+1}}  【{{exercise.ExerciseTypeName}}】  （{{exercise.Score}}分）</h4>
+                                <p>{{exercise.Conten}}</p>
+                            </div>
+                            <div class="radio_list" ng-repeat="exercisechoices in ExerciseChoices" ng-show="exercisechoices.ExerciseID==exercise.ExerciseID ">
+                                <p><input type="radio">{{exercisechoices.Conten}}</p>
+
+                            </div>
+                            <p class="answer_tip" style=" display:none;"><i class="icon_test true_btn"></i>回答正确</p>
+                            <p class="answer_tip wrong_answer" style=" display:none;"><i class="icon_test false_btn"></i>正确答案是：B，D</p>
+                        </li>
+                    </ul>
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+

@@ -13,26 +13,18 @@ namespace IES.G2S.JW.BLL
     {
         #region  列表
 
-        public List<Course> Course_List(String Key,Course model, int PageIndex, int PageSize)
+        public List<Course> Course_List(Course model, int PageIndex, int PageSize)
         {
-            return CourseDAL.Course_List(Key,model,PageIndex, PageSize );
+            return CourseDAL.Course_List( model, PageIndex, PageSize);
         }
 
         #endregion
 
-        #region  新增
+        #region  对象新增或取消
 
-        public Course Course_ADD(Course model)
+        public Course Course_Edit(Course model)
         {
-            return CourseDAL.Course_ADD(model);
-        }
-        #endregion
-
-        #region  对象更新
-
-        public bool Course_Upd(Course model)
-        {
-            return CourseDAL.Course_Upd(model);
+            return CourseDAL.Course_Edit(model);
         }
 
         #endregion
@@ -44,6 +36,25 @@ namespace IES.G2S.JW.BLL
             return CourseDAL.Course_Del(model);
         }
 
+        #endregion       
+
+        #region  获取详细信息
+
+        public Course Course_Get(int CourseID)
+        {
+            return CourseDAL.Course_Get(CourseID);
+        }
+
         #endregion
+
+        #region 批量删除
+        public bool Course_Batch_Del(string IDS)
+        {
+            return CourseDAL.Course_Batch_Del(IDS);
+        }
+
+        #endregion
+
+        
     }
 }

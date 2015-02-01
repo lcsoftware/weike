@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * ForumTopic.cs
 *
 * 功 能： N/A
@@ -9,10 +9,10 @@
 * V0.01  2014/12/2 13:12:03   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
 namespace IES.CC.Forum.Model
@@ -25,6 +25,18 @@ namespace IES.CC.Forum.Model
 	{
 		public ForumTopic()
 		{}
+
+        #region 补充信息
+        public string SearchKey { get; set; }  //搜索条件
+        public bool IsMyStart { get; set; }  //是否我发起的
+        public bool IsMyJoin { get; set; }  //我参与的
+        public int ResponseStatus { get; set; }  //回复状态
+        public int Order { get; set; }  //排序 最热,最新 
+        public string ForumTypeTitle { get; set; }  //版块名称
+        public bool IsGood { get; set; }
+
+        #endregion
+
 		#region Model
 		private int _topicid;
 		private int _courseid;
@@ -70,17 +82,19 @@ namespace IES.CC.Forum.Model
 
 
         /// <summary>
-        /// 小组讨论的任务编号
+        /// 小组讨论的任务编号
         /// </summary>
-        public int GroupTaskID { set; get; }
+        public int SourceID { set; get; }
+
+        public string  Source { set; get; }
 
         /// <summary>
-        /// 主题对应的章节编号
+        /// 主题对应的章节编号
         /// </summary>
         public int ChapterID { set; get; }
 
 		/// <summary>
-		/// 发帖人
+		/// 发帖人
 		/// </summary>
 		public int UserID
 		{
@@ -89,7 +103,7 @@ namespace IES.CC.Forum.Model
 		}
 
         /// <summary>
-        /// 发帖人姓名
+        /// 发帖人姓名
         /// </summary>
         public string  UserName { set;get;   }
 
@@ -167,7 +181,7 @@ namespace IES.CC.Forum.Model
         public string LastUserName { set; get; }
 
         /// <summary>
-        /// 最后回复时间
+        /// 最后回复时间
         /// </summary>
         public DateTime LastUpdateTime { set; get; }
 

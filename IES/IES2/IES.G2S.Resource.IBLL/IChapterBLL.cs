@@ -11,8 +11,8 @@ namespace IES.G2S.Resource.IBLL
     {
 
         #region  列表
-
-
+        List<Chapter> Chapter_List(int OCID);
+        List<Chapter> Chapter_ExerciseCount_List(int OCID, int UserID, int ExerciseType, int Diffcult);
         #endregion
 
         #region 详细信息
@@ -41,7 +41,7 @@ namespace IES.G2S.Resource.IBLL
 
         #endregion
 
-        #region 属性批量操作
+        #region 属性批量操作
 
 
 

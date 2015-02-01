@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * Organization.cs
 *
 * 功 能： N/A
@@ -9,16 +9,16 @@
 * V0.01  2014/12/1 13:35:33   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
 namespace IES.JW.Model
 {
 	/// <summary>
-	/// 组织机构表
+	/// 组织机构表
 	/// </summary>
 	[Serializable]
 	public partial class Organization
@@ -46,6 +46,7 @@ namespace IES.JW.Model
 		private bool _isteaching= true;
 		private bool _linkstatus= false;
 		private bool _isdeleted= false;
+        public int Orde { get; set; }  //排序
 		/// <summary>
 		/// 
 		/// </summary>
@@ -73,7 +74,7 @@ namespace IES.JW.Model
 		/// <summary>
 		/// 
 		/// </summary>
-		public string OrganizationNameEn
+        public string OrganizationNameEn
 		{
 			set{ _organizationnameen=value;}
 			get{return _organizationnameen;}
@@ -127,7 +128,7 @@ namespace IES.JW.Model
 			get{return _link;}
 		}
 		/// <summary>
-		/// 是否开课机构
+		/// 是否开课机构
 		/// </summary>
 		public bool IsTeaching
 		{
@@ -152,6 +153,16 @@ namespace IES.JW.Model
 		}
 		#endregion Model
 
-	}
+    }
+    [Serializable]
+    public partial class ShortOranization
+    {
+        public int OrganizationID { get; set; }
+        public string  OrganizationName { get; set; }
+        public int ParentID { get; set; }
+        public int Orde { get; set; }
+        public string OrganizationIDs { get; set; }
+		
+    }
 }
 

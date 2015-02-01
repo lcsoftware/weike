@@ -1,4 +1,4 @@
-﻿/**  版本信息模板在安装目录下，可自行修改。
+﻿/**  版本信息模板在安装目录下，可自行修改。
 * Exercise.cs
 *
 * 功 能： N/A
@@ -9,10 +9,10 @@
 * V0.01  2014/12/4 17:26:45   N/A    初版
 *
 * Copyright (c) 2012 Maticsoft Corporation. All rights reserved.
-*┌──────────────────────────────────┐
-*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
-*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
-*└──────────────────────────────────┘
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
 */
 using System;
 namespace IES.Resource.Model
@@ -21,9 +21,13 @@ namespace IES.Resource.Model
 	/// 习题主表
 	/// </summary>
 	[Serializable]
-	public partial class Exercise  :IExercise  
-	{
-		public Exercise() 
+	public partial class Exercise  :IExercise
+    {
+        #region 补充字段
+        public string ExerciseTypeName { get; set; }
+        #endregion
+
+        public Exercise() 
 		{}
 		#region Model
 		private int _exerciseid;
@@ -57,7 +61,7 @@ namespace IES.Resource.Model
 		}
 
 		/// <summary>
-		/// 习题所属课程编号
+		/// 习题所属课程编号
 		/// </summary>
 		public int CourseID
 		{
@@ -73,7 +77,7 @@ namespace IES.Resource.Model
 			get{return _ocid;}
 		}
 		/// <summary>
-		/// 资源拥有人编号
+		/// 资源拥有人编号
 		/// </summary>
 		public int OwnerUserID
 		{
@@ -81,7 +85,7 @@ namespace IES.Resource.Model
 			get{return _owneruserid;}
 		}
 		/// <summary>
-		/// 习题创建人
+		/// 习题创建人
 		/// </summary>
 		public int CreateUserID
 		{
@@ -94,7 +98,7 @@ namespace IES.Resource.Model
 
 
 		/// <summary>
-		/// 复合题小题 通过该编号找到题干
+		/// 复合题小题 通过该编号找到题干
 		/// </summary>
 		public int ParentID
 		{
@@ -103,7 +107,7 @@ namespace IES.Resource.Model
 		}
 		/// <summary>
 		/// 1判断题 ; 2单选题 ; 3 多选题 4填空题（客观）5填空题 ; 6连线题 ;7 排序题 ; 8分析题  9计算题   10问答题 ;
-        ///11 翻译题  12听力训练  13写作  14阅读理解  15论述题 ;16 答题卡题型  17自定义题型
+        ///11 翻译题  12听力训练  13写作  14阅读理解  15论述题 ;16 答题卡题型  17自定义题型
 		/// </summary>
 		public int ExerciseType
 		{
@@ -155,7 +159,7 @@ namespace IES.Resource.Model
 
 
 		/// <summary>
-		/// 习题的注释说明
+		/// 习题的注释说明
 		/// </summary>
 		public string Brief
 		{
@@ -203,7 +207,7 @@ namespace IES.Resource.Model
 			get{return _score;}
 		}
 		/// <summary>
-		/// 1 选项乱序 ； 0 不乱序
+		/// 1 选项乱序 ； 0 不乱序
 		/// </summary>
 		public bool IsRand
 		{
@@ -211,7 +215,7 @@ namespace IES.Resource.Model
 			get{return _isrand;}
 		}
 		/// <summary>
-		/// 最后更新时间
+		/// 最后更新时间
 		/// </summary>
 		public DateTime UpdateTime
 		{
@@ -219,7 +223,7 @@ namespace IES.Resource.Model
 			get{return _updatetime;}
 		}
 		/// <summary>
-		/// 删除状态
+		/// 删除状态
 		/// </summary>
 		public bool IsDeleted
 		{

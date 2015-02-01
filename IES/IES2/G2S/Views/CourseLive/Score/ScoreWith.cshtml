@@ -2,11 +2,16 @@
     //Layout = null;
 }
 <link href="~/Css/index.css" rel="stylesheet" />
-<div ng-controller="ScoreManageCtrl">
+<div ng-controller="ScoreWithCtrl">
     <div class="exercise_search">
         <div class="select_condition">
-            <p class="current_course">我的习题</p>
+            <ul class="knowledge_sort">
+                <li class="active"><a href="#">成绩明细</a></li>
+                <li><a href="#">成绩管理</a></li>
+                <li><a href="#">成绩分析</a></li>
+            </ul>
         </div>
+
         <div class="exercise_btn">
             @*<span class="sort_box">[筛选]</span>*@
             <a href="javascript:;" class="import_exercise">
@@ -17,7 +22,7 @@
             <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字"><span class="icon" href="#"></span></p>
         </div>
     </div>
-    @*<div class="filter_box">
+    <div class="filter_box">
             <dl class="filter_list">
                 <dt>试卷类型</dt>
                 <dd>
@@ -36,7 +41,7 @@
                 </dd>
             </dl>
             <span class="guanbi"><i class="icon"></i></span>
-        </div>*@
+        </div>
     <table class="course_data paper_data">
         <tr>
             <th width="100">
@@ -52,17 +57,17 @@
             <th width="80">成绩</th>
             <th width="80">平均分</th>
         </tr>
-        <tr ng-repeat="item in ScoreManageInfoItem">
+        <tr ng-repeat="item in ScoreWithInfoItem">
             <td>
                 <div class="data_name">
-                    <input type="checkbox"><a>{{item.Name}}</a>
+                    <input type="checkbox"><a>{{item.UserNo}}</a>
                 </div>
             </td>
-            <td>{{item.SoreTypeName}}</td>
-            <td>{{item.JoinStudent}}</td>
+            <td>{{item.UserName}}</td>
+            <td>{{item.TeachingClassName}}</td>
+            <td>{{item.ClassName}}</td>
+            <td>{{item.Score}}</td>
             <td>{{item.AvgScore}}</td>
-            <td>{{item.C}}</td>
-            <td>{{item.B}}</td>
         </tr>
         <tr>
             <td>

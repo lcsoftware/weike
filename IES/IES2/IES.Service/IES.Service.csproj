@@ -11,14 +11,10 @@
     <AssemblyName>IES.Service</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,9 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonData\CCCommonData.cs" />
     <Compile Include="CommonData\CourseCommonData.cs" />
     <Compile Include="CommonData\ResourceCommonData.cs" />
     <Compile Include="Common\Browse.cs" />
+    <Compile Include="Common\ConfigService.cs" />
+    <Compile Include="Common\DictServcie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Store\IESFile.cs" />
     <Compile Include="Store\FileService.cs" />
@@ -112,18 +111,6 @@
       <Project>{972577f0-3061-4659-933c-b065185daf80}</Project>
       <Name>IES.G2S.Resource.IBLL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IES.G2S.SYS.BLL\IES.G2S.SYS.BLL.csproj">
-      <Project>{f51fea70-1bfa-43cd-88c8-235d9b3f644f}</Project>
-      <Name>IES.G2S.SYS.BLL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.G2S.SYS.DAL\IES.G2S.SYS.DAL.csproj">
-      <Project>{99ed2fc9-2d3b-499f-9fd4-df04054b85ea}</Project>
-      <Name>IES.G2S.SYS.DAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.G2S.SYS.IBLL\IES.G2S.SYS.IBLL.csproj">
-      <Project>{75ef2a1b-5483-4c1d-9d99-81ba3ee35127}</Project>
-      <Name>IES.G2S.SYS.IBLL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IES.JW.Model\IES.JW.Model.csproj">
       <Project>{5bbc1895-4b66-4445-af6d-f6711cb3266f}</Project>
       <Name>IES.JW.Model</Name>
@@ -135,10 +122,6 @@
     <ProjectReference Include="..\IES.Security\IES.Security.csproj">
       <Project>{c93539d1-c8a9-46ee-a2b9-ecf46b9da47e}</Project>
       <Name>IES.Security</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.SYS.Model\IES.SYS.Model.csproj">
-      <Project>{ca2b5379-05a2-44ab-bb4f-c49fd02677d0}</Project>
-      <Name>IES.SYS.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

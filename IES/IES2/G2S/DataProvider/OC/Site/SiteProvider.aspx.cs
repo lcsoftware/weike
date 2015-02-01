@@ -1,6 +1,11 @@
-﻿using IES.CC.OC.Model;
+﻿using IES.CC.Model.OC;
+using IES.CC.OC.Model;
 using IES.G2S.OC.BLL.OC;
+using IES.G2S.OC.BLL.Site;
+using IES.G2S.OC.BLL.Team;
 using IES.G2S.OC.IBLL.OC;
+using IES.G2S.OC.IBLL.Site;
+using IES.G2S.OC.IBLL.Team;
 using IES.Security;
 using IES.Service;
 using System;
@@ -22,17 +27,20 @@ namespace App.AngularMvc.DataProvider.OC.Site
         /// <param name="column"></param>
         /// <returns></returns>
         [WebMethod]
-        public static int OCSiteColumn_ADD(string columnsname,int type)
+        public static int OCSiteColumn_Edit(string columnsname, int type, int OCID, int ColumnID, int ParentID)
         {
+            string userid = IESCookie.GetCookieValue("ies");
+            IES.JW.Model.User user = new IES.JW.Model.User { UserID = Int32.Parse(userid) };
+            user = UserService.User_Get(user);
             OCSiteColumn column = new OCSiteColumn();
-            column.ColumnID = -1;
-            column.OCID = 1;
+            column.ColumnID = ColumnID;
+            column.OCID = OCID;
             column.Title = columnsname;
-            column.UserID=1;
-            column.ParentID = 0;
+            column.UserID = user.UserID;
+            column.ParentID = ParentID;
             column.ContentType = type;
-            IOCBLL ocbll = new OCBLL();
-           return ocbll.OCSiteColumn_ADD(column);
+            ISiteBLL ocbll = new SiteBLL();
+           return ocbll.OCSiteColumn_Edit(column);
         }
         /// <summary>
         /// 获取网站列表
@@ -41,9 +49,9 @@ namespace App.AngularMvc.DataProvider.OC.Site
         [WebMethod]
         public static List<IES.CC.OC.Model.OC> OC_List() {
             string userid = IESCookie.GetCookieValue("ies");
-            IES.SYS.Model.User user = new IES.SYS.Model.User { UserID = Int32.Parse(userid) };
+            IES.JW.Model.User user = new IES.JW.Model.User { UserID = Int32.Parse(userid) };
             user = UserService.User_Get(user);
-            IOCBLL ocbll = new OCBLL();
+            ISiteBLL ocbll = new SiteBLL();
             return ocbll.OC_List(user.UserID, user.UserType);
         }
         /// <summary>
@@ -54,9 +62,9 @@ namespace App.AngularMvc.DataProvider.OC.Site
         [WebMethod]
         public static List<OCSite> OCSite_Get(int OCID) {
             string userid = IESCookie.GetCookieValue("ies");
-            IES.SYS.Model.User user = new IES.SYS.Model.User { UserID = Int32.Parse(userid) };
+            IES.JW.Model.User user = new IES.JW.Model.User { UserID = Int32.Parse(userid) };
             user = UserService.User_Get(user);
-            IOCBLL ocbll = new OCBLL();
+            ISiteBLL ocbll = new SiteBLL();
             return ocbll.OCSite_Get(OCID,user.UserID);
         }
         /// <summary>
@@ -68,12 +76,13 @@ namespace App.AngularMvc.DataProvider.OC.Site
         public static List<OCSiteColumn> OCSiteColumn_Tree(int OCID)
         {
              string userid = IESCookie.GetCookieValue("ies");
-            IES.SYS.Model.User user = new IES.SYS.Model.User { UserID = Int32.Parse(userid) };
+             IES.JW.Model.User user = new IES.JW.Model.User { UserID = Int32.Parse(userid) };
             user = UserService.User_Get(user);
-            IOCBLL ocbll = new OCBLL();
+            ISiteBLL ocbll = new SiteBLL();
+            OCSite ocsite= ocbll.OCSite_Get(OCID, user.UserID)[0];
             OCSiteColumn ocsitecolumn=new OCSiteColumn ();
             List<OCSiteColumn>  listcolumn= ocbll.OCSiteColumn_Tree(OCID,user.UserID);
-            ForeachPropertyNode(listcolumn, ocsitecolumn,0);
+            ForeachPropertyNode(listcolumn, ocsitecolumn, 0, ocsite);
             return ocsitecolumn.Children;
         }
 
@@ -86,7 +95,7 @@ namespace App.AngularMvc.DataProvider.OC.Site
         /// <returns></returns>
         [WebMethod]
         public static bool OCSite_DisplayStyle_Upd(int SiteID, int DisplayStyle) {
-            IOCBLL ocbll = new OCBLL();
+            ISiteBLL ocbll = new SiteBLL();
             return ocbll.OCSite_DisplayStyle_Upd(SiteID, DisplayStyle);
         }
         /// <summary>
@@ -97,7 +106,7 @@ namespace App.AngularMvc.DataProvider.OC.Site
         [WebMethod]
         public static void OCSite_Language_Upd(int SiteID, int Language)
         {
-            IOCBLL ocbll = new OCBLL();
+            ISiteBLL ocbll = new SiteBLL();
             ocbll.OCSite_Language_Upd(SiteID, Language);
         }
         /// <summary>
@@ -109,7 +118,7 @@ namespace App.AngularMvc.DataProvider.OC.Site
         [WebMethod]
         public static void OCSite_BuildMode_Upd(int OCID, int BuildMode, string OutSiteLink)
         {
-            IOCBLL ocbll = new OCBLL();
+            ISiteBLL ocbll = new SiteBLL();
             ocbll.OCSite_BuildMode_Upd(OCID, BuildMode, OutSiteLink);
         }
         /// <summary>
@@ -118,10 +127,10 @@ namespace App.AngularMvc.DataProvider.OC.Site
         /// <param name="OCID"></param>
         /// <param name="FileldType"></param>
         [WebMethod]
-        public static void OCSite_Field_Upd(int OCID, string FileldType)
+        public static void OCSite_Field_Upd(int OCID, int ContentType)
         {
-            IOCBLL ocbll = new OCBLL();
-            ocbll.OCSite_Field_Upd(OCID,FileldType);
+            ISiteBLL ocbll = new SiteBLL();
+            ocbll.OCSite_Field_Upd(OCID, ContentType);
         }
         /// <summary>
         /// 网站栏目内容更新
@@ -131,7 +140,7 @@ namespace App.AngularMvc.DataProvider.OC.Site
         [WebMethod]
         public static void OCSiteColumn_Conten_Upd(int ColumnID, string Conten)
         {
-            IOCBLL ocbll = new OCBLL();
+            ISiteBLL ocbll = new SiteBLL();
             ocbll.OCSiteColumn_Conten_Upd(ColumnID, Conten);
         }
         /// <summary>
@@ -141,7 +150,7 @@ namespace App.AngularMvc.DataProvider.OC.Site
         [WebMethod]
         public static void OCSiteColumn_Del(int ColumnID)
         {
-            IOCBLL ocbll = new OCBLL();
+            ISiteBLL ocbll = new SiteBLL();
             ocbll.OCSiteColumn_Del(ColumnID);
         }
         /// <summary>
@@ -153,9 +162,9 @@ namespace App.AngularMvc.DataProvider.OC.Site
         public static List<OCSiteColumn> OCSiteColumn_List(int ColumnID)
         {
             string userid = IESCookie.GetCookieValue("ies");
-            IES.SYS.Model.User user = new IES.SYS.Model.User { UserID = Int32.Parse(userid) };
+            IES.JW.Model.User user = new IES.JW.Model.User { UserID = Int32.Parse(userid) };
             user = UserService.User_Get(user);
-            IOCBLL ocbll = new OCBLL();
+            ISiteBLL ocbll = new SiteBLL();
             return ocbll.OCSiteColumn_List(ColumnID, user.UserID);
         }
         /// <summary>
@@ -167,7 +176,7 @@ namespace App.AngularMvc.DataProvider.OC.Site
         [WebMethod]
         public static void OCSiteColumn_Upd(int ColumnID, string Title, int ContentType)
         {
-            IOCBLL ocbll = new OCBLL();
+            ISiteBLL ocbll = new SiteBLL();
             ocbll.OCSiteColumn_Upd(ColumnID,Title,ContentType);
         }
         /// <summary>
@@ -178,7 +187,7 @@ namespace App.AngularMvc.DataProvider.OC.Site
         [WebMethod]
         public static void OCSiteColumn_ParentID_Upd(int ColumnID, int ParentID)
         {
-            IOCBLL ocbll = new OCBLL();
+            ISiteBLL ocbll = new SiteBLL();
             ocbll.OCSiteColumn_ParentID_Upd(ColumnID, ParentID);
         }
         /// <summary>
@@ -189,12 +198,105 @@ namespace App.AngularMvc.DataProvider.OC.Site
         [WebMethod]
         public static void OCSiteColumn_Move(int ColumnID, string Direction)
         {
-            IOCBLL ocbll = new OCBLL();
+            ISiteBLL ocbll = new SiteBLL();
             ocbll.OCSiteColumn_Move(ColumnID,Direction);
+        }
+        /// <summary>
+        /// 获取网站栏目详细列表
+        /// </summary>
+        /// <param name="ColumnID"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static List<OCSiteColumn> OCSiteColumn_Get(int ColumnID) {
+            ISiteBLL ocbll = new SiteBLL();
+            return ocbll.OCSiteColumn_Get(ColumnID);
+        }
+       /// <summary>
+        /// 获取在线课程教学团队列表
+       /// </summary>
+       /// <param name="OCID"></param>
+       /// <param name="Role"></param>
+       /// <returns></returns>
+        [WebMethod]
+        
+        public static List<OCTeam> OCTeam_List(int OCID,int Role) {
+            OCTeamBLL octeambll = new OCTeamBLL();
+            List<OCTeam> octeam= octeambll.OCTeam_List(OCID);
+            return octeam.Where(x => x.Role == Role).ToList<OCTeam>();
+            
+        }
+        /// <summary>s
+        /// 获取模板列表
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod]
+        public static List<OCTemplate> OCTemplate_List() {
+            IOCTemplateBLL octemplatebll = new OCTemplateBLL();
+            return octemplatebll.OCTemplate_List();
+        }
+        /// <summary>
+        /// 获取在线课程的基本信息
+        /// </summary>
+        /// <param name="OCID"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static List<IES.CC.OC.Model.OC> OC_Get(int OCID) {
+            ISiteBLL ocbll = new SiteBLL();
+            return ocbll.OC_Get(OCID);
+        }
+        /// <summary>
+        /// 获取课程通知列表
+        /// </summary>
+        /// <param name="OCID"></param>
+        /// <param name="UserID"></param>
+        /// <param name="PageIndex"></param>
+        /// <param name="PageSize"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static List<OCNotice> OCNotice_List(int OCID, int PageIndex, int PageSize) {
+
+            ISiteBLL ocbll = new SiteBLL();
+            string userid = IESCookie.GetCookieValue("ies");
+            IES.JW.Model.User user = new IES.JW.Model.User { UserID = Int32.Parse(userid) };
+            user = UserService.User_Get(user);
+            return ocbll.OCNotice_List(OCID, user.UserID, PageIndex, PageSize);
+        }
+        /// <summary>
+        /// 获取网站下视频的预览
+        /// </summary>
+        /// <param name="OCID"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static List<IES.Resource.Model.File> File_OCPreviewMP4_List(int OCID) {
+            ISiteBLL ocbll = new SiteBLL();
+            return ocbll.File_OCPreviewMP4_List(OCID);
+        }
+        /// <summary>
+        /// 课程网站推荐词
+        /// </summary>
+        /// <param name="SiteID"></param>
+        /// <param name="Brief"></param>
+        [WebMethod]
+        public static void OC_Brief_Upd(int OCID, string Brief)
+        {
+            ISiteBLL ocbll = new SiteBLL();
+            ocbll.OC_Brief_Upd(OCID, Brief);
+        }
+
+        [WebMethod]
+        public static List<OCSiteColumn> OCSiteColumn_Nav_Tree(int ColumnID, int OCID)
+        {
+            ISiteBLL ocbll = new SiteBLL();
+            List<OCSiteColumn> ocsitecolumn= ocbll.OCSiteColumn_Nav_Tree(ColumnID, OCID);
+            ocsitecolumn.Reverse();
+            return ocsitecolumn;
         }
 
 
-        private static void ForeachPropertyNode(List<OCSiteColumn> ocsitecloumn, OCSiteColumn node, int pid)
+
+
+
+        private static void ForeachPropertyNode(List<OCSiteColumn> ocsitecloumn, OCSiteColumn node, int pid, OCSite ocsite)
         {
             List<OCSiteColumn> dvDict = ocsitecloumn.FindAll(delegate(OCSiteColumn item) { return item.ParentID == pid; });
             if (dvDict.Count > 0)
@@ -211,9 +313,61 @@ namespace App.AngularMvc.DataProvider.OC.Site
                         Orde =view.Orde,
                         CreateTime =view.CreateTime,
                         Updatetime = view.Updatetime,
-                        ContentType =view.ContentType
+                        ContentType =view.ContentType,
+                        HasChild=view.HasChild,
+                        Conten=view.Conten,
+                        IsShow=true
+                       
                     };
-                    ForeachPropertyNode(ocsitecloumn, childNodeItem, childNodeItem.ColumnID);
+                    if (pid == 0)
+                    {
+                        if (childNodeItem.ContentType == 11) {
+                            if (ocsite.UseIndexPage)
+                            {
+                                childNodeItem.IsShow = true;
+                            }
+                            else {
+                                childNodeItem.IsShow = false; 
+                            }
+                        }
+                        else if (childNodeItem.ContentType == 13) {
+                            if (ocsite.UseResource)
+                            {
+                                childNodeItem.IsShow = true;
+                            }
+                            else {
+                                childNodeItem.IsShow = false;
+                            }
+                        }
+                        else if (childNodeItem.ContentType == 14) {
+                            if (ocsite.UseLive)
+                            {
+                                childNodeItem.IsShow = true;
+                            }
+                            else {
+                                childNodeItem.IsShow = false;
+                            }
+                        }
+                        else if (childNodeItem.ContentType == 12)
+                        {
+
+                            if (ocsite.UseMoocPlan)
+                            {
+                                childNodeItem.IsShow = true;
+                            }
+                            else {
+                                childNodeItem.IsShow = false;
+                            }
+                        }
+                        
+                        childNodeItem.UseIndexPage = ocsite.UseIndexPage;
+                        childNodeItem.UseResource = ocsite.UseResource;
+                        childNodeItem.UseLive = ocsite.UseLive;
+                        childNodeItem.UseMoocPlan = ocsite.UseMoocPlan;
+
+
+                    }
+                    ForeachPropertyNode(ocsitecloumn, childNodeItem, childNodeItem.ColumnID, ocsite);
                     node.Children.Add(childNodeItem);
                 }
             }

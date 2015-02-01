@@ -19,48 +19,6 @@ namespace IES.G2S.CourseLive.DAL.PBL
         #region  列表
 
 
-        
-        /// <summary>
-        /// 获取分组模式列表信息
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public static GroupModeInfo GroupModeInfo_List(GroupTask model)
-        {
-            try
-            {
-                using (var conn = DbHelper.CCService())
-                {
-                    var p = new DynamicParameters();
-                    p.Add("@OCID", model.OCID);
-                    p.Add("@UserID", model.UserID);
-
-
-                    var multi = conn.QueryMultiple("GroupModeInfo_List", p, commandType: CommandType.StoredProcedure);
-
-
-                    var groupmodelist = multi.Read<GroupMode>().ToList();
-                    var teachinglist = multi.Read<TeachingClass>().ToList();
-                    var grouplist  = multi.Read<Group>().ToList();
-
-
-                    GroupModeInfo groumodeinfo = new GroupModeInfo();
-                    groumodeinfo.groupmodelist = groupmodelist;
-                    groumodeinfo.Grouplist = grouplist;
-                    groumodeinfo.teachingclasslist = teachinglist;
-
-                    return groumodeinfo;
-
-
-                }
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-
-        }
-
 
         #endregion
 
