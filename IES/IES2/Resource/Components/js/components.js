@@ -261,4 +261,28 @@ app.directive('exerciseList', function () {
 //            }
 //        }
 //    }
+<<<<<<< HEAD
 //}]);
+
+//移动文件
+app.directive('moveFolder', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.scope = {
+        onMoveFileSubmit: '&',
+        onClose:'&',
+        mobiles: '='
+    }
+
+    directive.templateUrl = '/Components/templates/mobileFolder.html';
+
+    directive.link = function (scope, elem, iAttrs) {        
+    }
+
+    return directive;
+});
+=======
+//}]);
+>>>>>>> f68657ddc682ac4312c7fa154aae0a72c677ac8d

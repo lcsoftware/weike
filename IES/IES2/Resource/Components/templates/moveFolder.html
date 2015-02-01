@@ -1,0 +1,35 @@
+﻿
+<div>
+    
+    <div class="pop_400">
+        <h4>移动文件</h4>
+        <span class="icon close_pop" ng-click="onClose()"></span>
+        <div class="pop_wrap">
+            <dl class="folder">
+                <dd>
+                    <script type="text/ng-template" id="nodes_renderer.html">
+                        <div ui-tree-handle class="tree-node tree-node-content" ng-click="selectedMobile(node)" ng-class="{mobileSelected:node.Id==folder.Id}">
+                            <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)">
+                                <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
+                            </a>
+                            <font ng-bind="node.Name"></font>
+                        </div>
+                        <ol ui-tree-nodes="" ng-model="node.Children" ng-class="{hidden: collapsed}">
+                            <li ng-repeat="node in node.Children" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)">
+                            </li>
+                        </ol>
+                    </script>
+                    <div ui-tree id="tree-root">
+                        <ol ui-tree-nodes="" ng-model="mobile">
+                            <li ng-repeat="node in files" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)"></li>
+                        </ol>
+                    </div>
+                </dd>
+            </dl>
+            <div class="btn_box">
+                <a class="save" ng-click="onMoveFileSubmit()">确定</a>
+                <a class="cancel" ng-click="onClose()">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
