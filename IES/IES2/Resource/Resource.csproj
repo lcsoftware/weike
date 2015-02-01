@@ -332,7 +332,9 @@
     <Content Include="Views\Exercise\Noun.cshtml" />
     <Content Include="Views\Exercise\FillBlank2.cshtml" />
     <Content Include="Views\Exercise\QuesAnswer.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

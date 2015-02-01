@@ -33,6 +33,13 @@ namespace IES.G2S.Resource.IBLL
 
         #endregion
 
+
+        #region 移动
+
+        bool Chapter_Move(int chapterID, string direction);
+
+        #endregion
+
         #region 单个批量更新
 
 

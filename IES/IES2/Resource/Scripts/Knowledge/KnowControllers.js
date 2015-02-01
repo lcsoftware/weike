@@ -15,15 +15,18 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
 
         $scope.course = {};
 
-        $scope.ocChapters = [];
-        $scope.ocKnowledges = [];
+        $scope.chapters = [];
+        $scope.kens = [];
+
         $scope.requireMent = [];
         $scope.requireMents = {};
+
         $scope.resourceKens = [];
 
-        $scope.selectKnowledge = {};
+        $scope.kenSelection = {};
 
-        $scope.knowHide = true;
+        ///按章节查询，同时显示知识点查询条件 
+        $scope.kenDisable = true;
 
         assistService.Resource_Dict_Requirement_Get(function (data) {
             if (data.d.length > 0) {
@@ -175,10 +178,9 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
         ///编辑习题
         $scope.editExercise = function (exercise) {
             var param = { ExerciseID: exercise.ExerciseID };
-            switch (exercise.ExerciseType)
-            {
+            switch (exercise.ExerciseType) {
                 case '18': //简答题
-                    $state.go('exercise.shortanswer', param) 
+                    $state.go('exercise.shortanswer', param)
                     break;
                 case '19': //名词解释
                     $state.go('exercise.noun', param)
@@ -188,7 +190,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
                     break;
                 case '10': //问答题
                     $state.go('exercise.quesanswer', param)
-                    break;               
+                    break;
                 case '1': //判断题
                     $state.go('exercise.truefalse', param)
                     break;
@@ -205,7 +207,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
                     break;
             }
         }
-       
+
         ///习题删除
         $scope.deleteExercise = function (exercise) {
             var model = {
@@ -254,7 +256,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
         }
 
         $scope.knowSelected = function (knowledge) {
-            $scope.knowSelection = knowledge; 
+            $scope.knowSelection = knowledge;
             $scope.$broadcast('knowledgeChanged', $scope.knowSelection.KenID);
             $scope.showAssociation($scope.chapterSelection, $scope.knowSelection);
         }
@@ -264,7 +266,7 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
         $scope.association.selection = 1;
         ///资料
         $scope.association.linkDoc = function () {
-            $scope.association.selection = 1; 
+            $scope.association.selection = 1;
         }
         ///试题
         $scope.association.linkExercise = function () {
@@ -342,37 +344,12 @@ appKnow.controller('KnowChapterCtrl', ['$scope', 'chapterService', function ($sc
     }
 
     $scope.move = function (direction) {
-        if (!$scope.chapterSelection) return;
-        switch (direction) {
-            case 1:
-                chapterService.MoveLeft($scope.ocChapters, $scope.chapterSelection, function (data) {
-                    $scope.ocChapters = data.d;
-                    $scope.chapterSelection = findById($scope.chapterSelection.ChapterID);
-                    $scope.childPicker = $scope.chapterSelection;
-                    $scope.parentPicker = findById($scope.chapterSelection.ParentID);
-                });
-                break;
-            case 2:
-                chapterService.MoveRight($scope.ocChapters, $scope.chapterSelection, function (data) {
-                    $scope.ocChapters = data.d;
-                    $scope.chapterSelection = findById($scope.chapterSelection.ChapterID);
-                    $scope.childPicker = $scope.chapterSelection;
-                    $scope.parentPicker = findById($scope.chapterSelection.ParentID);
-                });
-                break;
-            case 3:
-                chapterService.MoveUp($scope.ocChapters, $scope.chapterSelection, function (data) {
-                    $scope.ocChapters = data.d;
-                    $scope.chapterSelection = findById($scope.chapterSelection.ChapterID);
-                });
-                break;
-            default:
-                chapterService.MoveDown($scope.ocChapters, $scope.chapterSelection, function (data) {
-                    $scope.ocChapters = data.d;
-                    $scope.chapterSelection = findById($scope.chapterSelection.ChapterID);
-                });
-                break;
-        }
+        if (!$scope.selection) return;
+        chapterService.Chapter_Move($scope.selection, direction, function (data) {
+            if (data.d) {
+                $scope.ocChapters = data.d;
+            }
+        });
     }
 
     $scope.delete = function () {
@@ -406,12 +383,11 @@ appKnow.controller('KnowTopicCtrl', ['$scope', 'resourceKenService', function ($
             if ($scope.resourceKens[i].KenID === kenId) {
                 var length = $scope.ocChapters.length;
                 for (var j = 0; j < length; j++) {
-                    if ($scope.ocChapters[j].ChapterID === $scope.resourceKens[i].ResourceID)
-                    {
+                    if ($scope.ocChapters[j].ChapterID === $scope.resourceKens[i].ResourceID) {
                         $scope.knowChapters.push($scope.ocChapters[j]);
                         break;
                     }
-                } 
+                }
             }
         }
     });

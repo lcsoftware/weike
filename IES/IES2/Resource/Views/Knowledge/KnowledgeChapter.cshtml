@@ -1,26 +1,26 @@
 ﻿<div class="chapter_knowledge">
     <div class="chapter_btn">
         <a class="icon_con add_btn" ng-click="addChapter();"></a>
-        <a class="icon_con up_btn" ng-click="move(3)"></a>
-        <a class="icon_con down_btn" ng-click="move(4)"></a>
-        <a class="icon_con right_btn" ng-click="move(2)"></a>
-        <a class="icon_con left_btn" ng-click="move(1)"></a>
+        <a class="icon_con up_btn" ng-click="move('orderup')"></a>
+        <a class="icon_con down_btn" ng-click="move('orderdown')"></a>
+        <a class="icon_con right_btn" ng-click="move('leveldown')"></a>
+        <a class="icon_con left_btn" ng-click="move('levelup')"></a>
         <a class="icon delete_icon" ng-click="delete()"></a>
     </div>
     <ul class="chapter_item">
-        <li ng-class="{'active':parentPicker.ChapterID===item.ChapterID}" ng-repeat="item in ocChapters | parentID:0 | orderBy:'Orde'">
-            <a class="first_chapter" ng-click="parentChapterSelected(item)" ng-class="{'chapter-selection':parentPicker.ChapterID===item.ChapterID}">
-                <i class="icon fold_btn"></i>
+        <li ng-class="{'active':parentChapter.ChapterID===item.ChapterID}" ng-repeat="item in ocChapters | parentID:0 | orderBy:'Orde'">
+            <a class="first_chapter" ng-click="parentSelected(item)">
                 {{item.Title}}
+                <i class="icon fold_btn"></i>
             </a>
             <ul class="second_item">
-                <li ng-class="{active:childPicker.ChapterID==child.ChapterID}" ng-repeat="child in ocChapters | parentID:item.ChapterID | orderBy:'Orde' ">
-                    <a class="first_chapter" ng-bind="child.Title" ng-click="childChapterSelected(child)"></a>
+                <li ng-class="{'active':childChapter.ChapterID==child.ChapterID}" ng-repeat="child in ocChapters | parentID:item.ChapterID | orderBy:'Orde' ">
+                    <a class="first_chapter" ng-click="childSelected(child)" ng-bind="child.Title"></a>
                 </li>
             </ul>
         </li>
         <li ng-show="canAdd">
-            <a class="first_chapter" href="javascript:;">
+            <a class="first_chapter" >
                 <input type="text" ng-model="title" placeholder="请输入章节标题" ng-blur="onBlurAdd(title)" autofocus>
             </a>
         </li>

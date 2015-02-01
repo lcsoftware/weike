@@ -255,6 +255,28 @@ namespace IES.G2S.Resource.DAL
 
         #endregion 
 
+        #region 移动
+
+        public static bool Chapter_Move(int chapterID, string direction)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ChapterID", chapterID);
+                    p.Add("@Direction", direction);
+                    conn.Execute("Chapter_Move", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        #endregion
 
         #region 删除 
         /// <summary>

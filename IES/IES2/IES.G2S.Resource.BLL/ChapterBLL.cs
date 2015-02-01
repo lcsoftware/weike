@@ -46,11 +46,14 @@ namespace IES.G2S.Resource.BLL
         }
         #endregion
 
+        #region 移动
 
-        public Chapter Chapter_Get()
+        public bool Chapter_Move(int chapterID, string direction)
         {
-            return new Chapter();
+            return ChapterDAL.Chapter_Move(chapterID, direction);
         }
+
+        #endregion
 
         #region 更新
         public bool Chapter_Upd(Chapter model)

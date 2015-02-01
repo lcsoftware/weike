@@ -27,31 +27,13 @@ namespace App.Resource.DataProvider.Chapter
         [WebMethod]
         public static IList<Chapter> Chapter_List(Chapter model)
         {
-            return new ChapterBLL().Chapter_List(model);
-            //IList<Chapter> allChapters = new ChapterBLL().Chapter_List(model);
-            //var roots = from v in allChapters where v.ParentID == 0 select v;
-            //foreach (var chapter in roots)
-            //{
-            //    BuildRelationChapter(allChapters, chapter);
-            //}
-            //return roots.ToList();
-        }
-
-        //private static void BuildRelationChapter(IList<Chapter> allChapters, Chapter root)
-        //{
-        //    var chapters = from v in allChapters where v.ParentID == root.ChapterID select v;
-        //    foreach (var chapter in chapters)
-        //    {
-        //        root.Children.Add(chapter);
-        //        BuildRelationChapter(allChapters, chapter);
-        //    }
-        //}
-
+            return new ChapterBLL().Chapter_List(model); 
+        } 
 
         [WebMethod]
         public static Chapter Chapter_Get()
         {
-            return new ChapterBLL().Chapter_Get();
+            return new Chapter();
         }
 
         [WebMethod]
@@ -64,10 +46,8 @@ namespace App.Resource.DataProvider.Chapter
         }
 
         [WebMethod]
-        public static Chapter Chapter_ADD(IList<Chapter> chapters, Chapter model)
+        public static Chapter Chapter_ADD(Chapter model)
         {
-            var brothers = from v in chapters where v.ParentID == model.ParentID orderby v.Orde select v;
-            model.Orde = brothers.Any() ? brothers.Last().Orde + STEP : START; 
             return new ChapterBLL().Chapter_ADD(model);
         }
 
@@ -104,123 +84,13 @@ namespace App.Resource.DataProvider.Chapter
         }
 
         [WebMethod]
-        public static IList<Chapter> MoveLeft(IList<Chapter> allChapters, Chapter chapter)
+        public static IList<Chapter> Chapter_Move(Chapter model, string direction)
         {
-            //一级节点不能左移
-            if (chapter.ParentID == 0) return null;
-
-            var parents = from v in allChapters where v.ChapterID == chapter.ParentID select v;
-            var parent = parents.First();
-            var brothers = from v in allChapters
-                           where v.ParentID == parent.ParentID && v.Orde >= parent.Orde
-                           orderby v.Orde
-                           select v;
-            if (brothers.Count() == 1)
-            {
-                chapter.Orde = brothers.First().Orde + STEP;
-                chapter.ParentID = brothers.First().ParentID;
-            }
-            else
-            {
-                var nexts = from v in brothers where v.Orde > parent.Orde select v;
-                chapter.Orde = nexts.First().Orde - 1;
-                chapter.ParentID = nexts.First().ParentID;
-            }
-            var item = FindByID(allChapters, chapter.ChapterID);
-            item.ParentID = chapter.ParentID;
-            item.Orde = chapter.Orde; 
-            new ChapterBLL().Chapter_Upd(chapter);
-            return allChapters;
+            var BLL = new ChapterBLL();
+            bool moved = BLL.Chapter_Move(model.ChapterID, direction);
+            return moved ? BLL.Chapter_List(model) : null; 
         }
 
-        [WebMethod]
-        public static IList<Chapter> MoveRight(IList<Chapter> allChapters, Chapter chapter)
-        {
-            var brothers = from v in allChapters
-                           where v.ParentID == chapter.ParentID &&
-                                 v.Orde < chapter.Orde
-                           orderby v.Orde
-                           select v;
-            if (brothers.Count() == 0)
-            {
-                //上方无节点不能右移
-                return null;
-            } 
-            var previous = brothers.Last();
-            var previousChildren = from v in allChapters
-                                   where v.ParentID == previous.ChapterID
-                                   orderby v.Orde
-                                   select v;
-            chapter.Orde = previousChildren.Any() ? previousChildren.Last().Orde + STEP : START;
-            chapter.ParentID = previous.ChapterID;
-            var item = FindByID(allChapters, chapter.ChapterID);
-            item.ParentID = chapter.ParentID;
-            item.Orde = chapter.Orde; 
-            new ChapterBLL().Chapter_Upd(chapter);
-            return allChapters;
-        }
-
-        [WebMethod]
-        public static IList<Chapter> MoveUp(IList<Chapter> allChapters, Chapter chapter)
-        {
-            var brothers = from v in allChapters where v.ParentID == chapter.ParentID && v.Orde < chapter.Orde 
-                           orderby v.Orde
-                           select v;
-            if (!brothers.Any())
-            {
-                return null;
-            }
-            var previous = brothers.Last();
-            var tmp = previous.Orde;
-            previous.Orde = chapter.Orde;
-            chapter.Orde = tmp;
-            var bll = new ChapterBLL();
-            bll.Chapter_Upd(chapter);
-            bll.Chapter_Upd(previous);
-            foreach (var item in allChapters)
-            {
-                if (item.ChapterID == chapter.ChapterID)
-                {
-                    item.Orde = chapter.Orde;
-                }
-                else if (item.ChapterID == previous.ChapterID)
-                {
-                    item.Orde = previous.Orde; 
-                }
-            }
-            return allChapters;
-        }
-
-        [WebMethod]
-        public static IList<Chapter> MoveDown(IList<Chapter> allChapters, Chapter chapter)
-        {
-            var brothers = from v in allChapters where v.ParentID == chapter.ParentID && v.Orde > chapter.Orde 
-                           orderby v.Orde
-                           select v;
-            if (!brothers.Any())
-            {
-                return null;
-            }
-            var next = brothers.First();
-            var tmp = next.Orde;
-            next.Orde = chapter.Orde;
-            chapter.Orde = tmp;
-            var bll = new ChapterBLL();
-            bll.Chapter_Upd(chapter);
-            bll.Chapter_Upd(next);
-            foreach (var item in allChapters)
-            {
-                if (item.ChapterID == chapter.ChapterID)
-                {
-                    item.Orde = chapter.Orde;
-                }
-                else if (item.ChapterID == next.ChapterID)
-                {
-                    item.Orde = next.Orde;
-                }
-            }
-            return allChapters;
-        }
 
         [WebMethod]
         public static List<IES.Resource.Model.File> Chapter_File_List(int chapterId, int kenId)

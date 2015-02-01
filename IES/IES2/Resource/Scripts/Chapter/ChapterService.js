@@ -44,20 +44,9 @@ aService.factory('chapterService', ['httpService', function (httpService) {
         httpService.ajaxPost(chapterProviderUrl, 'Save', { model: model }, callback);
     } 
 
-    service.MoveLeft = function (allChapters, chapter, callback) {
-        httpService.ajaxPost(chapterProviderUrl, 'MoveLeft', { allChapters: allChapters, chapter: chapter }, callback);
+    service.Chapter_Move = function (chapter, direction, callback) {
+        httpService.ajaxPost(chapterProviderUrl, 'Chapter_Move', { chapter: chapter, direction: direction}, callback);
     }
 
-    service.MoveRight = function (allChapters, chapter, callback) {
-        httpService.ajaxPost(chapterProviderUrl, 'MoveRight', { allChapters: allChapters, chapter: chapter }, callback);
-    }
-
-    service.MoveUp = function (allChapters, chapter, callback) {
-        httpService.ajaxPost(chapterProviderUrl, 'MoveUp', { allChapters: allChapters, chapter: chapter }, callback);
-    }
-
-    service.MoveDown = function (allChapters, chapter, callback) {
-        httpService.ajaxPost(chapterProviderUrl, 'MoveDown', { allChapters: allChapters, chapter: chapter }, callback);
-    }
     return service;
 }])

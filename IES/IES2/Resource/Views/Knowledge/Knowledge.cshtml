@@ -35,7 +35,7 @@
     <div ui-view></div>
 
     <div class="chapter_box">
-        <div class="filter_knowledge" ng-show="knowHide">
+        <div class="filter_knowledge" ng-show="kenDisable">
             <a ng-class="{'active':knowSelection.KenID==0}" ng-click="knowNoLimit()">全部</a>
             <a ng-class="{'active':knowSelection.KenID==knowledge.KenID}" ng-repeat="knowledge in ocKnowledges" ng-click="knowSelected(knowledge)" ng-bind="knowledge.Name"></a>
         </div>
@@ -61,34 +61,7 @@
 
         <div ng-class="{'connect_item':association.selection!=2}">
             <ul class="topic_list">
-                <li class="show" ng-repeat="item in chapterExercises">
-                    <div class="topic_label">
-                        <p class="question_degree" ng-class="{'simple':item.ExerciseType==1,'medium':item.ExerciseType==2,'difficult':item.ExerciseType==3}"><input type="checkbox">{{item.ExerciseType}}</p>
-                        <div class="label_list">
-                            <a href="#"><span ng-bind="item.Keys | keyReplace"></span></a>
-                        </div>
-                        <p class="creator">创建人：{{item.CreateUserName}}<span>最后修改时间：{{item.UpdateTime}}</span></p>
-                    </div>
-                    <div class="topic_tit">
-                        <h5><span>[{{item.ExerciseType}}]</span></h5>
-                        <p class="question" ng-bind="item.Conten">
-                        </p>
-                        <p class="answer" ng-bind="item.Answer">
-                        </p>
-                    </div>
-                    <div class="mess_box">
-                        <a href="javascript:;" class="icon_24 spread"></a>
-                    </div>
-                    <div class="topic_icon">
-                        <a ng-click="deleteExercise(item)"class="icon delete_topic"></a>
-                        <a ng-click="shareExercise(item)" class="icon share_topic">
-                            @*<div class="icon_content">
-                                <span></span><p>共享</p>
-                            </div>*@
-                        </a>
-                        <a ng-click="editExercise(item)" class="icon edit_topic"></a>
-                    </div>
-                </li>
+                <exercise-list ng-repeat="item in chapterExercises" exercise="item" edit-exercise="editExercise(item)" share-exercise="shareExercise(item)" delete-exercise="deleteExercise(item)"></exercise-listng-repeat>
             </ul>
         </div>
 
@@ -157,4 +130,4 @@
         </div>
     </div>
 
-</div> 
+</div>
