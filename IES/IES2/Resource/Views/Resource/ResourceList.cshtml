@@ -70,6 +70,7 @@
     </tr>
 </table>
 
+
 <div class="pop_400" ng-show="delIsShow">
     <h4>删除</h4>
     <span class="icon close_pop" ng-click="close()"></span>
@@ -83,4 +84,4 @@
 </div>
 
 <div class="pop_bg" ng-show="bgShow"></div>
-<mobilefolder ng-show="mobileIsShow" on-upd-folder-mobile="updFolderMobile()" on-close="close()" mobiles="mobiles" mobile-is-show="mobileIsShow"></mobilefolder>
+<move-folder ng-show="moveShow" on-move-file="moveFileSubmit()" on-close="close()" files="files"></move-folder>

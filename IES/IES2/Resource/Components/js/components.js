@@ -299,20 +299,20 @@ app.directive('exerciseList', function () {
 //}]);
 
 //移动文件
-app.directive('mobileFolder', function () {
+app.directive('moveFolder', function () {
     var directive = {};
 
     directive.restrict = 'EA';
 
     directive.scope = {
-        onUpdFolderMobile: '&',
-        onClose: '&',
+        onMoveFileSubmit: '&',
+        onClose:'&',
         mobiles: '='
     }
 
     directive.templateUrl = '/Components/templates/mobileFolder.html';
 
-    directive.link = function (scope, elem, iAttrs) {       
+    directive.link = function (scope, elem, iAttrs) {        
     }
 
     return directive;

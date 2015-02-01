@@ -22,10 +22,10 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.folderRelations = [];//文件夹文件数组
 
     $scope.model.ParentID = 0;//上级ID
-    $scope.mobiles = [];//移动文件夹数据
+    $scope.files = [];//移动文件夹数据
 
     $scope.delIsShow = false;//删除弹出框
-    $scope.mobileIsShow = false;//移动弹出框
+    $scope.moveShow = false;//移动弹出框
     $scope.bgShow = false;//背景置灰
 
     $scope.folder = {};//文件夹对象
@@ -226,7 +226,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
 
     //移动文件框保存方法
-    $scope.updFolderMobile = function () {
+    $scope.moveFileSubmit = function () {
         for (var i = 0; i < $scope.checksSelect.length; i++) {
             if ($scope.checksSelect[i].RelationType == 0) {
                 var folder = { FolderID: $scope.checksSelect[i].Id, ParentID: $scope.folder.Id };
@@ -258,15 +258,15 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         }
         resourceService.FolderRelation_List(folder, null, function (data) {
             if (data.d) {
-                $scope.mobiles = data.d;
-                //$scope.model.FolderID = $scope.mobiles[0].FolderID;
+                $scope.files = data.d;
+                //$scope.model.FolderID = $scope.files[0].FolderID;
                 for (var n = 0; n < $scope.checksSelect.length; n++) {
-                    for (var i = 0; i < $scope.mobiles.length; i++) {
-                        if ($scope.mobiles[i].RelationType == $scope.checksSelect[n].RelationType) {
-                            if ($scope.mobiles[i].Id == $scope.checksSelect[n].Id) {
-                                $scope.mobiles.splice(i, 1);
+                    for (var i = 0; i < $scope.files.length; i++) {
+                        if ($scope.files[i].RelationType == $scope.checksSelect[n].RelationType) {
+                            if ($scope.files[i].Id == $scope.checksSelect[n].Id) {
+                                $scope.files.splice(i, 1);
                             } else {
-                                mobilesDel($scope.mobiles[i].Children, $scope.checksSelect[n].Id)
+                                mobilesDel($scope.files[i].Children, $scope.checksSelect[n].Id)
                             }
                         }
                     }
@@ -316,14 +316,14 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
     //移动文件弹出框
     $scope.fireMobile = function (item) {
-        $scope.mobileIsShow = true;
+        $scope.moveShow = true;
         $scope.bgShow = true;
         $scope.mobileFolder(item);
     }
     //移动文件弹出框
     $scope.fireMobileBatch = function () {
         if ($scope.checksSelect.length == 0) return;
-        $scope.mobileIsShow = true;
+        $scope.moveShow = true;
         $scope.bgShow = true;
         $scope.mobileFolder();
     }
@@ -384,7 +384,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.close = function () {
         $scope.delIsShow = false;
         $scope.bgShow = false;
-        $scope.mobileIsShow = false;
+        $scope.moveShow = false;
         $scope.folder = {};
     }
 
