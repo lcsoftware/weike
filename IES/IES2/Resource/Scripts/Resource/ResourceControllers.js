@@ -60,7 +60,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     });
     ///课程加载完成
     $scope.$on('courseLoaded', function (course) {
-        buildPersonal(); 
+        buildPersonal();
     });
 
 
@@ -142,7 +142,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             } else {
                 $scope.folderRelations = [];
             }
-        }); 
+        });
     }
 
     //新建文件
@@ -245,7 +245,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                     }
                 });
             }
-        }        
+        }
     }
 
 
@@ -261,7 +261,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                 $scope.mobiles = data.d;
                 //$scope.model.FolderID = $scope.mobiles[0].FolderID;
                 for (var n = 0; n < $scope.checksSelect.length; n++) {
-                    for (var i = 0; i < $scope.mobiles.length; i++) {                       
+                    for (var i = 0; i < $scope.mobiles.length; i++) {
                         if ($scope.mobiles[i].RelationType == $scope.checksSelect[n].RelationType) {
                             if ($scope.mobiles[i].Id == $scope.checksSelect[n].Id) {
                                 $scope.mobiles.splice(i, 1);
@@ -270,7 +270,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                             }
                         }
                     }
-                }                
+                }
             }
         });
     }
@@ -297,7 +297,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     //        }
     //    });
     //}
-    
+
     $scope.fireProperty = function () {
         console.log('fireProperty');
     }
@@ -324,7 +324,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.fireMobileBatch = function () {
         if ($scope.checksSelect.length == 0) return;
         $scope.mobileIsShow = true;
-        $scope.bgShow = true;        
+        $scope.bgShow = true;
         $scope.mobileFolder();
     }
 
@@ -353,7 +353,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                 });
             }
         }
-        
+
     }
 
     //删除文件夹
@@ -396,5 +396,5 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             return false;
         }
         return true;
-    };    
+    };
 }]);
