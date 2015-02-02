@@ -122,7 +122,7 @@ namespace IES.G2S.Resource.BLL
 
         public File File_ADD(File model)
         {
-            return new File(); 
+            return FileDAL.File_ADD(model);
         }
 
         public bool File_FileTitle_Upd(File model)

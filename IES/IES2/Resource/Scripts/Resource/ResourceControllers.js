@@ -17,8 +17,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.model.ShareRange = -1;
     $scope.checksSelect = [];//复选框选中的值
     $scope.folders = [];//文件夹数组
-    $scope.files = [];//文件数组
-
+    
     $scope.folderRelations = [];//文件夹文件数组
 
     $scope.model.ParentID = 0;//上级ID
@@ -57,6 +56,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.model.ParentID = 0;
         $scope.model.OCID = course.OCID;
         $scope.model.CourseID = course.CourseID;
+        $scope.filterChanged();
     });
     ///课程加载完成
     $scope.$on('courseLoaded', function (course) {
@@ -259,6 +259,14 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         resourceService.FolderRelation_List(folder, null, function (data) {
             if (data.d) {
                 $scope.files = data.d;
+                
+                var file = {};
+                angular.copy(data.d[0], file);
+                file.Id = 0;
+                file.Name = '根目录';
+                file.Children = [];
+                $scope.files.insert(0, file);
+
                 //$scope.model.FolderID = $scope.files[0].FolderID;
                 for (var n = 0; n < $scope.checksSelect.length; n++) {
                     for (var i = 0; i < $scope.files.length; i++) {
@@ -270,7 +278,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                             }
                         }
                     }
-                }                
+                }
             }
         });
     }
@@ -316,8 +324,10 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
     //移动文件弹出框
     $scope.fireMobile = function (item) {
+        $scope.checksSelect.length = 0;
         $scope.moveShow = true;
         $scope.bgShow = true;
+        $scope.checksSelect.push(item);
         $scope.mobileFolder(item);
     }
     //移动文件弹出框

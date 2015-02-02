@@ -3,7 +3,7 @@
         <span>...</span>
         <ul class="mouse_right">
             <!--<li ng-click="onProperty()"><p><i class="icon data_property"></i>资料属性</p></li>-->
-            <li  bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel" ng-click="onMobile()">
+            <li bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel" ng-click="onMobile()">
                 <p><i class="icon data_move"></i>移动资料</p>
             </li>
             <!--<li ng-click="onRename()"><p><i class="icon data_rename"></i>重命名</p></li>-->
@@ -13,5 +13,12 @@
         </ul>
     </div>
     <a class="icon data_move" style="cursor:pointer" ng-click="onReturnPage(item)"></a>
-    <a class="icon data_share" href="javascript:;"></a>
+    <!--<a class="icon data_share" href="javascript:;"></a>-->
+    <a class="icon data_share" id="youlan"></a>
+    <ul class="permissions" style="margin-left:33em;margin-top:2em;">
+        <li ng-repeat="item in shareRanges">
+            <p><i class="icon"></i>{{item.name}}</p>
+        </li>
+    </ul>
+
 </div>
