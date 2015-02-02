@@ -15,7 +15,8 @@ app.directive('fileOperation', function () {
         onVideo: '&',
         onRemove: '&',
         onReturnPage: '&',
-        onMobile: '&'
+        onMobile: '&',
+        shareRanges: '='
     }
 
     directive.templateUrl = '/Components/templates/fileOperation.html';
@@ -34,6 +35,18 @@ app.directive('fileOperation', function () {
             $(this).removeClass('active');
             $(this).find('.right_obj').hide();
         });
+
+        elem.find('#youlan').hover(function () {
+            elem.find('.permissions').show();
+        }, function () {
+            elem.find('.permissions').hide();
+        })
+        
+        elem.find('.permissions li').hover(function () {
+            $(this).addClass('current').siblings().removeClass('current');
+        }, function () {
+            $(this).removeClass('current');
+        })
     }
 
     return directive;
@@ -256,13 +269,13 @@ app.directive('moveFolder', function () {
     directive.scope = {
         onMoveFileSubmit: '&',
         onClose: '&',
-        onSelectedMove:'&',
+        onSelectedMove: '&',
         files: '='
     }
 
     directive.templateUrl = '/Components/templates/moveFolder.html';
 
-    directive.link = function (scope, elem, iAttrs) {        
+    directive.link = function (scope, elem, iAttrs) {
     }
 
     return directive;

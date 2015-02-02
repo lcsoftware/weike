@@ -14,13 +14,13 @@
                             <font ng-bind="node.Name"></font>
                         </div>
                         <ol ui-tree-nodes="" ng-model="node.Children" ng-class="{hidden: collapsed}">
-                            <li ng-repeat="node in node.Children" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)">
+                            <li ng-repeat="node in node.Children" nodrag ui-tree-node ng-include="'nodes_renderer.html'" >
                             </li>
                         </ol>
                     </script>
                     <div ui-tree id="tree-root">
                         <ol ui-tree-nodes="" ng-model="mobile">
-                            <li ng-repeat="node in files" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ng-show="visible(node)"></li>
+                            <li ng-repeat="node in files" nodrag ui-tree-node ng-include="'nodes_renderer.html'" ></li>
                         </ol>
                     </div>
                 </dd>
