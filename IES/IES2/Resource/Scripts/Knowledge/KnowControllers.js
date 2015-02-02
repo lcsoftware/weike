@@ -40,9 +40,9 @@ appKnow.controller('KnowledgeCtrl', ['$scope', '$state', 'contentService', 'know
             model.OCID = course.OCID;
             model.CouseID = course.CourseID;
             chapterService.Chapter_List(model, function (data) {
-                $scope.ocChapters = data.d;
-                if ($scope.ocChapters.length > 0) {
-                    $scope.aKnowledge.chapter = $scope.ocChapters[0];
+                $scope.chapters = data.d;
+                if ($scope.chapters.length > 0) {
+                    $scope.aKnowledge.chapter = $scope.chapters[0];
                 }
             });
         }
