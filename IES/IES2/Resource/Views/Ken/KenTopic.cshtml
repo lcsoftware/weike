@@ -1,0 +1,10 @@
+﻿<div class="all_knowledge">
+    <dl class="knowledge_list">
+        <dt>全部知识点</dt>
+        <dd ng-class="{'active':dataKen.KenID==item.KenID}" ng-repeat="item in kens"><a ng-click="kenFocus(item)" ng-bind="item.Name"></a>
+</dl>
+    <dl class="knowledge_list">
+        <dt>关联章节</dt>
+        <dd ng-repeat="item in chapters"><a ng-click="chapterFocus(item)" ng-class="{'active':dataChapter.ChapterID===item.ChapterID}" ng-bind="item.Title"></a></dd>
+    </dl>
+</div> 

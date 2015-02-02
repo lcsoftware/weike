@@ -19,31 +19,11 @@ namespace App.Resource.DataProvider.Chapter
     using IES.G2S.Resource.BLL;
     public partial class ChapterProvider : System.Web.UI.Page
     {
-        //章节排序初始值
-        private const int START = 100000;
-        //章节对象排序字段步长
-        private const int STEP = 500;
-
         [WebMethod]
         public static IList<Chapter> Chapter_List(Chapter model)
         {
             return new ChapterBLL().Chapter_List(model); 
         } 
-
-        [WebMethod]
-        public static Chapter Chapter_Get()
-        {
-            return new Chapter();
-        }
-
-        [WebMethod]
-        public static Chapter Save(Chapter model)
-        {
-            var chapters = Chapter_List(model);
-            var brothers = from v in chapters where v.ParentID == model.ParentID orderby v.Orde select v;
-            model.Orde = brothers.Any() ? brothers.Last().Orde + STEP : START; 
-            return new ChapterBLL().Chapter_ADD(model);
-        }
 
         [WebMethod]
         public static Chapter Chapter_ADD(Chapter model)
@@ -97,8 +77,7 @@ namespace App.Resource.DataProvider.Chapter
         {
             Chapter chapter = new Chapter();
             chapter.ChapterID = chapterId;
-            chapter.CreateUserID = 0;
-
+            chapter.CreateUserID = IES.Service.UserService.CurrentUser.UserID; 
             Ken ken = new Ken() { KenID = kenId };
             return new ChapterBLL().Chapter_File_List(chapter, ken);
         }
@@ -106,7 +85,9 @@ namespace App.Resource.DataProvider.Chapter
         [WebMethod]
         public static IList<Exercise> Chapter_Exercise_List(int chapterId, int kenId)
         {
-            Chapter chapter = new Chapter() { ChapterID = chapterId };
+            Chapter chapter = new Chapter();
+            chapter.ChapterID = chapterId;
+            chapter.CreateUserID = IES.Service.UserService.CurrentUser.UserID; 
             Ken ken = new Ken() { KenID = kenId };
             return new ChapterBLL().Chapter_Exercise_List(chapter, ken);
         }

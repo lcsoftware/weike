@@ -278,8 +278,8 @@
     <Content Include="Scripts\Common\services.js" />
     <Content Include="Scripts\Common\tools.js" />
     <Content Include="Scripts\Home\HomeControllers.js" />
-    <Content Include="Scripts\Knowledge\KnowControllers.js" />
-    <Content Include="Scripts\Knowledge\KnowService.js" />
+    <Content Include="Scripts\Ken\kenControllers.js" />
+    <Content Include="Scripts\Ken\kenService.js" />
     <Content Include="Scripts\Exercise\ExerciseControllers.js" />
     <Content Include="Scripts\Exercise\ExerciseService.js" />
     <Content Include="Scripts\PageAffect\index.js" />
@@ -317,9 +317,9 @@
     <Content Include="Views\Paper\AddSmart.cshtml" />
     <Content Include="Views\Paper\AddTest.cshtml" />
     <Content Include="Views\Paper\AddSheet.cshtml" />
-    <Content Include="Views\Knowledge\KnowledgeChapter.cshtml" />
-    <Content Include="Views\Knowledge\KnowledgeTopic.cshtml" />
-    <Content Include="Views\Knowledge\Knowledge.cshtml" />
+    <Content Include="Views\Ken\KenChapter.cshtml" />
+    <Content Include="Views\Ken\KenTopic.cshtml" />
+    <Content Include="Views\Ken\Ken.cshtml" />
     <Content Include="Views\Exercise\ShortAnswer.cshtml">
       <SubType>
       </SubType>

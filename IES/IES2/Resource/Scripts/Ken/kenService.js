@@ -1,8 +1,8 @@
 ﻿'use strict';
 
-var aService = angular.module('app.knowledge.services', []);
+var aService = angular.module('app.ken.services', []);
 
-aService.factory('knowledgeService', ['httpService', function (httpService) {
+aService.factory('kenService', ['httpService', function (httpService) {
     var service = {};
 
     var knowProviderUrl = '/DataProvider/Knowledge/KnowProvider.aspx';

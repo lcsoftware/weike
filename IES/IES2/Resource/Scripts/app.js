@@ -64,11 +64,11 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
            
 
         //知识点 
-        .state('content.knowledge', { url: '/knowledge', templateUrl: '/views/Knowledge/Knowledge', controller: 'KnowledgeCtrl' })
+        .state('content.ken', { url: '/ken', templateUrl: '/views/Ken/Ken', controller: 'KenCtrl' })
         //知识点 按章节
-        .state('content.knowledge.chapter', { url: '/chapter', templateUrl: '/views/Knowledge/KnowledgeChapter', controller: 'KnowChapterCtrl' })
+        .state('content.ken.chapter', { url: '/chapter', templateUrl: '/views/Ken/KenChapter', controller: 'KenChapterCtrl' })
         //知识点 按知识点
-        .state('content.knowledge.topic', { url: '/topic', templateUrl: '/views/Knowledge/KnowledgeTopic', controller: 'KnowTopicCtrl' })
+        .state('content.ken.topic', { url: '/topic', templateUrl: '/views/Ken/KenTopic', controller: 'KenTopicCtrl' })
  
         .state('otherwise', {
             url: '*path',

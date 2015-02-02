@@ -5,29 +5,27 @@
             <li ui-sref-active="active"><a ui-sref="content.knowledge.chapter">按章节</a></li>
         </ul>
     </div>
-    <add-knowledge id="eByKnowledge" style="display:none;"
-                   knowledge="aKnowledge.name"
-                   chapter="aKnowledge.chapter"
+    <add-knowledge id="eKen" style="display:none;"
+                   knowledge="ken.name"
+                   chapter="ken.chapter"
                    chapters="chapters"
                    require-ment="requireMent"
                    require-ments="requireMents"
-                   on-save-new="aKnowledge.saveNew(aKnowledge)"
-                   on-save="aKnowledge.save(aKnowledge)"
-                   on-cancel="aKnowledge.cancel()">
+                   on-save-new="kenSave(ken, true)"
+                   on-save="kenSave(ken, false)">
     </add-knowledge>
-    <add-chapter id="eByChapter" style="display:none;"
-                 chapter-name="aChapter.name"
-                 knowledge="aChapter.knowledge"
+    <add-chapter id="eChapter" style="display:none;"
+                 chapter-name="chapter.name"
+                 knowledge="chapter.ken"
                  knowledges="kens"
                  require-ment="requireMent"
                  require-ments="requireMents"
-                 on-save-new="aChapter.saveNew(aChapter)"
-                 on-save="aChapter.save(aChapter)"
-                 on-cancel="aChapter.cancel()">
+                 on-save-new="chapterSave(chapter, true)"
+                 on-save="chapterSave(chapter, false)">
     </add-chapter>
     <div class="exercise_btn">
-        <a class="topic_import" dialog-show dialog-id="eByKnowledge"><em><i class="icon"></i></em><span>添加知识点</span></a>
-        <a class="topic_import" dialog-show dialog-id="eByChapter"><em><i class="icon"></i></em><span>添加章节</span></a>
+        <a class="topic_import" dialog-show dialog-id="eKen"><em><i class="icon"></i></em><span>添加知识点</span></a>
+        <a class="topic_import" dialog-show dialog-id="eChapter"><em><i class="icon"></i></em><span>添加章节</span></a>
     </div>
 </div>
 <p class="guide_word">点击左侧[章节]，查看该章节右侧关联知识点</p>
@@ -40,17 +38,17 @@
             <a ng-class="{'active':knowSelection.KenID==knowledge.KenID}" ng-repeat="knowledge in ocKnowledges" ng-click="knowSelected(knowledge)" ng-bind="knowledge.Name"></a>
         </div>
         <ul class="chapter_list">
-            <li ng-class="{active:association.selection == 1}"><a ng-click="association.linkDoc()">关联资料</a></li>
-            <li ng-class="{active:association.selection == 2}"><a ng-click="association.linkExercise()">关联习题</a></li>
-            <li ng-class="{active:association.selection == 3}"><a ng-click="association.linkTopic()">关联话题</a></li>
+            <li ng-class="{'active':tab == 1}"><a ng-click="tabChange(1)">关联资料</a></li>
+            <li ng-class="{'active':tab == 2}"><a ng-click="tabChange(2)">关联习题</a></li>
+            <li ng-class="{'active':tab == 3}"><a ng-click="tabChange(3)">关联话题</a></li>
         </ul>
-        <div ng-class="{'connect_item':association.selection!=1}">
+        <div ng-class="{'connect_item':tab!=1}">
             <table class="data_list">
                 <tr>
                     <th width="460">文件名称</th>
                     <th>创建人</th>
                 </tr>
-                <tr ng-repeat="item in chapterFiles">
+                <tr ng-repeat="item in linkFiles">
                     <td>
                         <p class="file_data"><i class="icon_24 doc"></i><span ng-bind="item.FileTitle"></span></p>
                     </td>
@@ -59,13 +57,13 @@
             </table>
         </div>
 
-        <div ng-class="{'connect_item':association.selection!=2}">
+        <div ng-class="{'connect_item':tab!=2}">
             <ul class="topic_list">
-                <exercise-list ng-repeat="item in chapterExercises" exercise="item" edit-exercise="editExercise(item)" share-exercise="shareExercise(item)" delete-exercise="deleteExercise(item)"></exercise-listng-repeat>
+                <exercise-list ng-repeat="item in linkExercises" exercise="item" edit-exercise="editExercise(item)" share-exercise="shareExercise(item)" delete-exercise="deleteExercise(item)"></exercise-listng-repeat>
             </ul>
         </div>
 
-        <div ng-class="{'connect_item':association.selection!=3}">
+        <div ng-class="{'connect_item':tab!=3}">
             <ul class="connect_topic">
                 <li>
                     <img src="http://placehold.it/40x40/cccccc" width="40" height="40" />
