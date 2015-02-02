@@ -22,7 +22,7 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static List<Chapter> Chapter_List(int OCID)
+        public static List<Chapter> Chapter_List_ByKen(int OCID)
         {
             try
             {
@@ -59,8 +59,7 @@ namespace IES.G2S.Resource.DAL
             catch (Exception e)
             {
                 return null;
-            }
-
+            } 
         }
 
         /// <summary>
