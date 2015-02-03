@@ -8,7 +8,7 @@ var appKnow = angular.module('app.knowledge.controllers', [
     'app.assist.services',
 ]);
 
-appKnow.controller('kenCtrl', ['$scope', '$state', 'contentService', 'kenService', 'chapterService', 'assistService', 'resourceKenService',
+appKnow.controller('KenCtrl', ['$scope', '$state', 'contentService', 'kenService', 'chapterService', 'assistService', 'resourceKenService',
     function ($scope, $state, contentService, kenService, chapterService, assistService, resourceKenService) {
 
         $scope.$emit('willResetCourse');
@@ -271,6 +271,7 @@ appKnow.controller('KenChapterCtrl', ['$scope', 'chapterService', function ($sco
 
     $scope.$parent.kenDisable = true;
     $scope.canAdd = false;
+    $scope.title = '';
 
     $scope.knowNoLimit = function () {
         $scope.knowSelection = { KenID: 0 };
@@ -283,15 +284,15 @@ appKnow.controller('KenChapterCtrl', ['$scope', 'chapterService', function ($sco
     }
 
     ///添加章节输入框失去焦点
-    $scope.onBlurAdd = function (title) {
-        var newChapter = {};
-        newChapter.OCID = $scope.course.OCID;
-        newChapter.CourseID = $scope.course.CourseID;
-        newChapter.Title = title;
-
-        chapterService.Chapter_ADD($scope.ocChapters, newChapter, function (data) {
+    $scope.onBlur = function (title) {
+        var newChapter = {
+            OCID: $scope.course.OCID,
+            CourseID: $scope.course.OCID,
+            Title: title
+        }; 
+        chapterService.Chapter_ADD(newChapter, function (data) {
             if (data.d) {
-                $scope.ocChapters.push(data.d);
+                $scope.chapters.push(data.d);
                 $scope.title = '';
                 $scope.canAdd = false;
             }
@@ -299,10 +300,10 @@ appKnow.controller('KenChapterCtrl', ['$scope', 'chapterService', function ($sco
     }
 
     var findById = function (chapterId) {
-        var length = $scope.ocChapters.length;
+        var length = $scope.chapters.length;
         for (var i = 0; i < length; i++) {
-            if ($scope.ocChapters[i].ChapterID === chapterId) {
-                return $scope.ocChapters[i];
+            if ($scope.chapters[i].ChapterID === chapterId) {
+                return $scope.chapters[i];
             }
         }
     }
@@ -311,7 +312,7 @@ appKnow.controller('KenChapterCtrl', ['$scope', 'chapterService', function ($sco
         if (!$scope.selection) return;
         chapterService.Chapter_Move($scope.selection, direction, function (data) {
             if (data.d) {
-                $scope.ocChapters = data.d;
+                $scope.chapters = data.d;
             }
         });
     }
@@ -320,10 +321,10 @@ appKnow.controller('KenChapterCtrl', ['$scope', 'chapterService', function ($sco
         if ($scope.chapterSelection) {
             chapterService.Chapter_Del($scope.chapterSelection, function (data) {
                 if (data.d === true) {
-                    var length = $scope.ocChapters.length;
+                    var length = $scope.chapters.length;
                     for (var i = 0; i < length; i++) {
-                        if ($scope.ocChapters[i].ChapterID === $scope.chapterSelection.ChapterID) {
-                            $scope.ocChapters.splice(i, 1);
+                        if ($scope.chapters[i].ChapterID === $scope.chapterSelection.ChapterID) {
+                            $scope.chapters.splice(i, 1);
                             break;
                         }
                     }
@@ -334,7 +335,8 @@ appKnow.controller('KenChapterCtrl', ['$scope', 'chapterService', function ($sco
 
 }]);
 
-appKnow.controller('KenTopicCtrl', ['$scope', 'resourceKenService', function ($scope, resourceKenService) {
+appKnow.controller('KenTopicCtrl', ['$scope', 'resourceKenService', 'chapterService', 'kenService',
+    function ($scope, resourceKenService, chapterService, kenService) {
 
     $scope.$parent.kenDisable = false;
 

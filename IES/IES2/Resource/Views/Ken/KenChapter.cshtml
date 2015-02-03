@@ -8,7 +8,7 @@
         <a class="icon delete_icon" ng-click="delete()"></a>
     </div>
     <ul class="chapter_item">
-        <li ng-class="{'active':parentChapter.ChapterID===item.ChapterID}" ng-repeat="item in ocChapters | parentID:0 | orderBy:'Orde'">
+        <li ng-repeat="item in ocChapters | parentID:0 | orderBy:'Orde'">
             <a class="first_chapter" ng-click="parentSelected(item)">
                 {{item.Title}}
                 <i class="icon fold_btn"></i>
@@ -21,7 +21,7 @@
         </li>
         <li ng-show="canAdd">
             <a class="first_chapter" >
-                <input type="text" ng-model="title" placeholder="请输入章节标题" ng-blur="onBlurAdd(title)" autofocus>
+                <input type="text" ng-model="title" placeholder="请输入章节标题" ng-blur="onBlur(title)" autofocus>
             </a>
         </li>
     </ul>
