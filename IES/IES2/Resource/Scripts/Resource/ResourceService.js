@@ -38,6 +38,10 @@ aService.factory('resourceService', ['httpService', function (httpService) {
     service.File_FolderID_Upd = function (file, callback) {
         httpService.ajaxPost(url, 'File_FolderID_Upd', { file: file }, callback);
     }
+    //批量设置文件使用权限
+    service.File_Batch_ShareRange = function (IDS, callback) {
+        httpService.ajaxPost(url, 'File_Batch_ShareRange', { IDS: IDS }, callback);
+    }
 
     //查询文件夹
     service.Folder_List = function (folder, callback) {

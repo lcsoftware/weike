@@ -110,6 +110,17 @@ namespace App.Resource.DataProvider.Resource
         {
             return new FileBLL().File_FolderID_Upd(file);
         }
+
+        /// <summary>
+        /// 批量设置使用权限
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool File_Batch_ShareRange(string IDS)
+        {
+            return new FileBLL().File_Batch_ShareRange(IDS);
+        }
         #endregion
 
         #region FolderRelation
@@ -128,8 +139,10 @@ namespace App.Resource.DataProvider.Resource
             if(file != null)
             {
                 file.FolderID = folder.ParentID;
+                file.UploadTime = DateTime.Now.AddMonths(-1);
             }            
             IList<File> allFiles = new FileBLL().File_Search(file);
+
             IList<FolderRelation> allFolderRelations = new List<FolderRelation>();
             //TODO
 
@@ -165,14 +178,15 @@ namespace App.Resource.DataProvider.Resource
             foreach (var root in allFolderRelations)
             {
                 if (folder.ParentID == -1) folder.ParentID = 0;
-                if (root.RelationType == FileType.Folder)
-                {
-                    if (root.ParentID == folder.ParentID) roots.Add(root);
-                }
-                else
-                {
-                    roots.Add(root);
-                }
+                if (root.ParentID == folder.ParentID) roots.Add(root);
+                //if (root.RelationType == FileType.Folder)
+                //{
+                //    if (root.ParentID == folder.ParentID) roots.Add(root);
+                //}
+                //else
+                //{
+                //    roots.Add(root);
+                //}
             }
             foreach (var root in roots)
             {

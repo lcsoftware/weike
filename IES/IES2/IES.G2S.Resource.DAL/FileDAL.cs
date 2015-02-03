@@ -445,28 +445,36 @@ namespace IES.G2S.Resource.DAL
 
         #region 属性批量操作
 
-        public static bool File_Batch_ShareRange(List<File> filelist)
+        public static bool File_Batch_ShareRange(string IDS)
         {
             try
             {
                 using (var conn = DbHelper.ResourceService())
                 {
-                    var recordparam = new List<SqlDataRecord>();
-                    var recordcolumn = new[]
-                    {
-                        new SqlMetaData("id", SqlDbType.Int)
-                    };
-                    foreach (var r in filelist)
-                    {
-                        var record = new SqlDataRecord(recordcolumn);
-                        record.SetInt32(0, r.FileID);
-                        recordparam.Add(record);
-                    }
-
-                    var ids = new TableValueParameter("@ids", "IDList", recordparam);
-                    conn.Execute("File_Batch_ShareRange", ids, commandType: CommandType.StoredProcedure);
+                    var p = new DynamicParameters();
+                    p.Add("@IDS", IDS);
+                    conn.Execute("File_Batch_ShareRange", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }
+
+                //using (var conn = DbHelper.ResourceService())
+                //{
+                //    var recordparam = new List<SqlDataRecord>();
+                //    var recordcolumn = new[]
+                //    {
+                //        new SqlMetaData("id", SqlDbType.Int)
+                //    };
+                //    foreach (var r in filelist)
+                //    {
+                //        var record = new SqlDataRecord(recordcolumn);
+                //        record.SetInt32(0, r.FileID);
+                //        recordparam.Add(record);
+                //    }
+
+                //    var ids = new TableValueParameter("@ids", "IDList", recordparam);                    
+                //    conn.Execute("File_Batch_ShareRange", ids, commandType: CommandType.StoredProcedure);
+                //    return true;
+                //}
             }
             catch (Exception e)
             {

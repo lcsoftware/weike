@@ -30,6 +30,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.folder = {};//文件夹对象
 
     $scope.fileShow = false;//是否显示
+    
 
     var buildPersonal = function () {
         contentService.OC_Get(function (data) {
@@ -112,7 +113,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $scope.shareRanges = data.d;
             $scope.shareRanges.insert(0, item);
         }
-    });
+    });    
 
 
     //复选框值
@@ -121,7 +122,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $scope.checksSelect.push(file);
         } else {
             $scope.checksSelect.splice($.inArray(file, $scope.checksSelect), 1);
-        }
+        }        
     }
     //全选
     $scope.checkALL = function () {
@@ -147,11 +148,14 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     //新建文件
     $scope.AddFile = function () {
-        if ($scope.folderRelation == null) return;
         var file = {};
-        file.FolderID = $scope.folderRelation.Id;
-        file.OCID = $scope.folderRelation.OCID;
-        file.CourseID = $scope.folderRelation.CourseID;
+        if ($scope.folderRelation == null) {
+            file.FolderID = 0;
+        } else {
+            file.FolderID = $scope.folderRelation.Id;
+        }        
+        file.OCID = $scope.model.OCID;
+        file.CourseID = $scope.model.CourseID;
         file.ShareRange = -1;
         file.FileTitle = '1';
         file.FileName = '1';
@@ -263,8 +267,8 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                 var file = {};
                 angular.copy(data.d[0], file);
                 file.Id = 0;
+                file.ParentID = -1;
                 file.Name = '根目录';
-                file.Children = [];
                 $scope.files.insert(0, file);
 
                 //$scope.model.FolderID = $scope.files[0].FolderID;
@@ -279,6 +283,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                         }
                     }
                 }
+                
             }
         });
     }
@@ -397,8 +402,18 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.moveShow = false;
         $scope.folder = {};
     }
-
-
+    //批量设置使用权限
+    $scope.batchShareRange = function(item){
+        var IDS = '';
+        for (var i = 0; i < $scope.checksSelect.length; i++) {
+            if ($scope.checksSelect[i].RelationType == 1) {
+                IDS = $scope.checksSelect[i].Id + ',';                
+            }
+        }
+        IDS = IDS.substr(0, IDS.length - 1);
+        resourceService.File_Batch_ShareRange(IDS, function (data) {
+        });
+    }
 
     $scope.visible = function (item) {
         if ($scope.query && $scope.query.length > 0
@@ -406,5 +421,17 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             return false;
         }
         return true;
-    };    
+    };
+
+    $('.batch_list li').hover(function () {
+        $(this).addClass('active').siblings().removeClass('active');
+    }, function () {
+        $(this).removeClass('active');
+    })
+    $('.permissions li').hover(function () {
+        $(this).addClass('current').siblings().removeClass('current');
+    }, function () {
+        $(this).removeClass('current');
+    })
+
 }]);

@@ -5,7 +5,7 @@
         <li>
             浏览权限
             <ul class="permissions">
-                <li ng-repeat="item in shareRanges">
+                <li ng-repeat="item in shareRanges" ng-click="onSub(item)">
                     <p><i class="icon"></i>{{item.name}}</p>
                 </li>
             </ul>

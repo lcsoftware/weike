@@ -135,9 +135,9 @@ namespace IES.G2S.Resource.BLL
             return true;
         }
 
-        public bool File_Batch_ShareRange(List<File> filelist)
+        public bool File_Batch_ShareRange(string IDS)
         {
-            return true;
+            return FileDAL.File_Batch_ShareRange(IDS);
         }
 
         public bool File_Attribute(File model, List<Chapter> chapterlist, List<Ken> kenlist)

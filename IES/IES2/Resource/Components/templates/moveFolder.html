@@ -7,7 +7,7 @@
             <dl class="folder">
                 <dd>
                     <script type="text/ng-template" id="nodes_renderer.html">
-                        <div ui-tree-handle class="tree-node tree-node-content" ng-click="onSelectedMove(node)" ng-class="{mobileSelected:node.Id==folder.Id}">
+                        <div ui-tree-handle class="tree-node tree-node-content" ng-click="onSelectedMove(this)" ng-class="{mobileSelected:node.Id==folder.Id}">
                             <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)">
                                 <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
                             </a>

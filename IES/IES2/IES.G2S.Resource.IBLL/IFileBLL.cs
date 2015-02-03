@@ -138,7 +138,7 @@ namespace IES.G2S.Resource.IBLL
 
         #region 属性批量操作
 
-        bool File_Batch_ShareRange(List<File> model);
+        bool File_Batch_ShareRange(string model);
 
         #endregion
 

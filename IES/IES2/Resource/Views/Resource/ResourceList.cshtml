@@ -7,9 +7,26 @@
         <span class="sort_box">[筛选]</span>
         <a class="topic_import" ng-click="AddFile()"><em><i class="icon"></i></em><span>上传文件</span></a>
         <a href="javascript:;" ng-click="AddFolder()"><em><i class="icon"></i></em><span>新建文件夹</span></a>
-        <batch-operation share-ranges="shareRanges" on-fire-remove-all="fireRemoveAll()"
-                         on-fire-mobile-batch="fireMobileBatch()">
-        </batch-operation>
+        @*<batch-operation share-ranges="shareRanges" on-fire-remove-all="fireRemoveAll()"
+                         on-fire-mobile-batch="fireMobileBatch()" on-sub="sub()">
+        </batch-operation>*@
+        <a class="batch_box" href="javascript:;">
+            <em><i class="icon"></i></em>
+            <span>批量操作</span>
+            <ul class="batch_list">
+                <li>
+                    浏览权限
+                    <ul class="permissions">
+                        <li ng-repeat="item in shareRanges" ng-click="batchShareRange(item)">
+                            <p><i class="icon"></i>{{item.name}}</p>
+                        </li>
+                    </ul>
+                </li>
+                <li class="batch_share">批量共享</li>
+                <li class="batch_move" ng-click="fireMobileBatch()">批量移动</li>
+                <li class="batch_delete" ng-click="fireRemoveAll()">批量删除</li>
+            </ul>
+        </a>
         <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="model.searchKey"><span class="icon" ng-click="filterChanged();"></span></p>
     </div>
 </div>
@@ -60,7 +77,7 @@
                 <input type="checkbox" checklist-model="checks" checklist-value="item" ng-click="checkAdd(item)">
                 <folder folder-name="item.Name" folder-ext="item.Ext" on-open="folderClick(item)" on-blur="updFolderName(item)"></folder>
                 <file-operation on-property="fireProperty()" on-remove="fireRemove(item)" on-return-page="returnPage(item)"
-                                on-mobile="fireMobile(item)" share-ranges="shareRanges">
+                                on-mobile="fireMobile(item)" share-ranges="shareRanges">                               
                 </file-operation>
             </div>
         </td>
@@ -85,5 +102,37 @@
 
 <div class="pop_bg" ng-show="bgShow"></div>
 
-<move-folder ng-show="moveShow" on-move-file="moveFileSubmit()" on-selected-move="selectedMove()"
-             on-close="close()" files="files"></move-folder>
+@*<move-folder ng-show="moveShow" on-move-file="moveFileSubmit()" on-selected-move="selectedMove()"
+    on-close="close()" files="files"></move-folder>*@
+<div class="pop_400" ng-show="moveShow">
+    <h4>移动文件</h4>
+    <span class="icon close_pop" ng-click="close()"></span>
+    <div class="pop_wrap">
+        <dl class="folder">
+            <dd>
+                <script type="text/ng-template" id="nodes_renderer.html">
+                    <div ui-tree-handle class="tree-node tree-node-content" ng-click="selectedMove(node)" ng-class="{mobileSelected:node.Id==folder.Id}">
+                        <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)">
+                            <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
+                        </a>
+                        <font ng-bind="node.Name"></font>
+                    </div>
+                    <ol ui-tree-nodes="" ng-model="node.Children" ng-class="{hidden: collapsed}">
+                        <li ng-repeat="node in node.Children" nodrag ui-tree-node ng-include="'nodes_renderer.html'">
+                        </li>
+                    </ol>
+                </script>
+                <div ui-tree id="tree-root">
+                    <ol ui-tree-nodes="" ng-model="mobile">
+                        <li ng-repeat="node in files" nodrag ui-tree-node ng-include="'nodes_renderer.html'"></li>
+                    </ol>
+                </div>
+            </dd>
+        </dl>
+        <div class="btn_box">
+            <a class="save" ng-click="moveFileSubmit()">确定</a>
+            <a class="cancel" ng-click="close()">取消</a>
+        </div>
+    </div>
+</div>
+

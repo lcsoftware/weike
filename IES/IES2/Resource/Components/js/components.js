@@ -265,6 +265,7 @@ app.directive('moveFolder', function () {
     var directive = {};
 
     directive.restrict = 'EA';
+    directive.replace = true;
 
     directive.scope = {
         onMoveFileSubmit: '&',
