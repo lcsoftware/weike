@@ -16,7 +16,7 @@ namespace IES.G2S.Resource.BLL
         #region  列表
         public List<Chapter> Chapter_List(int OCID)
         {
-            return ChapterDAL.Chapter_List(OCID);
+            return ChapterDAL.Chapter_List(new Chapter() { OCID = OCID });
         }
 
         public IList<Chapter> Chapter_List(Chapter model)
