@@ -17,7 +17,7 @@
     <add-chapter id="eChapter" style="display:none;"
                  chapter-name="chapter.name"
                  knowledge="chapter.ken"
-                 knowledges="kens"
+                 knowledges="ocKens"
                  require-ment="requireMent"
                  require-ments="requireMents"
                  on-save-new="chapterSave(chapter, true)"
@@ -34,8 +34,7 @@
 
     <div class="chapter_box">
         <div class="filter_knowledge" ng-show="kenDisable">
-            <a ng-class="{'active':knowSelection.KenID==0}" ng-click="knowNoLimit()">全部</a>
-            <a ng-class="{'active':knowSelection.KenID==knowledge.KenID}" ng-repeat="knowledge in ocKnowledges" ng-click="knowSelected(knowledge)" ng-bind="knowledge.Name"></a>
+            <a ng-class="{'active':kenSelection.KenID==item.KenID}" ng-repeat="item in kens" ng-click="kenSelected(item)" ng-bind="item.Name"></a>
         </div>
         <ul class="chapter_list">
             <li ng-class="{'active':tab == 1}"><a ng-click="tabChange(1)">关联资料</a></li>

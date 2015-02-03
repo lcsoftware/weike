@@ -90,6 +90,6 @@ namespace App.Resource.DataProvider.Chapter
             chapter.CreateUserID = IES.Service.UserService.CurrentUser.UserID; 
             Ken ken = new Ken() { KenID = kenId };
             return new ChapterBLL().Chapter_Exercise_List(chapter, ken);
-        }
+        } 
     }
 }

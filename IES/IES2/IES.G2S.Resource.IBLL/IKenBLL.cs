@@ -21,5 +21,6 @@ namespace IES.G2S.Resource.IBLL
         List<Ken> ExerciseOrFile_Ken_List(string SearchKey, string Source, int UserID, int TopNum,int OCID);
 
         List<Ken> Ken_ExerciseCount_List(int OCID, int UserID, int ExerciseType, int Diffcult);
+        IList<Chapter> Ken_Chapter_List(int kenId);
     }
 }

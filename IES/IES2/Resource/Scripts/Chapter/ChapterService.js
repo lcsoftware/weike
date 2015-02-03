@@ -23,8 +23,8 @@ aService.factory('chapterService', ['httpService', function (httpService) {
         httpService.ajaxPost(chapterProviderUrl, 'Chapter_Exercise_List', { chapterId: chapterId, kenId: kenId }, callback);
     }
 
-    service.Chapter_ADD = function (chapters, model, callback) {
-        var param = { chapters: chapters, model: model };
+    service.Chapter_ADD = function (model, callback) {
+        var param = { model: model };
         httpService.ajaxPost(chapterProviderUrl, 'Chapter_ADD', param, callback);
     }
 
@@ -40,12 +40,8 @@ aService.factory('chapterService', ['httpService', function (httpService) {
         httpService.ajaxPost(chapterProviderUrl, 'Chapter_Batch_Upd', { models: models }, callback);
     } 
 
-    service.save = function (model, callback) { 
-        httpService.ajaxPost(chapterProviderUrl, 'Save', { model: model }, callback);
-    } 
-
     service.Chapter_Move = function (chapter, direction, callback) {
-        httpService.ajaxPost(chapterProviderUrl, 'Chapter_Move', { chapter: chapter, direction: direction}, callback);
+        httpService.ajaxPost(chapterProviderUrl, 'Chapter_Move', { model: chapter, direction: direction}, callback);
     }
 
     return service;

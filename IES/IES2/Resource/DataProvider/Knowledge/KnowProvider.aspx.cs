@@ -19,11 +19,6 @@ namespace App.Resource.DataProvider.Knowledge
     using IES.G2S.Resource.BLL;
     public partial class KnowProvider : System.Web.UI.Page
     {
-        [WebMethod]
-        public static Ken Ken_Get()
-        {
-            return new Ken();
-        }
 
         [WebMethod]
         public static IList<Ken> Ken_List(Ken model)
@@ -49,6 +44,10 @@ namespace App.Resource.DataProvider.Knowledge
             return new KenBLL().Ken_Del(model);
         }
 
-        
+        [WebMethod]
+        public static IList<Chapter> Ken_Chapter_List(Ken model)
+        {
+            return new KenBLL().Ken_Chapter_List(model.KenID);
+        } 
     }
 }

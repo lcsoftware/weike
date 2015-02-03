@@ -58,5 +58,10 @@ namespace IES.G2S.Resource.BLL
         {
             return KenDAL.Ken_ExerciseCount_List(OCID, UserID, ExerciseType, Diffcult);
         }
+
+        public IList<Chapter> Ken_Chapter_List(int kenId)
+        {
+            return KenDAL.Ken_Chapter_List(new Ken() { KenID = kenId }); 
+        }
     }
 }

@@ -14,9 +14,15 @@ namespace IES.G2S.Resource.IBLL
         
         #endregion
 
+        #region Del
+        bool ResourceKen_Del(ResourceKen model);
+
+        #endregion
+
         #region List 
-        IList<ResourceKen> ResourceKen_List_OCID(int ocid); 
-        
+        IList<ResourceKen> ResourceKen_List_Source(int ocid, string source);
+
+        IList<ResourceKen> ResourceKen_List(string searchKey, string source, int userId, int topNum);
         #endregion
 
 

@@ -41,6 +41,30 @@ namespace IES.G2S.Resource.DAL
         }
 
         /// <summary>
+        /// 获取知识点相关章节列表
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static List<Chapter> Ken_Chapter_List(Ken model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@KenID", model.KenID);
+                    return conn.Query<Chapter>("Ken_Chapter_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+        
+
+        /// <summary>
         /// 获取文件、习题相关有效知识点 
         /// </summary>
         /// <param name="SearchKey"></param>

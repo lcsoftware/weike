@@ -29,6 +29,7 @@ aService.factory('httpService', ['$http', '$q', function ($http, $q) {
                 }
             })
             .error(function (reason) {
+                console.log(reason);
                 if (errFn) {
                     errFn(reason);
                 }

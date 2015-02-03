@@ -76,8 +76,9 @@ namespace IES.G2S.Resource.DAL
         /// 知识点关联列表
         /// </summary>
         /// <param name="model"></param>
+        /// <param name="source">Chapter, Exercise, File</param>
         /// <returns></returns>
-        public static IList<ResourceKen> ResourceKen_List_OCID(int ocid) 
+        public static IList<ResourceKen> ResourceKen_List_Source(int ocid, string source) 
         {
             try
             {
@@ -85,6 +86,7 @@ namespace IES.G2S.Resource.DAL
                 {
                     var p = new DynamicParameters();
                     p.Add("@OCID", ocid);
+                    p.Add("@Source", source);
                     return conn.Query<ResourceKen>("ResourceKen_List_OCID", p, commandType: CommandType.StoredProcedure).ToList();
                 }
             }

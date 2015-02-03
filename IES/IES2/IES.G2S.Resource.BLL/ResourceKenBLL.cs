@@ -23,9 +23,9 @@ namespace IES.G2S.Resource.BLL
         {
             return ResourceKenDAL.ResourceKen_List(searchKey, source, userId, topNum);
         }
-        public IList<ResourceKen> ResourceKen_List_OCID(int ocid)
+        public IList<ResourceKen> ResourceKen_List_Source(int ocid, string source) 
         {
-            return ResourceKenDAL.ResourceKen_List_OCID(ocid); 
+            return ResourceKenDAL.ResourceKen_List_Source(ocid, source); 
         }
     }
 }

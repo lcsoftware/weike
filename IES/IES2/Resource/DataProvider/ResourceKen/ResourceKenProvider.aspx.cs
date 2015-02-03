@@ -17,9 +17,9 @@ namespace App.Resource.DataProvider.ResourceKen
             return new ResourceKenBLL().ResourceKen_ADD(model);
         }
         [WebMethod]
-        public static IList<IES.Resource.Model.ResourceKen> ResourceKen_List_OCID(int ocid)
+        public static IList<IES.Resource.Model.ResourceKen> ResourceKen_List_Source(int ocid, string source)
         {
-            return new ResourceKenBLL().ResourceKen_List_OCID(ocid); 
+            return new ResourceKenBLL().ResourceKen_List_Source(ocid, source); 
         }
 
         [WebMethod]

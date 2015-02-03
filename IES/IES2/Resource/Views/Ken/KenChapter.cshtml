@@ -8,14 +8,14 @@
         <a class="icon delete_icon" ng-click="delete()"></a>
     </div>
     <ul class="chapter_item">
-        <li ng-repeat="item in ocChapters | parentID:0 | orderBy:'Orde'">
-            <a class="first_chapter" ng-click="parentSelected(item)">
+        <li ng-class="{'active':parentChpater.ChapterID==item.ChapterID}" ng-repeat="item in chapters | parentID:0 | orderBy:'Orde'">
+            <a class="first_chapter" ng-click="parentFocus(item)">
                 {{item.Title}}
                 <i class="icon fold_btn"></i>
             </a>
             <ul class="second_item">
-                <li ng-class="{'active':childChapter.ChapterID==child.ChapterID}" ng-repeat="child in ocChapters | parentID:item.ChapterID | orderBy:'Orde' ">
-                    <a class="first_chapter" ng-click="childSelected(child)" ng-bind="child.Title"></a>
+                <li ng-class="{'active':childChapter.ChapterID==child.ChapterID}" ng-repeat="child in chapters | parentID:item.ChapterID | orderBy:'Orde' ">
+                    <a class="first_chapter" ng-click="childFocus(child)" ng-bind="child.Title"></a>
                 </li>
             </ul>
         </li>
