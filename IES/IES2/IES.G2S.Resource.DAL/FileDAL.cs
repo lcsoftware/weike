@@ -429,6 +429,26 @@ namespace IES.G2S.Resource.DAL
             }
         }
 
+        public static bool File_Chapter_Ken_Edit(File model, Chapter chapter, Ken ken)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@FileID", model.FileID);
+                    p.Add("@ChapterID", chapter.ChapterID);
+                    p.Add("@KenID", ken.KenID);
+                    conn.Execute("File_Chapter_Ken_Edit", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public static bool File_Key_Edit(File model, Key key, Ken ken)
         {
 
@@ -445,14 +465,15 @@ namespace IES.G2S.Resource.DAL
 
         #region 属性批量操作
 
-        public static bool File_Batch_ShareRange(string IDS)
+        public static bool File_Batch_ShareRange(string FileIDS, int ShareRange)
         {
             try
             {
                 using (var conn = DbHelper.ResourceService())
                 {
                     var p = new DynamicParameters();
-                    p.Add("@IDS", IDS);
+                    p.Add("@FileIDS", FileIDS);
+                    p.Add("@ShareRange", ShareRange);
                     conn.Execute("File_Batch_ShareRange", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }

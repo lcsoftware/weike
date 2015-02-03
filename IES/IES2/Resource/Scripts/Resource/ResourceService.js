@@ -21,7 +21,7 @@ aService.factory('resourceService', ['httpService', function (httpService) {
     service.File_Search = function (file, callback) {
         var param = { file: file };
         httpService.ajaxPost(url, 'File_Search', param, callback);
-    }    
+    }
     //删除文件
     service.File_Del = function (file, callback) {
         httpService.ajaxPost(url, 'File_Del', { file: file }, callback);
@@ -39,8 +39,11 @@ aService.factory('resourceService', ['httpService', function (httpService) {
         httpService.ajaxPost(url, 'File_FolderID_Upd', { file: file }, callback);
     }
     //批量设置文件使用权限
-    service.File_Batch_ShareRange = function (IDS, callback) {
-        httpService.ajaxPost(url, 'File_Batch_ShareRange', { IDS: IDS }, callback);
+    service.File_Batch_ShareRange = function (FileIDS, ShareRange, callback) {
+        httpService.ajaxPost(url, 'File_Batch_ShareRange', { FileIDS: FileIDS, ShareRange: ShareRange }, callback);
+    }
+    service.File_Chapter_Ken_Edit = function (file, chapter, ken, callback) {
+        httpService.ajaxPost(url, 'File_Chapter_Ken_Edit', { model: file, chapter: chapter, ken: ken }, callback);
     }
 
     //查询文件夹
@@ -49,8 +52,7 @@ aService.factory('resourceService', ['httpService', function (httpService) {
         httpService.ajaxPost(url, 'Folder_List', param, callback);
     }
     //新增文件夹
-    service.Folder_ADD = function (folder, callback)
-    {
+    service.Folder_ADD = function (folder, callback) {
         httpService.ajaxPost(url, 'Folder_ADD', { folder: folder }, callback);
     }
     //修改文件夹名称
@@ -58,13 +60,12 @@ aService.factory('resourceService', ['httpService', function (httpService) {
         httpService.ajaxPost(url, 'Folder_Name_Upd', { folder: folder }, callback);
     }
     //获取文件夹空对象
-    service.Folder_Get = function(callback)
-    {
+    service.Folder_Get = function (callback) {
         httpService.ajaxPost(url, 'Folder_Get', null, callback);
     }
     //获得文件夹对象
-    service.Folder_GetModel = function (folder,callback) {
-        httpService.ajaxPost(url, 'Folder_GetModel', {folder:folder}, callback);
+    service.Folder_GetModel = function (folder, callback) {
+        httpService.ajaxPost(url, 'Folder_GetModel', { folder: folder }, callback);
     }
     //文件夹移动
     service.Folder_ParentID_Upd = function (folder, callback) {
@@ -77,9 +78,9 @@ aService.factory('resourceService', ['httpService', function (httpService) {
 
     //查询列表方法
     service.FolderRelation_List = function (folder, file, callback) {
-        httpService.ajaxPost(url, 'FolderRelation_List', { folder: folder,file:file }, callback);
+        httpService.ajaxPost(url, 'FolderRelation_List', { folder: folder, file: file }, callback);
     }
-    
+
     ///课程列表
     service.User_OC_List = function (callback) {
         httpService.ajaxPost(url, 'User_OC_List', null, callback);

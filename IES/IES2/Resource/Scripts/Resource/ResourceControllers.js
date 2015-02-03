@@ -7,7 +7,7 @@ var appResource = angular.module('app.resource.controllers', [
     'ui.tree'
 ]);
 
-appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageService', 'contentService', function ($scope, resourceService, pageService, contentService) {
+appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageService', 'contentService', 'chapterService', 'kenService', function ($scope, resourceService, pageService, contentService, chapterService, kenService) {
     $scope.model = {};
     $scope.fileTypes = [];//文件类型
     $scope.timePass = [];//上传时间
@@ -17,7 +17,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.model.ShareRange = -1;
     $scope.checksSelect = [];//复选框选中的值
     $scope.folders = [];//文件夹数组
-    
+
     $scope.folderRelations = [];//文件夹文件数组
 
     $scope.model.ParentID = 0;//上级ID
@@ -29,8 +29,11 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     $scope.folder = {};//文件夹对象
 
-    $scope.fileShow = false;//是否显示
-    
+    $scope.propertyShow = false;//资料属性显示
+
+    $scope.chapters = [];//关联章节
+    $scope.kens = [];//关联知识点
+
 
     var buildPersonal = function () {
         contentService.OC_Get(function (data) {
@@ -44,6 +47,10 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                 $scope.model.OCID = course.OCID;
                 $scope.model.CourseID = course.CourseID;
                 $scope.filterChanged();
+
+                $scope.tabTitles = [];
+                $scope.order = 0;
+                $scope.tabTitles.push({ id: 0, name: course.Name, order: $scope.order });
             }
         });
     }
@@ -58,13 +65,31 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.model.OCID = course.OCID;
         $scope.model.CourseID = course.CourseID;
         $scope.filterChanged();
+        $scope.folderRelation = {};
+
+        $scope.tabTitles.length = 0;
+        $scope.tabTitles.push({ id: 0, name: course.Name, order: $scope.order });
+
     });
     ///课程加载完成
     $scope.$on('courseLoaded', function (course) {
-        buildPersonal(); 
+        buildPersonal();
     });
 
+    $scope.tabChange = function (item) {
+        $scope.model.ParentID = item.id;
+        $scope.filterChanged();
 
+        $scope.folderRelation = {};
+
+        var arr = [];
+        for (var i = 0; i < $scope.tabTitles.length; i++) {
+            if ($scope.tabTitles[i].order <= item.order) {
+                arr.push($scope.tabTitles[i]);
+            }
+        }
+        $scope.tabTitles = arr;
+    }
 
     $scope.typeChanged = function (v) {
         $scope.model.FileType = v;
@@ -113,7 +138,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $scope.shareRanges = data.d;
             $scope.shareRanges.insert(0, item);
         }
-    });    
+    });
 
 
     //复选框值
@@ -122,7 +147,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $scope.checksSelect.push(file);
         } else {
             $scope.checksSelect.splice($.inArray(file, $scope.checksSelect), 1);
-        }        
+        }
     }
     //全选
     $scope.checkALL = function () {
@@ -130,9 +155,13 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
     //单击文件夹名称方法,进入文件夹
     $scope.folderClick = function (item) {
+        if (item.RelationType == 1) return;
         $scope.model.ParentID = item.Id;
         $scope.folderRelation = item;
         $scope.filterChanged();
+
+        $scope.order += 1;
+        $scope.tabTitles.push({ id: item.Id, name: '>>' + item.Name, order: $scope.order });
     }
 
     //查询
@@ -143,7 +172,8 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             } else {
                 $scope.folderRelations = [];
             }
-        }); 
+            $scope.checksSelect.length = 0;
+        });
     }
 
     //新建文件
@@ -153,7 +183,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             file.FolderID = 0;
         } else {
             file.FolderID = $scope.folderRelation.Id;
-        }        
+        }
         file.OCID = $scope.model.OCID;
         file.CourseID = $scope.model.CourseID;
         file.ShareRange = -1;
@@ -249,7 +279,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                     }
                 });
             }
-        }        
+        }
     }
 
 
@@ -263,7 +293,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         resourceService.FolderRelation_List(folder, null, function (data) {
             if (data.d) {
                 $scope.files = data.d;
-                
+
                 var file = {};
                 angular.copy(data.d[0], file);
                 file.Id = 0;
@@ -283,7 +313,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                         }
                     }
                 }
-                
+                console.log($scope.files);
             }
         });
     }
@@ -310,7 +340,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     //        }
     //    });
     //}
-    
+
     $scope.fireProperty = function () {
         console.log('fireProperty');
     }
@@ -338,9 +368,51 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     //移动文件弹出框
     $scope.fireMobileBatch = function () {
         if ($scope.checksSelect.length == 0) return;
-        $scope.mobileIsShow = true;
+        $scope.moveShow = true;
         $scope.bgShow = true;
         $scope.mobileFolder();
+    }
+
+    //资料属性弹出框
+    $scope.fileProperty = function (item) {
+        getProperty();
+        getKen();
+        $scope.propertyShow = true;
+        $scope.bgShow = true;
+        $scope.file = item;
+        
+    }
+    //关联知识点和章节保存
+    $scope.fileChapterKen = function () {
+        var file = { FileID: $scope.file.Id };
+        var chapter = { ChapterID: $scope.chapter.ChapterID };
+        var ken = { KenID: $scope.ken.KenID };
+        resourceService.File_Chapter_Ken_Edit(file,chapter,ken,function (data) {
+            if (data.d) {
+                $scope.close();
+            }
+        });
+    }
+
+    //获取关联章节数据
+    var getProperty = function () {
+        var model = { OCID: $scope.model.OCID };
+        chapterService.Chapter_List(model, function (data) {
+            if (data.d.length > 0) {
+                $scope.chapters = data.d;
+                $scope.chapter = $scope.chapters[0];
+            }
+        });
+    }
+    //获取关联知识点数据
+    var getKen = function () {
+        var model = { OCID: $scope.model.OCID };
+        kenService.Ken_List(model, function (data) {
+            if (data.d.length > 0) {
+                $scope.kens = data.d;
+                $scope.ken = $scope.kens[0];
+            }
+        });
     }
 
 
@@ -368,7 +440,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                 });
             }
         }
-        
+
     }
 
     //删除文件夹
@@ -400,19 +472,25 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.delIsShow = false;
         $scope.bgShow = false;
         $scope.moveShow = false;
+        $scope.propertyShow = false;
         $scope.folder = {};
     }
     //批量设置使用权限
-    $scope.batchShareRange = function(item){
-        var IDS = '';
+    $scope.batchShareRange = function (item) {
+        var FileIDS = '';
         for (var i = 0; i < $scope.checksSelect.length; i++) {
             if ($scope.checksSelect[i].RelationType == 1) {
-                IDS = $scope.checksSelect[i].Id + ',';                
+                FileIDS += $scope.checksSelect[i].Id + ',';
             }
         }
-        IDS = IDS.substr(0, IDS.length - 1);
-        resourceService.File_Batch_ShareRange(IDS, function (data) {
-        });
+        FileIDS = FileIDS.substr(0, FileIDS.length - 1);
+        if (FileIDS != '') {
+            resourceService.File_Batch_ShareRange(FileIDS, item.id, function (data) {
+                if (data.d) {
+                    $scope.filterChanged();
+                }
+            });
+        }
     }
 
     $scope.visible = function (item) {
