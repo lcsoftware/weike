@@ -16,7 +16,8 @@ app.directive('fileOperation', function () {
         onRemove: '&',
         onReturnPage: '&',
         onMobile: '&',
-        shareRanges: '='
+        shareRanges: '=',
+        folderrelation: '='
     }
 
     directive.templateUrl = '/Components/templates/fileOperation.html';
@@ -41,7 +42,7 @@ app.directive('fileOperation', function () {
         }, function () {
             elem.find('.permissions').hide();
         })
-        
+
         elem.find('.permissions li').hover(function () {
             $(this).addClass('current').siblings().removeClass('current');
         }, function () {

@@ -12,7 +12,7 @@ using IES.G2S.Resource.IBLL;
 
 namespace IES.G2S.Resource.BLL
 {
-    public class FileBLL:IFileBLL
+    public class FileBLL : IFileBLL
     {
 
         #region 文件夹操作
@@ -67,17 +67,17 @@ namespace IES.G2S.Resource.BLL
 
         [PermissionsCallHandler(Order = 2)]
         [ExceptionCallHandler(Order = 1)]
-        public bool Folder_Del(Folder  folder)
+        public bool Folder_Del(Folder folder)
         {
-           return  FileDAL.Folder_Del(folder);
+            return FileDAL.Folder_Del(folder);
         }
 
-        public bool Folder_Batch_Del( List<Folder> folderlist)
+        public bool Folder_Batch_Del(List<Folder> folderlist)
         {
             return FileDAL.Folder_Batch_Del(folderlist);
         }
 
-        #endregion 
+        #endregion
 
 
         #region 文件操作
@@ -95,9 +95,9 @@ namespace IES.G2S.Resource.BLL
         /// <param name="PageSize"></param>
         /// <param name="PageIndex"></param>
         /// <returns></returns>
-        public List<File> File_Search( File file , int PageSize, int PageIndex)
+        public List<File> File_Search(File file, int PageSize, int PageIndex)
         {
-            return FileDAL.File_Search( file , PageSize, PageIndex).ToList();
+            return FileDAL.File_Search(file, PageSize, PageIndex).ToList();
         }
 
         /// <summary>
@@ -135,9 +135,9 @@ namespace IES.G2S.Resource.BLL
             return true;
         }
 
-        public bool File_Batch_ShareRange(string IDS)
+        public bool File_Batch_ShareRange(string FileIDS, int ShareRange)
         {
-            return FileDAL.File_Batch_ShareRange(IDS);
+            return FileDAL.File_Batch_ShareRange(FileIDS, ShareRange);
         }
 
         public bool File_Attribute(File model, List<Chapter> chapterlist, List<Ken> kenlist)
@@ -168,8 +168,12 @@ namespace IES.G2S.Resource.BLL
             return FileDAL.File_Del(model);
         }
 
+        public bool File_Chapter_Ken_Edit(File model, Chapter chapter, Ken ken)
+        {
+            return FileDAL.File_Chapter_Ken_Edit(model, chapter, ken);
+        }
 
-        #endregion 
+        #endregion
 
 
     }

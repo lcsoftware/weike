@@ -117,9 +117,15 @@ namespace App.Resource.DataProvider.Resource
         /// <param name="file"></param>
         /// <returns></returns>
         [WebMethod]
-        public static bool File_Batch_ShareRange(string IDS)
+        public static bool File_Batch_ShareRange(string FileIDS, int ShareRange)
         {
-            return new FileBLL().File_Batch_ShareRange(IDS);
+            return new FileBLL().File_Batch_ShareRange(FileIDS, ShareRange);
+        }
+
+        [WebMethod]
+        public static bool File_Chapter_Ken_Edit(File model, Chapter chapter, Ken ken)
+        {
+            return new FileBLL().File_Chapter_Ken_Edit(model, chapter, ken);
         }
         #endregion
 
