@@ -3,6 +3,41 @@
 var app = angular.module('app.custom.directives', ['app.assist.services', 'ui.tree']);
 
 
+app.directive('moreCourse', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.scope = {
+        onCourseChanged: '&',
+        moreCourses: '='
+    }
+
+    directive.templateUrl = '/Components/templates/moreCourse.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        //查看更多
+        elem.hover(function () {
+            var len = $('.second_nav').length;
+            if (len > 0) {
+                $(this).find('i').addClass('slide_up');
+                $(this).find('.second_nav').show();
+            }
+        }, function () {
+            $(this).find('i').removeClass('slide_up');
+            $(this).find('.second_nav').hide();
+        })
+    }
+
+    directive.controller = function ($scope) {
+        $scope.aaaa = function () {
+            $scope.$emit('courseChanged', { Ocid: 9999 });
+        };
+    }
+
+    return directive;
+});
+
 app.directive('fileOperation', function () {
     var directive = {};
 

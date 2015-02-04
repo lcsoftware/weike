@@ -40,3 +40,40 @@ as
 	and (@Source = '' or [Source] = @Source)
 	and a.KenID=b.KenID
   
+  
+  
+go
+USE [IES_Resource]
+GO
+/****** Object:  StoredProcedure [dbo].[Chapter_Ken_List]    Script Date: 02/04/2015 23:22:24 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================  
+-- Author:      王胜辉  
+-- Create date: 20141206  
+-- Description: 获取章节的知识点列表信息  
+-- =============================================  
+ALTER proc [dbo].[Chapter_Ken_List]  
+	 @ChapterID int = 0 ,
+	 @UserID int 
+as 
+
+	SET NOCOUNT ON;  
+  
+	--select t2.KenID , t2.Name  , Requirement
+	--from Chapter t1
+	--inner join dbo.Ken t2 on t1.ChapterID = t2.ChapterID 
+	--where t1.ChapterID = @ChapterID
+   
+    select t2.KenID , t2.Name, Requirement
+    from dbo.Ken t2, dbo.ResourceKen t1
+    where t1.KenID=t2.KenID 
+		and t1.[Source]= 'Chapter' 
+		and t1.ResourceID = @ChapterID
+		and t2.CreateUserID = @UserID
+  
+   
+  
+    

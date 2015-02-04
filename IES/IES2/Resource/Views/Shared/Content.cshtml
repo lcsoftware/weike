@@ -1,7 +1,17 @@
 ﻿<div class="coursesite_box">
     <div class="exercise_nav">
         <ul class="exercise_nav_list">
-            <li ng-repeat="item in courses" ng-class="{active:course.OCID==item.OCID}"><a class="first_nav" style="cursor:pointer" ng-click="courseChanged(item);" ng-bind="item.Name"></a></li>
+            <li ng-repeat="item in courses" ng-class="{active:course.OCID==item.OCID}">
+                <a class="first_nav" ng-click="courseChanged(item);" ng-bind="item.Name"></a>
+            </li>
+            <more-course on-course-changed="courseChanged()" more-courses="moreCourses">
+            </more-course>
+            @*<li ng-show="moreCourses.length > 0">
+                    <a class="first_nav">查看更多<i class="icon"></i></a>
+                    <div class="second_nav">
+                        <a ng-repeat="item in moreCourses" ng-bind="item.Name" ng-click="courseChanged(item);"></a>
+                    </div>
+                </li>*@
         </ul>
     </div>
     <div ui-view></div>
