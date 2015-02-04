@@ -23,6 +23,10 @@ aService.factory('chapterService', ['httpService', function (httpService) {
         httpService.ajaxPost(chapterProviderUrl, 'Chapter_Exercise_List', { chapterId: chapterId, kenId: kenId }, callback);
     }
 
+    service.Chapter_Ken_List = function (chapterId, callback) {
+        httpService.ajaxPost(chapterProviderUrl, 'Chapter_Ken_List', { chapterId: chapterId }, callback);
+    }
+
     service.Chapter_ADD = function (model, callback) {
         var param = { model: model };
         httpService.ajaxPost(chapterProviderUrl, 'Chapter_ADD', param, callback);

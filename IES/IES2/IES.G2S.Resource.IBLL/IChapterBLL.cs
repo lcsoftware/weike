@@ -13,6 +13,7 @@ namespace IES.G2S.Resource.IBLL
         #region  列表
         List<Chapter> Chapter_List(int OCID);
         List<Chapter> Chapter_ExerciseCount_List(int OCID, int UserID, int ExerciseType, int Diffcult);
+        List<Ken> Chapter_Ken_List(Chapter model);
         #endregion
 
         #region 详细信息

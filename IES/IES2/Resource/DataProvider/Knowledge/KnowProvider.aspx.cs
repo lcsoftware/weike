@@ -29,6 +29,7 @@ namespace App.Resource.DataProvider.Knowledge
         [WebMethod]
         public static Ken Ken_ADD(Ken model)
         {
+            model.CreateUserID = IES.Service.UserService.CurrentUser.UserID; 
             return new KenBLL().Ken_ADD(model);
         }
 

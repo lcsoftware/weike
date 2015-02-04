@@ -28,6 +28,7 @@ namespace App.Resource.DataProvider.Chapter
         [WebMethod]
         public static Chapter Chapter_ADD(Chapter model)
         {
+            model.CreateUserID = IES.Service.UserService.CurrentUser.UserID;  
             return new ChapterBLL().Chapter_ADD(model);
         }
 
@@ -52,16 +53,7 @@ namespace App.Resource.DataProvider.Chapter
         public static bool Chapter_Del(Chapter model)
         {
             return new ChapterBLL().Chapter_Del(model);
-        }
-
-        private static Chapter FindByID(IList<Chapter> allChapters, int chapterID)
-        {
-            foreach (var item in allChapters)
-            {
-                if (item.ChapterID == chapterID) return item;
-            }
-            return null;
-        }
+        } 
 
         [WebMethod]
         public static IList<Chapter> Chapter_Move(Chapter model, string direction)
@@ -90,6 +82,15 @@ namespace App.Resource.DataProvider.Chapter
             chapter.CreateUserID = IES.Service.UserService.CurrentUser.UserID; 
             Ken ken = new Ken() { KenID = kenId };
             return new ChapterBLL().Chapter_Exercise_List(chapter, ken);
+        }
+
+        [WebMethod]
+        public static IList<Ken> Chapter_Ken_List(int chapterId)
+        {
+            Chapter chapter = new Chapter();
+            chapter.ChapterID = chapterId;
+            chapter.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
+            return new ChapterBLL().Chapter_Ken_List(chapter);
         } 
     }
 }

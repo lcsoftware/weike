@@ -17,8 +17,11 @@ namespace IES.G2S.Resource.BLL
         public List<Chapter> Chapter_List(int OCID)
         {
             return ChapterDAL.Chapter_List(new Chapter() { OCID = OCID });
+        } 
+        public List<Ken> Chapter_Ken_List(Chapter model)
+        {
+            return ChapterDAL.Chapter_Ken_List(model);
         }
-
         public IList<Chapter> Chapter_List(Chapter model)
         {
             return ChapterDAL.Chapter_List(model);

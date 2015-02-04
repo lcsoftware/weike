@@ -29,7 +29,7 @@ namespace IES.G2S.Resource.DAL
                 using (var conn = DbHelper.ResourceService())
                 {
                     var p = new DynamicParameters();
-                    p.Add("@OCID",OCID);
+                    p.Add("@OCID", OCID);
                     return conn.Query<Chapter>("Chapter_List", p, commandType: CommandType.StoredProcedure).ToList();
                 }
             }
@@ -38,6 +38,30 @@ namespace IES.G2S.Resource.DAL
                 return null;
             }
 
+        }
+
+
+        /// <summary>
+        /// 获取章节树形列表
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static List<Ken> Chapter_Ken_List(Chapter model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ChapterID", model.ChapterID);
+                    p.Add("@UserID", model.CreateUserID);
+                    return conn.Query<Ken>("Chapter_Ken_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            } 
         }
 
         /// <summary>
@@ -59,15 +83,16 @@ namespace IES.G2S.Resource.DAL
             catch (Exception e)
             {
                 return null;
-            } 
+            }
         }
 
         /// <summary>
-        /// 章节关联的文件列表
+        /// 章节关联的文件列表
+
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static List<File> Chapter_File_List(Chapter model , Ken ken )
+        public static List<File> Chapter_File_List(Chapter model, Ken ken)
         {
             try
             {
@@ -88,7 +113,8 @@ namespace IES.G2S.Resource.DAL
         }
 
         /// <summary>
-        /// 章节关联的习题信息
+        /// 章节关联的习题信息
+
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -101,7 +127,7 @@ namespace IES.G2S.Resource.DAL
                     var p = new DynamicParameters();
                     p.Add("@ChapterID", model.ChapterID);
                     p.Add("@UserID", model.CreateUserID);
-                    p.Add("@KenID", ken.KenID );
+                    p.Add("@KenID", ken.KenID);
                     return conn.Query<Exercise>("Chapter_Exercise_List", p, commandType: CommandType.StoredProcedure).ToList();
                 }
             }
@@ -141,16 +167,16 @@ namespace IES.G2S.Resource.DAL
                 return new List<Chapter>();
             }
         }
-            
 
-        #endregion 
+
+        #endregion
 
 
         #region 详细信息
 
 
 
-        #endregion 
+        #endregion
 
 
         #region 新增
@@ -172,9 +198,9 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@OCID", model.OCID);
                     p.Add("@CourseID", model.CourseID);
                     p.Add("@OwnerUserID", model.OwnerUserID);
-                    p.Add("@CreateUserID", model.CreateUserID); 
-                    p.Add("@Title", model.Title );
-                    p.Add("@ParentID", model.ParentID );
+                    p.Add("@CreateUserID", model.CreateUserID);
+                    p.Add("@Title", model.Title);
+                    p.Add("@ParentID", model.ParentID);
                     conn.Execute("Chapter_ADD", p, commandType: CommandType.StoredProcedure);
                     model.ChapterID = p.Get<int>("ChapterID");
                     model.Orde = p.Get<int>("Orde");
@@ -189,7 +215,7 @@ namespace IES.G2S.Resource.DAL
         }
 
 
-        #endregion 
+        #endregion
 
 
         #region 更新
@@ -238,7 +264,7 @@ namespace IES.G2S.Resource.DAL
                 {
                     var p = new DynamicParameters();
                     p.Add("@ChapterID", model.ChapterID);
-                    p.Add("@ParentID", model.ParentID );
+                    p.Add("@ParentID", model.ParentID);
                     conn.Execute("Chapter_ParentID_Upd", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }
@@ -248,11 +274,11 @@ namespace IES.G2S.Resource.DAL
                 return false;
             }
 
-        }   
+        }
 
 
 
-        #endregion 
+        #endregion
 
         #region 移动
 
@@ -277,7 +303,7 @@ namespace IES.G2S.Resource.DAL
 
         #endregion
 
-        #region 删除 
+        #region 删除
         /// <summary>
         ///  章节删除
         /// </summary>
@@ -301,7 +327,7 @@ namespace IES.G2S.Resource.DAL
         }
 
 
-        #endregion 
+        #endregion
 
     }
 }
