@@ -75,7 +75,11 @@ app.directive('fileOperation', function () {
         elem.find('#youlan').hover(function () {
             elem.find('.permissions').show();
         }, function () {
-            elem.find('.permissions').hide();
+            //elem.find('.permissions').hide();
+        });
+
+        elem.find('#eShare').click(function () {
+            //换图片
         })
 
         elem.find('.permissions li').hover(function () {
