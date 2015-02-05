@@ -1,4 +1,7 @@
 ﻿<li>
+    <li ng-repeat="item in courses" ng-class="{active:course.OCID==item.OCID}">
+        <a class="first_nav" ng-click="courseChanged(item);" ng-bind="item.Name"></a>
+    </li>
     <a class="first_nav">查看更多<i class="icon"></i></a>
     <div class="second_nav">
         <a ng-repeat="item in moreCourses" ng-bind="item.Name" ng-click="$scope.$emit('courseChanged', item);"></a>

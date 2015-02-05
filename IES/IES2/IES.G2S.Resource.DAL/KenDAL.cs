@@ -45,7 +45,7 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static List<Chapter> Ken_Chapter_List(Ken model)
+        public static List<Chapter> Chapter_KenID_List(Ken model)
         {
             try
             {
@@ -53,7 +53,8 @@ namespace IES.G2S.Resource.DAL
                 {
                     var p = new DynamicParameters();
                     p.Add("@KenID", model.KenID);
-                    return conn.Query<Chapter>("Ken_Chapter_List", p, commandType: CommandType.StoredProcedure).ToList();
+                    p.Add("@OCID", model.OCID);
+                    return conn.Query<Chapter>("Chapter_KenID_List", p, commandType: CommandType.StoredProcedure).ToList();
                 }
             }
             catch (Exception e)
@@ -62,7 +63,89 @@ namespace IES.G2S.Resource.DAL
             }
 
         }
-        
+
+        /// <summary>
+        /// 章节关联的文件列表 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static List<File> File_KenID_ChapterID_List(Chapter model, Ken ken)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ChapterID", model.ChapterID);
+                    p.Add("@UserID", model.CreateUserID);
+                    p.Add("@OCID", ken.OCID);
+                    p.Add("@KenID", ken.KenID);
+                    return conn.Query<File>("File_KenID_ChapterID_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
+        public static IList<Exercise> Exercise_KenID_ChapterID_List(Chapter chapter, Ken ken)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ChapterID", chapter.ChapterID);
+                    p.Add("@UserID", ken.CreateUserID);
+                    p.Add("@OCID", ken.OCID);
+                    p.Add("@KenID", ken.KenID);
+                    return conn.Query<Exercise>("Exercise_KenID_ChapterID_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+        public static IList<Ken> Ken_FileFilter_ChapterID_List(Chapter chapter)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ChapterID", chapter.ChapterID);
+                    p.Add("@UserID", chapter.CreateUserID);
+                    p.Add("@OCID", chapter.OCID);
+                    return conn.Query<Ken>("Ken_FileFilter_ChapterID_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public static IList<Ken> Ken_ExerciseFilter_ChapterID_List(Chapter chapter)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ChapterID", chapter.ChapterID);
+                    p.Add("@UserID", chapter.CreateUserID);
+                    p.Add("@OCID", chapter.OCID);
+                    return conn.Query<Ken>("Ken_ExerciseFilter_ChapterID_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
 
         /// <summary>
         /// 获取文件、习题相关有效知识点 
@@ -138,30 +221,6 @@ namespace IES.G2S.Resource.DAL
             {
                 return new List<Ken>();
             }
-        }
-
-        /// <summary>
-        /// 知识点关联的习题信息
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public static List<Exercise > Ken_Exercise_List(Ken model)
-        {
-            try
-            {
-                using (var conn = DbHelper.ResourceService())
-                {
-                    var p = new DynamicParameters();
-                    p.Add("@KenID", model.KenID);
-                    p.Add("@UserID", model.CreateUserID);
-                    return conn.Query<Exercise>("Ken_Exercise_List", p, commandType: CommandType.StoredProcedure).ToList();
-                }
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-
         }
 
 

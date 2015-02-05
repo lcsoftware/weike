@@ -65,20 +65,22 @@ namespace App.Resource.DataProvider.Chapter
 
 
         [WebMethod]
-        public static List<IES.Resource.Model.File> Chapter_File_List(int chapterId, int kenId)
+        public static List<IES.Resource.Model.File> Chapter_File_List(int chapterId, int kenId, int ocid)
         {
             Chapter chapter = new Chapter();
             chapter.ChapterID = chapterId;
+            chapter.OCID = ocid;
             chapter.CreateUserID = IES.Service.UserService.CurrentUser.UserID; 
-            Ken ken = new Ken() { KenID = kenId };
-            return new ChapterBLL().Chapter_File_List(chapter, ken);
+            Ken ken = new Ken() { KenID = kenId};
+            return new ChapterBLL().File_ChapterID_KenID_List(chapter, ken);
         }
 
         [WebMethod]
-        public static IList<Exercise> Chapter_Exercise_List(int chapterId, int kenId)
+        public static IList<Exercise> Chapter_Exercise_List(int chapterId, int kenId, int ocid)
         {
             Chapter chapter = new Chapter();
             chapter.ChapterID = chapterId;
+            chapter.OCID = ocid;
             chapter.CreateUserID = IES.Service.UserService.CurrentUser.UserID; 
             Ken ken = new Ken() { KenID = kenId };
             return new ChapterBLL().Chapter_Exercise_List(chapter, ken);

@@ -49,18 +49,26 @@ appKnow.controller('KenCtrl', ['$scope', '$state', 'contentService', 'kenService
 
 
         ///子页面请求查询数据
-        $scope.$on('onRequestQuery', function (event, chapter, ken) {
+        $scope.$on('onRequestQuery', function (event, chapter, ken, from) {
             if (chapter.ChapterID && ken.KenID) {
                 switch ($scope.tab) {
                     case 1:
-                        chapterService.Chapter_File_List(chapter.ChapterID, ken.KenID, function (data) {
-                            $scope.linkFiles = data.d;
-                        });
+                        if (from === 'fromChapter') {
+                            chapterService.Chapter_File_List(chapter.ChapterID, ken.KenID, function (data) {
+                                $scope.linkFiles = data.d;
+                            });
+                        } else {
+                            kenService.Ken_FileFilter_ChapterID_List(chapt)
+                        }
                         break;
                     case 2:
-                        chapterService.Chapter_Exercise_List(chapter.ChapterID, ken.KenID, function (data) {
-                            $scope.linkExercises = data.d;
-                        });
+                        if (from === 'fromKen') {
+                            chapterService.Chapter_Exercise_List(chapter.ChapterID, ken.KenID, function (data) {
+                                $scope.linkExercises = data.d;
+                            }); 
+                        } else {
+                            kenService.Ken_FileFilter_ChapterID_List
+                        }
                         break;
                     default:
                         break;
@@ -220,7 +228,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', 'contentService', 'kenService
 
                 $scope.kens = data.d;
                 if ($scope.kens.length > 0) {
-                    $scope.kenSelection = angular.copy($scope.chapter.ken); 
+                    $scope.kenSelection = angular.copy($scope.chapter.ken);
                 }
                 $scope.kenSelection.KenID = 0;
                 $scope.kenSelection.Name = '全部';
@@ -262,11 +270,8 @@ appKnow.controller('KenChapterCtrl', ['$scope', 'chapterService', 'kenService', 
         });
     }
 
-    $scope.parentFocus = function (item) {
-        $scope.parentChpater = item;
-        $scope.lastSelection = item;
-
-        chapterService.Chapter_Ken_List(item.ChapterID, function (data) {
+    var Ken_FileFilter_ChapterID_List = function (chapter) {
+        chapterService.Ken_FileFilter_ChapterID_List(chapter, function (data) {
             $scope.$parent.kens = data.d;
             if ($scope.$parent.kens.length > 0) {
                 $scope.$parent.kenSelection = angular.copy($scope.chapter.ken);
@@ -274,19 +279,52 @@ appKnow.controller('KenChapterCtrl', ['$scope', 'chapterService', 'kenService', 
             $scope.$parent.kenSelection.KenID = 0;
             $scope.$parent.kenSelection.Name = '全部';
             $scope.$parent.kens.insert(0, $scope.kenSelection);
-            $scope.$emit('onRequestQuery', $scope.lastSelection, $scope.kenSelection);
+            $scope.$emit('onRequestQuery', $scope.lastSelection, $scope.kenSelection, 'fromChapter');
         });
+    }
+
+    var Ken_ExerciseFilter_ChapterID_List = function (chapter) {
+        chapterService.Ken_ExerciseFilter_ChapterID_List(chapter, function (data) {
+            $scope.$parent.kens = data.d;
+            if ($scope.$parent.kens.length > 0) {
+                $scope.$parent.kenSelection = angular.copy($scope.chapter.ken);
+            }
+            $scope.$parent.kenSelection.KenID = 0;
+            $scope.$parent.kenSelection.Name = '全部';
+            $scope.$parent.kens.insert(0, $scope.kenSelection);
+            $scope.$emit('onRequestQuery', $scope.lastSelection, $scope.kenSelection, 'fromChapter');
+        });
+    }
+
+    $scope.parentFocus = function (item) {
+        $scope.parentChpater = item;
+        $scope.lastSelection = item;
+        switch ($scope.tab) {
+            case 1:
+                Ken_FileFilter_ChapterID_List(item);
+                break;
+            default:
+                Ken_ExerciseFilter_ChapterID_List(item);
+                break;
+        }
     }
 
     $scope.childFocus = function (item) {
         $scope.childChpater = item;
         $scope.lastSelection = item;
-        $scope.$emit('onRequestQuery', $scope.lastSelection, $scope.kenSelection);
+        switch ($scope.tab) {
+            case 1:
+                Ken_FileFilter_ChapterID_List(item);
+                break;
+            default:
+                Ken_ExerciseFilter_ChapterID_List(item);
+                break;
+        }
     }
 
     /// 知识点被选中, Tab页面切换， 请求查询数据
     $scope.$on('requestQuery', function (event, ken) {
-        $scope.$emit('onRequestQuery', $scope.lastSelection, ken);
+        $scope.$emit('onRequestQuery', $scope.lastSelection, ken, 'fromChapter');
     });
 
     $scope.move = function (direction) {
@@ -331,11 +369,11 @@ appKnow.controller('KenTopicCtrl', ['$scope', 'resourceKenService', 'chapterServ
 
         $scope.kenFocus = function (item) {
             $scope.dataKen = item;
-            kenService.Ken_Chapter_List({ KenID: item.KenID }, function (data) {
+            kenService.Ken_Chapter_List({ KenID: item.KenID, OCID: $scope.course.OCID }, function (data) {
                 $scope.dataChapters = data.d;
                 if ($scope.dataChapters.length > 0) {
                     $scope.dataChapter = $scope.dataChapters[0];
-                    $scope.$emit('onRequestQuery', $scope.dataChapter, $scope.dataKen);
+                    $scope.$emit('onRequestQuery', $scope.dataChapter, $scope.dataKen, 'fromKen');
                 }
             });
         }
@@ -346,16 +384,12 @@ appKnow.controller('KenTopicCtrl', ['$scope', 'resourceKenService', 'chapterServ
 
         $scope.chapterFocus = function (item) {
             $scope.dataChapter = item;
-            $scope.$emit('onRequestQuery', $scope.dataChapter, $scope.dataKen);
+            $scope.$emit('onRequestQuery', $scope.dataChapter, $scope.dataKen, 'fromKen');
         }
 
         /// 知识点被选中, Tab页面切换， 请求查询数据
         $scope.$on('requestQuery', function (event, ken) {
-            $scope.$emit('onRequestQuery', $scope.dataChapter, $scope.dataKen);
+            $scope.$emit('onRequestQuery', $scope.dataChapter, $scope.dataKen, 'fromKen');
         });
-
-        $scope.$on('onKenChapterAdd', function (event, data) {
-        });
-
     }]);
 

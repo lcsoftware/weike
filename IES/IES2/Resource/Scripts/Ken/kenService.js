@@ -21,5 +21,12 @@ aService.factory('kenService', ['httpService', function (httpService) {
     service.Ken_Chapter_List = function (model, callback) {
         httpService.ajaxPost(kenProviderUrl, 'Ken_Chapter_List', { model: model }, callback);
     } 
+
+    service.Ken_FileFilter_ChapterID_List = function (chapter, callback) {
+        httpService.ajaxPost(kenProviderUrl, 'Ken_FileFilter_ChapterID_List', { chapter: chapter}, callback);
+    }
+    service.Ken_ExerciseFilter_ChapterID_List = function (chapter, callback) {
+        httpService.ajaxPost(kenProviderUrl, 'Ken_ExerciseFilter_ChapterID_List', { chapter: chapter }, callback);
+    }
     return service;
 }]);

@@ -59,9 +59,28 @@ namespace IES.G2S.Resource.BLL
             return KenDAL.Ken_ExerciseCount_List(OCID, UserID, ExerciseType, Diffcult);
         }
 
-        public IList<Chapter> Ken_Chapter_List(int kenId)
+        public IList<Chapter> Chapter_KenID_List(int kenId, int ocid)
         {
-            return KenDAL.Ken_Chapter_List(new Ken() { KenID = kenId }); 
+            return KenDAL.Chapter_KenID_List(new Ken() { KenID = kenId, OCID = ocid }); 
+        }
+
+        public List<IES.Resource.Model.File> File_KenID_ChapterID_List(Chapter chapter, Ken ken)
+        {
+            return KenDAL.File_KenID_ChapterID_List(chapter, ken);
+        }
+        public IList<Exercise> Exercise_KenID_ChapterID_List(Chapter chapter, Ken ken)
+        {
+            return KenDAL.Exercise_KenID_ChapterID_List(chapter, ken);
+        }
+
+        public IList<Ken> Ken_FileFilter_ChapterID_List(Chapter chapter)
+        {
+            return KenDAL.Ken_FileFilter_ChapterID_List(chapter);
+        }
+
+        public IList<Ken> Ken_ExerciseFilter_ChapterID_List(Chapter chapter)
+        {
+            return KenDAL.Ken_ExerciseFilter_ChapterID_List(chapter);
         }
     }
 }

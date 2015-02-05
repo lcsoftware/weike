@@ -27,10 +27,16 @@ namespace IES.G2S.Resource.BLL
             return ChapterDAL.Chapter_List(model);
         }
 
-        public List<IES.Resource.Model.File> Chapter_File_List(Chapter chapter, Ken ken)
+        public List<IES.Resource.Model.File> File_ChapterID_KenID_List(Chapter chapter, Ken ken)
         {
-            return ChapterDAL.Chapter_File_List(chapter, ken);
+            return ChapterDAL.File_ChapterID_KenID_List(chapter, ken);
         }
+
+        public List<IES.Resource.Model.Exercise> Exercise_ChapterID_KenID_List(Chapter chapter, Ken ken)
+        {
+            return ChapterDAL.Exercise_ChapterID_KenID_List(chapter, ken);
+        }
+
         public IList<Exercise> Chapter_Exercise_List(Chapter chapter, Ken ken)
         {
             return ChapterDAL.Chapter_Exercise_List(chapter, ken);
@@ -40,6 +46,7 @@ namespace IES.G2S.Resource.BLL
         {
             return ChapterDAL.Chapter_ExerciseCount_List(OCID, UserID, ExerciseType, Diffcult);
         }
+      
         #endregion
 
         #region  新增

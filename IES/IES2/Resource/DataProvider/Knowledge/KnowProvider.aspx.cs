@@ -46,9 +46,54 @@ namespace App.Resource.DataProvider.Knowledge
         }
 
         [WebMethod]
-        public static IList<Chapter> Ken_Chapter_List(Ken model)
+        public static IList<Ken> Ken_FileFilter_ChapterID_List(Chapter chapter)
         {
-            return new KenBLL().Ken_Chapter_List(model.KenID);
-        } 
+            return new KenBLL().Ken_FileFilter_ChapterID_List(chapter);
+        }
+
+        [WebMethod]
+        public static IList<Ken> Ken_ExerciseFilter_ChapterID_List(Chapter chapter)
+        {
+            return new KenBLL().Ken_ExerciseFilter_ChapterID_List(chapter);
+        }
+
+        [WebMethod]
+        public static IList<Exercise> Exercise_KenID_ChapterID_List(Chapter chapter, Ken ken)
+        {
+            return new KenBLL().Exercise_KenID_ChapterID_List(chapter, ken);
+        }
+
+        [WebMethod]
+        public static List<File> File_KenID_ChapterID_List(Chapter model, Ken ken)
+        {
+            return new KenBLL().File_KenID_ChapterID_List(model, ken);
+        }
+
+        //[WebMethod]
+        //public static IList<Chapter> Ken_Chapter_List(Ken model)
+        //{
+        //    return new KenBLL().Ken_Chapter_List(model.KenID, model.OCID);
+        //}
+
+        //[WebMethod]
+        //public static List<IES.Resource.Model.File> Ken_File_List(int chapterId, int kenId, int ocid)
+        //{
+        //    Chapter chapter = new Chapter();
+        //    chapter.ChapterID = chapterId;
+        //    chapter.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
+        //    Ken ken = new Ken() { KenID = kenId, OCID = ocid };
+        //    return new KenBLL().Ken_File_List(chapter, ken);
+        //}
+
+        //[WebMethod]
+        //public static IList<Exercise> Ken_Exercise_List(int chapterId, int kenId, int ocid)
+        //{
+        //    Chapter chapter = new Chapter();
+        //    chapter.ChapterID = chapterId;
+        //    chapter.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
+        //    Ken ken = new Ken() { KenID = kenId, OCID = ocid };
+        //    return new KenBLL().Ken_Exercise_List(chapter, ken);
+        //}
+
     }
 }
