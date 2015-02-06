@@ -39,7 +39,7 @@ namespace IES.Resource.Model
 		private int _exercisetype;
 		private int _diffcult=1;
 		private int _scope=1;
-		private int _sharerange=2;
+		private int _sharerange=3;
         private string _keys = string.Empty;
         private string _kens = string.Empty;
 		private string _brief;

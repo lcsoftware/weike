@@ -172,6 +172,42 @@ namespace IES.G2S.Resource.DAL
 
         #region 新增
 
+        public static bool Exercise_Judge_M_Edit(ExerciseCommon model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+
+                    p.Add("@ExerciseID", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    p.Add("@OCID", model.exercise.OCID);
+                    p.Add("@CourseID", model.exercise.CourseID);
+                    p.Add("@OwnerUserID", model.exercise.OwnerUserID);
+                    p.Add("@CreateUserID", model.exercise.CreateUserID);
+                    p.Add("@CreateUserName", model.exercise.CreateUserName);
+                    p.Add("@ParentID", model.exercise.ParentID);
+                    p.Add("@ExerciseType", model.exercise.ExerciseType);
+                    p.Add("@ExerciseTypeName", model.exercise.ExerciseTypeName);
+                    p.Add("@Diffcult", model.exercise.Diffcult);
+                    p.Add("@Scope", model.exercise.Scope);
+                    p.Add("@ShareRange", model.exercise.ShareRange);                    
+                    p.Add("@Conten", model.exercise.Conten);
+                    p.Add("@Answer", model.exercise.Answer);
+                    p.Add("@Analysis", model.exercise.Analysis);
+                    p.Add("@@Keys", model.exercise.Keys);
+                    p.Add("@@Kens", model.exercise.Kens);
+                    conn.Execute("Exercise_Judge_M_Edit", p, commandType: CommandType.StoredProcedure);
+                    model.exercise.ExerciseID = p.Get<int>("ExerciseID");
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
 
 
         /// <summary>

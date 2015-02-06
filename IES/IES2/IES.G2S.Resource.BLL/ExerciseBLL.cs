@@ -62,6 +62,11 @@ namespace IES.G2S.Resource.BLL
 
         #region 新增
 
+        public bool Exercise_Judge_M_Edit(ExerciseCommon model)
+        {
+            return ExerciseDAL.Exercise_Judge_M_Edit(model);
+        }
+
         public bool Exercise_ADD(IExercise model)
         {
 

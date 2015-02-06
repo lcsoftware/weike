@@ -7,8 +7,8 @@ var appExercise = angular.module('app.exercise.controllers', [
     'app.resken.services'
 ]);
 
-appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenService', 'exerciseService', 'contentService', 'knowledgeService', 'assistService',
-    function ($scope, $state, resourceKenService, exerciseService, contentService, knowledgeService, assistService) {
+appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenService', 'exerciseService', 'contentService', 'kenService', 'assistService',
+    function ($scope, $state, resourceKenService, exerciseService, contentService, kenService, assistService) {
         ///课程切换
         $scope.$on('willCourseChanged', function (event, course) {
             //console.log(course); 
@@ -117,7 +117,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         });
 
         assistService.Resource_Key_List('', 'Exercise', 100, function (data) {
-            if (data.d) {
+            if (data.d.length > 0) {
                 $scope.keys = data.d;
                 var item = angular.copy($scope.keys[0]);
                 item.KeyID = -1;
@@ -251,8 +251,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
 
     }]);
 
-appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exerciseService', 'contentService', 'knowledgeService', 'assistService', '$timeout',
-    function ($scope, $state, $stateParams, exerciseService, contentService, knowledgeService, assistService, $timeout) {
+appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exerciseService', 'contentService', 'kenService', 'assistService', '$timeout',
+    function ($scope, $state, $stateParams, exerciseService, contentService, kenService, assistService, $timeout) {
         //课程
         $scope.courses = [];
         //试题类型
@@ -304,7 +304,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         });
 
         $scope.$watch('data.course', function (v) {
-            knowledgeService.Ken_List({ OCID: v.OCID }, function (data) {
+            kenService.Ken_List({ OCID: v.OCID }, function (data) {
                 if (data.d) $scope.data.knowledges = data.d;
             });
             assistService.Key_List({ OCID: v.OCID }, function (data) {
@@ -385,7 +385,8 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         }
 
         $scope.submit = function () {
-            $scope.$broadcast('willSubmit');
+            //$scope.$broadcast('willSubmit');
+            $scope.$broadcast('willRequestSave', $scope.data);
         }
 
         $scope.preview = function () {
@@ -506,8 +507,37 @@ appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', '$stateP
     $scope.$on('willExerciseChange', function (event, changeParam) {
     });
 
-    $scope.$on('willSubmit', function (event) {
-        $scope.$emit('willSave', $scope.model);
+    $scope.$on('willRequestSave', function (event, data) {
+        //顶部关联项            
+        $scope.model.exercise.OCID = data.course.OCID
+        $scope.model.exercise.CourseID = data.course.CourseID;//课程编号
+        $scope.model.exercise.Diffcult = parseInt(data.difficult.id);//难度等级
+        var scope = 0;
+        for (var i = 0; i < data.rangeSelected.length; i++) {
+            scope += parseInt(data.rangeSelected[i].id);
+        }
+
+        $scope.model.exercise.Scope = scope;
+        //key关键字
+        $scope.model.exercise.Keys = '';
+        for (var i = 0; i < data.selectedKeys.length; i++) {
+            $scope.model.exercise.Keys = data.selectedKeys[i].Name + 'wshgkjqbwhfbxlfrh';
+        }
+
+        //ken知识点
+        $scope.model.exercise.Kens = '';
+        for (var i = 0; i < data.knowledges.length; i++) {
+            $scope.model.exercise.Kens = data.knowledges[i].Name + 'wshgkjqbwhfbxlfrh';
+        }
+
+        $scope.model.exercise.ExerciseType = data.exerciseType.id;
+
+        exerciseService.Exercise_ADD($scope.model, function (data) {
+            if (data.d) {
+                alert('提交成功！');
+                $state.go('content.exercise');
+            }
+        });
     });
 
     $scope.$on('willPreview', function (event, exerciseData) {
@@ -723,8 +753,38 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
 
     });
 
-    $scope.$on('willSubmit', function (event) {
-        $scope.$emit('willSave', $scope.model);
+    $scope.$on('willRequestSave', function (event, data) {
+        //顶部关联项            
+        $scope.model.exercise.OCID = data.course.OCID
+        $scope.model.exercise.CourseID = data.course.CourseID;//课程编号
+        $scope.model.exercise.Diffcult = parseInt(data.difficult.id);//难度等级
+        var scope = 0;
+        for (var i = 0; i < data.rangeSelected.length; i++) {
+            scope += parseInt(data.rangeSelected[i].id);
+        }
+
+        $scope.model.exercise.Scope = scope;
+        //key关键字
+        $scope.model.exercise.Keys = '';
+        for (var i = 0; i < data.selectedKeys.length; i++) {
+            $scope.model.exercise.Keys += data.selectedKeys[i].Name + 'wshgkjqbwhfbxlfrh';
+        }
+
+        //ken知识点
+        $scope.model.exercise.Kens = '';
+        for (var i = 0; i < data.knowledges.length; i++) {
+            $scope.model.exercise.Kens += data.knowledges[i].Name + 'wshgkjqbwhfbxlfrh';
+        }
+
+        $scope.model.exercise.ExerciseType = data.exerciseType.id;
+       
+
+        exerciseService.Exercise_Judge_M_Edit($scope.model, function (data) {
+            if (data.d) {
+                alert('提交成功！');
+                $state.go('content.exercise');
+            }
+        });
     });
 
     $scope.$on('willPreview', function (event) {
@@ -744,17 +804,16 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
         } else {
             exerciseService.Exercise_Model_Info(function (data) {
                 $scope.model = data.d;
-                $scope.model.exercisecommon.exercise = {};//Exercise对象           
+                $scope.model.exercise = {};//Exercise对象
                 $scope.model.exercisechoicelist = [];//答案数组
-                $scope.ExerciseChoice = { IsCorrect: true };
-                $scope.model.exercisechoicelist.push($scope.ExerciseChoice);
+                $scope.model.exercise.Answer = '0';
             });
         }
     }
     init();
 
     $scope.answeChange = function (answer) {
-        $scope.model.exercisechoicelist[0].IsCorrect = !answer;
+        $scope.model.exercise.Answer = answer == '0' ? '1' : '0';
     }
 }]);
 

@@ -112,5 +112,25 @@ namespace App.Resource.DataProvider.Exercise
             var v = new IES.Resource.Model.Exercise() { ExerciseID = exerciseID };
             return new ExerciseBLL().Exercise_Del(v); 
         }
+
+        /// <summary>
+        /// 判断题信息维护
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool Exercise_Judge_M_Edit(ExerciseCommon model)
+        {
+
+            if (model.exercise.ExerciseID > 0)
+            {
+                return true;
+            }
+            else
+            {
+                bool exerciseRs = new ExerciseBLL().Exercise_Judge_M_Edit(model);                
+                return exerciseRs;
+            }
+        }
     }
 }

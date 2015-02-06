@@ -6,8 +6,8 @@
     <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
     <p class="answer_content">
         <span>题目答案</span>
-        <a ng-class="{active:model.exercisechoicelist[0].IsCorrect==1}" ng-model="model.exercisechoicelist[0].IsCorrect" ng-click="answeChange(model.exercisechoicelist[0].IsCorrect)">正确</a>
-        <a ng-class="{active:model.exercisechoicelist[0].IsCorrect==0}" ng-model="model.exercisechoicelist[0].IsCorrect" ng-click="answeChange(model.exercisechoicelist[0].IsCorrect)">错误</a>
+        <a ng-class="{active:model.exercise.Answer==1}" ng-model="model.exercise.Answer" ng-click="answeChange(model.exercise.Answer)">正确</a>
+        <a ng-class="{active:model.exercise.Answer==0}" ng-model="model.exercise.Answer" ng-click="answeChange(model.exercise.Answer)">错误</a>
     </p>
     <div class="text_box" style="color: #F00; margin-top: 20px;">
         试题解析:
