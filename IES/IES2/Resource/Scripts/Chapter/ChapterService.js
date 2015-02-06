@@ -19,8 +19,8 @@ aService.factory('chapterService', ['httpService', function (httpService) {
         httpService.ajaxPost(chapterProviderUrl, 'Chapter_File_List', { chapterId: chapterId, kenId: kenId }, callback);
     }
     
-    service.Chapter_Exercise_List = function (chapterId, kenId, callback) {
-        httpService.ajaxPost(chapterProviderUrl, 'Chapter_Exercise_List', { chapterId: chapterId, kenId: kenId }, callback);
+    service.Exercise_ChapterID_KenID_List = function (chapterId, kenId, callback) {
+        httpService.ajaxPost(chapterProviderUrl, 'Exercise_ChapterID_KenID_List', { chapterId: chapterId, kenId: kenId }, callback);
     }
 
     service.Chapter_Ken_List = function (chapterId, callback) {

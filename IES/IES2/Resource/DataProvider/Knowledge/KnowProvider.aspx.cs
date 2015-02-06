@@ -64,16 +64,16 @@ namespace App.Resource.DataProvider.Knowledge
         }
 
         [WebMethod]
-        public static List<File> File_KenID_ChapterID_List(Chapter model, Ken ken)
+        public static List<File> File_KenID_ChapterID_List(Chapter chapter, Ken ken)
         {
-            return new KenBLL().File_KenID_ChapterID_List(model, ken);
+            return new KenBLL().File_KenID_ChapterID_List(chapter, ken);
         }
 
-        //[WebMethod]
-        //public static IList<Chapter> Ken_Chapter_List(Ken model)
-        //{
-        //    return new KenBLL().Ken_Chapter_List(model.KenID, model.OCID);
-        //}
+        [WebMethod]
+        public static IList<Chapter> Chapter_KenID_List(Ken model)
+        {
+            return new KenBLL().Chapter_KenID_List(model.KenID, model.OCID);
+        }
 
         //[WebMethod]
         //public static List<IES.Resource.Model.File> Ken_File_List(int chapterId, int kenId, int ocid)

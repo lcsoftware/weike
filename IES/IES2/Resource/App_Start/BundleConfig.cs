@@ -14,6 +14,7 @@ namespace App.Resource
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+
             bundles.Add(new StyleBundle("~/content/css/app").Include(
                 "~/Frameworks/bootstrap/css/bootstrap.min.css",
                 //"~/Frameworks/bootstrap/css/bootstrap.css",
