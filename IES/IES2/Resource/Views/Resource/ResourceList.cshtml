@@ -31,7 +31,7 @@
                 <li class="batch_delete" ng-click="fireRemoveAll()">批量删除</li>
             </ul>
         </a>
-        <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="model.searchKey"><span class="icon" ng-click="filterChanged()"></span></p>
+        <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="model.FileTitle"><span class="icon" ng-click="filterChanged()"></span></p>
     </div>
 </div>
 <div class="filter_box">
@@ -44,7 +44,7 @@
     <dl class="filter_list">
         <dt>上传时间</dt>
         <dd>
-            <a href="#" ng-class="{active:model.timeSelection==item.id}" ng-click="timeChanged(item.id);" ng-repeat="item in timePass"><span ng-bind="item.name"></span></a>
+            <a href="#" ng-class="{active:model.timePass==item.id}" ng-click="timeChanged(item.id);" ng-repeat="item in timePass"><span ng-bind="item.name"></span></a>
     </dl>
     <dl class="filter_list">
         <dt>使用权限</dt>
@@ -74,7 +74,7 @@
             <th>修改日期</th>
         </tr>
     </thead>
-    <tr ng-repeat="item in folderRelations | filter:model.searchKey">
+    <tr ng-repeat="item in folderRelations">
         <td>
             <div class="data_name">
                 @*<input type="checkbox" checklist-model="checks" checklist-value="item" ng-click="checkAdd(item)">*@

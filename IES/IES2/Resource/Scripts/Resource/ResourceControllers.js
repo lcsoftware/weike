@@ -34,6 +34,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.chapters = [];//关联章节
     $scope.kens = [];//关联知识点
 
+    $scope.model.timePass = -1;
 
     var buildPersonal = function () {
         contentService.OC_Get(function (data) {
@@ -96,7 +97,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.filterChanged();
     }
     $scope.timeChanged = function (v) {
-        $scope.model.timeSelection = v;
+        $scope.model.timePass = v;
         $scope.filterChanged();
     }
     $scope.shareChanged = function (v) {
@@ -117,14 +118,17 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $scope.fileTypes.insert(0, item);
         }
     });
+
+
+
     //上传时间初始化
     resourceService.Resource_Dict_TimePass_Get(function (data) {
         if (data.d) {
-            var item = {};
-            angular.copy(data.d[0], item);
-            item.id = -1;
-            item.name = '不限';
             $scope.timePass = data.d;
+            var item = {};
+            angular.copy($scope.timePass[0], item);
+            item.id = -1;
+            item.name = '不限'; 
             $scope.timePass.insert(0, item);
         }
     });
@@ -166,7 +170,9 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     //查询
     $scope.filterChanged = function () {
-        resourceService.FolderRelation_List($scope.model, $scope.model, function (data) {
+        var folder = angular.copy($scope.model);
+        var file = angular.copy($scope.model);
+        resourceService.FolderRelation_List(folder, file, function (data) {
             if (data.d.length > 0) {
                 $scope.folderRelations = data.d;
             } else {
@@ -380,14 +386,14 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.propertyShow = true;
         $scope.bgShow = true;
         $scope.file = item;
-        
+
     }
     //关联知识点和章节保存
     $scope.fileChapterKen = function () {
         var file = { FileID: $scope.file.Id };
         var chapter = { ChapterID: $scope.chapter.ChapterID };
         var ken = { KenID: $scope.ken.KenID };
-        resourceService.File_Chapter_Ken_Edit(file,chapter,ken,function (data) {
+        resourceService.File_Chapter_Ken_Edit(file, chapter, ken, function (data) {
             if (data.d) {
                 $scope.close();
             }
@@ -546,5 +552,5 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $(this).removeClass('current');
     })
 
-    
+
 }]);
