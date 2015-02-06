@@ -44,5 +44,9 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
         httpService.ajaxPost(url, 'Exercise_Judge_M_Edit', { model: model }, callback);
     }
 
+    service.Exercise_Judge_Get = function (model, callback) {
+        httpService.ajaxPost(url, 'Exercise_Judge_Get', { ExerciseID: model }, callback);
+    }
+
     return service;
 }]);

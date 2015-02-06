@@ -58,6 +58,12 @@ namespace IES.G2S.Resource.BLL
             return ExerciseDAL.ExerciseInfo_GetListen(model);
         }
 
+
+        public ExerciseCommon Exercise_Judge_Get(int ExerciseID)
+        {
+            return ExerciseDAL.Exercise_Judge_Get(ExerciseID);
+        }
+
         #endregion 
 
         #region 新增

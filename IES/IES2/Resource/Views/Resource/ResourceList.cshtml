@@ -80,10 +80,11 @@
                 @*<input type="checkbox" checklist-model="checks" checklist-value="item" ng-click="checkAdd(item)">*@
                 <input type="checkbox" checklist-model="checks" checklist-value="item" ng-click="checkAdd(item)">
                 <folder folder-name="item.Name" folder-ext="item.Ext" on-open="folderClick(item)" on-blur="updFolderName(item)"></folder>
-                @*<file-operation on-property="fileProperty(item)" on-remove="fireRemove(item)" on-return-page="returnPage(item)"
+                <file-operation on-property="fileProperty(item)" on-remove="fireRemove(item)" on-return-page="returnPage(item)"
                                 on-mobile="fireMobile(item)" share-ranges="shareRanges" folderrelation="item">
-                </file-operation>*@
-                <div class="file_operation">
+                </file-operation>
+
+                @*<div class="file_operation">
                     <div class="more_operation">
                         <span>...</span>
                         <ul class="mouse_right">
@@ -105,7 +106,7 @@
                             <p style="cursor:pointer" id="eShare"><i class="icon"></i>{{sr.name}}</p>
                         </li>
                     </ul>
-                </div>
+                </div>*@
             </div>
         </td>
         <td ng-bind="item.RelationType==1?'文件':'文件夹'"></td>

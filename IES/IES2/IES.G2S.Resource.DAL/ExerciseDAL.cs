@@ -168,6 +168,35 @@ namespace IES.G2S.Resource.DAL
 
         }
 
+        public static ExerciseCommon Exercise_Judge_Get(int ExerciseID)
+        {
+            try
+            {
+                using (IDbConnection conn = DbHelper.ResourceService())
+                {
+                    ExerciseCommon ef = new ExerciseCommon();
+                    var p = new DynamicParameters();
+                    p.Add("@ExerciseID", ExerciseID);
+
+                    var multi = conn.QueryMultiple("Exercise_Judge_Get", p, commandType: CommandType.StoredProcedure);
+                    var exercise = multi.Read<Exercise>().Single();
+                    var attachmentlist = multi.Read<Attachment>().ToList();
+                    var keylist = multi.Read<Key>().ToList();
+                    var kenlist = multi.Read<Ken>().ToList();
+                    ef.exercise = exercise;
+                    ef.attachmentlist = attachmentlist;
+                    ef.kenlist = kenlist;
+                    ef.keylist = keylist;
+
+                    return ef;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
         #endregion 
 
         #region 新增
@@ -180,7 +209,7 @@ namespace IES.G2S.Resource.DAL
                 {
                     var p = new DynamicParameters();
 
-                    p.Add("@ExerciseID", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    p.Add("@ExerciseID", dbType: DbType.Int32, direction: ParameterDirection.InputOutput, value: model.exercise.ExerciseID);
                     p.Add("@OCID", model.exercise.OCID);
                     p.Add("@CourseID", model.exercise.CourseID);
                     p.Add("@OwnerUserID", model.exercise.OwnerUserID);
@@ -195,8 +224,8 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@Conten", model.exercise.Conten);
                     p.Add("@Answer", model.exercise.Answer);
                     p.Add("@Analysis", model.exercise.Analysis);
-                    p.Add("@@Keys", model.exercise.Keys);
-                    p.Add("@@Kens", model.exercise.Kens);
+                    p.Add("@Keys", model.exercise.Keys);
+                    p.Add("@Kens", model.exercise.Kens);
                     conn.Execute("Exercise_Judge_M_Edit", p, commandType: CommandType.StoredProcedure);
                     model.exercise.ExerciseID = p.Get<int>("ExerciseID");
                     return true;

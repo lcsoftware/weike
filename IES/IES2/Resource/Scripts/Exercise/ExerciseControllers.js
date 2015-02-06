@@ -482,13 +482,13 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         }
 
         $scope.willEdit = function (data) {
-            setCourse(data.exercisecommon.exercise.OCID, data.exercisecommon.exercise.CourseID);
-            setExerciseType(data.exercisecommon.exercise.ExerciseType);
-            setDifficult(data.exercisecommon.exercise.Diffcult);
-            setRange(data.exercisecommon.exercise.Scope);
+            setCourse(data.exercise.OCID, data.exercise.CourseID);
+            setExerciseType(data.exercise.ExerciseType);
+            setDifficult(data.exercise.Diffcult);
+            setRange(data.exercise.Scope);
 
             $timeout(function () {
-                setKey(data.exercisecommon.keylist);
+                setKey(data.keylist);
             }, 500);
 
         }
@@ -748,7 +748,7 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
 }]);
 
 //判断题
-appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$stateParams', function ($scope, exerciseService, $stateParams) {
+appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$stateParams', '$state', function ($scope, exerciseService, $stateParams, $state) {
     $scope.$on('willExerciseChange', function (event, changeParam) {
 
     });
@@ -777,9 +777,9 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
         }
 
         $scope.model.exercise.ExerciseType = data.exerciseType.id;
-       
-
-        exerciseService.Exercise_Judge_M_Edit($scope.model, function (data) {
+        $scope.model.exercise.ExerciseTypeName = data.exerciseType.name;
+        var v = angular.toJson(data);
+        exerciseService.Exercise_Judge_M_Edit(v, function (data) {
             if (data.d) {
                 alert('提交成功！');
                 $state.go('content.exercise');
@@ -797,7 +797,7 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
 
     var init = function () {
         if ($scope.ExerciseID > -1) {
-            exerciseService.ExerciseInfo_Get($scope.ExerciseID, function (data) {
+            exerciseService.Exercise_Judge_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
             });
@@ -805,7 +805,6 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
             exerciseService.Exercise_Model_Info(function (data) {
                 $scope.model = data.d;
                 $scope.model.exercise = {};//Exercise对象
-                $scope.model.exercisechoicelist = [];//答案数组
                 $scope.model.exercise.Answer = '0';
             });
         }

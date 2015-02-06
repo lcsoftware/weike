@@ -25,36 +25,21 @@ namespace App.Resource.DataProvider.Exercise
         }
 
         [WebMethod]
-        public static ExerciseInfo Exercise_Model_Info()
+        public static ExerciseCommon Exercise_Model_Info()
         {
-            return new ExerciseInfo()
+            return new ExerciseCommon()
             {
-                exercisechoicelist = new List<ExerciseChoice>(),
-                exercisecommon = new ExerciseCommon()
-                {
-                    kenlist = new List<Ken>(),
-                    keylist = new List<Key>(),
-                    exercise = new IES.Resource.Model.Exercise(),
-                    attachmentlist = new List<Attachment>()
-                },
-                Children = new ExerciseInfo()
-                {
-                    exercisechoicelist = new List<ExerciseChoice>(),
-                    exercisecommon = new ExerciseCommon()
-                    {
-                        kenlist = new List<Ken>(),
-                        keylist = new List<Key>(),
-                        exercise = new IES.Resource.Model.Exercise(),
-                        attachmentlist = new List<Attachment>()
-                    }
-                }
+                kenlist = new List<Ken>(),
+                keylist = new List<Key>(),
+                exercise = new IES.Resource.Model.Exercise(),
+                attachmentlist = new List<Attachment>()
             };
         }
 
         [WebMethod]
         public static bool Exercise_ADD(string model)
         {
-            
+
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             if (v.exercisecommon.exercise.ExerciseID > 0)
             {
@@ -110,7 +95,7 @@ namespace App.Resource.DataProvider.Exercise
         public static bool Exercise_Del(int exerciseID)
         {
             var v = new IES.Resource.Model.Exercise() { ExerciseID = exerciseID };
-            return new ExerciseBLL().Exercise_Del(v); 
+            return new ExerciseBLL().Exercise_Del(v);
         }
 
         /// <summary>
@@ -119,18 +104,16 @@ namespace App.Resource.DataProvider.Exercise
         /// <param name="model"></param>
         /// <returns></returns>
         [WebMethod]
-        public static bool Exercise_Judge_M_Edit(ExerciseCommon model)
+        public static bool Exercise_Judge_M_Edit(string model)
         {
+            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseCommon>(model);
+            return new ExerciseBLL().Exercise_Judge_M_Edit(v);
+        }
 
-            if (model.exercise.ExerciseID > 0)
-            {
-                return true;
-            }
-            else
-            {
-                bool exerciseRs = new ExerciseBLL().Exercise_Judge_M_Edit(model);                
-                return exerciseRs;
-            }
+        [WebMethod]
+        public static ExerciseCommon Exercise_Judge_Get(int ExerciseID)
+        {
+            return new ExerciseBLL().Exercise_Judge_Get(ExerciseID);
         }
     }
 }
