@@ -39,7 +39,7 @@ appFilter.filter('keyReplace', function () {
         if (inputValue != undefined) {
             return inputValue.replace(/wshgkjqbwhfbxlfrh/g, ' ');
         }
-        return array;
+        return '';
     }
 });
 

@@ -70,8 +70,42 @@ namespace IES.G2S.Resource.BLL
 
         public bool Exercise_Judge_M_Edit(ExerciseCommon model)
         {
-            return ExerciseDAL.Exercise_Judge_M_Edit(model);
+            try
+            {
+                ExerciseDAL.Exercise_Judge_M_Edit(model);
+                ExerciseDAL.Exercise_MultipleChoice_S_Edit(model);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+             
         }
+
+        public bool Exercise_MultipleChoice_M_Edit(ExerciseCommon model)
+        {
+            return ExerciseDAL.Exercise_MultipleChoice_M_Edit(model);
+        }
+
+        public bool Exercise_FillInBlanks_M_Edit(ExerciseInfo model)
+        {
+            try
+            {
+                ExerciseDAL.Exercise_FillInBlanks_M_Edit(model);
+                ExerciseDAL.Exercise_FillInBlanks_S_Edit(model);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            
+            
+        }
+
+        
+        
 
         public bool Exercise_ADD(IExercise model)
         {

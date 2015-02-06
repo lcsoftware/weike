@@ -25,5 +25,5 @@ as
   
    
    
-  
+  UPDATE ResourceDict SET ID=4 WHERE Name='ÕýÊ½¿¼ÊÔ' AND NameEn='Exam'
     

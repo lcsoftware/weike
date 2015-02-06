@@ -22,7 +22,7 @@ namespace IES.G2S.Resource.DAL
         /// <param name="PageSize"></param>
         /// <param name="PageIndex"></param>
         /// <returns></returns>
-        public static List<Exercise> Exercise_Search( Exercise model , Key key , int PageSize ,int PageIndex )
+        public static List<Exercise> Exercise_Search(Exercise model, Key key, int PageSize, int PageIndex)
         {
             try
             {
@@ -50,9 +50,9 @@ namespace IES.G2S.Resource.DAL
 
         }
 
-        
 
-        #endregion 
+
+        #endregion
 
         #region 详细信息
         public static IExercise Exercise_Get(IExercise model)
@@ -139,11 +139,11 @@ namespace IES.G2S.Resource.DAL
         /// <returns></returns>
         public static ExerciseInfo ExerciseInfo_Get(IExercise model)
         {
-      
+
             try
             {
                 using (IDbConnection conn = DbHelper.ResourceService())
-                {   
+                {
                     ExerciseInfo ef = new ExerciseInfo();
                     var p = new DynamicParameters();
                     p.Add("@ExerciseID", model.ExerciseID);
@@ -163,7 +163,7 @@ namespace IES.G2S.Resource.DAL
             }
             catch (Exception e)
             {
-                return null  ;
+                return null;
             }
 
         }
@@ -197,10 +197,15 @@ namespace IES.G2S.Resource.DAL
             }
         }
 
-        #endregion 
+        #endregion
 
         #region 新增
 
+        /// <summary>
+        /// 判断题信息维护
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public static bool Exercise_Judge_M_Edit(ExerciseCommon model)
         {
             try
@@ -220,7 +225,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@ExerciseTypeName", model.exercise.ExerciseTypeName);
                     p.Add("@Diffcult", model.exercise.Diffcult);
                     p.Add("@Scope", model.exercise.Scope);
-                    p.Add("@ShareRange", model.exercise.ShareRange);                    
+                    p.Add("@ShareRange", model.exercise.ShareRange);
                     p.Add("@Conten", model.exercise.Conten);
                     p.Add("@Answer", model.exercise.Answer);
                     p.Add("@Analysis", model.exercise.Analysis);
@@ -237,15 +242,146 @@ namespace IES.G2S.Resource.DAL
             }
         }
 
+        /// <summary>
+        /// 填空题信息维护
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool Exercise_FillInBlanks_M_Edit(ExerciseInfo model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+
+                    p.Add("@ExerciseID", dbType: DbType.Int32, direction: ParameterDirection.InputOutput, value: model.exercisecommon.exercise.ExerciseID);
+                    p.Add("@OCID", model.exercisecommon.exercise.OCID);
+                    p.Add("@CourseID", model.exercisecommon.exercise.CourseID);
+                    p.Add("@OwnerUserID", model.exercisecommon.exercise.OwnerUserID);
+                    p.Add("@CreateUserID", model.exercisecommon.exercise.CreateUserID);
+                    p.Add("@CreateUserName", model.exercisecommon.exercise.CreateUserName);
+                    p.Add("@ParentID", model.exercisecommon.exercise.ParentID);
+                    p.Add("@ExerciseType", model.exercisecommon.exercise.ExerciseType);
+                    p.Add("@ExerciseTypeName", model.exercisecommon.exercise.ExerciseTypeName);
+                    p.Add("@Diffcult", model.exercisecommon.exercise.Diffcult);
+                    p.Add("@Scope", model.exercisecommon.exercise.Scope);
+                    p.Add("@ShareRange", model.exercisecommon.exercise.ShareRange);
+                    p.Add("@Conten", model.exercisecommon.exercise.Conten);
+                    p.Add("@Analysis", model.exercisecommon.exercise.Analysis);
+                    p.Add("@Keys", model.exercisecommon.exercise.Keys);
+                    p.Add("@Kens", model.exercisecommon.exercise.Kens);
+                    p.Add("@IsRand", model.exercisecommon.exercise.IsRand);
+                    conn.Execute("Exercise_FillInBlanks_M_Edit", p, commandType: CommandType.StoredProcedure);
+                    model.exercisecommon.exercise.ExerciseID = p.Get<int>("ExerciseID");
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 单选 多选题信息维护
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool Exercise_MultipleChoice_M_Edit(ExerciseCommon model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+
+                    p.Add("@ExerciseID", dbType: DbType.Int32, direction: ParameterDirection.InputOutput, value: model.exercise.ExerciseID);
+                    p.Add("@OCID", model.exercise.OCID);
+                    p.Add("@CourseID", model.exercise.CourseID);
+                    p.Add("@OwnerUserID", model.exercise.OwnerUserID);
+                    p.Add("@CreateUserID", model.exercise.CreateUserID);
+                    p.Add("@CreateUserName", model.exercise.CreateUserName);
+                    p.Add("@ParentID", model.exercise.ParentID);
+                    p.Add("@ExerciseType", model.exercise.ExerciseType);
+                    p.Add("@ExerciseTypeName", model.exercise.ExerciseTypeName);
+                    p.Add("@Diffcult", model.exercise.Diffcult);
+                    p.Add("@Scope", model.exercise.Scope);
+                    p.Add("@ShareRange", model.exercise.ShareRange);
+                    p.Add("@Conten", model.exercise.Conten);
+                    p.Add("@Analysis", model.exercise.Analysis);
+                    p.Add("@Keys", model.exercise.Keys);
+                    p.Add("@Kens", model.exercise.Kens);
+                    conn.Execute("Exercise_MultipleChoice_M_Edit", p, commandType: CommandType.StoredProcedure);
+                    model.exercise.ExerciseID = p.Get<int>("ExerciseID");
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 填空选项增加
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool Exercise_FillInBlanks_S_Edit(ExerciseInfo model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+
+                    p.Add("@ExerciseID", model.exercisecommon.exercise.ExerciseID);
+                    p.Add("@Content", model.exercisecommon.exercise.Content);
+                    conn.Execute("Exercise_FillInBlanks_S_Edit", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 选项增加
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool Exercise_MultipleChoice_S_Edit(ExerciseCommon model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+
+                    p.Add("@ExerciseID", model.exercise.ExerciseID);
+                    p.Add("@Content", model.exercise.Content);
+                    conn.Execute("Exercise_MultipleChoice_S_Edit", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
 
 
         /// <summary>
         /// 添加习题的通用信息，问答题
         /// </summary>
         /// <param name="model"></param>
-        public static bool ExerciseCommon_ADD( ExerciseCommon model )
+        public static bool ExerciseCommon_ADD(ExerciseCommon model)
         {
-            try 
+            try
             {
                 using (var conn = DbHelper.ResourceService())
                 {
@@ -271,21 +407,21 @@ namespace IES.G2S.Resource.DAL
                     conn.Execute("Exercise_ADD", p, commandType: CommandType.StoredProcedure);
                     model.exercise.ExerciseID = p.Get<int>("ExerciseID");
 
-                    
+
                     foreach (var ken in model.kenlist)
                     {
                         var p1 = new DynamicParameters();
-                        p1.Add("@ExerciseID", model.exercise.ExerciseID );
+                        p1.Add("@ExerciseID", model.exercise.ExerciseID);
                         p1.Add("@KenID", ken.KenID);
                         p1.Add("@OCID", model.exercise.OCID);
-                        p1.Add("@CourseID", model.exercise.CourseID );
-                        p1.Add("@OwnerUserID", model.exercise.OwnerUserID );
+                        p1.Add("@CourseID", model.exercise.CourseID);
+                        p1.Add("@OwnerUserID", model.exercise.OwnerUserID);
                         p1.Add("@CreateUserID", model.exercise.CreateUserID);
-                        p1.Add("@Name", ken.Name );
+                        p1.Add("@Name", ken.Name);
                         conn.Execute("Exercise_Ken_Edit", p1, commandType: CommandType.StoredProcedure);
                     }
 
-                    foreach (var key in model.keylist )
+                    foreach (var key in model.keylist)
                     {
                         var p1 = new DynamicParameters();
                         p1.Add("@ExerciseID", model.exercise.ExerciseID);
@@ -298,7 +434,7 @@ namespace IES.G2S.Resource.DAL
                         conn.Execute("Exercise_Key_Edit", p1, commandType: CommandType.StoredProcedure);
                     }
 
-                    foreach (var attach in model.attachmentlist )
+                    foreach (var attach in model.attachmentlist)
                     {
                         var p1 = new DynamicParameters();
                         p1.Add("@ExerciseID", model.exercise.ExerciseID);
@@ -307,11 +443,11 @@ namespace IES.G2S.Resource.DAL
                     }
 
                     return true;
-                }   
+                }
             }
             catch (Exception e)
             {
-                return false ;
+                return false;
             }
         }
 
@@ -321,12 +457,12 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static bool ExerciseInfo_ADD( ExerciseInfo model )
+        public static bool ExerciseInfo_ADD(ExerciseInfo model)
         {
             try
             {
-                ExerciseCommon_ADD( model.exercisecommon );
-                ExerciseChoice_ADD( model );
+                ExerciseCommon_ADD(model.exercisecommon);
+                ExerciseChoice_ADD(model);
                 return true;
             }
             catch (Exception e)
@@ -359,7 +495,7 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="exercisechoicelist"></param>
         /// <returns></returns>
-        public static bool ExerciseChoice_ADD(  ExerciseInfo model  )
+        public static bool ExerciseChoice_ADD(ExerciseInfo model)
         {
             try
             {
@@ -369,7 +505,7 @@ namespace IES.G2S.Resource.DAL
                     foreach (var choice in exercisechoicelist)
                     {
                         var p1 = new DynamicParameters();
-                        p1.Add("@ExerciseID", model.exercisecommon.exercise.ExerciseID );
+                        p1.Add("@ExerciseID", model.exercisecommon.exercise.ExerciseID);
                         p1.Add("@Conten", choice.Conten);
                         p1.Add("@IsCorrect", choice.IsCorrect);
                         p1.Add("@Grou", choice.Grou);
@@ -390,21 +526,21 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static bool ExerciseAnswercard_ADD( ExerciseAnswercardInfo  model)
+        public static bool ExerciseAnswercard_ADD(ExerciseAnswercardInfo model)
         {
             try
             {
                 using (var conn = DbHelper.ResourceService())
                 {
-                    List<ExerciseAnswercard> exerciseanswercardlist = model.exerciseanswercardlist ;
+                    List<ExerciseAnswercard> exerciseanswercardlist = model.exerciseanswercardlist;
                     foreach (var answercard in exerciseanswercardlist)
                     {
                         var p1 = new DynamicParameters();
                         p1.Add("@ExerciseID", model.exercisecommon.exercise.ExerciseID);
-                        p1.Add("@CorrectAnswer", answercard.CorrectAnswer );
-                        p1.Add("@Score", answercard.Score );
-                        p1.Add("@Type", answercard.Type );
-                        p1.Add("@ChoiceNum", answercard.ChoiceNum );
+                        p1.Add("@CorrectAnswer", answercard.CorrectAnswer);
+                        p1.Add("@Score", answercard.Score);
+                        p1.Add("@Type", answercard.Type);
+                        p1.Add("@ChoiceNum", answercard.ChoiceNum);
                         conn.Execute("ExerciseAnswercard_ADD", p1, commandType: CommandType.StoredProcedure);
                     }
                     return true;
@@ -418,7 +554,7 @@ namespace IES.G2S.Resource.DAL
 
 
 
-        #endregion 
+        #endregion
 
         #region 对象更新
 
@@ -588,7 +724,7 @@ namespace IES.G2S.Resource.DAL
             }
         }
 
-        #endregion 
+        #endregion
 
         #region 单个属性更新
 
@@ -654,7 +790,7 @@ namespace IES.G2S.Resource.DAL
 
 
 
-        #endregion 
+        #endregion
 
         #region 属性批量操作
 
@@ -664,13 +800,13 @@ namespace IES.G2S.Resource.DAL
         /// <param name="list"></param>
         /// <param name="diffcult"></param>
         /// <returns></returns>
-        public static bool Exercise_Batch_Diffcult( List<IExercise> list , int  diffcult  )
+        public static bool Exercise_Batch_Diffcult(List<IExercise> list, int diffcult)
         {
 
             return true;
         }
 
-        public static bool Exercise_Batch_Del(List<IExercise> list )
+        public static bool Exercise_Batch_Del(List<IExercise> list)
         {
 
             return true;
@@ -702,7 +838,7 @@ namespace IES.G2S.Resource.DAL
         }
 
 
-        #endregion 
+        #endregion
 
         #region 删除
         /// <summary>
