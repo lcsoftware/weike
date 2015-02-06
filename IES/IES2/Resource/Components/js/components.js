@@ -60,15 +60,15 @@ app.directive('fileOperation', function () {
     directive.templateUrl = '/Components/templates/fileOperation.html';
 
     directive.link = function (scope, elem, iAttrs) {
+        console.log('11111111111111', elem.parent());
         //弹出右键菜单
-        elem.parent().parent().hover(function () {
+        elem.parent().hover(function () {
             $(this).find('.mouse_right').toggle();
-            elem.parent().parent().find('.permissions').hide();
             console.log(elem.parent().parent());
         });
 
         //右键菜单表现形式
-        elem.parent().parent().find('.mouse_right li').hover(function () {
+        elem.parent().find('.mouse_right li').hover(function () {
             $(this).addClass('active').siblings().removeClass('active');
             $(this).find('.right_obj').show();
         }, function () {
@@ -95,10 +95,9 @@ app.directive('fileShare', function () {
         //弹出右键菜单
         elem.parent().parent().hover(function () {
             $(this).find('.permissions').show();
-            $(this).find('.mouse_right').hide();
+            console.log('ddddddddddddd', $(this));
         }, function () {
             $(this).find('.permissions').hide();
-            $(this).find('.mouse_right').hide();
         });
 
         //elem.parent().parent().find('.permissions').hover(function () {
