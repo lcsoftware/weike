@@ -6,12 +6,9 @@
     </div>
     <div class="paper_box">
         <div class="paper_sort">
-            <select class="which_course" ng-model="data.course" ng-options="item.Name for item in courses">
-            </select>
-            <select class="question_type" ng-model="data.exerciseType" ng-options="item.name for item in exerciseTypes">
-            </select>
-            <select class="difficulty_degree" ng-model="data.difficult" ng-options="item.name for item in difficulties">
-            </select>
+            <select class="which_course" ng-model="data.course" ng-options="item.Name for item in courses"></select>
+            <select class="question_type" ng-model="data.exerciseType" ng-options="item.name for item in exerciseTypes"></select>
+            <select class="difficulty_degree" ng-model="data.difficult" ng-options="item.name for item in difficulties"></select>
             <div class="range_applicable">
                 <span>适用范围</span>
                 <p ng-repeat="item in ranges">
@@ -21,23 +18,29 @@
         </div>
         <div class="label_box">
             <div class="label_item">
-                <p>
-                    <select ng-model="keySelection" ng-options="item.Name for item in keys">
-                    </select>
-                    <a ng-click="addKey()"><span class="icon"></span></a>
-                </p>
+                <div>
+                    @*<select ng-model="keySelection" ng-options="item.Name for item in keys">
+                        </select>*@
+                    <input type="text" ng-model="exerciseKey" />
+                    <a ng-click="addKey(exerciseKey)"><span class="icon"></span>添加标签</a>
+                </div>
                 <ul class="item_list">
-                    <li ng-repeat="item in data.selectedKeys"><a ng-click="removeKey(item)">{{item.Name}}<span>×</span></a></li>
+                    <li ng-repeat="item in data.keys"><a ng-click="removeKey(item)">{{item.Name}}<span>×</span></a></li>
                 </ul>
             </div>
             <div class="zhishi_box">
-                <a class="connect_knowledge" href="#"><em><i class="icon"></i></em><span>关联知识点</span></a>
+                @*<input type="text" ng-model="exerciseKen" />
+                    <a class="connect_knowledge" href="#"><em><i class="icon"></i></em><span>关联知识点</span></a>*@
+                <div>
+                    <input type="text" ng-model="exerciseKen" />
+                    <a ng-click="addKen(exerciseKen)"><span class="icon"></span>添加知识点</a>
+                </div>
                 <ul class="knowledge_item">
-                    <li ng-repeat="item in data.knowledges"><a ng-click="removeKnow(item);">{{item.Name}}<span>×</span></a></li>
+                    <li ng-repeat="item in data.kens"><a ng-click="removeKen(item);">{{item.Name}}<span>×</span></a></li>
                 </ul>
             </div>
         </div>
-        <div class="paper_content"> 
+        <div class="paper_content">
             <div ui-view></div>
             <div class="btn_box">
                 <a href="javascript:;" class="save">预览</a>
