@@ -43,6 +43,8 @@ app.directive('fileOperation', function () {
 
     directive.restrict = 'EA';
 
+    directive.replace = true;
+
     directive.scope = {
         onProperty: '&',
         onRename: '&',
@@ -59,38 +61,65 @@ app.directive('fileOperation', function () {
 
     directive.link = function (scope, elem, iAttrs) {
         //弹出右键菜单
-        elem.find('.more_operation').hover(function () {
+        elem.parent().parent().hover(function () {
             $(this).find('.mouse_right').toggle();
+            elem.parent().parent().find('.permissions').hide();
+            console.log(elem.parent().parent());
         });
 
         //右键菜单表现形式
-        elem.find('.mouse_right li').hover(function () {
+        elem.parent().parent().find('.mouse_right li').hover(function () {
             $(this).addClass('active').siblings().removeClass('active');
             $(this).find('.right_obj').show();
         }, function () {
             $(this).removeClass('active');
             $(this).find('.right_obj').hide();
-        });
-
-        elem.find('#youlan').hover(function () {
-            elem.find('.permissions').show();
-        }, function () {
-            //elem.find('.permissions').hide();
-        });
-
-        elem.find('#eShare').click(function () {
-            //换图片
-        })
-
-        elem.find('.permissions li').hover(function () {
-            $(this).addClass('current').siblings().removeClass('current');
-        }, function () {
-            $(this).removeClass('current');
-        })
+        }); 
     }
 
     return directive;
 });
+app.directive('fileShare', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.scope = {
+        onShare: '&',
+        shareItem: '='
+    }
+
+    directive.templateUrl = '/Components/templates/fileShared.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        //弹出右键菜单
+        elem.parent().parent().hover(function () {
+            $(this).find('.permissions').show();
+            $(this).find('.mouse_right').hide();
+        }, function () {
+            $(this).find('.permissions').hide();
+            $(this).find('.mouse_right').hide();
+        });
+
+        //elem.parent().parent().find('.permissions').hover(function () {
+        //    $(this).hide();
+        //});
+
+        
+
+        //右键菜单表现形式
+        //elem.find('.mouse_right li').hover(function () {
+        //    $(this).addClass('active').siblings().removeClass('active');
+        //    $(this).find('.right_obj').show();
+        //}, function () {
+        //    $(this).removeClass('active');
+        //    $(this).find('.right_obj').hide();
+        //}); 
+    }
+
+    return directive;
+});
+
 
 app.directive('addKnowledge', function () {
     var directive = {};

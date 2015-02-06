@@ -80,33 +80,20 @@
                 @*<input type="checkbox" checklist-model="checks" checklist-value="item" ng-click="checkAdd(item)">*@
                 <input type="checkbox" checklist-model="checks" checklist-value="item" ng-click="checkAdd(item)">
                 <folder folder-name="item.Name" folder-ext="item.Ext" on-open="folderClick(item)" on-blur="updFolderName(item)"></folder>
-                <file-operation on-property="fileProperty(item)" on-remove="fireRemove(item)" on-return-page="returnPage(item)"
-                                on-mobile="fireMobile(item)" share-ranges="shareRanges" folderrelation="item">
-                </file-operation>
-
-                @*<div class="file_operation">
+                <div class="file_operation">
                     <div class="more_operation">
                         <span>...</span>
-                        <ul class="mouse_right">
-                            <li ng-click="fileProperty(item)" ng-show="item.RelationType==1"><p><i class="icon data_property"></i>资料属性</p></li>
-                            <li bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel" ng-click="fireMobile(item)">
-                                <p><i class="icon data_move"></i>移动资料</p>
-                            </li>
-                            <!--<li ng-click="onRename()"><p><i class="icon data_rename"></i>重命名</p></li>-->
-                            <li ng-click="onDownload()"><p><i class="icon data_download"></i>下载资料</p></li>
-                            <!--<li ng-click="onVideo()"><p><i class="icon video"></i>视频剪辑</p></li>-->
-                            <li ng-click="fireRemove(item)"><p><i class="icon data_remove"></i>删除资料</p></li>
-                        </ul>
-                    </div>
-                    <!--<a class="icon data_move" style="cursor:pointer" ng-click="onReturnPage(item)"></a>-->
+                        <file-operation on-property="fileProperty(item)" on-remove="fireRemove(item)" on-return-page="returnPage(item)"
+                                        on-mobile="fireMobile(item)" folderrelation="item">
+                        </file-operation>
 
-                    <a class="icon data_share" id="youlan"></a>
-                    <ul class="permissions" style="margin-left:30em;margin-top:2em;">
-                        <li ng-repeat="sr in shareRanges" ng-click="fileShareRange(item,sr)">
-                            <p style="cursor:pointer" id="eShare"><i class="icon"></i>{{sr.name}}</p>
-                        </li>
+                    </div>
+                    <a class="icon data_share" ng-show="item.RelationType==1"></a>
+                    <ul class="permissions" style="margin-left:25em;margin-top:2em;z-index:1000">
+                        <file-share ng-repeat="shareData in shareRanges" on-share="fileShareRange(item,shareData)" share-item="shareData">
+                        </file-share>
                     </ul>
-                </div>*@
+                </div>
             </div>
         </td>
         <td ng-bind="item.RelationType==1?'文件':'文件夹'"></td>

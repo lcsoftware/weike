@@ -41,12 +41,13 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             if ($scope.$parent.courses.length === 0 ||
                 $scope.$parent.courses[0].OCID !== -1) {
                 var course = data.d;
-                course.OCID = -1;
+                course.OCID = 0;
                 course.Name = '个人资料';
                 $scope.$parent.courses.insert(0, course);
                 $scope.$parent.course = course;
                 $scope.model.OCID = course.OCID;
                 $scope.model.CourseID = course.CourseID;
+                $scope.model.ParentID = 0;
                 $scope.filterChanged();
 
                 $scope.tabTitles = [];
@@ -182,6 +183,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         });
     }
 
+    var fileIndex = 0;
     //新建文件
     $scope.AddFile = function () {
         var file = {};
@@ -193,11 +195,13 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         file.OCID = $scope.model.OCID;
         file.CourseID = $scope.model.CourseID;
         file.ShareRange = -1;
-        file.FileTitle = '1';
-        file.FileName = '1';
-        file.Ext = 'txt';
+        file.FileTitle = '1' + fileIndex.toString();
+        file.FileName = '1' + fileIndex.toString();
+        file.Ext = fileIndex % 2 === 0 ? 'PPT' : 'PDF';
         file.FileSize = '15';
+        file.FileType = fileIndex % 2 === 0 ? 4 : 5;
         file.pingyin = 'pingyin';
+        fileIndex++;
         resourceService.File_ADD(file, function (data) {
             if (data.d) {
                 $scope.filterChanged();
@@ -259,7 +263,9 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             });
         }
     }
-
+    $scope.assignShare = function (shareItem) {
+        console.log(shareItem);
+    }
     //移动文件夹选中数据
     $scope.selectedMove = function (item) {
         $scope.folder = item;
@@ -298,16 +304,17 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         }
         resourceService.FolderRelation_List(folder, null, function (data) {
             if (data.d) {
+
                 $scope.files = data.d;
+                
+                var rootFolder = {};
+                angular.copy(data.d[0], rootFolder);
+                rootFolder.Id = 0;
+                rootFolder.Children.length = 0;
+                rootFolder.ParentID = -1;
+                rootFolder.Name = '根目录';
 
-                var file = {};
-                angular.copy(data.d[0], file);
-                file.Id = 0;
-                file.ParentID = -1;
-                file.Name = '根目录';
-                $scope.files.insert(0, file);
-
-                //$scope.model.FolderID = $scope.files[0].FolderID;
+                //remove self
                 for (var n = 0; n < $scope.checksSelect.length; n++) {
                     for (var i = 0; i < $scope.files.length; i++) {
                         if ($scope.files[i].RelationType == $scope.checksSelect[n].RelationType) {
@@ -319,7 +326,15 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                         }
                     }
                 }
-                console.log($scope.files);
+                
+                var length = $scope.files.length;
+                for (var i = 0; i < length; i++) {
+                    if ($scope.files[i].ParentID == rootFolder.Id) {
+                        rootFolder.Children.push($scope.files[i]);
+                    }
+                } 
+                $scope.files.length = 0;
+                $scope.files.push(rootFolder);
             }
         });
     }
@@ -499,10 +514,12 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         }
     }
     $scope.fileShareRange = function (item, sr) {
-        console.log(item);
-        console.log(sr);
-        var model = { FileID: item.id, ShareRange: sr.id };
+        console.log(item.Id);
+        console.log(sr.id);
+        var model = { FileID: item.Id, ShareRange: sr.id };
+        resourceService.File_ShareRange_Upd(model, function (data) {
 
+        });
     }
 
     $scope.visible = function (item) {

@@ -150,7 +150,7 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static IList<FolderRelation> FolderRelation_List(Folder folder, File file)
         {
-            //if (folder.ParentID == 0) folder.ParentID = -1;
+            if (folder.ParentID == 0) folder.ParentID = -1;
             //IList<Folder> allFolders = new FileBLL().Folder_List(folder);
             IList<Folder> allFolders = Folder_List(folder);
             if(file != null)
@@ -194,16 +194,8 @@ namespace App.Resource.DataProvider.Resource
 
             foreach (var root in allFolderRelations)
             {
-                if (folder.ParentID == -1) folder.ParentID = 0;
-                if (root.ParentID == folder.ParentID) roots.Add(root);
-                //if (root.RelationType == FileType.Folder)
-                //{
-                //    if (root.ParentID == folder.ParentID) roots.Add(root);
-                //}
-                //else
-                //{
-                //    roots.Add(root);
-                //}
+                var parentId = folder.ParentID == -1 ? 0 : folder.ParentID;
+                if (root.ParentID == parentId) roots.Add(root); 
             }
             foreach (var root in roots)
             {
@@ -213,7 +205,7 @@ namespace App.Resource.DataProvider.Resource
                 }
             }            
              
-            return roots;
+            return roots.ToList();
         }
 
         private static void BuildRelationFolder(IList<FolderRelation> allFolders, FolderRelation root)
@@ -241,12 +233,7 @@ namespace App.Resource.DataProvider.Resource
         /// <returns></returns>
         [WebMethod]
         public static IList<Folder> Folder_List(Folder folder)
-        {
-            if (folder.ParentID == 0)
-            {
-                folder.ParentID = -1;
-            }
-
+        { 
             IList<Folder> allFolders = new FileBLL().Folder_List(folder);            
 
             return allFolders;

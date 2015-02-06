@@ -44,7 +44,7 @@ aService.factory('resourceService', ['httpService', function (httpService) {
     }
     //设置文件使用权限
     service.File_ShareRange_Upd = function (file, callback) {
-        httpService.ajaxPost(url, 'File_ShareRange_Upd', { file: file }, callback);
+        httpService.ajaxPost(url, 'File_ShareRange_Upd', { model: file }, callback);
     }
     service.File_Chapter_Ken_Edit = function (file, chapter, ken, callback) {
         httpService.ajaxPost(url, 'File_Chapter_Ken_Edit', { model: file, chapter: chapter, ken: ken }, callback);
@@ -101,7 +101,9 @@ aService.factory('resourceService', ['httpService', function (httpService) {
 
     //查询列表方法
     service.FolderRelation_List = function (folder, file, callback) {
-        file.UploadTime = resetTimePass(file.timePass); 
+        if (file) {
+            file.UploadTime = resetTimePass(file.timePass);
+        }
         httpService.ajaxPost(url, 'FolderRelation_List', { folder: folder, file: file }, callback);
     }
 
