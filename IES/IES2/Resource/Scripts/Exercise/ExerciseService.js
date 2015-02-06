@@ -28,6 +28,9 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     service.ExerciseInfo_GetListen = function (model, callback) {
         httpService.ajaxPost(url, 'ExerciseInfo_GetListen', { model: model }, callback);
     }
+    service.Exercise_Model_Info_Get = function (callback) {
+        httpService.ajaxPost(url, 'Exercise_Model_Info_Get', null, callback);
+    }
     
 
     //习题新增
@@ -39,13 +42,21 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     service.Exercise_Del = function (exerciseID, callback) {
         httpService.ajaxPost(url, 'Exercise_Del', { exerciseID: exerciseID}, callback);
     }
-
+    //判断题增改
     service.Exercise_Judge_M_Edit = function (model, callback) {
         httpService.ajaxPost(url, 'Exercise_Judge_M_Edit', { model: model }, callback);
     }
-
+    //判断题获取
     service.Exercise_Judge_Get = function (model, callback) {
         httpService.ajaxPost(url, 'Exercise_Judge_Get', { ExerciseID: model }, callback);
+    }
+    //单选多选题增改
+    service.Exercise_MultipleChoice_M_Edit = function (model, callback) {
+        httpService.ajaxPost(url, 'Exercise_MultipleChoice_M_Edit', { ExerciseID: model }, callback);
+    }
+    //填空题增改
+    service.Exercise_FillInBlanks_M_Edit = function (model, callback) {
+        httpService.ajaxPost(url, 'Exercise_FillInBlanks_M_Edit', { model: model }, callback);
     }
 
     return service;

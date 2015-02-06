@@ -37,6 +37,22 @@ namespace App.Resource.DataProvider.Exercise
         }
 
         [WebMethod]
+        public static ExerciseInfo Exercise_Model_Info_Get()
+        {
+            return new ExerciseInfo()
+            {
+                exercisechoicelist = new List<ExerciseChoice>(),
+                exercisecommon = new ExerciseCommon()
+                {
+                    kenlist = new List<Ken>(),
+                    keylist = new List<Key>(),
+                    exercise = new IES.Resource.Model.Exercise(),
+                    attachmentlist = new List<Attachment>()
+                }
+            };
+        }
+
+        [WebMethod]
         public static bool Exercise_ADD(string model)
         {
 
@@ -109,11 +125,39 @@ namespace App.Resource.DataProvider.Exercise
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseCommon>(model);
             return new ExerciseBLL().Exercise_Judge_M_Edit(v);
         }
-
+        /// <summary>
+        /// 判断题信息获取
+        /// </summary>
+        /// <param name="ExerciseID"></param>
+        /// <returns></returns>
         [WebMethod]
         public static ExerciseCommon Exercise_Judge_Get(int ExerciseID)
         {
             return new ExerciseBLL().Exercise_Judge_Get(ExerciseID);
+        }
+
+        /// <summary>
+        /// 单选 多选题信息维护
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool Exercise_MultipleChoice_M_Edit(string model)
+        {
+            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseCommon>(model);
+            return new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v);
+        }
+
+        /// <summary>
+        /// 填空题信息维护
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool Exercise_FillInBlanks_M_Edit(string model)
+        {
+            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            return new ExerciseBLL().Exercise_FillInBlanks_M_Edit(v);
         }
     }
 }

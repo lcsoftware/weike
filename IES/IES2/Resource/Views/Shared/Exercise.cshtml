@@ -11,8 +11,8 @@
             <select class="difficulty_degree" ng-model="data.difficult" ng-options="item.name for item in difficulties"></select>
             <div class="range_applicable">
                 <span>适用范围</span>
-                <p ng-repeat="item in ranges">
-                    <input type="checkbox" checklist-model="data.rangeSelected" checklist-value="item">{{item.name}}
+                <p ng-repeat="item in scopes">
+                    <input type="checkbox" checklist-model="data.scopes" checklist-value="item">{{item.name}}
                 </p>
             </div>
         </div>
