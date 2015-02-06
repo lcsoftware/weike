@@ -127,6 +127,17 @@ namespace App.Resource.DataProvider.Resource
         {
             return new FileBLL().File_Chapter_Ken_Edit(model, chapter, ken);
         }
+
+        /// <summary>
+        /// 设置共享范围
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool File_ShareRange_Upd(File model)
+        {
+            return new FileBLL().File_ShareRange_Upd(model);
+        }
         #endregion
 
         #region FolderRelation

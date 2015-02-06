@@ -492,6 +492,12 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             });
         }
     }
+    $scope.fileShareRange = function (item, sr) {
+        console.log(item);
+        console.log(sr);
+        var model = { FileID: item.id, ShareRange: sr.id };
+
+    }
 
     $scope.visible = function (item) {
         if ($scope.query && $scope.query.length > 0
@@ -500,6 +506,34 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         }
         return true;
     };
+
+    //弹出右键菜单
+    $('.more_operation').hover(function () {
+        $(this).find('.mouse_right').toggle();
+    });
+    //右键菜单表现形式
+    $('.mouse_right li').hover(function () {
+        $(this).addClass('active').siblings().removeClass('active');
+        $(this).find('.right_obj').show();
+    }, function () {
+        $(this).removeClass('active');
+        $(this).find('.right_obj').hide();
+    });
+    $('#youlan').hover(function () {
+        $('.permissions').show();
+    }, function () {
+        //elem.find('.permissions').hide();
+    });
+    $('#eShare').click(function () {
+        //换图片
+    })
+    $('.permissions li').hover(function () {
+        $(this).addClass('current').siblings().removeClass('current');
+    }, function () {
+        $(this).removeClass('current');
+    })
+
+
 
     $('.batch_list li').hover(function () {
         $(this).addClass('active').siblings().removeClass('active');
@@ -512,4 +546,5 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $(this).removeClass('current');
     })
 
+    
 }]);

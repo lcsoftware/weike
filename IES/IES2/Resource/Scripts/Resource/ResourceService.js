@@ -42,6 +42,10 @@ aService.factory('resourceService', ['httpService', function (httpService) {
     service.File_Batch_ShareRange = function (FileIDS, ShareRange, callback) {
         httpService.ajaxPost(url, 'File_Batch_ShareRange', { FileIDS: FileIDS, ShareRange: ShareRange }, callback);
     }
+    //设置文件使用权限
+    service.File_ShareRange_Upd = function (file, callback) {
+        httpService.ajaxPost(url, 'File_ShareRange_Upd', { file: file }, callback);
+    }
     service.File_Chapter_Ken_Edit = function (file, chapter, ken, callback) {
         httpService.ajaxPost(url, 'File_Chapter_Ken_Edit', { model: file, chapter: chapter, ken: ken }, callback);
     }
