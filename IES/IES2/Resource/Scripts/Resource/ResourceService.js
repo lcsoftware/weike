@@ -80,8 +80,28 @@ aService.factory('resourceService', ['httpService', function (httpService) {
         httpService.ajaxPost(url, 'Folder_Del', { folder: folder }, callback);
     }
 
+    var resetTimePass = function (timePass) {
+        var UploadTime = new Date();
+        switch (timePass) {
+            case "1":
+                UploadTime.setTime(UploadTime.getTime() - 7 * 24 * 3600 * 1000);
+                break;
+            case "2":
+                UploadTime.setTime(UploadTime.getTime() - 30 * 24 * 3600 * 1000);
+                break;
+            case "3":
+                UploadTime.setTime(UploadTime.getTime() - 180 * 24 * 3600 * 1000);
+                break;
+            default:
+                UploadTime = new Date("2011", "00", "01");
+                break;
+        }
+        return UploadTime;
+    }
+
     //查询列表方法
     service.FolderRelation_List = function (folder, file, callback) {
+        file.UploadTime = resetTimePass(file.timePass); 
         httpService.ajaxPost(url, 'FolderRelation_List', { folder: folder, file: file }, callback);
     }
 

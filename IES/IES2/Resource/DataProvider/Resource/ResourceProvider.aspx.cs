@@ -156,7 +156,7 @@ namespace App.Resource.DataProvider.Resource
             if(file != null)
             {
                 file.FolderID = folder.ParentID;
-                file.UploadTime = DateTime.Now.AddMonths(-1);
+                //file.UploadTime = DateTime.Now.AddMonths(-1);
             }            
             IList<File> allFiles = new FileBLL().File_Search(file);
 
