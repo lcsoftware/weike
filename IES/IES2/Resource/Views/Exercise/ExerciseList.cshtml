@@ -54,6 +54,6 @@
 </div>
 <div class="topic_detail">
     <ul class="topic_list">
-        <exercise-list ng-repeat="item in exercises" exercise="item" edit-exercise="editExercise(item)" share-exercise="shareExercise(item)" delete-exercise="deleteExercise(item)"></exercise-list>
+        <exercise-list ng-repeat="item in exercises | parentID:0" exercise="item" edit-exercise="editExercise(item)" share-exercise="shareExercise(item)" delete-exercise="deleteExercise(item)"></exercise-list>
     </ul>
 </div>
