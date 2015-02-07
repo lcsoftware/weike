@@ -15,23 +15,27 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         });
         ///课程加载完成
         $scope.$on('courseLoaded', function (course) {
-            contentService.OC_Get(function (data) {
-                $scope.$parent.courses.length = 0;
-                var course = angular.copy(data.d);
-                course.OCID = -2;
-                course.CourseID = course.OCID;
-                course.Name = '共享习题';
-                $scope.$parent.courses.insert(0, course);
 
-                course = angular.copy(data.d);
-                course.OCID = -1;
-                course.CourseID = course.OCID;
-                course.Name = '我的习题';
-                $scope.$parent.courses.insert(0, course);
-                $scope.$parent.course = course;
-
-            });
         });
+
+        contentService.OC_Get(function (data) {
+            $scope.$parent.courses.length = 0;
+            var course = angular.copy(data.d);
+            course.OCID = -2;
+            course.CourseID = course.OCID;
+            course.Name = '共享习题';
+            $scope.$parent.courses.insert(0, course);
+
+            course = angular.copy(data.d);
+            course.OCID = -1;
+            course.CourseID = course.OCID;
+            course.Name = '我的习题';
+            $scope.$parent.courses.insert(0, course);
+            $scope.$parent.course = course;
+
+        });
+
+
         //习题列表
         $scope.exercises = [];
 
@@ -352,10 +356,12 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
 
         $scope.addKey = function (exerciseKey) {
             $scope.data.keys.push({ Name: exerciseKey });
+            $scope.exerciseKey = '';
         }
 
         $scope.addKen = function (exerciseKen) {
             $scope.data.kens.push({ Name: exerciseKen });
+            $scope.exerciseKen = '';
         }
 
         $scope.removeKey = function (key) {
