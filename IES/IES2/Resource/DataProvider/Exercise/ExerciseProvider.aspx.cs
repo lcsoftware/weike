@@ -147,6 +147,17 @@ namespace App.Resource.DataProvider.Exercise
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             return new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v);
         }
+        /// <summary>
+        /// 单选 多选题信息获取
+        /// </summary>
+        /// <param name="ExerciseID"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static ExerciseInfo Exercise_MultipleChoice_Get(int ExerciseID)
+        {
+            return new ExerciseBLL().Exercise_MultipleChoice_Get(ExerciseID);
+        }
+
 
         /// <summary>
         /// 填空题信息维护

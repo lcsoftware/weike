@@ -54,6 +54,10 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     service.Exercise_MultipleChoice_M_Edit = function (model, callback) {
         httpService.ajaxPost(url, 'Exercise_MultipleChoice_M_Edit', { model: model }, callback);
     }
+    //单选多选题获取
+    service.Exercise_MultipleChoice_Get = function (ExerciseID, callback) {
+        httpService.ajaxPost(url, 'Exercise_MultipleChoice_Get', { ExerciseID: ExerciseID }, callback);
+    }
     //填空题增改
     service.Exercise_FillInBlanks_M_Edit = function (model, callback) {
         httpService.ajaxPost(url, 'Exercise_FillInBlanks_M_Edit', { model: model }, callback);

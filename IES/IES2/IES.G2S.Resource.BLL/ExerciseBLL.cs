@@ -69,6 +69,11 @@ namespace IES.G2S.Resource.BLL
             return ExerciseDAL.Exercise_Analysis_Get(ExerciseID);
         }
 
+        public ExerciseInfo Exercise_MultipleChoice_Get(int ExerciseID)
+        {
+            return ExerciseDAL.Exercise_MultipleChoice_Get(ExerciseID);
+        }
+
         #endregion 
 
         #region 新增
