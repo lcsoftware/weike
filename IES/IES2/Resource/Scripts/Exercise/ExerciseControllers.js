@@ -52,7 +52,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         //标签
         $scope.keys = [];
         //知识点
-        $scope.knowledges = [];
+        $scope.kens = [];
 
         $scope.data = {};
         $scope.data.searchKey = '';
@@ -60,7 +60,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         $scope.data.exerciseType = {};
         $scope.data.difficult = {};
         //知识点
-        $scope.data.knowledge = {};
+        $scope.data.ken = {};
         $scope.data.shareRange = {};
         //被选择的标签
         $scope.data.key = {};
@@ -111,13 +111,12 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         });
 
         resourceKenService.ResourceKen_List('', 'Exercise', 100, function (data) {
-            if (data) {
-                $scope.knowledges = data;
-                var item = angular.copy($scope.knowledges[0]);
-                item.KenID = -1;
-                item.Source = '不限';
-                $scope.knowledges.insert(0, item);
-                $scope.data.knowledge = $scope.knowledges[0];
+            if (data.d) {
+                $scope.kens = data.d;
+                $scope.data.ken = angular.copy($scope.kens[0]);
+                $scope.data.ken.KenID = -1;
+                $scope.data.ken.Name = '不限';
+                $scope.kens.insert(0, $scope.data.ken);
             }
         });
 
@@ -310,18 +309,18 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
             if (data) $scope.scopes = angular.copy(data);
         });
 
-        $scope.$watch('data.course', function (v) {
-            kenService.Ken_List({ OCID: v.OCID }, function (data) {
-                if (data.d) $scope.data.kens = data.d;
-            });
-            assistService.Key_List({ OCID: v.OCID }, function (data) {
-                if (data.d) {
-                    $scope.keys = data.d;
-                    $scope.keySelection = $scope.keys[0];
-                    $scope.data.selectedKeys.length = 0;
-                }
-            });
-        });
+        //$scope.$watch('data.course', function (v) {
+        //    kenService.Ken_List({ OCID: v.OCID }, function (data) {
+        //        if (data.d) $scope.data.kens = data.d;
+        //    });
+        //    assistService.Key_List({ OCID: v.OCID }, function (data) {
+        //        if (data.d) {
+        //            $scope.keys = data.d;
+        //            $scope.keySelection = $scope.keys[0];
+        //            $scope.data.selectedKeys.length = 0;
+        //        }
+        //    });
+        //});
 
         $scope.$watch('data.exerciseType', function (v) {
             var param = { ExerciseID: $scope.$stateParams.ExerciseID };
@@ -390,7 +389,6 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         }
 
         $scope.submit = function () {
-            //$scope.$broadcast('willSubmit');
             $scope.$broadcast('willRequestSave', $scope.data);
         }
 
@@ -435,17 +433,8 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
             }
         }
 
-        var setKey = function (keylist) {
-            $scope.data.selectedKeys.length = 0;
-            var length = $scope.keys.length;
-            for (var i = 0; i < length; i++) {
-                for (var n = 0; n < keylist.length; n++) {
-                    if ($scope.keys[i].KeyID == keylist[n].KeyID) {
-                        $scope.data.selectedKeys.push($scope.keys[i]);
-                    }
-                }
-
-            }
+        var setKeys = function (keyList) {
+            $scope.data.keys.length = 0; 
         }
 
         $scope.willEdit = function (data) {
@@ -453,19 +442,9 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
             setExerciseType(data.exercise.ExerciseType);
             setDifficult(data.exercise.Diffcult);
             setScope(data.exercise.Scope);
-
-            $timeout(function () {
-                setKey(data.keylist);
-            }, 500);
-
+            $scope.data.keys = data.exercise.KeyList;
+            $scope.data.kens = data.exercise.KenList;
         }
-
-        $scope.$on('$viewContentLoaded', function () {
-            //console.log('$viewContentLoaded');
-        });
-
-
-
     }]);
 
 //简答题

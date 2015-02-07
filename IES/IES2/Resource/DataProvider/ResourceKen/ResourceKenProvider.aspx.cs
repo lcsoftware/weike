@@ -19,14 +19,15 @@ namespace App.Resource.DataProvider.ResourceKen
         [WebMethod]
         public static IList<IES.Resource.Model.ResourceKen> ResourceKen_List_Source(int ocid, string source)
         {
-            return new ResourceKenBLL().ResourceKen_List_Source(ocid, source); 
+            IList <IES.Resource.Model.ResourceKen> kens = new ResourceKenBLL().ResourceKen_List_Source(ocid, source);
+            return kens;
         }
 
         [WebMethod]
-        public static IList<IES.Resource.Model.ResourceKen> ResourceKen_List(string searchKey, string source, int topNum)
+        public static IList<IES.Resource.Model.Ken> ResourceKen_List(string searchKey, string source, int topNum)
         {
             var user = IES.Service.UserService.CurrentUser;
-            return new ResourceKenBLL().ResourceKen_List(searchKey, source, user.UserID, topNum); 
+            return new ResourceKenBLL().ResourceKen_List(searchKey, source, user.UserID, topNum);
         }
 
         [WebMethod]
