@@ -4,6 +4,7 @@ var appExercise = angular.module('app.exercise.controllers', [
     'checklist-model',
     'app.assist.services',
     'app.exercise.services',
+    'app.ken.services',
     'app.resken.services'
 ]);
 
@@ -77,8 +78,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         });
 
         assistService.Resource_Dict_ExerciseType_Get(function (data) {
-            if (data.d) {
-                $scope.exerciseTypes = data.d;
+            if (data) {
+                $scope.exerciseTypes = angular.copy(data);
                 var item = angular.copy($scope.exerciseTypes[0]);
                 item.id = -1;
                 item.name = '不限';
@@ -88,8 +89,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         });
 
         assistService.Resource_Dict_Diffcult_Get(function (data) {
-            if (data.d) {
-                $scope.difficulties = data.d;
+            if (data) {
+                $scope.difficulties = angular.copy(data);
                 var item = angular.copy($scope.difficulties[0]);
                 item.id = -1;
                 item.name = '不限';
@@ -99,8 +100,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         });
 
         assistService.Resource_Dict_ShareRange_Get(function (data) {
-            if (data.d) {
-                $scope.shareRanges = data.d;
+            if (data) {
+                $scope.shareRanges = angular.copy(data);
                 var item = angular.copy($scope.shareRanges[0]);
                 item.id = -1;
                 item.name = '不限';
@@ -110,8 +111,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         });
 
         resourceKenService.ResourceKen_List('', 'Exercise', 100, function (data) {
-            if (data.d) {
-                $scope.knowledges = data.d;
+            if (data) {
+                $scope.knowledges = data;
                 var item = angular.copy($scope.knowledges[0]);
                 item.KenID = -1;
                 item.Source = '不限';
@@ -292,21 +293,21 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         });
 
         assistService.Resource_Dict_ExerciseType_Get(function (data) {
-            if (data.d) {
-                $scope.exerciseTypes = data.d;
+            if (data) {
+                $scope.exerciseTypes = angular.copy(data);
                 $scope.data.exerciseType = $scope.exerciseTypes[0];
             }
         });
 
         assistService.Resource_Dict_Diffcult_Get(function (data) {
-            if (data.d) {
-                $scope.difficulties = data.d;
+            if (data) {
+                $scope.difficulties = angular.copy(data);
                 $scope.data.difficult = $scope.difficulties[0];
             }
         });
 
         assistService.Resource_Dict_Scope_Get(function (data) {
-            if (data.d) $scope.scopes = data.d;
+            if (data) $scope.scopes = angular.copy(data);
         });
 
         $scope.$watch('data.course', function (v) {
