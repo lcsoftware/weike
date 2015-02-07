@@ -189,11 +189,6 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         }
         ///习题删除
         $scope.deleteExercise = function (exercise) {
-            //var model = {
-            //    KenID: $scope.knowSelection.KenID,
-            //    ResourceID: exercise.ExerciseID,
-            //    Source: 'Exercise'
-            //}
             exerciseService.Exercise_Del(exercise.ExerciseID, function (data) {
                 var length = $scope.exercises.length;
                 for (var i = 0; i < length; i++) {
@@ -204,17 +199,6 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
                 }
 
             });
-            //resourceKenService.ResourceKen_Del(model, function (data) {
-            //    if (data.d === true) {
-            //        var length = $scope.chapterExercises.length;
-            //        for (var i = 0; i < length; i++) {
-            //            if ($scope.chapterExercises[i].ExerciseID === exercise.ExerciseID) {
-            //                $scope.chapterExercises.splice(i, 1);
-            //                break;
-            //            }
-            //        }
-            //    }
-            //});
         }
         /// <summary>
         /// 1判断题 ; 2单选题 ; 3 多选题 4填空题（客观）5填空题 ; 6连线题 ;7 排序题 ; 8分析题  9计算题   10问答题 ;
@@ -266,7 +250,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         //范围
         $scope.ranges = [];
         //标签
-        $scope.keys = [];
+        //$scope.keys = [];
 
         $scope.keySelection = {};
         $scope.scope = {};
@@ -308,19 +292,6 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         assistService.Resource_Dict_Scope_Get(function (data) {
             if (data) $scope.scopes = angular.copy(data);
         });
-
-        //$scope.$watch('data.course', function (v) {
-        //    kenService.Ken_List({ OCID: v.OCID }, function (data) {
-        //        if (data.d) $scope.data.kens = data.d;
-        //    });
-        //    assistService.Key_List({ OCID: v.OCID }, function (data) {
-        //        if (data.d) {
-        //            $scope.keys = data.d;
-        //            $scope.keySelection = $scope.keys[0];
-        //            $scope.data.selectedKeys.length = 0;
-        //        }
-        //    });
-        //});
 
         $scope.$watch('data.exerciseType', function (v) {
             var param = { ExerciseID: $scope.$stateParams.ExerciseID };
@@ -385,10 +356,6 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
                     break;
                 }
             }
-        }
-
-        $scope.doChanged = function () {
-            $scope.$broadcast('willExerciseChange', {});
         }
 
         $scope.submit = function () {
