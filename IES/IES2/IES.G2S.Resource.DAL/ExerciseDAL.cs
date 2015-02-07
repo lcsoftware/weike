@@ -197,6 +197,50 @@ namespace IES.G2S.Resource.DAL
             }
         }
 
+        public static ExerciseInfo Exercise_Analysis_Get(int ExerciseID)
+        {
+            try
+            {
+                using (IDbConnection conn = DbHelper.ResourceService())
+                {
+                    ExerciseInfo ef = new ExerciseInfo()
+                    {
+                        exercisechoicelist = new List<ExerciseChoice>(),
+                        exercisecommon = new ExerciseCommon()
+                        {
+                            kenlist = new List<Ken>(),
+                            keylist = new List<Key>(),
+                            exercise = new IES.Resource.Model.Exercise(),
+                            attachmentlist = new List<Attachment>()
+                        }
+                    };
+                    var p = new DynamicParameters();
+                    p.Add("@ExerciseID", ExerciseID);
+
+                    var multi = conn.QueryMultiple("Exercise_Analysis_Get", p, commandType: CommandType.StoredProcedure);
+                    //主题
+                    var exercise = multi.Read<Exercise>().Single();
+                    var attachmentlist = multi.Read<Attachment>().ToList();
+                    var keylist = multi.Read<Key>().ToList();
+                    var kenlist = multi.Read<Ken>().ToList();
+                    var exercisechoicelist = multi.Read<ExerciseChoice>().ToList();                  
+
+                    //主题
+                    ef.exercisechoicelist = exercisechoicelist;
+                    ef.exercisecommon.exercise = exercise;
+                    ef.exercisecommon.attachmentlist = attachmentlist;
+                    ef.exercisecommon.kenlist = kenlist;
+                    ef.exercisecommon.keylist = keylist;
+
+                    return ef;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
         #endregion
 
         #region 新增

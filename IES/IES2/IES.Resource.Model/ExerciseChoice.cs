@@ -33,6 +33,7 @@ namespace IES.Resource.Model
 		private int? _grou=0;
 		private int? _ordernum=0;
 		private bool _isdeleted= false;
+        private string _answer;
 		/// <summary>
 		/// 主键 选项编号
 		/// </summary>
@@ -91,6 +92,12 @@ namespace IES.Resource.Model
 			set{ _isdeleted=value;}
 			get{return _isdeleted;}
 		}
+
+        public string Answer
+        {
+            set { _answer = value; }
+            get { return _answer; }
+        }
 		#endregion Model
 
 	}

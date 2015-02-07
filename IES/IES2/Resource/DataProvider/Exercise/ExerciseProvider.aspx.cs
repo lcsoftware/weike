@@ -159,5 +159,16 @@ namespace App.Resource.DataProvider.Exercise
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             return new ExerciseBLL().Exercise_FillInBlanks_M_Edit(v);
         }
+
+        /// <summary>
+        /// 填空题 等习题的获取
+        /// </summary>
+        /// <param name="ExerciseID"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static ExerciseInfo Exercise_Analysis_Get(int ExerciseID)
+        {
+            return new ExerciseBLL().Exercise_Analysis_Get(ExerciseID);
+        }
     }
 }

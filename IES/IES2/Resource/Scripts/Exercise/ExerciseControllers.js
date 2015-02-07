@@ -351,11 +351,11 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         });
 
         $scope.addKey = function (exerciseKey) {
-            $scope.data.keys.push({ Name: exerciseKey }); 
+            $scope.data.keys.push({ Name: exerciseKey });
         }
 
         $scope.addKen = function (exerciseKen) {
-            $scope.data.kens.push({ Name: exerciseKen }); 
+            $scope.data.kens.push({ Name: exerciseKen });
         }
 
         $scope.removeKey = function (key) {
@@ -390,7 +390,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         $scope.preview = function () {
             $scope.$broadcast('willPreview', $scope.data);
         }
-                
+
         var setCourse = function (OCID, courseID) {
             var length = $scope.courses.length;
             for (var i = 0; i < length; i++) {
@@ -783,13 +783,33 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
 
     });
 
-    $scope.$on('willRequestSave', function (event,data) {
+    $scope.$on('willRequestSave', function (event, data) {
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
-        }
-        else {            
             for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
-                $scope.model.exercisecommon.exercise.Content += "0wshgkjqbwhfbxlfrh_a" + $scope.model.exercisechoicelist[i].Conten + "wshgkjqbwhfbxlfrh_b";
+                var answer = $scope.model.exercisechoicelist[i].Answer == null ? "" : $scope.model.exercisechoicelist[i].Answer;
+                var childId = $scope.model.exercisechoicelist[i].ExerciseID == null ? 0 : $scope.model.exercisechoicelist[i].ExerciseID;
+                if ((i + 1) == $scope.model.exercisechoicelist.length) {
+                    $scope.model.exercisecommon.exercise.Content +=
+                    childId + "wshgkjqbwhfbxlfrh_b"
+                    + answer;
+                } else {
+                    $scope.model.exercisecommon.exercise.Content +=
+                    childId + "wshgkjqbwhfbxlfrh_b"
+                    + answer + "wshgkjqbwhfbxlfrh_a";
+                }
+            }
+        }
+        else {
+            for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
+                var answer = $scope.model.exercisechoicelist[i].Answer == null ? "" : $scope.model.exercisechoicelist[i].Answer;
+                if ((i + 1) == $scope.model.exercisechoicelist.length) {
+                    $scope.model.exercisecommon.exercise.Content +=
+                    "0wshgkjqbwhfbxlfrh_b" + answer;
+                } else {
+                    $scope.model.exercisecommon.exercise.Content +=
+                    "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_a";
+                }
             }
         }
 
@@ -805,8 +825,8 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
         $scope.model.exercisecommon.exercise.Scope = scope;
         //key关键字
         $scope.model.exercisecommon.exercise.Keys = '';
-        for (var i = 0; i < data.selectedKeys.length; i++) {
-            $scope.model.exercisecommon.exercise.Keys += data.selectedKeys[i].Name + 'wshgkjqbwhfbxlfrh';
+        for (var i = 0; i < data.keys.length; i++) {
+            $scope.model.exercisecommon.exercise.Keys += data.keys[i].Name + 'wshgkjqbwhfbxlfrh';
         }
 
         //ken知识点
@@ -818,7 +838,7 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
         $scope.model.exercisecommon.exercise.ExerciseType = data.exerciseType.id;
 
         $scope.model.exercisecommon.exercise.ExerciseTypeName = data.exerciseType.name;
-        var v = angular.toJson($scope.model.exercisecommon);
+        var v = angular.toJson($scope.model);
         exerciseService.Exercise_FillInBlanks_M_Edit(v, function (data) {
             if (data.d) {
                 alert('提交成功！');
@@ -833,20 +853,20 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
 
     $scope.model = {};//Exercise对象
     $scope.Attachment = {};//附件对象
-    
-    var answer = { Conten: '' };
+
+    var answer = { Answer: '' };
     $scope.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
 
     var init = function () {
         if ($scope.ExerciseID > -1) {
-            exerciseService.ExerciseInfo_Get($scope.ExerciseID, function (data) {
+            exerciseService.Exercise_Analysis_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
                 $scope.model = data.d;
-                answer = { Conten: '' };
+                answer = { Answer: '' };
                 $scope.model.exercisechoicelist = [];
                 $scope.model.exercisechoicelist.push(answer);
             });
@@ -855,16 +875,25 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
 
     //添加选项
     $scope.Add = function () {
-        answer = { Conten: '' };
+        answer = { Answer: '' };
         $scope.model.exercisechoicelist.push(answer);
     }
     //删除选项
     $scope.Del = function (item) {
-        for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
-            if ($scope.model.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                $scope.model.exercisechoicelist.splice(i, 1);
+        if ($scope.ExerciseID > 0) {
+            for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
+                if ($scope.model.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                    $scope.model.exercisechoicelist[i].Answer = '';
+                }
+            }
+        } else {
+            for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
+                if ($scope.model.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                    $scope.model.exercisechoicelist.splice(i, 1);
+                }
             }
         }
+
     }
     init();
 }]);
