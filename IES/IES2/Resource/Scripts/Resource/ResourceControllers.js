@@ -36,29 +36,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     $scope.model.timePass = -1;
 
-    var buildPersonal = function () {
-        contentService.OC_Get(function (data) {
-            if ($scope.$parent.courses.length === 0 ||
-                $scope.$parent.courses[0].OCID !== -1) {
-                var course = data.d;
-                course.OCID = 0;
-                course.Name = '个人资料';
-                $scope.$parent.courses.insert(0, course);
-                $scope.$parent.course = course;
-                $scope.model.OCID = course.OCID;
-                $scope.model.CourseID = course.CourseID;
-                $scope.model.ParentID = 0;
-                $scope.filterChanged();
-
-                $scope.tabTitles = [];
-                $scope.order = 0;
-                $scope.tabTitles.push({ id: 0, name: course.Name, order: $scope.order });
-            }
-        });
-    }
-
-    ///添加个人资料 OCID=-1
-    buildPersonal();
+    $scope.$emit('willResetCourse');
 
     ///课程切换
     $scope.$on('willCourseChanged', function (event, course) {
@@ -73,9 +51,25 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.tabTitles.push({ id: 0, name: course.Name, order: $scope.order });
 
     });
+
     ///课程加载完成
     $scope.$on('courseLoaded', function (course) {
-        buildPersonal();
+        contentService.OC_Get(function (data) {
+            var course = data.d;
+            course.OCID = 0;
+            course.Name = '个人资料';
+            $scope.$parent.courses.insert(0, course);
+            $scope.$parent.course = course;
+
+            $scope.model.OCID = course.OCID;
+            $scope.model.CourseID = course.CourseID;
+            $scope.model.ParentID = 0;
+            $scope.filterChanged();
+
+            $scope.tabTitles = [];
+            $scope.order = 0;
+            $scope.tabTitles.push({ id: 0, name: course.Name, order: $scope.order });
+        });
     });
 
     $scope.tabChange = function (item) {
@@ -129,7 +123,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             var item = {};
             angular.copy($scope.timePass[0], item);
             item.id = -1;
-            item.name = '不限'; 
+            item.name = '不限';
             $scope.timePass.insert(0, item);
         }
     });
@@ -306,7 +300,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             if (data.d) {
 
                 $scope.files = data.d;
-                
+
                 var rootFolder = {};
                 angular.copy(data.d[0], rootFolder);
                 rootFolder.Id = 0;
@@ -326,13 +320,13 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                         }
                     }
                 }
-                
+
                 var length = $scope.files.length;
                 for (var i = 0; i < length; i++) {
                     if ($scope.files[i].ParentID == rootFolder.Id) {
                         rootFolder.Children.push($scope.files[i]);
                     }
-                } 
+                }
                 $scope.files.length = 0;
                 $scope.files.push(rootFolder);
             }
