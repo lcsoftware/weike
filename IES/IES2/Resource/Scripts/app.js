@@ -5,13 +5,11 @@ var appModule = angular.module('app', [
     'app.filters',
     'app.directives',
     'app.custom.directives',
+    'app.assist.services',
     'app.common.services',
-    'app.home.controllers', 
+    'app.home.controllers',
     'app.user.controllers',
     'app.content.controllers',
-    'app.resource.controllers',
-    'app.paper.controllers',
-    'app.knowledge.controllers',
     'app.exercise.controllers'
 ]);
 
@@ -19,16 +17,16 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
 
     $stateProvider
         //index 
-        .state('home', { url: '/', templateUrl: '/views/index', controller: 'HomeCtrl' }) 
+        .state('home', { url: '/', templateUrl: '/views/index', controller: 'HomeCtrl' })
         //登录
         .state('login', { url: '/login', layout: 'basic', templateUrl: '/views/User/Login', controller: 'UserCtrl' })
         //内容区
-        .state('content', { url: '/content', abstract:true, templateUrl: '/views/Shared/Content', controller: 'ContentCtrl' })
+        .state('content', { url: '/content', abstract: true, templateUrl: '/views/Shared/Content', controller: 'ContentCtrl' })
         //我的资料
         .state('content.resource', { url: '/resource', templateUrl: '/views/Resource/ResourceList', controller: 'ResourceCtrl' })
 
         //习题列表
-        .state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })        
+        .state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
 
         //试题
         .state('exercise', { url: '/exercise', abstract: true, templateUrl: '/views/Shared/Exercise', controller: 'ExerciseCtrl' })
@@ -61,7 +59,7 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         //新增答题卡试卷
         .state('content.addsheet', { url: '/paper/sheet', templateUrl: '/views/Paper/AddSheet', controller: 'PaperSheetCtrl' })
 
-           
+
 
         //知识点 
         .state('content.ken', { url: '/ken', templateUrl: '/views/Ken/Ken', controller: 'KenCtrl' })
@@ -69,32 +67,33 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         .state('content.ken.chapter', { url: '/chapter', templateUrl: '/views/Ken/KenChapter', controller: 'KenChapterCtrl' })
         //知识点 按知识点
         .state('content.ken.topic', { url: '/topic', templateUrl: '/views/Ken/KenTopic', controller: 'KenTopicCtrl' })
- 
+
         .state('otherwise', {
             url: '*path',
             templateUrl: '/views/404',
             controller: 'Error404Ctrl'
-        }); 
+        });
 
     $locationProvider.html5Mode(true);
 }]);
 
-appModule.run(['$templateCache', '$rootScope', '$state', '$stateParams', 'httpService',
-        function ($templateCache, $rootScope, $state, $stateParams, httpService) {
+appModule.run(['$templateCache', '$rootScope', '$state', '$stateParams', 'httpService', 'assistService',
+function ($templateCache, $rootScope, $state, $stateParams, httpService, assistService) {
 
-            var view = angular.element('#ui-view');
-            $templateCache.put(view.data('tmpl-url'), view.html());
+    var view = angular.element('#ui-view');
+    $templateCache.put(view.data('tmpl-url'), view.html());
 
-            $rootScope.appTitle = 'IES';
-            $rootScope.$state = $state;
-            $rootScope.$stateParams = $stateParams;
+    $rootScope.appTitle = 'IES';
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+    assistService.init();
 
-            $rootScope.httpService = httpService;
+    $rootScope.httpService = httpService;
 
-            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-                $rootScope.layout = toState.layout;
-            });
+    $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $rootScope.layout = toState.layout;
+    });
 
-            $rootScope.$on('$locationChangeStart', function (event) {
-            })
-        }]);
+    $rootScope.$on('$locationChangeStart', function (event) {
+    })
+}]);

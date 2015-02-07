@@ -356,10 +356,12 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
 
         $scope.addKey = function (exerciseKey) {
             $scope.data.keys.push({ Name: exerciseKey });
+            $scope.exerciseKey = '';
         }
 
         $scope.addKen = function (exerciseKen) {
             $scope.data.kens.push({ Name: exerciseKen });
+            $scope.exerciseKen = '';
         }
 
         $scope.removeKey = function (key) {

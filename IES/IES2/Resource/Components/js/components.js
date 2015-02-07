@@ -20,7 +20,6 @@ app.directive('moreCourse', function () {
     directive.templateUrl = '/Components/templates/moreCourse.html';
 
     directive.link = function (scope, elem, iAttrs) {
-        console.log(elem, scope);
         //查看更多
         elem.hover(function () {
             var len = $('.second_nav').length;
@@ -309,19 +308,32 @@ app.directive('exerciseList', function () {
 
     directive.controller = function ($scope, assistService) {
         $scope.difficulties = [];
-        assistService.Resource_Dict_Diffcult_Get(function (data) {
-            $scope.difficulties = data.d;
-        });
+        //assistService.Resource_Dict_Diffcult_Get(function (data) {
+        //    $scope.difficulties = data.d;
+        //});
 
-        $scope.getDifficultName = function (difficult) {
-            var length = $scope.difficulties.length;
-            for (var i = 0; i < length; i++) {
-                if ($scope.difficulties[i].id == difficult) {
-                    return $scope.difficulties[i].name;
-                }
-            }
-            return '无';
-        }
+        //$scope.getDifficultName = function (difficult) {
+        //    if ($scope.difficulties.length === 0) {
+        //        assistService.Resource_Dict_Diffcult_Get(function (data) {
+        //            $scope.difficulties = data.d;
+        //            var length = $scope.difficulties.length;
+        //            for (var i = 0; i < length; i++) {
+        //                if ($scope.difficulties[i].id == difficult) {
+        //                    return $scope.difficulties[i].name;
+        //                }
+        //            }
+        //        });
+        //    } else {
+        //        var length = $scope.difficulties.length;
+        //        for (var i = 0; i < length; i++) {
+        //            if ($scope.difficulties[i].id == difficult) {
+        //                return $scope.difficulties[i].name;
+        //            }
+        //        }
+        //    }
+            
+        //    return '无';
+        //}
     }
 
     return directive;
