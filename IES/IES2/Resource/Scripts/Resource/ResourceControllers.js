@@ -2,6 +2,7 @@
 
 var appResource = angular.module('app.resource.controllers', [
     'app.res.services',
+    'app.chapter.services',
     'app.content.services',
     'checklist-model',
     'ui.tree'
@@ -56,9 +57,11 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.$on('courseLoaded', function (course) {
         contentService.OC_Get(function (data) {
             var course = data.d;
-            course.OCID = 0;
-            course.Name = '个人资料';
-            $scope.$parent.courses.insert(0, course);
+            if ($scope.courses.length > 0 && $scope.courses[0].OCID !== 0) {
+                course.OCID = 0;
+                course.Name = '个人资料';
+                $scope.$parent.courses.insert(0, course); 
+            }
             $scope.$parent.course = course;
 
             $scope.model.OCID = course.OCID;

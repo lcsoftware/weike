@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var appKnow = angular.module('app.knowledge.controllers', [
+var appKnow = angular.module('app.ken.controllers', [
     'app.content.services',
     'app.chapter.services',
     'app.ken.services',

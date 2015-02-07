@@ -61,7 +61,6 @@ app.directive('fileOperation', function () {
         //弹出右键菜单
         elem.parent().hover(function () {
             $(this).find('.mouse_right').toggle();
-            console.log(elem.parent().parent());
         });
 
         //右键菜单表现形式
@@ -92,7 +91,6 @@ app.directive('fileShare', function () {
         //弹出右键菜单
         elem.parent().parent().hover(function () {
             $(this).find('.permissions').show();
-            console.log('ddddddddddddd', $(this));
         }, function () {
             $(this).find('.permissions').hide();
         });

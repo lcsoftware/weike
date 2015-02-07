@@ -10,6 +10,8 @@ var appModule = angular.module('app', [
     'app.home.controllers',
     'app.user.controllers',
     'app.content.controllers',
+    'app.resource.controllers',
+    'app.ken.controllers',
     'app.exercise.controllers'
 ]);
 
