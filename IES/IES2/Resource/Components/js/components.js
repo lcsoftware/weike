@@ -8,14 +8,19 @@ app.directive('moreCourse', function () {
 
     directive.restrict = 'EA';
 
+    directive.replace = true;
+
     directive.scope = {
-        onCourseChanged: '&',
-        moreCourses: '='
+        onSelected: '&',
+        selection: '=',
+        course: '=',
+        courseIndex: '='
     }
 
     directive.templateUrl = '/Components/templates/moreCourse.html';
 
     directive.link = function (scope, elem, iAttrs) {
+        console.log(elem, scope);
         //查看更多
         elem.hover(function () {
             var len = $('.second_nav').length;
@@ -27,13 +32,7 @@ app.directive('moreCourse', function () {
             $(this).find('i').removeClass('slide_up');
             $(this).find('.second_nav').hide();
         })
-    }
-
-    directive.controller = function ($scope) {
-        $scope.aaaa = function () {
-            $scope.$emit('courseChanged', { Ocid: 9999 });
-        };
-    }
+    } 
 
     return directive;
 });
