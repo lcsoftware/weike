@@ -58,7 +58,6 @@ app.directive('fileOperation', function () {
     directive.templateUrl = '/Components/templates/fileOperation.html';
 
     directive.link = function (scope, elem, iAttrs) {
-        console.log('11111111111111', elem.parent());
         //弹出右键菜单
         elem.parent().hover(function () {
             $(this).find('.mouse_right').toggle();
