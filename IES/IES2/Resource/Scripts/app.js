@@ -36,7 +36,7 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         .state('exercise.shortanswer', { url: '/shortanswer/:ExerciseID', templateUrl: '/views/Exercise/ShortAnswer', controller: 'ShortAnswerCtrl' })
         //听力题
         .state('exercise.listening', { url: '/listening/:ExerciseID', templateUrl: '/views/Exercise/Listening', controller: 'ListeningCtrl' })
-        //问答题
+        //问答题,写作题
         .state('exercise.quesanswer', { url: '/quesanswer/:ExerciseID', templateUrl: '/views/Exercise/QuesAnswer', controller: 'QuesanswerCtrl' })
         //名词解释
         .state('exercise.noun', { url: '/noun/:ExerciseID', templateUrl: '/views/Exercise/Noun', controller: 'NounCtrl' })
@@ -50,6 +50,11 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         .state('exercise.connection', { url: '/connection/:ExerciseID', templateUrl: '/views/Exercise/Connection', controller: 'ConnectionCtrl' })
         //单选题
         .state('exercise.radio', { url: '/radio/:ExerciseID', templateUrl: '/views/Exercise/Radio', controller: 'RadioCtrl' })
+        //多选题
+        .state('exercise.multiple', { url: '/multiple/:ExerciseID', templateUrl: '/views/Exercise/Multiple', controller: 'MultipleCtrl' })
+        
+        
+
 
 
 

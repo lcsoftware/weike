@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IES.G2S.Resource.DAL;
-using IES.Resource.Model ;
+using IES.Resource.Model;
 using IES.AOP.G2S;
 using IES.G2S.Resource.IBLL;
 
@@ -32,9 +32,9 @@ namespace IES.G2S.Resource.BLL
             return ExerciseDAL.Exercise_Search(model, key, PageSize, PageIndex);
         }
 
-        
 
-        #endregion 
+
+        #endregion
 
         #region 详细信息
 
@@ -69,12 +69,18 @@ namespace IES.G2S.Resource.BLL
             return ExerciseDAL.Exercise_Analysis_Get(ExerciseID);
         }
 
+        public ExerciseInfo Exercise_Writing_Get(int ExerciseID)
+        {
+            return ExerciseDAL.Exercise_Writing_Get(ExerciseID);
+        }
+        
+
         public ExerciseInfo Exercise_MultipleChoice_Get(int ExerciseID)
         {
             return ExerciseDAL.Exercise_MultipleChoice_Get(ExerciseID);
         }
 
-        #endregion 
+        #endregion
 
         #region 新增
 
@@ -90,7 +96,7 @@ namespace IES.G2S.Resource.BLL
             {
                 return false;
             }
-             
+
         }
 
         public bool Exercise_MultipleChoice_M_Edit(ExerciseInfo model)
@@ -119,12 +125,33 @@ namespace IES.G2S.Resource.BLL
             {
                 return false;
             }
-            
-            
+
+
         }
 
-        
-        
+        public bool Exercise_Analysis_M_Edit(ExerciseInfo model)
+        {
+            try
+            {
+                ExerciseDAL.Exercise_Analysis_M_Edit(model);
+                ExerciseDAL.Exercise_Analysis_S_Edit(model);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+
+        }
+
+        public bool Exercise_Writing_M_Edit(ExerciseInfo model)
+        {
+            return ExerciseDAL.Exercise_Writing_M_Edit(model);
+        }
+
+
+
 
         public bool Exercise_ADD(IExercise model)
         {
@@ -153,11 +180,11 @@ namespace IES.G2S.Resource.BLL
         }
 
 
-        #endregion 
+        #endregion
 
         #region 对象更新
 
-        public bool Exercise_Upd(IExercise  model)
+        public bool Exercise_Upd(IExercise model)
         {
             if (model is ExerciseAnswercardInfo)
             {
@@ -182,7 +209,7 @@ namespace IES.G2S.Resource.BLL
             return true;
         }
 
-        #endregion 
+        #endregion
 
         #region 单个属性更新
 
@@ -202,7 +229,7 @@ namespace IES.G2S.Resource.BLL
         }
 
 
-        #endregion 
+        #endregion
 
         #region 属性批量操作
 
@@ -241,7 +268,7 @@ namespace IES.G2S.Resource.BLL
         }
 
 
-        #endregion 
+        #endregion
 
         #region 删除
 
@@ -250,7 +277,7 @@ namespace IES.G2S.Resource.BLL
         public bool Exercise_Del(IExercise mode)
         {
 
-            return ExerciseDAL.Exercise_Del( mode );
+            return ExerciseDAL.Exercise_Del(mode);
         }
 
         #endregion
