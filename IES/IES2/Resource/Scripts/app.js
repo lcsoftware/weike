@@ -46,6 +46,9 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         .state('exercise.fillblank2', { url: '/fileblank2/:ExerciseID', templateUrl: '/views/Exercise/FillBlank2', controller: 'FillBlank2Ctrl' })
         //连线题
         .state('exercise.connection', { url: '/connection/:ExerciseID', templateUrl: '/views/Exercise/Connection', controller: 'ConnectionCtrl' })
+        //单选题
+        .state('exercise.radio', { url: '/radio/:ExerciseID', templateUrl: '/views/Exercise/Radio', controller: 'RadioCtrl' })
+
 
 
         //试卷

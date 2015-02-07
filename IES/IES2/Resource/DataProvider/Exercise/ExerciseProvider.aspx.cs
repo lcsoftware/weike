@@ -122,7 +122,7 @@ namespace App.Resource.DataProvider.Exercise
         [WebMethod]
         public static bool Exercise_Judge_M_Edit(string model)
         {
-            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseCommon>(model);
+            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             return new ExerciseBLL().Exercise_Judge_M_Edit(v);
         }
         /// <summary>
@@ -131,7 +131,7 @@ namespace App.Resource.DataProvider.Exercise
         /// <param name="ExerciseID"></param>
         /// <returns></returns>
         [WebMethod]
-        public static ExerciseCommon Exercise_Judge_Get(int ExerciseID)
+        public static ExerciseInfo Exercise_Judge_Get(int ExerciseID)
         {
             return new ExerciseBLL().Exercise_Judge_Get(ExerciseID);
         }
@@ -144,7 +144,7 @@ namespace App.Resource.DataProvider.Exercise
         [WebMethod]
         public static bool Exercise_MultipleChoice_M_Edit(string model)
         {
-            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseCommon>(model);
+            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             return new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v);
         }
 

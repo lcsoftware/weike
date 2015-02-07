@@ -1,0 +1,36 @@
+﻿
+<div class="paper_content">
+    <div class="paper_wrap">
+        <div class="text_box" style="color:#F00;">
+            <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Conten"></textarea>
+        </div>
+        <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
+        <p class="no_rank">
+            <input type="checkbox" ng-model="model.exercisecommon.exercise.IsRand" ng-checked="model.exercisecommon.exercise.IsRand==true" ng-change="isRandChange(model.exercisecommon.exercise.IsRand)">选项乱序<span>
+                （需选择一个选项作为正确答案）
+            </span>
+        </p>
+        <ul class="answer_list">
+            <li ng-class="{active:item.IsCorrect==1}" ng-repeat="item in model.exercisechoicelist">
+                <div class="default">
+                    <em style="cursor:pointer;"><i class="icon" ng-model="item.IsCorrect" ng-click="isCorrectChange(item)"></i></em>
+                    <a ng-click="del(item)">x</a>
+                    <input type="text" ng-model="item.Answer">
+                    <span class="icon icon_unfold"></span>
+                </div>
+            </li>
+        </ul>
+        <a class="add_attach" ng-click="AddAnswer()"><em><i class="icon"></i></em><span>添加选项</span></a>
+        <div class="resource_btn">
+            <a class="up_section" href="javascript:;"></a>
+            <a class="down_section" href="javascript:;"></a>
+            <a class="delete_section" href="javascript:;"></a>
+        </div>
+    </div>
+    <div>
+        <div class="text_box" style="color: #F00; margin-top: 20px;">
+            试题解析：
+            <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Analysis"></textarea>
+        </div>
+    </div>
+</div>

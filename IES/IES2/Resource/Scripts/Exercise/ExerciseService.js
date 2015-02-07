@@ -52,7 +52,7 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     }
     //单选多选题增改
     service.Exercise_MultipleChoice_M_Edit = function (model, callback) {
-        httpService.ajaxPost(url, 'Exercise_MultipleChoice_M_Edit', { ExerciseID: model }, callback);
+        httpService.ajaxPost(url, 'Exercise_MultipleChoice_M_Edit', { model: model }, callback);
     }
     //填空题增改
     service.Exercise_FillInBlanks_M_Edit = function (model, callback) {

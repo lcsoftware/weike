@@ -168,13 +168,23 @@ namespace IES.G2S.Resource.DAL
 
         }
 
-        public static ExerciseCommon Exercise_Judge_Get(int ExerciseID)
+        public static ExerciseInfo Exercise_Judge_Get(int ExerciseID)
         {
             try
             {
                 using (IDbConnection conn = DbHelper.ResourceService())
                 {
-                    ExerciseCommon ef = new ExerciseCommon();
+                    ExerciseInfo ef = new ExerciseInfo()
+                    {
+                        exercisechoicelist = new List<ExerciseChoice>(),
+                        exercisecommon = new ExerciseCommon()
+                        {
+                            kenlist = new List<Ken>(),
+                            keylist = new List<Key>(),
+                            exercise = new IES.Resource.Model.Exercise(),
+                            attachmentlist = new List<Attachment>()
+                        }
+                    };
                     var p = new DynamicParameters();
                     p.Add("@ExerciseID", ExerciseID);
 
@@ -183,10 +193,10 @@ namespace IES.G2S.Resource.DAL
                     var attachmentlist = multi.Read<Attachment>().ToList();
                     var keylist = multi.Read<Key>().ToList();
                     var kenlist = multi.Read<Ken>().ToList();
-                    ef.exercise = exercise;
-                    ef.attachmentlist = attachmentlist;
-                    ef.kenlist = kenlist;
-                    ef.keylist = keylist;
+                    ef.exercisecommon.exercise = exercise;
+                    ef.exercisecommon.attachmentlist = attachmentlist;
+                    ef.exercisecommon.kenlist = kenlist;
+                    ef.exercisecommon.keylist = keylist;
 
                     return ef;
                 }
@@ -223,7 +233,7 @@ namespace IES.G2S.Resource.DAL
                     var attachmentlist = multi.Read<Attachment>().ToList();
                     var keylist = multi.Read<Key>().ToList();
                     var kenlist = multi.Read<Ken>().ToList();
-                    var exercisechoicelist = multi.Read<ExerciseChoice>().ToList();                  
+                    var exercisechoicelist = multi.Read<ExerciseChoice>().ToList();
 
                     //主题
                     ef.exercisechoicelist = exercisechoicelist;
@@ -250,7 +260,7 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static bool Exercise_Judge_M_Edit(ExerciseCommon model)
+        public static bool Exercise_Judge_M_Edit(ExerciseInfo model)
         {
             try
             {
@@ -258,25 +268,25 @@ namespace IES.G2S.Resource.DAL
                 {
                     var p = new DynamicParameters();
 
-                    p.Add("@ExerciseID", dbType: DbType.Int32, direction: ParameterDirection.InputOutput, value: model.exercise.ExerciseID);
-                    p.Add("@OCID", model.exercise.OCID);
-                    p.Add("@CourseID", model.exercise.CourseID);
-                    p.Add("@OwnerUserID", model.exercise.OwnerUserID);
-                    p.Add("@CreateUserID", model.exercise.CreateUserID);
-                    p.Add("@CreateUserName", model.exercise.CreateUserName);
-                    p.Add("@ParentID", model.exercise.ParentID);
-                    p.Add("@ExerciseType", model.exercise.ExerciseType);
-                    p.Add("@ExerciseTypeName", model.exercise.ExerciseTypeName);
-                    p.Add("@Diffcult", model.exercise.Diffcult);
-                    p.Add("@Scope", model.exercise.Scope);
-                    p.Add("@ShareRange", model.exercise.ShareRange);
-                    p.Add("@Conten", model.exercise.Conten);
-                    p.Add("@Answer", model.exercise.Answer);
-                    p.Add("@Analysis", model.exercise.Analysis);
-                    p.Add("@Keys", model.exercise.Keys);
-                    p.Add("@Kens", model.exercise.Kens);
+                    p.Add("@ExerciseID", dbType: DbType.Int32, direction: ParameterDirection.InputOutput, value: model.exercisecommon.exercise.ExerciseID);
+                    p.Add("@OCID", model.exercisecommon.exercise.OCID);
+                    p.Add("@CourseID", model.exercisecommon.exercise.CourseID);
+                    p.Add("@OwnerUserID", model.exercisecommon.exercise.OwnerUserID);
+                    p.Add("@CreateUserID", model.exercisecommon.exercise.CreateUserID);
+                    p.Add("@CreateUserName", model.exercisecommon.exercise.CreateUserName);
+                    p.Add("@ParentID", model.exercisecommon.exercise.ParentID);
+                    p.Add("@ExerciseType", model.exercisecommon.exercise.ExerciseType);
+                    p.Add("@ExerciseTypeName", model.exercisecommon.exercise.ExerciseTypeName);
+                    p.Add("@Diffcult", model.exercisecommon.exercise.Diffcult);
+                    p.Add("@Scope", model.exercisecommon.exercise.Scope);
+                    p.Add("@ShareRange", model.exercisecommon.exercise.ShareRange);
+                    p.Add("@Conten", model.exercisecommon.exercise.Conten);
+                    p.Add("@Answer", model.exercisecommon.exercise.Answer);
+                    p.Add("@Analysis", model.exercisecommon.exercise.Analysis);
+                    p.Add("@Keys", model.exercisecommon.exercise.Keys);
+                    p.Add("@Kens", model.exercisecommon.exercise.Kens);
                     conn.Execute("Exercise_Judge_M_Edit", p, commandType: CommandType.StoredProcedure);
-                    model.exercise.ExerciseID = p.Get<int>("ExerciseID");
+                    model.exercisecommon.exercise.ExerciseID = p.Get<int>("ExerciseID");
                     return true;
                 }
             }
@@ -332,7 +342,7 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static bool Exercise_MultipleChoice_M_Edit(ExerciseCommon model)
+        public static bool Exercise_MultipleChoice_M_Edit(ExerciseInfo model)
         {
             try
             {
@@ -340,24 +350,24 @@ namespace IES.G2S.Resource.DAL
                 {
                     var p = new DynamicParameters();
 
-                    p.Add("@ExerciseID", dbType: DbType.Int32, direction: ParameterDirection.InputOutput, value: model.exercise.ExerciseID);
-                    p.Add("@OCID", model.exercise.OCID);
-                    p.Add("@CourseID", model.exercise.CourseID);
-                    p.Add("@OwnerUserID", model.exercise.OwnerUserID);
-                    p.Add("@CreateUserID", model.exercise.CreateUserID);
-                    p.Add("@CreateUserName", model.exercise.CreateUserName);
-                    p.Add("@ParentID", model.exercise.ParentID);
-                    p.Add("@ExerciseType", model.exercise.ExerciseType);
-                    p.Add("@ExerciseTypeName", model.exercise.ExerciseTypeName);
-                    p.Add("@Diffcult", model.exercise.Diffcult);
-                    p.Add("@Scope", model.exercise.Scope);
-                    p.Add("@ShareRange", model.exercise.ShareRange);
-                    p.Add("@Conten", model.exercise.Conten);
-                    p.Add("@Analysis", model.exercise.Analysis);
-                    p.Add("@Keys", model.exercise.Keys);
-                    p.Add("@Kens", model.exercise.Kens);
+                    p.Add("@ExerciseID", dbType: DbType.Int32, direction: ParameterDirection.InputOutput, value: model.exercisecommon.exercise.ExerciseID);
+                    p.Add("@OCID", model.exercisecommon.exercise.OCID);
+                    p.Add("@CourseID", model.exercisecommon.exercise.CourseID);
+                    p.Add("@OwnerUserID", model.exercisecommon.exercise.OwnerUserID);
+                    p.Add("@CreateUserID", model.exercisecommon.exercise.CreateUserID);
+                    p.Add("@CreateUserName", model.exercisecommon.exercise.CreateUserName);
+                    p.Add("@ParentID", model.exercisecommon.exercise.ParentID);
+                    p.Add("@ExerciseType", model.exercisecommon.exercise.ExerciseType);
+                    p.Add("@ExerciseTypeName", model.exercisecommon.exercise.ExerciseTypeName);
+                    p.Add("@Diffcult", model.exercisecommon.exercise.Diffcult);
+                    p.Add("@Scope", model.exercisecommon.exercise.Scope);
+                    p.Add("@ShareRange", model.exercisecommon.exercise.ShareRange);
+                    p.Add("@Conten", model.exercisecommon.exercise.Conten);
+                    p.Add("@Analysis", model.exercisecommon.exercise.Analysis);
+                    p.Add("@Keys", model.exercisecommon.exercise.Keys);
+                    p.Add("@Kens", model.exercisecommon.exercise.Kens);
                     conn.Execute("Exercise_MultipleChoice_M_Edit", p, commandType: CommandType.StoredProcedure);
-                    model.exercise.ExerciseID = p.Get<int>("ExerciseID");
+                    model.exercisecommon.exercise.ExerciseID = p.Get<int>("ExerciseID");
                     return true;
                 }
             }
@@ -397,7 +407,7 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static bool Exercise_MultipleChoice_S_Edit(ExerciseCommon model)
+        public static bool Exercise_MultipleChoice_S_Edit(ExerciseInfo model)
         {
             try
             {
@@ -405,8 +415,8 @@ namespace IES.G2S.Resource.DAL
                 {
                     var p = new DynamicParameters();
 
-                    p.Add("@ExerciseID", model.exercise.ExerciseID);
-                    p.Add("@Content", model.exercise.Content);
+                    p.Add("@ExerciseID", model.exercisecommon.exercise.ExerciseID);
+                    p.Add("@Content", model.exercisecommon.exercise.Content);
                     conn.Execute("Exercise_MultipleChoice_S_Edit", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }

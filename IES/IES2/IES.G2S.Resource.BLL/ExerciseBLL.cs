@@ -59,7 +59,7 @@ namespace IES.G2S.Resource.BLL
         }
 
 
-        public ExerciseCommon Exercise_Judge_Get(int ExerciseID)
+        public ExerciseInfo Exercise_Judge_Get(int ExerciseID)
         {
             return ExerciseDAL.Exercise_Judge_Get(ExerciseID);
         }
@@ -73,7 +73,7 @@ namespace IES.G2S.Resource.BLL
 
         #region 新增
 
-        public bool Exercise_Judge_M_Edit(ExerciseCommon model)
+        public bool Exercise_Judge_M_Edit(ExerciseInfo model)
         {
             try
             {
@@ -88,9 +88,18 @@ namespace IES.G2S.Resource.BLL
              
         }
 
-        public bool Exercise_MultipleChoice_M_Edit(ExerciseCommon model)
+        public bool Exercise_MultipleChoice_M_Edit(ExerciseInfo model)
         {
-            return ExerciseDAL.Exercise_MultipleChoice_M_Edit(model);
+            try
+            {
+                ExerciseDAL.Exercise_MultipleChoice_M_Edit(model);
+                ExerciseDAL.Exercise_MultipleChoice_S_Edit(model);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public bool Exercise_FillInBlanks_M_Edit(ExerciseInfo model)
