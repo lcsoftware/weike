@@ -44,12 +44,12 @@
             <a ng-class="{'active':data.key.KeyID==item.KeyID}" ng-click="keyChanged(item)" ng-repeat="item in keys"><span ng-bind="item.Name"></span></a>
         </dd>
     </dl>
-    @*<dl class="filter_list">
-            <dt>知识点</dt>
-            <dd>
-                <a ng-class="{'active':data.knowledge.KenID==item.KenID}" ng-click="knowChanged(item)" ng-repeat="item in knowledges"><span ng-bind="item.Source"></span></a>
-            </dd>
-        </dl>*@
+    <dl class="filter_list">
+        <dt>知识点</dt>
+        <dd>
+            <a ng-class="{'active':data.ken.KenID==item.KenID}" ng-click="kenChanged(item)" ng-repeat="item in kens"><span ng-bind="item.Name"></span></a>
+        </dd>
+    </dl>
     <span class="guanbi"><i class="icon"></i></span>
 </div>
 <div class="topic_detail">

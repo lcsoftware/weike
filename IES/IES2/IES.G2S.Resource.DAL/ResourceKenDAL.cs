@@ -101,7 +101,7 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static IList<ResourceKen> ResourceKen_List(string searchKey, string source, int userId, int topNum) 
+        public static IList<Ken> ResourceKen_List(string searchKey, string source, int userId, int topNum) 
         {
             try
             {
@@ -112,7 +112,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@Source", source);
                     p.Add("@UserID", userId);
                     p.Add("@TopNum", topNum);
-                    return conn.Query<ResourceKen>("Resource_Ken_List", p, commandType: CommandType.StoredProcedure).ToList();
+                    return conn.Query<Ken>("Resource_Ken_List", p, commandType: CommandType.StoredProcedure).ToList();
                 }
             }
             catch (Exception e)

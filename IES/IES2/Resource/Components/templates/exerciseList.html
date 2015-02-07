@@ -1,6 +1,6 @@
 ﻿    <li class="show">
         <div class="topic_label">
-            <p class="question_degree" ng-class="{'simple':exercise.ExerciseType==1,'medium':exercise.ExerciseType==2,'difficult':exercise.ExerciseType==3}"><input type="checkbox">{{getDifficultName(exercise.ExerciseType)}}</p>
+            <p class="question_degree" ng-class="{'simple':exercise.Diffcult==1,'medium':exercise.Diffcult==2,'difficult':exercise.Diffcult==3}"><input type="checkbox">{{getDifficultName(exercise.Diffcult)}}</p>
             <div class="label_list">
                 <a href="#"><span ng-bind="exercise.Keys | keyReplace"></span></a>
             </div>

@@ -22,7 +22,7 @@ namespace IES.G2S.Resource.IBLL
         #region List 
         IList<ResourceKen> ResourceKen_List_Source(int ocid, string source);
 
-        IList<ResourceKen> ResourceKen_List(string searchKey, string source, int userId, int topNum);
+        IList<Ken> ResourceKen_List(string searchKey, string source, int userId, int topNum);
         #endregion
 
 
