@@ -411,12 +411,14 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         }
 
         $scope.willEdit = function (data) {
-            setCourse(data.exercise.OCID, data.exercise.CourseID);
-            setExerciseType(data.exercise.ExerciseType);
-            setDifficult(data.exercise.Diffcult);
-            setScope(data.exercise.Scope);
-            $scope.data.keys = data.exercise.KeyList;
-            $scope.data.kens = data.exercise.KenList;
+            setCourse(data.exercisecommon.exercise.OCID, data.exercisecommon.exercise.CourseID);
+            setExerciseType(data.exercisecommon.exercise.ExerciseType);
+            setDifficult(data.exercisecommon.exercise.Diffcult);
+            setScope(data.exercisecommon.exercise.Scope);
+            $scope.data.keys = data.exercisecommon.exercise.KeyList;
+            $scope.data.kens = data.exercisecommon.exercise.KenList;
+            if ($scope.data.keys) $scope.data.keys = [];
+            if ($scope.data.kens) $scope.data.kens = [];
         }
     }]);
 
