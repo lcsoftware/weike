@@ -181,5 +181,38 @@ namespace App.Resource.DataProvider.Exercise
         {
             return new ExerciseBLL().Exercise_Analysis_Get(ExerciseID);
         }
+
+        /// <summary>
+        /// 名词解释、 分析题、解答题、计算题 基本信息维护
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool Exercise_Analysis_M_Edit(string model)
+        {
+            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            return new ExerciseBLL().Exercise_Analysis_M_Edit(v);
+        }
+        /// <summary>
+        /// 问答题、写作题信息维护
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool Exercise_Writing_M_Edit(string model)
+        {
+            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            return new ExerciseBLL().Exercise_Writing_M_Edit(v);
+        }
+        /// <summary>
+        /// 问答题、 写作题详细信息
+        /// </summary>
+        /// <param name="ExerciseID"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static ExerciseInfo Exercise_Writing_Get(int ExerciseID)
+        {
+            return new ExerciseBLL().Exercise_Writing_Get(ExerciseID);
+        }
     }
 }

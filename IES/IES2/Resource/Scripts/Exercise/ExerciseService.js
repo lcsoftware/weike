@@ -62,6 +62,18 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     service.Exercise_FillInBlanks_M_Edit = function (model, callback) {
         httpService.ajaxPost(url, 'Exercise_FillInBlanks_M_Edit', { model: model }, callback);
     }
+    //名词解释、 分析题、解答题、计算题 基本信息维护
+    service.Exercise_Analysis_M_Edit = function (model, callback) {
+        httpService.ajaxPost(url, 'Exercise_Analysis_M_Edit', { model: model }, callback);
+    }
+    //问答题、写作题信息维护
+    service.Exercise_Writing_M_Edit = function (model, callback) {
+        httpService.ajaxPost(url, 'Exercise_Writing_M_Edit', { model: model }, callback);
+    }
+    //问答题、 写作题详细信息
+    service.Exercise_Writing_Get = function (ExerciseID, callback) {
+        httpService.ajaxPost(url, 'Exercise_Writing_Get', { ExerciseID: ExerciseID }, callback);
+    }
 
     //多个题目的获取
     service.Exercise_Analysis_Get = function (ExerciseID, callback) {

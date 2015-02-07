@@ -250,6 +250,49 @@ namespace IES.G2S.Resource.DAL
                 return null;
             }
         }
+        public static ExerciseInfo Exercise_Writing_Get(int ExerciseID)
+        {
+            try
+            {
+                using (IDbConnection conn = DbHelper.ResourceService())
+                {
+                    ExerciseInfo ef = new ExerciseInfo()
+                    {
+                        exercisechoicelist = new List<ExerciseChoice>(),
+                        exercisecommon = new ExerciseCommon()
+                        {
+                            kenlist = new List<Ken>(),
+                            keylist = new List<Key>(),
+                            exercise = new IES.Resource.Model.Exercise(),
+                            attachmentlist = new List<Attachment>()
+                        }
+                    };
+                    var p = new DynamicParameters();
+                    p.Add("@ExerciseID", ExerciseID);
+
+                    var multi = conn.QueryMultiple("Exercise_Writing_Get", p, commandType: CommandType.StoredProcedure);
+                    //主题
+                    var exercise = multi.Read<Exercise>().Single();
+                    var attachmentlist = multi.Read<Attachment>().ToList();
+                    var keylist = multi.Read<Key>().ToList();
+                    var kenlist = multi.Read<Ken>().ToList();
+
+                    //主题
+                    ef.exercisecommon.exercise = exercise;
+                    ef.exercisecommon.attachmentlist = attachmentlist;
+                    ef.exercisecommon.kenlist = kenlist;
+                    ef.exercisecommon.keylist = keylist;
+
+                    return ef;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+        
+
         public static ExerciseInfo Exercise_MultipleChoice_Get(int ExerciseID)
         {
             try
@@ -382,6 +425,90 @@ namespace IES.G2S.Resource.DAL
         }
 
         /// <summary>
+        /// 名词解释、 分析题、解答题、计算题 基本信息维护
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool Exercise_Analysis_M_Edit(ExerciseInfo model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+
+                    p.Add("@ExerciseID", dbType: DbType.Int32, direction: ParameterDirection.InputOutput, value: model.exercisecommon.exercise.ExerciseID);
+                    p.Add("@OCID", model.exercisecommon.exercise.OCID);
+                    p.Add("@CourseID", model.exercisecommon.exercise.CourseID);
+                    p.Add("@OwnerUserID", model.exercisecommon.exercise.OwnerUserID);
+                    p.Add("@CreateUserID", model.exercisecommon.exercise.CreateUserID);
+                    p.Add("@CreateUserName", model.exercisecommon.exercise.CreateUserName);
+                    p.Add("@ParentID", model.exercisecommon.exercise.ParentID);
+                    p.Add("@ExerciseType", model.exercisecommon.exercise.ExerciseType);
+                    p.Add("@ExerciseTypeName", model.exercisecommon.exercise.ExerciseTypeName);
+                    p.Add("@Diffcult", model.exercisecommon.exercise.Diffcult);
+                    p.Add("@Scope", model.exercisecommon.exercise.Scope);
+                    p.Add("@ShareRange", model.exercisecommon.exercise.ShareRange);                    
+                    p.Add("@Keys", model.exercisecommon.exercise.Keys);
+                    p.Add("@Kens", model.exercisecommon.exercise.Kens);
+                    p.Add("@Conten", model.exercisecommon.exercise.Conten);
+                    p.Add("@Analysis", model.exercisecommon.exercise.Analysis);
+                    p.Add("@ScorePoint", model.exercisecommon.exercise.ScorePoint);
+                    conn.Execute("Exercise_Analysis_M_Edit", p, commandType: CommandType.StoredProcedure);
+                    model.exercisecommon.exercise.ExerciseID = p.Get<int>("ExerciseID");
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 问答题、写作题信息维护
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool Exercise_Writing_M_Edit(ExerciseInfo model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+
+                    p.Add("@ExerciseID", dbType: DbType.Int32, direction: ParameterDirection.InputOutput, value: model.exercisecommon.exercise.ExerciseID);
+                    p.Add("@OCID", model.exercisecommon.exercise.OCID);
+                    p.Add("@CourseID", model.exercisecommon.exercise.CourseID);
+                    p.Add("@OwnerUserID", model.exercisecommon.exercise.OwnerUserID);
+                    p.Add("@CreateUserID", model.exercisecommon.exercise.CreateUserID);
+                    p.Add("@CreateUserName", model.exercisecommon.exercise.CreateUserName);
+                    p.Add("@ExerciseType", model.exercisecommon.exercise.ExerciseType);
+                    p.Add("@ExerciseTypeName", model.exercisecommon.exercise.ExerciseTypeName);
+                    p.Add("@Diffcult", model.exercisecommon.exercise.Diffcult);
+                    p.Add("@Scope", model.exercisecommon.exercise.Scope);
+                    p.Add("@ShareRange", model.exercisecommon.exercise.ShareRange);                    
+                    p.Add("@Keys", model.exercisecommon.exercise.Keys);
+                    p.Add("@Kens", model.exercisecommon.exercise.Kens);
+                    p.Add("@Conten", model.exercisecommon.exercise.Conten);
+                    p.Add("@Analysis", model.exercisecommon.exercise.Analysis);
+                    p.Add("@Answer", model.exercisecommon.exercise.Answer);
+                    p.Add("@ScorePoint", model.exercisecommon.exercise.ScorePoint);
+                    conn.Execute("Exercise_Writing_M_Edit", p, commandType: CommandType.StoredProcedure);
+                    model.exercisecommon.exercise.ExerciseID = p.Get<int>("ExerciseID");
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        
+        
+
+        /// <summary>
         /// 单选 多选题信息维护
         /// </summary>
         /// <param name="model"></param>
@@ -437,6 +564,31 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@ExerciseID", model.exercisecommon.exercise.ExerciseID);
                     p.Add("@Content", model.exercisecommon.exercise.Content);
                     conn.Execute("Exercise_FillInBlanks_S_Edit", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 名词解释、 分析题、解答题、计算题 主观选项信息维护（支持多个问题及答案）选项
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool Exercise_Analysis_S_Edit(ExerciseInfo model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+
+                    p.Add("@ExerciseID", model.exercisecommon.exercise.ExerciseID);
+                    p.Add("@Content", model.exercisecommon.exercise.Content);
+                    conn.Execute("Exercise_Analysis_S_Edit", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }
             }

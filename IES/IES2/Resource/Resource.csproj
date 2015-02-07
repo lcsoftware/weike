@@ -338,6 +338,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Exercise\Radio.cshtml" />
+    <Content Include="Views\Exercise\Multiple.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
