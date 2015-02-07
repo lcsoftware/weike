@@ -48,6 +48,8 @@ namespace IES.G2S.Resource.IBLL
 
         #region 对象更新
 
+        bool Folder_ShareRange_Upd(Folder model);
+        bool Folder_Batch_ShareRange(string folderIds, int shareRange);
 
         bool Folder_Upd(Folder model);
 
@@ -146,7 +148,7 @@ namespace IES.G2S.Resource.IBLL
 
 
 
-        bool File_Del(File model);
+        string File_Del(File model);
 
 
         #endregion

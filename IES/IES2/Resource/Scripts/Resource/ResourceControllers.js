@@ -15,7 +15,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.shareRanges = []; //使用权限
     $scope.model.FileType = -1;
     $scope.model.timeSelection = -1;
-    $scope.model.ShareRange = -1;
+    $scope.model.ShareRange = 0;
     $scope.checksSelect = [];//复选框选中的值
     $scope.folders = [];//文件夹数组
 
@@ -60,7 +60,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             if ($scope.courses.length > 0 && $scope.courses[0].OCID !== 0) {
                 course.OCID = 0;
                 course.Name = '个人资料';
-                $scope.$parent.courses.insert(0, course); 
+                $scope.$parent.courses.insert(0, course);
             }
             $scope.$parent.course = course;
 
@@ -135,26 +135,13 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         if (data.d) {
             var item = {};
             angular.copy(data.d[0], item);
-            item.id = -1;
+            item.id = 0;
             item.name = '不限';
             $scope.shareRanges = data.d;
             $scope.shareRanges.insert(0, item);
         }
     });
-
-
-    //复选框值
-    $scope.checkAdd = function (file) {
-        if ($.inArray(file, $scope.checksSelect) < 0) {
-            $scope.checksSelect.push(file);
-        } else {
-            $scope.checksSelect.splice($.inArray(file, $scope.checksSelect), 1);
-        }
-    }
-    //全选
-    $scope.checkALL = function () {
-
-    }
+  
     //单击文件夹名称方法,进入文件夹
     $scope.folderClick = function (item) {
         if (item.RelationType == 1) return;
@@ -451,9 +438,11 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             } else {
                 var file = { FileID: $scope.checksSelect[i].Id };
                 resourceService.File_Del(file, function (data) {
-                    if (data.d) {
+                    if (data.d.length === 0) {
                         $scope.filterChanged();
                         $scope.close();
+                    } else {
+                        alert(data.d);
                     }
                 });
             }
@@ -493,31 +482,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.propertyShow = false;
         $scope.folder = {};
     }
-    //批量设置使用权限
-    $scope.batchShareRange = function (item) {
-        var FileIDS = '';
-        for (var i = 0; i < $scope.checksSelect.length; i++) {
-            if ($scope.checksSelect[i].RelationType == 1) {
-                FileIDS += $scope.checksSelect[i].Id + ',';
-            }
-        }
-        FileIDS = FileIDS.substr(0, FileIDS.length - 1);
-        if (FileIDS != '') {
-            resourceService.File_Batch_ShareRange(FileIDS, item.id, function (data) {
-                if (data.d) {
-                    $scope.filterChanged();
-                }
-            });
-        }
-    }
-    $scope.fileShareRange = function (item, sr) {
-        console.log(item.Id);
-        console.log(sr.id);
-        var model = { FileID: item.Id, ShareRange: sr.id };
-        resourceService.File_ShareRange_Upd(model, function (data) {
-
-        });
-    }
+   
 
     $scope.visible = function (item) {
         if ($scope.query && $scope.query.length > 0
@@ -527,44 +492,70 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         return true;
     };
 
-    //弹出右键菜单
-    $('.more_operation').hover(function () {
-        $(this).find('.mouse_right').toggle();
+    $scope.checks = [];
+
+    $scope.$watch('selectionAllToggle', function (v) {
+        $scope.checks.length = 0
+        if (v === 'YES') {
+            angular.forEach($scope.folderRelations, function (item) {
+                this.push(item);
+            }, $scope.checks);
+        }
     });
-    //右键菜单表现形式
-    $('.mouse_right li').hover(function () {
-        $(this).addClass('active').siblings().removeClass('active');
-        $(this).find('.right_obj').show();
-    }, function () {
-        $(this).removeClass('active');
-        $(this).find('.right_obj').hide();
+    //批量共享
+    $scope.batchShareRange = function (shareRange) {
+        if ($scope.checks.length === 0) return;
+        var fileIds = '';
+        var folderIds = '';
+        var length = $scope.checks.length;
+        for (var i = 0; i < length; i++) {
+            if ($scope.checks[i].RelationType === 1) {
+                fileIds += $scope.checks[i].Id.toString() + ',';
+            } else {
+                folderIds += $scope.checks[i].Id.toString() + ',';
+            }
+        }
+        if (fileIds.length > 0) {
+            fileIds = fileIds.substr(0, fileIds.length - 1);
+            resourceService.File_Batch_ShareRange(fileIds, shareRange.id);
+        }
+        if (folderIds.length > 0) {
+            folderIds = folderIds.substr(0, folderIds.length - 1);
+            resourceService.Folder_Batch_ShareRange(folderIds, shareRange.id);
+        }
+    }
+
+    $scope.$on('batchShareRange', function (event, range) {
+        if ($scope.checks.length === 0) return;
+        var fileIds = '';
+        var folderIds = '';
+        var length = $scope.checks.length;
+        for (var i = 0; i < length; i++) {
+            if ($scope.checks[i].RelationType === 1) {
+                fileIds += $scope.checks[i].Id.toString() + ',';
+            } else {
+                folderIds += $scope.checks[i].Id.toString() + ',';
+            }
+        }
+        if (fileIds.length > 0) {
+            fileIds = fileIds.substr(0, fileIds.length - 1);
+            resourceService.File_Batch_ShareRange(fileIds, range.id);
+        }
+        if (folderIds.length > 0) {
+            folderIds = folderIds.substr(0, folderIds.length - 1);
+            resourceService.Folder_Batch_ShareRange(folderIds, range.id);
+        }
     });
-    $('#youlan').hover(function () {
-        $('.permissions').show();
-    }, function () {
-        //elem.find('.permissions').hide();
-    });
-    $('#eShare').click(function () {
-        //换图片
-    })
-    $('.permissions li').hover(function () {
-        $(this).addClass('current').siblings().removeClass('current');
-    }, function () {
-        $(this).removeClass('current');
-    })
 
-
-
-    $('.batch_list li').hover(function () {
-        $(this).addClass('active').siblings().removeClass('active');
-    }, function () {
-        $(this).removeClass('active');
-    })
-    $('.permissions li').hover(function () {
-        $(this).addClass('current').siblings().removeClass('current');
-    }, function () {
-        $(this).removeClass('current');
-    })
-
-
+    //单一共享
+    $scope.$on('shareRange', function (event, range, file) {
+        if (file.RelationType === 1) {
+            //文件
+            var file = { FileID: file.Id, ShareRange: range.id }
+            resourceService.File_ShareRange_Upd(file);
+        } else {
+            var folder = { FolderID: file.Id, ShareRange: range.id }
+            resourceService.Folder_ShareRange_Upd(folder);
+        }
+    }); 
 }]);

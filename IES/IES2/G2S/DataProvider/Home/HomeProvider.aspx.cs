@@ -56,7 +56,8 @@ namespace App.G2S.DataProvider
         public static bool File_Del(File file)
         {
             IFileBLL filebll = new FileBLL();
-            return filebll.File_Del(file);
+            return false;
+            //return filebll.File_Del(file);
         }
         
         #endregion

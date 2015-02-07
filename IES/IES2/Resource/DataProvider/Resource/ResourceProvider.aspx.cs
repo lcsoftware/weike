@@ -73,7 +73,7 @@ namespace App.Resource.DataProvider.Resource
         /// <param name="list"></param>
         /// <returns></returns>
         [WebMethod]
-        public static bool File_Del(File file)
+        public static string File_Del(File file)
         {
             return new FileBLL().File_Del(file);
         }
@@ -224,8 +224,23 @@ namespace App.Resource.DataProvider.Resource
         }
         #endregion
 
-        #region 文件夹列表
+        #region 文件夹
+        [WebMethod]
+        public static bool Folder_ShareRange_Upd(Folder model)
+        {
+            return new FileBLL().Folder_ShareRange_Upd(model);
+        }
 
+        /// <summary>
+        /// 批量设置使用权限
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool Folder_Batch_ShareRange(string folderIds, int shareRange)
+        {
+            return new FileBLL().Folder_Batch_ShareRange(folderIds, shareRange);
+        }
         /// <summary>
         /// 文件夹查询列表
         /// </summary>

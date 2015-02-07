@@ -59,6 +59,14 @@ aService.factory('resourceService', ['httpService', function (httpService) {
     service.Folder_ADD = function (folder, callback) {
         httpService.ajaxPost(url, 'Folder_ADD', { folder: folder }, callback);
     }
+    //设置文件夹权限
+    service.Folder_ShareRange_Upd = function (folder, callback) {
+        httpService.ajaxPost(url, 'Folder_ShareRange_Upd', { model: folder }, callback);
+    }
+    //设置文件夹权限
+    service.Folder_Batch_ShareRange = function (folderIds, shareRange, callback) {
+        httpService.ajaxPost(url, 'Folder_Batch_ShareRange', { folderIds: folderIds, shareRange: shareRange }, callback);
+    }
     //修改文件夹名称
     service.Folder_Name_Upd = function (folder, callback) {
         httpService.ajaxPost(url, 'Folder_Name_Upd', { folder: folder }, callback);

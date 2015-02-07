@@ -49,6 +49,14 @@ namespace IES.G2S.Resource.BLL
             return FileDAL.Folder_Name_Upd(model); ;
         }
 
+        public bool Folder_ShareRange_Upd(Folder model)
+        {
+            return FileDAL.Folder_ShareRange_Upd(model);
+        }
+        public bool Folder_Batch_ShareRange(string folderIds, int shareRange)
+        {
+            return FileDAL.Folder_Batch_ShareRange(folderIds, shareRange);
+        }
         public bool Folder_ParentID_Upd(Folder model)
         {
             return FileDAL.Folder_ParentID_Upd(model);
@@ -163,7 +171,7 @@ namespace IES.G2S.Resource.BLL
         }
 
 
-        public bool File_Del(File model)
+        public string File_Del(File model)
         {
             return FileDAL.File_Del(model);
         }

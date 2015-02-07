@@ -52,12 +52,19 @@ app.directive('fileOperation', function () {
         onReturnPage: '&',
         onMobile: '&',
         shareRanges: '=',
-        folderrelation: '='
+        folderRelation: '='
     }
 
     directive.templateUrl = '/Components/templates/fileOperation.html';
 
     directive.link = function (scope, elem, iAttrs) {
+        scope.rangeSelection = {};
+
+        scope.shareRange = function (range) {
+            scope.rangeSelection = range;
+            scope.$emit('shareRange', scope.rangeSelection, scope.folderRelation);
+        }
+
         //弹出右键菜单
         elem.parent().hover(function () {
             $(this).find('.mouse_right').toggle();
@@ -70,6 +77,10 @@ app.directive('fileOperation', function () {
         }, function () {
             $(this).removeClass('active');
             $(this).find('.right_obj').hide();
+        });
+
+        elem.find('#eBrowser').hover(function () {
+            elem.find('.batch_list2').show();
         });
     }
 
@@ -212,18 +223,24 @@ app.directive('batchOperation', function () {
     }
 
     directive.templateUrl = '/Components/templates/batchOperation.html';
-
+ 
     directive.link = function (scope, elem, iAttrs) {
+        scope.shareRange = function (range) {
+            scope.rangeSelection = range;
+            scope.$emit('batchShareRange', scope.rangeSelection);
+        }
+
         elem.find('.batch_list li').hover(function () {
             $(this).addClass('active').siblings().removeClass('active');
         }, function () {
             $(this).removeClass('active');
-        })
+        });
+
         elem.find('.permissions li').hover(function () {
             $(this).addClass('current').siblings().removeClass('current');
         }, function () {
             $(this).removeClass('current');
-        })
+        }); 
     }
 
     return directive;
@@ -284,23 +301,23 @@ app.directive('exerciseList', ['assistService', function (assistService) {
             );
     }
 
-    directive.controller = function ($scope, assistService) { 
+    directive.controller = function ($scope, assistService) {
 
-        $scope.getDifficultName = function (difficult) { 
+        $scope.getDifficultName = function (difficult) {
             var name = '';
             assistService.Resource_Dict_Diffcult_Get(function (data) {
                 if (data.length > 0) {
                     var length = data.length;
                     for (var i = 0; i < length; i++) {
-                        if ( data[i].id == difficult) {
+                        if (data[i].id == difficult) {
                             name = data[i].name;
                             break;
                         }
                     }
                 }
-            }); 
+            });
             return name;
-        } 
+        }
     }
 
     return directive;

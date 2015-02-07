@@ -106,8 +106,42 @@ namespace IES.G2S.Resource.DAL
         #endregion
 
         #region 对象更新
-
-
+        public static bool Folder_ShareRange_Upd(Folder model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@FileID", model.FolderID);
+                    p.Add("@ShareRange", model.ShareRange);
+                    conn.Execute("Folder_ShareRange_Upd", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        public static bool Folder_Batch_ShareRange(string folderIDS, int shareRange)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@FileIDS", folderIDS);
+                    p.Add("@ShareRange", shareRange);
+                    conn.Execute("Folder_Batch_ShareRange", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
         #endregion
 
         #region 单个属性更新
@@ -569,7 +603,7 @@ namespace IES.G2S.Resource.DAL
         #region 删除
 
 
-        public static bool File_Del(File model)
+        public static string File_Del(File model)
         {
             try
             {
@@ -577,13 +611,14 @@ namespace IES.G2S.Resource.DAL
                 {
                     var p = new DynamicParameters();
                     p.Add("@FileID", model.FileID);
+                    p.Add("@Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                     conn.Execute("File_Del", p, commandType: CommandType.StoredProcedure);
-                    return true;
+                    return p.Get<string>("Result");
                 }
             }
             catch (Exception e)
             {
-                return false;
+                return "";
             }
         }
 

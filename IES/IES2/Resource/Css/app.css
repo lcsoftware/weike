@@ -1,11 +1,12 @@
 ﻿body {
 }
 
-a{
-    cursor:pointer;
+a {
+    cursor: pointer;
 }
 
 .chapter-selection {
-    font-weight:bold;
-    color:red !important;
-}
+    font-weight: bold;
+    color: red !important;
+} 
+

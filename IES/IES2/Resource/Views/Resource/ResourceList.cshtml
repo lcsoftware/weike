@@ -8,13 +8,12 @@
         </p>
     </div>
     <div class="exercise_btn">
-        @*<span class="sort_box">[筛选]</span>*@
         <a class="topic_import" ng-click="AddFile()"><em><i class="icon"></i></em><span>上传文件</span></a>
         <a href="javascript:;" ng-click="AddFolder()"><em><i class="icon"></i></em><span>新建文件夹</span></a>
-        @*<batch-operation share-ranges="shareRanges" on-fire-remove-all="fireRemoveAll()"
-                             on-fire-mobile-batch="fireMobileBatch()" on-sub="sub()">
-            </batch-operation>*@
-        <a class="batch_box" href="javascript:;">
+        <batch-operation share-ranges="shareRanges" on-fire-remove-all="fireRemoveAll()"
+                             on-fire-mobile-batch="fireMobileBatch()">
+            </batch-operation>
+        @*<a class="batch_box" href="javascript:;">
             <em><i class="icon"></i></em>
             <span>批量操作</span>
             <ul class="batch_list">
@@ -30,7 +29,7 @@
                 <li class="batch_move" ng-click="fireMobileBatch()">批量移动</li>
                 <li class="batch_delete" ng-click="fireRemoveAll()">批量删除</li>
             </ul>
-        </a>
+        </a>*@
         <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="model.FileTitle"><span class="icon" ng-click="filterChanged()"></span></p>
     </div>
 </div>
@@ -59,7 +58,7 @@
         <tr>
             <th width="620">
                 <div class="data_name">
-                    <input type="checkbox">
+                    <input type="checkbox" ng-model="selectionAllToggle" ng-true-value="YES" ng-false-value="NO">
                     <p>文件名称</p>
                     <i class="icon arrow"></i>
                 </div>
@@ -83,8 +82,12 @@
                 <div class="file_operation">
                     <div class="more_operation">
                         <span>...</span>
-                        <file-operation on-property="fileProperty(item)" on-remove="fireRemove(item)" on-return-page="returnPage(item)"
-                                        on-mobile="fireMobile(item)" folderrelation="item">
+                        <file-operation on-property="fileProperty(item)"
+                                        on-remove="fireRemove(item)"
+                                        on-return-page="returnPage(item)"
+                                        on-mobile="fireMobile(item)"
+                                        folder-relation="item"
+                                        share-ranges="shareRanges">
                         </file-operation>
 
                     </div>
@@ -171,6 +174,5 @@
             <a class="save" ng-click="fileChapterKen()">保存</a>
             <a class="cancel" ng-click="close()">取消</a>
         </div>
-    </div>
-
+    </div> 
 </div>
