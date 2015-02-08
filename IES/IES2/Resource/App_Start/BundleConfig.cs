@@ -36,8 +36,9 @@ namespace App.Resource
                 "~/Frameworks/angular/angular-cookies.js",
                 "~/Frameworks/angularTree/angular-ui-tree.min.js",
                 "~/Frameworks/checklist-model/checklist-model.js",
-                "~/Frameworks/angular/angular-ui-router.js" ,
-                    "~/Frameworks/angular/angular-file-upload.js"
+                "~/Frameworks/angular/angular-ui-router.js",
+                "~/Frameworks/ewebeditor/ewebeditor.js",
+                "~/Frameworks/angular/angular-file-upload.js"
                 ));
           
             bundles.Add(new ScriptBundle("~/js/app").Include(

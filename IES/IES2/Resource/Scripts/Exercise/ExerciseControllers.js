@@ -636,7 +636,7 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
 
     });
 
-    $scope.$on('willRequestSave', function (event, data) {
+    $scope.$on('willRequestSave', function (event, data) { 
         $scope.willTopBind($scope.model, data);
 
         var v = angular.toJson($scope.model);
@@ -763,16 +763,22 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
 
     });
 
-    $scope.$on('willRequestSave', function (event, data) {
-        $scope.willTopBind($scope.model, data);
+    $scope.editorText = 'editor text';
+    $scope.editorHtml = 'editor html';
 
-        var v = angular.toJson($scope.model);
-        exerciseService.Exercise_Judge_M_Edit(v, function (data) {
-            if (data.d) {
-                alert('提交成功！');
-                $state.go('content.exercise');
-            }
-        });
+    $scope.$on('willRequestSave', function (event, data) {
+        console.log($scope.editorText);
+        console.log($scope.editorHtml);
+
+        //$scope.willTopBind($scope.model, data);
+
+        //var v = angular.toJson($scope.model);
+        //exerciseService.Exercise_Judge_M_Edit(v, function (data) {
+        //    if (data.d) {
+        //        alert('提交成功！');
+        //        $state.go('content.exercise');
+        //    }
+        //});
     });
 
     $scope.$on('willPreview', function (event) {

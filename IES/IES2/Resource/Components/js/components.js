@@ -391,9 +391,21 @@ app.directive('editor', function () {
     directive.templateUrl = '/Components/templates/editor.html';
 
     directive.link = function (scope, elem, iAttrs) {
+        var editor = EWEBEDITOR.Instances["oEditor1"];
+        console.log(editor);
+        console.log(EWEBEDITOR);
+        //console.log(editor.getHTML());
+        //var editor = EWEBEDITOR.Create("oEditor1", { style: "coolblue", width: "550", height: "350" });
+        //var editor = EWEBEDITOR.Append("div1", { style: "coolblue", width: "550", height: "350" }, "初始ssss值");
         scope.$watch('editorText', function (v) {
+            //console.log(v);
+            //console.log($('#eWebEditor'));
+            //console.log(document.getElementById('frmoEditor1').contentWindow.getHTML());
+              
+            //document.getElementById('frmoEditor1').contentWindow.setHTML("ddddddddddddddd");
+            //console.log(elem.find("#frmoEditor1").contentWindow);
             //$('#frmoEditor1').contentWindow.insertHTML(v);
-            console.log(document.getElementById('frmoEditor1').contentWindow);
+            //console.log(document.getElementById('frmoEditor1').contentWindow);
             //$scope.editorHtml = document.getElementById('frmoEditor1').contentWindow.getHTML();
             //elem.find('#frmoEditor1').contentWindow.setHTML(v);
             //scope.editorHtml = elem.find('#frmoEditor1').contentWindow.getHTML();
