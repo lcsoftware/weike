@@ -7,7 +7,7 @@
             <p class="creator">创建人：{{exercise.CreateUserName}}<span>最后修改时间：{{exercise.UpdateTime | dateFormat}}</span></p>
         </div>
         <div class="topic_tit">
-            <h5><span>[已共享]</span></h5>
+            <h5><span>{{getShareRange(exercise.ShareRange)}}</span></h5>
             <p class="question" ng-bind="exercise.Conten">
             </p>
             <p class="answer" ng-bind="exercise.Answer">

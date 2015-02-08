@@ -318,6 +318,22 @@ app.directive('exerciseList', ['assistService', function (assistService) {
             });
             return name;
         }
+
+        $scope.getShareRange = function (range) {
+            var name = '';
+            assistService.Resource_Dict_ShareRange_Get(function (data) {
+                if (data.length > 0) {
+                    var length = data.length;
+                    for (var i = 0; i < length; i++) {
+                        if (data[i].id == range) {
+                            name = data[i].name;
+                            break;
+                        }
+                    }
+                }
+            });
+            return name;
+        }
     }
 
     return directive;
