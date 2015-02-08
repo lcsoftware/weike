@@ -580,7 +580,7 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
             $scope.model.Children.Children.Children.exercisecommon.exercise.ExerciseType = 18;
             $scope.model.Children.Children.Children.exercisecommon.exercise.ExerciseTypeName = '填空题';
         }
-        
+
 
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_Custom_M_Edit(v, function (data) {
@@ -672,7 +672,7 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
         }
     }
     //是否是正确答案,多选
-    $scope.isCorrectChangeMultiple = function (item) {       
+    $scope.isCorrectChangeMultiple = function (item) {
         item.IsCorrect = item.IsCorrect ? 0 : 1;
     }
 
@@ -875,7 +875,7 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
 
     });
 
-    $scope.$on('willRequestSave', function (event, data) { 
+    $scope.$on('willRequestSave', function (event, data) {
         $scope.willTopBind($scope.model, data);
 
         var v = angular.toJson($scope.model);
@@ -1002,13 +1002,19 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
 
     });
 
-    $scope.editorText = 'editor text';
-    $scope.editorHtml = 'editor html';
+    var value = "<ol>";
+    value += "<li><span style=\"font-size: 9pt;\">12345sdfasdfasdf</span></li>";
+    value += "<li><span style=\"font-size: 9pt;\">333434</span></li>";
+    value += "<li><span style=\"font-size: 9pt;\">34343434343434</span></li>";
+    value += "</ol>";
+    $scope.editorText = value;
 
     $scope.$on('willRequestSave', function (event, data) {
         console.log($scope.editorText);
-        console.log($scope.editorHtml);
-
+       
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        console.log(editor.getHTML());
+        console.log($scope.editorText);
         //$scope.willTopBind($scope.model, data);
 
         //var v = angular.toJson($scope.model);

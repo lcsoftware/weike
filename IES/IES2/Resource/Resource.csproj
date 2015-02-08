@@ -141,6 +141,7 @@
     <Content Include="Components\templates\exerciseList.html" />
     <Content Include="Components\templates\fileOperation.html" />
     <Content Include="Components\templates\fileShared.html" />
+    <Content Include="Components\templates\iesFileUploader.html" />
     <Content Include="Components\templates\folder.html" />
     <Content Include="Components\templates\moreCourse.html" />
     <Content Include="Components\templates\moveFolder.html" />
@@ -167,6 +168,7 @@
     <Content Include="DataProvider\Shared\ContentProvider.aspx" />
     <Content Include="DataProvider\UploadFile.aspx" />
     <Content Include="DataProvider\User\UserProvider.aspx" />
+    <Content Include="Frameworks\angular-file-uploader\angular-file-upload.min.js" />
     <Content Include="Frameworks\angularTree\angular-ui-tree.min.css" />
     <Content Include="Frameworks\angularTree\angular-ui-tree.min.js" />
     <Content Include="Frameworks\angular\angular-animate.js" />
@@ -1139,7 +1141,6 @@
     <Content Include="Views\CourseLive\Forum\topicdetail.cshtml" />
     <Content Include="Views\CourseLive\Forum\topiclist.cshtml" />
     <Content Include="Views\CourseLive\Forum\vssver2.scc" />
-    <Content Include="Scripts\CourseLive\Forum\vssver2.scc" />
     <Content Include="Views\Exercise\Custom.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
