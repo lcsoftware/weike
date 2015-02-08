@@ -49,6 +49,39 @@ namespace App.Resource.DataProvider.Exercise
                     keylist = new List<Key>(),
                     exercise = new IES.Resource.Model.Exercise(),
                     attachmentlist = new List<Attachment>()
+                },
+                Children = new ExerciseInfo()
+                {
+                    exercisechoicelist = new List<ExerciseChoice>(),
+                    exercisecommon = new ExerciseCommon()
+                    {
+                        kenlist = new List<Ken>(),
+                        keylist = new List<Key>(),
+                        exercise = new IES.Resource.Model.Exercise(),
+                        attachmentlist = new List<Attachment>()
+                    },
+                    Children = new ExerciseInfo()
+                    {
+                        exercisechoicelist = new List<ExerciseChoice>(),
+                        exercisecommon = new ExerciseCommon()
+                        {
+                            kenlist = new List<Ken>(),
+                            keylist = new List<Key>(),
+                            exercise = new IES.Resource.Model.Exercise(),
+                            attachmentlist = new List<Attachment>()
+                        },
+                        Children = new ExerciseInfo()
+                        {
+                            exercisechoicelist = new List<ExerciseChoice>(),
+                            exercisecommon = new ExerciseCommon()
+                            {
+                                kenlist = new List<Ken>(),
+                                keylist = new List<Key>(),
+                                exercise = new IES.Resource.Model.Exercise(),
+                                attachmentlist = new List<Attachment>()
+                            }
+                        }
+                    }
                 }
             };
         }
@@ -214,6 +247,41 @@ namespace App.Resource.DataProvider.Exercise
         public static ExerciseInfo Exercise_Writing_Get(int ExerciseID)
         {
             return new ExerciseBLL().Exercise_Writing_Get(ExerciseID);
+        }
+        /// <summary>
+        /// 听力，自定义信息维护
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool Exercise_Custom_M_Edit(string model)
+        {
+            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            bool exerciseRs = new ExerciseBLL().Exercise_Custom_M_Edit(v);
+            if (exerciseRs)
+            {
+                if (v.Children != null)
+                {
+                    v.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+                    new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v.Children);
+                    if(v.Children.Children != null)
+                    {
+                        v.Children.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+                        new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v.Children.Children);
+                        if (v.Children.Children.Children != null)
+                        {
+                            v.Children.Children.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+                            new ExerciseBLL().Exercise_Writing_M_Edit(v.Children.Children.Children);
+                        }
+                    }
+                }
+            }
+            return exerciseRs;
+        }
+        [WebMethod]
+        public static ExerciseInfo Exercise_Custom_Get(int ExerciseID)
+        {
+            return new ExerciseBLL().Exercise_Custom_Get(ExerciseID);
         }
     }
 }

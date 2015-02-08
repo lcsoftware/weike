@@ -38,6 +38,8 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         .state('exercise.shortanswer', { url: '/shortanswer/:ExerciseID', templateUrl: '/views/Exercise/ShortAnswer', controller: 'ShortAnswerCtrl' })
         //听力题
         .state('exercise.listening', { url: '/listening/:ExerciseID', templateUrl: '/views/Exercise/Listening', controller: 'ListeningCtrl' })
+        //自定义题
+        .state('exercise.custom', { url: '/custom/:ExerciseID', templateUrl: '/views/Exercise/Custom', controller: 'CustomCtrl' })
         //问答题,写作题
         .state('exercise.quesanswer', { url: '/quesanswer/:ExerciseID', templateUrl: '/views/Exercise/QuesAnswer', controller: 'QuesanswerCtrl' })
         //名词解释

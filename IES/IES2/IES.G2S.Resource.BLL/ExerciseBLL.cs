@@ -73,6 +73,11 @@ namespace IES.G2S.Resource.BLL
         {
             return ExerciseDAL.Exercise_Writing_Get(ExerciseID);
         }
+
+        public ExerciseInfo Exercise_Custom_Get(int ExerciseID)
+        {
+            return ExerciseDAL.Exercise_Custom_Get(ExerciseID);
+        }
         
 
         public ExerciseInfo Exercise_MultipleChoice_Get(int ExerciseID)
@@ -141,13 +146,16 @@ namespace IES.G2S.Resource.BLL
             {
                 return false;
             }
-
-
         }
 
         public bool Exercise_Writing_M_Edit(ExerciseInfo model)
         {
             return ExerciseDAL.Exercise_Writing_M_Edit(model);
+        }
+
+        public bool Exercise_Custom_M_Edit(ExerciseInfo model)
+        {
+            return ExerciseDAL.Exercise_Custom_M_Edit(model);       
         }
 
 
