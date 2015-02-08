@@ -12,7 +12,9 @@ var appModule = angular.module('app', [
     'app.content.controllers',
     'app.resource.controllers',
     'app.ken.controllers',
-    'app.exercise.controllers'
+    'app.exercise.controllers',
+     'app.forumm',
+      'angularFileUpload'
 ]);
 
 appModule.config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
@@ -52,11 +54,12 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         .state('exercise.radio', { url: '/radio/:ExerciseID', templateUrl: '/views/Exercise/Radio', controller: 'RadioCtrl' })
         //多选题
         .state('exercise.multiple', { url: '/multiple/:ExerciseID', templateUrl: '/views/Exercise/Multiple', controller: 'MultipleCtrl' })
-        
-        
 
 
 
+
+        //文件上传
+        .state('fileupload', { url: '/fileupload', templateUrl: '/views/CourseLive/Forum/topicadd', controller: 'ForumTopicCtrl' })
 
         //试卷
         .state('content.paper', { url: '/paper', templateUrl: '/views/Paper/PaperList', controller: 'PaperListCtrl' })
@@ -93,6 +96,7 @@ function ($templateCache, $rootScope, $state, $stateParams, httpService, assistS
     var view = angular.element('#ui-view');
     $templateCache.put(view.data('tmpl-url'), view.html());
 
+    $rootScope.baseService = httpService;
     $rootScope.appTitle = 'IES';
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;

@@ -10,26 +10,10 @@
     <div class="exercise_btn">
         <a class="topic_import" ng-click="AddFile()"><em><i class="icon"></i></em><span>上传文件</span></a>
         <a href="javascript:;" ng-click="AddFolder()"><em><i class="icon"></i></em><span>新建文件夹</span></a>
-        <batch-operation share-ranges="shareRanges" on-fire-remove-all="fireRemoveAll()"
-                             on-fire-mobile-batch="fireMobileBatch()">
-            </batch-operation>
-        @*<a class="batch_box" href="javascript:;">
-            <em><i class="icon"></i></em>
-            <span>批量操作</span>
-            <ul class="batch_list">
-                <li>
-                    浏览权限
-                    <ul class="permissions">
-                        <li ng-repeat="item in shareRanges" ng-click="batchShareRange(item)">
-                            <p><i class="icon"></i>{{item.name}}</p>
-                        </li>
-                    </ul>
-                </li>
-                <li class="batch_share">批量共享</li>
-                <li class="batch_move" ng-click="fireMobileBatch()">批量移动</li>
-                <li class="batch_delete" ng-click="fireRemoveAll()">批量删除</li>
-            </ul>
-        </a>*@
+        <batch-operation share-ranges="shareRanges"
+                         on-fire-remove-all="fireRemoveAll()"
+                         on-fire-mobile-batch="fireMobileBatch()">
+        </batch-operation>
         <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="model.FileTitle"><span class="icon" ng-click="filterChanged()"></span></p>
     </div>
 </div>
@@ -92,10 +76,10 @@
 
                     </div>
                     @*<a class="icon data_share" ng-show="item.RelationType==1"></a>
-                    <ul class="permissions" style="margin-left:25em;margin-top:2em;z-index:1000">
-                        <file-share ng-repeat="shareData in shareRanges" on-share="fileShareRange(item,shareData)" share-item="shareData">
-                        </file-share>
-                    </ul>*@
+                        <ul class="permissions" style="margin-left:25em;margin-top:2em;z-index:1000">
+                            <file-share ng-repeat="shareData in shareRanges" on-share="fileShareRange(item,shareData)" share-item="shareData">
+                            </file-share>
+                        </ul>*@
                 </div>
             </div>
         </td>
@@ -174,5 +158,5 @@
             <a class="save" ng-click="fileChapterKen()">保存</a>
             <a class="cancel" ng-click="close()">取消</a>
         </div>
-    </div> 
+    </div>
 </div>

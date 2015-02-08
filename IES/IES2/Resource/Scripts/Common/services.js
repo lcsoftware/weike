@@ -5,7 +5,8 @@ var aService = angular.module('app.common.services', ['ngCookies']);
 aService.value('version', '0.1');
 
 aService.constant('appName', 'IES')
-
+aService.constant('forumProviderUrl', '/DataProvider/CourseLive/Forum/ForumProvider.aspx');
+aService.constant('uploadfileProviderUrl', '/DataProvider/UploadFile.aspx');
 ///XHR调用
 aService.factory('httpService', ['$http', '$q', function ($http, $q) {
 

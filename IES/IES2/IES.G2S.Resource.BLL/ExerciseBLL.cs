@@ -27,9 +27,9 @@ namespace IES.G2S.Resource.BLL
         /// <param name="PageSize"></param>
         /// <param name="PageIndex"></param>
         /// <returns></returns>
-        public List<Exercise> Exercise_Search(Exercise model, Key key, int PageSize, int PageIndex)
+        public List<Exercise> Exercise_Search(Exercise model, Key key, string keys, string kens, int PageSize, int PageIndex)
         {
-            return ExerciseDAL.Exercise_Search(model, key, PageSize, PageIndex);
+            return ExerciseDAL.Exercise_Search(model, key, keys, kens, PageSize, PageIndex);
         }
 
 
