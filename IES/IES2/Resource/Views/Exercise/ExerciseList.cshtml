@@ -17,7 +17,7 @@
     <dl class="filter_list">
         <dt>课程选择</dt>
         <dd>
-            <a ng-class="{'active':data.course.CourseID==item.CourseID}" ng-click="courseChanged(item)" ng-repeat="item in courses"><span ng-bind="item.Name"></span></a>
+            <a ng-class="{'active':data.course.OCID==item.OCID}" ng-click="courseChanged(item)" ng-repeat="item in courses"><span ng-bind="item.Name"></span></a>
         </dd>
     </dl>
     <dl class="filter_list">

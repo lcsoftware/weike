@@ -339,7 +339,7 @@ namespace App.AngularMvc.DataProvider.CourseLive.Test
             model.ShareRange = 0;
             key.KeyID = keyID;
             IExerciseBLL bll = new ExerciseBLL();
-            List<Exercise> list = bll.Exercise_Search(model,key,PageSize,PageIndex);
+            List<Exercise> list = bll.Exercise_Search(model,key,"", "",PageSize,PageIndex);
             return list;
         }
         

@@ -360,7 +360,6 @@ app.directive('moveFolder', function () {
     var directive = {};
 
     directive.restrict = 'EA';
-    directive.replace = true;
 
     directive.scope = {
         onMoveFileSubmit: '&',
@@ -372,6 +371,33 @@ app.directive('moveFolder', function () {
     directive.templateUrl = '/Components/templates/moveFolder.html';
 
     directive.link = function (scope, elem, iAttrs) {
+    }
+
+    return directive;
+});
+
+//编辑器
+app.directive('editor', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+    directive.replace = true;
+
+    directive.scope = {
+        editorText: '=',
+        editorHtml: '='
+    }
+
+    directive.templateUrl = '/Components/templates/editor.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        scope.$watch('editorText', function (v) {
+            //$('#frmoEditor1').contentWindow.insertHTML(v);
+            console.log(document.getElementById('frmoEditor1').contentWindow);
+            //$scope.editorHtml = document.getElementById('frmoEditor1').contentWindow.getHTML();
+            //elem.find('#frmoEditor1').contentWindow.setHTML(v);
+            //scope.editorHtml = elem.find('#frmoEditor1').contentWindow.getHTML();
+        });
     }
 
     return directive;

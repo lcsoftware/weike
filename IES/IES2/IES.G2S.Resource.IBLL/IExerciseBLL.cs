@@ -14,7 +14,7 @@ namespace IES.G2S.Resource.IBLL
         {
             #region 列表
 
-            List<Exercise> Exercise_Search(Exercise model, Key key, int PageSize, int PageIndex);
+            List<Exercise> Exercise_Search(Exercise model, Key key, string keys, string kens, int PageSize, int PageIndex);
 
             #endregion 
 

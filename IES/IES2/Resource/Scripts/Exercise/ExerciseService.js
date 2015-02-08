@@ -8,10 +8,12 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     var service = {};
     var url = '/DataProvider/Exercise/ExerciseProvider.aspx';
 
-    service.Exercise_Search = function (model, key, pageSize, pageIndex, callback) {
+    service.Exercise_Search = function (model, key, keys, kens, pageSize, pageIndex, callback) {
         var param = {
             model: model,
             key: key,
+            keys: keys,
+            kens: kens,
             pageSize: pageSize,
             pageIndex: pageIndex
         }

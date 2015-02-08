@@ -22,7 +22,7 @@ namespace IES.G2S.Resource.DAL
         /// <param name="PageSize"></param>
         /// <param name="PageIndex"></param>
         /// <returns></returns>
-        public static List<Exercise> Exercise_Search(Exercise model, Key key, int PageSize, int PageIndex)
+        public static List<Exercise> Exercise_Search(Exercise model, Key key, string keys, string kens, int PageSize, int PageIndex)
         {
             try
             {
@@ -38,6 +38,8 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@Scope", model.Scope);
                     p.Add("@ShareRange", model.ShareRange);
                     p.Add("@KeyID", key.KeyID);
+                    p.Add("@Keys", keys);
+                    p.Add("@Kens", kens);
                     p.Add("@PageSize", PageSize);
                     p.Add("@PageIndex", PageIndex);
                     return conn.Query<Exercise>("Exercise_Search", p, commandType: CommandType.StoredProcedure).ToList();

@@ -111,7 +111,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
         });
 
         resourceKenService.ResourceKen_List('', 'Exercise', 100, function (data) {
-            if (data.d) {
+            if (data.d && data.d.length > 0) {
                 $scope.kens = data.d;
                 $scope.data.ken = angular.copy($scope.kens[0]);
                 $scope.data.ken.KenID = -1;
@@ -156,8 +156,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
             ExerciseSearch(20, 1);
         }
 
-        $scope.knowChanged = function (item) {
-            $scope.data.knowledge = item;
+        $scope.kenChanged = function (item) {
+            $scope.data.ken = item;
             ExerciseSearch(20, 1);
         }
 
@@ -171,8 +171,9 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
                 Scope: -1,
                 ShareRange: $scope.data.shareRange.id
             };
-
-            exerciseService.Exercise_Search(model, $scope.data.key, pageSize, pageIndex, function (data) {
+            var keys = $scope.data.key.KeyID === undefined || $scope.data.key.KeyID === -1 ? '' : $scope.data.key.Name;
+            var kens = $scope.data.ken.KenID === undefined || $scope.data.ken.KenID === -1 ? '' : $scope.data.ken.Name;
+            exerciseService.Exercise_Search(model, $scope.data.key, keys, kens, pageSize, pageIndex, function (data) {
                 $scope.exercises.length = 0;
                 if (data.d) {
                     $scope.exercises = data.d;

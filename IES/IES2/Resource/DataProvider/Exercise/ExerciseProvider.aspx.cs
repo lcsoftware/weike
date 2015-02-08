@@ -19,9 +19,10 @@ namespace App.Resource.DataProvider.Exercise
 
 
         [WebMethod]
-        public static List<IES.Resource.Model.Exercise> Exercise_Search(IES.Resource.Model.Exercise model, Key key, int pageSize, int pageIndex)
+        public static List<IES.Resource.Model.Exercise> Exercise_Search(IES.Resource.Model.Exercise model, Key key, string keys, string kens, int pageSize, int pageIndex)
         {
-            return new ExerciseBLL().Exercise_Search(model, key, pageSize, pageIndex);
+            model.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
+            return new ExerciseBLL().Exercise_Search(model, key, keys, kens, pageSize, pageIndex);
         }
 
         [WebMethod]
