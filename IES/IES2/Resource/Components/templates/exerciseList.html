@@ -1,13 +1,17 @@
 ﻿    <li class="show">
         <div class="topic_label">
-            <p class="question_degree" ng-class="{'simple':exercise.Diffcult==1,'medium':exercise.Diffcult==2,'difficult':exercise.Diffcult==3}"><input type="checkbox">{{getDifficultName(exercise.Diffcult)}}</p>
+            <p class="question_degree" ng-class="{'simple':exercise.Diffcult==1,'medium':exercise.Diffcult==2,'difficult':exercise.Diffcult==3}"><input type="checkbox">{{getDifficultName(exercise)}}</p>
             <div class="label_list">
                 <a href="#"><span ng-bind="exercise.Keys | keyReplace"></span></a>
             </div>
             <p class="creator">创建人：{{exercise.CreateUserName}}<span>最后修改时间：{{exercise.UpdateTime | dateFormat}}</span></p>
         </div>
         <div class="topic_tit">
-            <h5><span>{{getShareRange(exercise.ShareRange)}}</span></h5>
+            <h5>
+                <span>{{getShareRange(exercise)}}</span>
+                <span style="display:none">国际英语</span>
+                <span>{{getExerciseType(exercise)}}</span>
+            </h5>
             <p class="question" ng-bind="exercise.Conten">
             </p>
             <p class="answer" ng-bind="exercise.Answer">

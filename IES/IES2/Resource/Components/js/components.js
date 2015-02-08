@@ -303,13 +303,13 @@ app.directive('exerciseList', ['assistService', function (assistService) {
 
     directive.controller = function ($scope, assistService) {
 
-        $scope.getDifficultName = function (difficult) {
+        $scope.getDifficultName = function (exercise) {
             var name = '';
             assistService.Resource_Dict_Diffcult_Get(function (data) {
                 if (data.length > 0) {
                     var length = data.length;
                     for (var i = 0; i < length; i++) {
-                        if (data[i].id == difficult) {
+                        if (data[i].id == exercise.Difficult) {
                             name = data[i].name;
                             break;
                         }
@@ -319,13 +319,29 @@ app.directive('exerciseList', ['assistService', function (assistService) {
             return name;
         }
 
-        $scope.getShareRange = function (range) {
+        $scope.getShareRange = function (exercise) {
             var name = '';
             assistService.Resource_Dict_ShareRange_Get(function (data) {
                 if (data.length > 0) {
                     var length = data.length;
                     for (var i = 0; i < length; i++) {
-                        if (data[i].id == range) {
+                        if (data[i].id == exercise.ShareRange) {
+                            name = data[i].name;
+                            break;
+                        }
+                    }
+                }
+            });
+            return name;
+        }
+
+        $scope.getExerciseType = function (exercise) {
+            var name = '';
+            assistService.Resource_Dict_ExerciseType_Get(function (data) {
+                if (data.length > 0) {
+                    var length = data.length;
+                    for (var i = 0; i < length; i++) {
+                        if (data[i].id == exercise.ExerciseType) {
                             name = data[i].name;
                             break;
                         }
