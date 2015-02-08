@@ -69,6 +69,17 @@ namespace App.Resource.DataProvider.Exercise
                             keylist = new List<Key>(),
                             exercise = new IES.Resource.Model.Exercise(),
                             attachmentlist = new List<Attachment>()
+                        },
+                        Children = new ExerciseInfo()
+                        {
+                            exercisechoicelist = new List<ExerciseChoice>(),
+                            exercisecommon = new ExerciseCommon()
+                            {
+                                kenlist = new List<Ken>(),
+                                keylist = new List<Key>(),
+                                exercise = new IES.Resource.Model.Exercise(),
+                                attachmentlist = new List<Attachment>()
+                            }
                         }
                     }
                 }
@@ -256,7 +267,12 @@ namespace App.Resource.DataProvider.Exercise
                     if(v.Children.Children != null)
                     {
                         v.Children.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
-                        new ExerciseBLL().Exercise_Writing_M_Edit(v.Children.Children);
+                        new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v.Children.Children);
+                        if (v.Children.Children.Children != null)
+                        {
+                            v.Children.Children.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+                            new ExerciseBLL().Exercise_Writing_M_Edit(v.Children.Children.Children);
+                        }
                     }
                 }
             }

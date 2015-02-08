@@ -328,6 +328,17 @@ namespace IES.G2S.Resource.DAL
                                     keylist = new List<Key>(),
                                     exercise = new IES.Resource.Model.Exercise(),
                                     attachmentlist = new List<Attachment>()
+                                },
+                                Children = new ExerciseInfo()
+                                {
+                                    exercisechoicelist = new List<ExerciseChoice>(),
+                                    exercisecommon = new ExerciseCommon()
+                                    {
+                                        kenlist = new List<Ken>(),
+                                        keylist = new List<Key>(),
+                                        exercise = new IES.Resource.Model.Exercise(),
+                                        attachmentlist = new List<Attachment>()
+                                    }
                                 }
                             }
                         }
@@ -350,13 +361,22 @@ namespace IES.G2S.Resource.DAL
                     ef.exercisecommon.attachmentlist = attachmentlist;
                     ef.exercisecommon.kenlist = kenlist;
                     ef.exercisecommon.keylist = keylist;
-                    //小题
-                    ef.Children.exercisecommon.exercise = children[0];
-                    ef.Children.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.Children.exercisecommon.exercise.ExerciseID).ToList();
-                    //小题选项
-                    ef.Children.Children.exercisecommon.exercise = children[1];
-                    ef.Children.Children.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.Children.Children.exercisecommon.exercise.ExerciseID).ToList();
-
+                    //小题,小题选项
+                    if (children[0] != null)
+                    {
+                        ef.Children.exercisecommon.exercise = children[0];
+                        ef.Children.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.Children.exercisecommon.exercise.ExerciseID).ToList();
+                    }
+                    if (children[1] != null)
+                    {
+                        ef.Children.Children.exercisecommon.exercise = children[1];
+                        ef.Children.Children.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.Children.Children.exercisecommon.exercise.ExerciseID).ToList();
+                    }                    
+                    if (children[2] != null)
+                    {
+                        ef.Children.Children.Children.exercisecommon.exercise = children[2];
+                        ef.Children.Children.Children.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.Children.Children.Children.exercisecommon.exercise.ExerciseID).ToList();
+                    }
                     return ef;
                 }
             }
@@ -364,7 +384,7 @@ namespace IES.G2S.Resource.DAL
             {
                 return null;
             }
-        }        
+        }
 
         public static ExerciseInfo Exercise_MultipleChoice_Get(int ExerciseID)
         {
@@ -409,7 +429,7 @@ namespace IES.G2S.Resource.DAL
                 return null;
             }
         }
-        
+
 
         #endregion
 
@@ -521,7 +541,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@ExerciseTypeName", model.exercisecommon.exercise.ExerciseTypeName);
                     p.Add("@Diffcult", model.exercisecommon.exercise.Diffcult);
                     p.Add("@Scope", model.exercisecommon.exercise.Scope);
-                    p.Add("@ShareRange", model.exercisecommon.exercise.ShareRange);                    
+                    p.Add("@ShareRange", model.exercisecommon.exercise.ShareRange);
                     p.Add("@Keys", model.exercisecommon.exercise.Keys);
                     p.Add("@Kens", model.exercisecommon.exercise.Kens);
                     p.Add("@Conten", model.exercisecommon.exercise.Conten);
@@ -561,7 +581,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@ExerciseTypeName", model.exercisecommon.exercise.ExerciseTypeName);
                     p.Add("@Diffcult", model.exercisecommon.exercise.Diffcult);
                     p.Add("@Scope", model.exercisecommon.exercise.Scope);
-                    p.Add("@ShareRange", model.exercisecommon.exercise.ShareRange);                    
+                    p.Add("@ShareRange", model.exercisecommon.exercise.ShareRange);
                     p.Add("@Keys", model.exercisecommon.exercise.Keys);
                     p.Add("@Kens", model.exercisecommon.exercise.Kens);
                     p.Add("@Conten", model.exercisecommon.exercise.Conten);
