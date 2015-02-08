@@ -309,7 +309,7 @@ app.directive('exerciseList', ['assistService', function (assistService) {
                 if (data.length > 0) {
                     var length = data.length;
                     for (var i = 0; i < length; i++) {
-                        if (data[i].id == exercise.Difficult) {
+                        if (data[i].id == exercise.Diffcult) {
                             name = data[i].name;
                             break;
                         }
