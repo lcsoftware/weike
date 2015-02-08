@@ -74,6 +74,10 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     service.Exercise_Writing_Get = function (ExerciseID, callback) {
         httpService.ajaxPost(url, 'Exercise_Writing_Get', { ExerciseID: ExerciseID }, callback);
     }
+    //听力，自定义信息维护
+    service.Exercise_Custom_M_Edit = function (model, callback) {
+        httpService.ajaxPost(url, 'Exercise_Custom_M_Edit', { model: model }, callback);
+    }
 
     //多个题目的获取
     service.Exercise_Analysis_Get = function (ExerciseID, callback) {

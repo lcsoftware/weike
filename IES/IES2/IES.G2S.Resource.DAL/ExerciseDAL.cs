@@ -291,7 +291,78 @@ namespace IES.G2S.Resource.DAL
                 return null;
             }
         }
-        
+        public static ExerciseInfo Exercise_Custom_Get(int ExerciseID)
+        {
+            try
+            {
+                using (IDbConnection conn = DbHelper.ResourceService())
+                {
+                    ExerciseInfo ef = new ExerciseInfo()
+                    {
+                        exercisechoicelist = new List<ExerciseChoice>(),
+                        exercisecommon = new ExerciseCommon()
+                        {
+                            kenlist = new List<Ken>(),
+                            keylist = new List<Key>(),
+                            exercise = new IES.Resource.Model.Exercise(),
+                            attachmentlist = new List<Attachment>()
+                        },
+                        Children = new ExerciseInfo()
+                        {
+                            exercisechoicelist = new List<ExerciseChoice>(),
+                            exercisecommon = new ExerciseCommon()
+                            {
+                                kenlist = new List<Ken>(),
+                                keylist = new List<Key>(),
+                                exercise = new IES.Resource.Model.Exercise(),
+                                attachmentlist = new List<Attachment>()
+                            },
+                            Children = new ExerciseInfo()
+                            {
+                                exercisechoicelist = new List<ExerciseChoice>(),
+                                exercisecommon = new ExerciseCommon()
+                                {
+                                    kenlist = new List<Ken>(),
+                                    keylist = new List<Key>(),
+                                    exercise = new IES.Resource.Model.Exercise(),
+                                    attachmentlist = new List<Attachment>()
+                                }
+                            }
+                        }
+                    };
+                    var p = new DynamicParameters();
+                    p.Add("@ExerciseID", ExerciseID);
+
+                    var multi = conn.QueryMultiple("Exercise_Custom_Get", p, commandType: CommandType.StoredProcedure);
+                    //主题
+                    var exercise = multi.Read<Exercise>().Single();
+                    var attachmentlist = multi.Read<Attachment>().ToList();
+                    var keylist = multi.Read<Key>().ToList();
+                    var kenlist = multi.Read<Ken>().ToList();
+
+                    var children = multi.Read<Exercise>().ToList();
+                    var childrenChoice = multi.Read<ExerciseChoice>().ToList();
+
+                    //主题
+                    ef.exercisecommon.exercise = exercise;
+                    ef.exercisecommon.attachmentlist = attachmentlist;
+                    ef.exercisecommon.kenlist = kenlist;
+                    ef.exercisecommon.keylist = keylist;
+                    //小题
+                    ef.Children.exercisecommon.exercise = children[0];
+                    ef.Children.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.Children.exercisecommon.exercise.ExerciseID).ToList();
+                    //小题选项
+                    ef.Children.Children.exercisecommon.exercise = children[1];
+                    ef.Children.Children.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.Children.Children.exercisecommon.exercise.ExerciseID).ToList();
+
+                    return ef;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }        
 
         public static ExerciseInfo Exercise_MultipleChoice_Get(int ExerciseID)
         {
@@ -495,6 +566,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@Analysis", model.exercisecommon.exercise.Analysis);
                     p.Add("@Answer", model.exercisecommon.exercise.Answer);
                     p.Add("@ScorePoint", model.exercisecommon.exercise.ScorePoint);
+                    p.Add("@ParentID", model.exercisecommon.exercise.ParentID);
                     conn.Execute("Exercise_Writing_M_Edit", p, commandType: CommandType.StoredProcedure);
                     model.exercisecommon.exercise.ExerciseID = p.Get<int>("ExerciseID");
                     return true;
@@ -505,8 +577,43 @@ namespace IES.G2S.Resource.DAL
                 return false;
             }
         }
-        
-        
+        /// <summary>
+        /// 听力，自定义题
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool Exercise_Custom_M_Edit(ExerciseInfo model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+
+                    p.Add("@ExerciseID", dbType: DbType.Int32, direction: ParameterDirection.InputOutput, value: model.exercisecommon.exercise.ExerciseID);
+                    p.Add("@OCID", model.exercisecommon.exercise.OCID);
+                    p.Add("@CourseID", model.exercisecommon.exercise.CourseID);
+                    p.Add("@OwnerUserID", model.exercisecommon.exercise.OwnerUserID);
+                    p.Add("@CreateUserID", model.exercisecommon.exercise.CreateUserID);
+                    p.Add("@CreateUserName", model.exercisecommon.exercise.CreateUserName);
+                    p.Add("@ExerciseType", model.exercisecommon.exercise.ExerciseType);
+                    p.Add("@ExerciseTypeName", model.exercisecommon.exercise.ExerciseTypeName);
+                    p.Add("@Diffcult", model.exercisecommon.exercise.Diffcult);
+                    p.Add("@Scope", model.exercisecommon.exercise.Scope);
+                    p.Add("@ShareRange", model.exercisecommon.exercise.ShareRange);
+                    p.Add("@Keys", model.exercisecommon.exercise.Keys);
+                    p.Add("@Kens", model.exercisecommon.exercise.Kens);
+                    p.Add("@Conten", model.exercisecommon.exercise.Conten);
+                    conn.Execute("Exercise_Custom_M_Edit", p, commandType: CommandType.StoredProcedure);
+                    model.exercisecommon.exercise.ExerciseID = p.Get<int>("ExerciseID");
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// 单选 多选题信息维护

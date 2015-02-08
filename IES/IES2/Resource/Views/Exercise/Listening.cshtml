@@ -3,15 +3,20 @@
     <div class="paper_wrap">
         <div class="text_box" style="color:#F00;">
             <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Conten"></textarea>
+        </div>        
+    </div>
+    <div class="paper_wrap">
+        <div class="text_box" style="color:#F00;">
+            <textarea class="form-control" rows="4" ng-model="model.Children.exercisecommon.exercise.Conten"></textarea>
         </div>
         <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
-        <p class="no_rank">
+        @*<p class="no_rank">
             <input type="checkbox" ng-model="model.exercisecommon.exercise.IsRand" ng-checked="model.exercisecommon.exercise.IsRand==true" ng-change="isRandChange(model.exercisecommon.exercise.IsRand)">选项乱序<span>
                 （需选择一个选项作为正确答案）
             </span>
-        </p>
+        </p>*@
         <ul class="answer_list">
-            <li ng-class="{active:item.IsCorrect==1}" ng-repeat="item in model.exercisechoicelist">
+            <li ng-class="{active:item.IsCorrect==1}" ng-repeat="item in model.Children.exercisechoicelist">
                 <div class="default">
                     <em style="cursor:pointer;"><i class="icon" ng-model="item.IsCorrect" ng-click="isCorrectChange(item)"></i></em>
                     <a ng-click="del(item)">x</a>
@@ -30,25 +35,19 @@
     <div>
         <div class="paper_wrap">
             <div class="text_box" style="color:#F00;">
-                <textarea class="form-control" rows="4" ng-model="model.Children.exercisecommon.exercise.Conten"></textarea>
+                <textarea class="form-control" rows="4" ng-model="model.Children.Children.exercisecommon.exercise.Conten"></textarea>
             </div>
             <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
             <p class="no_rank">默认只有一个填空答案，您可以添加填空答案</p>
-            <div class="default fill_blank" ng-repeat="item in model.Children.exercisechoicelist">
+            <div class="default fill_blank">
                 <a ng-click="delSmall(item)">x</a>
-                <input type="text" ng-model="item.Conten">
+                <input type="text" ng-model="model.Children.Children.exercisecommon.exercise.Answer">
                 <span class="icon icon_unfold"></span>
-            </div>
-            <a class="add_attach" ng-click="AddAnswerSmall()"><em><i class="icon"></i></em><span>添加选项</span></a>
-            <div class="resource_btn">
-                <a class="up_section" href="javascript:;"></a>
-                <a class="down_section" href="javascript:;"></a>
-                <a class="delete_section" href="javascript:;"></a>
-            </div>
+            </div>            
         </div>
         <div class="text_box" style="color: #F00; margin-top: 20px;">
             试题解析：
-            <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Analysis"></textarea>
+            <textarea class="form-control" rows="4" ng-model="model.Children.Children.exercisecommon.exercise.Analysis"></textarea>
         </div>
     </div>
 </div>
