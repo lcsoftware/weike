@@ -1,0 +1,21 @@
+﻿
+<div class="paper_content">
+    <div class="text_box" style="color:#F00;">
+        <editor editor-id="editorInput" editor-text="editorText"></editor>
+    </div>
+    <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
+    <p class="no_rank">翻译题答案可以为空</p>
+    <div ng-repeat="item in model.exercisechoicelist">
+        <div class="default fill_blank">
+            <a ng-click="Del(item)">x</a>
+            <input type="text" ng-model="item.Conten">
+            <span class="icon icon_unfold"></span>
+        </div>
+        <textarea class="form-control" style="margin-top:5px;" ng-model="item.Answer" placeholder="在此处添加答案..."></textarea>
+    </div>
+    <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加选项</span></a>
+    <div class="text_box" style="color: #F00; margin-top: 20px;">
+        试题解析:
+        <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Analysis"></textarea>
+    </div>
+</div>

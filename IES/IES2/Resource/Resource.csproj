@@ -52,6 +52,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="eWebEditorControl">
+      <HintPath>C:\Users\asus0\Desktop\卓越\富文本框\eWebEditorControl.dll</HintPath>
+    </Reference>
+    <Reference Include="eWebEditorServer">
+      <HintPath>C:\Users\asus0\Desktop\卓越\富文本框\eWebEditorServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.1.0.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -1136,6 +1142,8 @@
     <Content Include="Views\Exercise\Multiple.cshtml" />
     <Content Include="Views\Exercise\Custom.cshtml" />
     <Content Include="Views\Exercise\Translation.cshtml" />
+    <Content Include="Views\Exercise\Sorting.cshtml" />
+    <Content Include="Views\Exercise\Analysis.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

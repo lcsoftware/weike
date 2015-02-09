@@ -4,10 +4,10 @@
             <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Conten"></textarea>
         </div>
         <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
-        <p class="no_rank">默认只有一个填空答案，您可以添加填空答案</p>
-        <div class="default fill_blank">
-            <a ng-click="delSmall(item)">x</a>
-            <input type="text" ng-model="model.exercisecommon.exercise.Answer">
+        <p class="no_rank">请按照序号顺序填写答案，题目保存后，答案会自动打乱</p>
+        <div class="default fill_blank" ng-repeat="item in model.exercisechoicelist">
+            <a ng-click="Del(item)">x</a>
+            <input type="text" ng-model="item.Answer">
             <span class="icon icon_unfold"></span>
         </div>
     </div>
