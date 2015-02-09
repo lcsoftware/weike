@@ -1140,7 +1140,6 @@
     <Content Include="Views\CourseLive\Forum\topicadd.cshtml" />
     <Content Include="Views\CourseLive\Forum\topicdetail.cshtml" />
     <Content Include="Views\CourseLive\Forum\topiclist.cshtml" />
-    <Content Include="Views\CourseLive\Forum\vssver2.scc" />
     <Content Include="Views\Exercise\Custom.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

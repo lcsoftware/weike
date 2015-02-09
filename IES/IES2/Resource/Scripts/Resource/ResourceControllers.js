@@ -8,7 +8,7 @@ var appResource = angular.module('app.resource.controllers', [
     'ui.tree'
 ]);
 
-appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageService', 'contentService', 'chapterService', 'kenService', function ($scope, resourceService, pageService, contentService, chapterService, kenService) {
+appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageService', 'contentService', 'chapterService', 'kenService', 'FileUploader', function ($scope, resourceService, pageService, contentService, chapterService, kenService, FileUploader) {
     $scope.model = {};
     $scope.fileTypes = [];//文件类型
     $scope.timePass = [];//上传时间
@@ -169,29 +169,81 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     var fileIndex = 0;
     //新建文件
-    $scope.AddFile = function () {
-        var file = {};
-        if ($scope.folderRelation == null) {
-            file.FolderID = 0;
-        } else {
-            file.FolderID = $scope.folderRelation.Id;
-        }
-        file.OCID = $scope.model.OCID;
-        file.CourseID = $scope.model.CourseID;
-        file.ShareRange = -1;
-        file.FileTitle = '1' + fileIndex.toString();
-        file.FileName = '1' + fileIndex.toString();
-        file.Ext = fileIndex % 2 === 0 ? 'PPT' : 'PDF';
-        file.FileSize = '15';
-        file.FileType = fileIndex % 2 === 0 ? 4 : 5;
-        file.pingyin = 'pingyin';
-        fileIndex++;
-        resourceService.File_ADD(file, function (data) {
-            if (data.d) {
-                $scope.filterChanged();
-            }
-        });
+    $scope.enableUploader = false;
+
+    $scope.switchUploader = function () {
+        $scope.enableUploader = !$scope.enableUploader;
+        $scope.bgShow = $scope.enableUploader;
     }
+
+    $scope.AddFile = function () {
+        $scope.bgShow = true;
+        $scope.enableUploader = true;
+
+        //var file = {};
+        //if ($scope.folderRelation == null) {
+        //    file.FolderID = 0;
+        //} else {
+        //    file.FolderID = $scope.folderRelation.Id;
+        //}
+        //file.OCID = $scope.model.OCID;
+        //file.CourseID = $scope.model.CourseID;
+        //file.ShareRange = -1;
+        //file.FileTitle = '1' + fileIndex.toString();
+        //file.FileName = '1' + fileIndex.toString();
+        //file.Ext = fileIndex % 2 === 0 ? 'PPT' : 'PDF';
+        //file.FileSize = '15';
+        //file.FileType = fileIndex % 2 === 0 ? 4 : 5;
+        //file.pingyin = 'pingyin';
+        //fileIndex++;
+        //resourceService.File_ADD(file, function (data) {
+        //    if (data.d) {
+        //        $scope.filterChanged();
+        //    }
+        //});
+    }
+
+    //----------上传文件start--------
+    var uploader = $scope.uploader = new FileUploader({
+        url: '/DataProvider/FileUpload.ashx'
+    });
+
+    // FILTERSE:
+    uploader.filters.push({
+        name: 'customFilter',
+        fn: function (item /*{File|FileLikeObject}*/, options) {
+            return this.queue.length < 10;
+        }
+    });
+    uploader.filters.push({
+        name: 'fileSuffix',//过滤器名称 过滤文件类型
+        fn: function (item, options) {
+            var fileName = item.name;
+            var suffix = fileName.substring(fileName.lastIndexOf('.'), fileName.length);
+            //return suffix == ".txt" || suffix == ".jpg" || suffix == ".gif";
+            return true;
+        }
+    });
+    //uploader.filters.push({
+    //    name: 'fileSize',//最大5M
+    //    fn: function (item, options) {
+    //        var fileSize = item.size;
+    //        if (fileSize <= 5 * 1024 * 1024) {
+    //            return true;
+    //        } else {
+    //            alert("文件大小必须小于5M!");
+    //            return false;
+    //        }
+    //    }
+    //});
+
+
+
+
+
+
+
+
 
     $scope.updFolderName = function (item) {
         if (item.RelationType == 1) {

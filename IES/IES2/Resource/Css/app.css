@@ -8,5 +8,23 @@ a {
 .chapter-selection {
     font-weight: bold;
     color: red !important;
-} 
+}
 
+.pop_uploader {
+    width: 1000px;
+    position: absolute;
+    left: 20%;
+    margin-left: -200px;
+    top: 150px;
+    background: #fff;
+    z-index: 999;
+}
+
+.pop_uploader h4 {
+    height: 40px;
+    line-height: 40px;
+    background: #1e5975;
+    font-size: 14px;
+    color: #fff;
+    padding-left: 13px;
+}

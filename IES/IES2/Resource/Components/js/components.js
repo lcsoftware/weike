@@ -396,18 +396,23 @@ app.directive('editor', function () {
 });
 
 //文件上传
-app.directive('IesFileUploader', function () {
+app.directive('IesUploader', function () {
     var directive = {};
 
     directive.restrict = 'EA';
 
+    directive.replace = true;
+
     directive.scope = {
-        editorText: '='
+        uploader: '='
     }
 
-    directive.templateUrl = '/Components/templates/editor.html';
+    directive.templateUrl = '/Components/templates/iesFileUploader.html';
 
     directive.link = function (scope, elem, iAttrs) {
+        elem.find('.close_pop').bind('click', function () {
+            elem.hide();
+        })
     }
 
     directive.controller = function (scope) {
