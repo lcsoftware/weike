@@ -86,25 +86,32 @@ app.directive('fileOperation', function () {
 
     return directive;
 });
-app.directive('fileShare', function () {
+
+app.directive('fileProperty', function () {
     var directive = {};
 
     directive.restrict = 'EA';
 
     directive.scope = {
-        onShare: '&',
-        shareItem: '='
+        chapter: '=',
+        chapters: '=',
+        ken: '=',
+        kens: '=',
     }
 
-    directive.templateUrl = '/Components/templates/fileShared.html';
+    directive.templateUrl = '/Components/templates/fileProperty.html';
 
     directive.link = function (scope, elem, iAttrs) {
-        //弹出右键菜单
-        elem.parent().parent().hover(function () {
-            $(this).find('.permissions').show();
-        }, function () {
-            $(this).find('.permissions').hide();
+        elem.find('.save,.cancel,.close_pop').bind('click', function () {
+            elem.hide();
         });
+    }
+
+    directive.controller = function ($scope) {
+
+        $scope.onPropertySave = function (chapter, ken) {
+            $scope.$emit('onPerpertySave', chapter, ken);
+        }
     }
 
     return directive;
@@ -223,7 +230,7 @@ app.directive('batchOperation', function () {
     }
 
     directive.templateUrl = '/Components/templates/batchOperation.html';
- 
+
     directive.link = function (scope, elem, iAttrs) {
         scope.shareRange = function (range) {
             scope.rangeSelection = range;
@@ -240,7 +247,7 @@ app.directive('batchOperation', function () {
             $(this).addClass('current').siblings().removeClass('current');
         }, function () {
             $(this).removeClass('current');
-        }); 
+        });
     }
 
     return directive;
@@ -378,7 +385,7 @@ app.directive('moveFolder', function () {
 
 //编辑器
 app.directive('editor', function () {
-    var directive = {}; 
+    var directive = {};
 
     directive.restrict = 'EA';
 
@@ -389,26 +396,89 @@ app.directive('editor', function () {
 
     directive.templateUrl = '/Components/templates/editor.html';
 
-    directive.link = function (scope, elem, iAttrs) { 
+    directive.link = function (scope, elem, iAttrs) {
     }
 
     return directive;
 });
 
 //文件上传
-app.directive('IesUploader', function () {
+app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
     var directive = {};
 
     directive.restrict = 'EA';
 
+    directive.replace = true;
+
     directive.scope = {
-        uploader: '='
+        uploadUrl: '@'
     }
 
-    directive.templateUrl = '/Components/templates/iesFildUploader.html';
+    directive.templateUrl = '/Components/templates/iesFileUploader.html';
 
     directive.link = function (scope, elem, iAttrs) {
-    } 
+        elem.find('.close_pop').bind('click', function () {
+            elem.hide();
+        })
+    }
+
+    directive.controller = function ($scope) {
+        //----------上传文件start--------
+        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: $scope.uploadUrl });
+
+        // FILTERS
+        angularFileUploader.filters.push({
+            name: 'customFilter',
+            fn: function (item /*{File|FileLikeObject}*/, options) {
+                return this.queue.length < 10;
+            }
+        });
+
+        angularFileUploader.filters.push({
+            name: 'fileSuffix',//过滤器名称 过滤文件类型
+            fn: function (item, options) {
+                var fileName = item.name;
+                var suffix = fileName.substring(fileName.lastIndexOf('.'), fileName.length);
+                //return suffix == ".txt" || suffix == ".jpg" || suffix == ".gif";
+                return true;
+            }
+        });
+
+        // CALLBACKS 
+        angularFileUploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
+            $scope.$emit('onWhenAddingFileFailed', item, filter, options);
+        };
+        angularFileUploader.onAfterAddingFile = function (fileItem) {
+            $scope.$emit('onAfterAddingFile', fileItem);
+        };
+        angularFileUploader.onAfterAddingAll = function (addedFileItems) {
+            $scope.$emit('onAfterAddingAll', addedFileItems);
+        };
+        angularFileUploader.onBeforeUploadItem = function (item) {
+            $scope.$emit('onBeforeUploadItem', item);
+        };
+        angularFileUploader.onProgressItem = function (fileItem, progress) {
+            $scope.$emit('onProgressItem', fileItem, progress);
+        };
+        angularFileUploader.onProgressAll = function (progress) {
+            $scope.$emit('onProgressAll', progress);
+        };
+        angularFileUploader.onSuccessItem = function (fileItem, response, status, headers) {
+            $scope.$emit('onSuccessItem', fileItem, response, status, headers);
+        };
+        angularFileUploader.onErrorItem = function (fileItem, response, status, headers) {
+            $scope.$emit('onErrorItem', fileItem, response, status, headers);
+        };
+        angularFileUploader.onCancelItem = function (fileItem, response, status, headers) {
+            $scope.$emit('onCancelItem', fileItem, response, status, headers);
+        };
+        angularFileUploader.onCompleteItem = function (fileItem, response, status, headers) {
+            $scope.$emit('onCompleteItem', fileItem, response, status, headers);
+        };
+        angularFileUploader.onCompleteAll = function () {
+            $scope.$emit('onCompleteAll');
+        };
+    }
 
     return directive;
-});
+}]);

@@ -8,7 +8,7 @@ var appResource = angular.module('app.resource.controllers', [
     'ui.tree'
 ]);
 
-appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageService', 'contentService', 'chapterService', 'kenService', function ($scope, resourceService, pageService, contentService, chapterService, kenService) {
+appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageService', 'contentService', 'chapterService', 'kenService', 'FileUploader', function ($scope, resourceService, pageService, contentService, chapterService, kenService, FileUploader) {
     $scope.model = {};
     $scope.fileTypes = [];//文件类型
     $scope.timePass = [];//上传时间
@@ -169,29 +169,43 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     var fileIndex = 0;
     //新建文件
+   ///************************************************文件上传******************************************
     $scope.AddFile = function () {
-        var file = {};
-        if ($scope.folderRelation == null) {
-            file.FolderID = 0;
-        } else {
-            file.FolderID = $scope.folderRelation.Id;
-        }
-        file.OCID = $scope.model.OCID;
-        file.CourseID = $scope.model.CourseID;
-        file.ShareRange = -1;
-        file.FileTitle = '1' + fileIndex.toString();
-        file.FileName = '1' + fileIndex.toString();
-        file.Ext = fileIndex % 2 === 0 ? 'PPT' : 'PDF';
-        file.FileSize = '15';
-        file.FileType = fileIndex % 2 === 0 ? 4 : 5;
-        file.pingyin = 'pingyin';
-        fileIndex++;
-        resourceService.File_ADD(file, function (data) {
-            if (data.d) {
-                $scope.filterChanged();
-            }
-        });
+
+        //var file = {};
+        //if ($scope.folderRelation == null) {
+        //    file.FolderID = 0;
+        //} else {
+        //    file.FolderID = $scope.folderRelation.Id;
+        //}
+        //file.OCID = $scope.model.OCID;
+        //file.CourseID = $scope.model.CourseID;
+        //file.ShareRange = -1;
+        //file.FileTitle = '1' + fileIndex.toString();
+        //file.FileName = '1' + fileIndex.toString();
+        //file.Ext = fileIndex % 2 === 0 ? 'PPT' : 'PDF';
+        //file.FileSize = '15';
+        //file.FileType = fileIndex % 2 === 0 ? 4 : 5;
+        //file.pingyin = 'pingyin';
+        //fileIndex++;
+        //resourceService.File_ADD(file, function (data) {
+        //    if (data.d) {
+        //        $scope.filterChanged();
+        //    }
+        //});
     }
+
+    $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) {
+    });
+
+    $scope.$on('onCompleteItem', function (event) {
+    });
+
+
+   ///************************************************END 文件上传******************************************
+   
+
+
 
     $scope.updFolderName = function (item) {
         if (item.RelationType == 1) {
@@ -346,9 +360,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     //    });
     //}
 
-    $scope.fireProperty = function () {
-        console.log('fireProperty');
-    }
+   
     //删除文件夹弹出框
     $scope.fireRemove = function (item) {
         $scope.delIsShow = true;
@@ -379,46 +391,52 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
 
     //资料属性弹出框
-    $scope.fileProperty = function (item) {
-        getProperty();
-        getKen();
-        $scope.propertyShow = true;
-        $scope.bgShow = true;
+    $scope.fileProperty = function (item) { 
         $scope.file = item;
+        $('#fildProp').show(); 
+    } 
 
-    }
-    //关联知识点和章节保存
-    $scope.fileChapterKen = function () {
+    $scope.$on('onPerpertySave', function (e, chapter, ken) {
         var file = { FileID: $scope.file.Id };
-        var chapter = { ChapterID: $scope.chapter.ChapterID };
-        var ken = { KenID: $scope.ken.KenID };
-        resourceService.File_Chapter_Ken_Edit(file, chapter, ken, function (data) {
-            if (data.d) {
-                $scope.close();
-            }
-        });
-    }
+        var c = { ChapterID: chapter.ChapterID };
+        var k = { KenID: ken.KenID }; 
+        resourceService.File_Chapter_Ken_Edit(file, c, k);
+    });
+    //获取关联章节数据
+    chapterService.Chapter_List({ OCID: $scope.model.OCID }, function (data) {
+        if (data.d.length > 0) {
+            $scope.chapters = data.d;
+            $scope.chapter = $scope.chapters[0];
+        }
+    });
+    //获取关联知识点数据
+    kenService.Ken_List({ OCID: $scope.model.OCID }, function (data) {
+        if (data.d.length > 0) {
+            $scope.kens = data.d;
+            $scope.ken = $scope.kens[0];
+        }
+    });
 
     //获取关联章节数据
-    var getProperty = function () {
-        var model = { OCID: $scope.model.OCID };
-        chapterService.Chapter_List(model, function (data) {
-            if (data.d.length > 0) {
-                $scope.chapters = data.d;
-                $scope.chapter = $scope.chapters[0];
-            }
-        });
-    }
+    //var getProperty = function () {
+    //    var model = { OCID: $scope.model.OCID };
+    //    chapterService.Chapter_List(model, function (data) {
+    //        if (data.d.length > 0) {
+    //            $scope.chapters = data.d;
+    //            $scope.chapter = $scope.chapters[0];
+    //        }
+    //    });
+    //}
     //获取关联知识点数据
-    var getKen = function () {
-        var model = { OCID: $scope.model.OCID };
-        kenService.Ken_List(model, function (data) {
-            if (data.d.length > 0) {
-                $scope.kens = data.d;
-                $scope.ken = $scope.kens[0];
-            }
-        });
-    }
+    //var getKen = function () {
+    //    var model = { OCID: $scope.model.OCID };
+    //    kenService.Ken_List(model, function (data) {
+    //        if (data.d.length > 0) {
+    //            $scope.kens = data.d;
+    //            $scope.ken = $scope.kens[0];
+    //        }
+    //    });
+    //}
 
 
     //删除文件夹弹出框点击确定按钮

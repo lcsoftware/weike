@@ -8,15 +8,11 @@
         </p>
     </div>
     <div class="exercise_btn">
-        <a class="topic_import" ng-click="AddFile()"><em><i class="icon"></i></em><span>上传文件</span></a>
+        <a class="topic_import" dialog-show dialog-id="eIesUploader"><em><i class="icon"></i></em><span>上传文件</span></a>
         <a href="javascript:;" ng-click="AddFolder()"><em><i class="icon"></i></em><span>新建文件夹</span></a>
-        <batch-operation share-ranges="shareRanges"
-                         on-fire-remove-all="fireRemoveAll()"
-                         on-fire-mobile-batch="fireMobileBatch()">
-        </batch-operation>
-        <ies-uploader uploader="uploader"></ies-uploader>
+        <batch-operation share-ranges="shareRanges" on-fire-remove-all="fireRemoveAll()" on-fire-mobile-batch="fireMobileBatch()" />
         <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="model.FileTitle"><span class="icon" ng-click="filterChanged()"></span></p>
-</div>
+    </div>
 </div>
 <div class="filter_box">
     <dl class="filter_list">
@@ -62,7 +58,7 @@
         <td>
             <div class="data_name">
                 @*<input type="checkbox" checklist-model="checks" checklist-value="item" ng-click="checkAdd(item)">*@
-                <input type="checkbox" checklist-model="checks" checklist-value="item" ng-click="checkAdd(item)">
+                <input type="checkbox" checklist-model="checks" checklist-value="item">
                 <folder folder-name="item.Name" folder-ext="item.Ext" on-open="folderClick(item)" on-blur="updFolderName(item)"></folder>
                 <div class="file_operation">
                     <div class="more_operation">
@@ -76,11 +72,6 @@
                         </file-operation>
 
                     </div>
-                    @*<a class="icon data_share" ng-show="item.RelationType==1"></a>
-                        <ul class="permissions" style="margin-left:25em;margin-top:2em;z-index:1000">
-                            <file-share ng-repeat="shareData in shareRanges" on-share="fileShareRange(item,shareData)" share-item="shareData">
-                            </file-share>
-                        </ul>*@
                 </div>
             </div>
         </td>
@@ -139,25 +130,6 @@
     </div>
 </div>
 
-<div class="pop_400" ng-show="propertyShow">
-    <h4>资料属性设置</h4>
-    <span class="icon close_pop" ng-click="close()"></span>
-    <div class="pop_wrap">
-        <dl class="set_property">
-            <dt>关联章节</dt>
-            <dd>
-                <select ng-model="chapter" ng-options="item.Title for item in chapters"></select>
-            </dd>
-        </dl>
-        <dl class="set_property">
-            <dt>关联知识点</dt>
-            <dd>
-                <select ng-model="ken" ng-options="item.Name for item in kens"></select>
-            </dd>
-        </dl>
-        <div class="btn_box">
-            <a class="save" ng-click="fileChapterKen()">保存</a>
-            <a class="cancel" ng-click="close()">取消</a>
-        </div>
-    </div>
-</div>
+<file-property id="fildProp" style="display:none" chapter="chapter" chapters="chapters" ken="ken" kens="kens"></file-property>
+
+<ies-file-uploader id="eIesUploader" style="display:none" upload-url="/DataProvider/FileUpload.ashx"></ies-file-uploader>

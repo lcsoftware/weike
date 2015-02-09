@@ -37,8 +37,8 @@ appKnow.controller('KenCtrl', ['$scope', '$state', 'contentService', 'kenService
         }
 
         assistService.Resource_Dict_Requirement_Get(function (data) {
-            if (data.d && data.d.length > 0) {
-                $scope.requireMents = data.d;
+            if (data && data.length > 0) {
+                $scope.requireMents = data;
                 $scope.requireMent = $scope.requireMents[0];
             }
         });

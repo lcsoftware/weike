@@ -13,8 +13,7 @@ var appModule = angular.module('app', [
     'app.resource.controllers',
     'app.ken.controllers',
     'app.exercise.controllers',
-     'app.forumm',
-      'angularFileUpload'
+    'angularFileUpload'
 ]);
 
 appModule.config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {

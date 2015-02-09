@@ -292,7 +292,7 @@ namespace IES.Service
                         }
                         WebResponse webResponse = webRequest.GetResponse();
                     }
-                    catch
+                    catch(Exception ex)
                     {
                         iscorrect = false;
                     }
