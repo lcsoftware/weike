@@ -383,7 +383,8 @@ app.directive('editor', function () {
     directive.restrict = 'EA';
 
     directive.scope = {
-        editorText: '='
+        editorText: '=',
+        editorId: '@'
     }
 
     directive.templateUrl = '/Components/templates/editor.html';
