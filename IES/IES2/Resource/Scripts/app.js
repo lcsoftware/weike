@@ -59,8 +59,9 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         //翻译题
         .state('exercise.translation', { url: '/translation/:ExerciseID', templateUrl: '/views/Exercise/Translation', controller: 'TranslationCtrl' })
         //排序题
-        .state('exercise.sorting', { url: '/sorting/:ExerciseID', templateUrl: '/views/Exercise/Sorting', controller: 'SortingCtrl' })
-
+        .state('exercise.sorting', { url: '/sorting/:ExerciseID', templateUrl: '/views/Exercise/Sorting', controller: 'SortingCtrl' })    
+        //分析题
+        .state('exercise.analysis', { url: '/analysis/:ExerciseID', templateUrl: '/views/Exercise/Analysis', controller: 'AnalysisCtrl' })
 
         //文件上传
         .state('fileupload', { url: '/fileupload', templateUrl: '/views/CourseLive/Forum/topicadd', controller: 'ForumTopicCtrl' })

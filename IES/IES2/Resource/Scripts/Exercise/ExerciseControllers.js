@@ -248,6 +248,15 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
                 case 11: //翻译题
                     $state.go('exercise.translation', param)
                     break;
+                case 7: //排序题
+                    $state.go('exercise.sorting', param)
+                    break;
+                case 8: //分析题
+                    $state.go('exercise.analysis', param)
+                    break;
+                case 9: //计算题
+                    $state.go('exercise.analysis', param)
+                    break;
                 default:
                     break;
             }
@@ -350,6 +359,15 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
                     break;
                 case '11': //翻译题
                     $state.go('exercise.translation', param)
+                    break;
+                case '7': //排序题
+                    $state.go('exercise.sorting', param)
+                    break;
+                case '8': //分析题
+                    $state.go('exercise.analysis', param)
+                    break;
+                case '9': //计算题
+                    $state.go('exercise.analysis', param)
                     break;
                 default:
                     break;
@@ -1587,30 +1605,28 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
             for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
-                var answer = $scope.model.exercisechoicelist[i].Answer == null ? String.fromCharCode(32) : $scope.model.exercisechoicelist[i].Answer;
-                var childId = $scope.model.exercisechoicelist[i].ExerciseID == null ? 0 : $scope.model.exercisechoicelist[i].ExerciseID;
-                var spare = $scope.model.exercisechoicelist[i].Spare == null ? String.fromCharCode(32) : $scope.model.exercisechoicelist[i].Spare;
+                var answer = $scope.model.exercisechoicelist[i].Conten == null ? String.fromCharCode(32) : $scope.model.exercisechoicelist[i].Conten;
+                var childId = $scope.model.exercisechoicelist[i].ChoiceID == null ? 0 : $scope.model.exercisechoicelist[i].ChoiceID;
                 if ((i + 1) == $scope.model.exercisechoicelist.length) {
                     $scope.model.exercisecommon.exercise.Content +=
                     childId + "wshgkjqbwhfbxlfrh_b"
-                    + answer + "wshgkjqbwhfbxlfrh_c" + spare;
+                    + answer + "wshgkjqbwhfbxlfrh_c" + (i + 1);
                 } else {
                     $scope.model.exercisecommon.exercise.Content +=
                     childId + "wshgkjqbwhfbxlfrh_b"
-                    + answer + "wshgkjqbwhfbxlfrh_c" + spare + "wshgkjqbwhfbxlfrh_a";
+                    + answer + "wshgkjqbwhfbxlfrh_c" + (i + 1) + "wshgkjqbwhfbxlfrh_a";
                 }
             }
         }
         else {
             for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
-                var answer = $scope.model.exercisechoicelist[i].Answer == null ? "" : $scope.model.exercisechoicelist[i].Answer;
-                var spare = $scope.model.exercisechoicelist[i].Spare == null ? "" : $scope.model.exercisechoicelist[i].Spare;
+                var answer = $scope.model.exercisechoicelist[i].Conten == null ? "" : $scope.model.exercisechoicelist[i].Conten;
                 if ((i + 1) == $scope.model.exercisechoicelist.length) {
                     $scope.model.exercisecommon.exercise.Content +=
-                    "0wshgkjqbwhfbxlfrh_b" + answer == '' ? answer.charCodeAt(32) : answer + "wshgkjqbwhfbxlfrh_c" + spare == '' ? spare.charCodeAt(32) : spare;
+                    "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + (i + 1);
                 } else {
                     $scope.model.exercisecommon.exercise.Content +=
-                    "0wshgkjqbwhfbxlfrh_b" + answer == '' ? answer.charCodeAt(32) : answer + "wshgkjqbwhfbxlfrh_c" + spare == '' ? spare.charCodeAt(32) : spare + "wshgkjqbwhfbxlfrh_a";
+                    "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + (i + 1) + "wshgkjqbwhfbxlfrh_a";
                 }
             }
         }
@@ -1618,7 +1634,7 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
         $scope.willTopBind($scope.model, data);
 
         var v = angular.toJson($scope.model);
-        exerciseService.Exercise_FillInBlanks_M_Edit(v, function (data) {
+        exerciseService.Exercise_MultipleChoice_M_Edit(v, function (data) {
             if (data.d) {
                 alert('提交成功！');
                 $state.go('content.exercise');
@@ -1631,27 +1647,25 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
     });
 
     $scope.model = {};//Exercise对象
-    $scope.Attachment = {};//附件对象
-
-    var answer = { Answer: '', Spare: '' };
+    $scope.Attachment = {};//附件对象    
     $scope.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
+    var answer = { Conten: '', Order: 0 };
 
     var init = function () {
         if ($scope.ExerciseID > -1) {
-            exerciseService.Exercise_Analysis_Get($scope.ExerciseID, function (data) {
+            exerciseService.Exercise_MultipleChoice_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
-
-                for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
-                    var a = $scope.model.exercisechoicelist[i].Answer.split('wshgkjqbwhfbxlfrh_c');
-                    $scope.model.exercisechoicelist[i].Answer = a[0];
-                    $scope.model.exercisechoicelist[i].Spare = a[1];
-                }
+                //for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
+                //    var a = $scope.model.exercisechoicelist[i].Answer.split('wshgkjqbwhfbxlfrh_c');
+                //    $scope.model.exercisechoicelist[i].Answer = a[0];
+                //    $scope.model.exercisechoicelist[i].Spare = a[1];
+                //}
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
                 $scope.model = data.d;
-                answer = { Answer: '', Spare: '' };
+                answer = { Conten: '', Order: 0 };
                 $scope.model.exercisechoicelist.push(answer);
             });
         }
@@ -1659,7 +1673,7 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
 
     //添加选项
     $scope.Add = function () {
-        answer = { Answer: '', Spare: '' };
+        answer = { Conten: '', Order: 0 };
         $scope.model.exercisechoicelist.push(answer);
     }
     //删除选项
@@ -1667,8 +1681,109 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
         if ($scope.ExerciseID > 0) {
             for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
                 if ($scope.model.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                    $scope.model.exercisechoicelist[i].Conten = '';
+                }
+            }
+        } else {
+            for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
+                if ($scope.model.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                    $scope.model.exercisechoicelist.splice(i, 1);
+                }
+            }
+        }
+
+    }
+    init();
+}]);
+
+//分析题
+appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$stateParams', '$state', function ($scope, exerciseService, $stateParams, $state) {
+    $scope.$on('willExerciseChange', function (event, changeParam) {
+
+    });
+
+    $scope.$on('willRequestSave', function (event, data) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+
+        $scope.model.exercisecommon.exercise.Content = "";
+        if ($scope.ExerciseID > 0) {
+            for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
+                var conten = $scope.model.exercisechoicelist[i].Conten == null ? "" : $scope.model.exercisechoicelist[i].Conten;
+                var answer = $scope.model.exercisechoicelist[i].Answer == null ? "" : $scope.model.exercisechoicelist[i].Answer;
+                var childId = $scope.model.exercisechoicelist[i].ExerciseID == null ? 0 : $scope.model.exercisechoicelist[i].ExerciseID;
+                if ((i + 1) == $scope.model.exercisechoicelist.length) {
+                    $scope.model.exercisecommon.exercise.Content +=
+                    childId + "wshgkjqbwhfbxlfrh_b"
+                    + conten + "wshgkjqbwhfbxlfrh_c" + answer;
+                } else {
+                    $scope.model.exercisecommon.exercise.Content +=
+                    childId + "wshgkjqbwhfbxlfrh_b"
+                    + conten + "wshgkjqbwhfbxlfrh_c" + answer + "wshgkjqbwhfbxlfrh_a";
+                }
+            }
+        }
+        else {
+            for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
+                var conten = $scope.model.exercisechoicelist[i].Conten == null ? "" : $scope.model.exercisechoicelist[i].Conten;
+                var answer = $scope.model.exercisechoicelist[i].Answer == null ? "" : $scope.model.exercisechoicelist[i].Answer;
+                if ((i + 1) == $scope.model.exercisechoicelist.length) {
+                    $scope.model.exercisecommon.exercise.Content +=
+                    "0wshgkjqbwhfbxlfrh_b" + conten + "wshgkjqbwhfbxlfrh_c" + answer;
+                } else {
+                    $scope.model.exercisecommon.exercise.Content +=
+                    "0wshgkjqbwhfbxlfrh_b" + conten + "wshgkjqbwhfbxlfrh_c" + answer + "wshgkjqbwhfbxlfrh_a";
+                }
+            }
+        }
+
+        $scope.willTopBind($scope.model, data);
+
+        var v = angular.toJson($scope.model);
+        exerciseService.Exercise_Analysis_M_Edit(v, function (data) {
+            if (data.d) {
+                alert('提交成功！');
+                $state.go('content.exercise');
+            }
+        });
+    });
+
+    $scope.$on('willPreview', function (event) {
+
+    });
+
+    $scope.model = {};
+    $scope.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
+    $scope.Attachment = {};//附件对象
+    var answer = { Conten:'', Answer: '' };
+
+    var init = function () {
+        if ($scope.ExerciseID > -1) {
+            exerciseService.Exercise_Analysis_Get($scope.ExerciseID, function (data) {
+                $scope.model = data.d;
+                $scope.willEdit($scope.model);
+                $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
+            });
+        } else {
+            exerciseService.Exercise_Model_Info_Get(function (data) {
+                $scope.model = data.d;
+                $scope.model.exercisechoicelist.push(answer);
+            });
+        }
+    }
+
+    //添加选项
+    $scope.Add = function () {
+        answer = { Conten: '', Answer: '' };
+        $scope.model.exercisechoicelist.push(answer);
+    }
+    //删除选项
+    $scope.Del = function (item) {
+        if ($scope.ExerciseID > 0) {
+            for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
+                if ($scope.model.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                    $scope.model.exercisechoicelist[i].Conten = '';
                     $scope.model.exercisechoicelist[i].Answer = '';
-                    $scope.model.exercisechoicelist[i].Spare = '';
                 }
             }
         } else {
