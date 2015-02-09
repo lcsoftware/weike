@@ -362,6 +362,7 @@ namespace IES.G2S.Resource.DAL
                     ef.exercisecommon.kenlist = kenlist;
                     ef.exercisecommon.keylist = keylist;
                     //小题,小题选项
+
                     if (children[0] != null)
                     {
                         ef.Children.exercisecommon.exercise = children[0];

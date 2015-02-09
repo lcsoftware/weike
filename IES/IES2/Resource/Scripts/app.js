@@ -56,8 +56,10 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         .state('exercise.radio', { url: '/radio/:ExerciseID', templateUrl: '/views/Exercise/Radio', controller: 'RadioCtrl' })
         //多选题
         .state('exercise.multiple', { url: '/multiple/:ExerciseID', templateUrl: '/views/Exercise/Multiple', controller: 'MultipleCtrl' })
-
-
+        //翻译题
+        .state('exercise.translation', { url: '/translation/:ExerciseID', templateUrl: '/views/Exercise/Translation', controller: 'TranslationCtrl' })
+        //排序题
+        .state('exercise.sorting', { url: '/sorting/:ExerciseID', templateUrl: '/views/Exercise/Sorting', controller: 'SortingCtrl' })
 
 
         //文件上传

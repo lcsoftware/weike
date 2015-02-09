@@ -1141,6 +1141,7 @@
     <Content Include="Views\CourseLive\Forum\topicdetail.cshtml" />
     <Content Include="Views\CourseLive\Forum\topiclist.cshtml" />
     <Content Include="Views\Exercise\Custom.cshtml" />
+    <Content Include="Views\Exercise\Translation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
