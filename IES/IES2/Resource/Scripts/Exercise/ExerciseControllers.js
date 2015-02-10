@@ -900,6 +900,9 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
     });
 
     $scope.$on('willRequestSave', function (event, data) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+
         $scope.willTopBind($scope.model, data);
 
         var v = angular.toJson($scope.model);
@@ -925,7 +928,7 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
             exerciseService.Exercise_Writing_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
-
+                $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.textarea = $scope.model.exercisecommon.exercise.Analysis != null ? 0 : 1;
             });
         } else {
@@ -1026,28 +1029,28 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
 
     });
 
-    var value = "<ol>";
-    value += "<li><span style=\"font-size: 9pt;\">12345sdfasdfasdf</span></li>";
-    value += "<li><span style=\"font-size: 9pt;\">333434</span></li>";
-    value += "<li><span style=\"font-size: 9pt;\">34343434343434</span></li>";
-    value += "</ol>";
-    $scope.editorText = value;
+    //var value = "<ol>";
+    //value += "<li><span style=\"font-size: 9pt;\">12345sdfasdfasdf</span></li>";
+    //value += "<li><span style=\"font-size: 9pt;\">333434</span></li>";
+    //value += "<li><span style=\"font-size: 9pt;\">34343434343434</span></li>";
+    //value += "</ol>";
+    //$scope.editorText = value;
 
     $scope.$on('willRequestSave', function (event, data) {
-        console.log($scope.editorText);
+        //console.log($scope.editorText);
 
-        var editor = EWEBEDITOR.Instances["editorInput"];
-        console.log(editor.getHTML());
-        console.log($scope.editorText);
-        //$scope.willTopBind($scope.model, data);
+        //var editor = EWEBEDITOR.Instances["editorInput"];
+        //console.log(editor.getHTML());
+        //console.log($scope.editorText);
 
-        //var v = angular.toJson($scope.model);
-        //exerciseService.Exercise_Judge_M_Edit(v, function (data) {
-        //    if (data.d) {
-        //        alert('提交成功！');
-        //        $state.go('content.exercise');
-        //    }
-        //});
+        $scope.willTopBind($scope.model, data);
+        var v = angular.toJson($scope.model);
+        exerciseService.Exercise_Judge_M_Edit(v, function (data) {
+            if (data.d) {
+                alert('提交成功！');
+                $state.go('content.exercise');
+            }
+        });
     });
 
     $scope.$on('willPreview', function (event) {

@@ -255,3 +255,74 @@ as
  where ExerciseID = @ExerciseID and IsDeleted = 0   
    
    
+   
+   
+   
+   
+USE IES_Resource
+go
+   -- =============================================  
+--  Author:      王胜辉  
+--  Create date: 20141128  
+--  连线题编辑    
+-- =============================================  
+alter proc [dbo].[Exercise_Line_S_Edit]  
+ @ExerciseID int  ,   
+ @Content nvarchar(max)   
+as   
+ SET NOCOUNT ON;  
+   
+   
+ declare @tb table (rownum int identity(1,1), Choice nvarchar(max) )  
+ declare @rowscount int   
+   
+ insert into @tb( Choice )  
+ select a  from dbo.f_split( @Content , 'wshgkjqbwhfbxlfrh_a' )  
+   
+ select @rowscount = COUNT(*) from @tb  
+ declare @i int , @Choice nvarchar(max) , @ChoiceID int , @GroupNum int ,  @InnerContent nvarchar(max)  
+ set  @i = 1   
+   
+ while ( @i <= @rowscount )  
+ begin  
+     select @Choice = Choice from @tb where rownum = @i  
+       
+     select @ChoiceID = IES.dbo.SYS_StringHead( @Choice, 'wshgkjqbwhfbxlfrh_b' )  
+  select @InnerContent =   IES.dbo.SYS_StringHead( IES.dbo.SYS_StringTail( @Choice, 'wshgkjqbwhfbxlfrh_b' ) ,  'wshgkjqbwhfbxlfrh_c')  
+  select @GroupNum =  IES.dbo.SYS_StringTail( @Choice, 'wshgkjqbwhfbxlfrh_c' )  
+      
+  if( @ChoiceID < 1  )   
+  begin  
+   insert into  dbo.ExerciseChoice( ExerciseID, Conten, Grou , IsCorrect    )  
+   values ( @ExerciseID , @InnerContent , @GroupNum   , 1  )  
+  end   
+  else  
+  begin  
+   if( @InnerContent <> char(32) )  
+    update ExerciseChoice  
+    set Conten = @InnerContent , Grou = @GroupNum    
+    where ChoiceID = @ChoiceID   
+   else  
+   begin
+		declare @num int 
+		select  @num = Grou from ExerciseChoice where  ChoiceID = @ChoiceID   
+		update  ExerciseChoice set IsDeleted = 1  
+		where   Grou = @num and ExerciseID = @ExerciseID
+   end 
+      
+  end   
+  set @i = @i + 1   
+ end   
+   
+   
+ -----获取正确答案 并保存到主表中  
+ declare @correctanswer as varchar(500)  
+ set    @correctanswer = ''  
+ select @correctanswer = cast(ChoiceID as varchar) +  ',' +  @correctanswer   
+ from ExerciseChoice   
+ where ExerciseID = @ExerciseID  and IsDeleted = 0 and Grou > 0   
+ order by Grou , ChoiceID asc   
+   
+   
+ update dbo.Exercise set Answer = LEFT(@correctanswer,LEN(@correctanswer)-1)  
+ where  ExerciseID = @ExerciseID   

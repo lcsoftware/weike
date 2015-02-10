@@ -1150,6 +1150,7 @@
     <Content Include="Views\Exercise\Custom.cshtml" />
     <Content Include="Views\Exercise\Translation.cshtml" />
     <Content Include="Views\Exercise\Sorting.cshtml" />
+    <Content Include="Views\Exercise\Analysis.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
