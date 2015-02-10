@@ -611,7 +611,7 @@ namespace IES.G2S.Resource.DAL
                 {
                     var p = new DynamicParameters();
                     p.Add("@FileID", model.FileID);
-                    p.Add("@Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    p.Add("@Result", dbType: DbType.String, direction: ParameterDirection.Output);
                     conn.Execute("File_Del", p, commandType: CommandType.StoredProcedure);
                     return p.Get<string>("Result");
                 }

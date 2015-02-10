@@ -33,7 +33,7 @@ namespace App.G2S.DataProvider
                 fileModel.ShareRange = int.Parse(context.Request.QueryString["ShareRange"]); 
                 List<IES.Resource.Model.File> fileList = IES.Service.FileService.ResourceFileUpload(fileModel);
                 context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(fileList));
-            }
+            } 
             context.Response.End();
         }
 

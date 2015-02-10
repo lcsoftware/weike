@@ -84,7 +84,14 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     service.Exercise_Custom_Get = function (ExerciseID, callback) {
         httpService.ajaxPost(url, 'Exercise_Custom_Get', { ExerciseID: ExerciseID }, callback);
     }
-
+    //排序题信息维护
+    service.Exercise_Order_M_Edit = function (model, callback) {
+        httpService.ajaxPost(url, 'Exercise_Order_M_Edit', { model: model }, callback);
+    }
+    //连线题信息维护
+    service.Exercise_Line_S_Edit = function (model, callback) {
+        httpService.ajaxPost(url, 'Exercise_Line_S_Edit', { model: model }, callback);
+    }
     //多个题目的获取
     service.Exercise_Analysis_Get = function (ExerciseID, callback) {
         httpService.ajaxPost(url, 'Exercise_Analysis_Get', { ExerciseID: ExerciseID }, callback);

@@ -36,6 +36,8 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.kens = [];//关联知识点
 
     $scope.model.timePass = -1;
+    $scope.tabTitles = [];
+    
 
     $scope.$emit('willResetCourse');
 
@@ -69,7 +71,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $scope.model.ParentID = 0;
             $scope.filterChanged();
 
-            $scope.tabTitles = [];
+            
             $scope.order = 0;
             $scope.tabTitles.push({ id: 0, name: course.Name, order: $scope.order });
         });
@@ -205,12 +207,13 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         //    }
         //});
     }
-
+    $scope.uploadFileList = [];
     $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) {
-        
+        $scope.uploadFileList.push(response.file);
     });
 
     $scope.$on('onCompleteItem', function (event) {
+
     });
 
 
@@ -381,7 +384,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
     //批量删除文件夹弹出框
     $scope.fireRemoveAll = function () {
-        if ($scope.checksSelect.length == 0) return;
+        if ($scope.checks.length == 0) return;
         $scope.delIsShow = true;
         $scope.bgShow = true;
 
@@ -453,9 +456,12 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     //删除文件夹弹出框点击确定按钮
     $scope.folderDelClick = function () {
-        if ($scope.checksSelect.length == 0) {
+        if ($scope.checks.length == 0) {
             $scope.checksSelect.push($scope.folder);
+        } else {
+            $scope.checksSelect = $scope.checks;
         }
+
         for (var i = 0; i < $scope.checksSelect.length; i++) {
             if ($scope.checksSelect[i].RelationType == 0) {
                 var folder = { FolderID: $scope.checksSelect[i].Id };

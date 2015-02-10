@@ -729,6 +729,56 @@ namespace IES.G2S.Resource.DAL
         }
 
         /// <summary>
+        /// 排序题选项增加
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool Exercise_Order_S_Edit(ExerciseInfo model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+
+                    p.Add("@ExerciseID", model.exercisecommon.exercise.ExerciseID);
+                    p.Add("@Content", model.exercisecommon.exercise.Content);
+                    conn.Execute("Exercise_Order_S_Edit", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 连线题选项增加
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool Exercise_Line_S_Edit(ExerciseInfo model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+
+                    p.Add("@ExerciseID", model.exercisecommon.exercise.ExerciseID);
+                    p.Add("@Content", model.exercisecommon.exercise.Content);
+                    conn.Execute("Exercise_Line_S_Edit", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        
+
+        /// <summary>
         /// 选项增加
         /// </summary>
         /// <param name="model"></param>
