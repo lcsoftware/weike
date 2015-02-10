@@ -78,7 +78,7 @@ namespace IES.G2S.Resource.BLL
         {
             return ExerciseDAL.Exercise_Custom_Get(ExerciseID);
         }
-        
+
 
         public ExerciseInfo Exercise_MultipleChoice_Get(int ExerciseID)
         {
@@ -102,6 +102,33 @@ namespace IES.G2S.Resource.BLL
                 return false;
             }
 
+        }
+
+        public bool Exercise_Line_S_Edit(ExerciseInfo model)
+        {
+            try
+            {
+                ExerciseDAL.Exercise_MultipleChoice_M_Edit(model);
+                ExerciseDAL.Exercise_Line_S_Edit(model);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        public bool Exercise_Order_M_Edit(ExerciseInfo model)
+        {
+            try
+            {
+                ExerciseDAL.Exercise_MultipleChoice_M_Edit(model);
+                ExerciseDAL.Exercise_Order_S_Edit(model);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public bool Exercise_MultipleChoice_M_Edit(ExerciseInfo model)
@@ -155,7 +182,7 @@ namespace IES.G2S.Resource.BLL
 
         public bool Exercise_Custom_M_Edit(ExerciseInfo model)
         {
-            return ExerciseDAL.Exercise_Custom_M_Edit(model);       
+            return ExerciseDAL.Exercise_Custom_M_Edit(model);
         }
 
 

@@ -278,6 +278,31 @@ namespace App.Resource.DataProvider.Exercise
             }
             return exerciseRs;
         }
+
+        /// <summary>
+        /// 排序题信息维护
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool Exercise_Order_M_Edit(string model)
+        {
+            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            return new ExerciseBLL().Exercise_Order_M_Edit(v);
+        }
+
+        /// <summary>
+        /// 连线题信息维护
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [WebMethod]
+        public static bool Exercise_Line_S_Edit(string model)
+        {
+            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            return new ExerciseBLL().Exercise_Line_S_Edit(v);
+        }
+
         [WebMethod]
         public static ExerciseInfo Exercise_Custom_Get(int ExerciseID)
         {

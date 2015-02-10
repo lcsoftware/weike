@@ -17,6 +17,7 @@ namespace App.G2S.DataProvider
             context.Response.ContentType = "text/plain";
             context.Response.AddHeader("Cache-Control", "no-cache,must-revalidate");
             List<IES.Resource.Model.Attachment> list = IES.Service.FileService.AttachmentUpload();
+            //IES.Service.FileService.ResourceFileUpload();
             context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(list));
             context.Response.End();
         }
