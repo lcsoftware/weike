@@ -1076,6 +1076,14 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
     $scope.answeChange = function (answer) {
         $scope.model.exercisecommon.exercise.Answer = answer == '0' ? '1' : '0';
     }
+
+    ////文件上传成功
+    $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) {
+
+    });
+
+    $scope.$on('onCompleteItem', function (event) {
+    });
 }]);
 
 //填空题

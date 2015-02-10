@@ -374,7 +374,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@ServerID", model.ServerID);
 
                     conn.Execute("File_ADD", p, commandType: CommandType.StoredProcedure);
-                    model.FolderID = p.Get<int>("FileID");
+                    model.FileID = p.Get<int>("FileID");
 
                     return model;
                 }

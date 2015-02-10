@@ -4,7 +4,7 @@
         @*<textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Conten"></textarea>*@
         <editor editor-id= editor-text="editorText"></editor>
     </div>
-    <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
+    <a class="add_attach" dialog-show dialog-id="eIesUploader"><em><i class="icon"></i></em><span>添加附件</span></a>
     <p class="answer_content">
         <span>题目答案</span>
         <a ng-class="{active:model.exercisecommon.exercise.Answer==1}" ng-model="model.exercisecommon.exercise.Answer" ng-click="answeChange(model.exercisecommon.exercise.Answer)">正确</a>
@@ -15,3 +15,4 @@
         <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Analysis"></textarea>
     </div>
 </div>
+<ies-file-uploader id="eIesUploader" style="display:none" upload-url="/DataProvider/FileUpload.ashx/?from=2"></ies-file-uploader>

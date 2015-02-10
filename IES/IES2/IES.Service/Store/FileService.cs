@@ -17,7 +17,7 @@ using IES.Common;
 
 namespace IES.Service
 {
-    public class   FileService
+    public class FileService
     {
         public const string downurl = "http://{0}:{1}/{2}/{3}";
 
@@ -26,7 +26,8 @@ namespace IES.Service
         /// </summary>
         public const string viewurl = "{0}://{1}:{2}/{3}/{4}";
 
-        #region 判断文件存在否
+        #region 判断文件存在否
+
 
         /// <summary>
         /// 判断远程文件是否存在
@@ -56,7 +57,7 @@ namespace IES.Service
         /// </summary>
         /// <param name="fileUrl"></param>
         /// <returns></returns>
-        public static bool RemoteFileExists(IFile  file)
+        public static bool RemoteFileExists(IFile file)
         {
             try
             {
@@ -75,9 +76,10 @@ namespace IES.Service
             return false;
         }
 
-        #endregion 
+        #endregion
 
-        #region 获取系统所有的附件表
+        #region 获取系统所有的附件表
+
         /// <summary>
         /// 获取附件列表
         /// </summary>
@@ -89,6 +91,11 @@ namespace IES.Service
             return attachmentBLL.Attachment_List(model);
         }
 
+
+        /// <summary>
+        /// 获取用户图片列表
+        /// </summary>
+        /// <returns></returns>
         public static List<Attachment> Attachment_UserIMG_List()
         {
             Attachment model = new Attachment { Source = "User" };
@@ -97,11 +104,29 @@ namespace IES.Service
         }
 
 
+        /// <summary>
+        /// 获取指定用户的头像列表
+
+        /// </summary>
+        /// <param name="UserID"></param>
+        /// <returns></returns>
+        public static string UserIMGURL(int UserID)
+        {
+            try
+            {
+                return Attachment_UserIMG_List().Where(x => x.SourceID == UserID).Single<Attachment>().DownURL;
+            }
+            catch {
+                return "/Images/default/User_M.jpg";
+            }
+        }
 
 
-        #endregion 
+
+        #endregion
 
         #region  IES文件上传
+
         /// <summary>
         /// 附件添加
         /// </summary>
@@ -112,7 +137,7 @@ namespace IES.Service
             HttpFileCollection files = HttpContext.Current.Request.Files;
             List<Attachment> attachmentlist = new List<Attachment>();
 
-            for ( int i = 0; i < files.Count; i++ )
+            for (int i = 0; i < files.Count; i++)
             {
                 IESFile file = Upload(files[i]);
                 if (file.FileGuid != null && file.FileGuid != string.Empty)
@@ -128,11 +153,11 @@ namespace IES.Service
                             Title = file.FileTitle,
                             Guid = file.FileGuid,
                             Source = string.Empty,
-                            SourceID = 0 ,
-                            RefFileID = "0"                   
+                            SourceID = 0,
+                            RefFileID = "0"
                         };
-                        if(bll.Attachment_ADD(attachment))
-                            attachmentlist.Add(attachment);  
+                        if (bll.Attachment_ADD(attachment))
+                            attachmentlist.Add(attachment);
                     }
                 }
             }
@@ -141,11 +166,44 @@ namespace IES.Service
 
 
         /// <summary>
+        /// 附件添加
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static Attachment AttachmentUpload( HttpPostedFileBase postfile )
+        {
+
+                IESFile file = Upload(  postfile   );
+                if (file.FileGuid != null && file.FileGuid != string.Empty)
+                {
+                    if (RemoteFileExists(file))
+                    {
+                        AttachmentBLL bll = new AttachmentBLL();
+                        Attachment attachment = new Attachment
+                        {
+                            FileName = file.FileName,
+                            ServerID = file.ServerID,
+                            FileSize = file.FileSize,
+                            Title = file.FileTitle,
+                            Guid = file.FileGuid,
+                            Source = string.Empty,
+                            SourceID = 0,
+                            RefFileID = "0"
+                        };
+                        if (bll.Attachment_ADD(attachment))
+                            return attachment;
+                    }
+                }
+                return new Attachment();
+        }
+
+
+        /// <summary>
         /// 附件关联
         /// </summary>
         /// <param name="attachmentlist"></param>
         /// <returns></returns>
-        public static bool AttachmentRelation(  Attachment attachment  ) 
+        public static bool AttachmentRelation(Attachment attachment)
         {
             return IES.G2S.Resource.DAL.AttachmentDAL.Attachment_SourceID_Upd(attachment);
         }
@@ -158,7 +216,7 @@ namespace IES.Service
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static List<IES.Resource.Model.File> ResourceFileUpload( IES.Resource.Model.File model)
+        public static List<IES.Resource.Model.File> ResourceFileUpload(IES.Resource.Model.File model)
         {
             HttpFileCollection files = HttpContext.Current.Request.Files;
             List<IES.Resource.Model.File> resourcefilelist = new List<IES.Resource.Model.File>();
@@ -177,25 +235,25 @@ namespace IES.Service
                             ServerID = file.ServerID,
                             FileSize = file.FileSize,
                             FileTitle = file.FileTitle,
-                            OCID = model.OCID ,
+                            OCID = model.OCID,
                             FolderID = model.FolderID,
-                            CourseID = model.CourseID ,
-                            CreateUserID = UserService.CurrentUser.UserID ,
-                            CreateUserName = UserService.CurrentUser.UserName  ,
-                            Ext = file.Ext ,
-                            ShareRange = model.ShareRange 
+                            CourseID = model.CourseID,
+                            CreateUserID = UserService.CurrentUser.UserID,
+                            CreateUserName = UserService.CurrentUser.UserName,
+                            Ext = file.Ext,
+                            ShareRange = model.ShareRange
                         };
                         resourcefile = bll.File_ADD(resourcefile);
-                        if (resourcefile.FileID > 0 )
+                        if (resourcefile.FileID > 0)
                             resourcefilelist.Add(resourcefile);
                     }
                 }
             }
-            return resourcefilelist ;
+            return resourcefilelist;
         }
 
 
-        #endregion 
+        #endregion
 
         #region 文件下载或在线浏览地址
 
@@ -228,15 +286,15 @@ namespace IES.Service
                 file = file as IES.Resource.Model.File;
 
             string ext = StringHelp.GetFileNameExt(file.FileName).ToLower();
-
-
             ResourceServer server = StoreServie.ResourceServer_Get(file.ServerID);
-
-
-            return string.Format(downurl, server.Host, server.IISPort, server.IISFolder, file.FileName);
+            return string.Format(downurl, server.Host, server.NginxPort, server.NginxFolder, file.FileName);
         }
 
-        #endregion 
+
+
+
+
+        #endregion
 
         #region  文件上传核心方法
 
@@ -247,8 +305,12 @@ namespace IES.Service
         /// <returns></returns>
         private static IESFile Upload(HttpPostedFile postFile)
         {
-
             return _upload(postFile.InputStream, postFile.FileName);
+        }
+
+        private static IESFile Upload( HttpPostedFileBase postFile )
+        {
+            return _upload(postFile.InputStream, postFile.FileName );
         }
 
         private static IESFile _upload(Stream inputStream, string fileName)
@@ -262,7 +324,8 @@ namespace IES.Service
             string PubKey = server.PubKey;
 
             string filehead = Guid.NewGuid().ToString();
-            string newFileName = filehead + Path.GetExtension(fileName);
+            string Ext = Path.GetExtension(fileName) ;
+            string newFileName = filehead + Ext ;
 
             string uri = string.Format("http://{0}:{1}/{2}/HttpUpload/HttpUpload.ashx?PubKey={3}&fileName={4}&UName=able&PWD=able",
                 machineName, httpPort, webFolder, PubKey, newFileName);
@@ -292,7 +355,7 @@ namespace IES.Service
                         }
                         WebResponse webResponse = webRequest.GetResponse();
                     }
-                    catch(Exception ex)
+                    catch
                     {
                         iscorrect = false;
                     }
@@ -307,12 +370,13 @@ namespace IES.Service
                 file.UserID = UserService.CurrentUser.UserID;
                 file.FileSize = webRequest.ContentLength;
                 file.FileTitle = fileName;
+                file.Ext = Ext;
             }
             return file;
         }
 
 
-        #endregion 
+        #endregion
 
     }
 }

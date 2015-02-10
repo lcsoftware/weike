@@ -153,6 +153,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.tabTitles.push({ id: item.Id, name: '>>' + item.Name, order: $scope.order });
     }
 
+
     //查询
     $scope.filterChanged = function () {
         var folder = angular.copy($scope.model);
@@ -170,6 +171,16 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     var fileIndex = 0;
     //新建文件
    ///************************************************文件上传******************************************
+
+    //FROM 1 资料  2 附件
+    $scope.uploadUrl = '/DataProvider/FileUpload.ashx/?'
+        + 'FROM=1'
+        + '&OCID=1'
+        + '&CourseID=1'
+        + '&FolderID=2'
+        + '&ShareRange=3';
+
+
     $scope.AddFile = function () {
 
         //var file = {};
@@ -196,6 +207,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
 
     $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) {
+        
     });
 
     $scope.$on('onCompleteItem', function (event) {

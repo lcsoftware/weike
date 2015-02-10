@@ -16,8 +16,24 @@ namespace App.G2S.DataProvider
         {
             context.Response.ContentType = "text/plain";
             context.Response.AddHeader("Cache-Control", "no-cache,must-revalidate");
-            List<IES.Resource.Model.Attachment> list = IES.Service.FileService.AttachmentUpload();
-            context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(list));
+            
+            //FROM 1 资料  2 附件
+            var from = context.Request.QueryString["FROM"];
+            if (from.Equals("2"))
+            {
+                List<IES.Resource.Model.Attachment> attachMentList = IES.Service.FileService.AttachmentUpload();
+                context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(attachMentList));
+            }
+            else
+            { 
+                IES.Resource.Model.File fileModel = new IES.Resource.Model.File();
+                fileModel.OCID = int.Parse(context.Request.QueryString["OCID"]);
+                fileModel.CourseID = int.Parse(context.Request.QueryString["CourseID"]);
+                fileModel.FolderID = int.Parse(context.Request.QueryString["FolderID"]);
+                fileModel.ShareRange = int.Parse(context.Request.QueryString["ShareRange"]); 
+                List<IES.Resource.Model.File> fileList = IES.Service.FileService.ResourceFileUpload(fileModel);
+                context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(fileList));
+            }
             context.Response.End();
         }
 
