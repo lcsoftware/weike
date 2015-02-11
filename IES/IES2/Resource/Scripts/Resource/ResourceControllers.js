@@ -173,10 +173,9 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     var fileIndex = 0;
     //新建文件
    ///************************************************文件上传******************************************
-
+ 
     //FROM 1 资料  2 附件
     $scope.AddFile = function () {
-
         //var file = {};
         //if ($scope.folderRelation == null) {
         //    file.FolderID = 0;
@@ -198,8 +197,10 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         //        $scope.filterChanged();
         //    }
         //});
-    }
+    } 
+
     $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) { 
+        console.log('===============', response);
         $scope.folderRelations.push(response.file);
     });
 

@@ -411,7 +411,10 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
     directive.replace = true;
 
     directive.scope = {
-        uploadUrl: '@'
+        uploadUrl: '@',
+        ocid: '=',
+        courseId: '=',
+        folderID: '='
     }
 
     directive.templateUrl = '/Components/templates/iesFileUploader.html';
@@ -419,13 +422,40 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
     directive.link = function (scope, elem, iAttrs) {
         elem.find('.close_pop').bind('click', function () {
             elem.hide();
-        })
+        }); 
     }
 
     directive.controller = function ($scope) {
         //----------上传文件start--------
-        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: $scope.uploadUrl });
+        var angularFileUploader = $scope.iesUploader = new FileUploader({url: $scope.uploadUrl});
+            //angularFileUploader.formData.push({ OCID: $scope.ocid });
+            //angularFileUploader.formData.push({ CourseID: $scope.courseId});
+            //angularFileUploader.formData.push({ FolderID: $scope.folderID});
+            //angularFileUploader.formData.push({ ShareRange: -1 });
 
+        $scope.$watch('ocid', function (v) {
+            angularFileUploader.formData.length = 0;
+            angularFileUploader.formData.push({ OCID: v });
+            angularFileUploader.formData.push({ CourseID: $scope.courseId});
+            angularFileUploader.formData.push({ FolderID: $scope.folderID});
+            angularFileUploader.formData.push({ ShareRange: -1});
+        });
+
+        $scope.$watch('courseId', function (v) {
+            angularFileUploader.formData.length = 0;
+            angularFileUploader.formData.push({ OCID: $scope.ocid });
+            angularFileUploader.formData.push({ CourseID: v});
+            angularFileUploader.formData.push({ FolderID: $scope.folderID});
+            angularFileUploader.formData.push({ ShareRange: -1});
+        });
+
+        $scope.$watch('folderID', function (v) {
+            angularFileUploader.formData.length = 0;
+            angularFileUploader.formData.push({ OCID: $scope.ocid });
+            angularFileUploader.formData.push({ CourseID: $scope.courseId });
+            angularFileUploader.formData.push({ FolderID: v });
+            angularFileUploader.formData.push({ ShareRange: -1 });
+        });
         // FILTERS
         angularFileUploader.filters.push({
             name: 'customFilter',
@@ -449,6 +479,7 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
             $scope.$emit('onWhenAddingFileFailed', item, filter, options);
         };
         angularFileUploader.onAfterAddingFile = function (fileItem) {
+            angularFileUploader.url = '/DataProvider/FileUpload.ashx/?FROM=1';
             $scope.$emit('onAfterAddingFile', fileItem);
         };
         angularFileUploader.onAfterAddingAll = function (addedFileItems) {

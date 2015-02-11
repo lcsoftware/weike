@@ -8,7 +8,7 @@
         </p>
     </div>
     <div class="exercise_btn">
-        <a class="topic_import" dialog-show dialog-id="eIesUploader"><em><i class="icon"></i></em><span>上传文件</span></a>
+        <a class="topic_import" dialog-show dialog-id="eIesUploader" ng-click="AddFile()"><em><i class="icon"></i></em><span>上传文件</span></a>
         <a href="javascript:;" ng-click="AddFolder()"><em><i class="icon"></i></em><span>新建文件夹</span></a>
         <batch-operation share-ranges="shareRanges" on-fire-remove-all="fireRemoveAll()" on-fire-mobile-batch="fireMobileBatch()" />
         <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="model.FileTitle"><span class="icon" ng-click="filterChanged()"></span></p>
@@ -133,4 +133,7 @@
 <file-property id="fileProp" style="display:none" chapter="chapter" chapters="chapters" ken="ken" kens="kens"></file-property>
 
 <ies-file-uploader id="eIesUploader" style="display:none"
-                   upload-url="/DataProvider/FileUpload.ashx/?FROM=1&FolderID={{folderRelation ? folderRelation.Id : 0}}&OCID={{model.OCID}}&CourseID={{model.CourseID}}&ShareRange=-1" />
+                   ocid="course.OCID"
+                   course-id="course.CourseID"
+                   folder-id="folderRelation.Id"
+                   upload-url="/DataProvider/FileUpload.ashx/?FROM=1" />

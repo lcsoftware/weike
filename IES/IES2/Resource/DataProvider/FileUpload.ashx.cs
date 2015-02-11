@@ -27,10 +27,10 @@ namespace App.G2S.DataProvider
             else
             { 
                 IES.Resource.Model.File fileModel = new IES.Resource.Model.File();
-                fileModel.OCID = int.Parse(context.Request.QueryString["OCID"]);
-                fileModel.CourseID = int.Parse(context.Request.QueryString["CourseID"]);
-                fileModel.FolderID = int.Parse(context.Request.QueryString["FolderID"]);
-                fileModel.ShareRange = int.Parse(context.Request.QueryString["ShareRange"]); 
+                fileModel.OCID = int.Parse(context.Request.Form["OCID"]);
+                fileModel.CourseID = int.Parse(context.Request.Form["CourseID"]);
+                fileModel.FolderID = int.Parse(context.Request.Form["FolderID"] == "undefined" ? "0" : context.Request.Form["FolderID"]);
+                fileModel.ShareRange = int.Parse(context.Request.Form["ShareRange"]); 
                 List<IES.Resource.Model.File> fileList = IES.Service.FileService.ResourceFileUpload(fileModel);
                 context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(fileList));
             } 
