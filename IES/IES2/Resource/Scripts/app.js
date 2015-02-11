@@ -31,6 +31,8 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         //习题列表
         .state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
 
+        //预览
+        .state('preview', { url: '/preview', abstract: true, templateUrl: '/views/Exercise/Preview', controller: 'PreviewCtrl' })
         //试题
         .state('exercise', { url: '/exercise', abstract: true, templateUrl: '/views/Shared/Exercise', controller: 'ExerciseCtrl' })
         //简答题

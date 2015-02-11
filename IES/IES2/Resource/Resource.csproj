@@ -1034,7 +1034,6 @@
     <Content Include="Scripts\Common\filters.js" />
     <Content Include="Scripts\Common\services.js" />
     <Content Include="Scripts\Common\tools.js" />
-    <Content Include="Scripts\CourseLive\Forum\ForumController.js" />
     <Content Include="Scripts\Home\HomeControllers.js" />
     <Content Include="Scripts\Ken\kenControllers.js" />
     <Content Include="Scripts\Ken\kenService.js" />
@@ -1060,7 +1059,6 @@
     </Content>
     <Content Include="robots.txt" />
     <Content Include="Views\404.cshtml" />
-    <Content Include="Views\CourseLive\Forum\style.css" />
     <Content Include="Views\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
@@ -1141,16 +1139,11 @@
     </Content>
     <Content Include="Views\Exercise\Radio.cshtml" />
     <Content Include="Views\Exercise\Multiple.cshtml" />
-    <Content Include="Views\CourseLive\Forum\FileUpload.cshtml" />
-    <Content Include="Views\CourseLive\Forum\index.cshtml" />
-    <Content Include="Views\CourseLive\Forum\topicadd.cshtml" />
-    <Content Include="Views\CourseLive\Forum\topicdetail.cshtml" />
-    <Content Include="Views\CourseLive\Forum\topiclist.cshtml" />
-    <Content Include="Views\CourseLive\Forum\vssver2.scc" />
     <Content Include="Views\Exercise\Custom.cshtml" />
     <Content Include="Views\Exercise\Translation.cshtml" />
     <Content Include="Views\Exercise\Sorting.cshtml" />
     <Content Include="Views\Exercise\Analysis.cshtml" />
+    <Content Include="Views\Exercise\Preview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

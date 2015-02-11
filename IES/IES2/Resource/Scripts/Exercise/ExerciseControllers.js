@@ -36,7 +36,6 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
 
         });
 
-
         //习题列表
         $scope.exercises = [];
 
@@ -490,6 +489,18 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
 
             model.exercisecommon.exercise.ExerciseTypeName = data.exerciseType.name;
         }
+
+        $scope.attachmentList = [];
+
+        ///更新附件关联关系
+        $scope.$on('willFileUploaded', function (event, fileItem, responseFile) {
+            var model = {
+                Guid: responseFile.Guid,
+                Source: 'Exercise',
+                SourceID: responseFile.SourceID
+            }
+            exerciseService.Attachment_SourceID_Upd(model);
+        })
     }]);
 
 //简答题
@@ -1025,24 +1036,12 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
 
 //判断题
 appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$stateParams', '$state', function ($scope, exerciseService, $stateParams, $state) {
+    $scope.$parent.attachmentList = [];
     $scope.$on('willExerciseChange', function (event, changeParam) {
 
     });
 
-    //var value = "<ol>";
-    //value += "<li><span style=\"font-size: 9pt;\">12345sdfasdfasdf</span></li>";
-    //value += "<li><span style=\"font-size: 9pt;\">333434</span></li>";
-    //value += "<li><span style=\"font-size: 9pt;\">34343434343434</span></li>";
-    //value += "</ol>";
-    //$scope.editorText = value;
-
     $scope.$on('willRequestSave', function (event, data) {
-        //console.log($scope.editorText);
-
-        //var editor = EWEBEDITOR.Instances["editorInput"];
-        //console.log(editor.getHTML());
-        //console.log($scope.editorText);
-
         $scope.willTopBind($scope.model, data);
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_Judge_M_Edit(v, function (data) {
@@ -1054,8 +1053,13 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
     });
 
     $scope.$on('willPreview', function (event) {
-
+        if ($scope.ExerciseID > -1) {
+            exerciseService.Exercise_Judge_Get($scope.ExerciseID, function (data) {
+                $scope.model = data.d;
+            });
+        }
     });
+
     $scope.model = {};//Exercise对象
     $scope.Attachment = {};//附件对象
     $scope.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
@@ -1080,10 +1084,11 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
         $scope.model.exercisecommon.exercise.Answer = answer == '0' ? '1' : '0';
     }
 
-    $scope.uploadFileList = [];
+    /// 附件上传成功
     $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) {
-        $scope.uploadFileList.push(response.file);
-        ///TODO UPDATE ATTACHMENT RELATION FILED SOURCE[Exercise] AND SOURCEID 
+        $scope.$parent.attachmentList.push(response.file);
+        response.file.SourceID = $scope.ExerciseID;
+        $scope.$emit('willFileUploaded', fileItem, response.file);
     });
 
     $scope.$on('onCompleteItem', function (event) {
@@ -1262,7 +1267,7 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
     $scope.$on('willExerciseChange', function (event, changeParam) {
 
     });
-    
+
     $scope.$on('willRequestSave', function (event, data) {
         //将选项加到exercisechoicelist数组中
         $scope.model.exercisechoicelist.length = 0;
@@ -1820,7 +1825,7 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
     $scope.model = {};
     $scope.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
     $scope.Attachment = {};//附件对象
-    var answer = { Conten:'', Answer: '' };
+    var answer = { Conten: '', Answer: '' };
 
     var init = function () {
         if ($scope.ExerciseID > -1) {

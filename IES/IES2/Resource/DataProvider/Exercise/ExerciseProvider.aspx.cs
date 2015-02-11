@@ -26,6 +26,12 @@ namespace App.Resource.DataProvider.Exercise
         }
 
         [WebMethod]
+        public static bool Attachment_SourceID_Upd(Attachment model)
+        {
+            return AttachmentBLL.Attachment_SourceID_Upd(model);
+        }
+
+        [WebMethod]
         public static ExerciseCommon Exercise_Model_Info()
         {
             return new ExerciseCommon()

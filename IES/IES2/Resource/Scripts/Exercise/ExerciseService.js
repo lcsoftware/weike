@@ -4,6 +4,14 @@ var aService = angular.module('app.exercise.services', [
     'app.common.services'
 ]);
 
+aService.factory('previewService', ['httpService', function (httpService) {
+    var service = {};
+
+    service.exercise = {};
+
+    return service;
+}]);
+
 aService.factory('exerciseService', ['httpService', function (httpService) {
     var service = {};
     var url = '/DataProvider/Exercise/ExerciseProvider.aspx';
@@ -33,7 +41,9 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     service.Exercise_Model_Info_Get = function (callback) {
         httpService.ajaxPost(url, 'Exercise_Model_Info_Get', null, callback);
     }
-
+    service.Attachment_SourceID_Upd = function (model, callback) {
+        httpService.ajaxPost(url, 'Attachment_SourceID_Upd', { model: model }, callback);
+    }
 
     //习题新增
     service.Exercise_ADD = function (model, callback) {
