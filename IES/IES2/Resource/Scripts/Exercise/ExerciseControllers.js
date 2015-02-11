@@ -413,7 +413,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
 
         $scope.$on('onPreview', function (event, exercise) {
             previewService.exercise = exercise;
-            $state.go('exercise.preview');
+            $state.go('content.preview');
         });
 
         var setCourse = function (OCID, courseID) {
@@ -508,8 +508,20 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         })
     }]);
 
-appExercise.controller('PreviewCtrl', [$scope, 'previewService', function ($scope, previewService) {
+//预览习题
+appExercise.controller('PreviewCtrl', ['$scope', 'previewService', function ($scope, previewService) {
+    $scope.choices = [];
+    $scope.choices.push({ id: 1 });
+    $scope.choices.push({ id: 2 });
+    $scope.choices.push({ id: 3 });    
     $scope.exercise = previewService.exercise;
+    
+
+    //for (var i = 0; i < $scope.exercise.exercisechoicelist.length; i++) {
+    //    $scope.choices.push({ id: i + 1 });
+    //}
+
+    console.log($scope.exercise);
 }]);
 
 //简答题
@@ -636,7 +648,8 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
     });
 
     $scope.$on('willPreview', function (event) {
-
+        $scope.model.exercisecommon.exercise.ExerciseType = 12;
+        $scope.$emit('onPreview', $scope.model);
     });
 
     $scope.model = {};//ExerciseInfo对象
@@ -935,7 +948,10 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
     });
 
     $scope.$on('willPreview', function (event) {
-
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+        $scope.model.exercisecommon.exercise.ExerciseType = 10;
+        $scope.$emit('onPreview', $scope.model);
     });
 
     $scope.model = {};//ExerciseInfo对象
@@ -1013,7 +1029,8 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
     });
 
     $scope.$on('willPreview', function (event) {
-
+        $scope.model.exercisecommon.exercise.ExerciseType = 4;
+        $scope.$emit('onPreview', $scope.model);
     });
 
     $scope.model = {};
@@ -1156,7 +1173,12 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
     });
 
     $scope.$on('willPreview', function (event) {
-
+        if ($scope.ExerciseID > -1) {
+            exerciseService.Exercise_Analysis_Get($scope.ExerciseID, function (data) {
+                $scope.model = data.d;
+                $scope.$emit('onPreview', $scope.model);
+            });
+        }
     });
 
     $scope.model = {};//Exercise对象
@@ -1336,7 +1358,10 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
     });
 
     $scope.$on('willPreview', function (event) {
-
+        if ($scope.ExerciseID > -1) {
+            console.log($scope.list);
+            $scope.$emit('onPreview', $scope.model);
+        }
     });
 
     $scope.model = {};//Exercise对象
@@ -1467,7 +1492,8 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
     });
 
     $scope.$on('willPreview', function (event) {
-
+        $scope.model.exercisecommon.exercise.ExerciseType = 2;
+        $scope.$emit('onPreview', $scope.model);
     });
 
     $scope.model = {};//ExerciseInfo对象
@@ -1576,7 +1602,8 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
     });
 
     $scope.$on('willPreview', function (event) {
-
+        $scope.model.exercisecommon.exercise.ExerciseType = 3;
+        $scope.$emit('onPreview', $scope.model);
     });
 
     $scope.model = {};//ExerciseInfo对象
@@ -1649,7 +1676,8 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
         });
     });
     $scope.$on('willPreview', function (event) {
-
+        $scope.model.exercisecommon.exercise.ExerciseType = 11;
+        $scope.$emit('onPreview', $scope.model);
     });
     $scope.model = {};//ExerciseInfo对象
     $scope.Attachment = {};//附件对象
@@ -1723,7 +1751,9 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
     });
 
     $scope.$on('willPreview', function (event) {
-
+        $scope.model.exercisecommon.exercise.ExerciseType = 7;
+        
+        $scope.$emit('onPreview', $scope.model);
     });
 
     $scope.model = {};//Exercise对象
@@ -1829,7 +1859,12 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
     });
 
     $scope.$on('willPreview', function (event) {
-
+        if ($scope.ExerciseID > -1) {
+            exerciseService.Exercise_Analysis_Get($scope.ExerciseID, function (data) {
+                $scope.model = data.d;
+                $scope.$emit('onPreview', $scope.model);
+            });
+        }
     });
 
     $scope.model = {};

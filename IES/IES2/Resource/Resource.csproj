@@ -164,7 +164,6 @@
     <Content Include="Css\side_left.css" />
     <Content Include="DataProvider\Authority\AuthProvider.aspx" />
     <Content Include="DataProvider\Chapter\ChapterProvider.aspx" />
-    <Content Include="DataProvider\CourseLive\Forum\ForumProvider.aspx" />
     <Content Include="DataProvider\Exercise\ExerciseProvider.aspx" />
     <Content Include="DataProvider\Knowledge\KnowProvider.aspx" />
     <Content Include="DataProvider\Paper\PaperProvider.aspx" />
@@ -1168,13 +1167,6 @@
     </Compile>
     <Compile Include="DataProvider\Chapter\ChapterProvider.aspx.designer.cs">
       <DependentUpon>ChapterProvider.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="DataProvider\CourseLive\Forum\ForumProvider.aspx.cs">
-      <DependentUpon>ForumProvider.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="DataProvider\CourseLive\Forum\ForumProvider.aspx.designer.cs">
-      <DependentUpon>ForumProvider.aspx</DependentUpon>
     </Compile>
     <Compile Include="DataProvider\Exercise\ExerciseProvider.aspx.cs">
       <DependentUpon>ExerciseProvider.aspx</DependentUpon>
