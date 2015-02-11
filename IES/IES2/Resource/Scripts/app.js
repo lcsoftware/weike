@@ -31,10 +31,10 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         //习题列表
         .state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
 
-        //预览
-        .state('preview', { url: '/preview', abstract: true, templateUrl: '/views/Exercise/Preview', controller: 'PreviewCtrl' })
         //试题
         .state('exercise', { url: '/exercise', abstract: true, templateUrl: '/views/Shared/Exercise', controller: 'ExerciseCtrl' })
+        //预览
+        .state('exercise.preview', { url: '/exercise/preview', templateUrl: '/views/Exercise/Preview', controller: 'PreviewCtrl' })
         //简答题
         .state('exercise.shortanswer', { url: '/shortanswer/:ExerciseID', templateUrl: '/views/Exercise/ShortAnswer', controller: 'ShortAnswerCtrl' })
         //听力题

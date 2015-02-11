@@ -263,8 +263,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenServ
 
     }]);
 
-appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exerciseService', 'contentService', 'kenService', 'assistService', '$timeout',
-    function ($scope, $state, $stateParams, exerciseService, contentService, kenService, assistService, $timeout) {
+appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exerciseService', 'contentService', 'previewService', 'kenService', 'assistService', '$timeout',
+    function ($scope, $state, $stateParams, exerciseService, contentService, previewService, kenService, assistService, $timeout) {
         //课程
         $scope.courses = [];
         //试题类型
@@ -408,8 +408,13 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         }
 
         $scope.preview = function () {
-            $scope.$broadcast('willPreview', $scope.data);
+            $scope.$broadcast('willPreview');
         }
+
+        $scope.$on('onPreview', function (event, exercise) {
+            previewService.exercise = exercise;
+            $state.go('exercise.preview');
+        });
 
         var setCourse = function (OCID, courseID) {
             var length = $scope.courses.length;
@@ -502,6 +507,10 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
             exerciseService.Attachment_SourceID_Upd(model);
         })
     }]);
+
+appExercise.controller('PreviewCtrl', [$scope, 'previewService', function ($scope, previewService) {
+    $scope.exercise = previewService.exercise;
+}]);
 
 //简答题
 appExercise.controller('ShortAnswerCtrl', ['$scope', 'exerciseService', '$stateParams', function ($scope, exerciseService, $stateParams) {
@@ -1056,6 +1065,7 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
         if ($scope.ExerciseID > -1) {
             exerciseService.Exercise_Judge_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
+                $scope.$emit('onPreview', $scope.model);
             });
         }
     });
