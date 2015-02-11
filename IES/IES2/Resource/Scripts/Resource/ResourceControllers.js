@@ -175,14 +175,6 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
    ///************************************************文件上传******************************************
 
     //FROM 1 资料  2 附件
-    $scope.uploadUrl = '/DataProvider/FileUpload.ashx/?'
-        + 'FROM=1'
-        + '&OCID=1'
-        + '&CourseID=1'
-        + '&FolderID=2'
-        + '&ShareRange=3';
-
-
     $scope.AddFile = function () {
 
         //var file = {};
@@ -207,9 +199,8 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         //    }
         //});
     }
-    $scope.uploadFileList = [];
-    $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) {
-        $scope.uploadFileList.push(response.file);
+    $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) { 
+        $scope.folderRelations.push(response.file);
     });
 
     $scope.$on('onCompleteItem', function (event) {
@@ -408,7 +399,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     //资料属性弹出框
     $scope.fileProperty = function (item) { 
         $scope.file = item;
-        $('#fildProp').show(); 
+        $('#fileProp').show(); 
     } 
 
     $scope.$on('onPerpertySave', function (e, chapter, ken) {
@@ -431,28 +422,6 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $scope.ken = $scope.kens[0];
         }
     });
-
-    //获取关联章节数据
-    //var getProperty = function () {
-    //    var model = { OCID: $scope.model.OCID };
-    //    chapterService.Chapter_List(model, function (data) {
-    //        if (data.d.length > 0) {
-    //            $scope.chapters = data.d;
-    //            $scope.chapter = $scope.chapters[0];
-    //        }
-    //    });
-    //}
-    //获取关联知识点数据
-    //var getKen = function () {
-    //    var model = { OCID: $scope.model.OCID };
-    //    kenService.Ken_List(model, function (data) {
-    //        if (data.d.length > 0) {
-    //            $scope.kens = data.d;
-    //            $scope.ken = $scope.kens[0];
-    //        }
-    //    });
-    //}
-
 
     //删除文件夹弹出框点击确定按钮
     $scope.folderDelClick = function () {
