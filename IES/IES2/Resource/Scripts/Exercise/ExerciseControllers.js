@@ -415,7 +415,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
             previewService.exercise = exercise;
             $state.go('content.preview');
         });
- 
+
         var setCourse = function (OCID, courseID) {
             var length = $scope.courses.length;
             for (var i = 0; i < length; i++) {
@@ -521,17 +521,6 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         });
 
     }]);
-
-//预览习题
-appExercise.controller('PreviewCtrl', ['$scope', 'previewService', function ($scope, previewService) {
-    $scope.choices = [];
-    $scope.choices.push({ id: 1 });
-    $scope.choices.push({ id: 2 });
-    $scope.choices.push({ id: 3 });
-    $scope.exercise = previewService.exercise;
-    //for (var i = 0; i < $scope.exercise.exercisechoicelist.length; i++) {
-    //    $scope.choices.push({ id: i + 1 });
-    //}
 
 
 //简答题
@@ -1310,7 +1299,7 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
         for (var i = 0; i < $scope.list.length; i++) {
             choice = { Conten: $scope.list[i].Conten, grou: $scope.list[i].grou, ChoiceID: $scope.list[i].ChoiceID };
             $scope.model.exercisechoicelist.push(choice);
-            choice = { Conten: $scope.list[i].Answer, grou: $scope.list[i].grou, ChoiceID: $scope.list[i].ChoiceID };
+            choice = { Conten: $scope.list[i].Answer, grou: $scope.list[i].grou, ChoiceID: $scope.list[i].ChoiceID1 };
             $scope.model.exercisechoicelist.push(choice);
         }
         for (var i = 0; i < $scope.ganraoList.length; i++) {
@@ -1362,18 +1351,18 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
 
     $scope.$on('willPreview', function (event) {
         $scope.model.exercisecommon.exercise.ExerciseType = 6;
-        $scope.model.exercisechoicelist.length = 0;
-        var choice = {};
-        for (var i = 0; i < $scope.list.length; i++) {
-            choice = { Conten: $scope.list[i].Conten, Answer: $scope.list[i].Answer, grou: $scope.list[i].grou, ChoiceID: $scope.list[i].ChoiceID };
-            $scope.model.exercisechoicelist.push(choice);
-            //choice = { Conten: $scope.list[i].Answer, grou: $scope.list[i].grou, ChoiceID: $scope.list[i].ChoiceID };
-            //$scope.model.exercisechoicelist.push(choice);
-        }
-        for (var i = 0; i < $scope.ganraoList.length; i++) {
-            choice = { Conten: '', Answer: $scope.ganraoList[i].Conten, grou: $scope.ganraoList[i].grou, ChoiceID: $scope.ganraoList[i].ChoiceID };
-            $scope.model.exercisechoicelist.push(choice);
-        }
+        //if ($scope.ExerciseID <= 0) {
+            $scope.model.exercisechoicelist.length = 0;
+            var choice = {};
+            for (var i = 0; i < $scope.list.length; i++) {
+                choice = { Conten: $scope.list[i].Conten, Answer: $scope.list[i].Answer, grou: $scope.list[i].grou};
+                $scope.model.exercisechoicelist.push(choice);                
+            }
+            for (var i = 0; i < $scope.ganraoList.length; i++) {
+                choice = { Conten: '', Answer: $scope.ganraoList[i].Conten, grou: $scope.ganraoList[i].grou};
+                $scope.model.exercisechoicelist.push(choice);
+            }
+        //}
         $scope.$emit('onPreview', $scope.model);
     });
 
@@ -1406,7 +1395,8 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
                                 Conten: choiceList[n].Conten,
                                 Answer: choiceList[n + 1].Conten,
                                 grou: choiceList[n].Grou,
-                                ChoiceID: choiceList[n].ChoiceID
+                                ChoiceID: choiceList[n].ChoiceID,
+                                ChoiceID1: choiceList[n + 1].ChoiceID
                             });
                             choiceList.splice(n, 1);
                         }
