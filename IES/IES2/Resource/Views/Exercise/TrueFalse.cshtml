@@ -5,6 +5,20 @@
         @*<editor editor-id= editor-text="editorText"></editor>*@
     </div>
     <a class="add_attach" dialog-show dialog-id="eIesUploader"><em><i class="icon"></i></em><span>添加附件</span></a>
+    <ul class="attach_list">
+        <li>
+            <a href="javascript:;">删除</a>
+            <p><i class="icon_24 pdf"></i>预读材料</p>
+        </li>
+        <li>
+            <a href="javascript:;">删除</a>
+            <p><i class="icon_24 doc"></i>参考资料</p>
+        </li>
+        <li>
+            <a href="javascript:;">删除</a>
+            <p><i class="icon_24 mp4"></i>操作演示</p>
+        </li>
+    </ul>
     <p class="answer_content">
         <span>题目答案</span>
         <a ng-class="{active:model.exercisecommon.exercise.Answer==1}" ng-model="model.exercisecommon.exercise.Answer" ng-click="answeChange(model.exercisecommon.exercise.Answer)">正确</a>
