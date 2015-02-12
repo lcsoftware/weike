@@ -89,100 +89,117 @@ namespace IES.G2S.Resource.BLL
 
         #region 新增
 
-        public bool Exercise_Judge_M_Edit(ExerciseInfo model)
+        public ExerciseInfo Exercise_Judge_M_Edit(ExerciseInfo model)
         {
             try
             {
                 ExerciseDAL.Exercise_Judge_M_Edit(model);
                 ExerciseDAL.Exercise_MultipleChoice_S_Edit(model);
-                return true;
+                return model;
             }
             catch (Exception e)
             {
-                return false;
+                return null;
             }
 
         }
 
-        public bool Exercise_Line_S_Edit(ExerciseInfo model)
+        public ExerciseInfo Exercise_Line_S_Edit(ExerciseInfo model)
         {
             try
             {
                 ExerciseDAL.Exercise_MultipleChoice_M_Edit(model);
                 ExerciseDAL.Exercise_Line_S_Edit(model);
-                return true;
+                return model;
             }
             catch (Exception e)
             {
-                return false;
+                return null;
             }
         }
-        public bool Exercise_Order_M_Edit(ExerciseInfo model)
+        public ExerciseInfo Exercise_Order_M_Edit(ExerciseInfo model)
         {
             try
             {
                 ExerciseDAL.Exercise_MultipleChoice_M_Edit(model);
                 ExerciseDAL.Exercise_Order_S_Edit(model);
-                return true;
+                return model;
             }
             catch (Exception e)
             {
-                return false;
+                return null;
             }
         }
 
-        public bool Exercise_MultipleChoice_M_Edit(ExerciseInfo model)
+        public ExerciseInfo Exercise_MultipleChoice_M_Edit(ExerciseInfo model)
         {
             try
             {
                 ExerciseDAL.Exercise_MultipleChoice_M_Edit(model);
                 ExerciseDAL.Exercise_MultipleChoice_S_Edit(model);
-                return true;
+                return model;
             }
             catch (Exception e)
             {
-                return false;
+                return null;
             }
         }
 
-        public bool Exercise_FillInBlanks_M_Edit(ExerciseInfo model)
+        public ExerciseInfo Exercise_FillInBlanks_M_Edit(ExerciseInfo model)
         {
             try
             {
                 ExerciseDAL.Exercise_FillInBlanks_M_Edit(model);
                 ExerciseDAL.Exercise_FillInBlanks_S_Edit(model);
-                return true;
+                return model;
             }
             catch (Exception e)
             {
-                return false;
+                return null;
             }
 
 
         }
 
-        public bool Exercise_Analysis_M_Edit(ExerciseInfo model)
+        public ExerciseInfo Exercise_Analysis_M_Edit(ExerciseInfo model)
         {
             try
             {
                 ExerciseDAL.Exercise_Analysis_M_Edit(model);
                 ExerciseDAL.Exercise_Analysis_S_Edit(model);
-                return true;
+                return model;
             }
             catch (Exception e)
             {
-                return false;
+                return null;
             }
         }
 
-        public bool Exercise_Writing_M_Edit(ExerciseInfo model)
+        public ExerciseInfo Exercise_Writing_M_Edit(ExerciseInfo model)
         {
-            return ExerciseDAL.Exercise_Writing_M_Edit(model);
+            try
+            {
+                ExerciseDAL.Exercise_Writing_M_Edit(model);
+                return model;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+             
         }
 
-        public bool Exercise_Custom_M_Edit(ExerciseInfo model)
+        public ExerciseInfo Exercise_Custom_M_Edit(ExerciseInfo model)
         {
-            return ExerciseDAL.Exercise_Custom_M_Edit(model);
+            try
+            {
+                ExerciseDAL.Exercise_Custom_M_Edit(model);
+                return model;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
 

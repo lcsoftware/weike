@@ -160,7 +160,7 @@ namespace App.Resource.DataProvider.Exercise
         /// <param name="model"></param>
         /// <returns></returns>
         [WebMethod]
-        public static bool Exercise_Judge_M_Edit(string model)
+        public static ExerciseInfo Exercise_Judge_M_Edit(string model)
         {
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             return new ExerciseBLL().Exercise_Judge_M_Edit(v);
@@ -182,7 +182,7 @@ namespace App.Resource.DataProvider.Exercise
         /// <param name="model"></param>
         /// <returns></returns>
         [WebMethod]
-        public static bool Exercise_MultipleChoice_M_Edit(string model)
+        public static ExerciseInfo Exercise_MultipleChoice_M_Edit(string model)
         {
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             return new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v);
@@ -205,7 +205,7 @@ namespace App.Resource.DataProvider.Exercise
         /// <param name="model"></param>
         /// <returns></returns>
         [WebMethod]
-        public static bool Exercise_FillInBlanks_M_Edit(string model)
+        public static ExerciseInfo Exercise_FillInBlanks_M_Edit(string model)
         {
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             return new ExerciseBLL().Exercise_FillInBlanks_M_Edit(v);
@@ -228,7 +228,7 @@ namespace App.Resource.DataProvider.Exercise
         /// <param name="model"></param>
         /// <returns></returns>
         [WebMethod]
-        public static bool Exercise_Analysis_M_Edit(string model)
+        public static ExerciseInfo Exercise_Analysis_M_Edit(string model)
         {
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             return new ExerciseBLL().Exercise_Analysis_M_Edit(v);
@@ -239,7 +239,7 @@ namespace App.Resource.DataProvider.Exercise
         /// <param name="model"></param>
         /// <returns></returns>
         [WebMethod]
-        public static bool Exercise_Writing_M_Edit(string model)
+        public static ExerciseInfo Exercise_Writing_M_Edit(string model)
         {
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             return new ExerciseBLL().Exercise_Writing_M_Edit(v);
@@ -260,11 +260,11 @@ namespace App.Resource.DataProvider.Exercise
         /// <param name="model"></param>
         /// <returns></returns>
         [WebMethod]
-        public static bool Exercise_Custom_M_Edit(string model)
+        public static ExerciseInfo Exercise_Custom_M_Edit(string model)
         {
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
-            bool exerciseRs = new ExerciseBLL().Exercise_Custom_M_Edit(v);
-            if (exerciseRs)
+            ExerciseInfo exerciseRs = new ExerciseBLL().Exercise_Custom_M_Edit(v);
+            if (exerciseRs!= null)
             {
                 if (v.Children != null)
                 {
@@ -291,7 +291,7 @@ namespace App.Resource.DataProvider.Exercise
         /// <param name="model"></param>
         /// <returns></returns>
         [WebMethod]
-        public static bool Exercise_Order_M_Edit(string model)
+        public static ExerciseInfo Exercise_Order_M_Edit(string model)
         {
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             return new ExerciseBLL().Exercise_Order_M_Edit(v);
@@ -303,7 +303,7 @@ namespace App.Resource.DataProvider.Exercise
         /// <param name="model"></param>
         /// <returns></returns>
         [WebMethod]
-        public static bool Exercise_Line_S_Edit(string model)
+        public static ExerciseInfo Exercise_Line_S_Edit(string model)
         {
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             return new ExerciseBLL().Exercise_Line_S_Edit(v);

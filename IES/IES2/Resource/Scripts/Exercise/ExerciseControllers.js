@@ -661,7 +661,8 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
 
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_Custom_M_Edit(v, function (data) {
-            if (data.d) {
+            if (data.d != null) {
+                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
                 alert('提交成功！');
                 $state.go('content.exercise');
             }
@@ -818,7 +819,8 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
 
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_Custom_M_Edit(v, function (data) {
-            if (data.d) {
+            if (data.d != null) {
+                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
                 alert('提交成功！');
                 $state.go('content.exercise');
             }
@@ -960,7 +962,8 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
 
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_Writing_M_Edit(v, function (data) {
-            if (data.d) {
+            if (data.d != null) {
+                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
                 alert('提交成功！');
                 $state.go('content.exercise');
             }
@@ -1040,7 +1043,8 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
 
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_Analysis_M_Edit(v, function (data) {
-            if (data.d) {
+            if (data.d != null) {
+                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
                 alert('提交成功！');
                 $state.go('content.exercise');
             }
@@ -1089,7 +1093,8 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
         $scope.willTopBind($scope.model, data);
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_Judge_M_Edit(v, function (data) {
-            if (data.d) {
+            if (data.d != null) {
+                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
                 alert('提交成功！');
                 $state.go('content.exercise');
             }
@@ -1178,7 +1183,8 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
 
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_FillInBlanks_M_Edit(v, function (data) {
-            if (data.d) {
+            if (data.d != null) {
+                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
                 alert('提交成功！');
                 $state.go('content.exercise');
             }
@@ -1358,7 +1364,8 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
 
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_Line_S_Edit(v, function (data) {
-            if (data.d) {
+            if (data.d != null) {
+                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
                 alert('提交成功！');
                 $state.go('content.exercise');
             }
@@ -1501,7 +1508,8 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
 
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_MultipleChoice_M_Edit(v, function (data) {
-            if (data.d) {
+            if (data.d != null) {
+                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
                 alert('提交成功！');
                 $state.go('content.exercise');
             }
@@ -1610,7 +1618,8 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
 
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_MultipleChoice_M_Edit(v, function (data) {
-            if (data.d) {
+            if (data.d != null) {
+                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
                 alert('提交成功！');
                 $state.go('content.exercise');
             }
@@ -1684,7 +1693,8 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
 
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_Writing_M_Edit(v, function (data) {
-            if (data.d) {
+            if (data.d != null) {
+                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
                 alert('提交成功！');
                 $state.go('content.exercise');
             }
@@ -1758,7 +1768,8 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
 
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_Order_M_Edit(v, function (data) {
-            if (data.d) {
+            if (data.d != null) {
+                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
                 alert('提交成功！');
                 $state.go('content.exercise');
             }
@@ -1870,7 +1881,8 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
 
         var v = angular.toJson($scope.$parent.model);
         exerciseService.Exercise_Analysis_M_Edit(v, function (data) {
-            if (data.d) {
+            if (data.d != null) {
+                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
                 alert('提交成功！');
                 $state.go('content.exercise');
             }
