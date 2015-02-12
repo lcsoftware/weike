@@ -21,11 +21,13 @@
                 </div>
             </div>
         </div>
-        <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加选项</span></a>
-        <div ng-repeat="item in ganraoList">
-            <input class="add_answer" ng-model="item.Conten" type="text" placeholder="请输入其他干扰项">
+        <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加选项</span></a>        
+        <div style="text-align:right;">
+            <div ng-repeat="item in ganraoList">
+                <input class="add_answer" style="width:525px; margin-top:20px;" ng-model="item.Conten" type="text" placeholder="请输入其他干扰项">
+            </div>
+            <a class="add_attach" style="margin-left:45.5%;" ng-click="AddInterference()"><em><i class="icon"></i></em><span>添加干扰项</span></a>
         </div>
-        <a class="add_attach" ng-click="AddInterference()"><em><i class="icon"></i></em><span>添加干扰项</span></a>
     </div>
     <div class="text_box" style="color:#F00; margin-top:20px;">
         试题解析：
