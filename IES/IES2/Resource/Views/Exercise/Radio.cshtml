@@ -4,7 +4,7 @@
         <div class="text_box" style="color:#F00;">
             <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Conten"></textarea>
         </div>
-        <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
+        <a class="add_attach" dialog-show dialog-id="eIesUploader"><em><i class="icon"></i></em><span>添加附件</span></a>
         
         <ul class="answer_list">
             <li ng-class="{active:item.IsCorrect==1}" ng-repeat="item in model.exercisechoicelist">
