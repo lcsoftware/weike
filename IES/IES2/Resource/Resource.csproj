@@ -151,6 +151,7 @@
     <Content Include="Components\templates\folder.html" />
     <Content Include="Components\templates\moreCourse.html" />
     <Content Include="Components\templates\moveFolder.html" />
+    <Content Include="Components\templates\preview.html" />
     <Content Include="Css\app.css" />
     <Content Include="Css\common.css" />
     <Content Include="Css\construction.css" />

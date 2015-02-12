@@ -174,33 +174,10 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     //新建文件
    ///************************************************文件上传******************************************
  
-    //FROM 1 资料  2 附件
-    $scope.AddFile = function () {
-        //var file = {};
-        //if ($scope.folderRelation == null) {
-        //    file.FolderID = 0;
-        //} else {
-        //    file.FolderID = $scope.folderRelation.Id;
-        //}
-        //file.OCID = $scope.model.OCID;
-        //file.CourseID = $scope.model.CourseID;
-        //file.ShareRange = -1;
-        //file.FileTitle = '1' + fileIndex.toString();
-        //file.FileName = '1' + fileIndex.toString();
-        //file.Ext = fileIndex % 2 === 0 ? 'PPT' : 'PDF';
-        //file.FileSize = '15';
-        //file.FileType = fileIndex % 2 === 0 ? 4 : 5;
-        //file.pingyin = 'pingyin';
-        //fileIndex++;
-        //resourceService.File_ADD(file, function (data) {
-        //    if (data.d) {
-        //        $scope.filterChanged();
-        //    }
-        //});
-    } 
-
+    //FROM 1 资料  2 附件 
     $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) { 
         console.log('===============', response);
+        ////TODO required testing
         $scope.folderRelations.push(response.file);
     });
 
@@ -211,9 +188,6 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
    ///************************************************END 文件上传******************************************
    
-
-
-
     $scope.updFolderName = function (item) {
         if (item.RelationType == 1) {
             var file = { FileID: item.Id, FileTitle: item.Name };

@@ -415,7 +415,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
             previewService.exercise = exercise;
             $state.go('content.preview');
         });
-
+ 
         var setCourse = function (OCID, courseID) {
             var length = $scope.courses.length;
             for (var i = 0; i < length; i++) {
@@ -497,15 +497,29 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
 
         $scope.attachmentList = [];
 
+        $scope.data.exercise = {};
+
         ///更新附件关联关系
-        $scope.$on('willFileUploaded', function (event, fileItem, responseFile) {
+        $scope.$on('exerciseSaved', function (event, fileItem, responseFile) {
             var model = {
                 Guid: responseFile.Guid,
                 Source: 'Exercise',
-                SourceID: responseFile.SourceID
+                SourceID: $scope.data.exercise.SourceID
             }
             exerciseService.Attachment_SourceID_Upd(model);
-        })
+        });
+
+        /// 附件上传成功
+        $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) {
+            $scope.$parent.attachmentList.push(response.file);
+            response.file.SourceID = $scope.ExerciseID;
+            $scope.$emit('willFileUploaded', fileItem, response.file);
+        });
+
+        $scope.$on('onCompleteItem', function (event) {
+
+        });
+
     }]);
 
 //预览习题
@@ -515,12 +529,6 @@ appExercise.controller('PreviewCtrl', ['$scope', 'previewService', function ($sc
     $scope.choices.push({ id: 2 });
     $scope.choices.push({ id: 3 });    
     $scope.exercise = previewService.exercise;
-    
-
-    //for (var i = 0; i < $scope.exercise.exercisechoicelist.length; i++) {
-    //    $scope.choices.push({ id: i + 1 });
-    //}
-
     console.log($scope.exercise);
 }]);
 
