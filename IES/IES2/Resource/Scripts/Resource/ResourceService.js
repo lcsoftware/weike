@@ -119,5 +119,9 @@ aService.factory('resourceService', ['httpService', function (httpService) {
     service.User_OC_List = function (callback) {
         httpService.ajaxPost(url, 'User_OC_List', null, callback);
     }
+
+    service.Attachment_Del = function (attachment, callback) {
+        httpService.ajaxPost(url, 'Attachment_Del', { model: attachment }, callback);
+    }
     return service;
 }]);

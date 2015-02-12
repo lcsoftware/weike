@@ -315,5 +315,14 @@ namespace App.Resource.DataProvider.Resource
             return new FileBLL().Folder_Del(folder);
         }
         #endregion
+
+        #region 附件
+
+        public static bool Attachment_Del(Attachment model)
+        {
+            return AttachmentBLL.Attachment_Del(model);
+        }
+
+        #endregion
     }
 }

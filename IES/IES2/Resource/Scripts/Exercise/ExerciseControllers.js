@@ -5,11 +5,12 @@ var appExercise = angular.module('app.exercise.controllers', [
     'app.assist.services',
     'app.exercise.services',
     'app.ken.services',
+    'app.res.services',
     'app.resken.services'
 ]);
 
-appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceKenService', 'exerciseService', 'contentService', 'kenService', 'assistService',
-    function ($scope, $state, resourceKenService, exerciseService, contentService, kenService, assistService) {
+appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService', 'resourceKenService', 'exerciseService', 'contentService', 'kenService', 'assistService',
+    function ($scope, $state, resourceService, resourceKenService, exerciseService, contentService, kenService, assistService) {
         ///课程切换
         $scope.$on('willCourseChanged', function (event, course) {
             //console.log(course); 
@@ -498,28 +499,50 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         $scope.attachmentList = [];
 
         $scope.data.exercise = {};
-
+ 
         ///更新附件关联关系
-        $scope.$on('exerciseSaved', function (event, fileItem, responseFile) {
-            var model = {
-                Guid: responseFile.Guid,
-                Source: 'Exercise',
-                SourceID: $scope.data.exercise.SourceID
+
+        var attachmentSave = function (exerciseID) {
+            var length = $scope.attachmentList.length;
+            for (var i = 0; i < length; i++) {
+                var model = $scope.attachmentList[i];
+                if (model.SourceID <= 0) {
+                    model.Source = 'Exercise';
+                    model.SourceID = exerciseID;
+                    exerciseService.Attachment_SourceID_Upd(model);
+                }
             }
-            exerciseService.Attachment_SourceID_Upd(model);
+        }
+
+        $scope.$on('onExerciseSaved', function (event, exerciseID) {
+            attachmentSave(exerciseID);
         });
 
-        /// 附件上传成功
+        ///删除附件
+        $scope.$on('onRemoveAttachment', function (attachment) {
+            resourceService.Attachment_Del(attachment, function (data) {
+                if (data.d) {
+                    var length = $scope.attachmentList.length;
+                    for (var i = 0; i < length; i++) {
+                        if ($scope.attachmentList[i].AttachmentID === attachment.AttachmentID) {
+                            $scope.attachmentList.splice(i, 1);
+                            break; 
+                        }
+                    }
+                }
+            }); 
+        });
+
+        /// 附件上传
         $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) {
-            $scope.$parent.attachmentList.push(response.file);
-            response.file.SourceID = $scope.ExerciseID;
-            $scope.$emit('willFileUploaded', fileItem, response.file);
+            response.file.SourceID = $scope.data.exercise.ExerciseID;
+            $scope.attachmentList.push(response.file);
+            attachmentSave($scope.data.exercise.ExerciseID);
         });
 
         $scope.$on('onCompleteItem', function (event) {
 
-        });
-
+        }); 
     }]);
 
 

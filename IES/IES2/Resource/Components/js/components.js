@@ -408,8 +408,6 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
 
     directive.restrict = 'EA';
 
-    directive.replace = true;
-
     directive.scope = {
         uploadUrl: '@',
         ocid: '=',
@@ -513,3 +511,26 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
 
     return directive;
 }]);
+
+
+app.directive('attachList', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.replace = true;
+
+    directive.templateUrl = '/Components/templates/attachmentList.html';
+
+    directive.scope = {
+        attachments: '@'
+    }
+
+    directive.controller = function ($scope) {
+        $scope.remove = function (attachment) {
+            $scope.$emit('onRemoveAttachment', attachment);
+        }
+    }
+
+    return directive;
+});
