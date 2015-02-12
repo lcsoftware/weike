@@ -526,10 +526,38 @@ app.directive('attachList', function () {
         attachments: '@'
     }
 
+    directive.link = function (scope, elem, iAttrs) {
+        elem.find('.close_pop').bind('click', function () {
+            elem.hide();
+        }); 
+    }
+
     directive.controller = function ($scope) {
         $scope.remove = function (attachment) {
             $scope.$emit('onRemoveAttachment', attachment);
         }
+    }
+
+    return directive;
+});
+
+app.directive('exercisePreview', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.replace = true;
+
+    directive.templateUrl = '/Components/templates/preview.html';
+
+    directive.scope = {
+        exercise: '='
+    }
+
+    directive.link = function (scope, elem, iAttrs) {
+        elem.find('.cancel').bind('click', function () {
+            elem.hide();
+        });
     }
 
     return directive;

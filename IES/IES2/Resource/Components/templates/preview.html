@@ -1,6 +1,6 @@
 ﻿<div>
-    <div class="pop_bg"></div>
-    <div class="preview_box">
+    <!--<div class="pop_bg"></div>-->
+    <div class="preview_box"> 
         <div class="preview_content">
             <ul class="question_list">
                 <li ng-show="exercise.exercisecommon.exercise.ExerciseType==2">
@@ -104,7 +104,7 @@
                     </div>
                     <input class="blank_box" type="text" ng-value="exercise.Children.Children.Children.exercisecommon.exercise.Answer">
                 </li>
-                <li ng-show="exercise.exercisecommon.exercise.ExerciseType==8||exercise.exercisecommon.exercise.ExerciseType==9">
+                <li ng-show="exercise.exercisecommon.exercise.ExerciseType==8 || exercise.exercisecommon.exercise.ExerciseType==9">
                     <div class="issue_box">
                         <h4>8  【分析题/解答题/计算题】  （20分）</h4>
                         <p>分析题/解答题/计算题题干</p>
@@ -199,26 +199,19 @@
                             <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
                         </div>
                     </div>
-                    <div class="connection_list">
+                    <div class="connection_list" ng-repeat="item in exercise.exercisechoicelist">
                         <div class="connect_l">
-                            <p>A.视频分辨率可以是1280*720，1024*768，800*600<i></i></p>
-                            <p>A.视频分辨率可以是1280*720，1024*768，800*600<i></i></p>
-                            <p>A.视频分辨率可以是1280*720，1024*768，800*600<i></i></p>
-                            <p>A.视频分辨率可以是1280*720，1024*768，800*600<i></i></p>
+                            <p>{{item.Conten}}<i></i></p>
                         </div>
                         <div class="connect_r">
-                            <p><i></i>A.视频分辨率可以是1280*720，1024*768，800*600</p>
-                            <p><i></i>A.视频分辨率可以是1280*720，1024*768，800*600</p>
-                            <p><i></i>A.视频分辨率可以是1280*720，1024*768，800*600</p>
-                            <p><i></i>A.视频分辨率可以是1280*720，1024*768，800*600</p>
-                            <p><i></i>A.视频分辨率可以是1280*720，1024*768，800*600</p>
-                            <p><i></i>A.视频分辨率可以是1280*720，1024*768，800*600</p>
-                            <p><i></i>A.视频分辨率可以是1280*720，1024*768，800*600</p>
-                            <p><i></i>A.视频分辨率可以是1280*720，1024*768，800*600</p>
+                            <p><i></i>{{item.Answer}}</p>
                         </div>
                     </div>
                 </li>
             </ul>
+        </div>
+        <div class="btn_box">            
+            <a href="javascript:;" class="cancel">取消</a>
         </div>
     </div>
 

@@ -43,13 +43,15 @@
         <div class="paper_content">
             <div ui-view></div>
             <div class="btn_box">
-                <a href="javascript:;" class="save" ng-click="preview()">预览</a>
+                <a dialog-show dialog-id="eExercisePreview" class="save" ng-click="preview()">预览</a>
                 <a href="javascript:;" class="save" ng-click="submit()">保存</a>
                 <a href="javascript:;" class="cancel">取消</a>
             </div>
-        </div>
+        </div>         
+        
     </div>
 </div>
+<exercise-preview id="eExercisePreview" style="display:none" exercise="data.exercise"></exercise-preview>
 
-<ies-file-uploader id="eIesUploader" style="display:none"
-                   upload-url="/DataProvider/FileUpload.ashx/?FROM=2" />
+<ies-file-uploader id="eIesUploader" style="display:none" upload-url="/DataProvider/FileUpload.ashx/?FROM=2" />
+
