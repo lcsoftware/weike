@@ -372,7 +372,7 @@ namespace IES.G2S.Resource.DAL
                     {
                         ef.Children.Children.exercisecommon.exercise = children[1];
                         ef.Children.Children.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.Children.Children.exercisecommon.exercise.ExerciseID).ToList();
-                    }                    
+                    }
                     if (children[2] != null)
                     {
                         ef.Children.Children.Children.exercisecommon.exercise = children[2];
@@ -776,7 +776,7 @@ namespace IES.G2S.Resource.DAL
                 return false;
             }
         }
-        
+
 
         /// <summary>
         /// 选项增加
@@ -1236,10 +1236,22 @@ namespace IES.G2S.Resource.DAL
             return true;
         }
 
-        public static bool Exercise_Batch_Del(List<IExercise> list)
-        {
-
-            return true;
+        public static bool Exercise_Batch_Del(string ids)
+        { 
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ExerciseIDS", ids);
+                    conn.Execute("Exercise_Batch_Del", p, commandType: CommandType.StoredProcedure);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -1261,10 +1273,23 @@ namespace IES.G2S.Resource.DAL
         /// <param name="list"></param>
         /// <param name="sharerange"></param>
         /// <returns></returns>
-        public static bool Exercise_Batch_ShareRange(List<IExercise> list, int sharerange)
+        public static bool Exercise_Batch_ShareRange(string ids, int sharerange)
         {
-
-            return true;
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ExerciseIDS", ids);
+                    p.Add("@ShareRange", sharerange);
+                    conn.Execute("Exercise_Batch_ShareRange", p, commandType: CommandType.StoredProcedure);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
 

@@ -1,8 +1,28 @@
-﻿<a class="batch_box" href="javascript:;">
+﻿<!--<a class="batch_box" href="javascript:;">
     <em><i class="icon"></i></em>
     <span>批量操作</span>
     <ul class="batch_list">
-        <li class="batch_share" ng-click="onFireShared()">批量共享</li>
+        <li class="batch_share" ng-click="onFireShared()">批量共享
+            <ul class="batch_list batch_list2" style="left:97px;top:88px;">
+                <li style="text-align:left" ng-repeat="item in shareRanges" ng-bind="item.name" ng-click="shareRange(item)"></li>
+            </ul>
+        </li>
         <li class="batch_delete" ng-click="onFireRemoveAll()">批量删除</li>
+    </ul>
+</a>-->
+
+<a class="batch_box" href="javascript:;">
+    <em><i class="icon"></i></em>
+    <span>批量操作</span>
+    <ul class="batch_list">
+        <li>
+            批量共享
+            <ul class="permissions" id="ff">
+                <li ng-repeat="item in shareRanges" ng-click="batchShareRange(item)">
+                    <p>{{item.name}}</p>
+                </li>
+            </ul>
+        </li>
+        <li class="batch_delete" ng-click="batchRemove()">批量删除</li>
     </ul>
 </a>

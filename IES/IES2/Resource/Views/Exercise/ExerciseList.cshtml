@@ -8,7 +8,7 @@
             <span>新建习题</span>
         </a>
         <a class="import_exercise" href="javascript:;"><em><i class="icon"></i></em><span>导入</span></a>
-        <exercise-batch on-fire-remove-all="fireRemoveAll()" on-fire-shared="fireShared()"></exercise-batch>
+        <exercise-batch checks="checks" share-ranges="shareRanges"></exercise-batch>
         <p class="search_topic"><input type="text" ng-model="data.searchKey" placeholder="请输入您要搜索的关键字"><span class="icon" ng-click="search()"></span></p>
 
     </div>
@@ -54,6 +54,6 @@
 </div>
 <div class="topic_detail">
     <ul class="topic_list">
-        <exercise-list ng-repeat="item in exercises | parentID:0" exercise="item" edit-exercise="editExercise(item)" share-exercise="shareExercise(item)" delete-exercise="deleteExercise(item)"></exercise-list>
+        <exercise-list ng-repeat="item in exercises | parentID:0" exercise="item" checks="checks"></exercise-list>
     </ul>
 </div>

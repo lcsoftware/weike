@@ -116,8 +116,7 @@ app.directive('fileProperty', function () {
 
     return directive;
 });
-
-
+ 
 app.directive('addKnowledge', function () {
     var directive = {};
 
@@ -153,8 +152,7 @@ app.directive('addKnowledge', function () {
 
     return directive;
 });;
-
-
+ 
 app.directive('addChapter', function () {
     var directive = {};
 
@@ -259,8 +257,8 @@ app.directive('exerciseBatch', function () {
     directive.restrict = 'EA';
 
     directive.scope = {
-        onFireRemoveAll: '&',
-        onFireShared: '&'
+        checks: '=',
+        shareRanges: '='
     }
 
     directive.templateUrl = '/Components/templates/exerciseBatch.html';
@@ -270,12 +268,30 @@ app.directive('exerciseBatch', function () {
             $(this).addClass('active').siblings().removeClass('active');
         }, function () {
             $(this).removeClass('active');
-        })
+        });
+
+        elem.find('.permissions li').hover(function () {
+            $(this).addClass('active');
+        }, function () {
+            $(this).removeClass('active');
+        });
+
         elem.find('.permissions li').hover(function () {
             $(this).addClass('current').siblings().removeClass('current');
         }, function () {
             $(this).removeClass('current');
-        })
+        });
+    }
+
+    directive.controller = function ($scope) {
+
+        $scope.batchShareRange = function (item) {
+            $scope.$emit('onBatchShareRange', item); 
+        }
+
+        $scope.batchRemove = function () {
+            $scope.$emit('onBatchRemove');
+        }
     }
 
     return directive;
@@ -290,10 +306,9 @@ app.directive('exerciseList', ['assistService', function (assistService) {
     directive.replace = true;
 
     directive.scope = {
-        exercise: '=',
-        shareExercise: '&',
-        editExercise: '&',
-        deleteExercise: '&'
+        exercise: '=', 
+        checks: '=',
+        shareRanges: '='
     }
 
     directive.templateUrl = '/Components/templates/exerciseList.html';
@@ -310,6 +325,15 @@ app.directive('exerciseList', ['assistService', function (assistService) {
 
     directive.controller = function ($scope, assistService) {
 
+        $scope.editExercise = function (exercise) {
+            $scope.$emit('onEditExercise', exercise);
+        }
+        $scope.shareExercise = function (exercise, range) {
+            $scope.$emit('onShareExercise', exercise, range);
+        }
+        $scope.deleteExercise = function (exercise) {
+            $scope.$emit('onDeleteExercise', exercise);
+        }
         $scope.getDifficultName = function (exercise) {
             var name = '';
             assistService.Resource_Dict_Diffcult_Get(function (data) {
@@ -548,14 +572,14 @@ app.directive('exercisePreview', function () {
 
     directive.replace = true;
 
-    directive.templateUrl = '/Components/templates/preview.html';
+    directive.templateUrl = '/Components/templates/preview1.html';
 
     directive.scope = {
         exercise: '='
     }
 
     directive.link = function (scope, elem, iAttrs) {
-        elem.find('.cancel').bind('click', function () {
+        elem.find('.save').bind('click', function () {
             elem.hide();
         });
     }

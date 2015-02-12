@@ -54,7 +54,7 @@ namespace IES.G2S.Resource.IBLL
 
             bool Exercise_Batch_Diffcult(List<IExercise> list, int diffcult);
 
-            bool Exercise_Batch_Del(List<IExercise> list);
+            bool Exercise_Batch_Del(string ids);
 
             /// <summary>
             /// 
@@ -71,7 +71,7 @@ namespace IES.G2S.Resource.IBLL
             /// <param name="list"></param>
             /// <param name="sharerange"></param>
             /// <returns></returns>
-            bool Exercise_Batch_ShareRange(List<IExercise> list, int sharerange);
+            bool Exercise_Batch_ShareRange(string ids, int sharerange);
 
 
             #endregion

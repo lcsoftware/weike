@@ -1,40 +1,41 @@
-﻿    <li class="show">
-        <div class="topic_label">
-            <p class="question_degree" ng-class="{'simple':exercise.Diffcult==1,'medium':exercise.Diffcult==2,'difficult':exercise.Diffcult==3}"><input type="checkbox">{{getDifficultName(exercise)}}</p>
-            <div class="label_list">
-                <a href="#"><span ng-bind="exercise.Keys | keyReplace"></span></a>
+﻿<li class="show">
+    <div class="topic_label">
+        <p class="question_degree" ng-class="{'simple':exercise.Diffcult==1,'medium':exercise.Diffcult==2,'difficult':exercise.Diffcult==3}"><input type="checkbox" checklist-model="checks" checklist-value="exercise">{{getDifficultName(exercise)}}</p>
+        <div class="label_list">
+            <a href="#"><span ng-bind="exercise.Keys | keyReplace"></span></a>
+        </div>
+        <p class="creator">创建人：{{exercise.CreateUserName}}<span>最后修改时间：{{exercise.UpdateTime | dateFormat}}</span></p>
+    </div>
+    <div class="topic_tit">
+        <h5>
+            <span>{{getShareRange(exercise)}}</span>
+            <span style="display:none">国际英语</span>
+            <span>{{getExerciseType(exercise)}}</span>
+        </h5>
+        <p class="question" ng-bind="exercise.Conten">
+        </p>
+        <p class="answer" ng-bind="exercise.Answer">
+        </p>
+    </div>
+    <div class="mess_box">
+        <a class="icon_24 spread" href="javascript:;"></a>
+    </div>
+    <div class="topic_icon">
+        <a ng-click="deleteExercise(exercise)" class="icon delete_topic">
+            <div class="icon_content" style="display:none;">
+                <span></span><p>删除</p>
             </div>
-            <p class="creator">创建人：{{exercise.CreateUserName}}<span>最后修改时间：{{exercise.UpdateTime | dateFormat}}</span></p>
-        </div>
-        <div class="topic_tit">
-            <h5>
-                <span>{{getShareRange(exercise)}}</span>
-                <span style="display:none">国际英语</span>
-                <span>{{getExerciseType(exercise)}}</span>
-            </h5>
-            <p class="question" ng-bind="exercise.Conten">
-            </p>
-            <p class="answer" ng-bind="exercise.Answer">
-            </p>
-        </div>
-        <div class="mess_box">
-            <a class="icon_24 spread" href="javascript:;"></a>
-        </div>
-        <div class="topic_icon">
-            <a ng-click="deleteExercise()" class="icon delete_topic">
-                <div class="icon_content" style="display:none;">
-                    <span></span><p>删除</p>
-                </div>
-            </a>
-            <a ng-click="shareExercise()" class="icon share_topic">
-                <div class="icon_content" style="display:none;">
-                    <span></span><p>共享</p>
-                </div>
-            </a>
-            <a ng-click="editExercise()" class="icon edit_topic"> 
-                <div class="icon_content" style="display:none;">
-                    <span></span><p>编辑</p>
-                </div>
-            </a>
-        </div>
-    </li>
+        </a>
+        <a ng-click="shareExercise()" class="icon share_topic">
+            <div class="icon_content" style="display:none;">
+                <span></span> 
+                <p ng-repeat="item in shareRanges" ng-click="shareExercise(exercise, item)">{{item.name}}</p>
+            </div>
+        </a>
+        <a ng-click="editExercise(exercise)" class="icon edit_topic">
+            <div class="icon_content" style="display:none;">
+                <span></span><p>编辑</p>
+            </div>
+        </a>
+    </div>
+</li>

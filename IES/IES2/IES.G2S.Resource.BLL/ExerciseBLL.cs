@@ -292,9 +292,9 @@ namespace IES.G2S.Resource.BLL
 
         }
 
-        public bool Exercise_Batch_Del(List<IExercise> list)
+        public bool Exercise_Batch_Del(string ids)
         {
-            return ExerciseDAL.Exercise_Batch_Del(list);
+            return ExerciseDAL.Exercise_Batch_Del(ids);
         }
 
         /// <summary>
@@ -314,9 +314,9 @@ namespace IES.G2S.Resource.BLL
         /// <param name="list"></param>
         /// <param name="sharerange"></param>
         /// <returns></returns>
-        public bool Exercise_Batch_ShareRange(List<IExercise> list, int sharerange)
+        public bool Exercise_Batch_ShareRange(string ids, int sharerange) 
         {
-            return ExerciseDAL.Exercise_Batch_ShareRange(list, sharerange);
+            return ExerciseDAL.Exercise_Batch_ShareRange(ids, sharerange);
         }
 
 

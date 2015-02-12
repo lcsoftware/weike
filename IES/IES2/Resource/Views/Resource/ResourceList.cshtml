@@ -57,7 +57,6 @@
     <tr ng-repeat="item in folderRelations">
         <td>
             <div class="data_name">
-                @*<input type="checkbox" checklist-model="checks" checklist-value="item" ng-click="checkAdd(item)">*@
                 <input type="checkbox" checklist-model="checks" checklist-value="item">
                 <folder folder-name="item.Name" folder-ext="item.Ext" on-open="folderClick(item)" on-blur="updFolderName(item)"></folder>
                 <div class="file_operation">

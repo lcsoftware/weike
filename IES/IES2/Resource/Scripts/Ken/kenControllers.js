@@ -11,6 +11,8 @@ var appKnow = angular.module('app.ken.controllers', [
 appKnow.controller('KenCtrl', ['$scope', '$state', 'contentService', 'kenService', 'chapterService', 'assistService', 'resourceKenService',
     function ($scope, $state, contentService, kenService, chapterService, assistService, resourceKenService) {
 
+        $scope.$emit('onPreviewSwitch', false);
+
         $scope.$emit('willResetCourse');
 
         $scope.course = {};

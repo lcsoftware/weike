@@ -9,6 +9,9 @@ var appResource = angular.module('app.resource.controllers', [
 ]);
 
 appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageService', 'contentService', 'chapterService', 'kenService', 'FileUploader', function ($scope, resourceService, pageService, contentService, chapterService, kenService, FileUploader) {
+
+    $scope.$emit('onPreviewSwitch', false);
+
     $scope.model = {};
     $scope.fileTypes = [];//文件类型
     $scope.timePass = [];//上传时间

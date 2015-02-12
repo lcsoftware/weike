@@ -264,13 +264,13 @@ namespace App.Resource.DataProvider.Exercise
         {
             var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             ExerciseInfo exerciseRs = new ExerciseBLL().Exercise_Custom_M_Edit(v);
-            if (exerciseRs!= null)
+            if (exerciseRs != null)
             {
                 if (v.Children != null)
                 {
                     v.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
                     new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v.Children);
-                    if(v.Children.Children != null)
+                    if (v.Children.Children != null)
                     {
                         v.Children.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
                         new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v.Children.Children);
@@ -313,6 +313,18 @@ namespace App.Resource.DataProvider.Exercise
         public static ExerciseInfo Exercise_Custom_Get(int ExerciseID)
         {
             return new ExerciseBLL().Exercise_Custom_Get(ExerciseID);
+        }
+
+        [WebMethod]
+        public static bool Exercise_Batch_ShareRange(string ids, int sharerange)
+        {
+            return new ExerciseBLL().Exercise_Batch_ShareRange(ids, sharerange);
+        }
+
+        [WebMethod]
+        public static bool Exercise_Batch_Del(string ids) 
+        {
+            return new ExerciseBLL().Exercise_Batch_Del(ids);
         }
     }
 }

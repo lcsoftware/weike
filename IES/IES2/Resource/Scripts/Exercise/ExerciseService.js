@@ -107,5 +107,15 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
         httpService.ajaxPost(url, 'Exercise_Analysis_Get', { ExerciseID: ExerciseID }, callback);
     }
 
+    ///批量共享
+    service.Exercise_Batch_ShareRange = function (ids, shareRange, callback) {
+        httpService.ajaxPost(url, 'Exercise_Batch_ShareRange', { ids: ids, sharerange: shareRange }, callback);
+    }
+
+    ///批量删除
+    service.Exercise_Batch_Del = function (ids, callback) {
+        httpService.ajaxPost(url, 'Exercise_Batch_Del', { ids: ids }, callback);
+    }
+
     return service;
 }]);

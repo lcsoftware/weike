@@ -28,6 +28,9 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         //我的资料
         .state('content.resource', { url: '/resource', templateUrl: '/views/Resource/ResourceList', controller: 'ResourceCtrl' })
 
+        //内容区
+        .state('preview', { url: '/preview', templateUrl: '/views/Exercise/Preview', controller: 'PreviewCtrl' })
+
         //习题列表
         .state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
 
@@ -107,6 +110,12 @@ function ($templateCache, $rootScope, $state, $stateParams, httpService, assistS
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
     assistService.init();
+
+    $rootScope.enablePreview = false;
+
+    $rootScope.$on('onPreviewSwitch', function (event, preview) {
+        $rootScope.enablePreview = preview;
+    });
 
     $rootScope.httpService = httpService;
 

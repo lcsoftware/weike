@@ -9,6 +9,11 @@ var appExercise = angular.module('app.exercise.controllers', [
     'app.resken.services'
 ]);
 
+appExercise.controller('PreviewCtrl', ['$scope', 'previewService', function ($scope, previewService) {
+    $scope.exercise = previewService.exercise;
+    $scope.$emit('onPreviewSwitch', true);
+}]);
+
 appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService', 'resourceKenService', 'exerciseService', 'contentService', 'kenService', 'assistService',
     function ($scope, $state, resourceService, resourceKenService, exerciseService, contentService, kenService, assistService) {
         ///课程切换
@@ -131,34 +136,36 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             }
         });
 
+        var pageSize = 50;
+
         $scope.courseChanged = function (item) {
             $scope.data.course = item;
-            ExerciseSearch(20, 1);
+            ExerciseSearch(pageSize, 1);
         }
 
         $scope.exerciseTypeChanged = function (item) {
             $scope.data.exerciseType = item;
-            ExerciseSearch(20, 1);
+            ExerciseSearch(pageSize, 1);
         }
 
         $scope.difficultChanged = function (item) {
             $scope.data.difficult = item;
-            ExerciseSearch(20, 1);
+            ExerciseSearch(pageSize, 1);
         }
 
         $scope.shareRangeChanged = function (item) {
             $scope.data.shareRange = item;
-            ExerciseSearch(20, 1);
+            ExerciseSearch(pageSize, 1);
         }
 
         $scope.keyChanged = function (item) {
             $scope.data.key = item;
-            ExerciseSearch(20, 1);
+            ExerciseSearch(pageSize, 1);
         }
 
         $scope.kenChanged = function (item) {
             $scope.data.ken = item;
-            ExerciseSearch(20, 1);
+            ExerciseSearch(pageSize, 1);
         }
 
         var ExerciseSearch = function (pageSize, pageIndex) {
@@ -180,16 +187,69 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
                 }
             });
         }
-        ExerciseSearch(20, 1);
+
+        ExerciseSearch(pageSize, 1);
+
         $scope.search = function () {
-            ExerciseSearch(20, 1);
+            ExerciseSearch(pageSize, 1);
         }
 
-        ///习题共享 TODO
-        $scope.shareExercise = function (exercise) {
+        $scope.checks = [];
+
+        var buildIDs = function (checks) {
+            var ids = '';
+            var length = checks.length;
+            for (var i = 0; i < length; i++) {
+                ids += checks[i].ExerciseID + ',';
+            }
+            return ids.substr(0, ids.length - 1);
         }
-        ///习题删除
-        $scope.deleteExercise = function (exercise) {
+
+        ///批量共享
+        $scope.$on('onBatchShareRange', function (event, range) {
+            var ids = buildIDs($scope.checks);
+            exerciseService.Exercise_Batch_ShareRange(ids, range.id, function (data) {
+                if (data.d === true) {
+                    var length = $scope.checks.length;
+                    for (var i = 0; i < length; i++) {
+                        $scope.checks[i].ShareRange = range.id;
+                    }
+                    $scope.checks.length = 0;
+                } else { 
+                    ///TODO 统一提示框 加美化效果
+                    alert('批量共享操作失败！');
+                }
+            });
+        });
+        ///批量删除
+        $scope.$on('onBatchRemove', function () {
+            var ids = buildIDs($scope.checks);
+            exerciseService.Exercise_Batch_Del(ids, function (data) {
+                if (data.d === true) {
+                    ExerciseSearch(pageSize, 1);
+                    $scope.checks.length = 0;
+                } else {
+                    ///TODO 统一提示框 加美化效果
+                    alert('批量删除操作失败！');
+                }
+            });
+
+        });
+
+        ///习题共享 TODO 
+        $scope.$on('onShareExercise', function (event, exercise, range) {
+            var ids = exercise.ExerciseID;
+            exerciseService.Exercise_Batch_Del(ids, function (data) {
+                if (data.d === true) {
+                    ExerciseSearch(pageSize, 1);
+                } else {
+                    ///TODO 统一提示框 加美化效果
+                    alert('共享操作失败！');
+                }
+            });
+        });
+        
+        $scope.$on('onDeleteExercise', function (event, exercise) {
             exerciseService.Exercise_Del(exercise.ExerciseID, function (data) {
                 var length = $scope.exercises.length;
                 for (var i = 0; i < length; i++) {
@@ -197,16 +257,16 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
                         $scope.exercises.splice(i, 1);
                         break;
                     }
-                }
-
+                } 
             });
-        }
+        });
+
         /// <summary>
         /// 1判断题 ; 2单选题 ; 3 多选题 4填空题（客观）5填空题 ; 6连线题 ;7 排序题 ; 8分析题  9计算题   10问答题 ;
         ///11 翻译题  12听力训练  13写作  14阅读理解  15论述题 ;16 答题卡题型  17自定义题型
         /// </summary>
         ///编辑习题
-        $scope.editExercise = function (exercise) {
+        $scope.$on('onEditExercise', function (event, exercise) {
             var param = { ExerciseID: exercise.ExerciseID };
             switch (exercise.ExerciseType) {
                 case 18: //简答题
@@ -260,12 +320,14 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
                 default:
                     break;
             }
-        }
-
+        }); 
     }]);
 
 appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exerciseService', 'contentService', 'previewService', 'kenService', 'assistService', '$timeout',
     function ($scope, $state, $stateParams, exerciseService, contentService, previewService, kenService, assistService, $timeout) {
+
+        $scope.$emit('onPreviewSwitch', false);
+
         //课程
         $scope.courses = [];
         //试题类型
@@ -385,10 +447,10 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         }
 
         $scope.removeKey = function (key) {
-            var length = $scope.data.selectedKeys.length;
+            var length = $scope.data.keys.length;
             for (var i = 0; i < length; i++) {
-                if ($scope.data.selectedKeys[i].KeyID === key.KeyID) {
-                    $scope.data.selectedKeys.splice(i, 1);
+                if ($scope.data.keys[i].KeyID === key.KeyID) {
+                    $scope.data.keys.splice(i, 1);
                     break;
                 }
             }
@@ -499,6 +561,8 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         $scope.$on('onBeginPreview', function (event, model) {
             model.exercisecommon.exercise.ExerciseType = $scope.data.exerciseType.id;
             $scope.data.exercise = model;
+            previewService.exercise = angular.copy(model);
+            $state.go('preview');
         });
         ///更新附件关联关系
         var attachmentSave = function (exerciseID) {
