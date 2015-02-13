@@ -84,10 +84,10 @@ appKnow.controller('KenCtrl', ['$scope', '$state', 'contentService', 'kenService
             $scope.loadStart($scope.course);
         });
 
-        //$scope.$on('courseLoaded', function (event, course) {
-        //    $scope.course = course;
-        //    $scope.loadStart($scope.course);
-        //});
+        $scope.$on('courseLoaded', function (event, course) {
+            $scope.course = course;
+            $scope.loadStart($scope.course);
+        });
 
         $scope.tabChange = function (tab) {
             $scope.tab = tab;
@@ -243,6 +243,7 @@ appKnow.controller('KenChapterCtrl', ['$scope', 'chapterService', 'kenService', 
 
     $scope.$parent.kenDisable = true;
     $scope.canAdd = false;
+    $scope.enableEdit = false;
     $scope.title = '';
 
     $scope.lastSelection = {};
@@ -270,6 +271,16 @@ appKnow.controller('KenChapterCtrl', ['$scope', 'chapterService', 'kenService', 
                 $scope.canAdd = false;
             }
         });
+    }
+
+    $scope.chapterDblclick = function (chapter) {
+        $scope.lastSelection = chapter;
+        $scope.enableEdit = true;
+    }
+
+    $scope.onEdit = function (chapter) {
+        $scope.enableEdit = false;
+        chapterService.Chapter_Upd(chapter);
     }
 
     var Ken_FileFilter_ChapterID_List = function (chapter) {

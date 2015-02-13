@@ -23,7 +23,9 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
         ///课程加载完成
         $scope.$on('courseLoaded', function (course) {
 
-        });
+        }); 
+
+        $scope.pagesNum = 100;
 
         contentService.OC_Get(function (data) {
             $scope.$parent.courses.length = 0;
@@ -136,7 +138,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             }
         });
 
-        var pageSize = 50;
+        var pageSize = 5;
 
         $scope.courseChanged = function (item) {
             $scope.data.course = item;
@@ -167,6 +169,9 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             $scope.data.ken = item;
             ExerciseSearch(pageSize, 1);
         }
+        $scope.pagesNum = 1;
+
+
 
         var ExerciseSearch = function (pageSize, pageIndex) {
             var model = {
@@ -182,12 +187,27 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             var kens = $scope.data.ken.KenID === undefined || $scope.data.ken.KenID === -1 ? '' : $scope.data.ken.Name;
             exerciseService.Exercise_Search(model, $scope.data.key, keys, kens, pageSize, pageIndex, function (data) {
                 $scope.exercises.length = 0;
+                $scope.pageNum = 1;
                 if (data.d) {
                     $scope.exercises = data.d;
+                    var rowsCount = $scope.exercises[0].RowsCount;
+                    $scope.pageNum = Math.ceil(rowsCount / pageSize);
                 }
             });
         }
 
+        laypage({
+            cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
+            pages: $scope.pagesNum, //总页数
+            skip: true, //是否开启跳页
+            skin: '#374760', //选中的颜色
+            groups: 3,//连续显示分页数
+            first: '首页', //若不显示，设置false即可
+            last: '尾页', //若不显示，设置false即可
+            jump: function (e) { //触发分页后的回调
+                ExerciseSearch(pageSize, e.curr);
+            }
+        });
         ExerciseSearch(pageSize, 1);
 
         $scope.search = function () {
@@ -239,7 +259,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
         ///习题共享 TODO 
         $scope.$on('onShareExercise', function (event, exercise, range) {
             var ids = exercise.ExerciseID;
-            exerciseService.Exercise_Batch_Del(ids, function (data) {
+            exerciseService.Exercise_Batch_ShareRange(ids, range.id, function (data) {
                 if (data.d === true) {
                     ExerciseSearch(pageSize, 1);
                 } else {
@@ -321,6 +341,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
                     break;
             }
         }); 
+
+
     }]);
 
 appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exerciseService', 'contentService', 'previewService', 'kenService', 'assistService', '$timeout',

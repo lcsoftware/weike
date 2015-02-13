@@ -116,7 +116,7 @@ app.directive('fileProperty', function () {
 
     return directive;
 });
- 
+
 app.directive('addKnowledge', function () {
     var directive = {};
 
@@ -152,7 +152,7 @@ app.directive('addKnowledge', function () {
 
     return directive;
 });;
- 
+
 app.directive('addChapter', function () {
     var directive = {};
 
@@ -286,7 +286,7 @@ app.directive('exerciseBatch', function () {
     directive.controller = function ($scope) {
 
         $scope.batchShareRange = function (item) {
-            $scope.$emit('onBatchShareRange', item); 
+            $scope.$emit('onBatchShareRange', item);
         }
 
         $scope.batchRemove = function () {
@@ -306,7 +306,7 @@ app.directive('exerciseList', ['assistService', function (assistService) {
     directive.replace = true;
 
     directive.scope = {
-        exercise: '=', 
+        exercise: '=',
         checks: '=',
         shareRanges: '='
     }
@@ -444,31 +444,31 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
     directive.link = function (scope, elem, iAttrs) {
         elem.find('.close_pop').bind('click', function () {
             elem.hide();
-        }); 
+        });
     }
 
     directive.controller = function ($scope) {
         //----------上传文件start--------
-        var angularFileUploader = $scope.iesUploader = new FileUploader({url: $scope.uploadUrl});
-            //angularFileUploader.formData.push({ OCID: $scope.ocid });
-            //angularFileUploader.formData.push({ CourseID: $scope.courseId});
-            //angularFileUploader.formData.push({ FolderID: $scope.folderID});
-            //angularFileUploader.formData.push({ ShareRange: -1 });
+        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: $scope.uploadUrl });
+        //angularFileUploader.formData.push({ OCID: $scope.ocid });
+        //angularFileUploader.formData.push({ CourseID: $scope.courseId});
+        //angularFileUploader.formData.push({ FolderID: $scope.folderID});
+        //angularFileUploader.formData.push({ ShareRange: -1 });
 
         $scope.$watch('ocid', function (v) {
             angularFileUploader.formData.length = 0;
             angularFileUploader.formData.push({ OCID: v });
-            angularFileUploader.formData.push({ CourseID: $scope.courseId});
-            angularFileUploader.formData.push({ FolderID: $scope.folderID});
-            angularFileUploader.formData.push({ ShareRange: -1});
+            angularFileUploader.formData.push({ CourseID: $scope.courseId });
+            angularFileUploader.formData.push({ FolderID: $scope.folderID });
+            angularFileUploader.formData.push({ ShareRange: -1 });
         });
 
         $scope.$watch('courseId', function (v) {
             angularFileUploader.formData.length = 0;
             angularFileUploader.formData.push({ OCID: $scope.ocid });
-            angularFileUploader.formData.push({ CourseID: v});
-            angularFileUploader.formData.push({ FolderID: $scope.folderID});
-            angularFileUploader.formData.push({ ShareRange: -1});
+            angularFileUploader.formData.push({ CourseID: v });
+            angularFileUploader.formData.push({ FolderID: $scope.folderID });
+            angularFileUploader.formData.push({ ShareRange: -1 });
         });
 
         $scope.$watch('folderID', function (v) {
@@ -553,7 +553,7 @@ app.directive('attachList', function () {
     directive.link = function (scope, elem, iAttrs) {
         elem.find('.close_pop').bind('click', function () {
             elem.hide();
-        }); 
+        });
     }
 
     directive.controller = function ($scope) {
@@ -581,6 +581,67 @@ app.directive('exercisePreview', function () {
     directive.link = function (scope, elem, iAttrs) {
         elem.find('.save').bind('click', function () {
             elem.hide();
+        });
+    }
+
+    return directive;
+});
+
+
+app.directive('layPage', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.replace = true;
+ 
+    directive.scope = {
+        PagesNum: '@'
+    }
+
+    directive.link = function (scope, elem, iAttrs) {
+        //laypage({
+        //    cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
+        //    pages: directive.scope.PagesNum, //总页数
+        //    skip: true, //是否开启跳页
+        //    skin: '#374760', //选中的颜色
+        //    groups: 3,//连续显示分页数
+        //    first: '首页', //若不显示，设置false即可
+        //    last: '尾页', //若不显示，设置false即可
+        //    jump: function (e) { //触发分页后的回调
+        //        //$scope.PageIndex = e.curr;
+        //        //GetClassList();
+        //        console.log(e);
+        //    }
+        //});
+    }
+
+    directive.controller = function ($scope) {
+
+        $scope.pageIndex = 1;
+        $scope.cont = '';
+        $scope.PagesNum = 100;
+        $scope.skip = true;
+        $scope.pickColor = '#374760';
+        $scope.groups = 3;
+        $scope.first = '首页';
+        $scope.last = '尾页';
+
+        console.log($scope.PagesNum);
+
+        laypage({
+            cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
+            pages: $scope.PagesNum, //总页数
+            skip: $scope.skip, //是否开启跳页
+            skin: $scope.pickColor, //选中的颜色
+            groups: $scope.groups,//连续显示分页数
+            first: $scope.first, //若不显示，设置false即可
+            last: $scope.last, //若不显示，设置false即可
+            jump: function (e) { //触发分页后的回调
+                $scope.PageIndex = e.curr;
+                //GetClassList();
+
+            }
         });
     }
 

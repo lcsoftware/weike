@@ -38,6 +38,7 @@ namespace App.Resource
                 "~/Frameworks/checklist-model/checklist-model.js",
                 "~/Frameworks/angular/angular-ui-router.js",
                 "~/Frameworks/ewebeditor/ewebeditor.js",
+                "~/Frameworks/laypage/laypage.js",
                 "~/Frameworks/angular/angular-file-upload.js"
                 ));
           

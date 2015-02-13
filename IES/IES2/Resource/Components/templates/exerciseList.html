@@ -26,10 +26,10 @@
                 <span></span><p>删除</p>
             </div>
         </a>
-        <a ng-click="shareExercise()" class="icon share_topic">
+        <a class="icon share_topic">
             <div class="icon_content" style="display:none;">
                 <span></span> 
-                <p ng-repeat="item in shareRanges" ng-click="shareExercise(exercise, item)">{{item.name}}</p>
+                <p ng-repeat="item in shareRanges" ng-click="shareExercise(exercise, item)" style="text-align:left">{{item.name}}</p>
             </div>
         </a>
         <a ng-click="editExercise(exercise)" class="icon edit_topic">

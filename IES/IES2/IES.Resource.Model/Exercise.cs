@@ -26,6 +26,8 @@ namespace IES.Resource.Model
         #region 补充字段
         public string ExerciseTypeName { get; set; }
         public string Content { get; set; }
+
+        public int RowsCount { get; set; }
         #endregion
 
         public Exercise()

@@ -9,18 +9,25 @@
     </div>
     <ul class="chapter_item">
         <li ng-class="{'active':parentChpater.ChapterID==item.ChapterID}" ng-repeat="item in chapters | parentID:0 | orderBy:'Orde'">
-            <a class="first_chapter" ng-click="parentFocus(item)">
-                {{item.Title}}
-                <i class="icon fold_btn"></i>
-            </a>
+            <a class="first_chapter" ng-click="parentFocus(item)" ng-dblclick="chapterDblclick(item)">
+                <div ng-bind="item.Title" ng-hide="enableEdit==true && lastSelection.ChapterID==item.ChapterID"></div>
+                <i class="icon fold_btn" ng-hide="enableEdit==true && lastSelection.ChapterID==item.ChapterID"></i>
+
+                <input type="text" ng-model="parentChpater.Title" placeholder="请输入章节标题" ng-blur="onEdit(item)" autofocus
+                       ng-show="enableEdit==true && lastSelection.ChapterID==item.ChapterID">
+            </a> 
             <ul class="second_item">
                 <li ng-class="{'active':childChapter.ChapterID==child.ChapterID}" ng-repeat="child in chapters | parentID:item.ChapterID | orderBy:'Orde' ">
-                    <a class="first_chapter" ng-click="childFocus(child)" ng-bind="child.Title"></a>
+                    <a class="first_chapter" ng-hide="enableEdit==true && lastSelection.ChapterID==child.ChapterID"
+                       ng-click="childFocus(child)" ng-dblclick="chapterDblclick(child)" ng-bind="child.Title"></a>
+
+                    <input type="text" ng-model="child.Title" placeholder="请输入章节标题" ng-blur="onEdit(child)" autofocus
+                           ng-show="lastSelection.ChapterID==child.ChapterID  && enableEdit==true"> 
                 </li>
             </ul>
         </li>
         <li ng-show="canAdd">
-            <a class="first_chapter" >
+            <a class="first_chapter">
                 <input type="text" ng-model="title" placeholder="请输入章节标题" ng-blur="onBlur(title)" autofocus>
             </a>
         </li>

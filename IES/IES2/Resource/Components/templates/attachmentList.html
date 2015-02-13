@@ -1,6 +1,9 @@
 ﻿<ul class="attach_list">
     <li ng-repeat="item in attachments">
         <a ng-click="remove(item)">删除</a>
-        <p><i class="icon_24 pdf" ng-class="{'Video':item.FileType==1, 'Word':item.FileType==2, 'Excel':item.FileType==3, 'PPT':item.FileType==4, 'PDF':item.FileType==5, 'Image':item.FileType==6, 'Audio':item.FileType==7, 'Zip':item.FileType==8, 'Other':item.FileType==9}"></i>{{item.FileName}}</p>
+        <p>
+            <i class="icon_24 pdf" ng-class="{'Video':item.FileType==1, 'Word':item.FileType==2, 'Excel':item.FileType==3, 'PPT':item.FileType==4, 'PDF':item.FileType==5, 'Image':item.FileType==6, 'Audio':item.FileType==7, 'Zip':item.FileType==8, 'Other':item.FileType==9}"></i>
+            {{item.FileName}}
+        </p>
     </li>
 </ul>

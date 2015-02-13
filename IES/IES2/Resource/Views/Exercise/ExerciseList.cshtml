@@ -54,6 +54,7 @@
 </div>
 <div class="topic_detail">
     <ul class="topic_list">
-        <exercise-list ng-repeat="item in exercises | parentID:0" exercise="item" checks="checks"></exercise-list>
+        <exercise-list ng-repeat="item in exercises" exercise="item" checks="checks" share-ranges="shareRanges"></exercise-list>
     </ul>
 </div>
+<div id="pager" style="margin-right:50px; margin-top:20px; text-align:right"></div>
