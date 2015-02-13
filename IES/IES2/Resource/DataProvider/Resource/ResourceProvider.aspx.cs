@@ -317,7 +317,7 @@ namespace App.Resource.DataProvider.Resource
         #endregion
 
         #region 附件
-
+        [WebMethod]
         public static bool Attachment_Del(Attachment model)
         {
             return AttachmentBLL.Attachment_Del(model);
