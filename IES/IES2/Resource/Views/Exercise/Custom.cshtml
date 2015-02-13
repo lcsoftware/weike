@@ -4,13 +4,14 @@
         <div class="text_box" style="color:#F00;">
             <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Conten"></textarea>
         </div>
-    </div>
+        <a class="add_attach" dialog-show dialog-id="eIesUploader"><em><i class="icon"></i></em><span>添加附件</span></a>
+        <attach-list attachments="model.exercisecommon.attachmentlist"></attach-list>
+    </div>    
     <div class="paper_wrap">
         单选
         <div class="text_box" style="color:#F00;">
             <textarea class="form-control" rows="4" ng-model="model.Children.exercisecommon.exercise.Conten"></textarea>
-        </div>
-        <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
+        </div>        
         @*<p class="no_rank">
                 <input type="checkbox" ng-model="model.exercisecommon.exercise.IsRand" ng-checked="model.exercisecommon.exercise.IsRand==true" ng-change="isRandChange(model.exercisecommon.exercise.IsRand)">选项乱序<span>
                     （需选择一个选项作为正确答案）
@@ -37,8 +38,7 @@
         多选
         <div class="text_box" style="color:#F00;">
             <textarea class="form-control" rows="4" ng-model="model.Children.Children.exercisecommon.exercise.Conten"></textarea>
-        </div>
-        <a class="add_attach" dialog-show dialog-id="eIesUploader"><em><i class="icon"></i></em><span>添加附件</span></a>
+        </div>        
         <ul class="answer_list">
             <li ng-class="{active:item.IsCorrect==1}" ng-repeat="item in model.Children.Children.exercisechoicelist">
                 <div class="default">
@@ -60,8 +60,7 @@
         <div class="paper_wrap">
             <div class="text_box" style="color:#F00;">
                 <textarea class="form-control" rows="4" ng-model="model.Children.Children.Children.exercisecommon.exercise.Conten"></textarea>
-            </div>
-            <a class="add_attach" href="#"><em><i class="icon"></i></em><span>添加附件</span></a>
+            </div>            
             <p class="no_rank">默认只有一个填空答案，您可以添加填空答案</p>
             <div class="default fill_blank">
                 <a ng-click="delSmall(item)">x</a>

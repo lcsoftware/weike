@@ -3,7 +3,7 @@
         <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Conten"></textarea>
     </div>
     <a class="add_attach" dialog-show dialog-id="eIesUploader"><em><i class="icon"></i></em><span>添加附件</span></a>
-
+    <attach-list attachments="model.exercisecommon.attachmentlist"></attach-list>
     <p class="no_rank"><b class="answer_item">题目</b> <b class="answer_item">答案<span>(保存后，自动打乱顺序)</span></b></p>
     <div class="connection_box">
         <div ng-repeat="item in list">

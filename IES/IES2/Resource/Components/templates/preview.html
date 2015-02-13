@@ -104,9 +104,16 @@
                     </div>
                     <input class="blank_box" type="text" ng-value="exercise.Children.Children.Children.exercisecommon.exercise.Answer">
                 </li>
-                <li ng-show="exercise.exercisecommon.exercise.ExerciseType==8 || exercise.exercisecommon.exercise.ExerciseType==9">
+                <li ng-show="exercise.exercisecommon.exercise.ExerciseType==8">
                     <div class="issue_box">
-                        <h4>8  【分析题/解答题/计算题】  （20分）</h4>
+                        <h4>8  【分析题】  （20分）</h4>
+                        <p>分析题/解答题/计算题题干</p>
+                    </div>
+                    <input class="blank_box" type="text" placeholder="输入分析题/解答题/计算题答案">
+                </li>
+                <li ng-show="exercise.exercisecommon.exercise.ExerciseType==9">
+                    <div class="issue_box">
+                        <h4>8  【计算题】  （20分）</h4>
                         <p>分析题/解答题/计算题题干</p>
                     </div>
                     <input class="blank_box" type="text" placeholder="输入分析题/解答题/计算题答案">

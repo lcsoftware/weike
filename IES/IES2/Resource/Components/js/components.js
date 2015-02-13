@@ -572,7 +572,7 @@ app.directive('exercisePreview', function () {
 
     directive.replace = true;
 
-    directive.templateUrl = '/Components/templates/preview1.html';
+    directive.templateUrl = '/Components/templates/preview.html';
 
     directive.scope = {
         exercise: '='
