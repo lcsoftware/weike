@@ -547,7 +547,7 @@ app.directive('attachList', function () {
     directive.templateUrl = '/Components/templates/attachmentList.html';
 
     directive.scope = {
-        attachments: '@'
+        attachments: '='
     }
 
     directive.link = function (scope, elem, iAttrs) {

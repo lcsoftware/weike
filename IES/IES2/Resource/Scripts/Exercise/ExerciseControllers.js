@@ -215,7 +215,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
                         $scope.checks[i].ShareRange = range.id;
                     }
                     $scope.checks.length = 0;
-                } else { 
+                } else {
                     ///TODO 统一提示框 加美化效果
                     alert('批量共享操作失败！');
                 }
@@ -248,7 +248,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
                 }
             });
         });
-        
+
         $scope.$on('onDeleteExercise', function (event, exercise) {
             exerciseService.Exercise_Del(exercise.ExerciseID, function (data) {
                 var length = $scope.exercises.length;
@@ -257,7 +257,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
                         $scope.exercises.splice(i, 1);
                         break;
                     }
-                } 
+                }
             });
         });
 
@@ -320,11 +320,11 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
                 default:
                     break;
             }
-        }); 
+        });
     }]);
 
-appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exerciseService', 'contentService', 'previewService', 'kenService', 'assistService', '$timeout',
-    function ($scope, $state, $stateParams, exerciseService, contentService, previewService, kenService, assistService, $timeout) {
+appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exerciseService', 'contentService', 'previewService', 'resourceService', 'kenService', 'assistService', '$timeout',
+    function ($scope, $state, $stateParams, exerciseService, contentService, previewService, resourceService, kenService, assistService, $timeout) {
 
         $scope.$emit('onPreviewSwitch', false);
 
@@ -582,16 +582,22 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         });
 
         ///删除附件
-        $scope.$on('onRemoveAttachment', function (attachment) {
+        $scope.removeAttachment = function (attachmentList, removedAttachmentObject) {
+            var length = attachmentList.length;
+            for (var i = 0; i < length; i++) {
+                if (attachmentList[i].AttachmentID === removedAttachmentObject.AttachmentID) {
+                    attachmentList.splice(i, 1); 
+                    break;
+                }
+            }
+        }
+
+
+        $scope.$on('onRemoveAttachment', function (event, attachment) {
+            attachment.Updatetime = new Date();
             resourceService.Attachment_Del(attachment, function (data) {
                 if (data.d) {
-                    var length = $scope.attachmentList.length;
-                    for (var i = 0; i < length; i++) {
-                        if ($scope.attachmentList[i].AttachmentID === attachment.AttachmentID) {
-                            $scope.attachmentList.splice(i, 1);
-                            break;
-                        }
-                    }
+                    $scope.$broadcast('onRemoveFinishedAttachment', attachment);
                 }
             });
         });
@@ -735,6 +741,10 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
 
     $scope.$on('onPreview', function (event) {
         $scope.$emit('onBeginPreview', $scope.model);
+    });
+
+    $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
+        $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
     });
 
     $scope.model = {};//ExerciseInfo对象
@@ -895,6 +905,10 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
         $scope.$emit('onBeginPreview', $scope.model);
     });
 
+    $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
+        $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
+    });
+
     $scope.model = {};//ExerciseInfo对象
 
     $scope.Attachment = {};//附件对象
@@ -1033,7 +1047,7 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
             }
         });
     });
-    
+
     $scope.$on('onPreview', function (event) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
@@ -1044,6 +1058,9 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
     $scope.Attachment = {};//附件对象
     $scope.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
 
+    $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
+        $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
+    });
 
     var init = function () {
         if ($scope.ExerciseID > -1) {
@@ -1119,6 +1136,10 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
         $scope.$emit('onBeginPreview', $scope.model);
     });
 
+    $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
+        $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
+    });
+
     $scope.model = {};
     $scope.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
     var answer = { Answer: '' };
@@ -1167,6 +1188,10 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
 
     $scope.$on('onPreview', function (event) {
         $scope.$emit('onBeginPreview', $scope.model);
+    });
+
+    $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
+        $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
     });
 
     $scope.model = {};//Exercise对象
@@ -1257,6 +1282,10 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
 
     $scope.$on('onPreview', function (event) {
         $scope.$emit('onBeginPreview', $scope.model);
+    });
+
+    $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
+        $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
     });
 
     $scope.model = {};//Exercise对象
@@ -1451,6 +1480,10 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
         $scope.$emit('onBeginPreview', $scope.model);
     });
 
+    $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
+        $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
+    });
+
     $scope.model = {};//Exercise对象
     $scope.Attachment = {};//附件对象
     $scope.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
@@ -1584,6 +1617,10 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
         $scope.$emit('onBeginPreview', $scope.model);
     });
 
+    $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
+        $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
+    });
+
     $scope.model = {};//ExerciseInfo对象
 
     $scope.Attachment = {};//附件对象
@@ -1689,9 +1726,13 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
             }
         });
     });
-    
-    $scope.$on('onPreview', function (event) {        
+
+    $scope.$on('onPreview', function (event) {
         $scope.$emit('onBeginPreview', $scope.model);
+    });
+
+    $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
+        $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
     });
 
     $scope.model = {};//ExerciseInfo对象
@@ -1764,9 +1805,13 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
             }
         });
     });
-    
-    $scope.$on('onPreview', function (event) {        
+
+    $scope.$on('onPreview', function (event) {
         $scope.$emit('onBeginPreview', $scope.model);
+    });
+
+    $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
+        $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
     });
     $scope.model = {};//ExerciseInfo对象
     $scope.Attachment = {};//附件对象
@@ -1847,6 +1892,10 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
             $scope.model.exercisechoicelist[i].OrderNum = i + 1;
         }
         $scope.$emit('onBeginPreview', $scope.model);
+    });
+
+    $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
+        $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
     });
 
     $scope.model = {};//Exercise对象
@@ -1951,6 +2000,10 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
                 $state.go('content.exercise');
             }
         });
+    });
+
+    $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
+        $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
     });
 
     $scope.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
