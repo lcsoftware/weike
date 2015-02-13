@@ -16,16 +16,9 @@ appExercise.controller('PreviewCtrl', ['$scope', 'previewService', function ($sc
 
 appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService', 'resourceKenService', 'exerciseService', 'contentService', 'kenService', 'assistService',
     function ($scope, $state, resourceService, resourceKenService, exerciseService, contentService, kenService, assistService) {
-        ///课程切换
-        $scope.$on('willCourseChanged', function (event, course) {
-            //console.log(course); 
-        });
-        ///课程加载完成
-        $scope.$on('courseLoaded', function (course) {
 
-        });
-
-        $scope.pagesNum = 100;
+        $scope.pagesNum = 100; 
+        var pageSize = 5;
 
         contentService.OC_Get(function (data) {
             $scope.$parent.courses.length = 0;
@@ -76,8 +69,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             if (data.d) {
                 $scope.courses = data.d;
                 var course = angular.copy($scope.courses[0]);
-                course.OCID = -1;
-                course.CourseID = -1;
+                course.OCID = 0;
+                course.CourseID = 0;
                 course.Name = '不限';
                 $scope.courses.insert(0, course);
                 $scope.data.course = $scope.courses[0];
@@ -88,7 +81,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             if (data) {
                 $scope.exerciseTypes = angular.copy(data);
                 var item = angular.copy($scope.exerciseTypes[0]);
-                item.id = -1;
+                item.id = 0;
                 item.name = '不限';
                 $scope.exerciseTypes.insert(0, item);
                 $scope.data.exerciseType = $scope.exerciseTypes[0];
@@ -99,7 +92,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             if (data) {
                 $scope.difficulties = angular.copy(data);
                 var item = angular.copy($scope.difficulties[0]);
-                item.id = -1;
+                item.id = 0;
                 item.name = '不限';
                 $scope.difficulties.insert(0, item);
                 $scope.data.difficult = $scope.difficulties[0];
@@ -110,7 +103,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             if (data) {
                 $scope.shareRanges = angular.copy(data);
                 var item = angular.copy($scope.shareRanges[0]);
-                item.id = -1;
+                item.id = 0;
                 item.name = '不限';
                 $scope.shareRanges.insert(0, item);
                 $scope.data.shareRange = $scope.shareRanges[0];
@@ -121,7 +114,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             if (data.d && data.d.length > 0) {
                 $scope.kens = data.d;
                 $scope.data.ken = angular.copy($scope.kens[0]);
-                $scope.data.ken.KenID = -1;
+                $scope.data.ken.KenID = 0;
                 $scope.data.ken.Name = '不限';
                 $scope.kens.insert(0, $scope.data.ken);
             }
@@ -131,14 +124,13 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             if (data.d.length > 0) {
                 $scope.keys = data.d;
                 var item = angular.copy($scope.keys[0]);
-                item.KeyID = -1;
+                item.KeyID = 0;
                 item.Name = '不限';
                 $scope.keys.insert(0, item);
                 $scope.data.key = $scope.keys[0];
             }
         });
 
-        var pageSize = 5;
 
         $scope.courseChanged = function (item) {
             $scope.data.course = item;
