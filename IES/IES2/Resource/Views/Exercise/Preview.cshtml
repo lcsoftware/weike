@@ -18,7 +18,7 @@
                     <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
                 </div>               
                 <div class="checkbox_list">
-                    <p ng-repeat="item in exercise.exercisechoicelist" style="margin-left:0px;">
+                    <p ng-repeat="item in exercise.exercisechoicelist" class="pre">
                         <input type="checkbox" ng-checked="item.IsCorrect">{{item.Conten}}
                     </p>
                 </div>
@@ -75,7 +75,7 @@
                     <p ng-bind="exercise.ChildrenMultiple.exercisecommon.exercise.Conten"></p>
                 </div>
                 <div class="checkbox_list">
-                    <p ng-repeat="item in exercise.ChildrenMultiple.exercisechoicelist">
+                    <p ng-repeat="item in exercise.ChildrenMultiple.exercisechoicelist" class="pre">
                         <input type="checkbox" ng-checked="item.IsCorrect">{{item.Conten}}
                     </p>
                 </div>
@@ -110,7 +110,7 @@
                         <p ng-bind="exercise.ChildrenMultiple.exercisecommon.exercise.Conten"></p>
                     </div>
                     <div class="checkbox_list">
-                        <p ng-repeat="item in exercise.ChildrenMultiple.exercisechoicelist">
+                        <p ng-repeat="item in exercise.ChildrenMultiple.exercisechoicelist" class="pre">
                             <input type="checkbox" ng-checked="item.IsCorrect">{{item.Conten}}
                         </p>
                     </div>
@@ -169,7 +169,7 @@
                         <p ng-bind="exercise.ChildrenMultiple.exercisecommon.exercise.Conten"></p>
                     </div>
                     <div class="checkbox_list">
-                        <p ng-repeat="item in exercise.ChildrenMultiple.exercisechoicelist">
+                        <p ng-repeat="item in exercise.ChildrenMultiple.exercisechoicelist" class="pre">
                             <input type="checkbox" ng-checked="item.IsCorrect">{{item.Conten}}
                         </p>
                     </div>
