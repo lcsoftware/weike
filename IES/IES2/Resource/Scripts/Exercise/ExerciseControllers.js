@@ -2003,9 +2003,9 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
             }
         }
 
-        $scope.willTopBind($scope.$parent.model, data);
+        $scope.willTopBind($scope.model, data);
 
-        var v = angular.toJson($scope.$parent.model);
+        var v = angular.toJson($scope.model);
         exerciseService.Exercise_Analysis_M_Edit(v, function (data) {
             if (data.d != null) {
                 $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
