@@ -5,7 +5,7 @@
     </div>
     <a class="add_attach" dialog-show dialog-id="eIesUploader"><em><i class="icon"></i></em><span>添加附件</span></a>
     <attach-list attachments="model.exercisecommon.attachmentlist"></attach-list>
-    <p class="no_rank">翻译题答案可以为空</p>
+    <p class="no_rank">默认只有一个选项，您可以添加选项，答案可以为空</p>
     <div ng-repeat="item in model.exercisechoicelist">
         <div class="default fill_blank">
             <a ng-click="Del(item)">x</a>
@@ -16,7 +16,9 @@
     </div>
     <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加选项</span></a>
     <div class="text_box" style="color: #F00; margin-top: 20px;">
-        试题解析:
-        <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Analysis"></textarea>
+        <input type="hidden" name="editorAnalysis" id="editorAnalysis" ng-model="editorAnalysisText" ng-value="editorAnalysisText">
+        <iframe src="/Frameworks/eWebEditor/ewebeditor.htm?id=editorAnalysis&style=coolblue"
+                frameborder="0" scrolling="no" width="880" height="300" style="display: block;"></iframe>
+        @*<textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Analysis"></textarea>*@
     </div>
 </div>

@@ -1,7 +1,7 @@
 ﻿<div>
     <div class="paper_wrap">
         <div class="text_box" style="color:#F00;">
-            <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Conten"></textarea>
+            <editor editor-id="editorInput" editor-text="editorText"></editor>
         </div>
         <a class="add_attach" dialog-show dialog-id="eIesUploader"><em><i class="icon"></i></em><span>添加附件</span></a>
         <attach-list attachments="model.exercisecommon.attachmentlist"></attach-list>
@@ -14,7 +14,8 @@
     </div>
     <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加选项</span></a>
     <div class="text_box" style="color: #F00; margin-top: 20px;">
-        试题解析：
-        <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Analysis"></textarea>
+        <input type="hidden" name="editorAnalysis" id="editorAnalysis" ng-model="editorAnalysisText" ng-value="editorAnalysisText">
+        <iframe src="/Frameworks/eWebEditor/ewebeditor.htm?id=editorAnalysis&style=coolblue"
+                frameborder="0" scrolling="no" width="880" height="300" style="display: block;"></iframe>
     </div>
 </div>

@@ -8,9 +8,8 @@
     </div>
     <div class="topic_tit">
         <h5>
-            <span>{{getShareRange(exercise)}}</span>
-            <span style="display:none">国际英语</span>
-            <span>{{getExerciseType(exercise)}}</span>
+            <span>[{{getExerciseType(exercise)}}]</span>
+            <span style="color: #a1a1a1">{{getShareRange(exercise)}}</span>            
         </h5>
         <p class="question" ng-bind="exercise.Conten">
         </p>
@@ -28,7 +27,7 @@
         </a>
         <a class="icon share_topic">
             <div class="icon_content" style="display:none;">
-                <span></span> 
+                <span></span>
                 <p ng-repeat="item in shareRanges" ng-click="shareExercise(exercise, item)" style="text-align:left">{{item.name}}</p>
             </div>
         </a>

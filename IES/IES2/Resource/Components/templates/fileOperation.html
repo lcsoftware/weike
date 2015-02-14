@@ -1,14 +1,16 @@
 ﻿<ul class="mouse_right">
-    <li ng-click="onProperty()" ng-show="folderRelation.RelationType==1"><p><i class="icon data_property"></i>资料属性</p></li>
+    <li ng-click="onProperty()" ng-show="ocid!=0&&folderRelation.RelationType==1"><p><i class="icon data_property"></i>资料属性</p></li>
+    
     <li bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel" ng-click="onMobile()">
         <p><i class="icon data_move"></i>移动资料</p>
     </li>
-    <li ng-click="onDownload()"><p><i class="icon data_download"></i>下载资料</p></li>
-    <li ng-click="onRemove()"><p><i class="icon data_remove"></i>删除资料</p></li>
-    <li> 
-        <p id="eBrowser"><i class="icon data_share"></i>浏览权限</p>
+    <li ng-show="ocid!=0">
+        <p id="eBrowser"><i class="icon data_share"></i>使用权限</p>
         <ul class="batch_list batch_list2" style="left:97px;top:88px;">
             <li ng-class="{'active':rangeSelection.id==item.id}" style="text-align:left" ng-repeat="item in shareRanges" ng-bind="item.name" ng-click="shareRange(item)"></li>
         </ul>
     </li>
+    <li ng-click="onDownload()"><p><i class="icon data_download"></i>下载资料</p></li>
+    <li ng-click="onRemove()"><p><i class="icon data_remove"></i>删除资料</p></li>
+    
 </ul>

@@ -52,7 +52,8 @@ app.directive('fileOperation', function () {
         onReturnPage: '&',
         onMobile: '&',
         shareRanges: '=',
-        folderRelation: '='
+        folderRelation: '=',
+        ocid: '='
     }
 
     directive.templateUrl = '/Components/templates/fileOperation.html';
@@ -199,7 +200,8 @@ app.directive('folder', function () {
         onOpen: '&',
         onBlur: '&',
         folderName: '=',
-        folderExt: '='
+        folderExt: '=',
+        folderItem: '='
     }
 
     directive.templateUrl = '/Components/templates/folder.html';
@@ -612,7 +614,7 @@ app.directive('layPage', function () {
     directive.restrict = 'EA';
 
     directive.replace = true;
- 
+
     directive.scope = {
         PagesNum: '@'
     }

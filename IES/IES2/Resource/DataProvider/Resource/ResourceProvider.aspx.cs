@@ -189,6 +189,7 @@ namespace App.Resource.DataProvider.Resource
                 fr.FileSize = item.FileSize;
                 fr.Ext = item.Ext;
                 fr.CreateTime = item.UploadTime;
+                fr.FileType = item.FileType;
                 allFolderRelations.Add(fr);
             }
 
