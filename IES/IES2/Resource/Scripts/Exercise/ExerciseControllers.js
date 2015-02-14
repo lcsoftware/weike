@@ -352,6 +352,8 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         $scope.difficulties = [];
         //范围
         $scope.ranges = [];
+        //使用权限
+        $scope.shareRanges = [];
         //标签
         //$scope.keys = [];
 
@@ -515,6 +517,15 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         //        }
         //    }
         //}
+        var setShareRange = function (shareRange) {
+            var length = $scope.shareRanges.length;
+            for (var i = 0; i < length; i++) {
+                if ($scope.shareRanges[i].id == shareRange) {
+                    $scope.data.shareRange = $scope.shareRanges[i];
+                    break;
+                }
+            }
+        }
         var setExerciseType = function (ExerciseType) {
             var length = $scope.exerciseTypes.length;
             for (var i = 0; i < length; i++) {
@@ -549,6 +560,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
 
         $scope.willEdit = function (data) {
             //setCourse(data.exercisecommon.exercise.OCID, data.exercisecommon.exercise.CourseID);
+            setShareRange(data.exercisecommon.exercise.ShareRange);
             setExerciseType(data.exercisecommon.exercise.ExerciseType);
             setDifficult(data.exercisecommon.exercise.Diffcult);
             setScope(data.exercisecommon.exercise.Scope);
