@@ -4,7 +4,10 @@
         <div class="label_list">
             <a href="#"><span ng-bind="exercise.Keys | keyReplace"></span></a>
         </div>
-        <p class="creator">创建人：{{exercise.CreateUserName}}<span>最后修改时间：{{exercise.UpdateTime | dateFormat}}</span></p>
+        <div style="text-align: right;padding-right:80px;" class="creator">
+            创建人：{{exercise.CreateUserName}}<span>最后修改时间：{{exercise.UpdateTime | dateFormat}}</span>
+        </div>
+<!--        <p class="creator">创建人：{{exercise.CreateUserName}}<span>最后修改时间：{{exercise.UpdateTime | dateFormat}}</span></p>-->
     </div>
     <div class="topic_tit">
         <h5>

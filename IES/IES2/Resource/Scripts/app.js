@@ -35,7 +35,7 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         .state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
 
         //试题
-        .state('exercise', { url: '/exercise', abstract: true, templateUrl: '/views/Shared/Exercise', controller: 'ExerciseCtrl' })
+        .state('exercise', { url: '/exercise/:ocid', abstract: true, templateUrl: '/views/Shared/Exercise', controller: 'ExerciseCtrl' })
         //预览
         .state('content.preview', { url: '/content/exercise/preview', templateUrl: '/views/Exercise/Preview', controller: 'PreviewCtrl' })
         //简答题

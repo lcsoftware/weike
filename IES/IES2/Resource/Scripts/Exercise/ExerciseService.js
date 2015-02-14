@@ -116,5 +116,6 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     service.Exercise_Batch_Del = function (ids, callback) {
         httpService.ajaxPost(url, 'Exercise_Batch_Del', { ids: ids }, callback);
     } 
+
     return service;
 }]);

@@ -19,23 +19,23 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
 
         $scope.pagesNum = 100;
         var pageSize = 5;
+        $scope.$emit('willResetCourse');
+        //contentService.OC_Get(function (data) {
+        //    $scope.$parent.courses.length = 0;
+        //    var course = angular.copy(data.d);
+        //    course.OCID = -2;
+        //    course.CourseID = course.OCID;
+        //    course.Name = '共享习题';
+        //    $scope.$parent.courses.insert(0, course);
 
-        contentService.OC_Get(function (data) {
-            $scope.$parent.courses.length = 0;
-            var course = angular.copy(data.d);
-            course.OCID = -2;
-            course.CourseID = course.OCID;
-            course.Name = '共享习题';
-            $scope.$parent.courses.insert(0, course);
+        //    course = angular.copy(data.d);
+        //    course.OCID = -1;
+        //    course.CourseID = course.OCID;
+        //    course.Name = '我的习题';
+        //    $scope.$parent.courses.insert(0, course);
+        //    $scope.$parent.course = course;
 
-            course = angular.copy(data.d);
-            course.OCID = -1;
-            course.CourseID = course.OCID;
-            course.Name = '我的习题';
-            $scope.$parent.courses.insert(0, course);
-            $scope.$parent.course = course;
-
-        });
+        //});
 
         //习题列表
         $scope.exercises = [];
@@ -65,17 +65,17 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
         //被选择的标签
         $scope.data.key = {};
 
-        contentService.User_OC_List(function (data) {
-            if (data.d) {
-                $scope.courses = data.d;
-                var course = angular.copy($scope.courses[0]);
-                course.OCID = 0;
-                course.CourseID = 0;
-                course.Name = '不限';
-                $scope.courses.insert(0, course);
-                $scope.data.course = $scope.courses[0];
-            }
-        });
+        //contentService.User_OC_List(function (data) {
+        //    if (data.d) {
+        //        $scope.courses = data.d;
+        //        var course = angular.copy($scope.courses[0]);
+        //        course.OCID = 0;
+        //        course.CourseID = 0;
+        //        course.Name = '不限';
+        //        $scope.courses.insert(0, course);
+        //        $scope.data.course = $scope.courses[0];
+        //    }
+        //});
 
         assistService.Resource_Dict_ExerciseType_Get(function (data) {
             if (data) {
@@ -279,7 +279,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
         /// </summary>
         ///编辑习题
         $scope.$on('onEditExercise', function (event, exercise) {
-            var param = { ExerciseID: exercise.ExerciseID };
+            var param = { ocid: $scope.course.OCID, ExerciseID: exercise.ExerciseID };
             switch (exercise.ExerciseType) {
                 case 18: //简答题
                     $state.go('exercise.shortanswer', param)
@@ -360,8 +360,25 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
 
         $scope.data = {};
         $scope.data.course = {};
+        $scope.data.shareRange = {};
         $scope.data.exerciseType = {};
         $scope.data.difficult = {};
+
+
+        ///获取在线课程 
+        contentService.User_OC_List(function (data) {
+            if (data.d) {
+                var courses = data.d; 
+                var length = courses.length;
+                for (var i = 0; i < length; i++) {
+                    if (courses[i].OCID == $stateParams.ocid) {
+                        $scope.data.course = courses[i];
+                    }
+                } 
+            }
+        }); 
+     
+
         //知识点
         $scope.data.kens = [];
         //标签
@@ -371,10 +388,10 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         //被选择的标签
         $scope.data.selectedKeys = [];
 
-        contentService.User_OC_List(function (data) {
+        assistService.Resource_Dict_ShareRange_Get(function (data) {
             if (data.d) {
-                $scope.courses = data.d;
-                $scope.data.course = $scope.courses[0];
+                $scope.shareRanges = data.d;
+                $scope.data.shareRange = $scope.shareRanges[0];
             }
         });
 
@@ -489,15 +506,15 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
             $scope.$broadcast('willRequestSave', $scope.data);
         }
 
-        var setCourse = function (OCID, courseID) {
-            var length = $scope.courses.length;
-            for (var i = 0; i < length; i++) {
-                if ($scope.courses[i].OCID == OCID && $scope.courses[i].CourseID == courseID) {
-                    $scope.data.course = $scope.courses[i];
-                    return;
-                }
-            }
-        }
+        //var setCourse = function (OCID, courseID) {
+        //    var length = $scope.courses.length;
+        //    for (var i = 0; i < length; i++) {
+        //        if ($scope.courses[i].OCID == OCID && $scope.courses[i].CourseID == courseID) {
+        //            $scope.data.course = $scope.courses[i];
+        //            return;
+        //        }
+        //    }
+        //}
         var setExerciseType = function (ExerciseType) {
             var length = $scope.exerciseTypes.length;
             for (var i = 0; i < length; i++) {
@@ -531,7 +548,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         }
 
         $scope.willEdit = function (data) {
-            setCourse(data.exercisecommon.exercise.OCID, data.exercisecommon.exercise.CourseID);
+            //setCourse(data.exercisecommon.exercise.OCID, data.exercisecommon.exercise.CourseID);
             setExerciseType(data.exercisecommon.exercise.ExerciseType);
             setDifficult(data.exercisecommon.exercise.Diffcult);
             setScope(data.exercisecommon.exercise.Scope);
