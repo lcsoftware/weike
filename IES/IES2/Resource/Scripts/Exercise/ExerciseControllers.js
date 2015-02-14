@@ -180,7 +180,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             exerciseService.Exercise_Search(model, $scope.data.key, keys, kens, pageSize, pageIndex, function (data) {
                 $scope.exercises.length = 0;
                 $scope.pageNum = 1;
-                if (data.d) {
+                if (data.d && data.d.length > 0) {
                     $scope.exercises = data.d;
                     var rowsCount = $scope.exercises[0].RowsCount;
                     $scope.pageNum = Math.ceil(rowsCount / pageSize);
@@ -339,6 +339,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
     function ($scope, $state, $stateParams, exerciseService, contentService, previewService, resourceService, kenService, assistService, $timeout) {
 
         $scope.$emit('onPreviewSwitch', false);
+        $scope.$emit('onSideLeftSwitch', false);
 
         //课程
         $scope.courses = [];

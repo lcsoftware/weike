@@ -179,9 +179,11 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
  
     //FROM 1 资料  2 附件 
     $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) { 
-        console.log('===============', response);
         ////TODO required testing
-        $scope.folderRelations.push(response.file);
+        var length = response.length;
+        for (var i = 0; i < length; i++) {
+            $scope.folderRelations.push(response[i]); 
+        }
     });
 
     $scope.$on('onCompleteItem', function (event) {

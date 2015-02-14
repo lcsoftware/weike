@@ -112,10 +112,16 @@ function ($templateCache, $rootScope, $state, $stateParams, httpService, assistS
     assistService.init();
 
     $rootScope.enablePreview = false;
+    $rootScope.enableSideLeft = true;
 
     $rootScope.$on('onPreviewSwitch', function (event, preview) {
         $rootScope.enablePreview = preview;
     });
+
+    $rootScope.$on('onSideLeftSwitch', function (event, enableSideLeft) {
+        $rootScope.enableSideLeft = enableSideLeft;
+    });
+
 
     $rootScope.httpService = httpService;
 

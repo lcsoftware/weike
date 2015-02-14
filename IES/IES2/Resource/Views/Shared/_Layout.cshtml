@@ -58,7 +58,7 @@
         <!--公共头部结束-->
         <div class="main_all main_course">
             <!--首页左边模块开始-->
-            <div class="side_left">
+            <div class="side_left" ng-show="enableSideLeft">
                 <!--用户信息开始-->
                 <div class="user">
                     @*<img src=@UserService.CurrentUserIMG width="110" height="100" />*@
@@ -74,7 +74,7 @@
                         @foreach (var menu in LeftMenu)
                         {
                             <li id="@menu.MenuID" ui-sref-active="active"><a ui-sref="@menu.URL">@menu.Title</a></li>
-                        } 
+                        }
                     </ul>
                 </div>
                 <!--侧边导航结束-->
@@ -104,7 +104,7 @@
             <!--右侧主题内容结束-->
 
         </div>
-        <a class="icon_fold" href="javascript:;"></a> 
+        <a class="icon_fold" href="javascript:;" ng-show="enableSideLeft"></a> 
         <!--公用底部开始-->
         <div class="footer">
             <p class="copyright"><img src="/images/company_logo2.png" width="70" height="30" alt="">Copyright©2003-2014，版权所有 www.able-elec.com</p>

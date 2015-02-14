@@ -7,7 +7,7 @@ contentApp.controller('ContentCtrl', ['$scope', 'contentService', function ($sco
     $scope.course = {};
     $scope.courses = [];
     $scope.uploadUrlValue = '/DataProvider/FileUpload.ashx/?FROM=1';
-
+    $scope.$emit('onSideLeftSwitch', true);
     ///初始化在线课程
     contentService.User_OC_List(function (data) {
         if (data.d) {
@@ -21,7 +21,7 @@ contentApp.controller('ContentCtrl', ['$scope', 'contentService', function ($sco
     ///课程切换
     $scope.courseChanged = function (course) {
         $scope.course = course;
-        $scope.$broadcast('willCourseChanged', $scope.course); 
+        $scope.$broadcast('willCourseChanged', $scope.course);
     }
 
     ///请求重置课程
