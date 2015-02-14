@@ -123,5 +123,13 @@ aService.factory('resourceService', ['httpService', function (httpService) {
     service.Attachment_Del = function (attachment, callback) {
         httpService.ajaxPost(url, 'Attachment_Del', { model: attachment }, callback);
     }
+
+    service.Folder_Batch_Del = function (folderIDS, callback) {
+        httpService.ajaxPost(url, 'Folder_Batch_Del', { folderIDS: folderIDS }, callback);
+    }
+
+    service.File_Batch_Del = function (fileIDS, callback) {
+        httpService.ajaxPost(url, 'File_Batch_Del', { fileIDS: fileIDS }, callback);
+    }
     return service;
 }]);

@@ -215,6 +215,12 @@ app.directive('folder', function () {
         });
     }
 
+    //directive.controller = function ($scope, $element) {
+    //    var e = elem.find('.data_tit');
+    //    $scope.$on('onNewFolder', function (event) {
+    //    });
+    //}
+
     return directive;
 });
 

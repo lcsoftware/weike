@@ -400,12 +400,19 @@ appKnow.controller('KenTopicCtrl', ['$scope', 'resourceKenService', 'chapterServ
 
         $scope.$parent.loadStart({ OCID: $scope.course.OCID });
 
+        $scope.$watch('dataKen', function (v) {
+            $scope.know = v.Requirement === 1;
+        });
+
         $scope.kenFocus = function (item) {
             $scope.dataKen = item;
             kenService.Chapter_KenID_List({ KenID: item.KenID, OCID: $scope.course.OCID }, function (data) {
                 $scope.dataChapters = data.d;
                 if ($scope.dataChapters.length > 0) {
-                    $scope.dataChapter = $scope.dataChapters[0];
+                    $scope.dataChapter = angular.copy($scope.dataChapters[0]);
+                    $scope.dataChapter.ChapterID = 0;
+                    $scope.dataChapter.Title = '全部';
+                    $scope.dataChapters.insert(0, $scope.dataChapter); 
                     $scope.$emit('onRequestQuery', $scope.dataChapter, $scope.dataKen, 'fromKen');
                 }
             });

@@ -80,9 +80,9 @@ namespace IES.G2S.Resource.BLL
             return FileDAL.Folder_Del(folder);
         }
 
-        public bool Folder_Batch_Del(List<Folder> folderlist)
+        public bool Folder_Batch_Del(string FolderIDS)
         {
-            return FileDAL.Folder_Batch_Del(folderlist);
+            return FileDAL.Folder_Batch_Del(FolderIDS);
         }
 
         #endregion
@@ -175,7 +175,10 @@ namespace IES.G2S.Resource.BLL
         {
             return FileDAL.File_Del(model);
         }
-
+        public bool File_Batch_Del(string FileIDS)
+        {
+            return FileDAL.File_Batch_Del(FileIDS);
+        }
         public bool File_Chapter_Ken_Edit(File model, Chapter chapter, Ken ken)
         {
             return FileDAL.File_Chapter_Ken_Edit(model, chapter, ken);

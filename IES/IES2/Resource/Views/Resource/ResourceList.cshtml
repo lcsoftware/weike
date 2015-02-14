@@ -48,7 +48,7 @@
             <th width="120">
                 <div class="data_name">
                     <p>文件类型</p>
-                    <i class="icon arrow" ng-click="changeOrder('Name');"></i>
+                    @*<i class="icon arrow" ng-click="changeOrder('Name');"></i>*@
                 </div>
             </th>
             <th width="120">文件大小</th>
@@ -94,7 +94,7 @@
     <div class="pop_wrap">
         <p class="confirm_tip">是否确定删除已选择的文件？</p>
         <div class="btn_box">
-            <a class="save" ng-click="folderDelClick()">确定</a>
+            <a class="save" ng-click="removeAll()">确定</a>
             <a class="cancel" ng-click="close()">取消</a>
         </div>
     </div>

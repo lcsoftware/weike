@@ -39,7 +39,7 @@
 .label_list{ float:left; overflow:hidden; zoom:1;}
 .label_list a{ display:block; float:left; margin-left:1px;}
 .label_list a span{ display:block; height:28px; line-height:28px; color:#666; padding:0 15px; background:#e4e4e4;}
-.creator{ float:left; color:#a1a1a1; margin-left:10px; line-height:28px;}
+.creator{ color:#a1a1a1; margin-left:10px; line-height:28px;}
 .creator span{ padding-left:20px;}
 .answer b{ color:#009900; font-weight:normal;}
 .course_status{ display:inline-block; margin-right:10px; height:20px; line-height:20px; padding:0 3px; font-weight:normal; font-size:12px; font-family:'宋体'; border-radius:2px;}

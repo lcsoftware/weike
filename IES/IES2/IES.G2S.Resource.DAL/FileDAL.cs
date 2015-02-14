@@ -203,32 +203,15 @@ namespace IES.G2S.Resource.DAL
 
 
 
-        public static bool Folder_Batch_Del(List<Folder> folderlist)
+        public static bool Folder_Batch_Del(string FolderIDS)
         {
             try
             {
                 using (var conn = DbHelper.ResourceService())
-                {
-
-                    var recordparam = new List<SqlDataRecord>();
-                    var recordcolumn = new[]
-                    {
-                        new SqlMetaData("id", SqlDbType.Int)
-                    };
-                    foreach (var r in folderlist)
-                    {
-                        var record = new SqlDataRecord(recordcolumn);
-                        record.SetInt32(0, r.FolderID);
-                        recordparam.Add(record);
-                    }
-
-                    SqlParameter parameter = new SqlParameter();
-                    parameter.ParameterName = "@IDS";
-                    parameter.SqlDbType = System.Data.SqlDbType.Structured;
-                    parameter.Value = recordparam;
-                    
-                    conn.Execute("Folder_Batch_Del", parameter , commandType: CommandType.StoredProcedure);
-
+                { 
+                    var p = new DynamicParameters();
+                    p.Add("@FolderIDS", FolderIDS);
+                    conn.Execute("Folder_Batch_Del", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }
             }
@@ -568,26 +551,15 @@ namespace IES.G2S.Resource.DAL
         }
 
 
-        public static bool File_Batch_Del( List<File> filelist )
+        public static bool File_Batch_Del(string FileIDS)
         {
             try
             {
                 using (var conn = DbHelper.ResourceService())
-                {
-                    var recordparam = new List<SqlDataRecord>();
-                    var recordcolumn = new[]
-                    {
-                        new SqlMetaData("id", SqlDbType.Int)
-                    };
-                    foreach ( var r in filelist )
-                    {
-                        var record = new SqlDataRecord(recordcolumn);
-                        record.SetInt32(0, r.FileID);
-                        recordparam.Add(record);
-                    }
-
-                    var ids = new TableValueParameter("@ids", "IDList", recordparam);
-                    conn.Execute("File_Batch_Del", ids, commandType: CommandType.StoredProcedure);
+                { 
+                    var p = new DynamicParameters();
+                    p.Add("@FileIDS", FileIDS);
+                    conn.Execute("File_Batch_Del", p, commandType: CommandType.StoredProcedure); 
                     return true;
                 }
             }

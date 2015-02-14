@@ -73,7 +73,7 @@ namespace IES.G2S.Resource.IBLL
         /// </summary>
         /// <param name="folderlist"></param>
         /// <returns></returns>
-        bool Folder_Batch_Del(List<Folder> folderlist);
+        bool Folder_Batch_Del(string FolderIDS);
 
 
         #endregion
@@ -82,7 +82,7 @@ namespace IES.G2S.Resource.IBLL
         #region 删除
 
         bool Folder_Del(Folder model);
-
+        bool File_Batch_Del(string FileIDS);
         #endregion
 
 

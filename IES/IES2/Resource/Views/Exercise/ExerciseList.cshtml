@@ -14,12 +14,12 @@
     </div>
 </div>
 <div class="filter_box">
-    <dl class="filter_list">
+    @*<dl class="filter_list">
         <dt>课程选择</dt>
         <dd>
             <a ng-class="{'active':data.course.OCID==item.OCID}" ng-click="courseChanged(item)" ng-repeat="item in courses"><span ng-bind="item.Name"></span></a>
         </dd>
-    </dl>
+    </dl>*@
     <dl class="filter_list">
         <dt>题目类型</dt>
         <dd>
@@ -57,4 +57,4 @@
         <exercise-list ng-repeat="item in exercises" exercise="item" checks="checks" share-ranges="shareRanges"></exercise-list>
     </ul>
 </div>
-<div id="pager" style="margin-right:50px; margin-top:20px; text-align:right"></div>
+<div id="pager" style="margin-right:50px; margin-top:20px; text-align:right" ng-hide="pagesNum<=1"></div>

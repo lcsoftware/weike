@@ -20,15 +20,27 @@ a {
     z-index: 999;
 }
 
-.pop_uploader h4 {
-    height: 40px;
-    line-height: 40px;
-    background: #1e5975;
-    font-size: 14px;
-    color: #fff;
-    padding-left: 13px;
-}
+    .pop_uploader h4 {
+        height: 40px;
+        line-height: 40px;
+        background: #1e5975;
+        font-size: 14px;
+        color: #fff;
+        padding-left: 13px;
+    }
 
 .margin_exercise_new {
     margin-left: 100px;
+}
+
+.proficient {
+    color: #FF3300 !important;
+}
+
+.grasp {
+    color: #FF9900 !important;
+} 
+
+.know {
+    color: black !important;
 }

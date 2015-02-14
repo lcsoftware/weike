@@ -318,6 +318,18 @@ namespace App.Resource.DataProvider.Resource
         {
             return new FileBLL().Folder_Del(folder);
         }
+
+        [WebMethod]
+        public static bool File_Batch_Del(string fileIDS)
+        {
+            return new FileBLL().File_Batch_Del(fileIDS);
+        }
+
+        [WebMethod]
+        public static bool Folder_Batch_Del(string folderIDS)
+        {
+            return new FileBLL().Folder_Batch_Del(folderIDS);
+        }
         #endregion
 
         #region 附件

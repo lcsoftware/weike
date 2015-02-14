@@ -169,10 +169,10 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
 
     //查询
-    $scope.filterChanged = function () { 
+    $scope.filterChanged = function () {
         var folder = angular.copy($scope.model);
         var file = angular.copy($scope.model);
-        if ($scope.course.OCID === 0){
+        if ($scope.course.OCID === 0) {
             file.ShareRange = 0;
         }
         resourceService.FolderRelation_List(folder, file, function (data) {
@@ -237,6 +237,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     //新建文件夹
     $scope.AddFolder = function () {
+        $scope.orderField = 'null';
         resourceService.Folder_Get(function (data) {
             var folder = data.d;
             folder.Name = 'NewFolder';
@@ -415,8 +416,88 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         }
     });
 
+    var removeItem = function (item) {
+        var length = $scope.folderRelations.length;
+        for (var i = 0; i < length; i++) {
+            if ($scope.folderRelations[i].Id === item.Id) {
+                $scope.folderRelations.splice(i, 1);
+                $scope.folder = null;
+                $scope.checks.length = 0;
+                break;
+            }
+        }
+    }
+
+    var removeChecks = function (checks) {
+        var length = checks.length;
+        for (var i = 0; i < length; i++) {
+            removeItem(checks[i]);
+        }
+        $scope.folder = null;
+        $scope.checks.length = 0;
+    }
+
+    $scope.removeAll = function () {
+
+        if ($scope.folder) {
+            var copyFolder = angular.copy($scope.folder);
+            ///单一文件删除
+            if ($scope.folder.RelationType === 1) {
+                resourceService.File_Del({ FileID: $scope.folder.Id }, function (data) {
+                        if (data.d) {
+                            alert(data.d);
+                        } else {
+                            removeItem(copyFolder);
+                            
+                        }
+                    });
+
+            } else {
+                resourceService.Folder_Del({ FolderID: $scope.folder.Id }, function (data) {
+                    removeItem(copyFolder);
+                });
+            }
+        } else {
+            var fileIDS = '';
+            var folderIDS = '';
+            var length = $scope.checks.length;
+            for (var i = 0; i < length; i++) {
+                var fileObj = $scope.checks[i];
+                if (fileObj.RelationType === 1) {
+                    fileIDS += fileObj.Id + ',';
+                } else {
+                    folderIDS += fileObj.Id + ',';
+                }
+            }
+            var items = angular.copy($scope.checks);
+            //文件 
+            if (fileIDS.length > 0) {
+                fileIDS = fileIDS.substr(0, fileIDS.length - 1);
+                resourceService.File_Batch_Del(fileIDS, function (data) {
+                    if (data.d) {
+                        removeChecks(items);
+                    }
+                });
+            }
+
+            ///文件夹
+            if (folderIDS.length > 0) {
+                folderIDS = folderIDS.substr(0, folderIDS.length - 1);
+                resourceService.Folder_Batch_Del(folderIDS, function (data) {
+                    if (data.d) {
+                        removeChecks(items);
+                    }
+                });
+            }
+        }
+        $scope.close();
+    }
+
     //删除文件夹弹出框点击确定按钮
     $scope.folderDelClick = function () {
+
+        $scope.checksSelect.length = 0;
+
         if ($scope.folder == null) {
             $scope.checksSelect = $scope.checks;
         } else {
@@ -554,5 +635,5 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             var folder = { FolderID: file.Id, ShareRange: range.id }
             resourceService.Folder_ShareRange_Upd(folder);
         }
-    }); 
+    });
 }]);
