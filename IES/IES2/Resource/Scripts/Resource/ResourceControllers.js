@@ -58,6 +58,15 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     });
 
+    $scope.orderField = 'Name';
+    $scope.changeOrder = function (fieldName) {
+        if ($scope.orderField === fieldName) {
+            $scope.orderField = '-' + fieldName;
+        } else {
+            $scope.orderField = fieldName;
+        }
+    }
+
     ///课程加载完成
     $scope.$on('courseLoaded', function (course) {
         contentService.OC_Get(function (data) {
@@ -155,14 +164,17 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.filterChanged();
 
         $scope.order += 1;
-        $scope.tabTitles.push({ id: item.Id, name: '>>' + item.Name, order: $scope.order });
+        $scope.tabTitles.push({ id: item.Id, name: '>' + item.Name, order: $scope.order });
     }
 
 
     //查询
-    $scope.filterChanged = function () {
+    $scope.filterChanged = function () { 
         var folder = angular.copy($scope.model);
         var file = angular.copy($scope.model);
+        if ($scope.course.OCID === 0){
+            file.ShareRange = 0;
+        }
         resourceService.FolderRelation_List(folder, file, function (data) {
             if (data.d.length > 0) {
                 $scope.folderRelations = data.d;

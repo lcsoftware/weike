@@ -446,24 +446,21 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
     directive.link = function (scope, elem, iAttrs) {
         elem.find('.close_pop').bind('click', function () {
             elem.hide();
-        });
-
-        scope.$watch('folder', function (v) {
-            console.log(v);
-        });
+        }); 
     }
 
-    directive.controller = function ($scope) {
+    directive.controller = function ($scope, $element) {
         //----------上传文件start--------
         var angularFileUploader = $scope.iesUploader = new FileUploader({ url: $scope.uploadUrl });
-        angularFileUploader.formData.push({ OCID: $scope.ocid });
-        angularFileUploader.formData.push({ CourseID: $scope.courseId});
-        if ($scope.folderObj) {
-            angularFileUploader.formData.push({ FolderID: $scope.folderObj.Id });
-        } else {
-            angularFileUploader.formData.push({ FolderID: 0 }); 
-        }
-        angularFileUploader.formData.push({ ShareRange: 2 });
+
+        //angularFileUploader.formData.push({ OCID: $scope.ocid });
+        //angularFileUploader.formData.push({ CourseID: $scope.courseId});
+        //if ($scope.folderObj) {
+        //    angularFileUploader.formData.push({ FolderID: $scope.folderObj.Id });
+        //} else {
+        //    angularFileUploader.formData.push({ FolderID: 0 }); 
+        //}
+        //angularFileUploader.formData.push({ ShareRange: 2 });
 
         $scope.$watch('ocid', function (v) {
             angularFileUploader.formData.length = 0;
@@ -549,7 +546,9 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
             $scope.$emit('onCompleteItem', fileItem, response, status, headers);
         };
         angularFileUploader.onCompleteAll = function () {
+            angularFileUploader.clearQueue();
             $scope.$emit('onCompleteAll');
+            $element.hide();
         };
     }
 
