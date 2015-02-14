@@ -150,14 +150,16 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static IList<FolderRelation> FolderRelation_List(Folder folder, File file)
         {
-            if (folder.ParentID == 0) folder.ParentID = -1;
+            //if (folder.ParentID == 0) folder.ParentID = -1;
             //IList<Folder> allFolders = new FileBLL().Folder_List(folder);
+            folder.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
             IList<Folder> allFolders = Folder_List(folder);
             if(file != null)
             {
                 file.FolderID = folder.ParentID;
                 //file.UploadTime = DateTime.Now.AddMonths(-1);
-            }            
+            }
+            file.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
             IList<File> allFiles = new FileBLL().File_Search(file);
 
             IList<FolderRelation> allFolderRelations = new List<FolderRelation>();
@@ -262,6 +264,7 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static Folder Folder_ADD(Folder folder)
         {
+            folder.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
             return new FileBLL().Folder_ADD(folder);
         }
         /// <summary>

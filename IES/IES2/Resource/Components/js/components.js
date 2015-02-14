@@ -436,7 +436,7 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
         uploadUrl: '@',
         ocid: '=',
         courseId: '=',
-        folderID: '='
+        folderObj: '='
     }
 
     directive.templateUrl = '/Components/templates/iesFileUploader.html';
@@ -445,38 +445,56 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
         elem.find('.close_pop').bind('click', function () {
             elem.hide();
         });
+
+        scope.$watch('folder', function (v) {
+            console.log(v);
+        });
     }
 
     directive.controller = function ($scope) {
         //----------上传文件start--------
         var angularFileUploader = $scope.iesUploader = new FileUploader({ url: $scope.uploadUrl });
-        //angularFileUploader.formData.push({ OCID: $scope.ocid });
-        //angularFileUploader.formData.push({ CourseID: $scope.courseId});
-        //angularFileUploader.formData.push({ FolderID: $scope.folderID});
-        //angularFileUploader.formData.push({ ShareRange: -1 });
+        angularFileUploader.formData.push({ OCID: $scope.ocid });
+        angularFileUploader.formData.push({ CourseID: $scope.courseId});
+        if ($scope.folderObj) {
+            angularFileUploader.formData.push({ FolderID: $scope.folderObj.Id });
+        } else {
+            angularFileUploader.formData.push({ FolderID: 0 }); 
+        }
+        angularFileUploader.formData.push({ ShareRange: 2 });
 
         $scope.$watch('ocid', function (v) {
             angularFileUploader.formData.length = 0;
             angularFileUploader.formData.push({ OCID: v });
             angularFileUploader.formData.push({ CourseID: $scope.courseId });
-            angularFileUploader.formData.push({ FolderID: $scope.folderID });
-            angularFileUploader.formData.push({ ShareRange: -1 });
+            if ($scope.folderObj) {
+                angularFileUploader.formData.push({ FolderID: $scope.folderObj.Id });
+            } else {
+                angularFileUploader.formData.push({ FolderID: 0 });
+            }
+            angularFileUploader.formData.push({ ShareRange: 2 });
         });
 
         $scope.$watch('courseId', function (v) {
             angularFileUploader.formData.length = 0;
             angularFileUploader.formData.push({ OCID: $scope.ocid });
             angularFileUploader.formData.push({ CourseID: v });
-            angularFileUploader.formData.push({ FolderID: $scope.folderID });
-            angularFileUploader.formData.push({ ShareRange: -1 });
+            if ($scope.folderObj) {
+                angularFileUploader.formData.push({ FolderID: $scope.folderObj.Id });
+            } else {
+                angularFileUploader.formData.push({ FolderID: 0 });
+            }
+            angularFileUploader.formData.push({ ShareRange: 2 });
         });
 
-        $scope.$watch('folderID', function (v) {
-            angularFileUploader.formData.length = 0;
-            angularFileUploader.formData.push({ OCID: $scope.ocid });
-            angularFileUploader.formData.push({ CourseID: $scope.courseId });
-            angularFileUploader.formData.push({ FolderID: v });
-            angularFileUploader.formData.push({ ShareRange: -1 });
+        $scope.$watch('folderObj', function (v) {
+            if (v) {
+                angularFileUploader.formData.length = 0;
+                angularFileUploader.formData.push({ OCID: $scope.ocid });
+                angularFileUploader.formData.push({ CourseID: $scope.courseId });
+                angularFileUploader.formData.push({ FolderID: v.Id });
+                angularFileUploader.formData.push({ ShareRange: 2 });
+            }
         });
         // FILTERS
         angularFileUploader.filters.push({

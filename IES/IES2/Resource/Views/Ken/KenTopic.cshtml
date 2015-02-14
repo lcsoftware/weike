@@ -5,6 +5,6 @@
 </dl>
     <dl class="knowledge_list">
         <dt>关联章节</dt>
-        <dd ng-repeat="item in dataChapters"><a ng-click="chapterFocus(item)" ng-class="{'active':dataChapter.ChapterID==item.ChapterID}" ng-bind="item.Title"></a></dd>
+        <dd ng-class="{'active':dataChapter.ChapterID==item.ChapterID}" ng-repeat="item in dataChapters"><a ng-click="chapterFocus(item)" ng-class="{'active':dataChapter.ChapterID==item.ChapterID}" ng-bind="item.Title"></a></dd>
     </dl>
 </div> 

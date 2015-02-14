@@ -111,11 +111,11 @@ function ($templateCache, $rootScope, $state, $stateParams, httpService, assistS
     $rootScope.$stateParams = $stateParams;
     assistService.init();
 
-    $rootScope.enablePreview = false;
+    $rootScope.enableWizard = true;
     $rootScope.enableSideLeft = true;
 
-    $rootScope.$on('onPreviewSwitch', function (event, preview) {
-        $rootScope.enablePreview = preview;
+    $rootScope.$on('onWizardSwitch', function (event, enableWizard) {
+        $rootScope.enableWizard = enableWizard;
     });
 
     $rootScope.$on('onSideLeftSwitch', function (event, enableSideLeft) {

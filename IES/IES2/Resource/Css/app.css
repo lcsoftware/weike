@@ -29,7 +29,6 @@ a {
     padding-left: 13px;
 }
 
-/*题型预览*/
-.preview_box1{ width:100%; background:#fff; padding-bottom:200px;}
-
-.pop_bg1{display:none; width:100%; height:100%; position:absolute; top:0; left:0;background-color: #fff; filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr=#88000000, endColorstr=#88000000); z-index:998;}
+.margin_exercise_new {
+    margin-left: 100px;
+}

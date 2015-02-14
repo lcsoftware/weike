@@ -8,6 +8,7 @@ contentApp.controller('ContentCtrl', ['$scope', 'contentService', function ($sco
     $scope.courses = [];
     $scope.uploadUrlValue = '/DataProvider/FileUpload.ashx/?FROM=1';
     $scope.$emit('onSideLeftSwitch', true);
+    $scope.$emit('onWizardSwitch', true);
     ///初始化在线课程
     contentService.User_OC_List(function (data) {
         if (data.d) {
