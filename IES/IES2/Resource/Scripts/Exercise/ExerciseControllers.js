@@ -389,8 +389,8 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         $scope.data.selectedKeys = [];
 
         assistService.Resource_Dict_ShareRange_Get(function (data) {
-            if (data.d) {
-                $scope.shareRanges = data.d;
+            if (data) {
+                $scope.shareRanges = data;
                 $scope.data.shareRange = $scope.shareRanges[0];
             }
         });
