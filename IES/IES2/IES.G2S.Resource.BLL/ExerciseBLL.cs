@@ -326,10 +326,10 @@ namespace IES.G2S.Resource.BLL
 
         [PermissionsCallHandler(Order = 2)]
         [ExceptionCallHandler(Order = 1)]
-        public bool Exercise_Del(IExercise mode)
+        public bool Exercise_Del(IExercise model)
         {
 
-            return ExerciseDAL.Exercise_Del(mode);
+            return ExerciseDAL.Exercise_Del(model);
         }
 
         #endregion

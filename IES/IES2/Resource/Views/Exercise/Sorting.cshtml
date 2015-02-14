@@ -8,8 +8,7 @@
         <p class="no_rank">请按照序号顺序填写答案，题目保存后，答案会自动打乱</p>
         <div class="default fill_blank" ng-repeat="item in model.exercisechoicelist">
             <a ng-click="Del(item)">x</a>
-            <input type="text" ng-model="item.Conten">
-            <span class="icon icon_unfold"></span>
+            <input type="text" ng-model="item.Conten"> 
         </div>
     </div>
     <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加选项</span></a>

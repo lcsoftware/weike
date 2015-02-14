@@ -65,28 +65,28 @@ namespace App.Resource.DataProvider.Exercise
                         keylist = new List<Key>(),
                         exercise = new IES.Resource.Model.Exercise(),
                         attachmentlist = new List<Attachment>()
-                    },
-                    Children = new ExerciseInfo()
+                    }
+                },
+                ChildrenMultiple = new ExerciseInfo()
+                {
+                    exercisechoicelist = new List<ExerciseChoice>(),
+                    exercisecommon = new ExerciseCommon()
                     {
-                        exercisechoicelist = new List<ExerciseChoice>(),
-                        exercisecommon = new ExerciseCommon()
-                        {
-                            kenlist = new List<Ken>(),
-                            keylist = new List<Key>(),
-                            exercise = new IES.Resource.Model.Exercise(),
-                            attachmentlist = new List<Attachment>()
-                        },
-                        Children = new ExerciseInfo()
-                        {
-                            exercisechoicelist = new List<ExerciseChoice>(),
-                            exercisecommon = new ExerciseCommon()
-                            {
-                                kenlist = new List<Ken>(),
-                                keylist = new List<Key>(),
-                                exercise = new IES.Resource.Model.Exercise(),
-                                attachmentlist = new List<Attachment>()
-                            }
-                        }
+                        kenlist = new List<Ken>(),
+                        keylist = new List<Key>(),
+                        exercise = new IES.Resource.Model.Exercise(),
+                        attachmentlist = new List<Attachment>()
+                    }
+                },
+                ChildrenFillBlank = new ExerciseInfo()
+                {
+                    exercisechoicelist = new List<ExerciseChoice>(),
+                    exercisecommon = new ExerciseCommon()
+                    {
+                        kenlist = new List<Ken>(),
+                        keylist = new List<Key>(),
+                        exercise = new IES.Resource.Model.Exercise(),
+                        attachmentlist = new List<Attachment>()
                     }
                 }
             };
@@ -266,20 +266,20 @@ namespace App.Resource.DataProvider.Exercise
             ExerciseInfo exerciseRs = new ExerciseBLL().Exercise_Custom_M_Edit(v);
             if (exerciseRs != null)
             {
-                if (v.Children != null)
+                if (v.Children.exercisecommon.exercise.ExerciseType != 0)
                 {
                     v.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
-                    new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v.Children);
-                    if (v.Children.Children != null)
-                    {
-                        v.Children.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
-                        new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v.Children.Children);
-                        if (v.Children.Children.Children != null)
-                        {
-                            v.Children.Children.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
-                            new ExerciseBLL().Exercise_Writing_M_Edit(v.Children.Children.Children);
-                        }
-                    }
+                    new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v.Children);                    
+                }
+                if (v.ChildrenMultiple.exercisecommon.exercise.ExerciseType != 0)
+                {
+                    v.ChildrenMultiple.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+                    new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v.ChildrenMultiple);                    
+                }
+                if (v.ChildrenFillBlank.exercisecommon.exercise.ExerciseType != 0)
+                {
+                    v.ChildrenFillBlank.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+                    new ExerciseBLL().Exercise_Writing_M_Edit(v.ChildrenFillBlank);
                 }
             }
             return exerciseRs;
@@ -322,9 +322,9 @@ namespace App.Resource.DataProvider.Exercise
         }
 
         [WebMethod]
-        public static bool Exercise_Batch_Del(string ids) 
+        public static bool Exercise_Batch_Del(string ids)
         {
             return new ExerciseBLL().Exercise_Batch_Del(ids);
-        }
+        } 
     }
 }

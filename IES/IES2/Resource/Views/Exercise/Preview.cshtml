@@ -16,9 +16,9 @@
                 <div class="issue_box">
                     <h4>【多选题】</h4>
                     <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
-                </div>
+                </div>               
                 <div class="checkbox_list">
-                    <p ng-repeat="item in exercise.exercisechoicelist">
+                    <p ng-repeat="item in exercise.exercisechoicelist" style="margin-left:0px;">
                         <input type="checkbox" ng-checked="item.IsCorrect">{{item.Conten}}
                     </p>
                 </div>
@@ -28,10 +28,7 @@
                     <h4>【问答题】</h4>
                     <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
                 </div>
-                <div class="text_box" style="color:#F00;" ng-show="show==1">
-                    {{exercise.exercisecommon.exercise.Answer}}
-                </div>
-                <a class="reference_answer" ng-click="show=1">查看参考答案</a>
+                <input class="blank_box" type="text" ng-value="exercise.exercisecommon.exercise.Answer">
             </li>
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==5">
                 <div class="issue_box">
@@ -64,7 +61,7 @@
                         <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
                     </div>
                 </div>
-                <div class="issue_box">
+                <div class="issue_box" ng-show="exercise.Children.exercisecommon.exercise.ExerciseType==2">
                     <h4>【单选题】</h4>
                     <p ng-bind="exercise.Children.exercisecommon.exercise.Conten"></p>
                 </div>
@@ -73,11 +70,20 @@
                         <input type="radio" ng-checked="item.IsCorrect==1">{{item.Conten}}
                     </p>
                 </div>
-                <div class="issue_box">
-                    <h4>【填空题】</h4>
-                    <p ng-bind="exercise.Children.Children.Children.exercisecommon.exercise.Conten">填空题题干</p>
+                <div class="issue_box" ng-show="exercise.Children.exercisecommon.exercise.ExerciseType==3">
+                    <h4>【多选题】</h4>
+                    <p ng-bind="exercise.ChildrenMultiple.exercisecommon.exercise.Conten"></p>
                 </div>
-                <input class="blank_box" type="text" ng-value="exercise.Children.Children.Children.exercisecommon.exercise.Answer">
+                <div class="checkbox_list">
+                    <p ng-repeat="item in exercise.ChildrenMultiple.exercisechoicelist">
+                        <input type="checkbox" ng-checked="item.IsCorrect">{{item.Conten}}
+                    </p>
+                </div>
+                <div class="issue_box" ng-show="exercise.Children.exercisecommon.exercise.ExerciseType==18">
+                    <h4>【填空题】</h4>
+                    <p ng-bind="exercise.ChildrenFillBlank.exercisecommon.exercise.Conten">填空题题干</p>
+                </div>
+                <input class="blank_box" type="text" ng-value="exercise.ChildrenFillBlank.exercisecommon.exercise.Answer">
             </li>
             <li class="hearing" ng-show="exercise.exercisecommon.exercise.ExerciseType==17">
                 <div class="listen_box">
@@ -87,27 +93,49 @@
                         <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
                     </div>
                 </div>
-                <div class="issue_box">
-                    <h4>【单选题】</h4>
-                    <p ng-bind="exercise.Children.exercisecommon.exercise.Conten"></p>
+                <div ng-show="exercise.Children.exercisecommon.exercise.ExerciseType==2">
+                    <div class="issue_box">
+                        <h4>【单选题】</h4>
+                        <p ng-bind="exercise.Children.exercisecommon.exercise.Conten"></p>
+                    </div>
+                    <div class="radio_list">
+                        <p ng-repeat="item in exercise.Children.exercisechoicelist">
+                            <input type="radio" ng-checked="item.IsCorrect==1">{{item.Conten}}
+                        </p>
+                    </div>
                 </div>
-                <div class="radio_list">
-                    <p ng-repeat="item in exercise.Children.exercisechoicelist">
-                        <input type="radio" ng-checked="item.IsCorrect==1">{{item.Conten}}
-                    </p>
+                <div ng-show="exercise.ChildrenMultiple.exercisecommon.exercise.ExerciseType==3">
+                    <div class="issue_box">
+                        <h4>【多选题】</h4>
+                        <p ng-bind="exercise.ChildrenMultiple.exercisecommon.exercise.Conten"></p>
+                    </div>
+                    <div class="checkbox_list">
+                        <p ng-repeat="item in exercise.ChildrenMultiple.exercisechoicelist">
+                            <input type="checkbox" ng-checked="item.IsCorrect">{{item.Conten}}
+                        </p>
+                    </div>
                 </div>
-                <div class="issue_box">
-                    <h4>【填空题】</h4>
-                    <p ng-bind="exercise.Children.Children.Children.exercisecommon.exercise.Conten">填空题题干</p>
+                <div ng-show="exercise.ChildrenFillBlank.exercisecommon.exercise.ExerciseType==18">
+                    <div class="issue_box">
+                        <h4>【填空题】</h4>
+                        <p ng-bind="exercise.ChildrenFillBlank.exercisecommon.exercise.Conten">填空题题干</p>
+                    </div>
+                    <input class="blank_box" type="text" ng-value="exercise.ChildrenFillBlank.exercisecommon.exercise.Answer">
                 </div>
-                <input class="blank_box" type="text" ng-value="exercise.Children.Children.Children.exercisecommon.exercise.Answer">
             </li>
-            <li ng-show="exercise.exercisecommon.exercise.ExerciseType==8||exercise.exercisecommon.exercise.ExerciseType==9">
+            <li ng-show="exercise.exercisecommon.exercise.ExerciseType==8">
                 <div class="issue_box">
-                    <h4>【分析题/解答题/计算题】</h4>
-                    <p>分析题/解答题/计算题题干</p>
+                    <h4>【分析题】</h4>
+                    <p>分析题</p>
                 </div>
-                <input class="blank_box" type="text" placeholder="输入分析题/解答题/计算题答案">
+                <input class="blank_box" type="text" placeholder="输入分析题案">
+            </li>
+            <li ng-show="exercise.exercisecommon.exercise.ExerciseType==9">
+                <div class="issue_box">
+                    <h4>【计算题】</h4>
+                    <p>计算题题干</p>
+                </div>
+                <input class="blank_box" type="text" placeholder="计算题答案">
             </li>
             <li style="display:none;">
                 <div class="issue_box">
@@ -121,28 +149,37 @@
                     <i class="icon text_doc"></i>
                     <div class="listening">
                         <h4>【阅读理解（选择）/完形填空】</h4>
-                        <p>阅读理解（填空）题干</p>
+                        <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
+                    </div>
+                </div> 
+                <div ng-show="exercise.Children.exercisecommon.exercise.ExerciseType==2">
+                    <div class="issue_box">
+                        <h4>【单选题】</h4>
+                        <p ng-bind="exercise.Children.exercisecommon.exercise.Conten"></p>
+                    </div>
+                    <div class="radio_list">
+                        <p ng-repeat="item in exercise.Children.exercisechoicelist">
+                            <input type="radio" ng-checked="item.IsCorrect==1">{{item.Conten}}
+                        </p>
                     </div>
                 </div>
-                <div class="issue_box">
-                    <h4>【单选题】</h4>
-                    <p>共享课程的视频格式要求？</p>
+                <div ng-show="exercise.ChildrenMultiple.exercisecommon.exercise.ExerciseType==3">
+                    <div class="issue_box">
+                        <h4>【多选题】</h4>
+                        <p ng-bind="exercise.ChildrenMultiple.exercisecommon.exercise.Conten"></p>
+                    </div>
+                    <div class="checkbox_list">
+                        <p ng-repeat="item in exercise.ChildrenMultiple.exercisechoicelist">
+                            <input type="checkbox" ng-checked="item.IsCorrect">{{item.Conten}}
+                        </p>
+                    </div>
                 </div>
-                <div class="radio_list">
-                    <p><input type="radio">A.WMV</p>
-                    <p><input type="radio">B.RMVB</p>
-                    <p><input type="radio">C.MP4</p>
-                    <p><input type="radio">D.AVI</p>
-                </div>
-                <div class="issue_box">
-                    <h4>【多选题】</h4>
-                    <p>以下描述正确的是？</p>
-                </div>
-                <div class="checkbox_list">
-                    <p><input type="checkbox">A.视频分辨率可以是1280*720，1024*768，800*600</p>
-                    <p><input type="checkbox">B.视频码流要求小于等于1M，便于网上流畅直播</p>
-                    <p><input type="checkbox">C.视频时长不做限制，老师可以把随堂拍的视频直接拿来使用</p>
-                    <p><input type="checkbox"> D.视频时长建议几分钟至十几分钟内。知识点化或小主题化，有较强针对性，查找方便</p>
+                <div ng-show="exercise.ChildrenFillBlank.exercisecommon.exercise.ExerciseType==18">
+                    <div class="issue_box">
+                        <h4>【填空题】</h4>
+                        <p ng-bind="exercise.ChildrenFillBlank.exercisecommon.exercise.Conten">填空题题干</p>
+                    </div>
+                    <input class="blank_box" type="text" ng-value="exercise.ChildrenFillBlank.exercisecommon.exercise.Answer">
                 </div>
             </li>
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==13">
@@ -182,7 +219,7 @@
                 </div>
                 <div class="sequence_list">
                     <div class="sequence" ng-repeat="item in exercise.exercisechoicelist">
-                        <select>
+                        <select style="width:45px;">
                             <option ng-bind="item.OrderNum"></option>
                         </select>
                         <p ng-bind="item.Conten"></p>

@@ -8,7 +8,7 @@
                 'audio':folderItem.FileType==7,
                'zip':folderItem.FileType==8,
                'other':folderItem.FileType==9,
-               '': folderItem.RelationType==0}" ng-click="onOpen()">
+               'file': folderItem.RelationType==0}" ng-click="onOpen()">
     </i>
     <p class="data_tit" ng-bind="folderName"></p>
     <input class="rename_test" ng-model="folderName" ng-blur="onBlur()" type="text">

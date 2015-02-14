@@ -1146,6 +1146,7 @@
     <Content Include="Views\Exercise\Sorting.cshtml" />
     <Content Include="Views\Exercise\Analysis.cshtml" />
     <Content Include="Views\Exercise\Preview.cshtml" />
+    <Content Include="Views\Exercise\Reading.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

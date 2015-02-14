@@ -44,6 +44,8 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         .state('exercise.listening', { url: '/listening/:ExerciseID', templateUrl: '/views/Exercise/Listening', controller: 'ListeningCtrl' })
         //自定义题
         .state('exercise.custom', { url: '/custom/:ExerciseID', templateUrl: '/views/Exercise/Custom', controller: 'CustomCtrl' })
+        //阅读理解题
+        .state('exercise.reading', { url: '/reading/:ExerciseID', templateUrl: '/views/Exercise/Reading', controller: 'ReadingCtrl' })
         //问答题,写作题
         .state('exercise.quesanswer', { url: '/quesanswer/:ExerciseID', templateUrl: '/views/Exercise/QuesAnswer', controller: 'QuesanswerCtrl' })
         //名词解释
