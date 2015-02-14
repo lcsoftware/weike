@@ -12,7 +12,8 @@
         <textarea class="form-control" style="margin-top:5px;" ng-model="model.exercisechoicelist[0].Answer" placeholder="在此处添加答案..."></textarea>
     </div>
     <div class="text_box" style="color: #F00; margin-top: 20px;">
-        试题解析:
-        <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Analysis"></textarea>        
+        <input type="hidden" name="editorAnalysis" id="editorAnalysis" ng-model="editorAnalysisText" ng-value="editorAnalysisText">
+        <iframe src="/Frameworks/eWebEditor/ewebeditor.htm?id=editorAnalysis&style=coolblue"
+                frameborder="0" scrolling="no" width="880" height="300" style="display: block;"></iframe>     
     </div>
 </div>

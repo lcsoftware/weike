@@ -1,17 +1,14 @@
 ﻿<div class="paper_content">    
-    <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Conten"></textarea>
+    <editor editor-id="editorInput" editor-text="editorText"></editor>
     <a class="add_attach" dialog-show dialog-id="eIesUploader"><em><i class="icon"></i></em><span>添加附件</span></a>
     <attach-list attachments="model.exercisecommon.attachmentlist"></attach-list>
     <p class="no_rank">翻译题答案可以为空</p>
     <div class="text_box" style="color:#F00;">
         <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Answer"></textarea>
-    </div>
-    <ul class="question_item">
-        <li ng-class="{active:textarea==0}"><a ng-click="tabTextarea()">试题解析</a></li>
-        <li ng-class="{active:textarea==1}"><a ng-click="tabTextarea()">得分点</a></li>
-    </ul>
+    </div>    
     <div class="text_box" style="color:#F00;">
-        <textarea class="form-control" rows="4" ng-show="textarea==0" ng-model="model.exercisecommon.exercise.Analysis"></textarea>
-        <textarea class="form-control" rows="4" ng-show="textarea==1" ng-model="model.exercisecommon.exercise.ScorePoint"></textarea>
+        <input type="hidden" name="editorAnalysis" id="editorAnalysis" ng-model="editorAnalysisText" ng-value="editorAnalysisText">
+        <iframe src="/Frameworks/eWebEditor/ewebeditor.htm?id=editorAnalysis&style=coolblue"
+                frameborder="0" scrolling="no" width="880" height="300" style="display: block;"></iframe>
     </div>
 </div>

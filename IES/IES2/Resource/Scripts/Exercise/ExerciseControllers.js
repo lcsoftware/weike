@@ -17,7 +17,7 @@ appExercise.controller('PreviewCtrl', ['$scope', 'previewService', function ($sc
 appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService', 'resourceKenService', 'exerciseService', 'contentService', 'kenService', 'assistService',
     function ($scope, $state, resourceService, resourceKenService, exerciseService, contentService, kenService, assistService) {
 
-        $scope.pagesNum = 100; 
+        $scope.pagesNum = 100;
         var pageSize = 5;
 
         contentService.OC_Get(function (data) {
@@ -1188,6 +1188,12 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
     });
 
     $scope.$on('willRequestSave', function (event, data) {
+        var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
+        $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+        if ($scope.model.exercisecommon.exercise.Answer == null) {
+            alert('请选择正确答案');
+            return;
+        }
         $scope.willTopBind($scope.model, data);
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_Judge_M_Edit(v, function (data) {
@@ -1217,17 +1223,18 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
             exerciseService.Exercise_Judge_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
+                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
                 $scope.model = data.d;
-                $scope.model.exercisecommon.exercise.Answer = '0';
             });
         }
     }
     init();
 
     $scope.answeChange = function (answer) {
+        if (answer == null) answer = '0';
         $scope.model.exercisecommon.exercise.Answer = answer == '0' ? '1' : '0';
     }
 
@@ -1250,6 +1257,8 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
     });
 
     $scope.$on('willRequestSave', function (event, data) {
+        var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
+        $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
             for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
@@ -1312,7 +1321,7 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
             exerciseService.Exercise_Analysis_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
-
+                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
                 for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
                     var a = $scope.model.exercisechoicelist[i].Answer.split('wshgkjqbwhfbxlfrh_c');
                     $scope.model.exercisechoicelist[i].Answer = a[0];
@@ -1421,6 +1430,10 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
     });
 
     $scope.$on('willRequestSave', function (event, data) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+        var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
+        $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
         //将选项加到exercisechoicelist数组中
         $scope.model.exercisechoicelist.length = 0;
         var choice = {};
@@ -1510,6 +1523,9 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
             exerciseService.Exercise_MultipleChoice_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
+                $scope.editorText = $scope.$parent.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
+
                 for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
                     if ($scope.model.exercisechoicelist[i].Grou == 0) {
                         $scope.ganraoList.push($scope.model.exercisechoicelist[i]);
@@ -1533,7 +1549,6 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
                         }
                     }
                 }
-                console.log(grou);
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -1584,6 +1599,9 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
     });
 
     $scope.$on('willRequestSave', function (event, data) {
+        var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
+        $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
             for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
@@ -1646,6 +1664,7 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
             exerciseService.Exercise_MultipleChoice_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
+                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
             });
         } else {
             exerciseService.Exercise_Model_Info(function (data) {
@@ -1698,6 +1717,8 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
     });
 
     $scope.$on('willRequestSave', function (event, data) {
+        var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
+        $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
             for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
@@ -1760,6 +1781,8 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
             exerciseService.Exercise_MultipleChoice_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
+                $scope.editorText = $scope.$parent.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
             });
         } else {
             exerciseService.Exercise_Model_Info(function (data) {
@@ -1807,8 +1830,10 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
 
     });
     $scope.$on('willRequestSave', function (event, data) {
-        $scope.willTopBind($scope.model, data);
+        var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
+        $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
 
+        $scope.willTopBind($scope.model, data);
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_Writing_M_Edit(v, function (data) {
             if (data.d != null) {
@@ -1834,8 +1859,8 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
             exerciseService.Exercise_Writing_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
-
-                $scope.textarea = $scope.model.exercisecommon.exercise.Analysis != null ? 0 : 1;
+                $scope.editorText = $scope.$parent.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -1843,10 +1868,7 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
                 $scope.textarea = 0;//切换试题解析和得分点
             });
         }
-    }
-    $scope.tabTextarea = function () {
-        $scope.textarea = $scope.textarea == 1 ? 0 : 1;
-    }
+    }    
     init();
 }]);
 
@@ -1857,6 +1879,11 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
     });
 
     $scope.$on('willRequestSave', function (event, data) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+        var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
+        $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
             for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
@@ -1921,6 +1948,8 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
             exerciseService.Exercise_MultipleChoice_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
+                $scope.editorText = $scope.$parent.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
                 //for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
                 //    var a = $scope.model.exercisechoicelist[i].Answer.split('wshgkjqbwhfbxlfrh_c');
                 //    $scope.model.exercisechoicelist[i].Answer = a[0];
@@ -1971,6 +2000,8 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
     $scope.$on('willRequestSave', function (event, data) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+        var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
+        $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
 
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
@@ -2029,6 +2060,7 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
                 $scope.$parent.model = data.d;
                 $scope.willEdit($scope.$parent.model);
                 $scope.editorText = $scope.$parent.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {

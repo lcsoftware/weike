@@ -47,6 +47,7 @@ namespace IES.Resource.Model
 
         public long FileSize { get; set; }
         public string Ext { get; set; }
+        public int FileType { get; set; }
 
         public DateTime CreateTime { get; set; }
 

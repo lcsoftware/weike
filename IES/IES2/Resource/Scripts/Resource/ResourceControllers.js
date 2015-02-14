@@ -40,7 +40,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     $scope.model.timePass = -1;
     $scope.tabTitles = [];
-    
+
 
     $scope.$emit('willResetCourse');
 
@@ -74,7 +74,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $scope.model.ParentID = 0;
             $scope.filterChanged();
 
-            
+
             $scope.order = 0;
             $scope.tabTitles.push({ id: 0, name: course.Name, order: $scope.order });
         });
@@ -146,7 +146,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $scope.shareRanges.insert(0, item);
         }
     });
-  
+
     //单击文件夹名称方法,进入文件夹
     $scope.folderClick = function (item) {
         if (item.RelationType == 1) return;
@@ -175,10 +175,10 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     var fileIndex = 0;
     //新建文件
-   ///************************************************文件上传******************************************
- 
+    ///************************************************文件上传******************************************
+
     //FROM 1 资料  2 附件 
-    $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) { 
+    $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) {
         ////TODO required testing
         //var length = response.length;
         //for (var i = 0; i < length; i++) {
@@ -191,8 +191,8 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     });
 
 
-   ///************************************************END 文件上传******************************************
-   
+    ///************************************************END 文件上传******************************************
+
     $scope.updFolderName = function (item) {
         if (item.RelationType == 1) {
             var file = { FileID: item.Id, FileTitle: item.Name };
@@ -346,7 +346,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     //    });
     //}
 
-   
+
     //删除文件夹弹出框
     $scope.fireRemove = function (item) {
         $scope.delIsShow = true;
@@ -358,7 +358,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         if ($scope.checks.length == 0) return;
         $scope.delIsShow = true;
         $scope.bgShow = true;
-
+        $scope.folder = null;
     }
     //移动文件弹出框
     $scope.fireMobile = function (item) {
@@ -377,15 +377,15 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
 
     //资料属性弹出框
-    $scope.fileProperty = function (item) { 
+    $scope.fileProperty = function (item) {
         $scope.file = item;
-        $('#fileProp').show(); 
-    } 
+        $('#fileProp').show();
+    }
 
     $scope.$on('onPerpertySave', function (e, chapter, ken) {
         var file = { FileID: $scope.file.Id };
         var c = { ChapterID: chapter.ChapterID };
-        var k = { KenID: ken.KenID }; 
+        var k = { KenID: ken.KenID };
         resourceService.File_Chapter_Ken_Edit(file, c, k);
     });
     //获取关联章节数据
@@ -405,10 +405,10 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     //删除文件夹弹出框点击确定按钮
     $scope.folderDelClick = function () {
-        if ($scope.checks.length == 0) {
-            $scope.checksSelect.push($scope.folder);
-        } else {
+        if ($scope.folder == null) {
             $scope.checksSelect = $scope.checks;
+        } else {
+            $scope.checksSelect.push($scope.folder);
         }
 
         for (var i = 0; i < $scope.checksSelect.length; i++) {
@@ -467,7 +467,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.propertyShow = false;
         $scope.folder = {};
     }
-   
+
 
     $scope.visible = function (item) {
         if ($scope.query && $scope.query.length > 0

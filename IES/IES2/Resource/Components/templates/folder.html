@@ -1,5 +1,15 @@
 ﻿<div>
-    <i class="icon_24" ng-class="folderExt" ng-click="onOpen()"></i>
-    <p class="data_tit" ng-bind="folderName"></p>
-    <input class="rename_test" ng-model="folderName" ng-blur="onBlur()" type="text">
+    <i class="icon_24" ng-class="{'video':folderItem.FileType==1,
+               'word':folderItem.FileType==2,
+               'excel':folderItem.FileType==3,
+               'ppt':folderItem.FileType==4,
+               'pdf':folderItem.FileType==5,
+               'image':folderItem.FileType==6,
+                'audio':folderItem.FileType==7,
+               'zip':folderItem.FileType==8,
+               'other':folderItem.FileType==9,
+               '': folderItem.RelationType==0}" ng-click="onOpen()">
+    </i>
+        <p class="data_tit" ng-bind="folderName"></p>
+        <input class="rename_test" ng-model="folderName" ng-blur="onBlur()" type="text">
 </div>
