@@ -541,8 +541,9 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         }
 
         $scope.willTopBind = function (model, data) {
-            //顶部关联项            
-            model.exercisecommon.exercise.OCID = data.course.OCID
+            //顶部关联项
+            model.exercisecommon.exercise.ShareRange = data.shareRange.id;
+            model.exercisecommon.exercise.OCID = data.course.OCID;
             model.exercisecommon.exercise.CourseID = data.course.CourseID;//课程编号
             model.exercisecommon.exercise.Diffcult = parseInt(data.difficult.id);//难度等级
             var scope = 0;
