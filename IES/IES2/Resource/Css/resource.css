@@ -605,7 +605,7 @@
 .option_select{ float:left; margin:7px 20px 0 0; width:200px; line-height:25px; height:25px; border:1px solid #ccc;}
 .resource_btn{ width:31px; height:96px; background:url(../images/resource_btn.gif) no-repeat; overflow:hidden; zoom:1; position:absolute; right:-31px; top:0; z-index:10;}
 .resource_btn a{ display:block; width:31px; height:31px; margin-bottom:1px;}
-.listening_btn{ display:none; width:90px; position:fixed; top:100px; left:50%; margin-left:400px;z-index:100;}
+.listening_btn{  width:90px; position:fixed; top:300px; left:50%; margin-left:400px;z-index:100;}
 .listening_btn li{ margin-bottom:8px;}
 .listening_btn li a{ display:block; width:90px; height:30px; line-height:30px; text-align:center; color:#fff; background:#475c7c; border-radius:3px; }
 .listening_btn li.active a,.listening_btn li a:hover{ background:#f44f4f;}

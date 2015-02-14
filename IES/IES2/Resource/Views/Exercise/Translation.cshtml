@@ -4,8 +4,11 @@
     <attach-list attachments="model.exercisecommon.attachmentlist"></attach-list>
     <p class="no_rank">翻译题答案可以为空</p>
     <div class="text_box" style="color:#F00;">
-        <textarea class="form-control" rows="4" ng-model="model.exercisecommon.exercise.Answer"></textarea>
-    </div>    
+        <input type="hidden" name="editorAnswer" id="editorAnswer" ng-model="editorAnswerText" ng-value="editorAnswerText">
+        <iframe src="/Frameworks/eWebEditor/ewebeditor.htm?id=editorAnswer&style=coolblue"
+                frameborder="0" scrolling="no" width="880" height="300" style="display: block;"></iframe>
+    </div>
+    <br />
     <div class="text_box" style="color:#F00;">
         <input type="hidden" name="editorAnalysis" id="editorAnalysis" ng-model="editorAnalysisText" ng-value="editorAnalysisText">
         <iframe src="/Frameworks/eWebEditor/ewebeditor.htm?id=editorAnalysis&style=coolblue"

@@ -115,7 +115,6 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     ///批量删除
     service.Exercise_Batch_Del = function (ids, callback) {
         httpService.ajaxPost(url, 'Exercise_Batch_Del', { ids: ids }, callback);
-    }
-
+    } 
     return service;
 }]);

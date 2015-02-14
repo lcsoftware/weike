@@ -25,5 +25,8 @@ namespace IES.Resource.Model
 
 
         public ExerciseInfo Children { get; set; }
+
+        public ExerciseInfo ChildrenMultiple { get; set; }
+        public ExerciseInfo ChildrenFillBlank { get; set; }
     }
 }

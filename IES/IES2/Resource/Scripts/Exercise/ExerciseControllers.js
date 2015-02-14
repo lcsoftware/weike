@@ -329,6 +329,9 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
                 case 9: //计算题
                     $state.go('exercise.analysis', param)
                     break;
+                case 14: //阅读理解题
+                    $state.go('exercise.reading', param)
+                    break;
                 default:
                     break;
             }
@@ -443,6 +446,9 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
                     break;
                 case '9': //计算题
                     $state.go('exercise.analysis', param)
+                    break;
+                case '14': //阅读理解题
+                    $state.go('exercise.reading', param)
                     break;
                 default:
                     break;
@@ -722,23 +728,28 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
     });
 
     $scope.$on('willRequestSave', function (event, data) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+        //var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
+        //$scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+
         $scope.willTopBind($scope.model, data);
         //增加子单选题
-        if ($scope.model.Children != null) {
+        if ($scope.isShowRadio == 1) {
             SplicingRadio($scope.model.Children);
             $scope.model.Children.exercisecommon.exercise.ExerciseType = 2;
             $scope.model.Children.exercisecommon.exercise.ExerciseTypeName = '单选题';
         }
         //增加子多选题
-        if ($scope.model.Children.Children != null) {
-            SplicingRadio($scope.model.Children.Children);
-            $scope.model.Children.Children.exercisecommon.exercise.ExerciseType = 3;
-            $scope.model.Children.Children.exercisecommon.exercise.ExerciseTypeName = '多选题';
+        if ($scope.isShowMultiple == 1) {
+            SplicingRadio($scope.model.ChildrenMultiple);
+            $scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseType = 3;
+            $scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseTypeName = '多选题';
         }
         //增加子填空题
-        if ($scope.model.Children.Children.Children != null) {
-            $scope.model.Children.Children.Children.exercisecommon.exercise.ExerciseType = 18;
-            $scope.model.Children.Children.Children.exercisecommon.exercise.ExerciseTypeName = '填空题';
+        if ($scope.isShowFillBlank == 1) {
+            $scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseType = 18;
+            $scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseTypeName = '填空题';
         }
 
 
@@ -764,7 +775,6 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
 
     $scope.Attachment = {};//附件对象
     $scope.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
-
     var answer = { Conten: '', IsCorrect: 0 };
 
 
@@ -772,17 +782,24 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
         if ($scope.ExerciseID > -1) {
             exerciseService.Exercise_Custom_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
+                if ($scope.model.Children.exercisecommon.exercise.ExerciseType == 2)
+                    $scope.isShowRadio = 1;
+                if ($scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseType == 3)
+                    $scope.isShowMultiple = 1;
+                if ($scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseType == 18)
+                    $scope.isShowFillBlank = 1;
+
                 $scope.willEdit($scope.model);
+                $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
                 $scope.model = data.d;
-                answer = { Conten: '', IsCorrect: 0 };
-                $scope.model.Children.exercisechoicelist.push(answer);
-                answer = { Conten: '', IsCorrect: 0 };
-                $scope.model.Children.Children.exercisechoicelist.push(answer);
-                answer = { Conten: '' };
-                $scope.model.Children.Children.Children.exercisechoicelist.push(answer);
+                for (var i = 0; i < 4; i++) {
+                    $scope.AddAnswer();
+                    $scope.AddAnswerMultiple();
+                }
             });
         }
     }
@@ -818,20 +835,20 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
     //添加选项,多选
     $scope.AddAnswerMultiple = function () {
         answer = { Conten: '', IsCorrect: 0 };
-        $scope.model.Children.Children.exercisechoicelist.push(answer);
+        $scope.model.ChildrenMultiple.exercisechoicelist.push(answer);
     }
     //删除选项,多选
     $scope.delMultiple = function (item) {
         if ($scope.ExerciseID > 0) {
-            for (var i = 0; i < $scope.model.Children.Children.exercisechoicelist.length; i++) {
-                if ($scope.model.Children.Children.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.Children.Children.exercisechoicelist[i].Conten = '';
+            for (var i = 0; i < $scope.model.ChildrenMultiple.exercisechoicelist.length; i++) {
+                if ($scope.model.ChildrenMultiple.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                    $scope.model.ChildrenMultiple.exercisechoicelist[i].Conten = '';
                 }
             }
         } else {
-            for (var i = 0; i < $scope.model.Children.Children.exercisechoicelist.length; i++) {
-                if ($scope.model.Children.Children.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.Children.Children.exercisechoicelist.splice(i, 1);
+            for (var i = 0; i < $scope.model.ChildrenMultiple.exercisechoicelist.length; i++) {
+                if ($scope.model.ChildrenMultiple.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                    $scope.model.ChildrenMultiple.exercisechoicelist.splice(i, 1);
                 }
             }
         }
@@ -874,6 +891,41 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
         }
     }
 
+    $scope.ShowRadio = function () {
+        $scope.isShowRadio = 1;
+        if ($scope.model.Children.exercisechoicelist.length == 0) {
+            for (var i = 0; i < 4; i++) {
+                $scope.AddAnswer();
+            }
+        }
+    }
+    $scope.ShowMultiple = function () {
+        $scope.isShowMultiple = 1;
+        if ($scope.model.ChildrenMultiple.exercisechoicelist.length == 0) {
+            for (var i = 0; i < 4; i++) {
+                $scope.AddAnswerMultiple();
+            }
+        }
+    }
+
+    $scope.delRadio = function (ExerciseID) {
+        $scope.isShowRadio = 0;
+        $scope.model.Children.exercisecommon.exercise = {};
+        exerciseService.Exercise_Del(ExerciseID, function (data) {
+        });
+    }
+    $scope.delMultiples = function (ExerciseID) {
+        $scope.isShowMultiple = 0;
+        $scope.model.ChildrenMultiple.exercisecommon.exercise = {};
+        exerciseService.Exercise_Del(ExerciseID, function (data) {
+        });
+    }
+    $scope.delFillBlank = function (ExerciseID) {
+        $scope.isShowFillBlank = 0;
+        $scope.model.ChildrenFillBlank.exercisecommon.exercise = {};
+        exerciseService.Exercise_Del(ExerciseID, function (data) {
+        });
+    }
     init();
 }]);
 
@@ -884,23 +936,28 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
     });
 
     $scope.$on('willRequestSave', function (event, data) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+        //var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
+        //$scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+
         $scope.willTopBind($scope.model, data);
         //增加子单选题
-        if ($scope.model.Children != null) {
+        if ($scope.isShowRadio == 1) {
             SplicingRadio($scope.model.Children);
             $scope.model.Children.exercisecommon.exercise.ExerciseType = 2;
             $scope.model.Children.exercisecommon.exercise.ExerciseTypeName = '单选题';
         }
         //增加子多选题
-        if ($scope.model.Children.Children != null) {
-            SplicingRadio($scope.model.Children.Children);
-            $scope.model.Children.Children.exercisecommon.exercise.ExerciseType = 3;
-            $scope.model.Children.Children.exercisecommon.exercise.ExerciseTypeName = '多选题';
+        if ($scope.isShowMultiple == 1) {
+            SplicingRadio($scope.model.ChildrenMultiple);
+            $scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseType = 3;
+            $scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseTypeName = '多选题';
         }
         //增加子填空题
-        if ($scope.model.Children.Children.Children != null) {
-            $scope.model.Children.Children.Children.exercisecommon.exercise.ExerciseType = 18;
-            $scope.model.Children.Children.Children.exercisecommon.exercise.ExerciseTypeName = '填空题';
+        if ($scope.isShowFillBlank == 1) {
+            $scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseType = 18;
+            $scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseTypeName = '填空题';
         }
 
 
@@ -926,7 +983,6 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
 
     $scope.Attachment = {};//附件对象
     $scope.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
-
     var answer = { Conten: '', IsCorrect: 0 };
 
 
@@ -934,17 +990,24 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
         if ($scope.ExerciseID > -1) {
             exerciseService.Exercise_Custom_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
+                if ($scope.model.Children.exercisecommon.exercise.ExerciseType == 2)
+                    $scope.isShowRadio = 1;
+                if ($scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseType == 3)
+                    $scope.isShowMultiple = 1;
+                if ($scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseType == 18)
+                    $scope.isShowFillBlank = 1;
+
                 $scope.willEdit($scope.model);
+                $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
                 $scope.model = data.d;
-                answer = { Conten: '', IsCorrect: 0 };
-                $scope.model.Children.exercisechoicelist.push(answer);
-                answer = { Conten: '', IsCorrect: 0 };
-                $scope.model.Children.Children.exercisechoicelist.push(answer);
-                answer = { Conten: '' };
-                $scope.model.Children.Children.Children.exercisechoicelist.push(answer);
+                for (var i = 0; i < 4; i++) {
+                    $scope.AddAnswer();
+                    $scope.AddAnswerMultiple();
+                }
             });
         }
     }
@@ -980,20 +1043,20 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
     //添加选项,多选
     $scope.AddAnswerMultiple = function () {
         answer = { Conten: '', IsCorrect: 0 };
-        $scope.model.Children.Children.exercisechoicelist.push(answer);
+        $scope.model.ChildrenMultiple.exercisechoicelist.push(answer);
     }
     //删除选项,多选
     $scope.delMultiple = function (item) {
         if ($scope.ExerciseID > 0) {
-            for (var i = 0; i < $scope.model.Children.Children.exercisechoicelist.length; i++) {
-                if ($scope.model.Children.Children.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.Children.Children.exercisechoicelist[i].Conten = '';
+            for (var i = 0; i < $scope.model.ChildrenMultiple.exercisechoicelist.length; i++) {
+                if ($scope.model.ChildrenMultiple.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                    $scope.model.ChildrenMultiple.exercisechoicelist[i].Conten = '';
                 }
             }
         } else {
-            for (var i = 0; i < $scope.model.Children.Children.exercisechoicelist.length; i++) {
-                if ($scope.model.Children.Children.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.Children.Children.exercisechoicelist.splice(i, 1);
+            for (var i = 0; i < $scope.model.ChildrenMultiple.exercisechoicelist.length; i++) {
+                if ($scope.model.ChildrenMultiple.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                    $scope.model.ChildrenMultiple.exercisechoicelist.splice(i, 1);
                 }
             }
         }
@@ -1036,6 +1099,249 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
         }
     }
 
+    $scope.ShowRadio = function () {
+        $scope.isShowRadio = 1;
+        if ($scope.model.Children.exercisechoicelist.length == 0) {
+            for (var i = 0; i < 4; i++) {
+                $scope.AddAnswer();
+            }
+        }
+    }
+    $scope.ShowMultiple = function () {
+        $scope.isShowMultiple = 1;
+        if ($scope.model.ChildrenMultiple.exercisechoicelist.length == 0) {
+            for (var i = 0; i < 4; i++) {
+                $scope.AddAnswerMultiple();
+            }
+        }
+    }
+
+    $scope.delRadio = function (ExerciseID) {
+        $scope.isShowRadio = 0;
+        $scope.model.Children.exercisecommon.exercise = {};
+        exerciseService.Exercise_Del(ExerciseID, function (data) {
+        });
+    }
+    $scope.delMultiples = function (ExerciseID) {
+        $scope.isShowMultiple = 0;
+        $scope.model.ChildrenMultiple.exercisecommon.exercise = {};
+        exerciseService.Exercise_Del(ExerciseID, function (data) {
+        });
+    }
+    $scope.delFillBlank = function (ExerciseID) {
+        $scope.isShowFillBlank = 0;
+        $scope.model.ChildrenFillBlank.exercisecommon.exercise = {};
+        exerciseService.Exercise_Del(ExerciseID, function (data) {
+        });
+    } 
+    init();
+}]);
+
+//阅读理解
+appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParams', '$state', function ($scope, exerciseService, $stateParams, $state) {
+    $scope.$on('willExerciseChange', function (event, changeParam) {
+
+    });
+
+    $scope.$on('willRequestSave', function (event, data) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+        //var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
+        //$scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+
+        $scope.willTopBind($scope.model, data);
+        //增加子单选题
+        if ($scope.isShowRadio == 1) {
+            SplicingRadio($scope.model.Children);
+            $scope.model.Children.exercisecommon.exercise.ExerciseType = 2;
+            $scope.model.Children.exercisecommon.exercise.ExerciseTypeName = '单选题';
+        }
+        //增加子多选题
+        if ($scope.isShowMultiple == 1) {
+            SplicingRadio($scope.model.ChildrenMultiple);
+            $scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseType = 3;
+            $scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseTypeName = '多选题';
+        }
+        //增加子填空题
+        if ($scope.isShowFillBlank == 1) {
+            $scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseType = 18;
+            $scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseTypeName = '填空题';
+        }
+
+
+        var v = angular.toJson($scope.model);
+        exerciseService.Exercise_Custom_M_Edit(v, function (data) {
+            if (data.d != null) {
+                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
+                alert('提交成功！');
+                $state.go('content.exercise');
+            }
+        });
+    });
+
+    $scope.$on('onPreview', function (event) {
+        $scope.$emit('onBeginPreview', $scope.model);
+    });
+
+    $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
+        $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
+    });
+
+    $scope.model = {};//ExerciseInfo对象
+
+    $scope.Attachment = {};//附件对象
+    $scope.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
+    var answer = { Conten: '', IsCorrect: 0 };
+
+
+    var init = function () {
+        if ($scope.ExerciseID > -1) {
+            exerciseService.Exercise_Custom_Get($scope.ExerciseID, function (data) {
+                $scope.model = data.d;
+                if ($scope.model.Children.exercisecommon.exercise.ExerciseType == 2)
+                    $scope.isShowRadio = 1;
+                if ($scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseType == 3)
+                    $scope.isShowMultiple = 1;
+                if ($scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseType == 18)
+                    $scope.isShowFillBlank = 1;
+
+                $scope.willEdit($scope.model);
+                $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+            });
+        } else {
+            exerciseService.Exercise_Model_Info_Get(function (data) {
+                $scope.model = data.d;
+                for (var i = 0; i < 4; i++) {
+                    $scope.AddAnswer();
+                    $scope.AddAnswerMultiple();
+                }
+            });
+        }
+    }
+    //添加选项
+    $scope.AddAnswer = function () {
+        answer = { Conten: '', IsCorrect: 0 };
+        $scope.model.Children.exercisechoicelist.push(answer);
+    }
+    //删除选项
+    $scope.del = function (item) {
+        if ($scope.ExerciseID > 0) {
+            for (var i = 0; i < $scope.model.Children.exercisechoicelist.length; i++) {
+                if ($scope.model.Children.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                    $scope.model.Children.exercisechoicelist[i].Conten = '';
+                }
+            }
+        } else {
+            for (var i = 0; i < $scope.model.Children.exercisechoicelist.length; i++) {
+                if ($scope.model.Children.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                    $scope.model.Children.exercisechoicelist.splice(i, 1);
+                }
+            }
+        }
+    }
+    //是否是正确答案
+    $scope.isCorrectChange = function (item) {
+        for (var i = 0; i < $scope.model.Children.exercisechoicelist.length; i++) {
+            $scope.model.Children.exercisechoicelist[i].IsCorrect = 0;
+        }
+        item.IsCorrect = item.IsCorrect ? 0 : 1;
+    }
+
+    //添加选项,多选
+    $scope.AddAnswerMultiple = function () {
+        answer = { Conten: '', IsCorrect: 0 };
+        $scope.model.ChildrenMultiple.exercisechoicelist.push(answer);
+    }
+    //删除选项,多选
+    $scope.delMultiple = function (item) {
+        if ($scope.ExerciseID > 0) {
+            for (var i = 0; i < $scope.model.ChildrenMultiple.exercisechoicelist.length; i++) {
+                if ($scope.model.ChildrenMultiple.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                    $scope.model.ChildrenMultiple.exercisechoicelist[i].Conten = '';
+                }
+            }
+        } else {
+            for (var i = 0; i < $scope.model.ChildrenMultiple.exercisechoicelist.length; i++) {
+                if ($scope.model.ChildrenMultiple.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                    $scope.model.ChildrenMultiple.exercisechoicelist.splice(i, 1);
+                }
+            }
+        }
+    }
+    //是否是正确答案,多选
+    $scope.isCorrectChangeMultiple = function (item) {
+        item.IsCorrect = item.IsCorrect ? 0 : 1;
+    }
+
+    //拼接单选，多选题选项
+    var SplicingRadio = function (model) {
+        model.exercisecommon.exercise.Content = "";
+        if (model.exercisecommon.exercise.ExerciseID > 0) {
+            for (var i = 0; i < model.exercisechoicelist.length; i++) {
+                var answer = model.exercisechoicelist[i].Conten == null ? "" : model.exercisechoicelist[i].Conten;
+                var childId = model.exercisechoicelist[i].ChoiceID == null ? 0 : model.exercisechoicelist[i].ChoiceID;
+                var isCorrect = model.exercisechoicelist[i].IsCorrect == false ? 0 : 1;
+                if ((i + 1) == model.exercisechoicelist.length) {
+                    model.exercisecommon.exercise.Content +=
+                    childId + "wshgkjqbwhfbxlfrh_b"
+                    + answer + "wshgkjqbwhfbxlfrh_c" + isCorrect;
+                } else {
+                    model.exercisecommon.exercise.Content +=
+                    childId + "wshgkjqbwhfbxlfrh_b"
+                    + answer + "wshgkjqbwhfbxlfrh_c" + isCorrect + "wshgkjqbwhfbxlfrh_a";
+                }
+            }
+        }
+        else {
+            for (var i = 0; i < model.exercisechoicelist.length; i++) {
+                var answer = model.exercisechoicelist[i].Conten == null ? "" : model.exercisechoicelist[i].Conten;
+                if ((i + 1) == model.exercisechoicelist.length) {
+                    model.exercisecommon.exercise.Content +=
+                    "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + model.exercisechoicelist[i].IsCorrect;
+                } else {
+                    model.exercisecommon.exercise.Content +=
+                    "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + model.exercisechoicelist[i].IsCorrect + "wshgkjqbwhfbxlfrh_a";
+                }
+            }
+        }
+    }
+
+    $scope.ShowRadio = function () {
+        $scope.isShowRadio = 1;
+        if ($scope.model.Children.exercisechoicelist.length == 0) {
+            for (var i = 0; i < 4; i++) {
+                $scope.AddAnswer();
+            }
+        }
+    }
+    $scope.ShowMultiple = function () {
+        $scope.isShowMultiple = 1;
+        if ($scope.model.ChildrenMultiple.exercisechoicelist.length == 0) {
+            for (var i = 0; i < 4; i++) {
+                $scope.AddAnswerMultiple();
+            }
+        }
+    }
+
+    $scope.delRadio = function (ExerciseID) {
+        $scope.isShowRadio = 0;
+        $scope.model.Children.exercisecommon.exercise = {};
+        exerciseService.Exercise_Del(ExerciseID, function (data) {
+        });
+    }
+    $scope.delMultiples = function (ExerciseID) {
+        $scope.isShowMultiple = 0;
+        $scope.model.ChildrenMultiple.exercisecommon.exercise = {};
+        exerciseService.Exercise_Del(ExerciseID, function (data) {
+        });
+    }
+    $scope.delFillBlank = function (ExerciseID) {
+        $scope.isShowFillBlank = 0;
+        $scope.model.ChildrenFillBlank.exercisecommon.exercise = {};
+        exerciseService.Exercise_Del(ExerciseID, function (data) {
+        });
+    }
     init();
 }]);
 
@@ -1048,6 +1354,11 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
     $scope.$on('willRequestSave', function (event, data) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+        var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
+        $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+        var editor2 = EWEBEDITOR.Instances["editorAnswer"];
+        $scope.model.exercisecommon.exercise.Answer = editor2.getHTML();
+
 
         $scope.willTopBind($scope.model, data);
 
@@ -1081,7 +1392,8 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
-                $scope.textarea = $scope.model.exercisecommon.exercise.Analysis != null ? 0 : 1;
+                $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+                $scope.editorAnswerText = $scope.model.exercisecommon.exercise.Answer;
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -1091,9 +1403,6 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
         }
     }
 
-    $scope.tabTextarea = function () {
-        $scope.textarea = $scope.textarea == 1 ? 0 : 1;
-    }
     init();
 }]);
 
@@ -1104,6 +1413,11 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
     });
 
     $scope.$on('willRequestSave', function (event, data) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+        var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
+        $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
             for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
@@ -1166,6 +1480,8 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
                     $scope.model.exercisechoicelist.push(answer);
                 }
                 $scope.willEdit($scope.model);
+                $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -1188,8 +1504,11 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
     });
 
     $scope.$on('willRequestSave', function (event, data) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
         $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+
         if ($scope.model.exercisecommon.exercise.Answer == null) {
             alert('请选择正确答案');
             return;
@@ -1223,7 +1542,8 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
             exerciseService.Exercise_Judge_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
-                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
+                $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -1257,8 +1577,11 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
     });
 
     $scope.$on('willRequestSave', function (event, data) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
         $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
             for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
@@ -1321,7 +1644,8 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
             exerciseService.Exercise_Analysis_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
-                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
+                $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
                 for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
                     var a = $scope.model.exercisechoicelist[i].Answer.split('wshgkjqbwhfbxlfrh_c');
                     $scope.model.exercisechoicelist[i].Answer = a[0];
@@ -1523,8 +1847,8 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
             exerciseService.Exercise_MultipleChoice_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
-                $scope.editorText = $scope.$parent.model.exercisecommon.exercise.Conten;
-                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
+                $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
 
                 for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
                     if ($scope.model.exercisechoicelist[i].Grou == 0) {
@@ -1599,6 +1923,8 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
     });
 
     $scope.$on('willRequestSave', function (event, data) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
         $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
 
@@ -1664,14 +1990,17 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
             exerciseService.Exercise_MultipleChoice_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
-                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
+                $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
             });
         } else {
-            exerciseService.Exercise_Model_Info(function (data) {
+            exerciseService.Exercise_Model_Info_Get(function (data) {
                 $scope.model = data.d;
                 answer = { Conten: '', IsCorrect: 0 };
                 $scope.model.exercisechoicelist = [];
-                $scope.model.exercisechoicelist.push(answer);
+                for (var i = 0; i < 4; i++) {
+                    $scope.AddAnswer();
+                }
             });
         }
     }
@@ -1717,8 +2046,11 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
     });
 
     $scope.$on('willRequestSave', function (event, data) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
         $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
             for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
@@ -1781,15 +2113,17 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
             exerciseService.Exercise_MultipleChoice_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
-                $scope.editorText = $scope.$parent.model.exercisecommon.exercise.Conten;
-                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
+                $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
             });
         } else {
-            exerciseService.Exercise_Model_Info(function (data) {
+            exerciseService.Exercise_Model_Info_Get(function (data) {
                 $scope.model = data.d;
                 answer = { Conten: '', IsCorrect: 0 };
                 $scope.model.exercisechoicelist = [];
-                $scope.model.exercisechoicelist.push(answer);
+                for (var i = 0; i < 4; i++) {
+                    $scope.AddAnswer();
+                }
             });
         }
     }
@@ -1830,8 +2164,12 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
 
     });
     $scope.$on('willRequestSave', function (event, data) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
         $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+        var editor2 = EWEBEDITOR.Instances["editorAnswer"];
+        $scope.model.exercisecommon.exercise.Answer = editor2.getHTML();
 
         $scope.willTopBind($scope.model, data);
         var v = angular.toJson($scope.model);
@@ -1859,8 +2197,9 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
             exerciseService.Exercise_Writing_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
-                $scope.editorText = $scope.$parent.model.exercisecommon.exercise.Conten;
-                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
+                $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+                $scope.editorAnswerText = $scope.model.exercisecommon.exercise.Answer;
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -1868,7 +2207,7 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
                 $scope.textarea = 0;//切换试题解析和得分点
             });
         }
-    }    
+    }
     init();
 }]);
 
@@ -1948,8 +2287,8 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
             exerciseService.Exercise_MultipleChoice_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
-                $scope.editorText = $scope.$parent.model.exercisecommon.exercise.Conten;
-                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
+                $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
                 //for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
                 //    var a = $scope.model.exercisechoicelist[i].Answer.split('wshgkjqbwhfbxlfrh_c');
                 //    $scope.model.exercisechoicelist[i].Answer = a[0];
@@ -2057,15 +2396,15 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
     var init = function () {
         if ($scope.ExerciseID > -1) {
             exerciseService.Exercise_Analysis_Get($scope.ExerciseID, function (data) {
-                $scope.$parent.model = data.d;
+                $scope.model = data.d;
                 $scope.willEdit($scope.$parent.model);
-                $scope.editorText = $scope.$parent.model.exercisecommon.exercise.Conten;
-                $scope.editorAnalysisText = $scope.$parent.model.exercisecommon.exercise.Analysis;
+                $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
+                $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
-                $scope.$parent.model = data.d;
-                $scope.$parent.model.exercisechoicelist.push(answer);
+                $scope.model = data.d;
+                $scope.model.exercisechoicelist.push(answer);
             });
         }
     }
@@ -2073,22 +2412,22 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
     //添加选项
     $scope.Add = function () {
         answer = { Conten: '', Answer: '' };
-        $scope.$parent.model.exercisechoicelist.push(answer);
+        $scope.model.exercisechoicelist.push(answer);
     }
 
     //删除选项
     $scope.Del = function (item) {
         if ($scope.ExerciseID > 0) {
-            for (var i = 0; i < $scope.$parent.model.exercisechoicelist.length; i++) {
-                if ($scope.$parent.model.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.$parent.model.exercisechoicelist[i].Conten = '';
-                    $scope.$parent.model.exercisechoicelist[i].Answer = '';
+            for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
+                if ($scope.model.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                    $scope.model.exercisechoicelist[i].Conten = '';
+                    $scope.model.exercisechoicelist[i].Answer = '';
                 }
             }
         } else {
-            for (var i = 0; i < $scope.$parent.model.exercisechoicelist.length; i++) {
-                if ($scope.$parent.model.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.$parent.model.exercisechoicelist.splice(i, 1);
+            for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
+                if ($scope.model.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                    $scope.model.exercisechoicelist.splice(i, 1);
                 }
             }
         }

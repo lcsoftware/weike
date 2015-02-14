@@ -9,12 +9,11 @@
     <div ng-repeat="item in model.exercisechoicelist">
         <div class="default fill_blank">
             <a ng-click="Del(item)">x</a>
-            <input type="text" ng-model="item.Conten">
-            <span class="icon icon_unfold"></span>
+            <input type="text" ng-model="item.Conten" placeholder="在此输入小题题干..."> 
         </div>
         <textarea class="form-control" style="margin-top:5px;" ng-model="item.Answer" placeholder="在此处添加答案..."></textarea>
     </div>
-    <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加选项</span></a>
+    <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加小题</span></a>
     <div class="text_box" style="color: #F00; margin-top: 20px;">
         <input type="hidden" name="editorAnalysis" id="editorAnalysis" ng-model="editorAnalysisText" ng-value="editorAnalysisText">
         <iframe src="/Frameworks/eWebEditor/ewebeditor.htm?id=editorAnalysis&style=coolblue"
