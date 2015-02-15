@@ -1233,10 +1233,23 @@ namespace IES.G2S.Resource.DAL
         /// <param name="list"></param>
         /// <param name="diffcult"></param>
         /// <returns></returns>
-        public static bool Exercise_Batch_Diffcult(List<IExercise> list, int diffcult)
+        public static bool Exercise_Batch_Diffcult(string exerciseIDS, int diffcult)
         {
-
-            return true;
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ExerciseIDS", exerciseIDS);
+                    p.Add("@diffcult", diffcult);
+                    conn.Execute("Exercise_Batch_Diffcult", p, commandType: CommandType.StoredProcedure);
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public static bool Exercise_Batch_Del(string ids)

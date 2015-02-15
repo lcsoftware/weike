@@ -52,7 +52,7 @@ namespace IES.G2S.Resource.IBLL
 
             #region 属性批量新增
 
-            bool Exercise_Batch_Diffcult(List<IExercise> list, int diffcult);
+            bool Exercise_Batch_Diffcult(string exerciseIDS, int diffcult);
 
             bool Exercise_Batch_Del(string ids);
 

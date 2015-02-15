@@ -1,4 +1,4 @@
-﻿<li class="show">
+﻿<li>
     <div class="topic_label">
         <p class="question_degree" ng-class="{'simple':exercise.Diffcult==1,'medium':exercise.Diffcult==2,'difficult':exercise.Diffcult==3}"><input type="checkbox" checklist-model="checks" checklist-value="exercise">{{getDifficultName(exercise)}}</p>
         <div class="label_list">
@@ -14,10 +14,10 @@
             <span>[{{getExerciseType(exercise)}}]</span>
             <span style="color: #a1a1a1">{{getShareRange(exercise)}}</span>            
         </h5>
-        <p class="question" ng-bind="exercise.Conten">
-        </p>
-        <p class="answer" ng-bind="exercise.Answer">
-        </p>
+        <div class="question" ng-bind-html="exercise.Conten">
+        </div>
+        <p class="answer" ng-bind-html="exercise.Answer">
+        </p> 
     </div>
     <div class="mess_box">
         <a class="icon_24 spread" href="javascript:;"></a>

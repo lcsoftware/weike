@@ -325,6 +325,12 @@ namespace App.Resource.DataProvider.Exercise
         public static bool Exercise_Batch_Del(string ids)
         {
             return new ExerciseBLL().Exercise_Batch_Del(ids);
+        }
+
+        [WebMethod]
+        public static bool Exercise_Batch_Diffcult(string ids, int diffcult)
+        {
+            return new ExerciseBLL().Exercise_Batch_Diffcult(ids, diffcult);
         } 
     }
 }

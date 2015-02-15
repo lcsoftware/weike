@@ -1,6 +1,7 @@
 ﻿'use strict';
 
 var appExercise = angular.module('app.exercise.controllers', [
+    'ngSanitize',
     'checklist-model',
     'app.assist.services',
     'app.exercise.services',
@@ -131,6 +132,14 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             }
         });
 
+        $scope.checkAll = function () {
+            $scope.checks.length = 0;
+            if ($scope.checkAllValue === true) {
+                angular.forEach($scope.exercises, function (item) {
+                    $scope.checks.push(item);
+                });
+            }
+        }
 
         $scope.courseChanged = function (item) {
             $scope.data.course = item;
@@ -248,6 +257,19 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
 
         });
 
+        ///批量难易程度
+        $scope.$on('onBatchDifficult', function (event, difficult) {
+            var ids = buildIDs($scope.checks);
+            exerciseService.Exercise_Batch_Diffcult(ids, difficult.id, function (data) {
+                if (data.d === true) {
+                    ExerciseSearch(pageSize, 1);
+                } else {
+                    ///TODO 统一提示框 加美化效果
+                    alert('难易程度批量操作失败！');
+                }
+            });
+        });
+
         ///习题共享 TODO 
         $scope.$on('onShareExercise', function (event, exercise, range) {
             var ids = exercise.ExerciseID;
@@ -260,12 +282,19 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
                 }
             });
         });
-
+        ///显示删除提示框
         $scope.$on('onDeleteExercise', function (event, exercise) {
-            exerciseService.Exercise_Del(exercise.ExerciseID, function (data) {
+            $scope.exerciseItemDelete = exercise;
+            $('#eConfirm').show();
+        });
+
+        $scope.exerciseItemDelete = {};
+        ///确认删除
+        $scope.$on('onDialogOk', function (event) {
+            exerciseService.Exercise_Del($scope.exerciseItemDelete.ExerciseID, function (data) {
                 var length = $scope.exercises.length;
                 for (var i = 0; i < length; i++) {
-                    if ($scope.exercises[i].ExerciseID == exercise.ExerciseID) {
+                    if ($scope.exercises[i].ExerciseID == $scope.exerciseItemDelete.ExerciseID) {
                         $scope.exercises.splice(i, 1);
                         break;
                     }
@@ -370,16 +399,16 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         ///获取在线课程 
         contentService.User_OC_List(function (data) {
             if (data.d) {
-                var courses = data.d; 
+                var courses = data.d;
                 var length = courses.length;
                 for (var i = 0; i < length; i++) {
                     if (courses[i].OCID == $stateParams.ocid) {
                         $scope.data.course = courses[i];
                     }
-                } 
+                }
             }
-        }); 
-     
+        });
+
 
         //知识点
         $scope.data.kens = [];
@@ -1163,7 +1192,7 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
         $scope.model.ChildrenFillBlank.exercisecommon.exercise = {};
         exerciseService.Exercise_Del(ExerciseID, function (data) {
         });
-    } 
+    }
     init();
 }]);
 

@@ -4,7 +4,7 @@
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==2">
                 <div class="issue_box">
                     <h4>【单选题】</h4>
-                    <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
+                    <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                 </div>
                 <div class="radio_list">
                     <p ng-repeat="item in exercise.exercisechoicelist">
@@ -15,7 +15,7 @@
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==3">
                 <div class="issue_box">
                     <h4>【多选题】</h4>
-                    <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
+                    <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                 </div>               
                 <div class="checkbox_list">
                     <p ng-repeat="item in exercise.exercisechoicelist" class="pre">
@@ -26,7 +26,7 @@
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==10">
                 <div class="issue_box">
                     <h4>【问答题】</h4>
-                    <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
+                    <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                 </div>
                 <input class="blank_box" type="text" ng-value="exercise.exercisecommon.exercise.Answer">
             </li>
@@ -40,14 +40,14 @@
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==11">
                 <div class="issue_box">
                     <h4>【翻译题】</h4>
-                    <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
+                    <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                 </div>
                 <input class="blank_box" type="text" ng-value="exercise.exercisecommon.exercise.Answer">
             </li>
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==4">
                 <div class="issue_box">
                     <h4>【名词解释】</h4>
-                    <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
+                    <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                 </div>
                 <div ng-repeat="item in exercise.exercisechoicelist">
                     <input class="blank_box" type="text" ng-value="item.Answer">
@@ -58,7 +58,7 @@
                     <i class="icon head_phone"></i>
                     <div class="listening">
                         <h4>【听力训练】</h4>
-                        <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
+                        <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                     </div>
                 </div>
                 <div class="issue_box" ng-show="exercise.Children.exercisecommon.exercise.ExerciseType==2">
@@ -90,7 +90,7 @@
                     <i class="icon head_phone"></i>
                     <div class="listening">
                         <h4>【自定义题型】</h4>
-                        <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
+                        <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                     </div>
                 </div>
                 <div ng-show="exercise.Children.exercisecommon.exercise.ExerciseType==2">
@@ -149,7 +149,7 @@
                     <i class="icon text_doc"></i>
                     <div class="listening">
                         <h4>【阅读理解（选择）/完形填空】</h4>
-                        <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
+                        <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                     </div>
                 </div> 
                 <div ng-show="exercise.Children.exercisecommon.exercise.ExerciseType==2">
@@ -185,7 +185,7 @@
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==13">
                 <div class="issue_box">
                     <h4>【写作】</h4>
-                    <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
+                    <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                 </div>
                 <div class="text_box" style="color:#F00;">
                     {{exercise.exercisecommon.exercise.Answer}}
@@ -205,7 +205,7 @@
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==1">
                 <div class="issue_box">
                     <h4>【判断题】</h4>
-                    <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
+                    <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                 </div>
                 <div class="answer_content">
                     <a ng-class="{active:exercise.exercisecommon.exercise.Answer==1}">正确</a>
@@ -215,7 +215,7 @@
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==7">
                 <div class="issue_box">
                     <h4>【排序题】</h4>
-                    <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
+                    <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                 </div>
                 <div class="sequence_list">
                     <div class="sequence" ng-repeat="item in exercise.exercisechoicelist">
@@ -231,7 +231,7 @@
                     <i class="icon connect"></i>
                     <div class="listening">
                         <h4>【连线题】</h4>
-                        <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
+                        <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                     </div>
                 </div>
                 <div class="connection_list" ng-repeat="item in exercise.exercisechoicelist">

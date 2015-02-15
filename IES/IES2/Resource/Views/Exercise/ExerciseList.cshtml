@@ -3,23 +3,23 @@
         <p class="current_course">我的习题</p>
     </div>
     <div class="exercise_btn">
-        <a class="topic_import" ui-sref="exercise.shortanswer({ExerciseID: -1})">
+        <span class="sort_box" ng-click="showQuery=!showQuery">[筛选]</span>
+        <a class="topic_import" ui-sref="exercise.shortanswer({ocid:course.OCID, ExerciseID: -1})">
             <em><i class="icon"></i></em>
             <span>新建习题</span>
         </a>
         <a class="import_exercise" href="javascript:;"><em><i class="icon"></i></em><span>导入</span></a>
-        <exercise-batch checks="checks" share-ranges="shareRanges"></exercise-batch>
+        <exercise-batch checks="checks" share-ranges="shareRanges" difficults="difficulties"></exercise-batch>
         <p class="search_topic"><input type="text" ng-model="data.searchKey" placeholder="请输入您要搜索的关键字"><span class="icon" ng-click="search()"></span></p>
-
     </div>
 </div>
-<div class="filter_box">
+<div class="filter_box" ng-show="showQuery">
     @*<dl class="filter_list">
-        <dt>课程选择</dt>
-        <dd>
-            <a ng-class="{'active':data.course.OCID==item.OCID}" ng-click="courseChanged(item)" ng-repeat="item in courses"><span ng-bind="item.Name"></span></a>
-        </dd>
-    </dl>*@
+            <dt>课程选择</dt>
+            <dd>
+                <a ng-class="{'active':data.course.OCID==item.OCID}" ng-click="courseChanged(item)" ng-repeat="item in courses"><span ng-bind="item.Name"></span></a>
+            </dd>
+        </dl>*@
     <dl class="filter_list">
         <dt>题目类型</dt>
         <dd>
@@ -50,11 +50,24 @@
             <a ng-class="{'active':data.ken.KenID==item.KenID}" ng-click="kenChanged(item)" ng-repeat="item in kens"><span ng-bind="item.Name"></span></a>
         </dd>
     </dl>
-    <span class="guanbi"><i class="icon"></i></span>
+    <span class="guanbi" style="cursor:pointer;" ng-click="showQuery=!showQuery"><i class="icon"></i></span>
 </div>
 <div class="topic_detail">
     <ul class="topic_list">
         <exercise-list ng-repeat="item in exercises" exercise="item" checks="checks" share-ranges="shareRanges"></exercise-list>
     </ul>
 </div>
-<div id="pager" style="margin-right:50px; margin-top:20px; text-align:right" ng-hide="pagesNum<=1"></div>
+<div style="margin-top:20px">
+    <dl class="filter_list">
+        <dt style="padding-left:20px;width:20%;"><label style="cursor:pointer;"><input type="checkbox" ng-model="checkAllValue" ng-change="checkAll()" />&nbsp;全 选</label></dt>
+        <dd>
+            <div id="pager" style="margin-right:50px; text-align:right" ng-hide="pagesNum<=1"></div>
+        </dd>
+    </dl>
+</div>
+
+<ies-dialog id="eConfirm" style="display:none"
+            dialog-title="确认"
+            dialog-text="您确认删除该习题吗？"
+            ok-title="确定"
+            cancel-title="取消"></ies-dialog> 

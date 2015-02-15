@@ -2,6 +2,7 @@
 
 var appModule = angular.module('app', [
     'ui.router',
+    'ngSanitize',
     'app.filters',
     'app.directives',
     'app.custom.directives',

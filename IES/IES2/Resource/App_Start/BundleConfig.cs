@@ -34,6 +34,7 @@ namespace App.Resource
                 "~/Frameworks/bootstrap/js/bootstrap.min.js",
                 "~/Frameworks/angular/angular.js",
                 "~/Frameworks/angular/angular-cookies.js",
+                "~/Frameworks/angular/angular-sanitize.min.js",
                 "~/Frameworks/angularTree/angular-ui-tree.min.js",
                 "~/Frameworks/checklist-model/checklist-model.js",
                 "~/Frameworks/angular/angular-ui-router.js",

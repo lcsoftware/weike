@@ -6,7 +6,6 @@ var contentApp = angular.module('app.content.controllers', [
 contentApp.controller('ContentCtrl', ['$scope', 'contentService', function ($scope, contentService) {
     $scope.course = {};
     $scope.courses = [];
-    //$scope.uploadUrlValue = '/DataProvider/FileUpload.ashx/?FROM=1';
     $scope.$emit('onSideLeftSwitch', true);
     $scope.$emit('onWizardSwitch', true);
     ///初始化在线课程
@@ -14,10 +13,8 @@ contentApp.controller('ContentCtrl', ['$scope', 'contentService', function ($sco
         if (data.d) {
             $scope.courses = data.d;
             $scope.course = data.d[0];
-            //$scope.uploadUrlValue = $scope.uploadUrlValue + '&OCID=' + $scope.course.OCID;
             $scope.$broadcast('courseLoaded', $scope.course);
         }
-        console.log(data.d);
     });
 
     $scope.findCourse = function (ocid) {

@@ -115,7 +115,11 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     ///批量删除
     service.Exercise_Batch_Del = function (ids, callback) {
         httpService.ajaxPost(url, 'Exercise_Batch_Del', { ids: ids }, callback);
-    } 
+    }
 
+    ///批量难易程度
+    service.Exercise_Batch_Diffcult = function (ids, diffcult, callback) {
+        httpService.ajaxPost(url, 'Exercise_Batch_Diffcult', { ids: ids, diffcult: diffcult }, callback);
+    }
     return service;
 }]);

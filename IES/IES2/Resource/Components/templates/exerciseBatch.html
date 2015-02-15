@@ -19,10 +19,18 @@
             批量共享
             <ul class="permissions" id="ff">
                 <li ng-repeat="item in shareRanges" ng-click="batchShareRange(item)">
-                    <p>{{item.name}}</p>
+                    <p ng-bind="item.name"></p>
                 </li>
             </ul>
         </li>
         <li class="batch_delete" ng-click="batchRemove()">批量删除</li>
+        <li class="batch_share" ng-click="batchShare()">
+            难易程度
+            <ul class="permissions" id="ff">
+                <li ng-repeat="item in difficults" ng-click="batchDifficult(item)">
+                    <p ng-bind="item.name"></p>
+                </li>
+            </ul>
+        </li>
     </ul>
 </a>

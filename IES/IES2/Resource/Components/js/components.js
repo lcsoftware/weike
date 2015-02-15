@@ -266,7 +266,8 @@ app.directive('exerciseBatch', function () {
 
     directive.scope = {
         checks: '=',
-        shareRanges: '='
+        shareRanges: '=',
+        difficults: '='
     }
 
     directive.templateUrl = '/Components/templates/exerciseBatch.html';
@@ -295,6 +296,10 @@ app.directive('exerciseBatch', function () {
 
         $scope.batchShareRange = function (item) {
             $scope.$emit('onBatchShareRange', item);
+        }
+
+        $scope.batchDifficult = function (item) {
+            $scope.$emit('onBatchDifficult', item);
         }
 
         $scope.batchRemove = function () {
@@ -329,6 +334,13 @@ app.directive('exerciseList', ['assistService', function (assistService) {
             function () { $(this).find('.icon_content').show(); },
             function () { $(this).find('.icon_content').hide(); }
             );
+        elem.find('.spread').bind('click', function () {
+            if (!elem.hasClass('show')) {
+                elem.addClass('show');
+            } else {
+                elem.removeClass('show');
+            }
+        })
     }
 
     directive.controller = function ($scope, assistService) {
@@ -668,6 +680,45 @@ app.directive('layPage', function () {
 
             }
         });
+    }
+
+    return directive;
+});
+
+
+app.directive('iesDialog', function () {
+    var directive = {};
+
+    directive.restrict = 'EA'; 
+
+    directive.templateUrl = '/Components/templates/confirm.html';
+
+    directive.scope = {
+        dialogTitle: '@',
+        dialogText: '@',
+        okTitle: '@',
+        cancelTitle: '@'
+    }
+
+    directive.link = function (scope, elem, iAttrs) { 
+        elem.find('.save,.cancel,.close_pop').bind('click', function () {
+            elem.hide();
+        });
+    }
+
+    directive.controller = function ($scope) {
+        $scope.ok = function () {
+            $scope.$emit('onDialogOk');
+        };
+
+        $scope.close = function () {
+            $scope.$emit('onDialogClose');
+        };
+
+        $scope.cancel = function () {
+            $scope.$emit('onDialogCancel'); 
+        }
+
     }
 
     return directive;

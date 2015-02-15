@@ -285,10 +285,10 @@ namespace IES.G2S.Resource.BLL
 
         #region 属性批量操作
 
-        public bool Exercise_Batch_Diffcult(List<IExercise> list, int diffcult)
+        public bool Exercise_Batch_Diffcult(string exerciseIDS, int diffcult)
         {
 
-            return ExerciseDAL.Exercise_Batch_Diffcult(list, diffcult);
+            return ExerciseDAL.Exercise_Batch_Diffcult(exerciseIDS, diffcult);
 
         }
 

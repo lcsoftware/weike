@@ -58,7 +58,7 @@ namespace Test.Pages
              List<IES.Resource.Model.Folder > folderlist = new List<IES.Resource.Model.Folder>();
              folderlist.Add(new IES.Resource.Model.Folder{ FolderID=1 } );
               folderlist.Add(new IES.Resource.Model.Folder{ FolderID=2 } );
-              IES.G2S.Resource.DAL.FileDAL.Folder_Batch_Del(folderlist);
+              //IES.G2S.Resource.DAL.FileDAL.Folder_Batch_Del(folderlist);
         }
     }
 }

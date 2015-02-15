@@ -143,6 +143,7 @@
     <Content Include="Components\templates\addChapter.html" />
     <Content Include="Components\templates\addKnowledge.html" />
     <Content Include="Components\templates\attachmentList.html" />
+    <Content Include="Components\templates\confirm.html" />
     <Content Include="Components\templates\editor.html" />
     <Content Include="Components\templates\exerciseBatch.html" />
     <Content Include="Components\templates\exerciseList.html" />

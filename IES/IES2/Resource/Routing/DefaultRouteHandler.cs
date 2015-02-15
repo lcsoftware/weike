@@ -16,49 +16,56 @@ namespace App.Resource.Routing
         public IHttpHandler GetHttpHandler(RequestContext requestContext)
         {
 
-            //if (IESCookie.GetCookieValue("ies") == string.Empty)
-            //{
-            //    HttpContext.Current.Response.Redirect("login.aspx");
-            //}
-
-
-            // Use cases:
-            //     ~/            -> ~/views/index.cshtml
-            //     ~/about       -> ~/views/about.cshtml or ~/views/about/index.cshtml
-            //     ~/views/about -> ~/views/about.cshtml
-            //     ~/xxx         -> ~/views/404.cshtml
-            var filePath = requestContext.HttpContext.Request.AppRelativeCurrentExecutionFilePath;
-
-            if (filePath == "~/")
+            try
             {
-                filePath = "~/views/index.cshtml";
-            }
-            else
-            {
-                if (!filePath.StartsWith("~/views/", StringComparison.OrdinalIgnoreCase))
+                //if (IESCookie.GetCookieValue("ies") == string.Empty)
+                //{
+                //    HttpContext.Current.Response.Redirect("login.aspx");
+                //}
+
+
+                // Use cases:
+                //     ~/            -> ~/views/index.cshtml
+                //     ~/about       -> ~/views/about.cshtml or ~/views/about/index.cshtml
+                //     ~/views/about -> ~/views/about.cshtml
+                //     ~/xxx         -> ~/views/404.cshtml
+                var filePath = requestContext.HttpContext.Request.AppRelativeCurrentExecutionFilePath;
+
+                if (filePath == "~/")
                 {
-                    filePath = filePath.Insert(2, "views/");
+                    filePath = "~/views/index.cshtml";
+                }
+                else
+                {
+                    if (!filePath.StartsWith("~/views/", StringComparison.OrdinalIgnoreCase))
+                    {
+                        filePath = filePath.Insert(2, "views/");
+                    }
+
+                    if (!filePath.EndsWith(".cshtml", StringComparison.OrdinalIgnoreCase))
+                    {
+                        filePath = filePath += ".cshtml";
+                    }
                 }
 
-                if (!filePath.EndsWith(".cshtml", StringComparison.OrdinalIgnoreCase))
+                var handler = WebPageHttpHandler.CreateFromVirtualPath(filePath); // returns NULL if .cshtml file wasn't found
+
+                if (handler == null)
                 {
-                    filePath = filePath += ".cshtml";
+                    requestContext.RouteData.DataTokens.Add("templateUrl", "/views/404");
+                    handler = WebPageHttpHandler.CreateFromVirtualPath("~/views/404.cshtml");
                 }
+                else
+                {
+                    requestContext.RouteData.DataTokens.Add("templateUrl", filePath.Substring(1, filePath.Length - 8));
+                }
+
+                return handler;
             }
-
-            var handler = WebPageHttpHandler.CreateFromVirtualPath(filePath); // returns NULL if .cshtml file wasn't found
-
-            if (handler == null)
+            catch (Exception ex)
             {
-                requestContext.RouteData.DataTokens.Add("templateUrl", "/views/404");
-                handler = WebPageHttpHandler.CreateFromVirtualPath("~/views/404.cshtml");
+                throw ex;
             }
-            else
-            {
-                requestContext.RouteData.DataTokens.Add("templateUrl", filePath.Substring(1, filePath.Length - 8));
-            }
-
-            return handler;
         }
     }
 }
