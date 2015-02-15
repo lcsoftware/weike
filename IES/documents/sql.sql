@@ -102,3 +102,121 @@ as
 
 GO
 
+
+
+
+USE [IES_Resource]
+GO
+
+/****** Object:  StoredProcedure [dbo].[File_Search]    Script Date: 02/15/2015 08:48:55 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[File_Search]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[File_Search]
+GO
+
+/****** Object:  StoredProcedure [dbo].[Folder_List]    Script Date: 02/15/2015 08:48:55 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Folder_List]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[Folder_List]
+GO
+
+USE [IES_Resource]
+GO
+
+/****** Object:  StoredProcedure [dbo].[File_Search]    Script Date: 02/15/2015 08:48:55 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================          
+-- Author:      王胜辉,qubo(20150124)          
+-- Create date: 20141127          
+-- Description: 获取资料的列表信息          
+--- MOD： 20150113  --- 新增参数 @OwnerUserID        
+-- =============================================          
+CREATE proc [dbo].[File_Search]          
+  @Searchkey nvarchar(200) = '' , --查询关键字          
+  @OCID int = 0 , -- 我的资料库courseid=-1  ,OCID=0         
+  @CourseID int = 1 , --课程编号        
+  @FolderID int = 0 , -- 0表示根文件夹下,-1表示全部          
+  @FileType int = -1, -- 文件类型          
+  @UploadTime smalldatetime ='2011-1-1',-- 上传日期 ，需要从业务层计算 >= @UploadTime          
+  @ShareRange int = -1  ,          
+  @UserID int = 1 ,         
+  @OwnerUserID  int = 1 ,  --- 新增参数        
+  @PageSize int = 20 ,                                
+  @PageIndex int = 1             
+as           
+SET NOCOUNT ON;          
+      
+DECLARE @iLowerLimit INT                                                                    
+DECLARE @iUpperLimit INT                                                                
+      
+SET @iLowerLimit = @PageSize*(@PageIndex-1)+1                                                                    
+SET @iUpperLimit = @PageSize*@PageIndex              
+;                        
+WITH tb                  
+AS (      
+ SELECT ROW_NUMBER() OVER (ORDER BY t1.FileID DESC) AS RowNum ,          
+ t1.FileID, t1.OCID, t1.CourseID, t1.FolderID, t1.SubjectID1, t1.SubjectID2,         
+ t1.CreateUserID, t1.CreateUserName, t1.OwnerUserID, t1.FileTitle, t1.FileName, t1.Ext,         
+ t1.FileType, t1.Brief, t1.Keys, t1.FileSize, t1.pingyin, t1.TimeLength, t1.RarIndexPage,         
+ t1.UploadTime, t1.Orde, t1.ShareRange, t1.AllowDownload, t1.ServerID, t1.Clicks,         
+ t1.Downloads, t1.IsTransfer  ,'' as DownURL , '' as ViewURL  , '测试界面用知识点' as Kens  
+ from  dbo.[File] t1        
+ where IsDeleted = 0  and t1.OCID = @OCID        
+ and (t1.FolderID = @FolderID or @FolderID = -1)         
+ and ( t1.FileType = @FileType or @FileType < 1  )         
+ and t1.UploadTime >= @UploadTime        
+ and ( t1.ShareRange = @ShareRange or @ShareRange < 1  )        
+ and ( t1.CreateUserID = @UserID or ( t1.OwnerUserID = @OwnerUserID and @OCID  >0  ) )     
+ and (@Searchkey='' or t1.FileTitle like '%'+@Searchkey+'%')       
+)      
+SELECT (SELECT COUNT(1) FROM tb) AS rowscount,*                
+FROM tb      
+WHERE RowNum between @iLowerLimit and @iUpperLimit      
+    
+--文件夹目录导航表    
+declare @FolderNavigation table(FolderID int, FolderName nvarchar(200), ParentID int)     
+declare @ID int    
+set @ID=@FolderID    
+while (@ID>0)    
+begin    
+ insert into @FolderNavigation    
+ select FolderID,FolderName,ParentID from Folder where FolderID=@ID and IsDeleted=0  
+     
+ select @ID=ParentID from Folder where FolderID=@ID    
+end    
+select * from @FolderNavigation
+GO
+
+/****** Object:  StoredProcedure [dbo].[Folder_List]    Script Date: 02/15/2015 08:48:55 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================  
+-- Author:      王胜辉  
+-- Create date: 20141127  
+-- Description: 获取资料文件夹列表信息  
+-- =============================================  
+CREATE proc [dbo].[Folder_List]  
+ @OCID int = 0 , -- 我的资料库OCID=0   
+ @ParentID int = 0 , -- 表示根文件夹下  
+ @UserID int = 0   ,
+ @ShareRange int = 0 
+as   
+ SET NOCOUNT ON;  
+  
+  
+ select FolderID, OCID, CourseID, CreateUserID, ShareRange , OwnerUserID, ParentID, FolderName, Brief, Orde, CreateTime  
+ from dbo.Folder  
+ where IsDeleted = 0 AND (@ParentID = -1 or ParentID = @ParentID) and OCID = @OCID   
+ and ( (  CreateUserID = @UserID or OwnerUserID = @UserID  ) or @UserID = 0 )
+ and ( ShareRange = @ShareRange or @ShareRange < 1 )
+
+GO
+
+

@@ -38,21 +38,31 @@
 <table class="course_data">
     <thead>
         <tr>
-            <th width="620">
+            <th width="40%">
                 <div class="data_name">
                     <input type="checkbox" ng-model="selectionAllToggle" ng-true-value="YES" ng-false-value="NO">
                     <p>文件名称</p>
                     <i class="icon arrow" ng-click="changeOrder('Name');"></i>
                 </div>
             </th>
-            <th width="120">
+            <th width="10%" ng-show="model.OCID!=0">
+                <div class="data_name">
+                    <p>使用权限</p>
+                </div>
+            </th>
+            <th width="10%" ng-show="model.OCID!=0">
+                <div class="data_name">
+                    <p>关联知识点</p>
+                </div>
+            </th>
+            <th width="10%">
                 <div class="data_name">
                     <p>文件类型</p>
                     @*<i class="icon arrow" ng-click="changeOrder('Name');"></i>*@
                 </div>
             </th>
-            <th width="120">文件大小</th>
-            <th> 
+            <th width="10%">文件大小</th>
+            <th width="10%">
                 <div class="data_name">
                     <p>修改日期</p>
                     <i class="icon arrow" ng-click="changeOrder('CreateTime');"></i>
@@ -81,6 +91,8 @@
                 </div>
             </div>
         </td>
+        <td ng-bind="GetShareRange(item.ShareRange)" ng-show="model.OCID!=0"></td>
+        <td ng-bind="item.Kens" ng-show="model.OCID!=0"></td>
         <td ng-bind="item.RelationType==1?'文件':'文件夹'"></td>
         <td ng-bind="item.FileSize!=0?item.FileSize:'一'"></td>
         <td ng-bind="item.CreateTime | dateFormat"></td>

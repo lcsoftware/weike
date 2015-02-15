@@ -54,6 +54,7 @@ namespace IES.Resource.Model
         private int _isdistribute = 0;
         private int _istransfer = 0;
         private bool _isdeleted = false;
+        private string _kens;
         /// <summary>
         /// 
         /// </summary>
@@ -285,6 +286,11 @@ namespace IES.Resource.Model
         {
             set { _isdeleted = value; }
             get { return _isdeleted; }
+        }
+        public string Kens
+        {
+            set { _kens = value; }
+            get { return _kens; }
         }
         #endregion Model
 
