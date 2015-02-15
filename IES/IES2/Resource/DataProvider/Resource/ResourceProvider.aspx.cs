@@ -175,6 +175,7 @@ namespace App.Resource.DataProvider.Resource
                 fr.RelationType = FileType.Folder;
                 fr.CourseId = item.CourseID;
                 fr.CreateTime = item.CreateTime;
+                fr.ShareRange = item.ShareRange;
                 allFolderRelations.Add(fr);
             }
             foreach (var item in allFiles)
@@ -190,6 +191,8 @@ namespace App.Resource.DataProvider.Resource
                 fr.Ext = item.Ext;
                 fr.CreateTime = item.UploadTime;
                 fr.FileType = item.FileType;
+                fr.ShareRange = item.ShareRange;
+                fr.Kens = item.Kens;
                 allFolderRelations.Add(fr);
             }
 

@@ -19,6 +19,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.model.FileType = -1;
     $scope.model.timeSelection = -1;
     $scope.model.ShareRange = 0;
+    $scope.model.FileTitle = '';
     $scope.checksSelect = [];//复选框选中的值
     $scope.folders = [];//文件夹数组
 
@@ -155,6 +156,15 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $scope.shareRanges.insert(0, item);
         }
     });
+
+    //获取使用权限
+    $scope.GetShareRange = function (shareRange) {
+        for (var i = 0; i < $scope.shareRanges.length; i++) {
+            if ($scope.shareRanges[i].id == shareRange) {
+                return $scope.shareRanges[i].name;
+            }
+        }
+    }
 
     //单击文件夹名称方法,进入文件夹
     $scope.folderClick = function (item) {
@@ -444,13 +454,13 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             ///单一文件删除
             if ($scope.folder.RelationType === 1) {
                 resourceService.File_Del({ FileID: $scope.folder.Id }, function (data) {
-                        if (data.d) {
-                            alert(data.d);
-                        } else {
-                            removeItem(copyFolder);
-                            
-                        }
-                    });
+                    if (data.d) {
+                        alert(data.d);
+                    } else {
+                        removeItem(copyFolder);
+
+                    }
+                });
 
             } else {
                 resourceService.Folder_Del({ FolderID: $scope.folder.Id }, function (data) {
