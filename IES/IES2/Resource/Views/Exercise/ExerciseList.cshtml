@@ -58,14 +58,26 @@
     </ul>
 </div>
 <div style="margin-top:20px">
-    <dl class="filter_list">
-        <dt style="padding-left:20px;width:20%;"><label style="cursor:pointer;"><input type="checkbox" ng-model="checkAllValue" ng-change="checkAll()" />&nbsp;全 选</label></dt>
+    <dl>
+        <dt style="margin-left:3%; font-size:14px; color: #808080;">
+            <label style="cursor: pointer;">
+                <input type="checkbox" style="cursor: pointer;" ng-model="checkAllValue" ng-change="checkAll()" />&nbsp;全 选
+            </label>
+        </dt>
         <dd>
-            <div id="pager" style="margin-right:50px; text-align:right" ng-hide="pagesNum<=1"></div>
+            <div id="pager" style="margin-top:-2.5%; margin-left:35%;" ng-hide="pagesNum<=1"></div>
         </dd>
     </dl>
-    @*<div id="pager" style="margin-right:50px; text-align:right" ng-hide="pagesNum<=1"></div>*@
 </div>
+@*<div style="margin-top:20px">
+        <dl class="filter_list">
+            <dt style="padding-left:20px;width:20%;"><label style="cursor:pointer;"><input type="checkbox" ng-model="checkAllValue" ng-change="checkAll()" />&nbsp;全 选</label></dt>
+            <dd>
+                <div id="pager" style="margin-right:50px; text-align:right" ng-hide="pagesNum<=1"></div>
+            </dd>
+        </dl>
+
+    </div>*@
 
 <ies-dialog id="eConfirm" style="display:none"
             dialog-title="确认"

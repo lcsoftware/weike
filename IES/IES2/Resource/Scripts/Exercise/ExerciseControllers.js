@@ -213,7 +213,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
                             //$scope.$apply();
                         }
                     });
-                }
+                }                
             });
         }
 
