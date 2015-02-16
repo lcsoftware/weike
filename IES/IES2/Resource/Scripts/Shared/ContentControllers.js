@@ -12,30 +12,30 @@ contentApp.controller('ContentCtrl', ['$scope', 'contentService', function ($sco
     $scope.$emit('onWizardSwitch', true);
 
     ///初始化在线课程
-    var init = function () {
-        contentService.User_OC_List(function (data) {
-            $scope.courses.length = 0;
-            $scope.courseMore.length = 0;
+    //var init = function () {
+    //    contentService.User_OC_List(function (data) {
+    //        $scope.courses.length = 0;
+    //        $scope.courseMore.length = 0;
 
-            if (data.d) {
-                var courses = [];
-                var courseMore = [];
-                for (var i = 0; i < data.d.length; i++) {
-                    if (i < 3) {
-                        courses.push(data.d[i]);
-                    } else {
-                        courseMore.push(data.d[i]);
-                    }
-                }
-                $scope.courses = courses;
-                $scope.courseMore = courseMore;
-                $scope.course = data.d[0];
-                $scope.$broadcast('courseLoaded', $scope.course);
-            }
-        });
-    }
+    //        if (data.d) {
+    //            var courses = [];
+    //            var courseMore = [];
+    //            for (var i = 0; i < data.d.length; i++) {
+    //                if (i < 3) {
+    //                    courses.push(data.d[i]);
+    //                } else {
+    //                    courseMore.push(data.d[i]);
+    //                }
+    //            }
+    //            $scope.courses = courses;
+    //            $scope.courseMore = courseMore;
+    //            $scope.course = data.d[0];
+    //            $scope.$broadcast('courseLoaded', $scope.course);
+    //        }
+    //    });
+    //}
 
-    init();
+    //init();
 
     $scope.findCourse = function (ocid) {
         var length = $scope.courses.length;
@@ -55,8 +55,36 @@ contentApp.controller('ContentCtrl', ['$scope', 'contentService', function ($sco
   
 
     ///请求重置课程
-    $scope.$on('willResetCourse', function () {
-        init(); 
+    $scope.$on('willResetCourse', function (event, from) {
+        contentService.User_OC_List(function (data) {
+            $scope.courses.length = 0;
+            $scope.courseMore.length = 0;
+ 
+
+            if (data.d) {
+                var courses = [];
+                var courseMore = [];
+
+                if (from === 'Resource') {
+                    var personResource = angular.copy(data.d[0]);
+                    personResource.OCID = 0;
+                    personResource.Name = '个人资料';
+                    courses.insert(0, personResource);
+                }
+                var limitIndex = from === 'Resource' ? 2 : 3;
+                for (var i = 0; i < data.d.length; i++) {
+                    if (i < limitIndex) {
+                        courses.push(data.d[i]);
+                    } else {
+                        courseMore.push(data.d[i]);
+                    }
+                }
+                $scope.courses = courses;
+                $scope.courseMore = courseMore;
+                $scope.course = $scope.courses[0];
+                $scope.$broadcast('courseLoaded', $scope.course);
+            }
+        });
     });
 }]);
 

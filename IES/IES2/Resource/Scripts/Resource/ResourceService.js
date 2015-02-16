@@ -83,6 +83,14 @@ aService.factory('resourceService', ['httpService', function (httpService) {
     service.Folder_ParentID_Upd = function (folder, callback) {
         httpService.ajaxPost(url, 'Folder_ParentID_Upd', { folder: folder }, callback);
     }
+    ///按课程生成资料库目录树
+    service.ResourceFolderTree = function (movedFolders , callback) { 
+        var folders = angular.copy(movedFolders);
+        angular.forEach(folders, function (item) {
+            item.CreateTime = new Date();
+        }); 
+        httpService.ajaxPost(url, 'ResourceFolderTree', { movedFolders: folders}, callback);
+    }
     //删除文件夹
     service.Folder_Del = function (folder, callback) {
         httpService.ajaxPost(url, 'Folder_Del', { folder: folder }, callback);

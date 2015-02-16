@@ -154,7 +154,7 @@ namespace App.Resource.DataProvider.Resource
             //IList<Folder> allFolders = new FileBLL().Folder_List(folder);
             folder.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
             IList<Folder> allFolders = Folder_List(folder);
-            if(file != null)
+            if (file != null)
             {
                 file.FolderID = folder.ParentID;
                 //file.UploadTime = DateTime.Now.AddMonths(-1);
@@ -174,7 +174,7 @@ namespace App.Resource.DataProvider.Resource
                 fr.ParentID = item.ParentID;
                 fr.RelationType = FileType.Folder;
                 fr.CourseId = item.CourseID;
-                fr.CreateTime = item.CreateTime;
+                fr.CreateTime = new DateTime();
                 fr.ShareRange = item.ShareRange;
                 allFolderRelations.Add(fr);
             }
@@ -201,7 +201,7 @@ namespace App.Resource.DataProvider.Resource
             foreach (var root in allFolderRelations)
             {
                 var parentId = folder.ParentID == -1 ? 0 : folder.ParentID;
-                if (root.ParentID == parentId) roots.Add(root); 
+                if (root.ParentID == parentId) roots.Add(root);
             }
             foreach (var root in roots)
             {
@@ -209,8 +209,8 @@ namespace App.Resource.DataProvider.Resource
                 {
                     BuildRelationFolder(allFolderRelations, root);
                 }
-            }            
-             
+            }
+
             return roots.ToList();
         }
 
@@ -220,13 +220,64 @@ namespace App.Resource.DataProvider.Resource
                            where v.ParentID == root.Id
                            select v;
             foreach (var child in children)
-            { 
+            {
                 root.Children.Add(child);
                 if (child.RelationType == FileType.Folder)
                 {
                     BuildRelationFolder(allFolders, child);
                 }
             }
+        }
+
+        [WebMethod]
+        public static IList<FolderRelation> ResourceFolderTree(IList<FolderRelation> movedFolders)
+        { 
+            var user = UserService.CurrentUser;
+            //用户所有的课程
+            IList<OC> ocs = UserService.User_OC_List(user);
+
+            IList<FolderRelation> roots = new List<FolderRelation>();
+
+            FolderRelation fr = new FolderRelation();
+            fr.Id = 0;
+            fr.Name = "个人资料";
+            fr.ParentID = 0;
+            fr.RelationType = FileType.File;
+            roots.Add(fr);
+
+            foreach (var item in ocs)
+            {
+                fr = new FolderRelation();
+                fr.Id = item.OCID;
+                fr.Name = item.Name;
+                fr.ParentID = 0;
+                fr.OCID = item.OCID;
+                fr.RelationType = FileType.File;
+                roots.Add(fr);
+            }
+            
+            IList<FolderRelation> relationFolders = new List<FolderRelation>();
+            IList<Folder> folders = new FileBLL().Folder_ALL_Tree(user.UserID);
+            
+            foreach (var item in folders)
+            {
+                var exists = from v in movedFolders where item.FolderID == v.Id && v.RelationType == FileType.Folder select v;
+                if (exists.Any()) continue;
+                fr = new FolderRelation();
+                fr.Id = item.FolderID;
+                fr.Name = item.FolderName;
+                fr.ParentID = item.ParentID == 0 ? item.OCID : item.ParentID;
+                fr.RelationType = FileType.Folder;
+
+                relationFolders.Add(fr);
+            } 
+           
+            foreach (var root in roots)
+            {
+                BuildRelationFolder(relationFolders, root);
+            }
+
+            return roots;
         }
         #endregion
 
@@ -254,8 +305,8 @@ namespace App.Resource.DataProvider.Resource
         /// <returns></returns>
         [WebMethod]
         public static IList<Folder> Folder_List(Folder folder)
-        { 
-            IList<Folder> allFolders = new FileBLL().Folder_List(folder);            
+        {
+            IList<Folder> allFolders = new FileBLL().Folder_List(folder);
 
             return allFolders;
         }

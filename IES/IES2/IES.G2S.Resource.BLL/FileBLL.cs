@@ -27,7 +27,10 @@ namespace IES.G2S.Resource.BLL
             return FileDAL.Folder_GetModel(folder);
         }
 
-
+        public List<Folder> Folder_ALL_Tree(int userId)
+        {
+            return FileDAL.Folder_ALL_Tree(userId);
+        }
         public List<Folder> Folder_List(Folder folder)
         {
             return FileDAL.Folder_List(folder).ToList();

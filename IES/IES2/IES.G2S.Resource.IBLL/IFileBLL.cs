@@ -29,6 +29,13 @@ namespace IES.G2S.Resource.IBLL
         /// <returns></returns>
         List<Folder> Folder_Tree(Folder model);
 
+        /// <summary>
+        /// 获取用户所有课程的文件夹
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        List<Folder> Folder_ALL_Tree(int userId);
+
         #endregion
 
 

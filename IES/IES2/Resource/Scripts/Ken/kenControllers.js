@@ -247,6 +247,8 @@ appKnow.controller('KenCtrl', ['$scope', '$state', 'contentService', 'kenService
 
 appKnow.controller('KenChapterCtrl', ['$scope', 'chapterService', 'kenService', function ($scope, chapterService, kenService) {
 
+    $scope.$emit('willResetCourse', 'Ken');
+
     $scope.$parent.kenDisable = true;
     $scope.canAdd = false;
     $scope.enableEdit = false;

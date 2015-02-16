@@ -43,43 +43,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.tabTitles = [];
 
 
-    //$scope.$emit('willResetCourse');
-
-    ///初始化在线课程
-    contentService.User_OC_List(function (data) {
-        $scope.$parent.courses.length = 0;
-        $scope.$parent.courseMore.length = 0;
-
-        if (data.d && data.d.length > 0) {
-            var personResource = data.d[0];
-            personResource.OCID = 0;
-            personResource.Name = '个人资料';
-            $scope.$parent.courses.insert(0, personResource);
-
-            var courses = [];
-            var courseMore = [];
-            for (var i = 0; i < data.d.length; i++) {
-                if (i < 3) {
-                    courses.push(data.d[i]);
-                } else {
-                    courseMore.push(data.d[i]);
-                }
-            }
-            $scope.$parent.courses = courses;
-            $scope.$parent.courseMore = courseMore;
-            $scope.$parent.course = data.d[0];
-            $scope.$broadcast('courseLoaded', $scope.$parent.course);
-        }
-
-        $scope.model.OCID = $scope.$parent.course.OCID;
-        $scope.model.CourseID = $scope.$parent.course.CourseID;
-        $scope.model.ParentID = 0;
-        $scope.filterChanged(); 
-
-        $scope.order = 0;
-        $scope.tabTitles.push({ id: 0, name: $scope.$parent.course.Name, order: $scope.order });
-    });
-
+    $scope.$emit('willResetCourse', 'Resource');
 
     ///课程切换
     $scope.$on('willCourseChanged', function (event, course) {
@@ -95,6 +59,16 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     });
 
+    $scope.$on('courseLoaded', function (event, course) {
+        $scope.model.OCID = $scope.course.OCID;
+        $scope.model.CourseID = $scope.course.CourseID;
+        $scope.model.ParentID = 0;
+        $scope.filterChanged();
+
+        $scope.order = 0;
+        $scope.tabTitles.push({ id: 0, name: $scope.course.Name, order: $scope.order });
+    });
+
     $scope.orderField = 'Name';
     $scope.changeOrder = function (fieldName) {
         if ($scope.orderField === fieldName) {
@@ -103,35 +77,6 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $scope.orderField = fieldName;
         }
     }
-
-    ///课程加载完成
-    //$scope.$on('courseLoaded', function (course) {
-    //    contentService.OC_Get(function (data) {
-    //        var course = data.d;
-    //        if ($scope.courses.length > 0 && $scope.courses[0].OCID !== 0) {
-    //            course.OCID = 0;
-    //            course.Name = '个人资料';
-    //            $scope.$parent.courses.insert(0, course);
-    //        } 
-    //        $scope.$parent.course = course;
-
-    //        if ($scope.$parent.courses.length > 3) {
-    //            $scope.$parent.courseMore.insert(0, $scope.$parent.courses[$scope.$parent.courses.length - 1]);
-    //            $scope.$parent.courses.splice(3, 1);
-    //        }
-
-
-
-    //        $scope.model.OCID = course.OCID;
-    //        $scope.model.CourseID = course.CourseID;
-    //        $scope.model.ParentID = 0;
-    //        $scope.filterChanged();
-
-
-    //        $scope.order = 0;
-    //        $scope.tabTitles.push({ id: 0, name: course.Name, order: $scope.order });
-    //    });
-    //});
 
     $scope.tabChange = function (item) {
         $scope.model.ParentID = item.id;
@@ -325,7 +270,8 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.moveFileSubmit = function () {
         for (var i = 0; i < $scope.checksSelect.length; i++) {
             if ($scope.checksSelect[i].RelationType == 0) {
-                var folder = { FolderID: $scope.checksSelect[i].Id, ParentID: $scope.folder.Id };
+                var folder = { FolderID: $scope.checksSelect[i].Id, OCID: $scope.folder.OCID };
+                folder.ParentID = $scope.folder.RelationType === 1 ? 0 : $scope.folder.Id;
                 resourceService.Folder_ParentID_Upd(folder, function (data) {
                     if (data.d) {
                         $scope.filterChanged();
@@ -333,7 +279,8 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                     }
                 });
             } else {
-                var file = { FolderID: $scope.folder.Id, FileID: $scope.checksSelect[i].Id };
+                var file = { OCID: $scope.folder.OCID, FileID: $scope.checksSelect[i].Id };
+                file.FolderID = $scope.folder.RelationType === 1 ? 0 : $scope.folder.Id;
                 resourceService.File_FolderID_Upd(file, function (data) {
                     if (data.d) {
                         $scope.filterChanged();
@@ -346,48 +293,67 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
 
     //获取移动列表
-    $scope.mobileFolder = function (item) {
-        var folder = { OCID: $scope.model.OCID, RelationType: 'Folder' }
-        //var folder = { ParentID: -1 }
-        if ($scope.checksSelect.length == 0) {
-            $scope.checksSelect.push(item);
-        }
-        resourceService.FolderRelation_List(folder, null, function (data) {
-            if (data.d) {
+    //$scope.mobileFolder = function (item) {
+    //    var folder = { OCID: $scope.model.OCID, RelationType: 'Folder' }
+    //    //var folder = { ParentID: -1 }
+    //    if ($scope.checksSelect.length == 0) {
+    //        $scope.checksSelect.push(item);
+    //    }
+    //    resourceService.FolderRelation_List(folder, null, function (data) {
+    //        if (data.d) {
 
-                $scope.files = data.d;
+    //            $scope.files = data.d;
 
-                var rootFolder = {};
-                angular.copy(data.d[0], rootFolder);
-                rootFolder.Id = 0;
-                rootFolder.Children.length = 0;
-                rootFolder.ParentID = -1;
-                rootFolder.Name = '根目录';
+    //            var rootFolder = {};
+    //            angular.copy(data.d[0], rootFolder);
+    //            rootFolder.Id = 0;
+    //            rootFolder.Children.length = 0;
+    //            rootFolder.ParentID = -1;
+    //            rootFolder.Name = '根目录';
 
-                //remove self
-                for (var n = 0; n < $scope.checksSelect.length; n++) {
-                    for (var i = 0; i < $scope.files.length; i++) {
-                        if ($scope.files[i].RelationType == $scope.checksSelect[n].RelationType) {
-                            if ($scope.files[i].Id == $scope.checksSelect[n].Id) {
-                                $scope.files.splice(i, 1);
-                            } else {
-                                mobilesDel($scope.files[i].Children, $scope.checksSelect[n].Id)
-                            }
-                        }
-                    }
-                }
+    //            //remove self
+    //            for (var n = 0; n < $scope.checksSelect.length; n++) {
+    //                for (var i = 0; i < $scope.files.length; i++) {
+    //                    if ($scope.files[i].RelationType == $scope.checksSelect[n].RelationType) {
+    //                        if ($scope.files[i].Id == $scope.checksSelect[n].Id) {
+    //                            $scope.files.splice(i, 1);
+    //                        } else {
+    //                            mobilesDel($scope.files[i].Children, $scope.checksSelect[n].Id)
+    //                        }
+    //                    }
+    //                }
+    //            }
 
-                var length = $scope.files.length;
-                for (var i = 0; i < length; i++) {
-                    if ($scope.files[i].ParentID == rootFolder.Id) {
-                        rootFolder.Children.push($scope.files[i]);
-                    }
-                }
-                $scope.files.length = 0;
-                $scope.files.push(rootFolder);
-            }
+    //            var length = $scope.files.length;
+    //            for (var i = 0; i < length; i++) {
+    //                if ($scope.files[i].ParentID == rootFolder.Id) {
+    //                    rootFolder.Children.push($scope.files[i]);
+    //                }
+    //            }
+    //            $scope.files.length = 0;
+    //            $scope.files.push(rootFolder);
+    //        }
+    //    });
+    //}
+
+    ///移动文件夹树
+    $scope.folderTrees = [];
+
+    $scope.mobileFolder = function () {
+        $scope.folderTrees.length = 0;
+        resourceService.ResourceFolderTree($scope.checksSelect, function (data) {
+            $scope.folderTrees = data.d; 
+        });
+    } 
+
+    $scope.batchMove = function () {
+        $scope.folderTrees.length = 0;
+        resourceService.ResourceFolderTree($scope.checksSelect, function (data) {
+            $scope.folderTrees = data.d;
         });
     }
+
+
     //移动数据循环删除子项
     var mobilesDel = function (Children, item) {
         for (var n = 0; n < Children.length; n++) {
@@ -432,11 +398,12 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.moveShow = true;
         $scope.bgShow = true;
         $scope.checksSelect.push(item);
-        $scope.mobileFolder(item);
+        $scope.mobileFolder();
     }
     //移动文件弹出框
     $scope.fireMobileBatch = function () {
-        if ($scope.checksSelect.length == 0) return;
+        if ($scope.checks.length == 0) return;
+        $scope.checksSelect = $scope.checks;
         $scope.moveShow = true;
         $scope.bgShow = true;
         $scope.mobileFolder();

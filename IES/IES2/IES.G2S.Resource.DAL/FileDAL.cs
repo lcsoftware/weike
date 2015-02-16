@@ -42,6 +42,23 @@ namespace IES.G2S.Resource.DAL
             }
         }
 
+        public static List<Folder> Folder_ALL_Tree(int userId)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@UserID", userId);
+                    return conn.Query<Folder>("Folder_ALL_Tree", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            } 
+        }
+
         #region  列表
         public static List<Folder> Folder_List(Folder model)
         {
@@ -184,6 +201,7 @@ namespace IES.G2S.Resource.DAL
                 {
                     var p = new DynamicParameters();
                     p.Add("@FolderID", model.FolderID);
+                    p.Add("@OCID", model.OCID);
                     p.Add("@ParentID", model.ParentID);
                     conn.Execute("Folder_ParentID_Upd", p, commandType: CommandType.StoredProcedure);
                     return true;
@@ -410,6 +428,7 @@ namespace IES.G2S.Resource.DAL
                 {
                     var p = new DynamicParameters();
                     p.Add("@FileID", model.FileID);
+                    p.Add("@OCID", model.OCID);
                     p.Add("@FolderID", model.FolderID);
                     conn.Execute("File_FolderID_Upd", p, commandType: CommandType.StoredProcedure);
                     return true;

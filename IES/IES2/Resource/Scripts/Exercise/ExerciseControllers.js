@@ -20,7 +20,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
 
         $scope.pagesNum = 100;
         var pageSize = 5;
-        $scope.$emit('willResetCourse');
+
+        $scope.$emit('willResetCourse', 'Exerciese');
 
         //习题列表
         $scope.exercises = [];
