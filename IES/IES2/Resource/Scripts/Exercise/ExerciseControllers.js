@@ -648,6 +648,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
         });
         ///更新附件关联关系
         var attachmentSave = function (exerciseID) {
+            if (exerciseID === -1) return;
             var length = $scope.attachmentList.length;
             for (var i = 0; i < length; i++) {
                 var model = $scope.attachmentList[i];
@@ -686,9 +687,9 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
 
         /// 附件上传
         $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) {
-            response.file.SourceID = $scope.model.exercisecommon.exercise.ExerciseID;
-            $scope.attachmentList.push(response.file);
-            attachmentSave($scope.model.exercisecommon.exercise.ExerciseID);
+            //response.file.SourceID = $scope.model.exercisecommon.exercise.ExerciseID;
+            $scope.attachmentList = response;
+            attachmentSave(-1);
         });
 
         $scope.$on('onCompleteItem', function (event) {

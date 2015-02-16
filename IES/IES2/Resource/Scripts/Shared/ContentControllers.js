@@ -6,12 +6,21 @@ var contentApp = angular.module('app.content.controllers', [
 contentApp.controller('ContentCtrl', ['$scope', 'contentService', function ($scope, contentService) {
     $scope.course = {};
     $scope.courses = [];
+    $scope.courseHeads = [];
+    $scope.courseFoods = [];
     $scope.$emit('onSideLeftSwitch', true);
     $scope.$emit('onWizardSwitch', true);
     ///初始化在线课程
     contentService.User_OC_List(function (data) {
         if (data.d) {
-            $scope.courses = data.d;
+            $scope.courses = data.d;            
+            for (var i = 0; i < $scope.courses.length; i++) {
+                if (i < 3) {
+                    $scope.courseHeads.push($scope.courses[i]);
+                } else {
+                    $scope.courseFoods.push($scope.courses[i]);
+                }
+            }
             $scope.course = data.d[0];
             $scope.$broadcast('courseLoaded', $scope.course);
         }
