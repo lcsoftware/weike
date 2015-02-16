@@ -11,17 +11,16 @@ app.directive('moreCourse', function () {
     directive.replace = true;
 
     directive.scope = {
-        onSelected: '&',
-        selection: '=',
-        course: '=',
-        courseIndex: '='
+        courses: '=',
+        courseMore: '=',
+        course: '='
     }
 
     directive.templateUrl = '/Components/templates/moreCourse.html';
 
     directive.link = function (scope, elem, iAttrs) {
         //查看更多
-        elem.hover(function () {
+        elem.find('li').hover(function () {
             var len = $('.second_nav').length;
             if (len > 0) {
                 $(this).find('i').addClass('slide_up');
@@ -33,6 +32,11 @@ app.directive('moreCourse', function () {
         })
     }
 
+    directive.controller = function ($scope) {
+        $scope.courseChange = function (course) {
+            $scope.$emit('onWillCourseChanged', course);
+        }
+    }
     return directive;
 });
 

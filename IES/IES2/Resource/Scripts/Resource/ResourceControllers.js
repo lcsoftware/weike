@@ -43,7 +43,43 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.tabTitles = [];
 
 
-    $scope.$emit('willResetCourse');
+    //$scope.$emit('willResetCourse');
+
+    ///初始化在线课程
+    contentService.User_OC_List(function (data) {
+        $scope.$parent.courses.length = 0;
+        $scope.$parent.courseMore.length = 0;
+
+        if (data.d && data.d.length > 0) {
+            var personResource = data.d[0];
+            personResource.OCID = 0;
+            personResource.Name = '个人资料';
+            $scope.$parent.courses.insert(0, personResource);
+
+            var courses = [];
+            var courseMore = [];
+            for (var i = 0; i < data.d.length; i++) {
+                if (i < 3) {
+                    courses.push(data.d[i]);
+                } else {
+                    courseMore.push(data.d[i]);
+                }
+            }
+            $scope.$parent.courses = courses;
+            $scope.$parent.courseMore = courseMore;
+            $scope.$parent.course = data.d[0];
+            $scope.$broadcast('courseLoaded', $scope.$parent.course);
+        }
+
+        $scope.model.OCID = $scope.$parent.course.OCID;
+        $scope.model.CourseID = $scope.$parent.course.CourseID;
+        $scope.model.ParentID = 0;
+        $scope.filterChanged(); 
+
+        $scope.order = 0;
+        $scope.tabTitles.push({ id: 0, name: $scope.$parent.course.Name, order: $scope.order });
+    });
+
 
     ///课程切换
     $scope.$on('willCourseChanged', function (event, course) {
@@ -69,26 +105,33 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
 
     ///课程加载完成
-    $scope.$on('courseLoaded', function (course) {
-        contentService.OC_Get(function (data) {
-            var course = data.d;
-            if ($scope.courses.length > 0 && $scope.courses[0].OCID !== 0) {
-                course.OCID = 0;
-                course.Name = '个人资料';
-                $scope.$parent.courses.insert(0, course);
-            }
-            $scope.$parent.course = course;
+    //$scope.$on('courseLoaded', function (course) {
+    //    contentService.OC_Get(function (data) {
+    //        var course = data.d;
+    //        if ($scope.courses.length > 0 && $scope.courses[0].OCID !== 0) {
+    //            course.OCID = 0;
+    //            course.Name = '个人资料';
+    //            $scope.$parent.courses.insert(0, course);
+    //        } 
+    //        $scope.$parent.course = course;
 
-            $scope.model.OCID = course.OCID;
-            $scope.model.CourseID = course.CourseID;
-            $scope.model.ParentID = 0;
-            $scope.filterChanged();
+    //        if ($scope.$parent.courses.length > 3) {
+    //            $scope.$parent.courseMore.insert(0, $scope.$parent.courses[$scope.$parent.courses.length - 1]);
+    //            $scope.$parent.courses.splice(3, 1);
+    //        }
 
 
-            $scope.order = 0;
-            $scope.tabTitles.push({ id: 0, name: course.Name, order: $scope.order });
-        });
-    });
+
+    //        $scope.model.OCID = course.OCID;
+    //        $scope.model.CourseID = course.CourseID;
+    //        $scope.model.ParentID = 0;
+    //        $scope.filterChanged();
+
+
+    //        $scope.order = 0;
+    //        $scope.tabTitles.push({ id: 0, name: course.Name, order: $scope.order });
+    //    });
+    //});
 
     $scope.tabChange = function (item) {
         $scope.model.ParentID = item.id;

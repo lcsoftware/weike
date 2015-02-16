@@ -6,25 +6,36 @@ var contentApp = angular.module('app.content.controllers', [
 contentApp.controller('ContentCtrl', ['$scope', 'contentService', function ($scope, contentService) {
     $scope.course = {};
     $scope.courses = [];
-    $scope.courseHeads = [];
-    $scope.courseFoods = [];
+    $scope.courseMore = [];
+
     $scope.$emit('onSideLeftSwitch', true);
     $scope.$emit('onWizardSwitch', true);
+
     ///初始化在线课程
-    contentService.User_OC_List(function (data) {
-        if (data.d) {
-            $scope.courses = data.d;            
-            for (var i = 0; i < $scope.courses.length; i++) {
-                if (i < 3) {
-                    $scope.courseHeads.push($scope.courses[i]);
-                } else {
-                    $scope.courseFoods.push($scope.courses[i]);
+    var init = function () {
+        contentService.User_OC_List(function (data) {
+            $scope.courses.length = 0;
+            $scope.courseMore.length = 0;
+
+            if (data.d) {
+                var courses = [];
+                var courseMore = [];
+                for (var i = 0; i < data.d.length; i++) {
+                    if (i < 3) {
+                        courses.push(data.d[i]);
+                    } else {
+                        courseMore.push(data.d[i]);
+                    }
                 }
+                $scope.courses = courses;
+                $scope.courseMore = courseMore;
+                $scope.course = data.d[0];
+                $scope.$broadcast('courseLoaded', $scope.course);
             }
-            $scope.course = data.d[0];
-            $scope.$broadcast('courseLoaded', $scope.course);
-        }
-    });
+        });
+    }
+
+    init();
 
     $scope.findCourse = function (ocid) {
         var length = $scope.courses.length;
@@ -37,20 +48,15 @@ contentApp.controller('ContentCtrl', ['$scope', 'contentService', function ($sco
     }
 
     ///课程切换
-    $scope.courseChanged = function (course) {
+    $scope.$on('onWillCourseChanged', function (event, course) {
         $scope.course = course;
         $scope.$broadcast('willCourseChanged', $scope.course);
-    }
+    });
+  
 
     ///请求重置课程
     $scope.$on('willResetCourse', function () {
-        contentService.User_OC_List(function (data) {
-            if (data.d) {
-                $scope.courses = data.d;
-                $scope.course = data.d[0];
-                $scope.$broadcast('courseLoaded', $scope.course);
-            }
-        });
+        init(); 
     });
 }]);
 

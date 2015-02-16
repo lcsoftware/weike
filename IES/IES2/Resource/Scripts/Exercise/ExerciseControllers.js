@@ -20,23 +20,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
 
         $scope.pagesNum = 100;
         var pageSize = 5;
-        $scope.$emit('willResetCourse');
-        //contentService.OC_Get(function (data) {
-        //    $scope.$parent.courses.length = 0;
-        //    var course = angular.copy(data.d);
-        //    course.OCID = -2;
-        //    course.CourseID = course.OCID;
-        //    course.Name = '共享习题';
-        //    $scope.$parent.courses.insert(0, course);
-
-        //    course = angular.copy(data.d);
-        //    course.OCID = -1;
-        //    course.CourseID = course.OCID;
-        //    course.Name = '我的习题';
-        //    $scope.$parent.courses.insert(0, course);
-        //    $scope.$parent.course = course;
-
-        //});
+        $scope.$emit('willResetCourse'); 
 
         //习题列表
         $scope.exercises = [];
@@ -65,19 +49,13 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
         $scope.data.shareRange = {};
         //被选择的标签
         $scope.data.key = {};
-
-        //contentService.User_OC_List(function (data) {
-        //    if (data.d) {
-        //        $scope.courses = data.d;
-        //        var course = angular.copy($scope.courses[0]);
-        //        course.OCID = 0;
-        //        course.CourseID = 0;
-        //        course.Name = '不限';
-        //        $scope.courses.insert(0, course);
-        //        $scope.data.course = $scope.courses[0];
-        //    }
-        //});
+ 
         $scope.$on('willCourseChanged', function (event, course) {
+            $scope.data.course = course;
+            ExerciseSearch(pageSize, 1);
+        });
+
+        $scope.$on('courseLoaded', function (event, course) {
             $scope.data.course = course;
             ExerciseSearch(pageSize, 1);
         });
@@ -188,6 +166,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
                 Scope: -1,
                 ShareRange: $scope.data.shareRange.id
             };
+            console.log(model);
             var keys = $scope.data.key.KeyID === undefined || $scope.data.key.KeyID === -1 ? '' : $scope.data.key.Name;
             var kens = $scope.data.ken.KenID === undefined || $scope.data.ken.KenID === -1 ? '' : $scope.data.ken.Name;
             exerciseService.Exercise_Search(model, $scope.data.key, keys, kens, pageSize, pageIndex, function (data) {

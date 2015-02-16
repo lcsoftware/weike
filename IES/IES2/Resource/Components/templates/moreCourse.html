@@ -1,7 +1,12 @@
-﻿<li ng-class="{active:course.OCID==selection.OCID && courseIndex <=2}">
-    <a class="first_nav" ng-click="onSelected()" ng-show="courseIndex<=2">{{course.Name}}</a>
-    <a class="first_nav" ng-click="onSelected()" ng-show="courseIndex==3">查看更多<i class="icon"></i></a>
-    <div class="second_nav" ng-show="courseIndex>=3">
-        <a ng-click="onSelected()">{{course.Name}}</a>
-    </div>
-</li> 
+﻿<ul class="exercise_nav_list">
+    <li ng-class="{active:item.OCID==course.OCID}" ng-repeat="item in courses">
+        <a class="first_nav" ng-click="courseChange(item)" ng-bind="item.Name"></a>
+    </li>
+    <li ng-show="courseMore.length>0">
+        <a class="first_nav" href="#">查看更多<i class="icon"></i></a>
+        <div class="second_nav">
+            <a ng-repeat="item in courseMore" ng-click="courseChange(item)" ng-bind="item.Name"></a>
+        </div>
+    </li>
+</ul>
+
