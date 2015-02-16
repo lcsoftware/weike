@@ -52,16 +52,12 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
 
         $scope.$on('willCourseChanged', function (event, course) {
             $scope.data.course = course;
-            //ExerciseSearch(pageSize, 1);  
-            $scope.pagesNum = 1;
-            resetLaypage($scope.pagesNum);
+            filterChanged();
         });
 
         $scope.$on('courseLoaded', function (event, course) {
             $scope.data.course = course;
-            //ExerciseSearch(pageSize, 1);  
-            $scope.pagesNum = 1;
-            resetLaypage($scope.pagesNum);
+            filterChanged();
         });
 
         assistService.Resource_Dict_ExerciseType_Get(function (data) {
@@ -134,32 +130,27 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
 
         $scope.exerciseTypeChanged = function (item) {
             $scope.data.exerciseType = item;
-            //ExerciseSearch(pageSize, 1);            
-            resetLaypage($scope.pagesNum);
+            filterChanged();
         }
 
         $scope.difficultChanged = function (item) {
             $scope.data.difficult = item;
-            //ExerciseSearch(pageSize, 1);            
-            resetLaypage($scope.pagesNum);
+            filterChanged();
         }
 
         $scope.shareRangeChanged = function (item) {
             $scope.data.shareRange = item;
-            //ExerciseSearch(pageSize, 1);            
-            resetLaypage($scope.pagesNum);
+            filterChanged();
         }
 
         $scope.keyChanged = function (item) {
             $scope.data.key = item;
-            //ExerciseSearch(pageSize, 1);            
-            resetLaypage($scope.pagesNum);
+            filterChanged();
         }
 
         $scope.kenChanged = function (item) {
             $scope.data.ken = item;
-            //ExerciseSearch(pageSize, 1);            
-            resetLaypage($scope.pagesNum);
+            filterChanged();
         }
         $scope.pagesNum = 1;
 
@@ -189,29 +180,58 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             });
         }
 
-        var resetLaypage = function (pagesNum) {
-            laypage({
-                cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
-                pages: pagesNum, //总页数
-                skip: true, //是否开启跳页
-                skin: '#374760', //选中的颜色
-                groups: 3,//连续显示分页数
-                first: '首页', //若不显示，设置false即可
-                last: '尾页', //若不显示，设置false即可
-                jump: function (e) { //触发分页后的回调
-                    ExerciseSearch(pageSize, e.curr);
-                    //$scope.$apply();
+        var filterChanged = function () {
+            var model = {
+                Conten: $scope.data.searchKey,
+                OCID: $scope.data.course.OCID,
+                CourseID: $scope.data.course.CourseID,
+                ExerciseType: $scope.data.exerciseType.id,
+                Diffcult: $scope.data.difficult.id,
+                Scope: -1,
+                ShareRange: $scope.data.shareRange.id
+            };
+            var keys = $scope.data.key.KeyID === undefined || $scope.data.key.KeyID === -1 ? '' : $scope.data.key.Name;
+            var kens = $scope.data.ken.KenID === undefined || $scope.data.ken.KenID === -1 ? '' : $scope.data.ken.Name;
+            exerciseService.Exercise_Search(model, $scope.data.key, keys, kens, pageSize, 1, function (data) {
+                $scope.exercises.length = 0;
+                $scope.pagesNum = 1;
+                if (data.d && data.d.length > 0) {
+                    $scope.exercises = data.d;
+                    var rowsCount = $scope.exercises[0].RowsCount;
+                    $scope.pagesNum = Math.ceil(rowsCount / pageSize);
+                    laypage({
+                        cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
+                        pages: $scope.pagesNum, //总页数
+                        skip: true, //是否开启跳页
+                        skin: '#374760', //选中的颜色
+                        groups: 3,//连续显示分页数
+                        first: '首页', //若不显示，设置false即可
+                        last: '尾页', //若不显示，设置false即可
+                        jump: function (e) { //触发分页后的回调
+                            ExerciseSearch(pageSize, e.curr);
+                            //$scope.$apply();
+                        }
+                    });
                 }
             });
         }
 
-        //ExerciseSearch(pageSize, 1);
-        resetLaypage($scope.pagesNum);
+        laypage({
+            cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
+            pages: $scope.pagesNum, //总页数
+            skip: true, //是否开启跳页
+            skin: '#374760', //选中的颜色
+            groups: 3,//连续显示分页数
+            first: '首页', //若不显示，设置false即可
+            last: '尾页', //若不显示，设置false即可
+            jump: function (e) { //触发分页后的回调
+                ExerciseSearch(pageSize, e.curr);
+                //$scope.$apply();
+            }
+        });
 
         $scope.search = function () {
-            //ExerciseSearch(pageSize, 1); 
-            $scope.pagesNum = 1;
-            resetLaypage($scope.pagesNum);
+            filterChanged();
         }
 
         $scope.checks = [];
@@ -246,7 +266,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             var ids = buildIDs($scope.checks);
             exerciseService.Exercise_Batch_Del(ids, function (data) {
                 if (data.d === true) {
-                    ExerciseSearch(pageSize, 1);
+                    filterChanged();
                     $scope.checks.length = 0;
                 } else {
                     ///TODO 统一提示框 加美化效果
@@ -261,7 +281,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             var ids = buildIDs($scope.checks);
             exerciseService.Exercise_Batch_Diffcult(ids, difficult.id, function (data) {
                 if (data.d === true) {
-                    ExerciseSearch(pageSize, 1);
+                    filterChanged();
                 } else {
                     ///TODO 统一提示框 加美化效果
                     alert('难易程度批量操作失败！');
@@ -274,7 +294,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             var ids = exercise.ExerciseID;
             exerciseService.Exercise_Batch_ShareRange(ids, range.id, function (data) {
                 if (data.d === true) {
-                    ExerciseSearch(pageSize, 1);
+                    filterChanged();
                 } else {
                     ///TODO 统一提示框 加美化效果
                     alert('共享操作失败！');
