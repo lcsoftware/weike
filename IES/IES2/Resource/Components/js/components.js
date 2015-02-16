@@ -540,7 +540,7 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
             $scope.$emit('onWhenAddingFileFailed', item, filter, options);
         };
         angularFileUploader.onAfterAddingFile = function (fileItem) {
-            angularFileUploader.url = '/DataProvider/FileUpload.ashx/?FROM=1';
+            //angularFileUploader.url = '/DataProvider/FileUpload.ashx/?FROM=1';
             $scope.$emit('onAfterAddingFile', fileItem);
         };
         angularFileUploader.onAfterAddingAll = function (addedFileItems) {
