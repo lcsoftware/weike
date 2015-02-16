@@ -53,13 +53,12 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
 
         $scope.$on('willCourseChanged', function (event, course) {
             $scope.data.course = course;
-            //ExerciseSearch(pageSize, 1);
             filterChanged();
         });
 
         $scope.$on('courseLoaded', function (event, course) {
             $scope.data.course = course;
-            ExerciseSearch(pageSize, 1);
+            filterChanged();
         });
 
         assistService.Resource_Dict_ExerciseType_Get(function (data) {
@@ -132,27 +131,27 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
 
         $scope.exerciseTypeChanged = function (item) {
             $scope.data.exerciseType = item;
-            ExerciseSearch(pageSize, 1);
+            filterChanged();
         }
 
         $scope.difficultChanged = function (item) {
             $scope.data.difficult = item;
-            ExerciseSearch(pageSize, 1);
+            filterChanged();
         }
 
         $scope.shareRangeChanged = function (item) {
             $scope.data.shareRange = item;
-            ExerciseSearch(pageSize, 1);
+            filterChanged();
         }
 
         $scope.keyChanged = function (item) {
             $scope.data.key = item;
-            ExerciseSearch(pageSize, 1);
+            filterChanged();
         }
 
         $scope.kenChanged = function (item) {
             $scope.data.ken = item;
-            ExerciseSearch(pageSize, 1);
+            filterChanged();
         }
         $scope.pagesNum = 1;
 
@@ -203,7 +202,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
                     $scope.pagesNum = Math.ceil(rowsCount / pageSize);
                     laypage({
                         cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
-                        pages: 20, //总页数
+                        pages: $scope.pagesNum, //总页数
                         skip: true, //是否开启跳页
                         skin: '#374760', //选中的颜色
                         groups: 3,//连续显示分页数
@@ -220,7 +219,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
 
         laypage({
             cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
-            pages: 20, //总页数
+            pages: $scope.pagesNum, //总页数
             skip: true, //是否开启跳页
             skin: '#374760', //选中的颜色
             groups: 3,//连续显示分页数
@@ -232,10 +231,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             }
         });
 
-        //ExerciseSearch(pageSize, 1);
-
         $scope.search = function () {
-            ExerciseSearch(pageSize, 1);
+            filterChanged();
         }
 
         $scope.checks = [];
@@ -270,7 +267,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             var ids = buildIDs($scope.checks);
             exerciseService.Exercise_Batch_Del(ids, function (data) {
                 if (data.d === true) {
-                    ExerciseSearch(pageSize, 1);
+                    filterChanged();
                     $scope.checks.length = 0;
                 } else {
                     ///TODO 统一提示框 加美化效果
@@ -285,7 +282,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             var ids = buildIDs($scope.checks);
             exerciseService.Exercise_Batch_Diffcult(ids, difficult.id, function (data) {
                 if (data.d === true) {
-                    ExerciseSearch(pageSize, 1);
+                    filterChanged();
                 } else {
                     ///TODO 统一提示框 加美化效果
                     alert('难易程度批量操作失败！');
@@ -298,7 +295,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             var ids = exercise.ExerciseID;
             exerciseService.Exercise_Batch_ShareRange(ids, range.id, function (data) {
                 if (data.d === true) {
-                    ExerciseSearch(pageSize, 1);
+                    filterChanged();
                 } else {
                     ///TODO 统一提示框 加美化效果
                     alert('共享操作失败！');
