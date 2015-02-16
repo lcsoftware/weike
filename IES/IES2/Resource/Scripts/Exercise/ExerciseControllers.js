@@ -77,6 +77,10 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
         //        $scope.data.course = $scope.courses[0];
         //    }
         //});
+        $scope.$on('willCourseChanged', function (event, course) {
+            $scope.data.course = course;
+            ExerciseSearch(pageSize, 1);
+        });
 
         assistService.Resource_Dict_ExerciseType_Get(function (data) {
             if (data) {
@@ -141,10 +145,10 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             }
         }
 
-        $scope.courseChanged = function (item) {
-            $scope.data.course = item;
-            ExerciseSearch(pageSize, 1);
-        }
+        //$scope.courseChanged = function (item) {
+        //    $scope.data.course = item;
+        //    ExerciseSearch(pageSize, 1);
+        //}
 
         $scope.exerciseTypeChanged = function (item) {
             $scope.data.exerciseType = item;
@@ -188,11 +192,11 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             var kens = $scope.data.ken.KenID === undefined || $scope.data.ken.KenID === -1 ? '' : $scope.data.ken.Name;
             exerciseService.Exercise_Search(model, $scope.data.key, keys, kens, pageSize, pageIndex, function (data) {
                 $scope.exercises.length = 0;
-                $scope.pageNum = 1;
+                $scope.pagesNum = 1;
                 if (data.d && data.d.length > 0) {
                     $scope.exercises = data.d;
                     var rowsCount = $scope.exercises[0].RowsCount;
-                    $scope.pageNum = Math.ceil(rowsCount / pageSize);
+                    $scope.pagesNum = Math.ceil(rowsCount / pageSize);
                 }
             });
         }
