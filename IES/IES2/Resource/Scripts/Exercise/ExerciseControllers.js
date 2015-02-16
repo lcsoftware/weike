@@ -52,12 +52,16 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
 
         $scope.$on('willCourseChanged', function (event, course) {
             $scope.data.course = course;
-            ExerciseSearch(pageSize, 1);
+            //ExerciseSearch(pageSize, 1);  
+            $scope.pagesNum = 1;
+            resetLaypage($scope.pagesNum);
         });
 
         $scope.$on('courseLoaded', function (event, course) {
             $scope.data.course = course;
-            ExerciseSearch(pageSize, 1);
+            //ExerciseSearch(pageSize, 1);  
+            $scope.pagesNum = 1;
+            resetLaypage($scope.pagesNum);
         });
 
         assistService.Resource_Dict_ExerciseType_Get(function (data) {
@@ -130,27 +134,32 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
 
         $scope.exerciseTypeChanged = function (item) {
             $scope.data.exerciseType = item;
-            ExerciseSearch(pageSize, 1);
+            //ExerciseSearch(pageSize, 1);            
+            resetLaypage($scope.pagesNum);
         }
 
         $scope.difficultChanged = function (item) {
             $scope.data.difficult = item;
-            ExerciseSearch(pageSize, 1);
+            //ExerciseSearch(pageSize, 1);            
+            resetLaypage($scope.pagesNum);
         }
 
         $scope.shareRangeChanged = function (item) {
             $scope.data.shareRange = item;
-            ExerciseSearch(pageSize, 1);
+            //ExerciseSearch(pageSize, 1);            
+            resetLaypage($scope.pagesNum);
         }
 
         $scope.keyChanged = function (item) {
             $scope.data.key = item;
-            ExerciseSearch(pageSize, 1);
+            //ExerciseSearch(pageSize, 1);            
+            resetLaypage($scope.pagesNum);
         }
 
         $scope.kenChanged = function (item) {
             $scope.data.ken = item;
-            ExerciseSearch(pageSize, 1);
+            //ExerciseSearch(pageSize, 1);            
+            resetLaypage($scope.pagesNum);
         }
         $scope.pagesNum = 1;
 
@@ -175,7 +184,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
                     $scope.exercises = data.d;
                     var rowsCount = $scope.exercises[0].RowsCount;
                     $scope.pagesNum = Math.ceil(rowsCount / pageSize);
-                    resetLaypage($scope.pagesNum);
+                    //resetLaypage($scope.pagesNum);
                 }
             });
         }
@@ -196,10 +205,13 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             });
         }
 
-        ExerciseSearch(pageSize, 1);
+        //ExerciseSearch(pageSize, 1);
+        resetLaypage($scope.pagesNum);
 
         $scope.search = function () {
-            ExerciseSearch(pageSize, 1);
+            //ExerciseSearch(pageSize, 1); 
+            $scope.pagesNum = 1;
+            resetLaypage($scope.pagesNum);
         }
 
         $scope.checks = [];
