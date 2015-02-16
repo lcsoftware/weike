@@ -82,6 +82,11 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             ExerciseSearch(pageSize, 1);
         });
 
+        $scope.$on('courseLoaded', function (event, course) {
+            $scope.data.course = course;
+            ExerciseSearch(pageSize, 1);
+        });
+
         assistService.Resource_Dict_ExerciseType_Get(function (data) {
             if (data) {
                 $scope.exerciseTypes = angular.copy(data);
@@ -685,10 +690,16 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
             });
         });
 
+        $scope.$on('onAttachmentList', function (event, attachment) {
+            $scope.attachmentList = attachment;
+        });
+
         /// 附件上传
         $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) {
             //response.file.SourceID = $scope.model.exercisecommon.exercise.ExerciseID;
-            $scope.attachmentList = response;
+            for (var i = 0; i < response.length; i++) {
+                $scope.attachmentList.push(response[i]);
+            }
             attachmentSave(-1);
         });
 
@@ -856,6 +867,10 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+
+                if ($scope.model.exercisecommon.attachmentlist.length > 0) {
+                    $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
+                }
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -1064,6 +1079,10 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+
+                if ($scope.model.exercisecommon.attachmentlist.length > 0) {
+                    $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
+                }
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -1272,6 +1291,9 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+                if ($scope.model.exercisecommon.attachmentlist.length > 0) {
+                    $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
+                }
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -1458,6 +1480,9 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
                 $scope.editorAnswerText = $scope.model.exercisecommon.exercise.Answer;
+                if ($scope.model.exercisecommon.attachmentlist.length > 0) {
+                    $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
+                }
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -1546,6 +1571,9 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+                if ($scope.model.exercisecommon.attachmentlist.length > 0) {
+                    $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
+                }
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -1562,7 +1590,7 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
 
 //判断题
 appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$stateParams', '$state', function ($scope, exerciseService, $stateParams, $state) {
-    $scope.$parent.attachmentList = [];
+   
     $scope.$on('willExerciseChange', function (event, changeParam) {
 
     });
@@ -1608,10 +1636,14 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+                if ($scope.model.exercisecommon.attachmentlist.length > 0) {
+                    $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
+                }
+                
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
-                $scope.model = data.d;
+                $scope.model = data.d; 
             });
         }
     }
@@ -1621,17 +1653,7 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
         if (answer == null) answer = '0';
         $scope.model.exercisecommon.exercise.Answer = answer == '0' ? '1' : '0';
     }
-
-    /// 附件上传成功
-    $scope.$on('onSuccessItem', function (event, fileItem, response, status, headers) {
-        $scope.$parent.attachmentList.push(response.file);
-        response.file.SourceID = $scope.ExerciseID;
-        $scope.$emit('willFileUploaded', fileItem, response.file);
-    });
-
-    $scope.$on('onCompleteItem', function (event) {
-
-    });
+    
 }]);
 
 //填空题
@@ -1714,6 +1736,9 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
                     var a = $scope.model.exercisechoicelist[i].Answer.split('wshgkjqbwhfbxlfrh_c');
                     $scope.model.exercisechoicelist[i].Answer = a[0];
                     $scope.model.exercisechoicelist[i].Spare = a[1];
+                }
+                if ($scope.model.exercisecommon.attachmentlist.length > 0) {
+                    $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
             });
         } else {
@@ -1937,6 +1962,10 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
                         }
                     }
                 }
+
+                if ($scope.model.exercisecommon.attachmentlist.length > 0) {
+                    $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
+                }
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -2056,6 +2085,10 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+
+                if ($scope.model.exercisecommon.attachmentlist.length > 0) {
+                    $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
+                }
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -2179,6 +2212,10 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+
+                if ($scope.model.exercisecommon.attachmentlist.length > 0) {
+                    $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
+                }
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -2264,6 +2301,9 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
                 $scope.editorAnswerText = $scope.model.exercisecommon.exercise.Answer;
+                if ($scope.model.exercisecommon.attachmentlist.length > 0) {
+                    $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
+                }
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -2358,6 +2398,9 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
                 //    $scope.model.exercisechoicelist[i].Answer = a[0];
                 //    $scope.model.exercisechoicelist[i].Spare = a[1];
                 //}
+                if ($scope.model.exercisecommon.attachmentlist.length > 0) {
+                    $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
+                }
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -2464,6 +2507,9 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
                 $scope.willEdit($scope.$parent.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+                if ($scope.model.exercisecommon.attachmentlist.length > 0) {
+                    $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
+                }
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
