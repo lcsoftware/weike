@@ -4,13 +4,16 @@
     <li bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel" ng-click="onMobile()">
         <p><i class="icon data_move"></i>移动资料</p>
     </li>
-    <li ng-show="ocid!=0">
-        <p id="eBrowser"><i class="icon data_share"></i>使用权限</p>
+    <li ng-show="ocid!=0"> 
+        <p id="eBrowser"><i class="icon share_topic"></i>使用权限</p>
+        <ul class="right_obj">
+            <li ng-repeat="item in shareRanges" ng-click="shareRange(item)"><i class="icon"></i>{{item.name}}</li>
+        </ul>
+        <!--<p id="eBrowser"><i class="icon data_share"></i>使用权限</p>
         <ul class="batch_list batch_list2" style="left:97px;top:88px;">
             <li ng-class="{'active':rangeSelection.id==item.id}" style="text-align:left" ng-repeat="item in shareRanges" ng-bind="item.name" ng-click="shareRange(item)"></li>
-        </ul>
+        </ul>-->
     </li>
     <li ng-click="onDownload()"><p><i class="icon data_download"></i>下载资料</p></li>
-    <li ng-click="onRemove()"><p><i class="icon data_remove"></i>删除资料</p></li>
-    
+    <li ng-click="onRemove()"><p><i class="icon data_remove"></i>删除资料</p></li>    
 </ul>

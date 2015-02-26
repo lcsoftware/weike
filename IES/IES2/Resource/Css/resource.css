@@ -131,7 +131,7 @@
 .mouse_right li.active .data_remove{ background-position:-21px -192px;}
 .mouse_right li.active .video{ background-position:-21px -208px;}
 .mouse_right li.active .data_cite{ background-position:-21px -224px;}
-.right_obj{ display:none; position:absolute; top:0; left:99px;}
+.right_obj{ display:none; position:absolute; top:0; left:95px;}
 .right_obj li{ height:30px; width:98px; line-height:30px; border:1px solid #ddd; margin-top:-1px; overflow:hidden; zoom:1; position:relative; color:#333; overflow:hidden; zoom:1;}
 .right_obj li i{display:block; float:left; margin:7px 8px 0; width:16px; height:16px; background-position:-69px -160px; }
 .right_obj li.current{background:#475c7c; color:#fff;}

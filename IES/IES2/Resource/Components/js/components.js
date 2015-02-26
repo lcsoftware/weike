@@ -84,9 +84,9 @@ app.directive('fileOperation', function () {
             $(this).find('.right_obj').hide();
         });
 
-        elem.find('#eBrowser').hover(function () {
-            elem.find('.batch_list2').show();
-        });
+        //elem.find('#eBrowser').hover(function () {
+        //    elem.find('.batch_list2').show();
+        //});
     }
 
     return directive;
@@ -315,7 +315,7 @@ app.directive('exerciseBatch', function () {
 });
 
 
-app.directive('exerciseList', ['assistService', function (assistService) {
+app.directive('exerciseList', ['assistService', 'previewService', 'exerciseService', '$state', function (assistService, previewService, exerciseService, $state) {
     var directive = {};
 
     directive.restrict = 'EA';
@@ -347,7 +347,7 @@ app.directive('exerciseList', ['assistService', function (assistService) {
         })
     }
 
-    directive.controller = function ($scope, assistService) {
+    directive.controller = function ($scope, assistService, previewService, exerciseService, $state) {
 
         $scope.editExercise = function (exercise) {
             $scope.$emit('onEditExercise', exercise);
@@ -404,6 +404,53 @@ app.directive('exerciseList', ['assistService', function (assistService) {
                 }
             });
             return name;
+        }
+
+        var goPreView = function (model) {
+            previewService.exercise = angular.copy(model);
+            $state.go('preview');
+        }
+
+        $scope.preView = function (exercise) {
+            switch (exercise.ExerciseType) {
+                case 4: //名词解释
+                case 5: //填空题
+                case 8: //分析题
+                case 9: //计算题
+                    exerciseService.Exercise_Analysis_Get(exercise.ExerciseID, function (data) {
+                        goPreView(data.d);
+                    });
+                    break;
+                case 12: //听力题
+                case 17: //自定义题
+                case 14: //阅读理解题
+                    exerciseService.Exercise_Custom_Get(exercise.ExerciseID, function (data) {
+                        goPreView(data.d);
+                    });
+                    break;
+                case 10: //问答题
+                case 13: //写作题
+                case 11: //翻译题
+                    exerciseService.Exercise_Writing_Get(exercise.ExerciseID, function (data) {
+                        goPreView(data.d);
+                    });
+                    break;
+                case 1: //判断题
+                    exerciseService.Exercise_Judge_Get(exercise.ExerciseID, function (data) {
+                        goPreView(data.d);
+                    });
+                    break;
+                case 6:  //连线题
+                case 2:  //单选题
+                case 3:  //多选题
+                case 7:  //排序题
+                    exerciseService.Exercise_MultipleChoice_Get(exercise.ExerciseID, function (data) {
+                        goPreView(data.d);
+                    });
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -468,7 +515,7 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
     directive.link = function (scope, elem, iAttrs) {
         elem.find('.close_pop').bind('click', function () {
             elem.hide();
-        }); 
+        });
     }
 
     directive.controller = function ($scope, $element) {
@@ -693,7 +740,7 @@ app.directive('layPage', function () {
 app.directive('iesDialog', function () {
     var directive = {};
 
-    directive.restrict = 'EA'; 
+    directive.restrict = 'EA';
 
     directive.templateUrl = '/Components/templates/confirm.html';
 
@@ -704,7 +751,7 @@ app.directive('iesDialog', function () {
         cancelTitle: '@'
     }
 
-    directive.link = function (scope, elem, iAttrs) { 
+    directive.link = function (scope, elem, iAttrs) {
         elem.find('.save,.cancel,.close_pop').bind('click', function () {
             elem.hide();
         });
@@ -720,7 +767,7 @@ app.directive('iesDialog', function () {
         };
 
         $scope.cancel = function () {
-            $scope.$emit('onDialogCancel'); 
+            $scope.$emit('onDialogCancel');
         }
 
     }
