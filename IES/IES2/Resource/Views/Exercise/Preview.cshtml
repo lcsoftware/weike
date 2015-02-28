@@ -70,7 +70,7 @@
                         <input type="radio" ng-checked="item.IsCorrect==1">{{item.Conten}}
                     </p>
                 </div>
-                <div class="issue_box" ng-show="exercise.Children.exercisecommon.exercise.ExerciseType==3">
+                <div class="issue_box" ng-show="exercise.ChildrenMultiple.exercisecommon.exercise.ExerciseType==3">
                     <h4>【多选题】</h4>
                     <p ng-bind="exercise.ChildrenMultiple.exercisecommon.exercise.Conten"></p>
                 </div>
@@ -79,7 +79,7 @@
                         <input type="checkbox" ng-checked="item.IsCorrect">{{item.Conten}}
                     </p>
                 </div>
-                <div class="issue_box" ng-show="exercise.Children.exercisecommon.exercise.ExerciseType==18">
+                <div class="issue_box" ng-show="exercise.ChildrenFillBlank.exercisecommon.exercise.ExerciseType==18">
                     <h4>【填空题】</h4>
                     <p ng-bind="exercise.ChildrenFillBlank.exercisecommon.exercise.Conten">填空题题干</p>
                 </div>
