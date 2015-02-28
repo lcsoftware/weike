@@ -621,6 +621,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             folderIds = folderIds.substr(0, folderIds.length - 1);
             resourceService.Folder_Batch_ShareRange(folderIds, shareRange.id);
         }
+        
     }
 
     $scope.$on('batchShareRange', function (event, range) {
@@ -643,6 +644,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             folderIds = folderIds.substr(0, folderIds.length - 1);
             resourceService.Folder_Batch_ShareRange(folderIds, range.id);
         }
+        $scope.filterChanged();
     });
 
     //单一共享
@@ -655,5 +657,6 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             var folder = { FolderID: file.Id, ShareRange: range.id }
             resourceService.Folder_ShareRange_Upd(folder);
         }
+        $scope.filterChanged();
     });
 }]);
