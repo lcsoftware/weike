@@ -40,54 +40,6 @@ app.directive('moreCourse', function () {
     return directive;
 });
 
-app.directive('fileOperation', function () {
-    var directive = {};
-
-    directive.restrict = 'EA';
-
-    directive.replace = true;
-
-    directive.scope = {
-        onProperty: '&',
-        onRename: '&',
-        onDownload: '&',
-        onVideo: '&',
-        onRemove: '&',
-        onReturnPage: '&',
-        onMobile: '&',
-        shareRanges: '=',
-        folderRelation: '=',
-        ocid: '='
-    }
-
-    directive.templateUrl = '/Components/templates/fileOperation.html';
-
-    directive.link = function (scope, elem, iAttrs) {
-        scope.rangeSelection = {};
-
-        scope.shareRange = function (range) {
-            scope.rangeSelection = range;
-            scope.$emit('shareRange', scope.rangeSelection, scope.folderRelation);
-        }
-
-        //弹出右键菜单
-        elem.parent().hover(function () {
-            $(this).find('.mouse_right').toggle();
-        });
-
-        //右键菜单表现形式
-        elem.parent().find('.mouse_right li').hover(function () {
-            $(this).addClass('active').siblings().removeClass('active');
-            $(this).find('.right_obj').show();
-        }, function () {
-            $(this).removeClass('active');
-            $(this).find('.right_obj').hide();
-        }); 
-    }
-
-    return directive;
-});
-
 app.directive('fileProperty', function () {
     var directive = {};
 
@@ -214,12 +166,101 @@ app.directive('folder', function () {
             $(this).next().show().select();
         });
     }
+    return directive;
+});
 
-    //directive.controller = function ($scope, $element) {
-    //    var e = elem.find('.data_tit');
-    //    $scope.$on('onNewFolder', function (event) {
-    //    });
-    //}
+app.directive('fileOperation', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.replace = true;
+
+    directive.scope = {
+        onProperty: '&',
+        onRename: '&',
+        onDownload: '&',
+        onVideo: '&',
+        onRemove: '&',
+        onReturnPage: '&',
+        onMobile: '&',
+        shareRanges: '=',
+        folderRelation: '=',
+        ocid: '='
+    }
+
+    directive.templateUrl = '/Components/templates/fileOperation.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        scope.rangeSelection = {};
+
+        scope.shareRange = function (range) {
+            scope.rangeSelection = range;
+            scope.$emit('shareRange', scope.rangeSelection, scope.folderRelation);
+        }
+
+        //弹出右键菜单
+        elem.parent().hover(function () {
+            $(this).find('.mouse_right').toggle();
+        });
+
+        //右键菜单表现形式
+        elem.parent().find('.mouse_right li').hover(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+            $(this).find('.right_obj').show();
+        }, function () {
+            $(this).removeClass('active');
+            $(this).find('.right_obj').hide();
+        });
+    }
+
+    return directive;
+}); 
+
+app.directive('shareRange', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.replace = true;
+
+    directive.scope = {
+        range: '='
+    }
+
+    directive.templateUrl = '/Components/templates/shareRange.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        elem.hover(function () {
+            $(this).addClass('current');
+        }, function () {
+            $(this).removeClass('current');
+        });
+    }
+
+    return directive;
+});
+
+app.directive('fileShareRange', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.replace = true;
+
+    directive.scope = {
+        range: '='
+    }
+
+    directive.templateUrl = '/Components/templates/fileShareRange.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        elem.hover(function () {
+            $(this).addClass('current');
+        }, function () {
+            $(this).removeClass('current');
+        });
+    }
 
     return directive;
 });
@@ -248,41 +289,10 @@ app.directive('batchOperation', function () {
         }, function () {
             $(this).removeClass('active');
         });
-
-        //elem.find('.permissions li').hover(function () {
-        //    $(this).addClass('current').siblings().removeClass('current');
-        //}, function () {
-        //    $(this).removeClass('current');
-        //}); 
     }
 
     return directive;
 });
-
-app.directive('shareRange', function () {
-    var directive = {};
-
-    directive.restrict = 'EA';
-
-    directive.replace = true;
-
-    directive.scope = {
-        range: '='
-    }
-
-    directive.templateUrl = '/Components/templates/shareRange.html';
-
-    directive.link = function (scope, elem, iAttrs) {
-        elem.hover(function () {
-            $(this).addClass('current');
-        }, function () {
-            $(this).removeClass('current');
-        });
-    }
-
-    return directive;
-});
-
 app.directive('exerciseBatch', function () {
     var directive = {};
 

@@ -149,6 +149,7 @@
     <Content Include="Components\templates\exerciseList.html" />
     <Content Include="Components\templates\fileOperation.html" />
     <Content Include="Components\templates\fileShared.html" />
+    <Content Include="Components\templates\fileShareRange.html" />
     <Content Include="Components\templates\iesFileUploader.html" />
     <Content Include="Components\templates\folder.html" />
     <Content Include="Components\templates\layPage.html" />

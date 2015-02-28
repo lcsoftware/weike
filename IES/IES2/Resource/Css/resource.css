@@ -115,9 +115,9 @@
 
 
 .mouse_right{ width:98px; background:#fff;}
-.mouse_right li{  cursor:pointer; position:relative; height:31px;}
-.mouse_right li.active p{ background:#475c7c; color:#fff;}
-.mouse_right li p{padding-left:32px; width:66px; height:30px; line-height:30px; color:#333; position:relative; border:1px solid #ddd; margin-top:-1px; overflow:hidden; zoom:1;}
+.mouse_right li{  cursor:pointer; position:relative; height:30px;}
+.mouse_right li.active { background:#475c7c; color:#fff;}
+.mouse_right li p{padding-left:32px; width:120px; height:30px; line-height:31px; color:#333; position:relative; border:1px solid #ddd; margin-top:-1px; overflow:hidden; zoom:1;}
 .mouse_right li p i{ display:block; width:16px; height:16px; position:absolute; left:8px; top:7px;}
 .data_property{ background-position:-53px -112px;}
 .data_rename{ background-position:-37px 0;}
