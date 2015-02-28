@@ -1,19 +1,18 @@
 ﻿<ul class="mouse_right">
-    <li ng-click="onProperty()" ng-show="ocid!=0&&folderRelation.RelationType==1"><p><i class="icon data_property"></i>资料属性</p></li>
+    <li class="attribute" ng-click="onProperty()" ng-show="ocid!=0&&folderRelation.RelationType==1"><p><i class="icon data_property"></i>资料属性</p></li>
     
     <li bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel" ng-click="onMobile()">
         <p><i class="icon data_move"></i>移动资料</p>
     </li>
     <li ng-show="ocid!=0"> 
-        <p id="eBrowser"><i class="icon share_topic"></i>使用权限</p>
+        <p id="eBrowser" style="width:50px;"><i class="icon data_rights"></i>使用权限</p>
         <ul class="right_obj">
-            <li ng-repeat="item in shareRanges" ng-click="shareRange(item)"><i class="icon"></i>{{item.name}}</li>
-        </ul>
-        <!--<p id="eBrowser"><i class="icon data_share"></i>使用权限</p>
-        <ul class="batch_list batch_list2" style="left:97px;top:88px;">
-            <li ng-class="{'active':rangeSelection.id==item.id}" style="text-align:left" ng-repeat="item in shareRanges" ng-bind="item.name" ng-click="shareRange(item)"></li>
-        </ul>-->
+            <!--<li ng-repeat="item in shareRanges" ng-click="shareRange(item)"><i class="icon"></i>{{item.name}}</li>-->
+            <share-range ng-repeat="item in shareRanges" ng-click="shareRange(item)" range="item"></share-range> 
+        </ul> 
     </li>
     <li ng-click="onDownload()"><p><i class="icon data_download"></i>下载资料</p></li>
     <li ng-click="onRemove()"><p><i class="icon data_remove"></i>删除资料</p></li>    
 </ul>
+
+

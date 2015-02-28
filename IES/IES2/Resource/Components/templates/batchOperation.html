@@ -5,9 +5,7 @@
         <li>
             浏览权限
             <ul class="permissions">
-                <li ng-repeat="item in shareRanges" ng-click="shareRange(item)">
-                    <p><i class="icon"></i>{{item.name}}</p>
-                </li>
+                <share-range ng-repeat="item in shareRanges" ng-click="shareRange(item)" range="item"></share-range> 
             </ul>
         </li>
         <!--<li class="batch_share">批量共享</li>-->

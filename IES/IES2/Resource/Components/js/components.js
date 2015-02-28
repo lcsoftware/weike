@@ -82,11 +82,7 @@ app.directive('fileOperation', function () {
         }, function () {
             $(this).removeClass('active');
             $(this).find('.right_obj').hide();
-        });
-
-        //elem.find('#eBrowser').hover(function () {
-        //    elem.find('.batch_list2').show();
-        //});
+        }); 
     }
 
     return directive;
@@ -232,7 +228,7 @@ app.directive('batchOperation', function () {
     var directive = {};
 
     directive.restrict = 'EA';
-
+    directive.replace = true;
     directive.scope = {
         onFireRemoveAll: '&',
         onFireMobileBatch: '&',
@@ -253,8 +249,32 @@ app.directive('batchOperation', function () {
             $(this).removeClass('active');
         });
 
-        elem.find('.permissions li').hover(function () {
-            $(this).addClass('current').siblings().removeClass('current');
+        //elem.find('.permissions li').hover(function () {
+        //    $(this).addClass('current').siblings().removeClass('current');
+        //}, function () {
+        //    $(this).removeClass('current');
+        //}); 
+    }
+
+    return directive;
+});
+
+app.directive('shareRange', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.replace = true;
+
+    directive.scope = {
+        range: '='
+    }
+
+    directive.templateUrl = '/Components/templates/shareRange.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        elem.hover(function () {
+            $(this).addClass('current');
         }, function () {
             $(this).removeClass('current');
         });
@@ -334,10 +354,16 @@ app.directive('exerciseList', ['assistService', 'previewService', 'exerciseServi
         elem.hover(function () { $(this).find('.topic_icon').show(); },
                    function () { $(this).find('.topic_icon').hide(); }
                   );
-        elem.find('.icon.share_topic,.icon.delete_topic,.icon.edit_topic').hover(
-            function () { $(this).find('.icon_content').show(); },
+        elem.find('.icon.delete_topic,.icon.edit_topic').hover(
+            function () {
+                $(this).find('.icon_content').show();
+                elem.find('.icon.share_topic').find('.icon_share_content').hide();
+            },
             function () { $(this).find('.icon_content').hide(); }
             );
+        elem.find('.icon.share_topic').hover(
+           function () { $(this).find('.icon_share_content').show(); }
+           );
         elem.find('.spread').bind('click', function () {
             if (!elem.hasClass('show')) {
                 elem.addClass('show');
