@@ -1472,6 +1472,8 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
     $scope.$on('onPreview', function (event) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+        var editor2 = EWEBEDITOR.Instances["editorAnswer"];
+        $scope.model.exercisecommon.exercise.Answer = editor2.getHTML();
         $scope.$emit('onBeginPreview', $scope.model);
     });
 

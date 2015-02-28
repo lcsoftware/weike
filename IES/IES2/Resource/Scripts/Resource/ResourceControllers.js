@@ -241,7 +241,8 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             folder.Name = 'NewFolder';
             folder.ParentID = $scope.model.ParentID;
             folder.OCID = $scope.model.OCID;
-            folder.folderRelation = 0;
+            //folder.folderRelation = 0;
+            folder.RelationType = 0;
             $scope.folderRelations.push(folder);
         });
     }

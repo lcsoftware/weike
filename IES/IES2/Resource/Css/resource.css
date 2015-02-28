@@ -312,7 +312,7 @@
 .knowledge_item li a{ display:block; width:80px; height:25px; line-height:25px; text-align:center; color:#666; background:#cccccc;}
 .knowledge_item li a:hover{ background:#bfbfbf;}
 .knowledge_item li a span{ color:#fff; padding-left:10px; font-weight:bold;}
-.paper_content{ margin:20px 50px;}
+.paper_content{ margin:20px 20px;}
 .add_attach{display:block; width:105px; height:25px; line-height:25px; color:#fff; background:url(../images/add_bg.gif) no-repeat; margin:20px 0 0; overflow:hidden; zoom:1;}
 .add_attach:hover{ background:url(../images/add_bg_hover.gif) no-repeat;}
 .add_attach em{ display:block; width:25px; height:25px; position:relative; float:left;}
@@ -631,3 +631,5 @@
 .answer_select{ margin-top:5px;}
 .answer_select input{ width:346px;}
 .add_answer{ width:423px; height:40px; line-height:40px\9; border:1px solid #ccc; margin-top:60px;}
+
+.mobileSelected { background-color :#33a31e}

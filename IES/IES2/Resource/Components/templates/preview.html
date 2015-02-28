@@ -30,10 +30,11 @@
                         <h4>3  【问答题】  （20分）</h4>
                         <p ng-bind="exercise.exercisecommon.exercise.Conten"></p>
                     </div>
-                    <div class="text_box" style="color:#F00;" ng-show="show==1">
+                    <input class="blank_box" type="text" ng-value="exercise.exercisecommon.exercise.Answer">
+                    <!--<div class="text_box" style="color:#F00;" ng-show="show==1">
                         {{exercise.exercisecommon.exercise.Answer}}
                     </div>
-                    <a class="reference_answer" ng-click="show=1">查看参考答案</a>
+                    <a class="reference_answer" ng-click="show=1">查看参考答案</a>-->
                 </li>
                 <li ng-show="exercise.exercisecommon.exercise.ExerciseType==5">
                     <div class="issue_box">
