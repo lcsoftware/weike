@@ -690,9 +690,15 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
 
         $scope.$on('onExerciseSaved', function (event, exerciseID) {
             attachmentSave(exerciseID);
+<<<<<<< HEAD
+            window.history.back();
+            alert('提交成功！');            
+            //$state.go('content.exercise');
+=======
             //$window.history.back();
             alert('提交成功！');
             $scope.back();
+>>>>>>> 71ecf726c4d58a7fa8db4d9299b69af22f2a83d5
         });
 
         $scope.back = function () {
@@ -1670,8 +1676,7 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
     init();
 
     $scope.answeChange = function (answer) {
-        if (answer == null) answer = '0';
-        $scope.model.exercisecommon.exercise.Answer = answer == '0' ? '1' : '0';
+        $scope.model.exercisecommon.exercise.Answer = answer == 0 ? 1 : 0;
     }
 
 }]);
