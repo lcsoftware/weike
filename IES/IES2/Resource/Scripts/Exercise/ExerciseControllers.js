@@ -15,11 +15,13 @@ appExercise.controller('PreviewCtrl', ['$scope', 'previewService', function ($sc
     $scope.$emit('onPreviewSwitch', true);
 }]);
 
-appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService', 'resourceKenService', 'exerciseService', 'contentService', 'kenService', 'assistService',
-    function ($scope, $state, resourceService, resourceKenService, exerciseService, contentService, kenService, assistService) {
+appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 'resourceService', 'resourceKenService', 'exerciseService', 'contentService', 'kenService', 'assistService',
+    function ($scope, $state, $stateParams, resourceService, resourceKenService, exerciseService, contentService, kenService, assistService) {
 
         $scope.pagesNum = 100;
-        var pageSize = 5;
+        var pageSize = exerciseService.Page.Size;
+
+        var ocid = $stateParams.ocid ? parseInt($stateParams.ocid) : -1; 
 
         $scope.$emit('willResetCourse', 'Exerciese');
 
@@ -27,7 +29,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
         $scope.exercises = [];
 
         //课程
-        $scope.courses = [];
+        //$scope.courses = [];
 
         //试题类型
         $scope.exerciseTypes = [];
@@ -53,11 +55,24 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
 
         $scope.$on('willCourseChanged', function (event, course) {
             $scope.data.course = course;
+            exerciseService.Page.Index = 1;
+            pageFlag = false;
             filterChanged();
         });
 
         $scope.$on('courseLoaded', function (event, course) {
-            $scope.data.course = course;
+            if (ocid !== -1) {
+                var length = $scope.courses.length;
+                for (var i = 0; i < length; i++) {
+                    if ($scope.courses[i].OCID === ocid) {
+                        $scope.$parent.course = $scope.courses[i];
+                        $scope.data.course = $scope.$parent.course;
+                        break;
+                    }
+                }
+            } else {
+                $scope.data.course = course;
+            }
             filterChanged();
         });
 
@@ -176,9 +191,13 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
                     $scope.exercises = data.d;
                     var rowsCount = $scope.exercises[0].RowsCount;
                     $scope.pagesNum = Math.ceil(rowsCount / pageSize);
-                    //resetLaypage($scope.pagesNum);
                 }
             });
+        }
+
+        var changePage = function (e) { //触发分页后的回调
+            exerciseService.Page.Index = e.curr;
+            ExerciseSearch(pageSize, exerciseService.Page.Index);
         }
 
         var filterChanged = function () {
@@ -193,43 +212,34 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
             };
             var keys = $scope.data.key.KeyID === undefined || $scope.data.key.KeyID === -1 ? '' : $scope.data.key.Name;
             var kens = $scope.data.ken.KenID === undefined || $scope.data.ken.KenID === -1 ? '' : $scope.data.ken.Name;
-            exerciseService.Exercise_Search(model, $scope.data.key, keys, kens, pageSize, 1, function (data) {
+            exerciseService.Exercise_Search(model, $scope.data.key, keys, kens, pageSize, exerciseService.Page.Index, function (data) {
                 $scope.exercises.length = 0;
                 $scope.pagesNum = 1;
                 if (data.d && data.d.length > 0) {
                     $scope.exercises = data.d;
                     var rowsCount = $scope.exercises[0].RowsCount;
-                    $scope.pagesNum = Math.ceil(rowsCount / pageSize);
-                    laypage({
-                        cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
-                        pages: $scope.pagesNum, //总页数
-                        skip: true, //是否开启跳页
-                        skin: '#374760', //选中的颜色
-                        groups: 3,//连续显示分页数
-                        first: '首页', //若不显示，设置false即可
-                        last: '尾页', //若不显示，设置false即可
-                        jump: function (e) { //触发分页后的回调
-                            ExerciseSearch(pageSize, e.curr);
-                            //$scope.$apply();
-                        }
-                    });
-                }                
+                    $scope.pagesNum = Math.ceil(rowsCount / pageSize); 
+                    if (!pageFlag) {
+                        laypage({
+                            cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
+                            pages: $scope.pagesNum, //总页数
+                            curr: exerciseService.Page.Index,
+                            skip: true, //是否开启跳页
+                            skin: '#374760', //选中的颜色
+                            groups: 3,//连续显示分页数
+                            first: '首页', //若不显示，设置false即可
+                            last: '尾页', //若不显示，设置false即可
+                            jump: changePage
+                        });
+                        pageFlag = true;
+                    }
+                }
             });
         }
 
-        laypage({
-            cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
-            pages: $scope.pagesNum, //总页数
-            skip: true, //是否开启跳页
-            skin: '#374760', //选中的颜色
-            groups: 3,//连续显示分页数
-            first: '首页', //若不显示，设置false即可
-            last: '尾页', //若不显示，设置false即可
-            jump: function (e) { //触发分页后的回调
-                ExerciseSearch(pageSize, e.curr);
-                //$scope.$apply();
-            }
-        });
+        var pageFlag = false;
+
+        
 
         $scope.search = function () {
             filterChanged();
@@ -387,11 +397,13 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', 'resourceService
         });
     }]);
 
-appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exerciseService', 'contentService', 'previewService', 'resourceService', 'kenService', 'assistService', '$timeout',
-    function ($scope, $state, $stateParams, exerciseService, contentService, previewService, resourceService, kenService, assistService, $timeout) {
+appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$stateParams', 'exerciseService', 'contentService', 'previewService', 'resourceService', 'kenService', 'assistService', '$timeout',
+    function ($scope, $window, $state, $stateParams, exerciseService, contentService, previewService, resourceService, kenService, assistService, $timeout) {
 
         $scope.$emit('onPreviewSwitch', false);
         $scope.$emit('onSideLeftSwitch', false);
+
+        var ocid = $stateParams.ocid ? parseInt($stateParams.ocid) : -1;
 
         //课程
         $scope.courses = [];
@@ -678,10 +690,20 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
 
         $scope.$on('onExerciseSaved', function (event, exerciseID) {
             attachmentSave(exerciseID);
+<<<<<<< HEAD
             window.history.back();
             alert('提交成功！');            
             //$state.go('content.exercise');
+=======
+            //$window.history.back();
+            alert('提交成功！');
+            $scope.back();
+>>>>>>> 71ecf726c4d58a7fa8db4d9299b69af22f2a83d5
         });
+
+        $scope.back = function () {
+            $state.go('content.exercise', { ocid: ocid });
+        }
 
         ///删除附件
         $scope.removeAttachment = function (attachmentList, removedAttachmentObject) {
@@ -2476,7 +2498,7 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_Analysis_M_Edit(v, function (data) {
             if (data.d != null) {
-                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);                
+                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
             }
         });
     });

@@ -19,18 +19,18 @@
     <dl class="filter_list">
         <dt>文件类型</dt>
         <dd>
-            <a href="#" ng-class="{active:model.FileType==item.id}" ng-click="typeChanged(item.id);" ng-repeat="item in fileTypes"><span ng-bind="item.name"></span></a>
+            <a ng-class="{active:model.FileType==item.id}" ng-click="typeChanged(item.id);" ng-repeat="item in fileTypes"><span ng-bind="item.name"></span></a>
         </dd>
     </dl>
     <dl class="filter_list">
         <dt>上传时间</dt>
         <dd>
-            <a href="#" ng-class="{active:model.timePass==item.id}" ng-click="timeChanged(item.id);" ng-repeat="item in timePass"><span ng-bind="item.name"></span></a>
+            <a ng-class="{active:model.timePass==item.id}" ng-click="timeChanged(item.id);" ng-repeat="item in timePass"><span ng-bind="item.name"></span></a>
     </dl>
     <dl class="filter_list" ng-show="course.OCID>0">
         <dt>使用权限</dt>
         <dd>
-            <a href="#" ng-class="{active:model.ShareRange==item.id}" ng-click="shareChanged(item.id);" ng-repeat="item in shareRanges"><span ng-bind="item.name"></span></a>
+            <a ng-class="{active:model.ShareRange==item.id}" ng-click="shareChanged(item.id);" ng-repeat="item in shareRanges"><span ng-bind="item.name"></span></a>
         </dd>
     </dl>
     <span class="guanbi" style="cursor:pointer;" ng-click="showQuery=!showQuery"><i class="icon"></i></span>

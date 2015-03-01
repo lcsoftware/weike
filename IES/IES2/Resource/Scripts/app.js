@@ -33,7 +33,7 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         .state('preview', { url: '/preview', templateUrl: '/views/Exercise/Preview', controller: 'PreviewCtrl' })
 
         //习题列表
-        .state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
+        .state('content.exercise', { url: '/exercise/:ocid', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
 
         //试题
         .state('exercise', { url: '/exercise/:ocid', templateUrl: '/views/Shared/Exercise', controller: 'ExerciseCtrl' })
@@ -95,11 +95,11 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
 
         .state('otherwise', {
             url: '*path',
-            templateUrl: '/views/404',
-            controller: 'Error404Ctrl'
+            templateUrl: '/views/Resource/ResourceList',
+            controller: 'ResourceCtrl'
         });
 
-    $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(false);
 }]);
 
 appModule.run(['$templateCache', '$rootScope', '$state', '$stateParams', 'httpService', 'assistService',
