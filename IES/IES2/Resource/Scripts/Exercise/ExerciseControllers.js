@@ -338,7 +338,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         /// </summary>
         ///编辑习题
         $scope.$on('onEditExercise', function (event, exercise) {
-            var param = { ocid: $scope.course.OCID, ExerciseID: exercise.ExerciseID };
+            var param = { ocid: $scope.course.OCID, source: 'content.exercise', ExerciseID: exercise.ExerciseID };
             switch (exercise.ExerciseType) {
                 case 18: //简答题
                     $state.go('exercise.shortanswer', param)
@@ -404,6 +404,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         $scope.$emit('onSideLeftSwitch', false);
 
         var ocid = $stateParams.ocid ? parseInt($stateParams.ocid) : -1;
+        var source = $stateParams.source;
 
         //课程
         $scope.courses = [];
@@ -695,7 +696,12 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         });
 
         $scope.back = function () {
-            $state.go('content.exercise', { ocid: ocid });
+            console.log($scope.fromState, $scope.fromParams);
+            if (!source) {
+                $state.go('content.exercise', { ocid: ocid }); 
+            } else {
+                $state.go(source, { ocid: ocid }); 
+            }
         }
 
         ///删除附件

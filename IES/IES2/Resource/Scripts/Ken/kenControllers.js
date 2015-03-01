@@ -8,8 +8,8 @@ var appKnow = angular.module('app.ken.controllers', [
     'app.assist.services',
 ]);
 
-appKnow.controller('KenCtrl', ['$scope', '$state', 'contentService', 'kenService', 'chapterService', 'assistService', 'resourceKenService', 'exerciseService',
-    function ($scope, $state, contentService, kenService, chapterService, assistService, resourceKenService, exerciseService) {
+appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'contentService', 'kenService', 'chapterService', 'assistService', 'resourceKenService', 'exerciseService',
+    function ($scope, $state, $stateParams, contentService, kenService, chapterService, assistService, resourceKenService, exerciseService) {
 
         $scope.$emit('onWizardSwitch', true);
 
@@ -101,10 +101,28 @@ appKnow.controller('KenCtrl', ['$scope', '$state', 'contentService', 'kenService
             $scope.loadStart($scope.course);
         });
 
+        //$scope.$on('courseLoaded', function (event, course) {
+        //    $scope.course = course;
+        //    $scope.loadStart($scope.course);
+        //});
+        var ocid = $stateParams.ocid ? parseInt($stateParams.ocid) : -1;
+
         $scope.$on('courseLoaded', function (event, course) {
-            $scope.course = course;
+            if (ocid !== -1) {
+                var length = $scope.courses.length;
+                for (var i = 0; i < length; i++) {
+                    if ($scope.courses[i].OCID === ocid) {
+                        $scope.$parent.course = $scope.courses[i];
+                        $scope.course = $scope.$parent.course;
+                        break;
+                    }
+                }
+            } else {
+                $scope.course = course;
+            }
             $scope.loadStart($scope.course);
         });
+
 
         $scope.tabChange = function (tab) {
             $scope.tab = tab;
@@ -207,7 +225,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', 'contentService', 'kenService
         /// </summary>
         ///编辑习题
         $scope.$on('onEditExercise', function (event, exercise) {
-            var param = { ocid: $scope.course.OCID, ExerciseID: exercise.ExerciseID };
+            var param = { ocid: $scope.course.OCID, source: 'content.ken.chapter', ExerciseID: exercise.ExerciseID };
             switch (exercise.ExerciseType) {
                 case 18: //简答题
                     $state.go('exercise.shortanswer', param)
