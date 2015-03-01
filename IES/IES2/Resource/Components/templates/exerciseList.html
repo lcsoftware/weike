@@ -2,7 +2,7 @@
     <div class="topic_label">
         <p class="question_degree simple" ng-class="{'simple':exercise.Diffcult==1,'medium':exercise.Diffcult==2,'difficult':exercise.Diffcult==3}"><input type="checkbox" checklist-model="checks" checklist-value="exercise">{{getDifficultName(exercise)}}</p>
         <div class="label_list">
-            <a href="#"><span ng-bind="exercise.Keys | keyReplace"></span></a>
+            <a><span ng-bind="exercise.Keys | keyReplace"></span></a>
         </div>
         <div style="text-align: right;padding-right:80px;" class="creator">
             创建人：{{exercise.CreateUserName}}<span>最后修改时间：{{exercise.UpdateTime | dateFormat}}</span>
