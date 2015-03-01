@@ -215,7 +215,7 @@ app.directive('fileOperation', function () {
     }
 
     return directive;
-}); 
+});
 
 app.directive('shareRange', function () {
     var directive = {};
@@ -372,7 +372,8 @@ app.directive('exerciseList', ['assistService', 'previewService', 'exerciseServi
             function () { $(this).find('.icon_content').hide(); }
             );
         elem.find('.icon.share_topic').hover(
-           function () { $(this).find('.icon_share_content').show(); }
+           function () { $(this).find('.icon_share_content').show(); },
+            function () { $(this).find('.icon_share_content').hide(); }
            );
         elem.find('.spread').bind('click', function () {
             if (!elem.hasClass('show')) {

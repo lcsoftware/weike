@@ -7,8 +7,8 @@
     <attach-list attachments="attachmentList"></attach-list>
     <p class="answer_content">
         <span>题目答案</span>
-        <a ng-class="{active:model.exercisecommon.exercise.Answer==1}" ng-model="model.exercisecommon.exercise.Answer" ng-click="answeChange(model.exercisecommon.exercise.Answer)">正确</a>
-        <a ng-class="{active:model.exercisecommon.exercise.Answer==0}" ng-model="model.exercisecommon.exercise.Answer" ng-click="answeChange(model.exercisecommon.exercise.Answer)">错误</a>
+        <a ng-class="{active:model.exercisecommon.exercise.Answer==1}" ng-model="model.exercisecommon.exercise.Answer" ng-click="answeChange(0)">正确</a>
+        <a ng-class="{active:model.exercisecommon.exercise.Answer==0}" ng-model="model.exercisecommon.exercise.Answer" ng-click="answeChange(1)">错误</a>
     </p>
     <div class="text_box" style="color: #F00; margin-top: 20px;">
         <input type="hidden" name="editorAnalysis" id="editorAnalysis" ng-model="editorAnalysisText" ng-value="editorAnalysisText">

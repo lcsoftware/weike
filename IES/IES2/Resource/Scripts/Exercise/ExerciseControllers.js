@@ -678,8 +678,9 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
 
         $scope.$on('onExerciseSaved', function (event, exerciseID) {
             attachmentSave(exerciseID);
-            alert('提交成功！');
-            $state.go('content.exercise');
+            window.history.back();
+            alert('提交成功！');            
+            //$state.go('content.exercise');
         });
 
         ///删除附件
@@ -1653,8 +1654,7 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
     init();
 
     $scope.answeChange = function (answer) {
-        if (answer == null) answer = '0';
-        $scope.model.exercisecommon.exercise.Answer = answer == '0' ? '1' : '0';
+        $scope.model.exercisecommon.exercise.Answer = answer == 0 ? 1 : 0;
     }
 
 }]);
