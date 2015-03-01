@@ -53,10 +53,12 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         //被选择的标签
         $scope.data.key = {};
 
+        var layPageFlag = false;
+
         $scope.$on('willCourseChanged', function (event, course) {
             $scope.data.course = course;
             exerciseService.Page.Index = 1;
-            pageFlag = false;
+            layPageFlag = false;
             filterChanged();
         });
 
@@ -198,7 +200,9 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         var changePage = function (e) { //触发分页后的回调
             exerciseService.Page.Index = e.curr;
             ExerciseSearch(pageSize, exerciseService.Page.Index);
-        }
+        } 
+
+        
 
         var filterChanged = function () {
             var model = {
@@ -219,7 +223,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
                     $scope.exercises = data.d;
                     var rowsCount = $scope.exercises[0].RowsCount;
                     $scope.pagesNum = Math.ceil(rowsCount / pageSize); 
-                    if (!pageFlag) {
+                    if (!layPageFlag) {
                         laypage({
                             cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
                             pages: $scope.pagesNum, //总页数
@@ -231,15 +235,11 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
                             last: '尾页', //若不显示，设置false即可
                             jump: changePage
                         });
-                        pageFlag = true;
+                        layPageFlag = true;
                     }
                 }
             });
-        }
-
-        var pageFlag = false;
-
-        
+        } 
 
         $scope.search = function () {
             filterChanged();
