@@ -146,7 +146,6 @@
     <Content Include="Components\templates\confirm.html" />
     <Content Include="Components\templates\editor.html" />
     <Content Include="Components\templates\exerciseBatch.html" />
-    <Content Include="Components\templates\exerciseListKen.html" />
     <Content Include="Components\templates\exerciseList.html" />
     <Content Include="Components\templates\fileOperation.html" />
     <Content Include="Components\templates\fileShared.html" />

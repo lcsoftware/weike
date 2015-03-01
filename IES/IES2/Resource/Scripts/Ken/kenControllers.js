@@ -193,7 +193,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'contentServi
             var ids = exercise.ExerciseID;
             exerciseService.Exercise_Batch_ShareRange(ids, range.id, function (data) {
                 if (data.d === true) {
-                    filterChanged();
+                    //filterChanged();
                 } else {
                     ///TODO 统一提示框 加美化效果
                     alert('共享操作失败！');
