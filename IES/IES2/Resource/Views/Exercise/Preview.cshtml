@@ -33,16 +33,20 @@
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==5">
                 <div class="issue_box">
                     <h4>【填空题】</h4>
-                    <p>填空题题干</p>
+                    <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                 </div>
-                <input class="blank_box" type="text" placeholder="输入填空题答案">
+                <div ng-repeat="item in exercise.exercisechoicelist">
+                    <input class="blank_box" style="width: 338px; float:left; margin-right:10px;" type="text" ng-value="item.Answer">
+                    <input class="blank_box" style="width: 438px; float: left;" type="text" ng-value="item.Spare">
+                </div>
             </li>
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==11">
                 <div class="issue_box">
                     <h4>【翻译题】</h4>
                     <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                 </div>
-                <input class="blank_box" type="text" ng-value="exercise.exercisecommon.exercise.Answer">
+                <p ng-bind-html="exercise.exercisecommon.exercise.Answer"></p>
+                @*<input class="blank_box" type="text" ng-value="exercise.exercisecommon.exercise.Answer">*@
             </li>
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==4">
                 <div class="issue_box">
@@ -126,16 +130,23 @@
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==8">
                 <div class="issue_box">
                     <h4>【分析题】</h4>
-                    <p>分析题</p>
+                    <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                 </div>
-                <input class="blank_box" type="text" placeholder="输入分析题案">
+                <div ng-repeat="item in exercise.exercisechoicelist">
+                    <p ng-bind="item.Conten"></p>
+                    <input class="blank_box" type="text" ng-value="item.Answer">
+                </div>
+                
             </li>
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==9">
                 <div class="issue_box">
                     <h4>【计算题】</h4>
-                    <p>计算题题干</p>
+                    <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                 </div>
-                <input class="blank_box" type="text" placeholder="计算题答案">
+                <div ng-repeat="item in exercise.exercisechoicelist">
+                    <p ng-bind="item.Conten"></p>
+                    <input class="blank_box" type="text" ng-value="item.Answer">
+                </div>
             </li>
             <li style="display:none;">
                 <div class="issue_box">

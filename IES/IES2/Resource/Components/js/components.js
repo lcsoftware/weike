@@ -449,8 +449,18 @@ app.directive('exerciseList', ['assistService', 'previewService', 'exerciseServi
 
         $scope.preView = function (exercise) {
             switch (exercise.ExerciseType) {
-                case 4: //名词解释
                 case 5: //填空题
+                    exerciseService.Exercise_Analysis_Get(exercise.ExerciseID, function (data) {
+                        var model = data.d;
+                        for (var i = 0; i < model.exercisechoicelist.length; i++) {
+                            var a = model.exercisechoicelist[i].Answer.split('wshgkjqbwhfbxlfrh_c');
+                            model.exercisechoicelist[i].Answer = a[0];
+                            model.exercisechoicelist[i].Spare = a[1];
+                        }
+                        goPreView(model);
+                    });
+                    break;
+                case 4: //名词解释                
                 case 8: //分析题
                 case 9: //计算题
                     exerciseService.Exercise_Analysis_Get(exercise.ExerciseID, function (data) {
