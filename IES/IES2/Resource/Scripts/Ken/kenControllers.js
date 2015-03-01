@@ -8,8 +8,8 @@ var appKnow = angular.module('app.ken.controllers', [
     'app.assist.services',
 ]);
 
-appKnow.controller('KenCtrl', ['$scope', '$state', 'contentService', 'kenService', 'chapterService', 'assistService', 'resourceKenService',
-    function ($scope, $state, contentService, kenService, chapterService, assistService, resourceKenService) {
+appKnow.controller('KenCtrl', ['$scope', '$state', 'contentService', 'kenService', 'chapterService', 'assistService', 'resourceKenService', 'exerciseService',
+    function ($scope, $state, contentService, kenService, chapterService, assistService, resourceKenService, exerciseService) {
 
         $scope.$emit('onWizardSwitch', true);
 
@@ -23,6 +23,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', 'contentService', 'kenService
         $scope.ocKens = [];
         $scope.kenSelection = {};
         $scope.resourceKens = [];
+        $scope.shareRanges = [];
 
         $scope.requireMent = [];
         $scope.requireMents = {};
@@ -42,6 +43,16 @@ appKnow.controller('KenCtrl', ['$scope', '$state', 'contentService', 'kenService
             if (data && data.length > 0) {
                 $scope.requireMents = data;
                 $scope.requireMent = $scope.requireMents[0];
+            }
+        });
+
+        assistService.Resource_Dict_ShareRange_Get(function (data) {
+            if (data) {
+                $scope.shareRanges = angular.copy(data);
+                var item = angular.copy($scope.shareRanges[0]);
+                item.id = 0;
+                item.name = '不限';
+                $scope.shareRanges.insert(0, item);
             }
         });
 
@@ -159,46 +170,100 @@ appKnow.controller('KenCtrl', ['$scope', '$state', 'contentService', 'kenService
         /// end 添加章节 
 
 
-        ///习题共享 TODO
-        $scope.shareExercise = function (exercise) {
+        ///习题共享 TODO 
+        $scope.$on('onShareExercise', function (event, exercise, range) {
+            var ids = exercise.ExerciseID;
+            exerciseService.Exercise_Batch_ShareRange(ids, range.id, function (data) {
+                if (data.d === true) {
+                    filterChanged();
+                } else {
+                    ///TODO 统一提示框 加美化效果
+                    alert('共享操作失败！');
+                }
+            });
+        });
+        ///显示删除提示框
+        $scope.$on('onDeleteExercise', function (event, exercise) {
+            $scope.exerciseItemDelete = exercise;
+            $('#eConfirm').show();
+        });
 
-        }
+        $scope.exerciseItemDelete = {};
+        ///确认删除
+        $scope.$on('onDialogOk', function (event) {
+            exerciseService.Exercise_Del($scope.exerciseItemDelete.ExerciseID, function (data) {
+                var length = $scope.exercises.length;
+                for (var i = 0; i < length; i++) {
+                    if ($scope.exercises[i].ExerciseID == $scope.exerciseItemDelete.ExerciseID) {
+                        $scope.exercises.splice(i, 1);
+                        break;
+                    }
+                }
+            });
+        });
         /// <summary>
         /// 1判断题 ; 2单选题 ; 3 多选题 4填空题（客观）5填空题 ; 6连线题 ;7 排序题 ; 8分析题  9计算题   10问答题 ;
         ///11 翻译题  12听力训练  13写作  14阅读理解  15论述题 ;16 答题卡题型  17自定义题型
         /// </summary>
         ///编辑习题
-        $scope.editExercise = function (exercise) {
-            var param = { ExerciseID: exercise.ExerciseID };
+        $scope.$on('onEditExercise', function (event, exercise) {
+            var param = { ocid: $scope.course.OCID, ExerciseID: exercise.ExerciseID };
             switch (exercise.ExerciseType) {
-                case '18': //简答题
+                case 18: //简答题
                     $state.go('exercise.shortanswer', param)
                     break;
-                case '19': //名词解释
+                case 4: //名词解释
                     $state.go('exercise.noun', param)
                     break;
-                case '12': //听力题
+                case 12: //听力题
                     $state.go('exercise.listening', param)
                     break;
-                case '10': //问答题
+                case 17: //自定义题
+                    $state.go('exercise.custom', param)
+                    break;
+                case 10: //问答题
                     $state.go('exercise.quesanswer', param)
                     break;
-                case '1': //判断题
+                case 13: //写作题
+                    $state.go('exercise.quesanswer', param)
+                    break;
+                case 1: //判断题
                     $state.go('exercise.truefalse', param)
                     break;
-                case '5': //填空题
+                case 5: //填空题
                     $state.go('exercise.fillblank', param)
                     break;
-                case '4': //填空客观题
-                    $state.go('exercise.fillblank2', param)
-                    break;
-                case '6':  //连线题
+                    //case 4: //填空客观题
+                    //    $state.go('exercise.fillblank2', param)
+                    //    break;
+                case 6:  //连线题
                     $state.go('exercise.connection', param)
+                    break;
+                case 2: //单选题
+                    $state.go('exercise.radio', param)
+                    break;
+                case 3: //多选题
+                    $state.go('exercise.multiple', param)
+                    break;
+                case 11: //翻译题
+                    $state.go('exercise.translation', param)
+                    break;
+                case 7: //排序题
+                    $state.go('exercise.sorting', param)
+                    break;
+                case 8: //分析题
+                    $state.go('exercise.analysis', param)
+                    break;
+                case 9: //计算题
+                    $state.go('exercise.analysis', param)
+                    break;
+                case 14: //阅读理解题
+                    $state.go('exercise.reading', param)
                     break;
                 default:
                     break;
             }
-        }
+        });
 
         ///习题删除
         $scope.deleteExercise = function (exercise) {
@@ -392,6 +457,9 @@ appKnow.controller('KenTopicCtrl', ['$scope', 'resourceKenService', 'chapterServ
 
         $scope.$parent.kenDisable = false;
 
+        $scope.$parent.linkExercises.length = 0;
+        $scope.$parent.linkFiles.length = 0;
+
         $scope.dataKen = {};
         $scope.dataChapter = {};
 
@@ -404,7 +472,7 @@ appKnow.controller('KenTopicCtrl', ['$scope', 'resourceKenService', 'chapterServ
 
         $scope.$watch('dataKen', function (v) {
             $scope.know = v.Requirement === 1;
-        });
+        }); 
 
         $scope.kenFocus = function (item) {
             $scope.dataKen = item;

@@ -114,6 +114,10 @@ function ($templateCache, $rootScope, $state, $stateParams, httpService, assistS
     $rootScope.appTitle = 'IES';
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
+
+    $rootScope.fromState = {};
+    $rootScope.fromParams = {};
+
     assistService.init();
 
     $rootScope.enableWizard = true;
@@ -131,6 +135,8 @@ function ($templateCache, $rootScope, $state, $stateParams, httpService, assistS
     $rootScope.httpService = httpService;
 
     $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+        $rootScope.fromState = fromState;
+        $rootScope.fromParams = fromParams;
         $rootScope.layout = toState.layout;
     });
 
