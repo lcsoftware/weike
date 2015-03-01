@@ -678,6 +678,8 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$state', '$stateParams', 'exe
 
         $scope.$on('onExerciseSaved', function (event, exerciseID) {
             attachmentSave(exerciseID);
+            alert('提交成功！');
+            $state.go('content.exercise');
         });
 
         ///删除附件
@@ -843,8 +845,6 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
         exerciseService.Exercise_Custom_M_Edit(v, function (data) {
             if (data.d != null) {
                 $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
-                alert('提交成功！');
-                $state.go('content.exercise');
             }
         });
     });
@@ -1055,8 +1055,6 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
         exerciseService.Exercise_Custom_M_Edit(v, function (data) {
             if (data.d != null) {
                 $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
-                alert('提交成功！');
-                $state.go('content.exercise');
             }
         });
     });
@@ -1267,8 +1265,6 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
         exerciseService.Exercise_Custom_M_Edit(v, function (data) {
             if (data.d != null) {
                 $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
-                alert('提交成功！');
-                $state.go('content.exercise');
             }
         });
     });
@@ -1463,8 +1459,6 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
         exerciseService.Exercise_Writing_M_Edit(v, function (data) {
             if (data.d != null) {
                 $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
-                alert('提交成功！');
-                $state.go('content.exercise');
             }
         });
     });
@@ -1555,8 +1549,6 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
         exerciseService.Exercise_Analysis_M_Edit(v, function (data) {
             if (data.d != null) {
                 $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
-                alert('提交成功！');
-                $state.go('content.exercise');
             }
         });
     });
@@ -1623,8 +1615,6 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
         exerciseService.Exercise_Judge_M_Edit(v, function (data) {
             if (data.d != null) {
                 $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
-                alert('提交成功！');
-                $state.go('content.exercise');
             }
         });
     });
@@ -1718,8 +1708,6 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
         exerciseService.Exercise_FillInBlanks_M_Edit(v, function (data) {
             if (data.d != null) {
                 $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
-                alert('提交成功！');
-                $state.go('content.exercise');
             }
         });
     });
@@ -1911,8 +1899,6 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
         exerciseService.Exercise_Line_S_Edit(v, function (data) {
             if (data.d != null) {
                 $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
-                alert('提交成功！');
-                $state.go('content.exercise');
             }
         });
     });
@@ -2070,8 +2056,6 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
         exerciseService.Exercise_MultipleChoice_M_Edit(v, function (data) {
             if (data.d != null) {
                 $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
-                alert('提交成功！');
-                $state.go('content.exercise');
             }
         });
     });
@@ -2197,8 +2181,6 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
         exerciseService.Exercise_MultipleChoice_M_Edit(v, function (data) {
             if (data.d != null) {
                 $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
-                alert('提交成功！');
-                $state.go('content.exercise');
             }
         });
     });
@@ -2290,8 +2272,6 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
         exerciseService.Exercise_Writing_M_Edit(v, function (data) {
             if (data.d != null) {
                 $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
-                alert('提交成功！');
-                $state.go('content.exercise');
             }
         });
     });
@@ -2375,8 +2355,6 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
         exerciseService.Exercise_Order_M_Edit(v, function (data) {
             if (data.d != null) {
                 $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
-                alert('提交成功！');
-                $state.go('content.exercise');
             }
         });
     });
@@ -2498,9 +2476,7 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_Analysis_M_Edit(v, function (data) {
             if (data.d != null) {
-                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
-                alert('提交成功！');
-                $state.go('content.exercise');
+                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);                
             }
         });
     });
@@ -2517,7 +2493,7 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
         if ($scope.ExerciseID > -1) {
             exerciseService.Exercise_Analysis_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
-                $scope.willEdit($scope.$parent.model);
+                $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
