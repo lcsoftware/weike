@@ -18,9 +18,9 @@
         <!--<p class="answer" ng-bind-html="exercise.Answer">
         </p>-->
     </div>
-    <div class="mess_box">
+    <!--<div class="mess_box">
         <a class="icon_24 spread" ng-click="preView(exercise)"></a>
-    </div>
+    </div>-->
     <div class="topic_icon"> 
          <a ng-click="editExercise(exercise)" class="icon edit_topic">
             <div class="icon_content" style="display:none;">
@@ -38,7 +38,7 @@
                 <p ng-repeat="item in shareRanges" ng-click="shareExercise(exercise, item)">{{item.name}}</p>
             </div>
         </a>
-        <a ng-click="editExercise(exercise)" class="icon edit_topic">
+        <a ng-click="preView(exercise)" class="icon edit_topic">
             <div class="icon_content" style="display:none;">
                 <span></span><p>编辑</p>
             </div>
