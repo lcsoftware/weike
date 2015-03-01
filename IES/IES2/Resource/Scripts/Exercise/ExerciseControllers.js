@@ -19,11 +19,9 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
     function ($scope, $state, $stateParams, resourceService, resourceKenService, exerciseService, contentService, kenService, assistService) {
 
         $scope.pagesNum = 100;
-        var pageSize = 5;
+        var pageSize = exerciseService.Page.Size;
 
-        var ocid = $stateParams.ocid ? parseInt($stateParams.ocid) : -1;
-
-        var current = $stateParams.pageIndex ? parseInt($stateParams.pageIndex) : 1;
+        var ocid = $stateParams.ocid ? parseInt($stateParams.ocid) : -1; 
 
         $scope.$emit('willResetCourse', 'Exerciese');
 
@@ -57,6 +55,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
 
         $scope.$on('willCourseChanged', function (event, course) {
             $scope.data.course = course;
+            exerciseService.Page.Index = 1;
+            pageFlag = false;
             filterChanged();
         });
 
@@ -191,9 +191,13 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
                     $scope.exercises = data.d;
                     var rowsCount = $scope.exercises[0].RowsCount;
                     $scope.pagesNum = Math.ceil(rowsCount / pageSize);
-                    //resetLaypage($scope.pagesNum);
                 }
             });
+        }
+
+        var changePage = function (e) { //触发分页后的回调
+            exerciseService.Page.Index = e.curr;
+            ExerciseSearch(pageSize, exerciseService.Page.Index);
         }
 
         var filterChanged = function () {
@@ -208,45 +212,34 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
             };
             var keys = $scope.data.key.KeyID === undefined || $scope.data.key.KeyID === -1 ? '' : $scope.data.key.Name;
             var kens = $scope.data.ken.KenID === undefined || $scope.data.ken.KenID === -1 ? '' : $scope.data.ken.Name;
-            exerciseService.Exercise_Search(model, $scope.data.key, keys, kens, pageSize, current, function (data) {
+            exerciseService.Exercise_Search(model, $scope.data.key, keys, kens, pageSize, exerciseService.Page.Index, function (data) {
                 $scope.exercises.length = 0;
                 $scope.pagesNum = 1;
                 if (data.d && data.d.length > 0) {
                     $scope.exercises = data.d;
                     var rowsCount = $scope.exercises[0].RowsCount;
-                    $scope.pagesNum = Math.ceil(rowsCount / pageSize);
-                    laypage({
-                        cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
-                        pages: $scope.pagesNum, //总页数
-                        skip: true, //是否开启跳页
-                        skin: '#374760', //选中的颜色
-                        groups: 3,//连续显示分页数
-                        first: '首页', //若不显示，设置false即可
-                        last: '尾页', //若不显示，设置false即可
-                        jump: function (e) { //触发分页后的回调
-                            current = e.curr;
-                            ExerciseSearch(pageSize, current);
-                            //$scope.$apply();
-                        }
-                    });
+                    $scope.pagesNum = Math.ceil(rowsCount / pageSize); 
+                    if (!pageFlag) {
+                        laypage({
+                            cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
+                            pages: $scope.pagesNum, //总页数
+                            curr: exerciseService.Page.Index,
+                            skip: true, //是否开启跳页
+                            skin: '#374760', //选中的颜色
+                            groups: 3,//连续显示分页数
+                            first: '首页', //若不显示，设置false即可
+                            last: '尾页', //若不显示，设置false即可
+                            jump: changePage
+                        });
+                        pageFlag = true;
+                    }
                 }
             });
         }
 
-        laypage({
-            cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
-            pages: $scope.pagesNum, //总页数
-            skip: true, //是否开启跳页
-            skin: '#374760', //选中的颜色
-            groups: 3,//连续显示分页数
-            first: '首页', //若不显示，设置false即可
-            last: '尾页', //若不显示，设置false即可
-            jump: function (e) { //触发分页后的回调
-                current = e.curr;
-                ExerciseSearch(pageSize, current);
-                //$scope.$apply();
-            }
-        });
+        var pageFlag = false;
+
+        
 
         $scope.search = function () {
             filterChanged();
@@ -345,7 +338,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         /// </summary>
         ///编辑习题
         $scope.$on('onEditExercise', function (event, exercise) {
-            var param = { ocid: $scope.course.OCID, pageIndex: current, ExerciseID: exercise.ExerciseID };
+            var param = { ocid: $scope.course.OCID, ExerciseID: exercise.ExerciseID };
             switch (exercise.ExerciseType) {
                 case 18: //简答题
                     $state.go('exercise.shortanswer', param)
@@ -411,7 +404,6 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         $scope.$emit('onSideLeftSwitch', false);
 
         var ocid = $stateParams.ocid ? parseInt($stateParams.ocid) : -1;
-        var pageIndex = $stateParams.pageIndex ? parseInt($stateParams.pageIndex) : 1;
 
         //课程
         $scope.courses = [];
@@ -704,7 +696,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         });
 
         $scope.back = function () {
-            $state.go('content.exercise', { ocid: ocid, pageIndex: pageIndex });
+            $state.go('content.exercise', { ocid: ocid });
         }
 
         ///删除附件
