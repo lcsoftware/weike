@@ -696,7 +696,6 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         });
 
         $scope.back = function () {
-            console.log($scope.fromState, $scope.fromParams);
             if (!source) {
                 $state.go('content.exercise', { ocid: ocid }); 
             } else {

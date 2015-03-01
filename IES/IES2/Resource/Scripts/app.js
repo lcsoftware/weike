@@ -91,9 +91,9 @@ appModule.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', f
         //知识点 
         .state('content.ken', { url: '/ken', templateUrl: '/views/Ken/Ken', controller: 'KenCtrl' })
         //知识点 按章节
-        .state('content.ken.chapter', { url: '/chapter', templateUrl: '/views/Ken/KenChapter', controller: 'KenChapterCtrl' })
+        .state('content.ken.chapter', { url: '/chapter/:ocid', templateUrl: '/views/Ken/KenChapter', controller: 'KenChapterCtrl' })
         //知识点 按知识点
-        .state('content.ken.topic', { url: '/topic', templateUrl: '/views/Ken/KenTopic', controller: 'KenTopicCtrl' })
+        .state('content.ken.topic', { url: '/topic/:ocid', templateUrl: '/views/Ken/KenTopic', controller: 'KenTopicCtrl' })
 
         //.state('otherwise', {
         //    url: '*path',

@@ -225,7 +225,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'contentServi
         /// </summary>
         ///编辑习题
         $scope.$on('onEditExercise', function (event, exercise) {
-            var param = { ocid: $scope.course.OCID, source: 'content.ken.chapter', ExerciseID: exercise.ExerciseID };
+            var param = { ocid: $scope.course.OCID, source: $state.current.name, ExerciseID: exercise.ExerciseID };
             switch (exercise.ExerciseType) {
                 case 18: //简答题
                     $state.go('exercise.shortanswer', param)
@@ -330,7 +330,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'contentServi
 
 appKnow.controller('KenChapterCtrl', ['$scope', 'chapterService', 'kenService', function ($scope, chapterService, kenService) {
 
-    $scope.$emit('willResetCourse', 'Ken');
+    //$scope.$emit('willResetCourse', 'Ken');
 
     $scope.$parent.kenDisable = true;
     $scope.canAdd = false;

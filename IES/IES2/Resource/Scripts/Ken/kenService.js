@@ -7,6 +7,11 @@ aService.factory('kenService', ['httpService', function (httpService) {
 
     var kenProviderUrl = '/DataProvider/Knowledge/KnowProvider.aspx';
 
+    service.data = {
+        ocid: -1,
+        linkType: 'File'
+    }
+
     service.Ken_List = function (model, callback) {
         httpService.ajaxPost(kenProviderUrl, 'Ken_List', { model: model }, callback);
     }
