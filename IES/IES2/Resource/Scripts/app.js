@@ -17,7 +17,9 @@ var appModule = angular.module('app', [
     'angularFileUpload'
 ]);
 
-appModule.config(['$stateProvider', '$locationProvider', function ($stateProvider, $locationProvider) {
+appModule.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', function ($stateProvider, $locationProvider, $urlRouterProvider) {
+
+    $urlRouterProvider.otherwise('/content/resource');
 
     $stateProvider
         //index 
@@ -66,7 +68,7 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         //翻译题
         .state('exercise.translation', { url: '/translation/:ExerciseID', templateUrl: '/views/Exercise/Translation', controller: 'TranslationCtrl' })
         //排序题
-        .state('exercise.sorting', { url: '/sorting/:ExerciseID', templateUrl: '/views/Exercise/Sorting', controller: 'SortingCtrl' })    
+        .state('exercise.sorting', { url: '/sorting/:ExerciseID', templateUrl: '/views/Exercise/Sorting', controller: 'SortingCtrl' })
         //分析题
         .state('exercise.analysis', { url: '/analysis/:ExerciseID', templateUrl: '/views/Exercise/Analysis', controller: 'AnalysisCtrl' })
 
@@ -93,11 +95,11 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         //知识点 按知识点
         .state('content.ken.topic', { url: '/topic', templateUrl: '/views/Ken/KenTopic', controller: 'KenTopicCtrl' })
 
-        .state('otherwise', {
-            url: '*path',
-            templateUrl: '/views/Resource/ResourceList',
-            controller: 'ResourceCtrl'
-        });
+        //.state('otherwise', {
+        //    url: '*path',
+        //    templateUrl: '/views/Resource/ResourceList',
+        //    controller: 'ResourceCtrl'
+        //});
 
     $locationProvider.html5Mode(false);
 }]);
