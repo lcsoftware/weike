@@ -21,7 +21,12 @@
     <div class="mess_box">
         <a class="icon_24 spread" ng-click="preView(exercise)"></a>
     </div>
-    <div class="topic_icon">
+    <div class="topic_icon"> 
+         <a ng-click="editExercise(exercise)" class="icon edit_topic">
+            <div class="icon_content" style="display:none;">
+                <span></span><p>预览</p>
+            </div>
+        </a>
         <a class="icon delete_topic" ng-click="deleteExercise(exercise)">
             <div class="icon_content" style="display:none;">
                 <span></span><p>删除</p>
@@ -37,6 +42,6 @@
             <div class="icon_content" style="display:none;">
                 <span></span><p>编辑</p>
             </div>
-        </a>
+        </a> 
     </div>
 </li>

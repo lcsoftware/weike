@@ -95,11 +95,11 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
 
         .state('otherwise', {
             url: '*path',
-            templateUrl: '/views/404',
-            controller: 'Error404Ctrl'
+            templateUrl: '/views/Resource/ResourceList',
+            controller: 'ResourceCtrl'
         });
 
-    $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(false);
 }]);
 
 appModule.run(['$templateCache', '$rootScope', '$state', '$stateParams', 'httpService', 'assistService',
