@@ -690,7 +690,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
 
         $scope.$on('onExerciseSaved', function (event, exerciseID) {
             attachmentSave(exerciseID);
-            alert('提交成功！');            
+            alert('提交成功！');
             $scope.back();
         });
 
