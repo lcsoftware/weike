@@ -33,7 +33,7 @@ appModule.config(['$stateProvider', '$locationProvider', function ($stateProvide
         .state('preview', { url: '/preview', templateUrl: '/views/Exercise/Preview', controller: 'PreviewCtrl' })
 
         //习题列表
-        .state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
+        .state('content.exercise', { url: '/exercise/:ocid/:pageIndex', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
 
         //试题
         .state('exercise', { url: '/exercise/:ocid', templateUrl: '/views/Shared/Exercise', controller: 'ExerciseCtrl' })
