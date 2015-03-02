@@ -411,6 +411,8 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         $scope.ranges = [];
         //使用权限
         $scope.shareRanges = [];
+
+        $scope.chapters = [];
         //标签
         //$scope.keys = [];
 
@@ -433,8 +435,12 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
                 for (var i = 0; i < length; i++) {
                     if (courses[i].OCID == $stateParams.ocid) {
                         $scope.data.course = courses[i];
+                        $scope.chapters.length = 0;
                         chapterService.Chapter_List({ OCID: $scope.data.course.OCID }, function (data) {
-                            $scope.chapters = data.d;
+                            if (data.d && data.d.length > 0) {
+                                $scope.chapters = data.d;
+                                $scope.data.chapter = $scope.chapters[0];
+                            }
                         });
                         break; 
                     }
