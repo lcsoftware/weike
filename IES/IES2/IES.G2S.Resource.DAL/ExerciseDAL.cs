@@ -469,6 +469,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@Analysis", model.exercisecommon.exercise.Analysis);
                     p.Add("@Keys", model.exercisecommon.exercise.Keys);
                     p.Add("@Kens", model.exercisecommon.exercise.Kens);
+                    p.Add("@Chapter", model.exercisecommon.exercise.Chapter);
                     conn.Execute("Exercise_Judge_M_Edit", p, commandType: CommandType.StoredProcedure);
                     model.exercisecommon.exercise.ExerciseID = p.Get<int>("ExerciseID");
                     return true;
@@ -510,6 +511,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@Keys", model.exercisecommon.exercise.Keys);
                     p.Add("@Kens", model.exercisecommon.exercise.Kens);
                     p.Add("@IsRand", model.exercisecommon.exercise.IsRand);
+                    p.Add("@Chapter", model.exercisecommon.exercise.Chapter);
                     conn.Execute("Exercise_FillInBlanks_M_Edit", p, commandType: CommandType.StoredProcedure);
                     model.exercisecommon.exercise.ExerciseID = p.Get<int>("ExerciseID");
                     return true;
@@ -551,6 +553,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@Conten", model.exercisecommon.exercise.Conten);
                     p.Add("@Analysis", model.exercisecommon.exercise.Analysis);
                     p.Add("@ScorePoint", model.exercisecommon.exercise.ScorePoint);
+                    p.Add("@Chapter", model.exercisecommon.exercise.Chapter);
                     conn.Execute("Exercise_Analysis_M_Edit", p, commandType: CommandType.StoredProcedure);
                     model.exercisecommon.exercise.ExerciseID = p.Get<int>("ExerciseID");
                     return true;
@@ -593,6 +596,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@Answer", model.exercisecommon.exercise.Answer);
                     p.Add("@ScorePoint", model.exercisecommon.exercise.ScorePoint);
                     p.Add("@ParentID", model.exercisecommon.exercise.ParentID);
+                    p.Add("@Chapter", model.exercisecommon.exercise.Chapter);
                     conn.Execute("Exercise_Writing_M_Edit", p, commandType: CommandType.StoredProcedure);
                     model.exercisecommon.exercise.ExerciseID = p.Get<int>("ExerciseID");
                     return true;
@@ -630,6 +634,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@Keys", model.exercisecommon.exercise.Keys);
                     p.Add("@Kens", model.exercisecommon.exercise.Kens);
                     p.Add("@Conten", model.exercisecommon.exercise.Conten);
+                    p.Add("@Chapter", model.exercisecommon.exercise.Chapter);
                     conn.Execute("Exercise_Custom_M_Edit", p, commandType: CommandType.StoredProcedure);
                     model.exercisecommon.exercise.ExerciseID = p.Get<int>("ExerciseID");
                     return true;
@@ -670,6 +675,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@Analysis", model.exercisecommon.exercise.Analysis);
                     p.Add("@Keys", model.exercisecommon.exercise.Keys);
                     p.Add("@Kens", model.exercisecommon.exercise.Kens);
+                    p.Add("@Chapter", model.exercisecommon.exercise.Chapter);
                     conn.Execute("Exercise_MultipleChoice_M_Edit", p, commandType: CommandType.StoredProcedure);
                     model.exercisecommon.exercise.ExerciseID = p.Get<int>("ExerciseID");
                     return true;

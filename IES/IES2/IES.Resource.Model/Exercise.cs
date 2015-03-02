@@ -27,11 +27,15 @@ namespace IES.Resource.Model
         public string ExerciseTypeName { get; set; }
         public string Content { get; set; }
 
+        public int Chapter { get; set; }
+
         public int RowsCount { get; set; }
         #endregion
 
         public Exercise()
-        { }
+        {
+            this.Chapter = 0;
+        }
         #region Model
         private int _exerciseid;
         private int _courseid = 0;
