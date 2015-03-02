@@ -31,7 +31,7 @@
 <p class="guide_word">点击左侧[章节]，查看该章节右侧关联知识点</p>
 <div class="knowledge_box">
     <div ui-view></div>
-
+    
     <div class="chapter_box">
         <div class="filter_knowledge" ng-show="kenDisable">
             <a ng-class="{'active':kenSelection.KenID==item.KenID}" ng-repeat="item in kens" ng-click="kenSelected(item)" ng-bind="item.Name"></a>

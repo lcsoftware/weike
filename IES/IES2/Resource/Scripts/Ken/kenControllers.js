@@ -100,7 +100,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
         $scope.$on('willCourseChanged', function (event, course) {
             $scope.course = course;
             $scope.loadStart($scope.course);
-        }); 
+        });
 
         $scope.$on('courseLoaded', function (event, course) {
             var freezeData = freezeService.getFreeze(tagService.KenListTag);
@@ -110,7 +110,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
                 $scope.$parent.course = $scope.course;
             } else {
                 $scope.course = course;
-            } 
+            }
         });
 
 
@@ -208,10 +208,10 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
                 }
             });
         });
-     
-        $scope.$on('onEditExercise', function (event, exercise) { 
+
+        $scope.$on('onEditExercise', function (event, exercise) {
             ///消息转发给子页面，由子页面来处理
-            $scope.$broadcast('onKenExerciseEdit', exercise); 
+            $scope.$broadcast('onKenExerciseEdit', exercise);
         });
 
         /// <summary>
@@ -320,6 +320,7 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
 
         //$scope.$emit('willResetCourse', 'Ken');
 
+        $scope.$parent.tab = 1;
         $scope.$parent.kenDisable = true;
         $scope.canAdd = false;
         $scope.enableEdit = false;
@@ -327,29 +328,39 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
 
         $scope.lastSelection = {};
         $scope.parentChapter = {};
-        $scope.childChpater = {};
+        $scope.childChapter = {};
 
-        $scope.$on('courseLoaded', function (event, course) {
-            var freezeData = freezeService.getFreeze(tagService.KenListTag);
-            if (freezeData) {
-                $scope.parentChapter = freezeData.data.parentChapter; 
-                $scope.childChpater = freezeData.data.childChpater;
-                $scope.lastSelection = freezeData.data.lastSelection;
-                freezeService.unFreeze(tagService.KenListTag);
-            } 
-            $scope.loadStart($scope.course);
+        $scope.$on('willCourseChanged', function (event, course) {
+            $scope.parentChapter = {};
+            $scope.childChapter = {};
+            $scope.$parent.tab = 1;
         });
 
-        $scope.$on('onKenExerciseEdit', function (event, exercise) { 
+        $scope.$on('courseLoaded', function (event, course) {
+            $scope.loadStart($scope.course);
+            var freezeData = freezeService.getFreeze(tagService.KenListTag);
+            if (freezeData) {
+                $scope.parentChapter = freezeData.data.parentChapter;
+                $scope.childChapter = freezeData.data.childChapter;
+                $scope.lastSelection = freezeData.data.lastSelection;
+                $scope.$parent.kens = freezeData.data.kens;
+                $scope.$parent.kenSelection = freezeData.data.kenSelection;
+                freezeService.unFreeze(tagService.KenListTag);
+            }
+        });
+
+        $scope.$on('onKenExerciseEdit', function (event, exercise) {
             freezeService.freeze(tagService.UrlSourceTag, $state.current.name);
             freezeService.freeze(tagService.KenListTag, {
                 course: $scope.course,
                 tab: $scope.tab,
-                parentChpater: $scope.parentChpater,
+                parentChapter: $scope.parentChapter,
                 childChapter: $scope.childChapter,
-                lastSelection: $scope.lastSelection
+                lastSelection: $scope.lastSelection,
+                kenSelection: $scope.kenSelection,
+                kens: $scope.kens
             });
-            $scope.navEditExercise(exercise); 
+            $scope.navEditExercise(exercise);
         });
 
         ///添加章节
@@ -384,15 +395,22 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
         }
 
         var Ken_FileFilter_ChapterID_List = function (chapter) {
+            if (!chapter.ChapterID) return;
             $scope.$parent.kens.length = 0;
             kenService.Ken_FileFilter_ChapterID_List(chapter, function (data) {
                 $scope.$parent.kens = data.d;
+                var allKenItem = {};
                 if ($scope.$parent.kens.length > 0) {
-                    $scope.$parent.kenSelection = angular.copy($scope.chapter.ken);
+                    allKenItem = angular.copy($scope.chapter.ken);
                 }
-                $scope.$parent.kenSelection.KenID = 0;
-                $scope.$parent.kenSelection.Name = '全部';
-                $scope.$parent.kens.insert(0, $scope.kenSelection);
+                allKenItem.KenID = 0;
+                allKenItem.Name = '全部';
+                $scope.$parent.kens.insert(0, allKenItem);
+
+                if (!$scope.$parent.kenSelection) {
+                    $scope.$parent.kenSelection = allKenItem;
+                }
+
                 $scope.$emit('onRequestQuery', $scope.lastSelection, $scope.kenSelection, 'fromChapter');
             });
         }
@@ -401,19 +419,25 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
             $scope.$parent.kens.length = 0;
             kenService.Ken_ExerciseFilter_ChapterID_List(chapter, function (data) {
                 $scope.$parent.kens = data.d;
+                var allKenItem = {};
                 if ($scope.$parent.kens.length > 0) {
-                    $scope.$parent.kenSelection = angular.copy($scope.chapter.ken);
+                    allKenItem = angular.copy($scope.chapter.ken);
                 }
-                $scope.$parent.kenSelection.KenID = 0;
-                $scope.$parent.kenSelection.Name = '全部';
-                $scope.$parent.kens.insert(0, $scope.kenSelection);
+                allKenItem.KenID = 0;
+                allKenItem.Name = '全部';
+                $scope.$parent.kens.insert(0, allKenItem);
+
+                if (!$scope.$parent.kenSelection.KenID) {
+                    $scope.$parent.kenSelection = allKenItem;
+                }
                 $scope.$emit('onRequestQuery', $scope.lastSelection, $scope.kenSelection, 'fromChapter');
             });
         }
 
         $scope.parentFocus = function (item) {
-            $scope.parentChpater = item;
+            $scope.parentChapter = item;
             $scope.lastSelection = item;
+            $scope.$parent.kenSelection = {};
             switch ($scope.tab) {
                 case 1:
                     Ken_FileFilter_ChapterID_List(item);
@@ -425,7 +449,7 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
         }
 
         $scope.childFocus = function (item) {
-            $scope.childChpater = item;
+            $scope.childChapter = item;
             $scope.lastSelection = item;
             switch ($scope.tab) {
                 case 1:
@@ -486,19 +510,23 @@ appKnow.controller('KenTopicCtrl', ['$scope', '$state', 'resourceKenService', 'c
 
         $scope.$parent.linkExercises.length = 0;
         $scope.$parent.linkFiles.length = 0;
+        $scope.$parent.tab = 1;
+       
 
         $scope.dataKen = {};
-        $scope.dataChapter = {}; 
+        $scope.dataChapter = {};
 
         $scope.$on('courseLoaded', function (event, course) {
+            $scope.loadStart($scope.course);
             var freezeData = freezeService.getFreeze(tagService.KenListTag);
             if (freezeData) {
                 $scope.dataKen = freezeData.data.dataKen;
                 $scope.dataChapter = freezeData.data.dataChapter;
                 $scope.$parent.dataChapters = freezeData.data.dataChapters;
+                $scope.$parent.linkFiles= freezeData.data.linkFiles;
+                $scope.$parent.linkExercises = freezeData.data.linkExercises;
                 freezeService.unFreeze(tagService.KenListTag);
             }
-            $scope.loadStart($scope.course);
         });
 
         $scope.$on('onKenExerciseEdit', function (event, exercise) {
@@ -507,6 +535,8 @@ appKnow.controller('KenTopicCtrl', ['$scope', '$state', 'resourceKenService', 'c
                 course: $scope.course,
                 tab: $scope.tab,
                 dataKen: $scope.dataKen,
+                linkFiles: $scope.linkFiles,
+                linkExercises: $scope.linkExercises,
                 dataChapter: $scope.dataChapter,
                 dataChapters: $scope.dataChapters
             });

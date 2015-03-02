@@ -19,6 +19,10 @@
     <meta name="description" content="@PageData["description"]">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     @Styles.Render("~/content/css/app")
+    <script>
+        //应用程序根目录-->  结果('/')||('/g2s')
+        window.appPatch = "@Request.ApplicationPath" == "/" ? "" : "@Request.ApplicationPath";
+    </script>
 </head>
 <body class="exercise">
     <!--[if lt IE 9]>
