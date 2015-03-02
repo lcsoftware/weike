@@ -35,10 +35,10 @@ appModule.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', f
         .state('preview', { url: '/preview', templateUrl: '/views/Exercise/Preview', controller: 'PreviewCtrl' })
 
         //习题列表
-        .state('content.exercise', { url: '/exercise/:ocid', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
+        .state('content.exercise', { url: '/exercise', templateUrl: '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
 
         //试题
-        .state('exercise', { url: '/exercise/:source/:ocid', templateUrl: '/views/Shared/Exercise', controller: 'ExerciseCtrl' })
+        .state('exercise', { url: '/exercise/:ocid', templateUrl: '/views/Shared/Exercise', controller: 'ExerciseCtrl' })
         //预览
         .state('content.preview', { url: '/content/exercise/preview', templateUrl: '/views/Exercise/Preview', controller: 'PreviewCtrl' })
         //简答题

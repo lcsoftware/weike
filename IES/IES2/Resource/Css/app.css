@@ -44,3 +44,7 @@ a {
 .know {
     color: black !important;
 }
+
+.kenSelected {
+    background-color:#A9A9A9;
+}

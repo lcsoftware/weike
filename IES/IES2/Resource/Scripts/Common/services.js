@@ -7,6 +7,7 @@ aService.value('version', '0.1');
 aService.constant('appName', 'IES')
 aService.constant('forumProviderUrl', '/DataProvider/CourseLive/Forum/ForumProvider.aspx');
 aService.constant('uploadfileProviderUrl', '/DataProvider/UploadFile.aspx');
+
 ///XHR调用
 aService.factory('httpService', ['$http', '$q', function ($http, $q) {
 
@@ -150,3 +151,69 @@ aService.factory('pageService', ['httpService', function (httpService) {
     }
     return service;
 }]);
+
+aService.factory('tagService', function () {
+    var aService = {};
+
+    aService.UrlSourceTag = 'UrlSourceTag';
+    aService.ExerciseListTag = 'ExerciseListTag';
+    aService.KenListTag = 'KenListTag';
+
+    return aService;
+});
+
+aService.factory('freezeService', function () {
+
+    var aService = {};
+
+    var items = [];
+
+    var dataItem = {
+        tag: '',
+        data: {}
+    }; 
+
+    /**
+    *  desc: 保存状态数据
+    *  tag:  数据标识
+    *  data: 状态数据
+    */
+    aService.freeze = function (tag, data) {
+        var length = items.length;
+        for (var i = 0; i < length; i++) {
+            if (items[i].tag === tag) {
+                items[i].data = data;
+                return;
+            }
+        }
+        items.push({ tag: tag, data: data });
+    }
+    /**
+    *  desc: 解除状态数据
+    *  tag:  数据标识
+    */
+    aService.unFreeze = function (tag) {
+        var length = items.length;
+        for (var i = 0; i < length; i++) {
+            if (items[i].tag === tag) {
+                items.splice(i, 1);
+                break;
+            }
+        }
+    }
+    /**
+    *  desc: 获取状态数据
+    *  tag:  数据标识
+    */
+    aService.getFreeze = function (tag) {
+        var length = items.length;
+        for (var i = 0; i < length; i++) {
+            if (items[i].tag === tag) {
+                return items[i];
+            }
+        }
+        return null;
+    }
+
+    return aService;
+});
