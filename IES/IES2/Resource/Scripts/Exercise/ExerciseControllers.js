@@ -392,8 +392,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         });
     }]);
 
-appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$stateParams', 'exerciseService', 'chapterService', 'freezeService', 'tagService', 'contentService', 'previewService', 'resourceService', 'kenService', 'assistService', '$timeout',
-    function ($scope, $window, $state, $stateParams, exerciseService, chapterService, freezeService, tagService, contentService, previewService, resourceService, kenService, assistService, $timeout) {
+appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$stateParams', 'contentService', 'exerciseService', 'chapterService', 'freezeService', 'tagService', 'previewService', 'resourceService', 'kenService', 'assistService', '$timeout',
+    function ($scope, $window, $state, $stateParams, contentService, exerciseService, chapterService, freezeService, tagService, previewService, resourceService, kenService, assistService, $timeout) {
 
         $scope.$emit('onPreviewSwitch', false);
         $scope.$emit('onSideLeftSwitch', false);
