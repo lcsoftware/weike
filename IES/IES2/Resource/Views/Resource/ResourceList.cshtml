@@ -11,7 +11,7 @@
         <span class="sort_box" ng-click="showQuery=!showQuery">[筛选]</span>
         <a class="topic_import" dialog-show dialog-id="eIesUploader"><em style ="background-color: #33CC66"><i class="icon"></i></em><span style="background-color: #339966">上传文件</span></a>
         <a class="add_topic" ng-click="AddFolder()"><em><i class="icon"></i></em><span>新建文件夹</span></a>
-        <batch-operation share-ranges="shareRanges" on-fire-remove-all="fireRemoveAll()" on-fire-mobile-batch="fireMobileBatch()" />
+        <batch-operation ocid="model.OCID" share-ranges="shareRanges" on-fire-remove-all="fireRemoveAll()" on-fire-mobile-batch="fireMobileBatch()" />
         <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="model.FileTitle"><span class="icon" ng-click="filterChanged()"></span></p>
     </div>
 </div>

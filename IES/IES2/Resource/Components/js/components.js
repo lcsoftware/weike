@@ -273,7 +273,8 @@ app.directive('batchOperation', function () {
     directive.scope = {
         onFireRemoveAll: '&',
         onFireMobileBatch: '&',
-        shareRanges: '='
+        shareRanges: '=',
+        ocid: '='
     }
 
     directive.templateUrl = '/Components/templates/batchOperation.html';
