@@ -1548,8 +1548,8 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
     });
 
     $scope.$on('willRequestSave', function (event, data) {
-        var editor = EWEBEDITOR.Instances["editorInput"];
-        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+        //var editor = EWEBEDITOR.Instances["editorInput"];
+        //$scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
         $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
 
@@ -1659,6 +1659,8 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
     });
 
     $scope.$on('onPreview', function (event) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         $scope.$emit('onBeginPreview', $scope.model);
     });
 
@@ -1751,6 +1753,8 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
     });
 
     $scope.$on('onPreview', function (event) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         $scope.$emit('onBeginPreview', $scope.model);
     });
 
@@ -1942,6 +1946,9 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
     });
 
     $scope.$on('onPreview', function (event) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+
         $scope.model.exercisecommon.exercise.ExerciseType = 6;
         $scope.model.exercisechoicelist.length = 0;
         var choice = {};
@@ -2099,6 +2106,8 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
     });
 
     $scope.$on('onPreview', function (event) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         $scope.$emit('onBeginPreview', $scope.model);
     });
 
@@ -2224,6 +2233,8 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
     });
 
     $scope.$on('onPreview', function (event) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         $scope.$emit('onBeginPreview', $scope.model);
     });
 
@@ -2315,6 +2326,10 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
     });
 
     $scope.$on('onPreview', function (event) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+        var editor2 = EWEBEDITOR.Instances["editorAnswer"];
+        $scope.model.exercisecommon.exercise.Answer = editor2.getHTML();
         $scope.$emit('onBeginPreview', $scope.model);
     });
 
@@ -2399,6 +2414,9 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
 
 
     $scope.$on('onPreview', function (event) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+
         $scope.model.exercisecommon.exercise.ExerciseType = 7;
         for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
             $scope.model.exercisechoicelist[i].OrderNum = i + 1;
@@ -2435,7 +2453,10 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
             exerciseService.Exercise_Model_Info_Get(function (data) {
                 $scope.model = data.d;
                 answer = { Conten: '', OrderNum: 0 };
-                $scope.model.exercisechoicelist.push(answer);
+                //$scope.model.exercisechoicelist.push(answer);
+                for (var i = 0; i < 4; i++) {
+                    $scope.Add();
+                }
             });
         }
     }
@@ -2469,6 +2490,8 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
 appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$stateParams', '$state', function ($scope, exerciseService, $stateParams, $state) {
 
     $scope.$on('onPreview', function (event) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         $scope.$emit('onBeginPreview', $scope.model);
     });
 

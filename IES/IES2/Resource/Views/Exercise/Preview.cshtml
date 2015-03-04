@@ -28,7 +28,8 @@
                     <h4>【问答题】</h4>
                     <p ng-bind-html="exercise.exercisecommon.exercise.Conten"></p>
                 </div>
-                <input class="blank_box" type="text" ng-value="exercise.exercisecommon.exercise.Answer">
+                <p ng-bind-html="exercise.exercisecommon.exercise.Answer"></p>
+                @*<input class="blank_box" type="text" ng-value="exercise.exercisecommon.exercise.Answer">*@
             </li>
             <li ng-show="exercise.exercisecommon.exercise.ExerciseType==5">
                 <div class="issue_box">
