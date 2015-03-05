@@ -5,10 +5,11 @@
         </div>
         <a class="add_attach" dialog-show dialog-id="eIesUploader"><em><i class="icon"></i></em><span>添加附件</span></a>
         <attach-list attachments="model.exercisecommon.attachmentlist"></attach-list>
-        <p class="no_rank">请按照序号顺序填写答案，题目保存后，答案会自动打乱</p>
-        <div class="default fill_blank" ng-repeat="item in model.exercisechoicelist">
+        <p class="no_rank">请按照序号顺序填写答案，题目保存后，答案会自动打乱</p>        
+        <div class="default" ng-repeat="item in model.exercisechoicelist">
+            <em ng-bind="$index+1"></em>
             <a ng-click="Del(item)">x</a>
-            <input type="text" ng-model="item.Conten"> 
+            <input type="text" ng-model="item.Conten">
         </div>
     </div>
     <a class="add_attach" ng-click="Add()"><em><i class="icon"></i></em><span>添加选项</span></a>

@@ -46,7 +46,19 @@ namespace App.Resource.DataProvider.Exercise
         [WebMethod]
         public static ExerciseInfo Exercise_Model_Info_Get()
         {
-            return new ExerciseInfo()
+            ExerciseInfo info = new ExerciseInfo();
+
+            info.exercisechoicelist = new List<ExerciseChoice>();
+            info.exercisecommon = new ExerciseCommon()
+                {
+                    kenlist = new List<Ken>(),
+                    keylist = new List<Key>(),
+                    exercise = new IES.Resource.Model.Exercise(),
+                    attachmentlist = new List<Attachment>()
+                };
+            //单选
+            info.Children = new List<ExerciseInfo>();
+            info.Children.Add(new ExerciseInfo()
             {
                 exercisechoicelist = new List<ExerciseChoice>(),
                 exercisecommon = new ExerciseCommon()
@@ -55,81 +67,76 @@ namespace App.Resource.DataProvider.Exercise
                     keylist = new List<Key>(),
                     exercise = new IES.Resource.Model.Exercise(),
                     attachmentlist = new List<Attachment>()
-                },
-                Children = new ExerciseInfo()
-                {
-                    exercisechoicelist = new List<ExerciseChoice>(),
-                    exercisecommon = new ExerciseCommon()
-                    {
-                        kenlist = new List<Ken>(),
-                        keylist = new List<Key>(),
-                        exercise = new IES.Resource.Model.Exercise(),
-                        attachmentlist = new List<Attachment>()
-                    }
-                },
-                ChildrenMultiple = new ExerciseInfo()
-                {
-                    exercisechoicelist = new List<ExerciseChoice>(),
-                    exercisecommon = new ExerciseCommon()
-                    {
-                        kenlist = new List<Ken>(),
-                        keylist = new List<Key>(),
-                        exercise = new IES.Resource.Model.Exercise(),
-                        attachmentlist = new List<Attachment>()
-                    }
-                },
-                ChildrenFillBlank = new ExerciseInfo()
-                {
-                    exercisechoicelist = new List<ExerciseChoice>(),
-                    exercisecommon = new ExerciseCommon()
-                    {
-                        kenlist = new List<Ken>(),
-                        keylist = new List<Key>(),
-                        exercise = new IES.Resource.Model.Exercise(),
-                        attachmentlist = new List<Attachment>()
-                    }
                 }
-            };
+            });
+            //多选
+            info.ChildrenMultiple = new List<ExerciseInfo>();
+            info.ChildrenMultiple.Add(new ExerciseInfo()
+            {
+                exercisechoicelist = new List<ExerciseChoice>(),
+                exercisecommon = new ExerciseCommon()
+                {
+                    kenlist = new List<Ken>(),
+                    keylist = new List<Key>(),
+                    exercise = new IES.Resource.Model.Exercise(),
+                    attachmentlist = new List<Attachment>()
+                }
+            });
+            //填空
+            info.ChildrenFillBlank = new List<ExerciseInfo>();
+            info.ChildrenFillBlank.Add(new ExerciseInfo()
+            {
+                exercisechoicelist = new List<ExerciseChoice>(),
+                exercisecommon = new ExerciseCommon()
+                {
+                    kenlist = new List<Ken>(),
+                    keylist = new List<Key>(),
+                    exercise = new IES.Resource.Model.Exercise(),
+                    attachmentlist = new List<Attachment>()
+                }
+            });
+
+            return info;
         }
 
-        [WebMethod]
-        public static bool Exercise_ADD(string model)
-        {
+        //[WebMethod]
+        //public static bool Exercise_ADD(string model)
+        //{
 
-            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
-            if (v.exercisecommon.exercise.ExerciseID > 0)
-            {
-                bool rs = new ExerciseBLL().Exercise_Upd(v);
-                if (rs)
-                {
-                    if (v.Children != null)
-                    {
-                        if (v.exercisecommon.exercise.ExerciseType == 12)
-                        {
-                            //v.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
-                            return new ExerciseBLL().Exercise_Upd(v.Children);
-                        }
-                    }
-                }
-                return rs;
-            }
-            else
-            {
-                bool exerciseRs = new ExerciseBLL().Exercise_ADD(v);
-                if (exerciseRs)
-                {
-                    if (v.Children != null)
-                    {
-                        if (v.exercisecommon.exercise.ExerciseType == 12)
-                        {
-                            v.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
-                            return new ExerciseBLL().Exercise_ADD(v.Children);
-                        }
-                    }
-                }
-                return exerciseRs;
-            }
-        }
+        //    var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+        //    if (v.exercisecommon.exercise.ExerciseID > 0)
+        //    {
+        //        bool rs = new ExerciseBLL().Exercise_Upd(v);
+        //        if (rs)
+        //        {
+        //            if (v.Children != null)
+        //            {
+        //                if (v.exercisecommon.exercise.ExerciseType == 12)
+        //                {
+        //                    //v.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+        //                    return new ExerciseBLL().Exercise_Upd(v.Children);
+        //                }
+        //            }
+        //        }
+        //        return rs;
+        //    }
+        //    else
+        //    {
+        //        bool exerciseRs = new ExerciseBLL().Exercise_ADD(v);
+        //        if (exerciseRs)
+        //        {
+        //            if (v.Children != null)
+        //            {
+        //                if (v.exercisecommon.exercise.ExerciseType == 12)
+        //                {
+        //                    v.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+        //                    return new ExerciseBLL().Exercise_ADD(v.Children);
+        //                }
+        //            }
+        //        }
+        //        return exerciseRs;
+        //    }
+        //}
 
         [WebMethod]
         public static ExerciseInfo ExerciseInfo_Get(int model)
@@ -161,7 +168,7 @@ namespace App.Resource.DataProvider.Exercise
         /// <returns></returns>
         [WebMethod]
         public static ExerciseInfo Exercise_Judge_M_Edit(string model)
-        {            
+        {
             ExerciseInfo v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             v.exercisecommon.exercise.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
             v.exercisecommon.exercise.CreateUserName = IES.Service.UserService.CurrentUser.UserName;
@@ -278,21 +285,45 @@ namespace App.Resource.DataProvider.Exercise
             ExerciseInfo exerciseRs = new ExerciseBLL().Exercise_Custom_M_Edit(v);
             if (exerciseRs != null)
             {
-                if (v.Children.exercisecommon.exercise.ExerciseType != 0)
+                foreach (var item in v.Children)
                 {
-                    v.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
-                    new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v.Children);                    
+                    if (item.exercisecommon.exercise.ExerciseType != 0)
+                    {
+                        item.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+                        new ExerciseBLL().Exercise_MultipleChoice_M_Edit(item);
+                    }
                 }
-                if (v.ChildrenMultiple.exercisecommon.exercise.ExerciseType != 0)
+                foreach (var item in v.ChildrenMultiple)
                 {
-                    v.ChildrenMultiple.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
-                    new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v.ChildrenMultiple);                    
+                    if (item.exercisecommon.exercise.ExerciseType != 0)
+                    {
+                        item.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+                        new ExerciseBLL().Exercise_MultipleChoice_M_Edit(item);
+                    }
                 }
-                if (v.ChildrenFillBlank.exercisecommon.exercise.ExerciseType != 0)
+                foreach (var item in v.ChildrenFillBlank)
                 {
-                    v.ChildrenFillBlank.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
-                    new ExerciseBLL().Exercise_Writing_M_Edit(v.ChildrenFillBlank);
+                    if (item.exercisecommon.exercise.ExerciseType != 0)
+                    {
+                        item.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+                        new ExerciseBLL().Exercise_MultipleChoice_M_Edit(item);
+                    }
                 }
+                //if (v.Children.exercisecommon.exercise.ExerciseType != 0)
+                //{
+                //    v.Children.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+                //    new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v.Children);
+                //}
+                //if (v.ChildrenMultiple.exercisecommon.exercise.ExerciseType != 0)
+                //{
+                //    v.ChildrenMultiple.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+                //    new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v.ChildrenMultiple);
+                //}
+                //if (v.ChildrenFillBlank.exercisecommon.exercise.ExerciseType != 0)
+                //{
+                //    v.ChildrenFillBlank.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
+                //    new ExerciseBLL().Exercise_Writing_M_Edit(v.ChildrenFillBlank);
+                //}
             }
             return exerciseRs;
         }
@@ -347,6 +378,6 @@ namespace App.Resource.DataProvider.Exercise
         public static bool Exercise_Batch_Diffcult(string ids, int diffcult)
         {
             return new ExerciseBLL().Exercise_Batch_Diffcult(ids, diffcult);
-        } 
+        }
     }
 }

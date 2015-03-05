@@ -23,10 +23,10 @@ namespace IES.Resource.Model
         /// </summary>
         public List<ExerciseChoice> exercisechoicelist { get; set; }
 
+        //单选
+        public List<ExerciseInfo> Children { get; set; }
 
-        public ExerciseInfo Children { get; set; }
-
-        public ExerciseInfo ChildrenMultiple { get; set; }
-        public ExerciseInfo ChildrenFillBlank { get; set; }
+        public List<ExerciseInfo> ChildrenMultiple { get; set; }
+        public List<ExerciseInfo> ChildrenFillBlank { get; set; }
     }
 }

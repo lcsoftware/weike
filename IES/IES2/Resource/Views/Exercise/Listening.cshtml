@@ -8,24 +8,26 @@
     <attach-list attachments="model.exercisecommon.attachmentlist"></attach-list>
     <br />
     <div id="radio"></div>
-    <div class="paper_wrap" style="width:800px;" ng-show="isShowRadio==1">
-        <div class="text_box" style="color:#F00;">
-            <textarea class="form-control" rows="4" ng-model="model.Children.exercisecommon.exercise.Conten"></textarea>
-        </div>
-        <ul class="answer_list">
-            <li ng-class="{active:item.IsCorrect==1}" ng-repeat="item in model.Children.exercisechoicelist">
-                <div class="default">
-                    <em style="cursor:pointer;"><i class="icon" ng-model="item.IsCorrect" ng-click="isCorrectChange(item)"></i></em>
-                    <a ng-click="del(item)">x</a>
-                    <input type="text" style="width:620px;" ng-model="item.Conten">
-                </div>
-            </li>
-        </ul>
-        <a class="add_attach" ng-click="AddAnswer()"><em><i class="icon"></i></em><span>添加选项</span></a>
-        <div class="resource_btn">
-            <a class="up_section" href="javascript:;"></a>
-            <a class="down_section" href="javascript:;"></a>
-            <a class="delete_section" href="javascript:;" ng-click="delRadio(model.Children.exercisecommon.exercise.ExerciseID)"></a>
+    <div ng-show="isShowRadio==1">
+        <div class="paper_wrap" style="width:800px;" ng-repeat="children in model.Children" @*ng-show="isShowRadio==1"*@>
+            <div class="text_box" style="color:#F00;">
+                <textarea class="form-control" rows="4" ng-model="children.exercisecommon.exercise.Conten"></textarea>
+            </div>
+            <ul class="answer_list">
+                <li ng-class="{active:item.IsCorrect==1}" ng-repeat="item in children.exercisechoicelist">
+                    <div class="default">
+                        <em style="cursor:pointer;"><i class="icon" ng-model="item.IsCorrect" ng-click="isCorrectChange(item)"></i></em>
+                        <a ng-click="del(item)">x</a>
+                        <input type="text" style="width:620px;" ng-model="item.Conten">
+                    </div>
+                </li>
+            </ul>
+            <a class="add_attach" ng-click="AddAnswer(children)"><em><i class="icon"></i></em><span>添加选项</span></a>
+            <div class="resource_btn">
+                <a class="up_section" href="javascript:;"></a>
+                <a class="down_section" href="javascript:;"></a>
+                <a class="delete_section" href="javascript:;" ng-click="delRadio(children.exercisecommon.exercise.ExerciseID)"></a>
+            </div>
         </div>
     </div>
     <div id="multiple"></div>

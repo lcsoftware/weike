@@ -84,17 +84,17 @@ namespace IES.G2S.Resource.DAL
                             exercise = new IES.Resource.Model.Exercise(),
                             attachmentlist = new List<Attachment>()
                         },
-                        Children = new ExerciseInfo()
-                        {
-                            exercisechoicelist = new List<ExerciseChoice>(),
-                            exercisecommon = new ExerciseCommon()
-                            {
-                                kenlist = new List<Ken>(),
-                                keylist = new List<Key>(),
-                                exercise = new IES.Resource.Model.Exercise(),
-                                attachmentlist = new List<Attachment>()
-                            }
-                        }
+                        //Children = new ExerciseInfo()
+                        //{
+                        //    exercisechoicelist = new List<ExerciseChoice>(),
+                        //    exercisecommon = new ExerciseCommon()
+                        //    {
+                        //        kenlist = new List<Ken>(),
+                        //        keylist = new List<Key>(),
+                        //        exercise = new IES.Resource.Model.Exercise(),
+                        //        attachmentlist = new List<Attachment>()
+                        //    }
+                        //}
                     };
                     var p = new DynamicParameters();
                     p.Add("@ExerciseID", model.ExerciseID);
@@ -120,9 +120,9 @@ namespace IES.G2S.Resource.DAL
                     ef.exercisecommon.kenlist = kenlist;
                     ef.exercisecommon.keylist = keylist;
                     //小题
-                    ef.Children.exercisechoicelist = exerciseChildrenlist;
-                    ef.Children.exercisecommon.exercise = exerciseChildren;
-                    ef.Children.exercisecommon.attachmentlist = exerciseChildrenAttachment;
+                    //ef.Children.exercisechoicelist = exerciseChildrenlist;
+                    //ef.Children.exercisecommon.exercise = exerciseChildren;
+                    //ef.Children.exercisecommon.attachmentlist = exerciseChildrenAttachment;
 
                     return ef;
                 }
@@ -299,7 +299,18 @@ namespace IES.G2S.Resource.DAL
             {
                 using (IDbConnection conn = DbHelper.ResourceService())
                 {
-                    ExerciseInfo ef = new ExerciseInfo()
+                    ExerciseInfo ef = new ExerciseInfo();
+                    ef.exercisechoicelist = new List<ExerciseChoice>();
+                    ef.exercisecommon = new ExerciseCommon()
+                    {
+                        kenlist = new List<Ken>(),
+                        keylist = new List<Key>(),
+                        exercise = new IES.Resource.Model.Exercise(),
+                        attachmentlist = new List<Attachment>()
+                    };
+                    //单选
+                    ef.Children = new List<ExerciseInfo>();
+                    ef.Children.Add(new ExerciseInfo()
                     {
                         exercisechoicelist = new List<ExerciseChoice>(),
                         exercisecommon = new ExerciseCommon()
@@ -308,41 +319,77 @@ namespace IES.G2S.Resource.DAL
                             keylist = new List<Key>(),
                             exercise = new IES.Resource.Model.Exercise(),
                             attachmentlist = new List<Attachment>()
-                        },
-                        Children = new ExerciseInfo()
-                        {
-                            exercisechoicelist = new List<ExerciseChoice>(),
-                            exercisecommon = new ExerciseCommon()
-                            {
-                                kenlist = new List<Ken>(),
-                                keylist = new List<Key>(),
-                                exercise = new IES.Resource.Model.Exercise(),
-                                attachmentlist = new List<Attachment>()
-                            }
-                        },
-                        ChildrenMultiple = new ExerciseInfo()
-                        {
-                            exercisechoicelist = new List<ExerciseChoice>(),
-                            exercisecommon = new ExerciseCommon()
-                            {
-                                kenlist = new List<Ken>(),
-                                keylist = new List<Key>(),
-                                exercise = new IES.Resource.Model.Exercise(),
-                                attachmentlist = new List<Attachment>()
-                            }
-                        },
-                        ChildrenFillBlank = new ExerciseInfo()
-                        {
-                            exercisechoicelist = new List<ExerciseChoice>(),
-                            exercisecommon = new ExerciseCommon()
-                            {
-                                kenlist = new List<Ken>(),
-                                keylist = new List<Key>(),
-                                exercise = new IES.Resource.Model.Exercise(),
-                                attachmentlist = new List<Attachment>()
-                            }
                         }
-                    };
+                    });
+                    //多选
+                    ef.ChildrenMultiple = new List<ExerciseInfo>();
+                    ef.ChildrenMultiple.Add(new ExerciseInfo()
+                    {
+                        exercisechoicelist = new List<ExerciseChoice>(),
+                        exercisecommon = new ExerciseCommon()
+                        {
+                            kenlist = new List<Ken>(),
+                            keylist = new List<Key>(),
+                            exercise = new IES.Resource.Model.Exercise(),
+                            attachmentlist = new List<Attachment>()
+                        }
+                    });
+                    //填空
+                    ef.ChildrenMultiple = new List<ExerciseInfo>();
+                    ef.ChildrenMultiple.Add(new ExerciseInfo()
+                    {
+                        exercisechoicelist = new List<ExerciseChoice>(),
+                        exercisecommon = new ExerciseCommon()
+                        {
+                            kenlist = new List<Ken>(),
+                            keylist = new List<Key>(),
+                            exercise = new IES.Resource.Model.Exercise(),
+                            attachmentlist = new List<Attachment>()
+                        }
+                    });
+                    //{
+                    //    exercisechoicelist = new List<ExerciseChoice>(),
+                    //    exercisecommon = new ExerciseCommon()
+                    //    {
+                    //        kenlist = new List<Ken>(),
+                    //        keylist = new List<Key>(),
+                    //        exercise = new IES.Resource.Model.Exercise(),
+                    //        attachmentlist = new List<Attachment>()
+                    //    },
+                    //    Children = new ExerciseInfo()
+                    //    {
+                    //        exercisechoicelist = new List<ExerciseChoice>(),
+                    //        exercisecommon = new ExerciseCommon()
+                    //        {
+                    //            kenlist = new List<Ken>(),
+                    //            keylist = new List<Key>(),
+                    //            exercise = new IES.Resource.Model.Exercise(),
+                    //            attachmentlist = new List<Attachment>()
+                    //        }
+                    //    },
+                    //    ChildrenMultiple = new ExerciseInfo()
+                    //    {
+                    //        exercisechoicelist = new List<ExerciseChoice>(),
+                    //        exercisecommon = new ExerciseCommon()
+                    //        {
+                    //            kenlist = new List<Ken>(),
+                    //            keylist = new List<Key>(),
+                    //            exercise = new IES.Resource.Model.Exercise(),
+                    //            attachmentlist = new List<Attachment>()
+                    //        }
+                    //    },
+                    //    ChildrenFillBlank = new ExerciseInfo()
+                    //    {
+                    //        exercisechoicelist = new List<ExerciseChoice>(),
+                    //        exercisecommon = new ExerciseCommon()
+                    //        {
+                    //            kenlist = new List<Ken>(),
+                    //            keylist = new List<Key>(),
+                    //            exercise = new IES.Resource.Model.Exercise(),
+                    //            attachmentlist = new List<Attachment>()
+                    //        }
+                    //    }
+                    //};
                     var p = new DynamicParameters();
                     p.Add("@ExerciseID", ExerciseID);
 
@@ -367,18 +414,33 @@ namespace IES.G2S.Resource.DAL
                     {
                         if (cd.ExerciseType == 2)
                         {
-                            ef.Children.exercisecommon.exercise = cd;
-                            ef.Children.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.Children.exercisecommon.exercise.ExerciseID).ToList();
+                            foreach (var item in ef.Children)
+                            {
+                                item.exercisecommon.exercise = cd;
+                                item.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == item.exercisecommon.exercise.ExerciseID).ToList();
+                            }
+                            //ef.Children.exercisecommon.exercise = cd;
+                            //ef.Children.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.Children.exercisecommon.exercise.ExerciseID).ToList();
                         }
                         if(cd.ExerciseType==3)
                         {
-                            ef.ChildrenMultiple.exercisecommon.exercise = cd;
-                            ef.ChildrenMultiple.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.ChildrenMultiple.exercisecommon.exercise.ExerciseID).ToList();
+                            foreach (var item in ef.ChildrenMultiple)
+                            {
+                                item.exercisecommon.exercise = cd;
+                                item.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == item.exercisecommon.exercise.ExerciseID).ToList();
+                            }
+                            //ef.ChildrenMultiple.exercisecommon.exercise = cd;
+                            //ef.ChildrenMultiple.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.ChildrenMultiple.exercisecommon.exercise.ExerciseID).ToList();
                         }
                         if(cd.ExerciseType == 18)
                         {
-                            ef.ChildrenFillBlank.exercisecommon.exercise = cd;
-                            ef.ChildrenFillBlank.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.ChildrenFillBlank.exercisecommon.exercise.ExerciseID).ToList();
+                            foreach (var item in ef.ChildrenFillBlank)
+                            {
+                                item.exercisecommon.exercise = cd;
+                                item.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == item.exercisecommon.exercise.ExerciseID).ToList();
+                            }
+                            //ef.ChildrenFillBlank.exercisecommon.exercise = cd;
+                            //ef.ChildrenFillBlank.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.ChildrenFillBlank.exercisecommon.exercise.ExerciseID).ToList();
                         }
                     } 
                     return ef;
