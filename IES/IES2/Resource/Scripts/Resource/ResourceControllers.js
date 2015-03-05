@@ -179,7 +179,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             } else {
                 $scope.folderRelations = [];
             }
-            $scope.checksSelect.length = 0;
+            //$scope.checksSelect.length = 0;
         });
     }
 

@@ -176,6 +176,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         $scope.pagesNum = 1;
 
         var ExerciseSearch = function (pageSize, pageIndex) {
+            $scope.checkAllValue = false;
             var model = {
                 Conten: $scope.data.searchKey,
                 OCID: $scope.data.course.OCID,
@@ -217,6 +218,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         }
 
         var filterChanged = function () {
+            $scope.checkAllValue = false;
             var model = {
                 Conten: $scope.data.searchKey,
                 OCID: $scope.data.course.OCID,
@@ -268,8 +270,18 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
             return ids.substr(0, ids.length - 1);
         }
 
+        $scope.newExercise = function () {
+            freezeService.freeze(tagService.ExerciseListTag, { course: $scope.data.course });
+            freezeService.freeze(tagService.UrlSourceTag, 'content.exercise');
+            $state.go('exercise.shortanswer', { ocid: $scope.data.course.OCID, ExerciseID: -1 });
+        }
+
         ///批量共享
         $scope.$on('onBatchShareRange', function (event, range) {
+            if ($scope.checks.length === 0) {
+                alert('请选择需要操作的习题');
+                return;
+            }
             var ids = buildIDs($scope.checks);
             exerciseService.Exercise_Batch_ShareRange(ids, range.id, function (data) {
                 if (data.d === true) {
@@ -277,7 +289,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
                     for (var i = 0; i < length; i++) {
                         $scope.checks[i].ShareRange = range.id;
                     }
-                    $scope.checks.length = 0;
+                    //$scope.checks.length = 0;
                 } else {
                     ///TODO 统一提示框 加美化效果
                     alert('批量共享操作失败！');
@@ -289,6 +301,10 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
             var ids = buildIDs($scope.checks);
             exerciseService.Exercise_Batch_Del(ids, function (data) {
                 if (data.d === true) {
+                    layPageFlag = false;
+                    if ($scope.checks.length === $scope.exercises.length) {
+                        exerciseService.Page.Index = exerciseService.Page.Index > 1 ? exerciseService.Page.Index - 1 : 1; 
+                    }
                     filterChanged();
                     $scope.checks.length = 0;
                 } else {
@@ -338,6 +354,11 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
                 for (var i = 0; i < length; i++) {
                     if ($scope.exercises[i].ExerciseID == $scope.exerciseItemDelete.ExerciseID) {
                         $scope.exercises.splice(i, 1);
+                        layPageFlag = false;
+                        if ($scope.exercises.length === 0) {
+                            exerciseService.Page.Index = exerciseService.Page.Index > 1 ? exerciseService.Page.Index - 1 : 1;
+                        }
+                        filterChanged();
                         break;
                     }
                 }
@@ -732,12 +753,11 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
 
         $scope.back = function () {
             var urlSource = freezeService.getFreeze(tagService.UrlSourceTag);
-            $state.go(urlSource.data);
-            //if (!source) {
-            //    $state.go('content.exercise', { ocid: ocid }); 
-            //} else {
-            //    $state.go(source, { ocid: ocid }); 
-            //}
+            if (urlSource) {
+                $state.go(urlSource.data); 
+            } else {
+                $state.go('content.exercise');
+            } 
         }
 
         ///删除附件

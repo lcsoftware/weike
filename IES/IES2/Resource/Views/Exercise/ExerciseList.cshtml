@@ -4,7 +4,7 @@
     </div>
     <div class="exercise_btn">
         <span class="sort_box" ng-click="showQuery=!showQuery">[筛选]</span>
-        <a class="topic_import" ui-sref="exercise.shortanswer({ocid:course.OCID, ExerciseID: -1})">
+        <a class="topic_import" ng-click="newExercise()">
             <em><i class="icon"></i></em>
             <span>新建习题</span>
         </a>

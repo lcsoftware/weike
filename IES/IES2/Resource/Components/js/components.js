@@ -315,12 +315,6 @@ app.directive('exerciseBatch', function () {
         });
 
         elem.find('.permissions li').hover(function () {
-            $(this).addClass('active');
-        }, function () {
-            $(this).removeClass('active');
-        });
-
-        elem.find('.permissions li').hover(function () {
             $(this).addClass('current').siblings().removeClass('current');
         }, function () {
             $(this).removeClass('current');
@@ -723,6 +717,28 @@ app.directive('exercisePreview', function () {
     return directive;
 });
 
+app.directive('fileIcon', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+ 
+    directive.replace = true;
+
+    directive.templateUrl = '/Components/templates/file_icon.html';
+
+    directive.scope = {
+        iconType: '=',
+        relationType: '='
+    }
+
+    directive.link = function (scope, elem, iAttrs) {
+        elem.find('.save').bind('click', function () {
+            elem.hide();
+        });
+    }
+
+    return directive;
+});
 
 app.directive('layPage', function () {
     var directive = {};

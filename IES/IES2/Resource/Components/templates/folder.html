@@ -1,5 +1,5 @@
 ﻿<div>
-    <i class="icon_24" ng-class="{'mp4':folderItem.FileType==1,
+    <!--<i class="icon_24" ng-class="{'mp4':folderItem.FileType==1,
                'doc':folderItem.FileType==2,
                'excel':folderItem.FileType==3,
                'ppt':folderItem.FileType==4,
@@ -9,7 +9,8 @@
                'zip':folderItem.FileType==8,
                'other':folderItem.FileType==9,
                'file': folderItem.RelationType==0}" ng-click="onOpen()">
-    </i>
+    </i>-->
+    <file-icon icon-type="folderItem.FileType" relation-type="folderItem.RelationType" ng-click="onOpen();"></file-icon>
     <p class="data_tit" ng-bind="folderName"></p>
     <input class="rename_test" ng-model="folderName" ng-blur="onBlur()" type="text">
 </div>

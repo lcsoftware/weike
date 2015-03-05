@@ -299,7 +299,7 @@
 .label_item p a span{ display:block; width:16px; height:16px; background-position:-53px 0; position:absolute; top:4px; left:4px;}
 .item_list{ float:left; margin-left:20px; overflow:hidden; zoom:1;}
 .item_list li{ float:left; margin-right:10px;}
-.item_list li a{ display:block; height:24px; line-height:24px; background:#374760; color:#fff; width:62px; text-align:center;}
+.item_list li a{ display:block; height:24px; line-height:24px; background:#374760; color:#fff; text-align:center; margin-top:3px;}
 .item_list li a:hover{ background:#4a5f80;}
 .item_list li a span{ padding-left:5px;}
 .zhishi_box{ margin-top:20px; overflow:hidden; zoom:1;}
@@ -310,7 +310,7 @@
 .connect_knowledge span{ display:block; width:80px; height:25px; line-height:25px; float:left; text-align:center;}
 .knowledge_item{ float:left; margin-left:20px; overflow:hidden; zoom:1;}
 .knowledge_item li{ float:left; margin-right:10px;}
-.knowledge_item li a{ display:block; width:80px; height:25px; line-height:25px; text-align:center; color:#666; background:#cccccc;}
+.knowledge_item li a{ display:block; height:25px; line-height:25px; text-align:center; color:#666; background:#cccccc; margin-top: 3px;}
 .knowledge_item li a:hover{ background:#bfbfbf;}
 .knowledge_item li a span{ color:#fff; padding-left:10px; font-weight:bold;}
 .paper_content{ margin:20px 20px;}
