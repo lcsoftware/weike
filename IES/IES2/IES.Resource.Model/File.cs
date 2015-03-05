@@ -55,6 +55,8 @@ namespace IES.Resource.Model
         private int _istransfer = 0;
         private bool _isdeleted = false;
         private string _kens;
+        private string _downurl;
+        private string _viewurl;
         /// <summary>
         /// 
         /// </summary>
@@ -291,6 +293,16 @@ namespace IES.Resource.Model
         {
             set { _kens = value; }
             get { return _kens; }
+        }
+        public string DownURL
+        {
+            set { _downurl = value; }
+            get { return _downurl; }
+        }
+        public string ViewURL
+        {
+            set { _viewurl = value; }
+            get { return _viewurl; }
         }
         #endregion Model
 

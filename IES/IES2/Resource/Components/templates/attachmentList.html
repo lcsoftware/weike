@@ -4,7 +4,7 @@
         <p>
 
             <i class="icon_24 pdf" ng-class="{'Video':item.FileType==1, 'Word':item.FileType==2, 'Excel':item.FileType==3, 'PPT':item.FileType==4, 'PDF':item.FileType==5, 'Image':item.FileType==6, 'Audio':item.FileType==7, 'Zip':item.FileType==8, 'Other':item.FileType==9}"></i>
-            <a href="{{item.DownURL}}" target="_blank" style="float:left; margin-left:0px;">
+            <a ng-href="{{item.DownURL}}" target="_blank" style="float:left; margin-left:0px;">
                 {{item.Title}}
             </a>
         </p>

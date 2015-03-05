@@ -92,9 +92,12 @@ namespace IES.G2S.Resource.BLL
         public ExerciseInfo Exercise_Judge_M_Edit(ExerciseInfo model)
         {
             try
-            {
+            {                
                 ExerciseDAL.Exercise_Judge_M_Edit(model);
-                ExerciseDAL.Exercise_MultipleChoice_S_Edit(model);
+                if (model.exercisecommon.exercise.ExerciseType != 1)
+                {
+                    ExerciseDAL.Exercise_MultipleChoice_S_Edit(model);
+                }
                 return model;
             }
             catch (Exception e)

@@ -161,8 +161,10 @@ namespace App.Resource.DataProvider.Exercise
         /// <returns></returns>
         [WebMethod]
         public static ExerciseInfo Exercise_Judge_M_Edit(string model)
-        {
-            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+        {            
+            ExerciseInfo v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            v.exercisecommon.exercise.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
+            v.exercisecommon.exercise.CreateUserName = IES.Service.UserService.CurrentUser.UserName;
             return new ExerciseBLL().Exercise_Judge_M_Edit(v);
         }
         /// <summary>
@@ -184,7 +186,9 @@ namespace App.Resource.DataProvider.Exercise
         [WebMethod]
         public static ExerciseInfo Exercise_MultipleChoice_M_Edit(string model)
         {
-            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            ExerciseInfo v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            v.exercisecommon.exercise.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
+            v.exercisecommon.exercise.CreateUserName = IES.Service.UserService.CurrentUser.UserName;
             return new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v);
         }
         /// <summary>
@@ -207,7 +211,9 @@ namespace App.Resource.DataProvider.Exercise
         [WebMethod]
         public static ExerciseInfo Exercise_FillInBlanks_M_Edit(string model)
         {
-            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            ExerciseInfo v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            v.exercisecommon.exercise.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
+            v.exercisecommon.exercise.CreateUserName = IES.Service.UserService.CurrentUser.UserName;
             return new ExerciseBLL().Exercise_FillInBlanks_M_Edit(v);
         }
 
@@ -230,7 +236,9 @@ namespace App.Resource.DataProvider.Exercise
         [WebMethod]
         public static ExerciseInfo Exercise_Analysis_M_Edit(string model)
         {
-            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            ExerciseInfo v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            v.exercisecommon.exercise.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
+            v.exercisecommon.exercise.CreateUserName = IES.Service.UserService.CurrentUser.UserName;
             return new ExerciseBLL().Exercise_Analysis_M_Edit(v);
         }
         /// <summary>
@@ -241,7 +249,9 @@ namespace App.Resource.DataProvider.Exercise
         [WebMethod]
         public static ExerciseInfo Exercise_Writing_M_Edit(string model)
         {
-            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            ExerciseInfo v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            v.exercisecommon.exercise.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
+            v.exercisecommon.exercise.CreateUserName = IES.Service.UserService.CurrentUser.UserName;
             return new ExerciseBLL().Exercise_Writing_M_Edit(v);
         }
         /// <summary>
@@ -262,7 +272,9 @@ namespace App.Resource.DataProvider.Exercise
         [WebMethod]
         public static ExerciseInfo Exercise_Custom_M_Edit(string model)
         {
-            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            ExerciseInfo v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            v.exercisecommon.exercise.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
+            v.exercisecommon.exercise.CreateUserName = IES.Service.UserService.CurrentUser.UserName;
             ExerciseInfo exerciseRs = new ExerciseBLL().Exercise_Custom_M_Edit(v);
             if (exerciseRs != null)
             {
@@ -293,7 +305,9 @@ namespace App.Resource.DataProvider.Exercise
         [WebMethod]
         public static ExerciseInfo Exercise_Order_M_Edit(string model)
         {
-            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            ExerciseInfo v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            v.exercisecommon.exercise.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
+            v.exercisecommon.exercise.CreateUserName = IES.Service.UserService.CurrentUser.UserName;
             return new ExerciseBLL().Exercise_Order_M_Edit(v);
         }
 
@@ -305,7 +319,9 @@ namespace App.Resource.DataProvider.Exercise
         [WebMethod]
         public static ExerciseInfo Exercise_Line_S_Edit(string model)
         {
-            var v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            ExerciseInfo v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            v.exercisecommon.exercise.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
+            v.exercisecommon.exercise.CreateUserName = IES.Service.UserService.CurrentUser.UserName;
             return new ExerciseBLL().Exercise_Line_S_Edit(v);
         }
 

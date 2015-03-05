@@ -51,6 +51,8 @@ namespace IES.Resource.Model
         public int ShareRange { get; set; }
         public string Kens { get; set; }
 
+        public string DownURL { get; set; }
+
         public DateTime CreateTime { get; set; }
 
         public IList<FolderRelation> Children { get; set; }

@@ -65,6 +65,7 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static IList<File> File_Search(File file)
         {
+            file.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
             return new FileBLL().File_Search(file);
         }
         /// <summary>
@@ -86,6 +87,8 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static File File_ADD(File file)
         {
+            file.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
+            file.CreateUserName = IES.Service.UserService.CurrentUser.UserName;
             return new FileBLL().File_ADD(file);
         }
 
@@ -193,6 +196,14 @@ namespace App.Resource.DataProvider.Resource
                 fr.FileType = item.FileType;
                 fr.ShareRange = item.ShareRange;
                 fr.Kens = item.Kens;
+                if (item.FileType == 1 || item.FileType == 2 || item.FileType == 4 || item.FileType == 6)
+                {
+                    fr.DownURL = item.ViewURL;
+                }
+                else
+                {
+                    fr.DownURL = item.DownURL;
+                }
                 allFolderRelations.Add(fr);
             }
 
@@ -306,8 +317,8 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static IList<Folder> Folder_List(Folder folder)
         {
+            folder.CreateUserID = IES.Service.UserService.CurrentUser.UserID;            
             IList<Folder> allFolders = new FileBLL().Folder_List(folder);
-
             return allFolders;
         }
 
