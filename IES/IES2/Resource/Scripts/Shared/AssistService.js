@@ -68,8 +68,8 @@ aService.factory('assistService', ['httpService', function (httpService) {
         httpService.ajaxPost(url, 'Key_List', { model: model }, callback);
     }
 
-    service.Resource_Key_List = function (searchKey, source, topNum, callback) {
-        httpService.ajaxPost(url, 'Resource_Key_List', { searchKey: searchKey, source: source, topNum: topNum }, callback);
+    service.Resource_Key_List = function (ocid, searchKey, source, topNum, callback) {
+        httpService.ajaxPost(url, 'Resource_Key_List', { ocid: ocid, searchKey: searchKey, source: source, topNum: topNum }, callback);
     }
 
     service.init = function () {

@@ -21,34 +21,22 @@
         </div>
         <div class="label_box">
             <div class="label_item">
-                <div>
-                    @*<select ng-model="keySelection" ng-options="item.Name for item in keys">
-                        </select>*@
-                    @*<input type="text" ng-model="exerciseKey" />
-                    <a ng-click="addKey(exerciseKey)"><span class="icon"></span>添加标签</a>*@
-                    <div class="input-group" style="width:20%">
-                        <input type="text" class="form-control" ng-model="exerciseKey" placeholder="添加标签" aria-describedby=" basic-addon2">
-                        <span class="input-group-addon glyphicon-plus" style="cursor:pointer;" ng-click="addKey(exerciseKey)"></span>
-                    </div>
-                </div>
+                <p> 
+                    <input type="text" class="form-control" style="border-radius:0px;" ng-model="exerciseKey" placeholder="添加标签" aria-describedby="basic-addon2">
+                    <a style="float:left;" ng-click="addKey(exerciseKey)"><span class="icon"></span></a>
+                </p>
                 <ul class="item_list">
-                    <li ng-repeat="item in data.keys"><a ng-click="removeKey(item)">{{item.Name}}<span>×</span></a></li>
+                    <li ng-repeat="item in data.keys"><a ng-click="data.keys.splice($index, 1)">{{item.Name}}<span>×</span></a></li>
                 </ul>
-            </div>
-            <div class="zhishi_box">
-                @*<input type="text" ng-model="exerciseKen" />
-                    <a class="connect_knowledge" href="#"><em><i class="icon"></i></em><span>关联知识点</span></a>*@
-                <div>
-                    @*<input type="text" ng-model="exerciseKen" />
-                    <a ng-click="addKen(exerciseKen)"><span class="icon"></span>添加知识点</a>*@
-                    <div class="input-group" style="width:20%">
-                        <input type="text" class="form-control" ng-model="exerciseKen" placeholder="添加知识点" aria-describedby="basic-addon2">
-                        <span ng-click="addKen(exerciseKen)" class="input-group-addon glyphicon-plus" style="cursor:pointer;"></span>
-                    </div>
-                </div>
+            </div> 
+            <div class="label_item" style="margin-top:6px;">
+                <p>
+                    <input type="text" class="form-control" style="border-radius:0px;" ng-model="exerciseKen" placeholder="添加知识点" aria-describedby="basic-addon2">
+                    <a style="float:left;" ng-click="addKen(exerciseKen)"><span class="icon"></span></a>
+                </p>
                 <ul class="knowledge_item">
-                    <li ng-repeat="item in data.kens"><a ng-click="removeKen(item);">{{item.Name}}<span>×</span></a></li>
-                </ul>
+                    <li ng-repeat="item in data.kens"><a ng-click="data.kens.splice($index, 1)">{{item.Name}}<span>×</span></a></li>
+                </ul> 
             </div>
         </div>
         <div class="paper_content">

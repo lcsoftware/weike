@@ -30,9 +30,9 @@ namespace IES.G2S.Resource.BLL
             return KeyDAL.ExerciseOrFile_Key_List(SearchKey, Source, UserID, TopNum,OCID);
         }
 
-        public List<IES.Resource.Model.Key> Resource_Key_List(string searchKey, string source, int userId, int topNum)
+        public List<IES.Resource.Model.Key> Resource_Key_List(int ocid, string searchKey, string source, int userId, int topNum)
         {
-            return KeyDAL.Resource_Key_List(searchKey, source, userId, topNum);
+            return KeyDAL.Resource_Key_List(ocid, searchKey, source, userId, topNum);
         }
         
     }
