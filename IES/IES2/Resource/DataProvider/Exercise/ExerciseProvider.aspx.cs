@@ -44,6 +44,22 @@ namespace App.Resource.DataProvider.Exercise
         }
 
         [WebMethod]
+        public static ExerciseInfo Exercise_Model_Get()
+        {
+            return new ExerciseInfo()
+            {
+                exercisechoicelist = new List<ExerciseChoice>(),
+                exercisecommon = new ExerciseCommon()
+                {
+                    kenlist = new List<Ken>(),
+                    keylist = new List<Key>(),
+                    exercise = new IES.Resource.Model.Exercise(),
+                    attachmentlist = new List<Attachment>()
+                }
+            };
+        }
+
+        [WebMethod]
         public static ExerciseInfo Exercise_Model_Info_Get()
         {
             ExerciseInfo info = new ExerciseInfo();
@@ -306,7 +322,7 @@ namespace App.Resource.DataProvider.Exercise
                     if (item.exercisecommon.exercise.ExerciseType != 0)
                     {
                         item.exercisecommon.exercise.ParentID = v.exercisecommon.exercise.ExerciseID;
-                        new ExerciseBLL().Exercise_MultipleChoice_M_Edit(item);
+                        new ExerciseBLL().Exercise_Writing_M_Edit(item);
                     }
                 }
                 //if (v.Children.exercisecommon.exercise.ExerciseType != 0)
