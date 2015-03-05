@@ -58,20 +58,47 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
             $scope.data.course = course;
             exerciseService.Page.Index = 1;
             layPageFlag = false;
-            filterChanged();
+            initByOCID($scope.data.course, filterChanged);
+            //filterChanged();
         });
 
-        $scope.$on('courseLoaded', function (event, course) { 
+        $scope.$on('courseLoaded', function (event, course) {
             var freezeData = freezeService.getFreeze(tagService.ExerciseListTag);
             if (freezeData) {
                 $scope.data.course = freezeData.data.course;
                 $scope.$parent.course = $scope.data.course;
                 freezeService.unFreeze(tagService.ExerciseListTag);
             } else {
-                $scope.data.course = course; 
+                $scope.data.course = course;
             }
-            filterChanged(); 
+            initByOCID($scope.data.course, filterChanged);
+            //filterChanged(); 
         });
+
+
+        var initByOCID = function (course, callback) {
+            resourceKenService.ResourceKen_List(course.OCID, '', 'Exercise', 100, function (data) {
+                if (data.d && data.d.length > 0) {
+                    $scope.kens = data.d;
+                    $scope.data.ken = angular.copy($scope.kens[0]);
+                    $scope.data.ken.KenID = 0;
+                    $scope.data.ken.Name = '不限';
+                    $scope.kens.insert(0, $scope.data.ken);
+                }
+            });
+
+            assistService.Resource_Key_List(course.OCID, '', 'Exercise', 100, function (data) {
+                if (data.d.length > 0) {
+                    $scope.keys = data.d;
+                    var item = angular.copy($scope.keys[0]);
+                    item.KeyID = 0;
+                    item.Name = '不限';
+                    $scope.keys.insert(0, item);
+                    $scope.data.key = $scope.keys[0];
+                }
+            });
+            if (callback) callback();
+        }
 
         assistService.Resource_Dict_ExerciseType_Get(function (data) {
             if (data) {
@@ -106,26 +133,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
             }
         });
 
-        resourceKenService.ResourceKen_List('', 'Exercise', 100, function (data) {
-            if (data.d && data.d.length > 0) {
-                $scope.kens = data.d;
-                $scope.data.ken = angular.copy($scope.kens[0]);
-                $scope.data.ken.KenID = 0;
-                $scope.data.ken.Name = '不限';
-                $scope.kens.insert(0, $scope.data.ken);
-            }
-        });
 
-        assistService.Resource_Key_List('', 'Exercise', 100, function (data) {
-            if (data.d.length > 0) {
-                $scope.keys = data.d;
-                var item = angular.copy($scope.keys[0]);
-                item.KeyID = 0;
-                item.Name = '不限';
-                $scope.keys.insert(0, item);
-                $scope.data.key = $scope.keys[0];
-            }
-        });
 
         $scope.checkAll = function () {
             $scope.checks.length = 0;
@@ -166,7 +174,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
             filterChanged();
         }
         $scope.pagesNum = 1;
- 
+
         var ExerciseSearch = function (pageSize, pageIndex) {
             var model = {
                 Conten: $scope.data.searchKey,
@@ -177,12 +185,25 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
                 Scope: -1,
                 ShareRange: $scope.data.shareRange.id
             };
-            var keys = $scope.data.key.KeyID === undefined || $scope.data.key.KeyID === -1 ? '' : $scope.data.key.Name;
-            var kens = $scope.data.ken.KenID === undefined || $scope.data.ken.KenID === -1 ? '' : $scope.data.ken.Name;
+            var keys = $scope.data.key.KeyID === undefined || $scope.data.key.KeyID === 0 ? '' : $scope.data.key.Name;
+            var kens = $scope.data.ken.KenID === undefined || $scope.data.ken.KenID === 0 ? '' : $scope.data.ken.Name;
             exerciseService.Exercise_Search(model, $scope.data.key, keys, kens, pageSize, pageIndex, function (data) {
                 $scope.exercises.length = 0;
                 $scope.pagesNum = 1;
                 if (data.d && data.d.length > 0) {
+                    angular.forEach(data.d, function (item) {
+                        if (item.Keys && item.Keys.length > 0) {
+                            item.Keys = item.Keys.split(/wshgkjqbwhfbxlfrh/).distinct();
+                            item.Keys.splice(item.Keys.length - 1, 1);
+                        }
+                        //if (item.Kens && item.Kens.length > 0) {
+                        //    item.Kens = item.Kens.split(/wshgkjqbwhfbxlfrh/).distinct();
+                        //    item.Kens.splice(item.Kens.length - 1, 1);
+                        //} else {
+                        //    item.Kens = [];
+                        //}
+
+                    });
                     $scope.exercises = data.d;
                     var rowsCount = $scope.exercises[0].RowsCount;
                     $scope.pagesNum = Math.ceil(rowsCount / pageSize);
@@ -193,7 +214,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         var changePage = function (e) { //触发分页后的回调
             exerciseService.Page.Index = e.curr;
             ExerciseSearch(pageSize, exerciseService.Page.Index);
-        } 
+        }
 
         var filterChanged = function () {
             var model = {
@@ -213,7 +234,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
                 if (data.d && data.d.length > 0) {
                     $scope.exercises = data.d;
                     var rowsCount = $scope.exercises[0].RowsCount;
-                    $scope.pagesNum = Math.ceil(rowsCount / pageSize); 
+                    $scope.pagesNum = Math.ceil(rowsCount / pageSize);
                     if (!layPageFlag) {
                         laypage({
                             cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
@@ -230,7 +251,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
                     }
                 }
             });
-        } 
+        }
 
         $scope.search = function () {
             filterChanged();
@@ -329,7 +350,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         /// </summary>
         ///编辑习题
         $scope.$on('onEditExercise', function (event, exercise) {
- 
+
             freezeService.freeze(tagService.ExerciseListTag, { course: $scope.data.course });
             freezeService.freeze(tagService.UrlSourceTag, 'content.exercise');
 
@@ -442,7 +463,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
                                 $scope.data.chapter = $scope.chapters[0];
                             }
                         });
-                        break; 
+                        break;
                     }
                 }
             }
@@ -482,7 +503,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         assistService.Resource_Dict_Scope_Get(function (data) {
             if (data) $scope.scopes = angular.copy(data);
         });
- 
+
         $scope.$watch('data.exerciseType', function (v) {
             var param = { ExerciseID: $scope.$stateParams.ExerciseID };
             switch (v.id) {
@@ -543,23 +564,21 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         });
 
         $scope.addKey = function (exerciseKey) {
-            $scope.data.keys.push({ Name: exerciseKey });
-            $scope.exerciseKey = '';
+            if (exerciseKey) {
+                $scope.data.keys.push({ Name: exerciseKey });
+                $scope.exerciseKey = '';
+            }
         }
 
         $scope.addKen = function (exerciseKen) {
-            $scope.data.kens.push({ Name: exerciseKen });
-            $scope.exerciseKen = '';
+            if (exerciseKen) {
+                $scope.data.kens.push({ Name: exerciseKen });
+                $scope.exerciseKen = '';
+            }
         }
 
-        $scope.removeKey = function (key) {
-            var length = $scope.data.keys.length;
-            for (var i = 0; i < length; i++) {
-                if ($scope.data.keys[i].KeyID === key.KeyID) {
-                    $scope.data.keys.splice(i, 1);
-                    break;
-                }
-            }
+        $scope.removeKey = function (index) {
+            $scope.data.keys.splice(index, 1); 
         }
 
         $scope.removeKen = function (ken) {
@@ -643,7 +662,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
             setScope(data.exercisecommon.exercise.Scope);
             setChapter(data.exercisecommon.exercise.Chapter);
             $scope.data.keys = data.exercisecommon.keylist;
-            $scope.data.kens = data.exercisecommon.kenlist; 
+            $scope.data.kens = data.exercisecommon.kenlist;
         }
 
         $scope.willTopBind = function (model, data) {

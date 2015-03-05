@@ -21,3 +21,34 @@ Date.prototype.format = function (format) //author: meizz
         ("00" + o[k]).substr(("" + o[k]).length));
     return format;
 }
+///数组去重
+Array.prototype.distinct = function () {
+    var sameObj = function (a, b) {
+        var tag = true;
+        if (!a || !b) return false;
+        for (var x in a) {
+            if (!b[x])
+                return false;
+            if (typeof (a[x]) === 'object') {
+                tag = sameObj(a[x], b[x]);
+            } else {
+                if (a[x] !== b[x])
+                    return false;
+            }
+        }
+        return tag;
+    }
+    var newArr = [], obj = {};
+    for (var i = 0, len = this.length; i < len; i++) {
+        if (!sameObj(obj[typeof (this[i]) + this[i]], this[i])) {
+            newArr.push(this[i]);
+            obj[typeof (this[i]) + this[i]] = this[i];
+        }
+    }
+    return newArr;
+}
+
+///删除左右两端的空格
+String.prototype.trim = function () {
+    return this.replace(/(^\s*)|(\s*$)/g, "");
+}

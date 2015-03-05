@@ -24,10 +24,10 @@ namespace App.Resource.DataProvider.ResourceKen
         }
 
         [WebMethod]
-        public static IList<IES.Resource.Model.Ken> ResourceKen_List(string searchKey, string source, int topNum)
+        public static IList<IES.Resource.Model.Ken> ResourceKen_List(int ocid, string searchKey, string source, int topNum)
         {
             var user = IES.Service.UserService.CurrentUser;
-            return new ResourceKenBLL().ResourceKen_List(searchKey, source, user.UserID, topNum);
+            return new ResourceKenBLL().ResourceKen_List(ocid, searchKey, source, user.UserID, topNum);
         }
 
         [WebMethod]

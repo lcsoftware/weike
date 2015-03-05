@@ -101,13 +101,14 @@ namespace IES.G2S.Resource.DAL
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static IList<Ken> ResourceKen_List(string searchKey, string source, int userId, int topNum) 
+        public static IList<Ken> ResourceKen_List(int ocid, string searchKey, string source, int userId, int topNum) 
         {
             try
             {
                 using (var conn = DbHelper.ResourceService())
                 {
                     var p = new DynamicParameters();
+                    p.Add("@OCID", ocid);
                     p.Add("@SearchKey", searchKey);
                     p.Add("@Source", source);
                     p.Add("@UserID", userId);

@@ -19,9 +19,9 @@ namespace IES.G2S.Resource.BLL
         {
             return ResourceKenDAL.ResourceKen_Del(model);
         }
-        public IList<Ken> ResourceKen_List(string searchKey, string source, int userId, int topNum)
+        public IList<Ken> ResourceKen_List(int ocid, string searchKey, string source, int userId, int topNum)
         {
-            return ResourceKenDAL.ResourceKen_List(searchKey, source, userId, topNum);
+            return ResourceKenDAL.ResourceKen_List(ocid, searchKey, source, userId, topNum);
         }
         public IList<ResourceKen> ResourceKen_List_Source(int ocid, string source) 
         {

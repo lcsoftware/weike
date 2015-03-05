@@ -57,10 +57,10 @@ namespace App.Resource.DataProvider.Shared
         }
 
         [WebMethod]
-        public static List<Key> Resource_Key_List(string searchKey, string source, int topNum)
+        public static List<Key> Resource_Key_List(int ocid, string searchKey, string source, int topNum)
         {
             var user = IES.Service.UserService.CurrentUser;
-            return new KeyBLL().Resource_Key_List(searchKey, source, user.UserID, topNum);
+            return new KeyBLL().Resource_Key_List(ocid, searchKey, source, user.UserID, topNum);
         }
     }
 }
