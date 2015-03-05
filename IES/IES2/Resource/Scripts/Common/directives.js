@@ -22,3 +22,21 @@ directiveApp.directive('dialogShow', function () {
         }
     }
 }); 
+
+directiveApp.directive('dialogEdit', function () {
+    return {
+        restrict: 'EA',
+        scope: {
+            dialogId: '@'
+        },
+        link: function (scope, element, attrs) {
+            scope.editItem = function(item){
+                scope.$emit('onEditItem', item);
+            }
+            element.bind('dblclick', function () {
+                var elem = '#' + scope.dialogId;
+                $(elem).show();
+            });
+        }
+    }
+});

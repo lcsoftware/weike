@@ -64,37 +64,39 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
 
         ///子页面请求查询数据
         $scope.$on('onRequestQuery', function (event, chapter, ken, from) {
-            if (chapter.ChapterID && ken.KenID >= 0) {
-                ken.UpdateTime = new Date();
-                $scope.linkFiles.length = 0;
-                $scope.linkExercises.length = 0;
-                switch ($scope.tab) {
-                    case 1:
-                        if (from === 'fromChapter') {
-                            chapterService.File_ChapterID_KenID_List(chapter, ken, function (data) {
-                                $scope.linkFiles = data.d;
-                            });
-                        } else {
-                            kenService.File_KenID_ChapterID_List(chapter, ken, function (data) {
-                                $scope.linkFiles = data.d;
-                            });
-                        }
-                        break;
-                    case 2:
-                        if (from === 'fromChapter') {
-                            chapterService.Exercise_ChapterID_KenID_List(chapter, ken, function (data) {
-                                $scope.linkExercises = data.d;
-                            });
-                        } else {
-                            kenService.Exercise_KenID_ChapterID_List(chapter, ken, function (data) {
-                                $scope.linkExercises = data.d;
-                            });
-                        }
-                        break;
-                    default:
-                        break;
-                }
+            //if (chapter.ChapterID && ken.KenID >= 0) {
+            ken.UpdateTime = new Date();
+            $scope.linkFiles.length = 0;
+            $scope.linkExercises.length = 0;
+            switch ($scope.tab) {
+                case 1:
+                    if (from === 'fromChapter') {
+                        chapterService.File_ChapterID_KenID_List(chapter, ken, function (data) {
+                            $scope.linkFiles = data.d;
+                        });
+                    } else {
+                        if (!chapter.ChapterID) chapter.ChapterID = 0;
+                        kenService.File_KenID_ChapterID_List(chapter, ken, function (data) {
+                            $scope.linkFiles = data.d;
+                        });
+                    }
+                    break;
+                case 2:
+                    if (from === 'fromChapter') {
+                        chapterService.Exercise_ChapterID_KenID_List(chapter, ken, function (data) {
+                            $scope.linkExercises = data.d;
+                        });
+                    } else {
+                        if (!chapter.ChapterID) chapter.ChapterID = 0;
+                        kenService.Exercise_KenID_ChapterID_List(chapter, ken, function (data) {
+                            $scope.linkExercises = data.d;
+                        });
+                    }
+                    break;
+                default:
+                    break;
             }
+            //}
         });
 
         $scope.$on('willCourseChanged', function (event, course) {
@@ -145,12 +147,21 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
                 Requirement: $scope.requireMent.id,
                 UpdateTime: new Date()
             };
-            kenService.Ken_ADD(newData, function (data) {
-                var resultKen = data.d;
-                $scope.ocKens.push(resultKen);
-                ResourceKenAdd(resultKen.ChapterID, resultKen.KenID);
-                if (keeping) $scope.ken.name = '';
-            });
+            if (ken.KenID && ken.KenID > 0) {
+                newData.KenID = ken.KenID;
+                kenService.Ken_Upd(newData, function (data) {
+                    if (data.d) {
+                        $scope.$broadcast('onKenEdited', newData);
+                    }
+                });
+            } else {
+                kenService.Ken_ADD(newData, function (data) {
+                    var resultKen = data.d;
+                    $scope.ocKens.push(resultKen);
+                    ResourceKenAdd(resultKen.ChapterID, resultKen.KenID);
+                    if (keeping) $scope.ken.name = '';
+                });
+            }
         }
 
         /// end 添加知识点
@@ -511,10 +522,26 @@ appKnow.controller('KenTopicCtrl', ['$scope', '$state', 'resourceKenService', 'c
         $scope.$parent.linkExercises.length = 0;
         $scope.$parent.linkFiles.length = 0;
         $scope.$parent.tab = 1;
-       
+
 
         $scope.dataKen = {};
         $scope.dataChapter = {};
+        $scope.dataChapters = [];
+
+        $scope.editKen = function (ken) {
+            $scope.$parent.ken = {};
+            $scope.$parent.ken.KenID = ken.KenID;
+            $scope.$parent.ken.name = ken.Name;
+            angular.forEach($scope.$parent.chapters, function (item) {
+                if (item.ChapterID === ken.ChapterID) {
+                    $scope.$parent.ken.chapter = item;
+                }
+            });
+        }
+
+        $scope.$on('onKenEdited', function (event, ken) {
+            $scope.kenFocus(ken);
+        });
 
         $scope.$on('courseLoaded', function (event, course) {
             $scope.loadStart($scope.course);
@@ -522,8 +549,8 @@ appKnow.controller('KenTopicCtrl', ['$scope', '$state', 'resourceKenService', 'c
             if (freezeData) {
                 $scope.dataKen = freezeData.data.dataKen;
                 $scope.dataChapter = freezeData.data.dataChapter;
-                $scope.$parent.dataChapters = freezeData.data.dataChapters;
-                $scope.$parent.linkFiles= freezeData.data.linkFiles;
+                $scope.dataChapters = freezeData.data.dataChapters;
+                $scope.$parent.linkFiles = freezeData.data.linkFiles;
                 $scope.$parent.linkExercises = freezeData.data.linkExercises;
                 freezeService.unFreeze(tagService.KenListTag);
             }
@@ -549,15 +576,16 @@ appKnow.controller('KenTopicCtrl', ['$scope', '$state', 'resourceKenService', 'c
 
         $scope.kenFocus = function (item) {
             $scope.dataKen = item;
+            $scope.dataChapters.length = 0;
             kenService.Chapter_KenID_List({ KenID: item.KenID, OCID: $scope.course.OCID }, function (data) {
                 $scope.dataChapters = data.d;
-                if ($scope.dataChapters.length > 0) {
-                    $scope.dataChapter = angular.copy($scope.dataChapters[0]);
-                    $scope.dataChapter.ChapterID = 0;
-                    $scope.dataChapter.Title = '全部';
-                    $scope.dataChapters.insert(0, $scope.dataChapter);
-                    $scope.$emit('onRequestQuery', $scope.dataChapter, $scope.dataKen, 'fromKen');
-                }
+                //if ($scope.dataChapters.length > 0) {
+                $scope.dataChapter = {};
+                $scope.dataChapter.ChapterID = 0;
+                $scope.dataChapter.Title = '全部';
+                $scope.dataChapters.insert(0, $scope.dataChapter);
+                $scope.$emit('onRequestQuery', $scope.dataChapter, $scope.dataKen, 'fromKen');
+                //}
             });
         }
 

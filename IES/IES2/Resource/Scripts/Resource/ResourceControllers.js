@@ -179,7 +179,6 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             } else {
                 $scope.folderRelations = [];
             }
-            //$scope.checksSelect.length = 0;
         });
     }
 
@@ -291,51 +290,6 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             }
         }
     }
-
-
-    //获取移动列表
-    //$scope.mobileFolder = function (item) {
-    //    var folder = { OCID: $scope.model.OCID, RelationType: 'Folder' }
-    //    //var folder = { ParentID: -1 }
-    //    if ($scope.checksSelect.length == 0) {
-    //        $scope.checksSelect.push(item);
-    //    }
-    //    resourceService.FolderRelation_List(folder, null, function (data) {
-    //        if (data.d) {
-
-    //            $scope.files = data.d;
-
-    //            var rootFolder = {};
-    //            angular.copy(data.d[0], rootFolder);
-    //            rootFolder.Id = 0;
-    //            rootFolder.Children.length = 0;
-    //            rootFolder.ParentID = -1;
-    //            rootFolder.Name = '根目录';
-
-    //            //remove self
-    //            for (var n = 0; n < $scope.checksSelect.length; n++) {
-    //                for (var i = 0; i < $scope.files.length; i++) {
-    //                    if ($scope.files[i].RelationType == $scope.checksSelect[n].RelationType) {
-    //                        if ($scope.files[i].Id == $scope.checksSelect[n].Id) {
-    //                            $scope.files.splice(i, 1);
-    //                        } else {
-    //                            mobilesDel($scope.files[i].Children, $scope.checksSelect[n].Id)
-    //                        }
-    //                    }
-    //                }
-    //            }
-
-    //            var length = $scope.files.length;
-    //            for (var i = 0; i < length; i++) {
-    //                if ($scope.files[i].ParentID == rootFolder.Id) {
-    //                    rootFolder.Children.push($scope.files[i]);
-    //                }
-    //            }
-    //            $scope.files.length = 0;
-    //            $scope.files.push(rootFolder);
-    //        }
-    //    });
-    //}
 
     ///移动文件夹树
     $scope.folderTrees = [];
@@ -639,13 +593,17 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         }
         if (fileIds.length > 0) {
             fileIds = fileIds.substr(0, fileIds.length - 1);
-            resourceService.File_Batch_ShareRange(fileIds, range.id);
+            resourceService.File_Batch_ShareRange(fileIds, range.id, function () {
+                angular.forEach($scope.checks, function (item) {
+                    if (item.RelationType === 1) item.ShareRange = range.id;
+                });
+            });
         }
         if (folderIds.length > 0) {
             folderIds = folderIds.substr(0, folderIds.length - 1);
             resourceService.Folder_Batch_ShareRange(folderIds, range.id);
         }
-        $scope.filterChanged();
+        //$scope.filterChanged();
     });
 
     //单一共享
