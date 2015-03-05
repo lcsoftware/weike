@@ -310,43 +310,44 @@ namespace IES.G2S.Resource.DAL
                     };
                     //单选
                     ef.Children = new List<ExerciseInfo>();
-                    ef.Children.Add(new ExerciseInfo()
-                    {
-                        exercisechoicelist = new List<ExerciseChoice>(),
-                        exercisecommon = new ExerciseCommon()
-                        {
-                            kenlist = new List<Ken>(),
-                            keylist = new List<Key>(),
-                            exercise = new IES.Resource.Model.Exercise(),
-                            attachmentlist = new List<Attachment>()
-                        }
-                    });
+                    //ef.Children.Add(new ExerciseInfo()
+                    //{
+                    //    exercisechoicelist = new List<ExerciseChoice>(),
+                    //    exercisecommon = new ExerciseCommon()
+                    //    {
+                    //        kenlist = new List<Ken>(),
+                    //        keylist = new List<Key>(),
+                    //        exercise = new IES.Resource.Model.Exercise(),
+                    //        attachmentlist = new List<Attachment>()
+                    //    }
+                    //});
                     //多选
                     ef.ChildrenMultiple = new List<ExerciseInfo>();
-                    ef.ChildrenMultiple.Add(new ExerciseInfo()
-                    {
-                        exercisechoicelist = new List<ExerciseChoice>(),
-                        exercisecommon = new ExerciseCommon()
-                        {
-                            kenlist = new List<Ken>(),
-                            keylist = new List<Key>(),
-                            exercise = new IES.Resource.Model.Exercise(),
-                            attachmentlist = new List<Attachment>()
-                        }
-                    });
+                    //ef.ChildrenMultiple.Add(new ExerciseInfo()
+                    //{
+                    //    exercisechoicelist = new List<ExerciseChoice>(),
+                    //    exercisecommon = new ExerciseCommon()
+                    //    {
+                    //        kenlist = new List<Ken>(),
+                    //        keylist = new List<Key>(),
+                    //        exercise = new IES.Resource.Model.Exercise(),
+                    //        attachmentlist = new List<Attachment>()
+                    //    }
+                    //});
                     //填空
-                    ef.ChildrenMultiple = new List<ExerciseInfo>();
-                    ef.ChildrenMultiple.Add(new ExerciseInfo()
-                    {
-                        exercisechoicelist = new List<ExerciseChoice>(),
-                        exercisecommon = new ExerciseCommon()
-                        {
-                            kenlist = new List<Ken>(),
-                            keylist = new List<Key>(),
-                            exercise = new IES.Resource.Model.Exercise(),
-                            attachmentlist = new List<Attachment>()
-                        }
-                    });
+                    ef.ChildrenFillBlank = new List<ExerciseInfo>();
+                    //ef.ChildrenFillBlank.Add(new ExerciseInfo()
+                    //{
+                    //    exercisechoicelist = new List<ExerciseChoice>(),
+                    //    exercisecommon = new ExerciseCommon()
+                    //    {
+                    //        kenlist = new List<Ken>(),
+                    //        keylist = new List<Key>(),
+                    //        exercise = new IES.Resource.Model.Exercise(),
+                    //        attachmentlist = new List<Attachment>()
+                    //    }
+                    //});
+
                     //{
                     //    exercisechoicelist = new List<ExerciseChoice>(),
                     //    exercisecommon = new ExerciseCommon()
@@ -414,35 +415,33 @@ namespace IES.G2S.Resource.DAL
                     {
                         if (cd.ExerciseType == 2)
                         {
-                            foreach (var item in ef.Children)
-                            {
-                                item.exercisecommon.exercise = cd;
-                                item.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == item.exercisecommon.exercise.ExerciseID).ToList();
-                            }
+                            ExerciseInfo eInfo = Exercise_Get();
+                            eInfo.exercisecommon.exercise = cd;
+                            eInfo.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == eInfo.exercisecommon.exercise.ExerciseID).ToList();
+                            ef.Children.Add(eInfo);
+
                             //ef.Children.exercisecommon.exercise = cd;
                             //ef.Children.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.Children.exercisecommon.exercise.ExerciseID).ToList();
                         }
-                        if(cd.ExerciseType==3)
+                        if (cd.ExerciseType == 3)
                         {
-                            foreach (var item in ef.ChildrenMultiple)
-                            {
-                                item.exercisecommon.exercise = cd;
-                                item.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == item.exercisecommon.exercise.ExerciseID).ToList();
-                            }
+                            ExerciseInfo eInfo = Exercise_Get();
+                            eInfo.exercisecommon.exercise = cd;
+                            eInfo.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == eInfo.exercisecommon.exercise.ExerciseID).ToList();
+                            ef.ChildrenMultiple.Add(eInfo);
                             //ef.ChildrenMultiple.exercisecommon.exercise = cd;
                             //ef.ChildrenMultiple.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.ChildrenMultiple.exercisecommon.exercise.ExerciseID).ToList();
                         }
-                        if(cd.ExerciseType == 18)
+                        if (cd.ExerciseType == 18)
                         {
-                            foreach (var item in ef.ChildrenFillBlank)
-                            {
-                                item.exercisecommon.exercise = cd;
-                                item.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == item.exercisecommon.exercise.ExerciseID).ToList();
-                            }
+                            ExerciseInfo eInfo = Exercise_Get();
+                            eInfo.exercisecommon.exercise = cd;
+                            eInfo.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == eInfo.exercisecommon.exercise.ExerciseID).ToList();
+                            ef.ChildrenFillBlank.Add(eInfo);
                             //ef.ChildrenFillBlank.exercisecommon.exercise = cd;
                             //ef.ChildrenFillBlank.exercisechoicelist = childrenChoice.Where(c => c.ExerciseID == ef.ChildrenFillBlank.exercisecommon.exercise.ExerciseID).ToList();
                         }
-                    } 
+                    }
                     return ef;
                 }
             }
@@ -450,6 +449,20 @@ namespace IES.G2S.Resource.DAL
             {
                 return null;
             }
+        }
+
+        private static ExerciseInfo Exercise_Get()
+        {
+            ExerciseInfo eInfo = new ExerciseInfo();
+            eInfo.exercisechoicelist = new List<ExerciseChoice>();
+            eInfo.exercisecommon = new ExerciseCommon()
+            {
+                kenlist = new List<Ken>(),
+                keylist = new List<Key>(),
+                exercise = new IES.Resource.Model.Exercise(),
+                attachmentlist = new List<Attachment>()
+            };
+            return eInfo;
         }
 
         public static ExerciseInfo Exercise_MultipleChoice_Get(int ExerciseID)
@@ -1321,7 +1334,7 @@ namespace IES.G2S.Resource.DAL
         }
 
         public static bool Exercise_Batch_Del(string ids)
-        { 
+        {
             try
             {
                 using (var conn = DbHelper.ResourceService())

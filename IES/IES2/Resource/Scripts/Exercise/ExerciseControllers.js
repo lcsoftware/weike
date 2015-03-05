@@ -578,7 +578,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         }
 
         $scope.removeKey = function (index) {
-            $scope.data.keys.splice(index, 1); 
+            $scope.data.keys.splice(index, 1);
         }
 
         $scope.removeKen = function (ken) {
@@ -876,26 +876,30 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
     $scope.$on('willRequestSave', function (event, data) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
-        //var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
-        //$scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
 
         $scope.willTopBind($scope.model, data);
         //增加子单选题
         if ($scope.isShowRadio == 1) {
             SplicingRadio($scope.model.Children);
-            $scope.model.Children.exercisecommon.exercise.ExerciseType = 2;
-            $scope.model.Children.exercisecommon.exercise.ExerciseTypeName = '单选题';
+            for (var i = 0; i < $scope.model.Children.length; i++) {
+                $scope.model.Children[i].exercisecommon.exercise.ExerciseType = 2;
+                $scope.model.Children[i].exercisecommon.exercise.ExerciseTypeName = '单选题';
+            }            
         }
         //增加子多选题
         if ($scope.isShowMultiple == 1) {
             SplicingRadio($scope.model.ChildrenMultiple);
-            $scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseType = 3;
-            $scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseTypeName = '多选题';
+            for (var i = 0; i < $scope.model.ChildrenMultiple.length; i++) {
+                $scope.model.ChildrenMultiple[i].exercisecommon.exercise.ExerciseType = 3;
+                $scope.model.ChildrenMultiple[i].exercisecommon.exercise.ExerciseTypeName = '多选题';
+            }
         }
         //增加子填空题
         if ($scope.isShowFillBlank == 1) {
-            $scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseType = 18;
-            $scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseTypeName = '填空题';
+            for (var i = 0; i < $scope.model.ChildrenFillBlank.length; i++) {
+                $scope.model.ChildrenFillBlank[i].exercisecommon.exercise.ExerciseType = 18;
+                $scope.model.ChildrenFillBlank[i].exercisecommon.exercise.ExerciseTypeName = '填空题';
+            }
         }
 
 
@@ -908,6 +912,8 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
     });
 
     $scope.$on('onPreview', function (event) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         $scope.$emit('onBeginPreview', $scope.model);
     });
 
@@ -926,11 +932,17 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
         if ($scope.ExerciseID > -1) {
             exerciseService.Exercise_Custom_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
-                if ($scope.model.Children.exercisecommon.exercise.ExerciseType == 2)
+                //if ($scope.model.Children[0].exercisecommon.exercise.ExerciseType == 2)
+                //    $scope.isShowRadio = 1;
+                //if ($scope.model.ChildrenMultiple[0].exercisecommon.exercise.ExerciseType == 3)
+                //    $scope.isShowMultiple = 1;
+                //if ($scope.model.ChildrenFillBlank[0].exercisecommon.exercise.ExerciseType == 18)
+                //    $scope.isShowFillBlank = 1;
+                if ($scope.model.Children.length>0)
                     $scope.isShowRadio = 1;
-                if ($scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseType == 3)
+                if ($scope.model.ChildrenMultiple.length > 0)
                     $scope.isShowMultiple = 1;
-                if ($scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseType == 18)
+                if ($scope.model.ChildrenFillBlank.length > 0)
                     $scope.isShowFillBlank = 1;
 
                 $scope.willEdit($scope.model);
@@ -943,12 +955,10 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
-                $scope.model = data.d;                
-                for (var i = 0; i < 4; i++) {
-                    $scope.AddAnswer($scope.model.Children[0]);
-                    //$scope.AddAnswerMultiple();
-                }
-                $scope.radio = angular.copy($scope.model.Children[0]);
+                $scope.model = data.d;
+                $scope.model.Children.length = 0;
+                $scope.model.ChildrenMultiple.length = 0;
+                $scope.model.ChildrenFillBlank.length = 0;
             });
         }
     }
@@ -978,30 +988,34 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
         }
     }
     //是否是正确答案
-    $scope.isCorrectChange = function (item) {
-        for (var i = 0; i < $scope.model.Children.exercisechoicelist.length; i++) {
-            $scope.model.Children.exercisechoicelist[i].IsCorrect = 0;
+    $scope.isCorrectChange = function (item, items) {
+        for (var i = 0; i < items.length; i++) {
+            items[i].IsCorrect = 0;
         }
         item.IsCorrect = item.IsCorrect ? 0 : 1;
     }
 
     //添加选项,多选
-    $scope.AddAnswerMultiple = function () {
+    $scope.AddAnswerMultiple = function (childrenMultiple) {
         answer = { Conten: '', IsCorrect: 0 };
-        $scope.model.ChildrenMultiple.exercisechoicelist.push(answer);
+        childrenMultiple.exercisechoicelist.push(answer);
     }
     //删除选项,多选
     $scope.delMultiple = function (item) {
         if ($scope.ExerciseID > 0) {
-            for (var i = 0; i < $scope.model.ChildrenMultiple.exercisechoicelist.length; i++) {
-                if ($scope.model.ChildrenMultiple.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.ChildrenMultiple.exercisechoicelist[i].Conten = '';
+            for (var n = 0; n < $scope.model.ChildrenMultiple.length; n++) {
+                for (var i = 0; i < $scope.model.ChildrenMultiple[n].exercisechoicelist.length; i++) {
+                    if ($scope.model.ChildrenMultiple[n].exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                        $scope.model.ChildrenMultiple[n].exercisechoicelist[i].Conten = '';
+                    }
                 }
             }
         } else {
-            for (var i = 0; i < $scope.model.ChildrenMultiple.exercisechoicelist.length; i++) {
-                if ($scope.model.ChildrenMultiple.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.ChildrenMultiple.exercisechoicelist.splice(i, 1);
+            for (var n = 0; n < $scope.model.ChildrenMultiple.length; n++) {
+                for (var i = 0; i < $scope.model.ChildrenMultiple[n].exercisechoicelist.length; i++) {
+                    if ($scope.model.ChildrenMultiple[n].exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                        $scope.model.ChildrenMultiple[n].exercisechoicelist.splice(i, 1);
+                    }
                 }
             }
         }
@@ -1013,32 +1027,34 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
 
     //拼接单选，多选题选项
     var SplicingRadio = function (model) {
-        model.exercisecommon.exercise.Content = "";
-        if (model.exercisecommon.exercise.ExerciseID > 0) {
-            for (var i = 0; i < model.exercisechoicelist.length; i++) {
-                var answer = model.exercisechoicelist[i].Conten == null ? "" : model.exercisechoicelist[i].Conten;
-                var childId = model.exercisechoicelist[i].ChoiceID == null ? 0 : model.exercisechoicelist[i].ChoiceID;
-                var isCorrect = model.exercisechoicelist[i].IsCorrect == false ? 0 : 1;
-                if ((i + 1) == model.exercisechoicelist.length) {
-                    model.exercisecommon.exercise.Content +=
-                    childId + "wshgkjqbwhfbxlfrh_b"
-                    + answer + "wshgkjqbwhfbxlfrh_c" + isCorrect;
-                } else {
-                    model.exercisecommon.exercise.Content +=
-                    childId + "wshgkjqbwhfbxlfrh_b"
-                    + answer + "wshgkjqbwhfbxlfrh_c" + isCorrect + "wshgkjqbwhfbxlfrh_a";
+        for (var n = 0; n < model.length; n++) {
+            model[n].exercisecommon.exercise.Content = "";
+            if (model[n].exercisecommon.exercise.ExerciseID > 0) {
+                for (var i = 0; i < model[n].exercisechoicelist.length; i++) {
+                    var answer = model[n].exercisechoicelist[i].Conten == null ? "" : model[n].exercisechoicelist[i].Conten;
+                    var childId = model[n].exercisechoicelist[i].ChoiceID == null ? 0 : model[n].exercisechoicelist[i].ChoiceID;
+                    var isCorrect = model[n].exercisechoicelist[i].IsCorrect == false ? 0 : 1;
+                    if ((i + 1) == model[n].exercisechoicelist.length) {
+                        model[n].exercisecommon.exercise.Content +=
+                        childId + "wshgkjqbwhfbxlfrh_b"
+                        + answer + "wshgkjqbwhfbxlfrh_c" + isCorrect;
+                    } else {
+                        model[n].exercisecommon.exercise.Content +=
+                        childId + "wshgkjqbwhfbxlfrh_b"
+                        + answer + "wshgkjqbwhfbxlfrh_c" + isCorrect + "wshgkjqbwhfbxlfrh_a";
+                    }
                 }
             }
-        }
-        else {
-            for (var i = 0; i < model.exercisechoicelist.length; i++) {
-                var answer = model.exercisechoicelist[i].Conten == null ? "" : model.exercisechoicelist[i].Conten;
-                if ((i + 1) == model.exercisechoicelist.length) {
-                    model.exercisecommon.exercise.Content +=
-                    "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + model.exercisechoicelist[i].IsCorrect;
-                } else {
-                    model.exercisecommon.exercise.Content +=
-                    "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + model.exercisechoicelist[i].IsCorrect + "wshgkjqbwhfbxlfrh_a";
+            else {
+                for (var i = 0; i < model[n].exercisechoicelist.length; i++) {
+                    var answer = model[n].exercisechoicelist[i].Conten == null ? "" : model[n].exercisechoicelist[i].Conten;
+                    if ((i + 1) == model[n].exercisechoicelist.length) {
+                        model[n].exercisecommon.exercise.Content +=
+                        "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + model[n].exercisechoicelist[i].IsCorrect;
+                    } else {
+                        model[n].exercisecommon.exercise.Content +=
+                        "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + model[n].exercisechoicelist[i].IsCorrect + "wshgkjqbwhfbxlfrh_a";
+                    }
                 }
             }
         }
@@ -1047,41 +1063,60 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
     $scope.ShowRadio = function () {
         if ($scope.isShowRadio != 1) {
             $scope.isShowRadio = 1;
-        } else {
-            $scope.model.Children.push($scope.radio);
         }
-        //if ($scope.model.Children.exercisechoicelist.length == 0) {
-        //    for (var i = 0; i < 4; i++) {
-        //        $scope.AddAnswer();
-        //    }
-        //}
+        exerciseService.Exercise_Model_Info_Get(function (data) {
+            var rs = data.d;
+            for (var i = 0; i < 4; i++) {
+                $scope.AddAnswer(rs.Children[0]);
+            }
+            $scope.model.Children.push(rs.Children[0]);
+        });
     }
     $scope.ShowMultiple = function () {
-        $scope.isShowMultiple = 1;
-        if ($scope.model.ChildrenMultiple.exercisechoicelist.length == 0) {
-            for (var i = 0; i < 4; i++) {
-                $scope.AddAnswerMultiple();
-            }
+        if ($scope.isShowMultiple != 1) {
+            $scope.isShowMultiple = 1;
         }
+        exerciseService.Exercise_Model_Info_Get(function (data) {
+            var rs = data.d;
+            for (var i = 0; i < 4; i++) {
+                $scope.AddAnswer(rs.ChildrenMultiple[0]);
+            }
+            $scope.model.ChildrenMultiple.push(rs.ChildrenMultiple[0]);
+        });
+    }
+    $scope.ShowFillBlank = function () {
+        if ($scope.isShowFillBlank != 1) {
+            $scope.isShowFillBlank = 1;
+        }
+        exerciseService.Exercise_Model_Info_Get(function (data) {
+            var rs = data.d;
+            $scope.model.ChildrenFillBlank.push(rs.ChildrenFillBlank[0]);
+        });
     }
 
-    $scope.delRadio = function (ExerciseID) {
-        $scope.isShowRadio = 0;
-        $scope.model.Children.exercisecommon.exercise = {};
-        exerciseService.Exercise_Del(ExerciseID, function (data) {
+    $scope.delRadio = function (children) {
+        $scope.model.Children.splice(children, 1);
+        exerciseService.Exercise_Del(children.exercisecommon.exercise.ExerciseID, function (data) {
         });
+        if ($scope.model.Children.length == 0) {
+            $scope.isShowRadio = 0;
+        }
     }
-    $scope.delMultiples = function (ExerciseID) {
-        $scope.isShowMultiple = 0;
-        $scope.model.ChildrenMultiple.exercisecommon.exercise = {};
-        exerciseService.Exercise_Del(ExerciseID, function (data) {
+    $scope.delMultiples = function (childrenMultiple) {
+        $scope.model.ChildrenMultiple.splice(childrenMultiple, 1);
+        exerciseService.Exercise_Del(childrenMultiple.exercisecommon.exercise.ExerciseID, function (data) {
         });
+        if ($scope.model.ChildrenMultiple.length == 0) {
+            $scope.isShowMultiple = 0;
+        }
     }
-    $scope.delFillBlank = function (ExerciseID) {
-        $scope.isShowFillBlank = 0;
-        $scope.model.ChildrenFillBlank.exercisecommon.exercise = {};
-        exerciseService.Exercise_Del(ExerciseID, function (data) {
+    $scope.delFillBlank = function (childrenFillBlank) {
+        $scope.model.ChildrenFillBlank.splice(childrenFillBlank, 1);
+        exerciseService.Exercise_Del(childrenFillBlank.exercisecommon.exercise.ExerciseID, function (data) {
         });
+        if ($scope.model.ChildrenFillBlank.length == 0) {
+            $scope.isShowFillBlank = 0;
+        }
     }
     init();
 }]);
@@ -1095,26 +1130,30 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
     $scope.$on('willRequestSave', function (event, data) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
-        //var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
-        //$scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
 
         $scope.willTopBind($scope.model, data);
         //增加子单选题
         if ($scope.isShowRadio == 1) {
             SplicingRadio($scope.model.Children);
-            $scope.model.Children.exercisecommon.exercise.ExerciseType = 2;
-            $scope.model.Children.exercisecommon.exercise.ExerciseTypeName = '单选题';
+            for (var i = 0; i < $scope.model.Children.length; i++) {
+                $scope.model.Children[i].exercisecommon.exercise.ExerciseType = 2;
+                $scope.model.Children[i].exercisecommon.exercise.ExerciseTypeName = '单选题';
+            }
         }
         //增加子多选题
         if ($scope.isShowMultiple == 1) {
             SplicingRadio($scope.model.ChildrenMultiple);
-            $scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseType = 3;
-            $scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseTypeName = '多选题';
+            for (var i = 0; i < $scope.model.ChildrenMultiple.length; i++) {
+                $scope.model.ChildrenMultiple[i].exercisecommon.exercise.ExerciseType = 3;
+                $scope.model.ChildrenMultiple[i].exercisecommon.exercise.ExerciseTypeName = '多选题';
+            }
         }
         //增加子填空题
         if ($scope.isShowFillBlank == 1) {
-            $scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseType = 18;
-            $scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseTypeName = '填空题';
+            for (var i = 0; i < $scope.model.ChildrenFillBlank.length; i++) {
+                $scope.model.ChildrenFillBlank[i].exercisecommon.exercise.ExerciseType = 18;
+                $scope.model.ChildrenFillBlank[i].exercisecommon.exercise.ExerciseTypeName = '填空题';
+            }
         }
 
 
@@ -1127,6 +1166,8 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
     });
 
     $scope.$on('onPreview', function (event) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         $scope.$emit('onBeginPreview', $scope.model);
     });
 
@@ -1145,11 +1186,17 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
         if ($scope.ExerciseID > -1) {
             exerciseService.Exercise_Custom_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
-                if ($scope.model.Children.exercisecommon.exercise.ExerciseType == 2)
+                //if ($scope.model.Children[0].exercisecommon.exercise.ExerciseType == 2)
+                //    $scope.isShowRadio = 1;
+                //if ($scope.model.ChildrenMultiple[0].exercisecommon.exercise.ExerciseType == 3)
+                //    $scope.isShowMultiple = 1;
+                //if ($scope.model.ChildrenFillBlank[0].exercisecommon.exercise.ExerciseType == 18)
+                //    $scope.isShowFillBlank = 1;
+                if ($scope.model.Children.length > 0)
                     $scope.isShowRadio = 1;
-                if ($scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseType == 3)
+                if ($scope.model.ChildrenMultiple.length > 0)
                     $scope.isShowMultiple = 1;
-                if ($scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseType == 18)
+                if ($scope.model.ChildrenFillBlank.length > 0)
                     $scope.isShowFillBlank = 1;
 
                 $scope.willEdit($scope.model);
@@ -1163,59 +1210,66 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
                 $scope.model = data.d;
-                for (var i = 0; i < 4; i++) {
-                    $scope.AddAnswer();
-                    $scope.AddAnswerMultiple();
-                }
+                $scope.model.Children.length = 0;
+                $scope.model.ChildrenMultiple.length = 0;
+                $scope.model.ChildrenFillBlank.length = 0;
             });
         }
     }
     //添加选项
-    $scope.AddAnswer = function () {
+    $scope.AddAnswer = function (children) {
         answer = { Conten: '', IsCorrect: 0 };
-        $scope.model.Children.exercisechoicelist.push(answer);
+        children.exercisechoicelist.push(answer);
     }
     //删除选项
     $scope.del = function (item) {
         if ($scope.ExerciseID > 0) {
-            for (var i = 0; i < $scope.model.Children.exercisechoicelist.length; i++) {
-                if ($scope.model.Children.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.Children.exercisechoicelist[i].Conten = '';
+            for (var n = 0; n < $scope.model.Children.length; n++) {
+                for (var i = 0; i < $scope.model.Children[n].exercisechoicelist.length; i++) {
+                    if ($scope.model.Children[n].exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                        $scope.model.Children[n].exercisechoicelist[i].Conten = '';
+                    }
                 }
             }
         } else {
-            for (var i = 0; i < $scope.model.Children.exercisechoicelist.length; i++) {
-                if ($scope.model.Children.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.Children.exercisechoicelist.splice(i, 1);
+            for (var n = 0; n < $scope.model.Children.length; n++) {
+                for (var i = 0; i < $scope.model.Children[n].exercisechoicelist.length; i++) {
+                    if ($scope.model.Children[n].exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                        $scope.model.Children[n].exercisechoicelist.splice(i, 1);
+                    }
                 }
             }
         }
     }
     //是否是正确答案
-    $scope.isCorrectChange = function (item) {
-        for (var i = 0; i < $scope.model.Children.exercisechoicelist.length; i++) {
-            $scope.model.Children.exercisechoicelist[i].IsCorrect = 0;
+    $scope.isCorrectChange = function (item, items) {
+        for (var i = 0; i < items.length; i++) {
+            items[i].IsCorrect = 0;
         }
         item.IsCorrect = item.IsCorrect ? 0 : 1;
     }
 
     //添加选项,多选
-    $scope.AddAnswerMultiple = function () {
+    $scope.AddAnswerMultiple = function (childrenMultiple) {
         answer = { Conten: '', IsCorrect: 0 };
-        $scope.model.ChildrenMultiple.exercisechoicelist.push(answer);
+        childrenMultiple.exercisechoicelist.push(answer);
     }
     //删除选项,多选
     $scope.delMultiple = function (item) {
         if ($scope.ExerciseID > 0) {
-            for (var i = 0; i < $scope.model.ChildrenMultiple.exercisechoicelist.length; i++) {
-                if ($scope.model.ChildrenMultiple.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.ChildrenMultiple.exercisechoicelist[i].Conten = '';
+            for (var n = 0; n < $scope.model.ChildrenMultiple.length; n++) {
+                for (var i = 0; i < $scope.model.ChildrenMultiple[n].exercisechoicelist.length; i++) {
+                    if ($scope.model.ChildrenMultiple[n].exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                        $scope.model.ChildrenMultiple[n].exercisechoicelist[i].Conten = '';
+                    }
                 }
             }
         } else {
-            for (var i = 0; i < $scope.model.ChildrenMultiple.exercisechoicelist.length; i++) {
-                if ($scope.model.ChildrenMultiple.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.ChildrenMultiple.exercisechoicelist.splice(i, 1);
+            for (var n = 0; n < $scope.model.ChildrenMultiple.length; n++) {
+                for (var i = 0; i < $scope.model.ChildrenMultiple[n].exercisechoicelist.length; i++) {
+                    if ($scope.model.ChildrenMultiple[n].exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                        $scope.model.ChildrenMultiple[n].exercisechoicelist.splice(i, 1);
+                    }
                 }
             }
         }
@@ -1227,71 +1281,96 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
 
     //拼接单选，多选题选项
     var SplicingRadio = function (model) {
-        model.exercisecommon.exercise.Content = "";
-        if (model.exercisecommon.exercise.ExerciseID > 0) {
-            for (var i = 0; i < model.exercisechoicelist.length; i++) {
-                var answer = model.exercisechoicelist[i].Conten == null ? "" : model.exercisechoicelist[i].Conten;
-                var childId = model.exercisechoicelist[i].ChoiceID == null ? 0 : model.exercisechoicelist[i].ChoiceID;
-                var isCorrect = model.exercisechoicelist[i].IsCorrect == false ? 0 : 1;
-                if ((i + 1) == model.exercisechoicelist.length) {
-                    model.exercisecommon.exercise.Content +=
-                    childId + "wshgkjqbwhfbxlfrh_b"
-                    + answer + "wshgkjqbwhfbxlfrh_c" + isCorrect;
-                } else {
-                    model.exercisecommon.exercise.Content +=
-                    childId + "wshgkjqbwhfbxlfrh_b"
-                    + answer + "wshgkjqbwhfbxlfrh_c" + isCorrect + "wshgkjqbwhfbxlfrh_a";
+        for (var n = 0; n < model.length; n++) {
+            model[n].exercisecommon.exercise.Content = "";
+            if (model[n].exercisecommon.exercise.ExerciseID > 0) {
+                for (var i = 0; i < model[n].exercisechoicelist.length; i++) {
+                    var answer = model[n].exercisechoicelist[i].Conten == null ? "" : model[n].exercisechoicelist[i].Conten;
+                    var childId = model[n].exercisechoicelist[i].ChoiceID == null ? 0 : model[n].exercisechoicelist[i].ChoiceID;
+                    var isCorrect = model[n].exercisechoicelist[i].IsCorrect == false ? 0 : 1;
+                    if ((i + 1) == model[n].exercisechoicelist.length) {
+                        model[n].exercisecommon.exercise.Content +=
+                        childId + "wshgkjqbwhfbxlfrh_b"
+                        + answer + "wshgkjqbwhfbxlfrh_c" + isCorrect;
+                    } else {
+                        model[n].exercisecommon.exercise.Content +=
+                        childId + "wshgkjqbwhfbxlfrh_b"
+                        + answer + "wshgkjqbwhfbxlfrh_c" + isCorrect + "wshgkjqbwhfbxlfrh_a";
+                    }
                 }
             }
-        }
-        else {
-            for (var i = 0; i < model.exercisechoicelist.length; i++) {
-                var answer = model.exercisechoicelist[i].Conten == null ? "" : model.exercisechoicelist[i].Conten;
-                if ((i + 1) == model.exercisechoicelist.length) {
-                    model.exercisecommon.exercise.Content +=
-                    "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + model.exercisechoicelist[i].IsCorrect;
-                } else {
-                    model.exercisecommon.exercise.Content +=
-                    "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + model.exercisechoicelist[i].IsCorrect + "wshgkjqbwhfbxlfrh_a";
+            else {
+                for (var i = 0; i < model[n].exercisechoicelist.length; i++) {
+                    var answer = model[n].exercisechoicelist[i].Conten == null ? "" : model[n].exercisechoicelist[i].Conten;
+                    if ((i + 1) == model[n].exercisechoicelist.length) {
+                        model[n].exercisecommon.exercise.Content +=
+                        "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + model[n].exercisechoicelist[i].IsCorrect;
+                    } else {
+                        model[n].exercisecommon.exercise.Content +=
+                        "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + model[n].exercisechoicelist[i].IsCorrect + "wshgkjqbwhfbxlfrh_a";
+                    }
                 }
             }
         }
     }
 
     $scope.ShowRadio = function () {
-        $scope.isShowRadio = 1;
-        if ($scope.model.Children.exercisechoicelist.length == 0) {
-            for (var i = 0; i < 4; i++) {
-                $scope.AddAnswer();
-            }
+        if ($scope.isShowRadio != 1) {
+            $scope.isShowRadio = 1;
         }
+        exerciseService.Exercise_Model_Info_Get(function (data) {
+            var rs = data.d;
+            for (var i = 0; i < 4; i++) {
+                $scope.AddAnswer(rs.Children[0]);
+            }
+            $scope.model.Children.push(rs.Children[0]);
+        });
     }
     $scope.ShowMultiple = function () {
-        $scope.isShowMultiple = 1;
-        if ($scope.model.ChildrenMultiple.exercisechoicelist.length == 0) {
-            for (var i = 0; i < 4; i++) {
-                $scope.AddAnswerMultiple();
-            }
+        if ($scope.isShowMultiple != 1) {
+            $scope.isShowMultiple = 1;
         }
+        exerciseService.Exercise_Model_Info_Get(function (data) {
+            var rs = data.d;
+            for (var i = 0; i < 4; i++) {
+                $scope.AddAnswer(rs.ChildrenMultiple[0]);
+            }
+            $scope.model.ChildrenMultiple.push(rs.ChildrenMultiple[0]);
+        });
+    }
+    $scope.ShowFillBlank = function () {
+        if ($scope.isShowFillBlank != 1) {
+            $scope.isShowFillBlank = 1;
+        }
+        exerciseService.Exercise_Model_Info_Get(function (data) {
+            var rs = data.d;
+            $scope.model.ChildrenFillBlank.push(rs.ChildrenFillBlank[0]);
+        });
     }
 
-    $scope.delRadio = function (ExerciseID) {
-        $scope.isShowRadio = 0;
-        $scope.model.Children.exercisecommon.exercise = {};
-        exerciseService.Exercise_Del(ExerciseID, function (data) {
+    $scope.delRadio = function (children) {
+        $scope.model.Children.splice(children, 1);
+        exerciseService.Exercise_Del(children.exercisecommon.exercise.ExerciseID, function (data) {
         });
+        if ($scope.model.Children.length == 0) {
+            $scope.isShowRadio = 0;
+        }
     }
-    $scope.delMultiples = function (ExerciseID) {
-        $scope.isShowMultiple = 0;
-        $scope.model.ChildrenMultiple.exercisecommon.exercise = {};
-        exerciseService.Exercise_Del(ExerciseID, function (data) {
+    $scope.delMultiples = function (childrenMultiple) {
+        $scope.model.ChildrenMultiple.splice(childrenMultiple, 1);
+        exerciseService.Exercise_Del(childrenMultiple.exercisecommon.exercise.ExerciseID, function (data) {
         });
+        if ($scope.model.ChildrenMultiple.length == 0) {
+            $scope.isShowMultiple = 0;
+        }
     }
-    $scope.delFillBlank = function (ExerciseID) {
-        $scope.isShowFillBlank = 0;
-        $scope.model.ChildrenFillBlank.exercisecommon.exercise = {};
-        exerciseService.Exercise_Del(ExerciseID, function (data) {
+    $scope.delFillBlank = function (childrenFillBlank) {
+        $scope.model.ChildrenFillBlank.splice(childrenFillBlank, 1);
+        exerciseService.Exercise_Del(childrenFillBlank.exercisecommon.exercise.ExerciseID, function (data) {
         });
+        if ($scope.model.ChildrenFillBlank.length == 0) {
+            $scope.isShowFillBlank = 0;
+        }
     }
     init();
 }]);
@@ -1305,26 +1384,30 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
     $scope.$on('willRequestSave', function (event, data) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
-        //var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
-        //$scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
 
         $scope.willTopBind($scope.model, data);
         //增加子单选题
         if ($scope.isShowRadio == 1) {
             SplicingRadio($scope.model.Children);
-            $scope.model.Children.exercisecommon.exercise.ExerciseType = 2;
-            $scope.model.Children.exercisecommon.exercise.ExerciseTypeName = '单选题';
+            for (var i = 0; i < $scope.model.Children.length; i++) {
+                $scope.model.Children[i].exercisecommon.exercise.ExerciseType = 2;
+                $scope.model.Children[i].exercisecommon.exercise.ExerciseTypeName = '单选题';
+            }
         }
         //增加子多选题
         if ($scope.isShowMultiple == 1) {
             SplicingRadio($scope.model.ChildrenMultiple);
-            $scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseType = 3;
-            $scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseTypeName = '多选题';
+            for (var i = 0; i < $scope.model.ChildrenMultiple.length; i++) {
+                $scope.model.ChildrenMultiple[i].exercisecommon.exercise.ExerciseType = 3;
+                $scope.model.ChildrenMultiple[i].exercisecommon.exercise.ExerciseTypeName = '多选题';
+            }
         }
         //增加子填空题
         if ($scope.isShowFillBlank == 1) {
-            $scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseType = 18;
-            $scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseTypeName = '填空题';
+            for (var i = 0; i < $scope.model.ChildrenFillBlank.length; i++) {
+                $scope.model.ChildrenFillBlank[i].exercisecommon.exercise.ExerciseType = 18;
+                $scope.model.ChildrenFillBlank[i].exercisecommon.exercise.ExerciseTypeName = '填空题';
+            }
         }
 
 
@@ -1337,6 +1420,8 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
     });
 
     $scope.$on('onPreview', function (event) {
+        var editor = EWEBEDITOR.Instances["editorInput"];
+        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         $scope.$emit('onBeginPreview', $scope.model);
     });
 
@@ -1355,16 +1440,23 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
         if ($scope.ExerciseID > -1) {
             exerciseService.Exercise_Custom_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
-                if ($scope.model.Children.exercisecommon.exercise.ExerciseType == 2)
+                //if ($scope.model.Children[0].exercisecommon.exercise.ExerciseType == 2)
+                //    $scope.isShowRadio = 1;
+                //if ($scope.model.ChildrenMultiple[0].exercisecommon.exercise.ExerciseType == 3)
+                //    $scope.isShowMultiple = 1;
+                //if ($scope.model.ChildrenFillBlank[0].exercisecommon.exercise.ExerciseType == 18)
+                //    $scope.isShowFillBlank = 1;
+                if ($scope.model.Children.length > 0)
                     $scope.isShowRadio = 1;
-                if ($scope.model.ChildrenMultiple.exercisecommon.exercise.ExerciseType == 3)
+                if ($scope.model.ChildrenMultiple.length > 0)
                     $scope.isShowMultiple = 1;
-                if ($scope.model.ChildrenFillBlank.exercisecommon.exercise.ExerciseType == 18)
+                if ($scope.model.ChildrenFillBlank.length > 0)
                     $scope.isShowFillBlank = 1;
 
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
@@ -1372,59 +1464,66 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
                 $scope.model = data.d;
-                for (var i = 0; i < 4; i++) {
-                    $scope.AddAnswer();
-                    $scope.AddAnswerMultiple();
-                }
+                $scope.model.Children.length = 0;
+                $scope.model.ChildrenMultiple.length = 0;
+                $scope.model.ChildrenFillBlank.length = 0;
             });
         }
     }
     //添加选项
-    $scope.AddAnswer = function () {
+    $scope.AddAnswer = function (children) {
         answer = { Conten: '', IsCorrect: 0 };
-        $scope.model.Children.exercisechoicelist.push(answer);
+        children.exercisechoicelist.push(answer);
     }
     //删除选项
     $scope.del = function (item) {
         if ($scope.ExerciseID > 0) {
-            for (var i = 0; i < $scope.model.Children.exercisechoicelist.length; i++) {
-                if ($scope.model.Children.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.Children.exercisechoicelist[i].Conten = '';
+            for (var n = 0; n < $scope.model.Children.length; n++) {
+                for (var i = 0; i < $scope.model.Children[n].exercisechoicelist.length; i++) {
+                    if ($scope.model.Children[n].exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                        $scope.model.Children[n].exercisechoicelist[i].Conten = '';
+                    }
                 }
             }
         } else {
-            for (var i = 0; i < $scope.model.Children.exercisechoicelist.length; i++) {
-                if ($scope.model.Children.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.Children.exercisechoicelist.splice(i, 1);
+            for (var n = 0; n < $scope.model.Children.length; n++) {
+                for (var i = 0; i < $scope.model.Children[n].exercisechoicelist.length; i++) {
+                    if ($scope.model.Children[n].exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                        $scope.model.Children[n].exercisechoicelist.splice(i, 1);
+                    }
                 }
             }
         }
     }
     //是否是正确答案
-    $scope.isCorrectChange = function (item) {
-        for (var i = 0; i < $scope.model.Children.exercisechoicelist.length; i++) {
-            $scope.model.Children.exercisechoicelist[i].IsCorrect = 0;
+    $scope.isCorrectChange = function (item, items) {
+        for (var i = 0; i < items.length; i++) {
+            items[i].IsCorrect = 0;
         }
         item.IsCorrect = item.IsCorrect ? 0 : 1;
     }
 
     //添加选项,多选
-    $scope.AddAnswerMultiple = function () {
+    $scope.AddAnswerMultiple = function (childrenMultiple) {
         answer = { Conten: '', IsCorrect: 0 };
-        $scope.model.ChildrenMultiple.exercisechoicelist.push(answer);
+        childrenMultiple.exercisechoicelist.push(answer);
     }
     //删除选项,多选
     $scope.delMultiple = function (item) {
         if ($scope.ExerciseID > 0) {
-            for (var i = 0; i < $scope.model.ChildrenMultiple.exercisechoicelist.length; i++) {
-                if ($scope.model.ChildrenMultiple.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.ChildrenMultiple.exercisechoicelist[i].Conten = '';
+            for (var n = 0; n < $scope.model.ChildrenMultiple.length; n++) {
+                for (var i = 0; i < $scope.model.ChildrenMultiple[n].exercisechoicelist.length; i++) {
+                    if ($scope.model.ChildrenMultiple[n].exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                        $scope.model.ChildrenMultiple[n].exercisechoicelist[i].Conten = '';
+                    }
                 }
             }
         } else {
-            for (var i = 0; i < $scope.model.ChildrenMultiple.exercisechoicelist.length; i++) {
-                if ($scope.model.ChildrenMultiple.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.ChildrenMultiple.exercisechoicelist.splice(i, 1);
+            for (var n = 0; n < $scope.model.ChildrenMultiple.length; n++) {
+                for (var i = 0; i < $scope.model.ChildrenMultiple[n].exercisechoicelist.length; i++) {
+                    if ($scope.model.ChildrenMultiple[n].exercisechoicelist[i].$$hashKey == item.$$hashKey) {
+                        $scope.model.ChildrenMultiple[n].exercisechoicelist.splice(i, 1);
+                    }
                 }
             }
         }
@@ -1436,71 +1535,96 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
 
     //拼接单选，多选题选项
     var SplicingRadio = function (model) {
-        model.exercisecommon.exercise.Content = "";
-        if (model.exercisecommon.exercise.ExerciseID > 0) {
-            for (var i = 0; i < model.exercisechoicelist.length; i++) {
-                var answer = model.exercisechoicelist[i].Conten == null ? "" : model.exercisechoicelist[i].Conten;
-                var childId = model.exercisechoicelist[i].ChoiceID == null ? 0 : model.exercisechoicelist[i].ChoiceID;
-                var isCorrect = model.exercisechoicelist[i].IsCorrect == false ? 0 : 1;
-                if ((i + 1) == model.exercisechoicelist.length) {
-                    model.exercisecommon.exercise.Content +=
-                    childId + "wshgkjqbwhfbxlfrh_b"
-                    + answer + "wshgkjqbwhfbxlfrh_c" + isCorrect;
-                } else {
-                    model.exercisecommon.exercise.Content +=
-                    childId + "wshgkjqbwhfbxlfrh_b"
-                    + answer + "wshgkjqbwhfbxlfrh_c" + isCorrect + "wshgkjqbwhfbxlfrh_a";
+        for (var n = 0; n < model.length; n++) {
+            model[n].exercisecommon.exercise.Content = "";
+            if (model[n].exercisecommon.exercise.ExerciseID > 0) {
+                for (var i = 0; i < model[n].exercisechoicelist.length; i++) {
+                    var answer = model[n].exercisechoicelist[i].Conten == null ? "" : model[n].exercisechoicelist[i].Conten;
+                    var childId = model[n].exercisechoicelist[i].ChoiceID == null ? 0 : model[n].exercisechoicelist[i].ChoiceID;
+                    var isCorrect = model[n].exercisechoicelist[i].IsCorrect == false ? 0 : 1;
+                    if ((i + 1) == model[n].exercisechoicelist.length) {
+                        model[n].exercisecommon.exercise.Content +=
+                        childId + "wshgkjqbwhfbxlfrh_b"
+                        + answer + "wshgkjqbwhfbxlfrh_c" + isCorrect;
+                    } else {
+                        model[n].exercisecommon.exercise.Content +=
+                        childId + "wshgkjqbwhfbxlfrh_b"
+                        + answer + "wshgkjqbwhfbxlfrh_c" + isCorrect + "wshgkjqbwhfbxlfrh_a";
+                    }
                 }
             }
-        }
-        else {
-            for (var i = 0; i < model.exercisechoicelist.length; i++) {
-                var answer = model.exercisechoicelist[i].Conten == null ? "" : model.exercisechoicelist[i].Conten;
-                if ((i + 1) == model.exercisechoicelist.length) {
-                    model.exercisecommon.exercise.Content +=
-                    "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + model.exercisechoicelist[i].IsCorrect;
-                } else {
-                    model.exercisecommon.exercise.Content +=
-                    "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + model.exercisechoicelist[i].IsCorrect + "wshgkjqbwhfbxlfrh_a";
+            else {
+                for (var i = 0; i < model[n].exercisechoicelist.length; i++) {
+                    var answer = model[n].exercisechoicelist[i].Conten == null ? "" : model[n].exercisechoicelist[i].Conten;
+                    if ((i + 1) == model[n].exercisechoicelist.length) {
+                        model[n].exercisecommon.exercise.Content +=
+                        "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + model[n].exercisechoicelist[i].IsCorrect;
+                    } else {
+                        model[n].exercisecommon.exercise.Content +=
+                        "0wshgkjqbwhfbxlfrh_b" + answer + "wshgkjqbwhfbxlfrh_c" + model[n].exercisechoicelist[i].IsCorrect + "wshgkjqbwhfbxlfrh_a";
+                    }
                 }
             }
         }
     }
 
     $scope.ShowRadio = function () {
-        $scope.isShowRadio = 1;
-        if ($scope.model.Children.exercisechoicelist.length == 0) {
-            for (var i = 0; i < 4; i++) {
-                $scope.AddAnswer();
-            }
+        if ($scope.isShowRadio != 1) {
+            $scope.isShowRadio = 1;
         }
+        exerciseService.Exercise_Model_Info_Get(function (data) {
+            var rs = data.d;
+            for (var i = 0; i < 4; i++) {
+                $scope.AddAnswer(rs.Children[0]);
+            }
+            $scope.model.Children.push(rs.Children[0]);
+        });
     }
     $scope.ShowMultiple = function () {
-        $scope.isShowMultiple = 1;
-        if ($scope.model.ChildrenMultiple.exercisechoicelist.length == 0) {
-            for (var i = 0; i < 4; i++) {
-                $scope.AddAnswerMultiple();
-            }
+        if ($scope.isShowMultiple != 1) {
+            $scope.isShowMultiple = 1;
         }
+        exerciseService.Exercise_Model_Info_Get(function (data) {
+            var rs = data.d;
+            for (var i = 0; i < 4; i++) {
+                $scope.AddAnswer(rs.ChildrenMultiple[0]);
+            }
+            $scope.model.ChildrenMultiple.push(rs.ChildrenMultiple[0]);
+        });
+    }
+    $scope.ShowFillBlank = function () {
+        if ($scope.isShowFillBlank != 1) {
+            $scope.isShowFillBlank = 1;
+        }
+        exerciseService.Exercise_Model_Info_Get(function (data) {
+            var rs = data.d;
+            $scope.model.ChildrenFillBlank.push(rs.ChildrenFillBlank[0]);
+        });
     }
 
-    $scope.delRadio = function (ExerciseID) {
-        $scope.isShowRadio = 0;
-        $scope.model.Children.exercisecommon.exercise = {};
-        exerciseService.Exercise_Del(ExerciseID, function (data) {
+    $scope.delRadio = function (children) {
+        $scope.model.Children.splice(children, 1);
+        exerciseService.Exercise_Del(children.exercisecommon.exercise.ExerciseID, function (data) {
         });
+        if ($scope.model.Children.length == 0) {
+            $scope.isShowRadio = 0;
+        }
     }
-    $scope.delMultiples = function (ExerciseID) {
-        $scope.isShowMultiple = 0;
-        $scope.model.ChildrenMultiple.exercisecommon.exercise = {};
-        exerciseService.Exercise_Del(ExerciseID, function (data) {
+    $scope.delMultiples = function (childrenMultiple) {
+        $scope.model.ChildrenMultiple.splice(childrenMultiple, 1);
+        exerciseService.Exercise_Del(childrenMultiple.exercisecommon.exercise.ExerciseID, function (data) {
         });
+        if ($scope.model.ChildrenMultiple.length == 0) {
+            $scope.isShowMultiple = 0;
+        }
     }
-    $scope.delFillBlank = function (ExerciseID) {
-        $scope.isShowFillBlank = 0;
-        $scope.model.ChildrenFillBlank.exercisecommon.exercise = {};
-        exerciseService.Exercise_Del(ExerciseID, function (data) {
+    $scope.delFillBlank = function (childrenFillBlank) {
+        $scope.model.ChildrenFillBlank.splice(childrenFillBlank, 1);
+        exerciseService.Exercise_Del(childrenFillBlank.exercisecommon.exercise.ExerciseID, function (data) {
         });
+        if ($scope.model.ChildrenFillBlank.length == 0) {
+            $scope.isShowFillBlank = 0;
+        }
     }
     init();
 }]);

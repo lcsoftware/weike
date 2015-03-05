@@ -9,14 +9,14 @@
     <br />
     <div id="radio"></div>
     <div ng-show="isShowRadio==1">
-        <div class="paper_wrap" style="width:800px;" ng-repeat="children in model.Children" @*ng-show="isShowRadio==1"*@>
+        <div class="paper_wrap" style="width:800px;" ng-repeat="children in model.Children">
             <div class="text_box" style="color:#F00;">
                 <textarea class="form-control" rows="4" ng-model="children.exercisecommon.exercise.Conten"></textarea>
             </div>
             <ul class="answer_list">
                 <li ng-class="{active:item.IsCorrect==1}" ng-repeat="item in children.exercisechoicelist">
                     <div class="default">
-                        <em style="cursor:pointer;"><i class="icon" ng-model="item.IsCorrect" ng-click="isCorrectChange(item)"></i></em>
+                        <em style="cursor:pointer;"><i class="icon" ng-model="item.IsCorrect" ng-click="isCorrectChange(item,children.exercisechoicelist)"></i></em>
                         <a ng-click="del(item)">x</a>
                         <input type="text" style="width:620px;" ng-model="item.Conten">
                     </div>
@@ -26,43 +26,47 @@
             <div class="resource_btn">
                 <a class="up_section" href="javascript:;"></a>
                 <a class="down_section" href="javascript:;"></a>
-                <a class="delete_section" href="javascript:;" ng-click="delRadio(children.exercisecommon.exercise.ExerciseID)"></a>
+                <a class="delete_section" href="javascript:;" ng-click="delRadio(children)"></a>
             </div>
         </div>
     </div>
     <div id="multiple"></div>
-    <div class="paper_wrap" style="width:800px;" ng-show="isShowMultiple==1">
-        <div class="text_box" style="color:#F00;">
-            <textarea class="form-control" rows="4" ng-model="model.ChildrenMultiple.exercisecommon.exercise.Conten"></textarea>
-        </div>
-        <ul class="answer_list">
-            <li ng-class="{active:item.IsCorrect==1}" ng-repeat="item in model.ChildrenMultiple.exercisechoicelist">
-                <div class="default">
-                    <em style="cursor:pointer;"><i class="icon" ng-model="item.IsCorrect" ng-click="isCorrectChangeMultiple(item)"></i></em>
-                    <a ng-click="delMultiple(item)">x</a>
-                    <input type="text" style="width:620px;" ng-model="item.Conten">
-                </div>
-            </li>
-        </ul>
-        <a class="add_attach" ng-click="AddAnswerMultiple()"><em><i class="icon"></i></em><span>添加选项</span></a>
-        <div class="resource_btn">
-            <a class="up_section" href="javascript:;"></a>
-            <a class="down_section" href="javascript:;"></a>
-            <a class="delete_section" href="javascript:;" ng-click="delMultiples(model.ChildrenMultiple.exercisecommon.exercise.ExerciseID)"></a>
+    <div ng-show="isShowMultiple==1">
+        <div class="paper_wrap" style="width:800px;" ng-repeat="childrenMultiple in model.ChildrenMultiple">
+            <div class="text_box" style="color:#F00;">
+                <textarea class="form-control" rows="4" ng-model="childrenMultiple.exercisecommon.exercise.Conten"></textarea>
+            </div>
+            <ul class="answer_list">
+                <li ng-class="{active:item.IsCorrect==1}" ng-repeat="item in childrenMultiple.exercisechoicelist">
+                    <div class="default">
+                        <em style="cursor:pointer;"><i class="icon" ng-model="item.IsCorrect" ng-click="isCorrectChangeMultiple(item)"></i></em>
+                        <a ng-click="delMultiple(item)">x</a>
+                        <input type="text" style="width:620px;" ng-model="item.Conten">
+                    </div>
+                </li>
+            </ul>
+            <a class="add_attach" ng-click="AddAnswerMultiple(childrenMultiple)"><em><i class="icon"></i></em><span>添加选项</span></a>
+            <div class="resource_btn">
+                <a class="up_section" href="javascript:;"></a>
+                <a class="down_section" href="javascript:;"></a>
+                <a class="delete_section" href="javascript:;" ng-click="delMultiples(childrenMultiple)"></a>
+            </div>
         </div>
     </div>
     <div id="fillBlank"></div>
-    <div class="paper_wrap" style="width:800px;" ng-show="isShowFillBlank==1">
-        <div class="text_box" style="color:#F00;">
-            <textarea class="form-control" rows="4" ng-model="model.ChildrenFillBlank.exercisecommon.exercise.Conten"></textarea>
-        </div>
-        <div class="default fill_blank">
-            <input type="text" ng-model="model.ChildrenFillBlank.exercisecommon.exercise.Answer">
-        </div>
-        <div class="resource_btn">
-            <a class="up_section" href="javascript:;"></a>
-            <a class="down_section" href="javascript:;"></a>
-            <a class="delete_section" href="javascript:;" ng-click="delFillBlank(model.ChildrenFillBlank.exercisecommon.exercise.ExerciseID)"></a>
+    <div ng-show="isShowFillBlank==1">
+        <div class="paper_wrap" style="width:800px;" ng-repeat="childrenFillBlank in model.ChildrenFillBlank">
+            <div class="text_box" style="color:#F00;">
+                <textarea class="form-control" rows="4" ng-model="childrenFillBlank.exercisecommon.exercise.Conten"></textarea>
+            </div>
+            <div class="default fill_blank">
+                <input type="text" ng-model="childrenFillBlank.exercisecommon.exercise.Answer">
+            </div>
+            <div class="resource_btn">
+                <a class="up_section" href="javascript:;"></a>
+                <a class="down_section" href="javascript:;"></a>
+                <a class="delete_section" href="javascript:;" ng-click="delFillBlank(childrenFillBlank)"></a>
+            </div>
         </div>
     </div>
     @*<div class="text_box" style="color:#F00;">
@@ -75,7 +79,7 @@
     <li><a href="javascript:;">添加音频</a></li>
     <li><a href="javascript:;" ng-click="ShowRadio()" onclick="document.getElementById('radio').scrollIntoView()">单选题</a></li>
     <li><a href="javascript:;" ng-click="ShowMultiple()" onclick="document.getElementById('multiple').scrollIntoView()" >多选题</a></li>
-    <li><a href="javascript:;" ng-click="isShowFillBlank=1" onclick="document.getElementById('fillBlank').scrollIntoView()">填空题</a></li>
+    <li><a href="javascript:;" ng-click="ShowFillBlank()" onclick="document.getElementById('fillBlank').scrollIntoView()">填空题</a></li>
     <li><a href="javascript:;">注释说明</a></li>
     <li><a href="javascript:;">添加附件</a></li>
 </ul>
