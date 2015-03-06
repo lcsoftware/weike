@@ -165,6 +165,7 @@ appAdmin.controller('GroupEditController', ['$scope', function ($scope) {
     });
 
     $scope.userService.getAllUsers(function (data) {
+        $scope.allUsers.length = 0;
         if (data.d !== null) {
             $scope.allUsers = data.d;
         }

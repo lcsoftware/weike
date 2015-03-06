@@ -11,13 +11,12 @@
     </dl>
     <dl class="knowledge_list">
         <dt>关联章节</dt>
-        <ken-chapter-item ng-repeat="item in dataChapters" ng-click="chapterFocus(item)"
+        <ken-chapter-item ng-repeat="item in dataChapters" 
+                          ng-click="chapterFocus(item)"
                           ken-chapter="item" data-chapter="dataChapter"
                           style="color: black; white-space: nowrap;  overflow: hidden; text-overflow: ellipsis;">
 
-        </ken-chapter-item>
-            @*<a ng-click="chapterFocus(item)" style="color: black; white-space: nowrap;  overflow: hidden; text-overflow: ellipsis;" 
-               ng-class="{'kenSelected':dataChapter.ChapterID==item.ChapterID}" ng-bind="item.Title"></a>*@
+        </ken-chapter-item> 
     </dl>
 </div> 
 
