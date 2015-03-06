@@ -23,7 +23,11 @@ aService.factory('kenService', ['httpService', function (httpService) {
     service.Ken_Upd = function (model, callback) {
         httpService.ajaxPost(kenProviderUrl, 'Ken_Upd', { model: model }, callback);
     } 
-    
+
+    service.Ken_Del = function (model, callback) {
+        httpService.ajaxPost(kenProviderUrl, 'Ken_Del', { model: model }, callback);
+    }
+
     service.Chapter_KenID_List = function (model, callback) {
         httpService.ajaxPost(kenProviderUrl, 'Chapter_KenID_List', { model: model }, callback);
     } 

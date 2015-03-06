@@ -747,10 +747,13 @@ app.directive('kenList', function () {
 
     directive.replace = true;
 
-    directive.templateUrl = '/Components/templates/kenList.html';
+    directive.templateUrl = '/Components/templates/kenItemList.html';
 
     directive.scope = {
-        ken: '='
+        ken: '=',
+        dataKen: '=',
+        onEdit: '&',
+        onRemove: '&'
     }
 
     directive.link = function (scope, elem, iAttrs) { 

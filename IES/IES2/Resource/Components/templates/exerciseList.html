@@ -3,7 +3,7 @@
         <p class="question_degree simple" ng-class="{'simple':exercise.Diffcult==1,'medium':exercise.Diffcult==2,'difficult':exercise.Diffcult==3}"><input type="checkbox" checklist-model="checks" checklist-value="exercise">{{getDifficultName(exercise)}}</p>
         <div class="label_list ng-cloak" ng-cloak>
            <!-- <a ng-repeat="item in exercise.Keys track by $index"><span ng-bind="item"></span></a>-->
-            <a ng-repeat="item in exercise.Keys"><span ng-bind="item"></span></a>
+            <a ng-repeat="item in exercise.Keys track by $index"><span ng-bind="item"></span></a>
         </div>
         <div style="text-align: right;padding-right:80px;" class="creator">
             创建人：{{exercise.CreateUserName}}<span>最后修改时间：{{exercise.UpdateTime | dateFormat}}</span>
@@ -13,7 +13,7 @@
         <h5>
             <span>[{{getExerciseType(exercise)}}]</span>
             <span style="color: #a1a1a1">{{getShareRange(exercise)}}</span>
-            <a ng-repeat="item in exercise.Keys"><span>[{{item}}]</span></a>
+            <a ng-repeat="item in exercise.Keys track by $index"><span>[{{item}}]</span></a>
         </h5>
         <div class="question" ng-bind-html="exercise.Conten">
         </div>

@@ -1,7 +1,12 @@
 ﻿<div class="all_knowledge">
     <dl class="knowledge_list">
         <dt>全部知识点</dt>
-        <ken-list ng-repeat="item in ocKens" ken="item" on-remove="remove(item)" on-edit="edit(ken)"></ken-list>
+        <ken-list ng-repeat="item in ocKens"
+                  on-remove="fireRemove(item)"
+                  on-edit="editKen(item)"
+                  ng-click="kenFocus(item)"
+                  ken="item"
+                  data-ken="dataKen"></ken-list>
             @*<a dialog-edit dialog-id="eKen" ng-dblclick="editKen(item)"
                style="white-space:nowrap;width:100%;overflow:hidden;text-overflow:ellipsis;"
                ng-class="{'kenSelected':dataKen.KenID==item.KenID, 'proficient': item.Requirement==3, 'grasp': item.Requirement==2, 'know': item.Requirement==1}" ng-click="kenFocus(item)" ng-bind="item.Name"></a>*@
@@ -11,3 +16,16 @@
         <dd ng-repeat="item in dataChapters"><a ng-click="chapterFocus(item)" style="color: black; white-space: nowrap; width: 100%; overflow: hidden; text-overflow: ellipsis;" ng-class="{'kenSelected':dataChapter.ChapterID==item.ChapterID}" ng-bind="item.Title"></a></dd>
     </dl>
 </div> 
+
+<div class="pop_bg" ng-show="bgShow"></div>
+<div class="pop_400" ng-show="delIsShow">
+    <h4>删除</h4>
+    <span class="icon close_pop" ng-click="cancelRemove()"></span>
+    <div class="pop_wrap">
+        <p class="confirm_tip">是否确定删除已选择的知识点吗？</p>
+        <div class="btn_box">
+            <a class="save" ng-click="removeKen(willRemovedKen)">确定</a>
+            <a class="cancel" ng-click="cancelRemove()">取消</a>
+        </div>
+    </div>
+</div>

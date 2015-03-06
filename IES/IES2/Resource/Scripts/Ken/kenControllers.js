@@ -537,6 +537,40 @@ appKnow.controller('KenTopicCtrl', ['$scope', '$state', 'resourceKenService', 'c
                     $scope.$parent.ken.chapter = item;
                 }
             });
+            $('#eKen').show();
+        }
+
+        $scope.delIsShow = false;
+        $scope.bgShow = false;
+        $scope.willRemovedKen = {};
+        //删除知识点
+        $scope.fireRemove = function (item) {
+            $scope.delIsShow = true;
+            $scope.bgShow = true;
+            $scope.willRemovedKen = item;
+        }
+
+        $scope.cancelRemove = function () {
+            $scope.delIsShow = false;
+            $scope.bgShow = false;
+            $scope.willRemovedKen = {};
+        }
+
+        $scope.removeKen = function (ken) {
+            ken.UpdateTime = new Date();
+            kenService.Ken_Del(ken, function (data) {
+                if (data.d) {
+                    var length = $scope.$parent.ocKens.length;
+                    for (var i = 0; i < length; i++) {
+                        if ($scope.$parent.ocKens[i].KenID === ken.KenID) {
+                            $scope.$parent.ocKens.splice(i, 1);
+                            break;
+                        }
+                    }
+                    $scope.$parent.ken = {};
+                }
+            });
+            $scope.cancelRemove();
         }
 
         $scope.$on('onKenEdited', function (event, ken) {

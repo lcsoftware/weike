@@ -42,6 +42,7 @@ namespace App.Resource.DataProvider.Knowledge
         [WebMethod]
         public static bool Ken_Del(Ken model)
         {
+            model.CreateUserID = IES.Service.UserService.CurrentUser.UserID;  
             return new KenBLL().Ken_Del(model);
         }
 

@@ -1,0 +1,8 @@
+﻿<dd>
+    <i class="icon btn_delete" ng-click="onRemove()"></i>
+    <i class="icon btn_edit" ng-click="onEdit()"></i>
+    <a ng-bind="ken.Name"
+       style="white-space:nowrap;width:100%;overflow:hidden;text-overflow:ellipsis;"
+       ng-class="{'kenSelected':dataKen.KenID==ken.KenID, 'proficient': ken.Requirement==3, 'grasp': ken.Requirement==2, 'know': ken.Requirement==1}">
+    </a>
+</dd>

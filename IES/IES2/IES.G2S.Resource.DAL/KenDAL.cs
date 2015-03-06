@@ -339,6 +339,7 @@ namespace IES.G2S.Resource.DAL
                 {
                     var p = new DynamicParameters();
                     p.Add("@KenID", model.KenID);
+                    p.Add("@UserID", model.CreateUserID);
                     conn.Execute("Ken_Del", p, commandType: CommandType.StoredProcedure);
                     return true;
                 }
