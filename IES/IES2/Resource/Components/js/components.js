@@ -740,62 +740,24 @@ app.directive('fileIcon', function () {
     return directive;
 });
 
-app.directive('layPage', function () {
+app.directive('kenList', function () {
     var directive = {};
 
     directive.restrict = 'EA';
 
     directive.replace = true;
 
+    directive.templateUrl = '/Components/templates/kenList.html';
+
     directive.scope = {
-        PagesNum: '@'
+        ken: '='
     }
 
-    directive.link = function (scope, elem, iAttrs) {
-        //laypage({
-        //    cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
-        //    pages: directive.scope.PagesNum, //总页数
-        //    skip: true, //是否开启跳页
-        //    skin: '#374760', //选中的颜色
-        //    groups: 3,//连续显示分页数
-        //    first: '首页', //若不显示，设置false即可
-        //    last: '尾页', //若不显示，设置false即可
-        //    jump: function (e) { //触发分页后的回调
-        //        //$scope.PageIndex = e.curr;
-        //        //GetClassList();
-        //        console.log(e);
-        //    }
-        //});
-    }
-
-    directive.controller = function ($scope) {
-
-        $scope.pageIndex = 1;
-        $scope.cont = '';
-        $scope.PagesNum = 100;
-        $scope.skip = true;
-        $scope.pickColor = '#374760';
-        $scope.groups = 3;
-        $scope.first = '首页';
-        $scope.last = '尾页';
-
-        console.log($scope.PagesNum);
-
-        laypage({
-            cont: $('#pager'), //容器。值支持id名、原生dom对象，jquery对象, 'page'/document.getElementById('page')/$('#page')
-            pages: $scope.PagesNum, //总页数
-            skip: $scope.skip, //是否开启跳页
-            skin: $scope.pickColor, //选中的颜色
-            groups: $scope.groups,//连续显示分页数
-            first: $scope.first, //若不显示，设置false即可
-            last: $scope.last, //若不显示，设置false即可
-            jump: function (e) { //触发分页后的回调
-                $scope.PageIndex = e.curr;
-                //GetClassList();
-
-            }
-        });
-    }
+    directive.link = function (scope, elem, iAttrs) { 
+        $('.knowledge_list dd').hover(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+        })
+    } 
 
     return directive;
 });

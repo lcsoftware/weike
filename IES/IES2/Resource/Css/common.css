@@ -129,7 +129,7 @@ body{ font-family:'Microsoft YaHei';}
 .batch_list li.active{ background:#374760;}
 .batch_list li.active .permissions{ display:block;}
 .search_topic{ float:right; position:relative; }
-.search_topic input{width:170px; padding:0 25px 0 5px; background:#fff; height:23px\9; line-height:23px; border:1px solid #999999; font-size:12px; color:#666;}
+.search_topic input{width:170px; padding:0 25px 0 5px; background:#fff; height:23px; line-height:23px\9; border:1px solid #999999; font-size:12px; color:#666;}
 .search_topic span{ display:block; width:16px; height:16px; background-position:-37px -144px; position:absolute; right:5px; top:4px; cursor:pointer;}
 
 .exercise_nav{ height:54px; background:#374760; position:relative;}

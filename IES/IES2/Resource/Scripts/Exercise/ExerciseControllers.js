@@ -227,8 +227,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
                 Scope: -1,
                 ShareRange: $scope.data.shareRange.id
             };
-            var keys = $scope.data.key.KeyID === undefined || $scope.data.key.KeyID === -1 ? '' : $scope.data.key.Name;
-            var kens = $scope.data.ken.KenID === undefined || $scope.data.ken.KenID === -1 ? '' : $scope.data.ken.Name;
+            var keys = $scope.data.key.KeyID === undefined || $scope.data.key.KeyID === 0 ? '' : $scope.data.key.Name;
+            var kens = $scope.data.ken.KenID === undefined || $scope.data.ken.KenID === 0 ? '' : $scope.data.ken.Name;
             exerciseService.Exercise_Search(model, $scope.data.key, keys, kens, pageSize, exerciseService.Page.Index, function (data) {
                 $scope.exercises.length = 0;
                 $scope.pagesNum = 1;
