@@ -153,6 +153,7 @@
     <Content Include="Components\templates\file_icon.html" />
     <Content Include="Components\templates\iesFileUploader.html" />
     <Content Include="Components\templates\folder.html" />
+    <Content Include="Components\templates\kenChapterList.html" />
     <Content Include="Components\templates\kenItemList.html" />
     <Content Include="Components\templates\layPage.html" />
     <Content Include="Components\templates\moreCourse.html" />

@@ -740,7 +740,7 @@ app.directive('fileIcon', function () {
     return directive;
 });
 
-app.directive('kenList', function () {
+app.directive('iesKenItem', function () {
     var directive = {};
 
     directive.restrict = 'EA';
@@ -757,14 +757,38 @@ app.directive('kenList', function () {
     }
 
     directive.link = function (scope, elem, iAttrs) { 
-        //$('.knowledge_list dd').hover(function () {
-        //    $(this).addClass('active').siblings().removeClass('active');
-        //})
+        $('.knowledge_list dd').hover(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+        })
     } 
 
     return directive;
 });
 
+app.directive('kenChapterItem', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.replace = true;
+
+    directive.templateUrl = '/Components/templates/kenChapterList.html';
+
+    directive.scope = {
+        kenChapter: '=',
+        dataChapter: '=',
+        onEdit: '&',
+        onRemove: '&'
+    }
+
+    directive.link = function (scope, elem, iAttrs) {
+        $('.knowledge_list dd').hover(function () {
+            $(this).addClass('active').siblings().removeClass('active');
+        })
+    }
+
+    return directive;
+});
 
 app.directive('iesDialog', function () {
     var directive = {};
