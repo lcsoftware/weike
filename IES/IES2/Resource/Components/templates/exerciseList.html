@@ -13,6 +13,7 @@
         <h5>
             <span>[{{getExerciseType(exercise)}}]</span>
             <span style="color: #a1a1a1">{{getShareRange(exercise)}}</span>
+            <a ng-repeat="item in exercise.Keys"><span>[{{item}}]</span></a>
         </h5>
         <div class="question" ng-bind-html="exercise.Conten">
         </div>
@@ -23,7 +24,7 @@
         <a class="icon_24 spread" ng-click="preView(exercise)"></a>
     </div>-->
     <div class="topic_icon">
-        <a ng-click="preView(exercise)" class="icon edit_topic">
+        <a class="icon icon_eye" ng-click="preView(exercise)">
             <div class="icon_content" style="display:none;">
                 <span></span><p>预览</p>
             </div>

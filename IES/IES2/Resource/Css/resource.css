@@ -50,6 +50,8 @@
 .delete_topic{ background-position:-37px -192px;}
 .share_topic{ background-position:-53px -128px;}
 .edit_topic{ background-position:-53px -112px;}
+.icon_eye{ background-position:-72px -24px;}
+
 .icon_content{ position:absolute; top:27px; left:50%; margin-left:-30px;}
 .icon_content p{width:50px; height:20px; line-height:20px; text-align:center; color:#fff; background:#666666; padding:0 5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
 .icon_content p:hover{ background:#999;}

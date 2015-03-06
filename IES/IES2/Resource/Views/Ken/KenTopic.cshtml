@@ -1,8 +1,10 @@
 ﻿<div class="all_knowledge">
     <dl class="knowledge_list">
         <dt>全部知识点</dt>
-        <dd ng-repeat="item in ocKens"><a dialog-edit dialog-id="eKen" ng-dblclick="editKen(item)" ng-class="{'kenSelected':dataKen.KenID==item.KenID, 'proficient': item.Requirement==3, 'grasp': item.Requirement==2, 'know': item.Requirement==1}" ng-click="kenFocus(item)" ng-bind="item.Name"></a>
-</dl>
+        <dd ng-repeat="item in ocKens">
+            <a dialog-edit dialog-id="eKen" ng-dblclick="editKen(item)"
+               ng-class="{'kenSelected':dataKen.KenID==item.KenID, 'proficient': item.Requirement==3, 'grasp': item.Requirement==2, 'know': item.Requirement==1}" ng-click="kenFocus(item)" ng-bind="item.Name"></a>
+    </dl>
     <dl class="knowledge_list">
         <dt>关联章节</dt>
         <dd ng-repeat="item in dataChapters"><a ng-click="chapterFocus(item)" style="color:black;" ng-class="{'kenSelected':dataChapter.ChapterID==item.ChapterID}" ng-bind="item.Title"></a></dd>

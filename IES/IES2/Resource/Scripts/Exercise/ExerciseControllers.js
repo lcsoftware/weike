@@ -77,6 +77,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
 
 
         var initByOCID = function (course, callback) {
+            $scope.keys.length = 0;
+            $scope.kens.length = 0;
             resourceKenService.ResourceKen_List(course.OCID, '', 'Exercise', 100, function (data) {
                 if (data.d && data.d.length > 0) {
                     $scope.kens = data.d;
@@ -197,13 +199,10 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
                             item.Keys = item.Keys.split(/wshgkjqbwhfbxlfrh/).distinct();
                             item.Keys.splice(item.Keys.length - 1, 1);
                         }
-                        //if (item.Kens && item.Kens.length > 0) {
-                        //    item.Kens = item.Kens.split(/wshgkjqbwhfbxlfrh/).distinct();
-                        //    item.Kens.splice(item.Kens.length - 1, 1);
-                        //} else {
-                        //    item.Kens = [];
-                        //}
-
+                        if (item.Kens && item.Kens.length > 0) {
+                            item.Kens = item.Kens.split(/wshgkjqbwhfbxlfrh/).distinct();
+                            item.Kens.splice(item.Kens.length - 1, 1);
+                        } 
                     });
                     $scope.exercises = data.d;
                     var rowsCount = $scope.exercises[0].RowsCount;
@@ -256,6 +255,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         }
 
         $scope.search = function () {
+            layPageFlag = false;
+            exerciseService.Page.Index = 1;
             filterChanged();
         }
 
