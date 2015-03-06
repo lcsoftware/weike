@@ -480,7 +480,12 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
                         $scope.chapters.length = 0;
                         chapterService.Chapter_List({ OCID: $scope.data.course.OCID }, function (data) {
                             if (data.d && data.d.length > 0) {
+                                var item = {};
+                                angular.copy(data.d[0], item);
+                                item.ChapterID = 0;
+                                item.Title = '请选择章节';
                                 $scope.chapters = data.d;
+                                $scope.chapters.insert(0, item);                                
                                 $scope.data.chapter = $scope.chapters[0];
                             }
                         });
