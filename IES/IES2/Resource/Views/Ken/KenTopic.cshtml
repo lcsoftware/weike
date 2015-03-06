@@ -5,11 +5,16 @@
                   on-remove="fireRemove(item)"
                   on-edit="editKen(item)"
                   ng-click="kenFocus(item)"
-                  ken="item"
+                  ken-item="item"
                   data-ken="dataKen"></ken-list>
-            @*<a dialog-edit dialog-id="eKen" ng-dblclick="editKen(item)"
+        @*<dd ng-repeat="ken in ocKens">
+            <i class="icon btn_delete" ng-click="onRemove()"></i>
+            <i class="icon btn_edit" ng-click="onEdit()"></i>
+            <a ng-bind="ken.Name"
                style="white-space:nowrap;width:100%;overflow:hidden;text-overflow:ellipsis;"
-               ng-class="{'kenSelected':dataKen.KenID==item.KenID, 'proficient': item.Requirement==3, 'grasp': item.Requirement==2, 'know': item.Requirement==1}" ng-click="kenFocus(item)" ng-bind="item.Name"></a>*@
+               ng-class="{'kenSelected':dataKen.KenID==ken.KenID, 'proficient': ken.Requirement==3, 'grasp': ken.Requirement==2, 'know': ken.Requirement==1}">
+            </a>
+        </dd>*@
     </dl>
     <dl class="knowledge_list">
         <dt>关联章节</dt>

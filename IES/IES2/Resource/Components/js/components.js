@@ -750,16 +750,16 @@ app.directive('kenList', function () {
     directive.templateUrl = '/Components/templates/kenItemList.html';
 
     directive.scope = {
-        ken: '=',
+        kenItem: '=',
         dataKen: '=',
         onEdit: '&',
         onRemove: '&'
     }
 
     directive.link = function (scope, elem, iAttrs) { 
-        $('.knowledge_list dd').hover(function () {
-            $(this).addClass('active').siblings().removeClass('active');
-        })
+        //$('.knowledge_list dd').hover(function () {
+        //    $(this).addClass('active').siblings().removeClass('active');
+        //})
     } 
 
     return directive;
