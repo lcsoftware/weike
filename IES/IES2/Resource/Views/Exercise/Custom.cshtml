@@ -76,9 +76,9 @@
         </div>*@
 </div>
 <ul class="listening_btn">
-    <li><a href="javascript:;" ng-click="ShowRadio()" onclick="document.getElementById('radio').scrollIntoView()">单选题</a></li>
-    <li><a href="javascript:;" ng-click="ShowMultiple()" onclick="document.getElementById('multiple').scrollIntoView()">多选题</a></li>
-    <li><a href="javascript:;" ng-click="ShowFillBlank()" onclick="document.getElementById('fillBlank').scrollIntoView()">填空题</a></li>
+    <li><a href="javascript:;" ng-click="ShowRadio()" onclick="$('html,body').animate({scrollTop:$('#radio').offset().top},500)">单选题</a></li>
+    <li><a href="javascript:;" ng-click="ShowMultiple()" onclick="$('html,body').animate({ scrollTop: $('#multiple').offset().top }, 500)">多选题</a></li>
+    <li><a href="javascript:;" ng-click="ShowFillBlank()" onclick="$('html,body').animate({ scrollTop: $('#fillBlank').offset().top }, 500)">填空题</a></li>
     <li><a href="javascript:;">注释说明</a></li>
     <li><a href="javascript:;">添加附件</a></li>
 </ul>
