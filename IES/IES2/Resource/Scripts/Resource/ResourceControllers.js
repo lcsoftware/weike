@@ -16,6 +16,8 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.fileTypes = [];//文件类型
     $scope.timePass = [];//上传时间
     $scope.shareRanges = []; //使用权限
+    $scope.shareRangesQuery = [];
+
     $scope.model.FileType = -1;
     $scope.model.timeSelection = -1;
     $scope.model.ShareRange = 0;
@@ -140,8 +142,16 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             angular.copy(data.d[0], item);
             item.id = 0;
             item.name = '不限';
+            $scope.shareRangesQuery = data.d;
+            $scope.shareRangesQuery.insert(0, item);
+            
+
+        }
+    });
+    //使用权限初始化
+    resourceService.Resource_Dict_ShareRange_Get(function (data) {
+        if (data.d) {
             $scope.shareRanges = data.d;
-            $scope.shareRanges.insert(0, item);
         }
     });
 

@@ -30,7 +30,7 @@
     <dl class="filter_list" ng-show="course.OCID>0">
         <dt>使用权限</dt>
         <dd>
-            <a ng-class="{active:model.ShareRange==item.id}" ng-click="shareChanged(item.id);" ng-repeat="item in shareRanges"><span ng-bind="item.name"></span></a>
+            <a ng-class="{active:model.ShareRange==item.id}" ng-click="shareChanged(item.id);" ng-repeat="item in shareRangesQuery"><span ng-bind="item.name"></span></a>
         </dd>
     </dl>
     <span class="guanbi" style="cursor:pointer;" ng-click="showQuery=!showQuery"><i class="icon"></i></span>
