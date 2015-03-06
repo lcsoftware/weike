@@ -36,6 +36,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         $scope.difficulties = [];
         //范围
         $scope.shareRanges = [];
+        $scope.shareRangesQuery = [];
         //标签
         $scope.keys = [];
         //知识点
@@ -126,12 +127,18 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
 
         assistService.Resource_Dict_ShareRange_Get(function (data) {
             if (data) {
-                $scope.shareRanges = angular.copy(data);
-                var item = angular.copy($scope.shareRanges[0]);
+                $scope.shareRangesQuery = angular.copy(data);
+                var item = angular.copy($scope.shareRangesQuery[0]);
                 item.id = 0;
                 item.name = '不限';
-                $scope.shareRanges.insert(0, item);
-                $scope.data.shareRange = $scope.shareRanges[0];
+                $scope.shareRangesQuery.insert(0, item);
+                $scope.data.shareRange = $scope.shareRangesQuery[0];
+            }
+        });
+
+        assistService.Resource_Dict_ShareRange_Get(function (data) {
+            if (data) {
+                $scope.shareRanges = data;
             }
         });
 
