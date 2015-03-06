@@ -479,6 +479,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
                         $scope.data.course = courses[i];
                         $scope.chapters.length = 0;
                         chapterService.Chapter_List({ OCID: $scope.data.course.OCID }, function (data) {
+                            if ($scope.chapters.length > 0) return;
                             if (data.d && data.d.length > 0) {
                                 var item = {};
                                 angular.copy(data.d[0], item);
@@ -659,12 +660,26 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         }
         var setChapter = function (chapterID) {
             var length = $scope.chapters.length;
-            for (var i = 0; i < length; i++) {
-                if ($scope.chapters[i].ChapterID == chapterID) {
-                    $scope.data.chapter = $scope.chapters[i];
-                    return;
-                }
+            if (length == 0) {
+                chapterService.Chapter_List({ OCID: $scope.data.course.OCID }, function (data) {                    
+                    if (data.d && data.d.length > 0) {
+                        var item = {};
+                        angular.copy(data.d[0], item);
+                        item.ChapterID = 0;
+                        item.Title = '请选择章节';
+                        $scope.chapters = data.d;
+                        $scope.chapters.insert(0, item);
+                        //$scope.data.chapter = $scope.chapters[0];
+                        for (var i = 0; i < $scope.chapters.length; i++) {
+                            if ($scope.chapters[i].ChapterID == chapterID) {
+                                $scope.data.chapter = $scope.chapters[i];
+                                return;
+                            }
+                        }
+                    }
+                });
             }
+            
         }
         var setScope = function (Scope) {
             $scope.data.scopes.length = 0;
