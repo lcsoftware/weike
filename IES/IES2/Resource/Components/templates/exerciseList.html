@@ -1,6 +1,7 @@
 ﻿<li class="show">
     <div class="topic_label">
-        <p class="question_degree simple" ng-class="{'simple':exercise.Diffcult==1,'medium':exercise.Diffcult==2,'difficult':exercise.Diffcult==3}"><input type="checkbox" checklist-model="checks" checklist-value="exercise">{{getDifficultName(exercise)}}</p>
+        <p class="question_degree simple" ng-class="{'simple':exercise.Diffcult==1,'medium':exercise.Diffcult==2,'difficult':exercise.Diffcult==3}">
+            <input type="checkbox" checklist-model="checks" checklist-value="exercise" ng-class="{'itemHide': disableDifficult}">{{getDifficultName(exercise)}}</p>
         <div class="label_list ng-cloak" ng-cloak>
            <!-- <a ng-repeat="item in exercise.Keys track by $index"><span ng-bind="item"></span></a>-->
             <a ng-repeat="item in exercise.Keys track by $index"><span ng-bind="item"></span></a>
