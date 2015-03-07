@@ -1312,7 +1312,7 @@
 
     .knowledge_list dd a {
         float: left;
-        color: #ff3300;
+        //color: #ff3300;
     }
 
     .knowledge_list dd i {

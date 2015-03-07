@@ -241,6 +241,16 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
                 $scope.pagesNum = 1;
                 if (data.d && data.d.length > 0) {
                     $scope.exercises = data.d;
+                    angular.forEach($scope.exercises, function (item) {
+                        if (item.Keys && item.Keys.length > 0) {
+                            item.Keys = item.Keys.split(/wshgkjqbwhfbxlfrh/).distinct();
+                            item.Keys.splice(item.Keys.length - 1, 1);
+                        }
+                        if (item.Kens && item.Kens.length > 0) {
+                            item.Kens = item.Kens.split(/wshgkjqbwhfbxlfrh/).distinct();
+                            item.Kens.splice(item.Kens.length - 1, 1);
+                        }
+                    });
                     var rowsCount = $scope.exercises[0].RowsCount;
                     $scope.pagesNum = Math.ceil(rowsCount / pageSize);
                     if (!layPageFlag) {
