@@ -920,7 +920,7 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
     $scope.$on('willExerciseChange', function (event, changeParam) {
 
     });
-
+    //保存方法
     $scope.$on('willRequestSave', function (event, data) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
@@ -958,13 +958,13 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
             }
         });
     });
-
+    //打印方法
     $scope.$on('onPreview', function (event) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         $scope.$emit('onBeginPreview', $scope.model);
     });
-
+    //上传方法
     $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
         $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
     });
@@ -1107,8 +1107,8 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
             }
         }
     }
-
-    $scope.ShowRadio = function () {
+    //增加一类提
+    $scope.AddRadio = function () {
         if ($scope.isShowRadio != 1) {
             $scope.isShowRadio = 1;
         }
@@ -1120,7 +1120,7 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
             $scope.model.Children.push(rs.Children[0]);
         });
     }
-    $scope.ShowMultiple = function () {
+    $scope.AddMultiple = function () {
         if ($scope.isShowMultiple != 1) {
             $scope.isShowMultiple = 1;
         }
@@ -1132,7 +1132,7 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
             $scope.model.ChildrenMultiple.push(rs.ChildrenMultiple[0]);
         });
     }
-    $scope.ShowFillBlank = function () {
+    $scope.AddFillBlank = function () {
         if ($scope.isShowFillBlank != 1) {
             $scope.isShowFillBlank = 1;
         }
@@ -1141,7 +1141,7 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
             $scope.model.ChildrenFillBlank.push(rs.ChildrenFillBlank[0]);
         });
     }
-
+    //删除一类题
     $scope.delRadio = function (children) {
         $scope.model.Children.splice(children, 1);
         exerciseService.Exercise_Del(children.exercisecommon.exercise.ExerciseID, function (data) {
@@ -1174,7 +1174,7 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
     $scope.$on('willExerciseChange', function (event, changeParam) {
 
     });
-
+    //保存方法
     $scope.$on('willRequestSave', function (event, data) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
@@ -1212,13 +1212,13 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
             }
         });
     });
-
+    //打印方法
     $scope.$on('onPreview', function (event) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         $scope.$emit('onBeginPreview', $scope.model);
     });
-
+    //上传方法
     $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
         $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
     });
@@ -1361,8 +1361,8 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
             }
         }
     }
-
-    $scope.ShowRadio = function () {
+    //增加一类提
+    $scope.AddRadio = function () {
         if ($scope.isShowRadio != 1) {
             $scope.isShowRadio = 1;
         }
@@ -1374,7 +1374,7 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
             $scope.model.Children.push(rs.Children[0]);
         });
     }
-    $scope.ShowMultiple = function () {
+    $scope.AddMultiple = function () {
         if ($scope.isShowMultiple != 1) {
             $scope.isShowMultiple = 1;
         }
@@ -1386,7 +1386,7 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
             $scope.model.ChildrenMultiple.push(rs.ChildrenMultiple[0]);
         });
     }
-    $scope.ShowFillBlank = function () {
+    $scope.AddFillBlank = function () {
         if ($scope.isShowFillBlank != 1) {
             $scope.isShowFillBlank = 1;
         }
@@ -1395,7 +1395,7 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
             $scope.model.ChildrenFillBlank.push(rs.ChildrenFillBlank[0]);
         });
     }
-
+    //删除一类题
     $scope.delRadio = function (children) {
         $scope.model.Children.splice(children, 1);
         exerciseService.Exercise_Del(children.exercisecommon.exercise.ExerciseID, function (data) {
@@ -1428,7 +1428,7 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
     $scope.$on('willExerciseChange', function (event, changeParam) {
 
     });
-
+    //保存方法
     $scope.$on('willRequestSave', function (event, data) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
@@ -1466,13 +1466,13 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
             }
         });
     });
-
+    //打印方法
     $scope.$on('onPreview', function (event) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         $scope.$emit('onBeginPreview', $scope.model);
     });
-
+    //上传方法
     $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
         $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
     });
@@ -1615,8 +1615,8 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
             }
         }
     }
-
-    $scope.ShowRadio = function () {
+    //增加一类提
+    $scope.AddRadio = function () {
         if ($scope.isShowRadio != 1) {
             $scope.isShowRadio = 1;
         }
@@ -1628,7 +1628,7 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
             $scope.model.Children.push(rs.Children[0]);
         });
     }
-    $scope.ShowMultiple = function () {
+    $scope.AddMultiple = function () {
         if ($scope.isShowMultiple != 1) {
             $scope.isShowMultiple = 1;
         }
@@ -1640,7 +1640,7 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
             $scope.model.ChildrenMultiple.push(rs.ChildrenMultiple[0]);
         });
     }
-    $scope.ShowFillBlank = function () {
+    $scope.AddFillBlank = function () {
         if ($scope.isShowFillBlank != 1) {
             $scope.isShowFillBlank = 1;
         }
@@ -1649,7 +1649,7 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
             $scope.model.ChildrenFillBlank.push(rs.ChildrenFillBlank[0]);
         });
     }
-
+    //删除一类题
     $scope.delRadio = function (children) {
         $scope.model.Children.splice(children, 1);
         exerciseService.Exercise_Del(children.exercisecommon.exercise.ExerciseID, function (data) {
