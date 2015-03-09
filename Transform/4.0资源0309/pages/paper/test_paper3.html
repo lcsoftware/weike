@@ -1,0 +1,404 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>添加试题后</title>
+<link rel="stylesheet" href="../../css/header.css">
+<link rel="stylesheet" href="../../css/common.css">
+<link rel="stylesheet" href="../../css/resource.css">
+<link rel="stylesheet" href="../../css/footer.css">
+</head>
+
+<body class="exercise">
+<div class="wrap">
+	<!--公共头部开始-->
+	<div class="public_header">
+        <div class="header_center">
+            <div class="company_logo">
+                <img src="../../images/company_logo.png" width="70" height="30" alt="">上海卓越睿新数码科技有限公司
+            </div>
+            <div class="user_box">
+                <p class="user_name">
+                    <img src="http://placehold.it/20x20/cccccc" width="20" height="20" />
+                    王小明
+                    <span class="icon icon_arrow"></span>
+                </p>
+                <ul class="user_info">
+                    <li><a href="#">消息中心</a></li>
+                    <li><a href="#">在线帮助</a></li>
+                    <li><a href="#">帐号管理</a></li>
+                    <li><a href="#">我的通讯录</a></li>
+                    <li><a href="#">我的回收站</a></li>
+                    <li><a href="#">返回主页</a></li>
+                    <li><a href="#">退出系统</a></li>
+                </ul>
+            </div>
+            <ul class="nav_box">
+                <li><a href="#">教学管理</a></li>
+                <li class="active"><a href="#">我的资源</a></li>
+                <li><a href="#">我的评价</a></li>
+                <li><a href="#">管理评估</a></li>
+                <li><a href="#">实践实习</a></li>
+                <li><a href="#">质量工程</a></li>
+                <li><a href="#">我的直播</a></li>
+                <li><a href="#">我的录制</a></li>
+                <li><a href="#">教务管理</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--公共头部结束-->
+    <div class="paper_box">
+    	<h4>智能型试卷</h4>
+    	<div class="test_info_box">
+        	<div class="test_info">
+            	<p><label>试卷名称</label><input type="text"></p>
+            </div>
+            <div class="test_info">
+            	<p><label>限时分钟</label><input type="text" placeholder="0"></p>
+                <p><label>题目数</label><input type="text"></p>
+                <p><label>总分</label><input type="text"></p>
+            </div>
+            <div class="test_info">
+            	<p><label>适用范围</label></p>
+                <p class="check_input"><input type="checkbox"><label>作业考试</label></p>
+                <p class="check_input"><input type="checkbox"><label>学生自测</label></p>
+                <p class="check_input"><input type="checkbox"><label>作业考试</label></p>
+            </div>
+            <div class="test_info">
+            	<p><label>描　述</label></p>
+                <p class="paper_text"><textarea placeholder="撰写试卷描述"></textarea></p>
+            </div>
+        </div>
+        <div class="section_box">
+        	<div class="part_box">
+                <div class="section">
+                    <p class="which_part">第一部分</p>
+                    <p class="test_amount">总题数：<b>0</b>　总分数：<b>0</b></p>
+                    <p class="limited_minutes"><label>限时分钟</label><input type="text" value="20"></p>
+                    <p class="limited_minutes"><label>起始序号</label><input type="text" value="1"></p>
+                    <div class="paper_score">
+                        <p><label>统一分值</label><input type="text" value="5"></p>
+                        <a href="javascript:;">设定</a>
+                        <span class="delete_btn">删除</span>
+                    </div>
+                </div>
+        		<div class="exam_tip">
+                	<p>注释：本部分为选择题，要求答对90%以上</p>
+                    <div class="note_operation">
+                    	<a class="icon throw_btn" href="javascript:;"></a>
+                    	<a class="icon icon_pen" href="javascript:;"></a>
+                    </div>
+                </div>
+                <table class="topic_table">
+                	<tr>
+                    	<th width="35">序号</th>
+                        <th width="95">题型</th>
+                        <th width="43">难度</th>
+                        <th width="245">内容</th>
+                        <th width="175">标签</th>
+                        <th width="175">知识点</th>
+                        <th>分值</th>
+                    </tr>
+                    <tr>
+                        <td class="first_line" align="center"><b class="exam_num">1</b></td>
+                        <td>单选题</td>
+                        <td><span class="simple_difficulty">简单</span></td>
+                        <td><p class="exam_content">— What are you busy with?</p></td>
+                        <td><p class="exam_label">标签名称，标签名称，标签名称，标签名称，</p></td>
+                        <td><p class="knowledge_name">知识点名称，知识点名称，知识点名称</p></td>
+                        <td><p class="exam_score"><input type="text" value="5"><i class="icon throw_btn"></i></p></td>
+                    </tr>
+                    <tr>
+                        <td class="first_line" align="center"><b class="exam_num">2</b></td>
+                        <td>单选题</td>
+                        <td><span class="medium_difficulty">中等</span></td>
+                        <td><p class="exam_content">— What are you busy with?</p></td>
+                        <td><p class="exam_label">标签名称，标签名称，标签名称，标签名称，</p></td>
+                        <td><p class="knowledge_name">知识点名称，知识点名称，知识点名称</p></td>
+                        <td><p class="exam_score"><input type="text" value="5"><i class="icon throw_btn"></i></p></td>
+                    </tr>
+                    <tr>
+                        <td class="first_line" align="center"><b class="exam_num">2</b></td>
+                        <td>单选题</td>
+                        <td><span class="difficulty">较难</span></td>
+                        <td><p class="exam_content">— What are you busy with?</p></td>
+                        <td><p class="exam_label">标签名称，标签名称，标签名称，标签名称，</p></td>
+                        <td><p class="knowledge_name">知识点名称，知识点名称，知识点名称</p></td>
+                        <td><p class="exam_score"><input type="text" value="5"><i class="icon throw_btn"></i></p></td>
+                    </tr>
+                    <tr>
+                        <td class="first_line" align="center"><b class="exam_num">2</b></td>
+                        <td>单选题</td>
+                        <td><span class="medium_difficulty">中等</span></td>
+                        <td><p class="exam_content">— What are you busy with?</p></td>
+                        <td><p class="exam_label">标签名称，标签名称，标签名称，标签名称，</p></td>
+                        <td><p class="knowledge_name">知识点名称，知识点名称，知识点名称</p></td>
+                        <td><p class="exam_score"><input type="text" value="5"><i class="icon throw_btn"></i></p></td>
+                    </tr>
+                </table>
+                <div class="test_btn_box">
+                    <div class="test_btn">
+                        <a class="intelligent_paper" href="javascript:;">智能组卷</a>
+                        <a class="select_topic" href="javascript:;">题库选题</a>
+                        <a class="add_test" href="javascript:;">新建试题</a>
+                        <a class="note" href="javascript:;">注释说明</a>
+                    </div>
+                </div>
+            </div>
+            <div class="part_box">
+                <div class="section">
+                    <p class="which_part">第二部分</p>
+                    <p class="test_amount">总题数：<b>15</b>　总分数：<b>70</b></p>
+                    <p class="limited_minutes"><label>限时分钟</label><input type="text" value="20"></p>
+                    <p class="limited_minutes"><label>起始序号</label><input type="text" value="1"></p>
+                    <div class="paper_score">
+                        <p><label>统一分值</label><input type="text" value="" disabled="disabled"></p>
+                        <a href="javascript:;">设定</a>
+                        <span class="delete_btn">删除</span>
+                    </div>
+                </div>
+                <table class="question_table">
+                	<tr>
+                    	<th width="560">
+                        	<div class="question_filter">
+                            	<b>1</b>
+                            	<select class="exam_type">
+                                	<option>简答题</option>
+                                    <option>单选题</option>
+                                </select>
+                                <select class="degree_type">
+                                	<option>简单</option>
+                                    <option>中等</option>
+                                    <option>较难</option>
+                                </select>
+                                <ul class="form_style">
+                                	<li class="active"><a href="#">按知识点列题</a></li>
+                                    <li><a href="#">按标签列题</a></li>
+                                    <li><a href="#">按章节列题</a></li>
+                                </ul>
+                            </div>
+                        </th>
+                        <th width="60">　总题数</th>
+                        <th width="60">　抽题数</th>
+                        <th><p class="last_column">　分值<i class="icon throw_btn"></i></p></th>
+                    </tr>
+                	<tr>
+                    	<td><p class="knowledge_length">知识点1</p></td>
+                        <td>20</td>
+                        <td><input type="text" value="10"></td>
+                        <td><input type="text" value="5"></td>
+                    </tr>
+                	<tr>
+                    	<td><p class="knowledge_length">知识点2</p></td>
+                        <td>20</td>
+                        <td><input type="text" value="10"></td>
+                        <td><input type="text" value="5"></td>
+                    </tr>
+                    <tr class="last_row">
+                    	<td><p class="knowledge_length"><b>总计</b></p></td>
+                        <td><b>20</b></td>
+                        <td><b>10</b></td>
+                        <td>
+                        	<div class="total_operation">
+                            	<b>50</b>
+                                <div class="total_btn">
+                                	<a class="cancel" href="javascript:;">取消</a>
+                                	<a class="save" href="javascript:;">确定</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table class="question_table">
+                	<tr>
+                    	<th width="560">
+                        	<div class="question_filter">
+                            	<b>2</b>
+                            	<p class="exam_type">单选题</p>
+                                <p class="degree_type">较难</p>
+                                <p>按标签列题</p>
+                            </div>
+                        </th>
+                        <th width="60">　总题数</th>
+                        <th width="60">　抽题数</th>
+                        <th><p class="last_column">　分值<i class="icon throw_btn"></i><i class="icon icon_pen"></i></p></th>
+                    </tr>
+                	<tr>
+                    	<td><p class="knowledge_length">您还未建设任何标签</p></td>
+                        <td>20</td>
+                        <td><b>5</b></td>
+                        <td><b>4</b></td>
+                    </tr>
+                    <tr class="last_row">
+                    	<td><p class="knowledge_length"><b>总计</b></p></td>
+                        <td><b>20</b></td>
+                        <td><b>5</b></td>
+                        <td>
+                        	<div class="total_operation">
+                            	<b>20</b>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table class="question_table">
+                	<tr>
+                    	<th width="560">
+                        	<div class="question_filter">
+                            	<b>1</b>
+                            	<select class="exam_type">
+                                	<option>题型</option>
+                                    <option>题型</option>
+                                </select>
+                                <select class="degree_type">
+                                	<option>难度</option>
+                                    <option>中等</option>
+                                    <option>较难</option>
+                                </select>
+                                <ul class="form_style">
+                                	<li class="active"><a href="#">按知识点列题</a></li>
+                                    <li><a href="#">按标签列题</a></li>
+                                    <li><a href="#">按章节列题</a></li>
+                                </ul>
+                            </div>
+                        </th>
+                        <th width="60">　总题数</th>
+                        <th width="60">　抽题数</th>
+                        <th><p class="last_column">　分值<i class="icon throw_btn"></i></p></th>
+                    </tr>
+                </table>
+                <div class="test_btn_box">
+                    <div class="test_btn">
+                        <a class="intelligent_paper" href="javascript:;">智能组卷</a>
+                        <a class="select_topic" href="javascript:;">题库选题</a>
+                        <a class="add_test" href="javascript:;">新建试题</a>
+                        <a class="note" href="javascript:;">注释说明</a>
+                    </div>
+                </div>
+            </div>
+            <a class="create_next" href="javascript:;">创建下一部分</a>
+            <div class="btn_box">
+            	<a class="save" href="javascript:;">预览</a>
+                <a class="save" href="javascript:;">保存</a>
+                <a class="cancel" href="javascript:;">取消</a>
+            </div>
+        </div>
+    </div>
+    
+	
+    <!--公用底部开始-->
+	<div class="footer">
+    	<p class="copyright"><img src="../../images/company_logo2.png" width="70" height="30" alt="">Copyright©2003-2014，版权所有 www.able-elec.com</p>
+        <div class="company_info">
+        	<a href="#" target="_blank">关于卓越</a>|
+            <a href="#" target="_blank">服务中心</a>|
+            <a href="#" target="_blank">版权说明</a>|
+            ©2004-2015版权所有 上海卓越睿新数码科技有限公司
+        </div>
+    </div>
+	<!--公用底部结束-->
+	<a class="icon backto_top" href="#"></a>
+</div>
+<div class="pop_bg"></div>
+<div class="pop_800">
+	<h4>智能组卷</h4>
+	<span class="icon close_pop"></span>
+	<table class="paper_table">
+    	<tr>
+        	<th class="align_center" width="30"></th>
+            <th width="120">题型</th>
+            <th width="130">知识点</th>
+            <th width="130">总题数</th>
+            <th width="90">抽题数</th>
+            <th>分数（每题）</th>
+        </tr>
+    	<tr>
+        	<td class="align_center">1</td>
+            <td>单选题</td>
+            <td>知识点1</td>
+            <td>60</td>
+            <td>15</td>
+            <td>
+            	10
+                <div class="button_list">
+                	<a class="icon icon_up" href="javascript:;"></a>
+                    <a class="icon icon_down" href="javascript:;"></a>
+                    <a class="icon icon_write" href="javascript:;"></a>
+                    <a class="icon icon_remove" href="javascript:;"></a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+        	<td class="align_center">2</td>
+            <td>单选题</td>
+            <td>知识点1</td>
+            <td>60</td>
+            <td>15</td>
+            <td>
+            	10
+                <div class="button_list">
+                	<a class="icon icon_up" href="javascript:;"></a>
+                    <a class="icon icon_down" href="javascript:;"></a>
+                    <a class="icon icon_write" href="javascript:;"></a>
+                    <a class="icon icon_remove" href="javascript:;"></a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+        	<td class="align_center">3</td>
+            <td>单选题</td>
+            <td>知识点1</td>
+            <td>60</td>
+            <td>15</td>
+            <td>
+            	10
+                <div class="button_list">
+                	<a class="icon icon_up" href="javascript:;"></a>
+                    <a class="icon icon_down" href="javascript:;"></a>
+                    <a class="icon icon_write" href="javascript:;"></a>
+                    <a class="icon icon_remove" href="javascript:;"></a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+        	<td class="align_center">4</td>
+            <td>
+            	<select class="paper_type">
+                	<option>简答题</option>
+                    <option>简答题</option>
+                    <option>简答题</option>
+                </select>
+            </td>
+            <td>
+            	<select class="knowledge_select">
+                	<option>知识点1</option>
+                    <option>知识点2</option>
+                    <option>知识点3</option>
+                </select>
+            </td>
+            <td>
+            	16<span>（根据知识点变化）</span>
+            </td>
+            <td>
+            	<input class="topic_amount" type="text" value="">
+            </td>
+            <td>
+            	<input class="every_score" type="text" value="">
+                <div class="button_box">
+                	<a class="conserve" href="javascript:;">保存</a>
+                    <a class="canceled" href="javascript:;">取消</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <a href="#" class="add_attach"><em><i class="icon"></i></em><span>添加题型</span></a>
+    <div class="btn_box">
+        <a class="save" href="javascript:;">确定</a>
+        <a class="cancel" href="javascript:;">取消</a>
+    </div>
+</div>
+
+<script src="../../js/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="../../js/resource.js"></script>
+</body>
+</html>
