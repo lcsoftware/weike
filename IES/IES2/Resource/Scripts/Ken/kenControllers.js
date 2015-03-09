@@ -26,8 +26,8 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
         $scope.resourceKens = [];
         $scope.shareRanges = [];
 
-        $scope.requireMent = [];
-        $scope.requireMents = {};
+        $scope.requireMent = {};
+        $scope.requireMents = [];
 
         ///按章节查询，同时显示知识点查询条件 
         $scope.kenDisable = true;
@@ -136,14 +136,14 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
 
         /// 添加知识点 
         $scope.ken = {};
-        $scope.ken.name = '';
-        $scope.ken.chapter = {};
+        //$scope.ken.name = '';
+        //$scope.ken.chapter = {};
         $scope.kenSave = function (ken, keeping) {
             var newData = {
                 OCID: $scope.course.OCID,
                 CourseID: $scope.course.CourseID,
-                name: $scope.ken.name,
-                ChapterID: $scope.ken.chapter.ChapterID,
+                Name: $scope.ken.Name,
+                ChapterID: $scope.ken.chapter ? $scope.ken.chapter.ChapterID : 0,
                 Requirement: $scope.requireMent.id,
                 UpdateTime: new Date()
             };
@@ -159,7 +159,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
                     var resultKen = data.d;
                     $scope.ocKens.push(resultKen);
                     ResourceKenAdd(resultKen.ChapterID, resultKen.KenID);
-                    if (keeping) $scope.ken.name = '';
+                    if (keeping) $scope.ken.Name = '';
                 });
             }
         }
@@ -528,10 +528,17 @@ appKnow.controller('KenTopicCtrl', ['$scope', '$state', 'resourceKenService', 'c
         $scope.dataChapter = {};
         $scope.dataChapters = [];
 
+        $scope.orderField = '-Requirement';
+
         $scope.editKen = function (ken) {
-            $scope.$parent.ken = {};
-            $scope.$parent.ken.KenID = ken.KenID;
-            $scope.$parent.ken.name = ken.Name;
+            $scope.$parent.ken = ken;
+            var length = $scope.requireMents.length;
+            for (var i = 0; i < length; i++) {
+                if ($scope.$parent.requireMents[i].id == ken.Requirement) {
+                    $scope.$parent.requireMent = $scope.$parent.requireMents[i];
+                    break;
+                }
+            } 
             angular.forEach($scope.$parent.chapters, function (item) {
                 if (item.ChapterID === ken.ChapterID) {
                     $scope.$parent.ken.chapter = item;
@@ -574,7 +581,14 @@ appKnow.controller('KenTopicCtrl', ['$scope', '$state', 'resourceKenService', 'c
         }
 
         $scope.$on('onKenEdited', function (event, ken) {
-            $scope.kenFocus(ken);
+            //$scope.kenFocus(ken);
+            var length = $scope.$parent.ocKens.length;
+            for (var i = 0; i < length; i++) {
+                if ($scope.$parent.ocKens[i].KenID === ken.KenID) {
+                    $scope.$parent.ocKens[i] = ken;
+                    break;
+                }
+            }
         });
 
         $scope.$on('courseLoaded', function (event, course) {

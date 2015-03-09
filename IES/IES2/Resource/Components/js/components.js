@@ -350,7 +350,8 @@ app.directive('exerciseList', ['assistService', 'previewService', 'exerciseServi
     directive.scope = {
         exercise: '=',
         checks: '=',
-        shareRanges: '='
+        shareRanges: '=',
+        disableDifficult: '='
     }
 
     directive.templateUrl = '/Components/templates/exerciseList.html';

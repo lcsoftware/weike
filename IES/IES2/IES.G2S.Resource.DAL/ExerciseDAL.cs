@@ -310,87 +310,11 @@ namespace IES.G2S.Resource.DAL
                     };
                     //单选
                     ef.Children = new List<ExerciseInfo>();
-                    //ef.Children.Add(new ExerciseInfo()
-                    //{
-                    //    exercisechoicelist = new List<ExerciseChoice>(),
-                    //    exercisecommon = new ExerciseCommon()
-                    //    {
-                    //        kenlist = new List<Ken>(),
-                    //        keylist = new List<Key>(),
-                    //        exercise = new IES.Resource.Model.Exercise(),
-                    //        attachmentlist = new List<Attachment>()
-                    //    }
-                    //});
                     //多选
-                    ef.ChildrenMultiple = new List<ExerciseInfo>();
-                    //ef.ChildrenMultiple.Add(new ExerciseInfo()
-                    //{
-                    //    exercisechoicelist = new List<ExerciseChoice>(),
-                    //    exercisecommon = new ExerciseCommon()
-                    //    {
-                    //        kenlist = new List<Ken>(),
-                    //        keylist = new List<Key>(),
-                    //        exercise = new IES.Resource.Model.Exercise(),
-                    //        attachmentlist = new List<Attachment>()
-                    //    }
-                    //});
+                    ef.ChildrenMultiple = new List<ExerciseInfo>();                    
                     //填空
                     ef.ChildrenFillBlank = new List<ExerciseInfo>();
-                    //ef.ChildrenFillBlank.Add(new ExerciseInfo()
-                    //{
-                    //    exercisechoicelist = new List<ExerciseChoice>(),
-                    //    exercisecommon = new ExerciseCommon()
-                    //    {
-                    //        kenlist = new List<Ken>(),
-                    //        keylist = new List<Key>(),
-                    //        exercise = new IES.Resource.Model.Exercise(),
-                    //        attachmentlist = new List<Attachment>()
-                    //    }
-                    //});
 
-                    //{
-                    //    exercisechoicelist = new List<ExerciseChoice>(),
-                    //    exercisecommon = new ExerciseCommon()
-                    //    {
-                    //        kenlist = new List<Ken>(),
-                    //        keylist = new List<Key>(),
-                    //        exercise = new IES.Resource.Model.Exercise(),
-                    //        attachmentlist = new List<Attachment>()
-                    //    },
-                    //    Children = new ExerciseInfo()
-                    //    {
-                    //        exercisechoicelist = new List<ExerciseChoice>(),
-                    //        exercisecommon = new ExerciseCommon()
-                    //        {
-                    //            kenlist = new List<Ken>(),
-                    //            keylist = new List<Key>(),
-                    //            exercise = new IES.Resource.Model.Exercise(),
-                    //            attachmentlist = new List<Attachment>()
-                    //        }
-                    //    },
-                    //    ChildrenMultiple = new ExerciseInfo()
-                    //    {
-                    //        exercisechoicelist = new List<ExerciseChoice>(),
-                    //        exercisecommon = new ExerciseCommon()
-                    //        {
-                    //            kenlist = new List<Ken>(),
-                    //            keylist = new List<Key>(),
-                    //            exercise = new IES.Resource.Model.Exercise(),
-                    //            attachmentlist = new List<Attachment>()
-                    //        }
-                    //    },
-                    //    ChildrenFillBlank = new ExerciseInfo()
-                    //    {
-                    //        exercisechoicelist = new List<ExerciseChoice>(),
-                    //        exercisecommon = new ExerciseCommon()
-                    //        {
-                    //            kenlist = new List<Ken>(),
-                    //            keylist = new List<Key>(),
-                    //            exercise = new IES.Resource.Model.Exercise(),
-                    //            attachmentlist = new List<Attachment>()
-                    //        }
-                    //    }
-                    //};
                     var p = new DynamicParameters();
                     p.Add("@ExerciseID", ExerciseID);
 

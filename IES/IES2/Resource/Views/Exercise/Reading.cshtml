@@ -75,11 +75,10 @@
                     frameborder="0" scrolling="no" width="800" height="300" style="display: block;"></iframe>
         </div>*@
 </div>
-<ul class="listening_btn">
-    <li><a href="javascript:;">添加音频</a></li>
-    <li><a href="javascript:;" ng-click="ShowRadio()" onclick="$('html,body').animate({scrollTop:$('#radio').offset().top},500)">单选题</a></li>
-    <li><a href="javascript:;" ng-click="ShowMultiple()" onclick="$('html,body').animate({ scrollTop: $('#multiple').offset().top }, 500)">多选题</a></li>
-    <li><a href="javascript:;" ng-click="ShowFillBlank()" onclick="$('html,body').animate({ scrollTop: $('#fillBlank').offset().top }, 500)">填空题</a></li>
+<ul class="listening_btn">    
+    <li><a href="javascript:;" ng-click="AddRadio()" onclick="$('html,body').animate({scrollTop:$('#radio').offset().top},500)">单选题</a></li>
+    <li><a href="javascript:;" ng-click="AddMultiple()" onclick="$('html,body').animate({ scrollTop: $('#multiple').offset().top }, 500)">多选题</a></li>
+    <li><a href="javascript:;" ng-click="AddFillBlank()" onclick="$('html,body').animate({ scrollTop: $('#fillBlank').offset().top }, 500)">填空题</a></li>
     <li><a href="javascript:;">注释说明</a></li>
     <li><a href="javascript:;">添加附件</a></li>
 </ul>
