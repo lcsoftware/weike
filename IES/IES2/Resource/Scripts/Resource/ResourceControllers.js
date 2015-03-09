@@ -144,7 +144,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             item.name = '不限';
             $scope.shareRangesQuery = data.d;
             $scope.shareRangesQuery.insert(0, item);
-            
+
 
         }
     });
@@ -307,9 +307,9 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.mobileFolder = function () {
         $scope.folderTrees.length = 0;
         resourceService.ResourceFolderTree($scope.checksSelect, function (data) {
-            $scope.folderTrees = data.d; 
+            $scope.folderTrees = data.d;
         });
-    } 
+    }
 
     $scope.batchMove = function () {
         $scope.folderTrees.length = 0;
@@ -586,7 +586,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             folderIds = folderIds.substr(0, folderIds.length - 1);
             resourceService.Folder_Batch_ShareRange(folderIds, shareRange.id);
         }
-        
+
     }
 
     $scope.$on('batchShareRange', function (event, range) {
@@ -628,4 +628,38 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         }
         $scope.filterChanged();
     });
+
+    $scope.isShow = function (a) {       
+        if (a.$element.find('ul').is(':hidden')) {
+            a.$element.find('ul').show();            
+        } else {
+            a.$element.find('ul').hide();
+        }
+    }
+    $scope.showLi = function (a) {
+        if (a.$element.find('ul').is(':hidden')) {
+            if (a.$element.find('li').length == 0) {
+                a.$element.find('span').html('')
+            } else {
+                a.$element.find('span').html('<em>+</em>');
+            }
+        } else {
+            if (a.$element.find('li').length == 0) {
+                a.$element.find('span').html('')
+            } else {
+                a.$element.find('span').html('<em>-</em>');
+            }
+        }
+    }
+
+    //移动文件弹出框    
+    //$('.first_file span').bind('click', function () {
+    //    if ($(this).parent().next().is(':hidden')) {
+    //        $(this).html('<em>-</em>');
+    //        $(this).parent().next().slideDown();
+    //    } else {
+    //        $(this).html('<em>+</em>');
+    //        $(this).parent().next().slideUp();
+    //    }
+    //})
 }]);

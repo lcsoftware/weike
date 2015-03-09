@@ -3766,3 +3766,14 @@
     font-size: 12px;
     font-weight: normal;
 }
+
+/*新增*/
+.file_box{ overflow:hidden; font-family:'Arial'; color:#333; font-size:13px;}
+.first_file{ height:30px; line-height:30px; background:#e4e4e4; overflow:hidden; padding:0 10px;}
+.first_file span{ float:left; margin:9px 25px 0 0; width:12px; height:12px;  }
+.first_file span em{ display:block; width:10px; height:10px; line-height:10px; text-align:center; background:#fff; border:1px solid #797979;  cursor:pointer;}
+.first_file a{ display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#333;}
+.file_box ul .first_file{background:none;}
+.second_file .first_file{  padding-left:30px;}
+.third_file .first_file{  padding-left:60px;}
+.file_box ul .first_file:hover{ background:#f2f2f2;}

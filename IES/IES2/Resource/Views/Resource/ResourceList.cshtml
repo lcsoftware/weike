@@ -9,7 +9,7 @@
     </div>
     <div class="exercise_btn">
         <span class="sort_box" ng-click="showQuery=!showQuery">[筛选]</span>
-        <a class="topic_import" dialog-show dialog-id="eIesUploader"><em style ="background-color: #33CC66"><i class="icon"></i></em><span style="background-color: #339966">上传文件</span></a>
+        <a class="topic_import" dialog-show dialog-id="eIesUploader"><em style="background-color: #33CC66"><i class="icon"></i></em><span style="background-color: #339966">上传文件</span></a>
         <a class="add_topic" ng-click="AddFolder()"><em><i class="icon"></i></em><span>新建文件夹</span></a>
         <batch-operation ocid="model.OCID" share-ranges="shareRanges" on-fire-remove-all="fireRemoveAll()" on-fire-mobile-batch="fireMobileBatch()" />
         <p class="search_topic"><input type="text" placeholder="请输入您要搜索的关键字" ng-model="model.FileTitle"><span class="icon" ng-click="filterChanged()"></span></p>
@@ -86,7 +86,6 @@
                                         ocid="model.OCID"
                                         share-ranges="shareRanges">
                         </file-operation>
-
                     </div>
                 </div>
             </div>
@@ -99,7 +98,6 @@
     </tr>
 </table>
 
-
 <div class="pop_400" ng-show="delIsShow">
     <h4>删除</h4>
     <span class="icon close_pop" ng-click="close()"></span>
@@ -111,45 +109,64 @@
         </div>
     </div>
 </div>
-
 <div class="pop_bg" ng-show="bgShow"></div>
-
 @*<move-folder ng-show="moveShow" on-move-file="moveFileSubmit()" on-selected-move="selectedMove()"
     on-close="close()" files="files"></move-folder>*@
 <div class="pop_400" ng-show="moveShow">
     <h4>移动文件</h4>
     <span class="icon close_pop" ng-click="close()"></span>
-    <div class="pop_wrap">
-        <dl class="folder">
-            <dd>
-                <script type="text/ng-template" id="nodes_renderer.html">
-                    <div ui-tree-handle class="tree-node tree-node-content" ng-click="selectedMove(node)" ng-class="{mobileSelected:node.Id==folder.Id}">
-                        <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)">
-                            <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
-                        </a>
-                        <font ng-bind="node.Name"></font>
-                    </div>
-                    <ol ui-tree-nodes="" ng-model="node.Children" ng-class="{hidden: collapsed}">
-                        <li ng-repeat="node in node.Children" nodrag ui-tree-node ng-include="'nodes_renderer.html'">
-                        </li>
-                    </ol>
-                </script>
-                <div ui-tree id="tree-root">
-                    <ol ui-tree-nodes="" ng-model="mobile">
-                        <li ng-repeat="node in folderTrees" nodrag ui-tree-node ng-include="'nodes_renderer.html'"></li>
-                    </ol>
-                </div>
-            </dd>
-        </dl>
-        <div class="btn_box">
-            <a class="save" ng-click="moveFileSubmit()">确定</a>
-            <a class="cancel" ng-click="close()">取消</a>
-        </div>
+    <script type="text/ng-template" id="nodes_renderer.html">
+        <p class="first_file">
+            <span ng-click="isShow(this)" ng-bind="showLi(this)"><em>-</em></span>
+            <a ng-click="selectedMove(node)" ng-class="{mobileSelected:node.Id==folder.Id}">{{node.Name}}</a>
+        </p>
+        <ul ui-tree-nodes="" ng-model="node.Children" class="second_file">
+            <li ng-repeat="node in node.Children" nodrag ui-tree-node ng-include="'nodes_renderer.html'">
+            </li>
+        </ul>
+    </script>
+    <div ui-tree id="tree-root" class="pop_wrap">
+        <ul ui-tree-nodes="" ng-model="mobile" class="file_box">
+            <li ng-repeat="node in folderTrees" nodrag ui-tree-node ng-include="'nodes_renderer.html'"></li>
+        </ul>
+    </div>
+    <div class="btn_box">
+        <a class="save" ng-click="moveFileSubmit()">确定</a>
+        <a class="cancel" ng-click="close()">取消</a>
     </div>
 </div>
-
+@*<div class="pop_400" ng-show="moveShow">
+        <h4>移动文件</h4>
+        <span class="icon close_pop" ng-click="close()"></span>
+        <div class="pop_wrap">
+            <dl class="folder">
+                <dd>
+                    <script type="text/ng-template" id="nodes_renderer.html">
+                        <div ui-tree-handle class="tree-node tree-node-content" ng-click="selectedMove(node)" ng-class="{mobileSelected:node.Id==folder.Id}">
+                            <a class="btn btn-success btn-xs" nodrag ng-click="toggle(this)">
+                                <span class="glyphicon" ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}"></span>
+                            </a>
+                            <font ng-bind="node.Name"></font>
+                        </div>
+                        <ol ui-tree-nodes="" ng-model="node.Children" ng-class="{hidden: collapsed}">
+                            <li ng-repeat="node in node.Children" nodrag ui-tree-node ng-include="'nodes_renderer.html'">
+                            </li>
+                        </ol>
+                    </script>
+                    <div ui-tree id="tree-root">
+                        <ol ui-tree-nodes="" ng-model="mobile">
+                            <li ng-repeat="node in folderTrees" nodrag ui-tree-node ng-include="'nodes_renderer.html'"></li>
+                        </ol>
+                    </div>
+                </dd>
+            </dl>
+            <div class="btn_box">
+                <a class="save" ng-click="moveFileSubmit()">确定</a>
+                <a class="cancel" ng-click="close()">取消</a>
+            </div>
+        </div>
+    </div>*@
 <file-property id="fileProp" style="display:none" chapter="chapter" chapters="chapters" ken="ken" kens="kens"></file-property>
-
 <ies-file-uploader id="eIesUploader" style="display:none"
                    ocid="course.OCID"
                    course-id="course.CourseID"
