@@ -158,6 +158,7 @@
     <Content Include="Components\templates\layPage.html" />
     <Content Include="Components\templates\moreCourse.html" />
     <Content Include="Components\templates\moveFolder.html" />
+    <Content Include="Components\templates\moveItem.html" />
     <Content Include="Components\templates\preview.html" />
     <Content Include="Components\templates\shareRange.html" />
     <Content Include="Css\app.css" />

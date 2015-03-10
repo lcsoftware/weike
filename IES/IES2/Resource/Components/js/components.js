@@ -515,7 +515,84 @@ app.directive('moveFolder', function () {
 
     directive.templateUrl = '/Components/templates/moveFolder.html';
 
+    
     directive.link = function (scope, elem, iAttrs) {
+        //移动文件弹出框    
+        
+        //$('.first_file span').bind('click', function () {
+        //    if ($(this).parent().next().is(':hidden')) {
+        //        $(this).html('<em>-</em>');
+        //        $(this).parent().next().slideDown();
+        //    } else {
+        //        $(this).html('<em>+</em>');
+        //        $(this).parent().next().slideUp();
+        //    }
+        //})
+    }
+    directive.controller = function ($scope, $element) {
+
+
+        $scope.$on('$includeContentLoaded', function (a) {
+            $element.find('.first_file span').unbind('click');
+            $element.find('.first_file span').bind('click', function () {                
+                //if ($(this).html() == '<em>-</em>') {
+                //    $(this).html('<em>+</em>');
+                //    $(this).parent().next().slideUp();
+                //} else {
+                //    $(this).html('<em>-</em>');
+                //    $(this).parent().next().slideDown();
+                //}
+
+                if ($(this).parent().next().is(':hidden')) {
+                    //展开
+                    $(this).html('<em>-</em>');
+                    $(this).parent().next().slideDown();
+                } else {
+                    //隐藏
+                    $(this).html('<em>+</em>');
+                    $(this).parent().next().slideUp();                    
+                }
+            })
+        });
+
+        $scope.onSelectedMove = function (node) {
+            $scope.$emit('onSelectedMove', node);
+        }
+    }
+
+    return directive;
+});
+
+//移动文件子类
+app.directive('moveItem', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.scope = {        
+        itemNode: '='
+    }
+
+    directive.templateUrl = '/Components/templates/moveItem.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        //移动文件弹出框    
+        console.log(elem.find('.pop_wrap .first_file'));
+        //$('.first_file span').bind('click', function () {
+        //    if ($(this).parent().next().is(':hidden')) {
+        //        $(this).html('<em>-</em>');
+        //        $(this).parent().next().slideDown();
+        //    } else {
+        //        $(this).html('<em>+</em>');
+        //        $(this).parent().next().slideUp();
+        //    }
+        //})
+    }
+
+    directive.controller = function ($scope) {
+        $scope.onSelectedMove = function (node) {
+            $scope.$emit('onSelectedMove', node);
+        }
     }
 
     return directive;

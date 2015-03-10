@@ -189,6 +189,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             } else {
                 $scope.folderRelations = [];
             }
+            $scope.checksSelect.length = 0;
         });
     }
 
@@ -272,9 +273,12 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         console.log(shareItem);
     }
     //移动文件夹选中数据
-    $scope.selectedMove = function (item) {
-        $scope.folder = item;
-    }
+    //$scope.selectedMove = function (item) {
+    //    $scope.folder = item;
+    //}
+    $scope.$on('onSelectedMove', function (event,node) {
+        $scope.folder = node;
+    })
 
     //移动文件框保存方法
     $scope.moveFileSubmit = function () {
@@ -629,28 +633,32 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.filterChanged();
     });
 
-    $scope.isShow = function (a) {       
+    $scope.isShow = function (a) {
         if (a.$element.find('ul').is(':hidden')) {
-            a.$element.find('ul').show();            
+            a.$element.find('ul').show();
+            a.$element.find('span').html('<em>-</em>');
         } else {
             a.$element.find('ul').hide();
+            a.$element.find('span').html('<em>+</em>');
         }
     }
-    $scope.showLi = function (a) {
-        if (a.$element.find('ul').is(':hidden')) {
-            if (a.$element.find('li').length == 0) {
-                a.$element.find('span').html('')
-            } else {
-                a.$element.find('span').html('<em>+</em>');
-            }
-        } else {
-            if (a.$element.find('li').length == 0) {
-                a.$element.find('span').html('')
-            } else {
-                a.$element.find('span').html('<em>-</em>');
-            }
-        }
-    }
+
+    
+    //$scope.showLi = function (a) {
+    //    if (a.$element.find('ul').is(':hidden')) {
+    //        if (a.$element.find('li').length == 0) {
+    //            a.$element.find('span').html('')
+    //        } else {
+    //            a.$element.find('span').html('<em>+</em>');
+    //        }
+    //    } else {
+    //        if (a.$element.find('li').length == 0) {
+    //            a.$element.find('span').html('')
+    //        } else {
+    //            a.$element.find('span').html('<em>-</em>');
+    //        }
+    //    }
+    //}
 
     //移动文件弹出框    
     //$('.first_file span').bind('click', function () {
