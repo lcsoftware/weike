@@ -1,0 +1,487 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>答题卡</title>
+<link rel="stylesheet" href="../../css/header.css">
+<link rel="stylesheet" href="../../css/common.css">
+<link rel="stylesheet" href="../../css/resource.css">
+<link rel="stylesheet" href="../../css/footer.css">
+</head>
+
+<body>
+<div class="wrap">
+	<!--公共头部开始-->
+	<div class="public_header">
+        <div class="header_center">
+            <div class="company_logo">
+                <img src="../images/company_logo.png" width="70" height="30" alt="">上海卓越睿新数码科技有限公司
+            </div>
+            <div class="user_box">
+                <p class="user_name">
+                    <img src="http://placehold.it/20x20/cccccc" width="20" height="20" />
+                    王小明
+                    <span class="icon icon_arrow"></span>
+                </p>
+                <ul class="user_info">
+                    <li><a href="#">消息中心</a></li>
+                    <li><a href="#">在线帮助</a></li>
+                    <li><a href="#">帐号管理</a></li>
+                    <li><a href="#">我的通讯录</a></li>
+                    <li><a href="#">我的回收站</a></li>
+                    <li><a href="#">返回主页</a></li>
+                    <li><a href="#">退出系统</a></li>
+                </ul>
+            </div>
+            <ul class="nav_box">
+                <li><a href="#">教学管理</a></li>
+                <li class="active"><a href="#">我的资源</a></li>
+                <li><a href="#">我的评价</a></li>
+                <li><a href="#">管理评估</a></li>
+                <li><a href="#">实践实习</a></li>
+                <li><a href="#">质量工程</a></li>
+                <li><a href="#">我的直播</a></li>
+                <li><a href="#">我的录制</a></li>
+                <li><a href="#">教务管理</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--公共头部结束-->
+    
+    <div class="answer_box">
+    	<div class="answer_tit">
+        	<p>答题卡试卷</p>
+            <div class="paper_btn">
+            	<a href="#">取消</a>
+            	<a href="#">保存</a>  
+            </div>
+        </div>
+        
+        <div class="paper_info">
+        	<dl>
+                <dt>试卷名称</dt>
+                <dd><input type="text"></dd>
+            </dl>
+            <dl>
+                <dt>试卷类型</dt>
+                <dd>自查型</dd>
+            </dl>
+            <dl>
+                <dt>题目数</dt>
+                <dd><input type="text"></dd>
+            </dl>
+            <dl>
+                <dt>限时分钟</dt>
+                <dd><input type="text"></dd>
+            </dl>
+            <dl>
+                <dt>总分</dt>
+                <dd><input type="text"></dd>
+            </dl>
+			<dl>
+                <dt>适用范围</dt>
+                <dd>
+                	<div class="appliance">
+                        <p><input type="checkbox"><label>作业</label></p>
+                        <p><input type="checkbox"><label>考试</label></p>
+                        <p><input type="checkbox"><label>自测</label></p>
+                    </div>
+                </dd>
+            </dl>
+            <div class="paper_descrip">
+            	<label>描述</label>
+                <textarea placeholder="撰写试卷描述"></textarea>
+            </div>
+        </div>
+        <div class="tab_box">
+            <ul class="tab_list">
+            	<li><a href="#">试卷正文</a></li>
+                <li class="active"><a href="#">答题卡</a></li> 
+                <li><a href="#">试卷答案详解</a></li>   
+            </ul>
+        </div>
+        <div class="topic_select">
+        	<select>
+            	<option>题型</option>
+                <option>单选题</option>
+                <option>多选题</option>
+            </select>
+            <a class="add_select" href="javascript:;">
+            	<em><i class="icon"></i></em>
+                <span>添加选项</span>
+            </a>
+        </div>
+        
+        <table class="type_detail">
+            <tr>
+                <th class="center" width="140"><p class="type_name">一　单选题</p></th>
+                <th width="515"><i class="icon icon_add"></i></th>
+                <th><p class="total_score">20.0</p></th>
+            </tr>
+            <tr>
+                <td class="center">1</td>
+                <td>
+                    <div class="option_box">
+                        <ul class="option_list">
+                            <li class="active"><a href="#">A</a></li>
+                            <li><a href="#">B</a></li>
+                            <li><a href="#">C</a></li>
+                            <li><a href="#">D</a></li>
+                        </ul>
+                        <div class="operation_btn">
+                            <a class="plus" href="javascript:;">+</a>
+                            <a class="minus" href="javascript:;">-</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="current_score">
+                        <p>5.0</p>
+                        <ul class="icon_btn">
+                            <li><i class="icon remove_score"></i></li>
+                            <li><i class="icon down_move"></i></li>
+                            <li><i class="icon up_move"></i></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="center">2</td>
+                <td>
+                    <div class="option_box">
+                        <ul class="option_list">
+                            <li class="active"><a href="#">A</a></li>
+                            <li><a href="#">B</a></li>
+                            <li><a href="#">C</a></li>
+                            <li><a href="#">D</a></li>
+                        </ul>
+                        <div class="operation_btn">
+                            <a class="plus" href="javascript:;">+</a>
+                            <a class="minus" href="javascript:;">-</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="current_score">
+                        <p>5.0</p>
+                        <ul class="icon_btn">
+                            <li><i class="icon remove_score"></i></li>
+                            <li><i class="icon down_move"></i></li>
+                            <li><i class="icon up_move"></i></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="center">3</td>
+                <td>
+                    <div class="option_box">
+                        <ul class="option_list">
+                            <li class="active"><a href="#">A</a></li>
+                            <li><a href="#">B</a></li>
+                            <li><a href="#">C</a></li>
+                            <li><a href="#">D</a></li>
+                        </ul>
+                        <div class="operation_btn">
+                            <a class="plus" href="javascript:;">+</a>
+                            <a class="minus" href="javascript:;">-</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="current_score">
+                        <p>5.0</p>
+                        <ul class="icon_btn">
+                            <li><i class="icon remove_score"></i></li>
+                            <li><i class="icon down_move"></i></li>
+                            <li><i class="icon up_move"></i></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="center">4</td>
+                <td>
+                    <div class="option_box">
+                        <ul class="option_list">
+                            <li class="active"><a href="#">A</a></li>
+                            <li><a href="#">B</a></li>
+                            <li><a href="#">C</a></li>
+                            <li><a href="#">D</a></li>
+                        </ul>
+                        <div class="operation_btn">
+                            <a class="plus" href="javascript:;">+</a>
+                            <a class="minus" href="javascript:;">-</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="current_score">
+                        <p>5.0</p>
+                        <ul class="icon_btn">
+                            <li><i class="icon remove_score"></i></li>
+                            <li><i class="icon down_move"></i></li>
+                            <li><i class="icon up_move"></i></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        
+        <table class="type_detail">
+            <tr>
+                <th class="center" width="140"><p class="type_name">二　多选题</p></th>
+                <th width="515"><i class="icon icon_add"></i></th>
+                <th><p class="total_score">20.0</p></th>
+            </tr>
+            <tr>
+                <td class="center">1</td>
+                <td>
+                    <div class="option_box">
+                        <ul class="option_list">
+                            <li class="active"><a href="#">A</a></li>
+                            <li><a href="#">B</a></li>
+                            <li><a href="#">C</a></li>
+                            <li><a href="#">D</a></li>
+                        </ul>
+                        <div class="operation_btn">
+                            <a class="plus" href="javascript:;">+</a>
+                            <a class="minus" href="javascript:;">-</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="current_score">
+                        <p>5.0</p>
+                        <ul class="icon_btn">
+                            <li><i class="icon remove_score"></i></li>
+                            <li><i class="icon down_move"></i></li>
+                            <li><i class="icon up_move"></i></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="center">2</td>
+                <td>
+                    <div class="option_box">
+                        <ul class="option_list">
+                            <li class="active"><a href="#">A</a></li>
+                            <li><a href="#">B</a></li>
+                            <li><a href="#">C</a></li>
+                            <li><a href="#">D</a></li>
+                        </ul>
+                        <div class="operation_btn">
+                            <a class="plus" href="javascript:;">+</a>
+                            <a class="minus" href="javascript:;">-</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="current_score">
+                        <p>5.0</p>
+                        <ul class="icon_btn">
+                            <li><i class="icon remove_score"></i></li>
+                            <li><i class="icon down_move"></i></li>
+                            <li><i class="icon up_move"></i></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="center">3</td>
+                <td>
+                    <div class="option_box">
+                        <ul class="option_list">
+                            <li class="active"><a href="#">A</a></li>
+                            <li><a href="#">B</a></li>
+                            <li><a href="#">C</a></li>
+                            <li><a href="#">D</a></li>
+                        </ul>
+                        <div class="operation_btn">
+                            <a class="plus" href="javascript:;">+</a>
+                            <a class="minus" href="javascript:;">-</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="current_score">
+                        <p>5.0</p>
+                        <ul class="icon_btn">
+                            <li><i class="icon remove_score"></i></li>
+                            <li><i class="icon down_move"></i></li>
+                            <li><i class="icon up_move"></i></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="center">4</td>
+                <td>
+                    <div class="option_box">
+                        <ul class="option_list">
+                            <li class="active"><a href="#">A</a></li>
+                            <li><a href="#">B</a></li>
+                            <li><a href="#">C</a></li>
+                            <li><a href="#">D</a></li>
+                        </ul>
+                        <div class="operation_btn">
+                            <a class="plus" href="javascript:;">+</a>
+                            <a class="minus" href="javascript:;">-</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="current_score">
+                        <p>5.0</p>
+                        <ul class="icon_btn">
+                            <li><i class="icon remove_score"></i></li>
+                            <li><i class="icon down_move"></i></li>
+                            <li><i class="icon up_move"></i></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        
+        <table class="type_detail">
+            <tr>
+                <th class="center" width="140"><p class="type_name">三　填空题</p></th>
+                <th width="515"><i class="icon icon_add"></i></th>
+                <th><p class="total_score">10.0</p></th>
+            </tr>
+            <tr>
+                <td class="center">1</td>
+                <td>
+                    <div class="option_box">
+                       	<input class="solution" type="text" placeholder="请输入答案">
+                        <div class="operation_btn">
+                            <a class="plus" href="javascript:;">+</a>
+                            <a class="minus" href="javascript:;">-</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="current_score">
+                        <p>5.0</p>
+                        <ul class="icon_btn">
+                            <li><i class="icon remove_score"></i></li>
+                            <li><i class="icon down_move"></i></li>
+                            <li><i class="icon up_move"></i></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="center"></td>
+                <td>
+                    <div class="option_box">
+                       	<input class="solution" type="text" placeholder="请输入答案">
+                        <div class="operation_btn">
+                            <a class="plus" href="javascript:;">+</a>
+                            <a class="minus" href="javascript:;">-</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="current_score">
+                        <p>5.0</p>
+                        <ul class="icon_btn">
+                            <li><i class="icon remove_score"></i></li>
+                            <li><i class="icon down_move"></i></li>
+                            <li><i class="icon up_move"></i></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="center">2</td>
+                <td>
+                    <div class="option_box">
+                       	<input class="solution" type="text" placeholder="请输入答案">
+                        <div class="operation_btn">
+                            <a class="plus" href="javascript:;">+</a>
+                            <a class="minus" href="javascript:;">-</a>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="current_score">
+                        <p>5.0</p>
+                        <ul class="icon_btn">
+                            <li><i class="icon remove_score"></i></li>
+                            <li><i class="icon down_move"></i></li>
+                            <li><i class="icon up_move"></i></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            
+            
+        </table>
+        
+        <table class="type_detail">
+            <tr>
+                <th class="center" width="140"><p class="type_name">四　简答题</p></th>
+                <th width="515"><i class="icon icon_add"></i></th>
+                <th><p class="total_score">40.0</p></th>
+            </tr>
+            <tr>
+                <td class="center">1</td>
+                <td></td>
+                <td>
+                    <div class="current_score">
+                        <p>5.0</p>
+                        <ul class="icon_btn">
+                            <li><i class="icon remove_score"></i></li>
+                            <li><i class="icon down_move"></i></li>
+                            <li><i class="icon up_move"></i></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="center">2</td>
+                <td>
+                    <div class="option_box">
+                       	<input class="solution" type="text" placeholder="请输入答案">
+                    </div>
+                </td>
+                <td>
+                    <div class="current_score">
+                        <p>5.0</p>
+                        <ul class="icon_btn">
+                            <li><i class="icon remove_score"></i></li>
+                            <li><i class="icon down_move"></i></li>
+                            <li><i class="icon up_move"></i></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr> 
+        </table>
+        
+        <div class="btn_box">
+            <a class="save" href="javascript:;">保存</a>
+            <a class="cancel" href="javascript:;">取消</a>
+        </div>
+    </div>
+    
+	
+    <!--公用底部开始-->
+	<div class="footer">
+    	<p class="copyright"><img src="../images/company_logo2.png" width="70" height="30" alt="">Copyright©2003-2014，版权所有 www.able-elec.com</p>
+        <div class="company_info">
+        	<a href="#" target="_blank">关于卓越</a>|
+            <a href="#" target="_blank">服务中心</a>|
+            <a href="#" target="_blank">版权说明</a>|
+            ©2004-2015版权所有 上海卓越睿新数码科技有限公司
+        </div>
+    </div>
+	<!--公用底部结束-->
+    <a class="icon backto_top" href="#"></a>
+</div>
+<script src="../../js/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="../../js/resource.js"></script>
+</body>
+</html>
