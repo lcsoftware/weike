@@ -36,7 +36,7 @@ namespace App.Score.Util
         {
             if (cookie != null)
             {
-                return cookie.Value;
+                return HttpUtility.UrlDecode(cookie.Value);
             }
             return "";
         }
@@ -106,7 +106,7 @@ namespace App.Score.Util
                 HttpCookie cookie = response.Cookies[cookieName];
                 if (cookie != null)
                 {
-                    cookie.Value = value;
+                    cookie.Value = HttpUtility.UrlEncode(value);
                     if (expires != null)
                         cookie.Expires = expires.Value;
                     response.SetCookie(cookie);

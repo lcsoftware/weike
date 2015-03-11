@@ -68,7 +68,7 @@ namespace App.Web.Score.DataProvider
             }
             catch (Exception ex)
             {
-                UtilHelper.WriteContent("c:/Log/log.txt", ex.StackTrace);
+                UtilHelper.WriteContent("E:/Log/log.txt", ex.StackTrace);
                 //log4net.LogManager.GetLogger("ErrLog").Error(ex);
                 throw ex;
             }

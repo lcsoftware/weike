@@ -26,7 +26,7 @@ namespace App.Web.Score
             }
             catch (Exception ex)
             {
-                UtilHelper.WriteContent("c:/Log/log.txt", "1111111111\n" + ex.StackTrace);
+                UtilHelper.WriteContent("E:/Log/log.txt", "1111111111\n" + ex.StackTrace);
             }
         }
 
