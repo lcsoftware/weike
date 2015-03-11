@@ -20,8 +20,6 @@
 }
 
 .topic_list {
-    overflow: hidden;
-    zoom: 1;
 }
 
     .topic_list li {
@@ -625,19 +623,19 @@
     .mouse_right li {
         cursor: pointer;
         position: relative;
-        height: 31px;
+        height: 30px;
     }
 
-        .mouse_right li.active p {
+        .mouse_right li.active {
             background: #475c7c;
             color: #fff;
         }
 
         .mouse_right li p {
             padding-left: 32px;
-            width: 66px;
+            width: 120px;
             height: 30px;
-            line-height: 30px;
+            line-height: 31px;
             color: #333;
             position: relative;
             border: 1px solid #ddd;
@@ -1302,8 +1300,44 @@
     font-weight: bold;
     border-bottom: 1px solid #ccc;
 }
-/*.knowledge_list dd a{ display:block; height:40px; line-height:40px; padding-left:25px; border-bottom:1px solid #ccc; color:#ff3300;}
-.knowledge_list dd.active a,.knowledge_list dd a:hover{ background:#f44f4f; color:#fff;}*/
+
+.knowledge_list dd {
+    position: relative;
+    overflow: hidden;
+    padding-left: 25px;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #ccc;
+}
+
+    .knowledge_list dd a {
+        float: left;
+        //color: #ff3300;
+    }
+
+    .knowledge_list dd i {
+        display: none;
+        float: right;
+        margin: 12px 12px 0 0;
+        cursor: pointer;
+    }
+
+.btn_delete {
+    background-position: -142px -128px;
+}
+
+.btn_edit {
+    background-position: -142px -144px;
+}
+
+.knowledge_list dd.active {
+    background: #f2f2f2;
+}
+
+    .knowledge_list dd.active i {
+        display: block;
+    }
+
 .second_knowledge dd a {
     color: #333;
 }
@@ -1849,7 +1883,7 @@
             }
 
 .paper_content {
-    margin: 20px 50px;
+    margin: 20px 20px;
 }
 
 .add_attach {
@@ -1990,10 +2024,6 @@
         height: 40px;
         position: relative;
         border-right: 1px solid #ccc;
-        font-size: 13px;
-        color: #333;
-        font-style: normal;
-        text-align: center;
     }
 
         .default em i {
@@ -3250,9 +3280,13 @@
     font-size: 13px;
     color: #333;
     font-weight: bold;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
+
+    .first_chapter p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 
     .first_chapter input {
         width: 190px;
@@ -3382,9 +3416,7 @@
 .topic_detail {
     padding: 20px 20px 0;
     position: relative;
-    border-bottom: 1px solid #ccc;
-    overflow: hidden;
-    zoom: 1;
+    border-bottom: 1px solid #ccc; /*overflow:hidden; zoom:1;*/
 }
 
     .topic_detail h5 {
@@ -3581,10 +3613,10 @@
     }
 
 .listening_btn {
-    display: none;
+    display: block;
     width: 90px;
     position: fixed;
-    top: 100px;
+    top: 350px;
     left: 50%;
     margin-left: 400px;
     z-index: 100;
@@ -3695,42 +3727,8 @@
     background-color: #33a31e;
 }
 
-.knowledge_list dd a {
-    float: left;
-    width: 115px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: #ff3300;
-}
-
-.knowledge_list dd i {
-    display: none;
-    float: right;
-    margin: 12px 12px 0 0;
-    cursor: pointer;
-}
-
-.btn_delete {
-    background-position: -142px -128px;
-}
-
-.btn_edit {
-    background-position: -142px -144px;
-}
-
-.knowledge_list dd.active {
-    background: #f2f2f2;
-}
-
-    .knowledge_list dd.active i {
-        display: block;
-    }
-
-.first_chapter p {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.icon_eye {
+    background-position: -21px -128px;
 }
 
 .add_box {
@@ -3769,219 +3767,12 @@
     font-weight: normal;
 }
 
-
 /*新增*/
-.file_box {
-    overflow: hidden;
-    font-family: 'Arial';
-    color: #333;
-    font-size: 13px;
-}
-
-.first_file {
-    height: 30px;
-    line-height: 30px;
-    background: #e4e4e4;
-    overflow: hidden;
-    padding: 0 10px;
-}
-
-    .first_file span {
-        float: left;
-        margin: 9px 9px 0 0;
-        width: 12px;
-        height: 12px;
-    }
-
-        .first_file span em {
-            display: block;
-            width: 10px;
-            height: 10px;
-            line-height: 10px;
-            text-align: center;
-            background: #fff;
-            border: 1px solid #797979;
-            cursor: pointer;
-        }
-
-    .first_file a {
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        color: #333;
-    }
-
-.file_box ul .first_file {
-    background: none;
-}
-
-.file_box li ul {
-    padding-left: 30px;
-}
-
-.file_box ul .first_file:hover {
-    background: #f2f2f2;
-}
-
-.pop_box {
-    padding-bottom: 15px;
-    overflow: hidden;
-    border: 1px solid #ccc;
-}
-
-.options_box {
-    padding: 10px 20px 20px;
-    overflow: hidden;
-    border-bottom: 1px solid #ccc;
-}
-
-.options_list {
-    margin-top: 10px;
-    overflow: hidden;
-    line-height: 30px;
-}
-
-    .options_list label {
-        float: left;
-        margin-right: 15px;
-        color: #333;
-    }
-
-        .options_list label b {
-            padding-right: 6px;
-        }
-
-.red {
-    color: #ff0000;
-}
-
-.green {
-    color: #009900;
-}
-
-.options_list select {
-    width: 198px;
-    height: 28px;
-    line-height: 28px;
-    border: 1px solid #ccc;
-}
-
-.muban_btn {
-    float: right;
-    color: #475c7c;
-}
-
-.file_input {
-    float: left;
-    margin-right: 10px;
-    padding: 3px 4px;
-    width: 190px;
-    height: 22px;
-    line-height: 22px;
-    border: 1px solid #ccc;
-}
-
-.scan_btn {
-    float: left;
-    overflow: hidden;
-    width: 78px;
-    height: 28px;
-    line-height: 28px;
-    text-align: center;
-    background: #475c7c;
-    color: #fff;
-    border: 1px solid #ccc;
-}
-
-    .scan_btn:hover {
-        background: #374760;
-    }
-
-.test_box {
-    overflow: hidden;
-}
-
-.test_tit {
-    height: 40px;
-    line-height: 40px;
-    padding: 0 20px;
-    background: #f2f2f2;
-    overflow: hidden;
-}
-
-    .test_tit h5 {
-        float: left;
-        color: #333;
-    }
-
-    .test_tit p {
-        float: right;
-        color: #333;
-    }
-
-.table_box {
-    height: 331px;
-    margin-left: -1px;
-    border-bottom: 1px solid #ccc;
-    overflow: auto;
-}
-
-.data_table {
-    width: 100%;
-}
-
-    .data_table tr th, .data_table tr td {
-        height: 29px;
-        line-height: 29px;
-        border: 1px solid #ccc;
-        border-right: 0;
-        border-bottom: 0;
-        text-align: center;
-        color: #333;
-    }
-
-    .data_table tr th {
-        background: #ccc;
-        font-weight: normal;
-    }
-
-.loading_box {
-    width: 100px;
-    margin: 100px auto;
-    height: 100px;
-    background: url(../images/loading.gif) no-repeat;
-}
-
-.import_tip {
-    margin-top: 72px;
-    text-align: center;
-    overflow: hidden;
-}
-
-    .import_tip p {
-        font-size: 18px;
-        color: #999;
-        font-family: 'Arial';
-        line-height: 30px;
-    }
-
-.tip_box {
-    text-align: center;
-    overflow: hidden;
-    font-family: 'Arial';
-    color: #666;
-}
-
-    .tip_box p {
-        font-size: 14px;
-    }
-
-    .tip_box span {
-        display: block;
-        margin-top: 10px;
-    }
-
-    .tip_box em {
-        font-style: normal;
-    }
+.file_box{ overflow:hidden; font-family:'Arial'; color:#333; font-size:13px;}
+.first_file{ height:30px; line-height:30px; background:#e4e4e4; overflow:hidden; padding:0 10px;}
+.first_file span{ float:left; margin:9px 9px 0 0; width:12px; height:12px;  }
+.first_file span em{ display:block; width:10px; height:10px; line-height:10px; text-align:center; background:#fff; border:1px solid #797979;  cursor:pointer;}
+.first_file a{ display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#333;}
+.file_box ul .first_file{background:none;}
+.file_box li ul{ padding-left:30px;}
+.file_box ul .first_file:hover{ background:#f2f2f2;}

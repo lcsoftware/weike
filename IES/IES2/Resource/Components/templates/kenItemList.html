@@ -2,7 +2,7 @@
     <i class="icon btn_delete" ng-click="onRemove()"></i>
     <i class="icon btn_edit" ng-click="onEdit()"></i>
     <a ng-bind="kenItem.Name"
-       style=" overflow: hidden; text-overflow: ellipsis; width:70%;"
+       
        ng-class="{'kenSelected':dataKen.KenID==kenItem.KenID, 'proficient': kenItem.Requirement==3, 'grasp': kenItem.Requirement==2, 'know': kenItem.Requirement==1}">
     </a>
 </dd>
