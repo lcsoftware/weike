@@ -1312,7 +1312,11 @@
 
     .knowledge_list dd a {
         float: left;
-        //color: #ff3300;
+        width: 115px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #ff3300;
     }
 
     .knowledge_list dd i {
@@ -3768,11 +3772,55 @@
 }
 
 /*新增*/
-.file_box{ overflow:hidden; font-family:'Arial'; color:#333; font-size:13px;}
-.first_file{ height:30px; line-height:30px; background:#e4e4e4; overflow:hidden; padding:0 10px;}
-.first_file span{ float:left; margin:9px 9px 0 0; width:12px; height:12px;  }
-.first_file span em{ display:block; width:10px; height:10px; line-height:10px; text-align:center; background:#fff; border:1px solid #797979;  cursor:pointer;}
-.first_file a{ display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#333;}
-.file_box ul .first_file{background:none;}
-.file_box li ul{ padding-left:30px;}
-.file_box ul .first_file:hover{ background:#f2f2f2;}
+.file_box {
+    overflow: hidden;
+    font-family: 'Arial';
+    color: #333;
+    font-size: 13px;
+}
+
+.first_file {
+    height: 30px;
+    line-height: 30px;
+    background: #e4e4e4;
+    overflow: hidden;
+    padding: 0 10px;
+}
+
+    .first_file span {
+        float: left;
+        margin: 9px 9px 0 0;
+        width: 12px;
+        height: 12px;
+    }
+
+        .first_file span em {
+            display: block;
+            width: 10px;
+            height: 10px;
+            line-height: 10px;
+            text-align: center;
+            background: #fff;
+            border: 1px solid #797979;
+            cursor: pointer;
+        }
+
+    .first_file a {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #333;
+    }
+
+.file_box ul .first_file {
+    background: none;
+}
+
+.file_box li ul {
+    padding-left: 30px;
+}
+
+.file_box ul .first_file:hover {
+    background: #f2f2f2;
+}
