@@ -850,7 +850,7 @@ app.directive('kenChapterItem', function () {
 
     directive.replace = true;
 
-    directive.templateUrl = '/Components/templates/kenChapterList.html';
+    directive.templateUrl = '/Components/templates/kenChapterItem.html';
 
     directive.scope = {
         kenChapter: '=',
@@ -863,6 +863,51 @@ app.directive('kenChapterItem', function () {
         $('.knowledge_list dd').hover(function () {
             $(this).addClass('active').siblings().removeClass('active');
         })
+    }
+
+    return directive;
+});
+
+app.directive('iesChapterItem', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.replace = true;
+
+    directive.templateUrl = '/Components/templates/chapterItem.html';
+
+    directive.scope = {
+        chapterSelectedItem: '=',
+        chapterChildSelectedItem: '=',
+        chapterItem: '=',
+        items: '=',
+        chapterSelected: '&'
+    }
+
+    directive.link = function (scope, elem, iAttrs) {
+        console.log(elem.find('.second_item').length)
+        //elem.find('.second_item li').bind('click', function () { 
+        //    elem.addClass('active');
+        //}); 
+    }
+
+    directive.controller = function ($scope, $element) {
+    
+
+        $scope.addSection = function (chapters, chapter) {
+            var section = {
+                ChapterID: 0,
+                Title: ''
+            }
+            chapters.push(section);
+        }
+
+        $scope.childEdit = function (chapter) {
+            var aFirstChapter = $element.find('.second_item li"');
+            console.log(aFirstChapter.find('.first_chapter'));
+            //console.log(aFirstChapter);
+        } 
     }
 
     return directive;

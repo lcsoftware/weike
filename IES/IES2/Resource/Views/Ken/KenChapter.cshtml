@@ -4,28 +4,43 @@
         <a class="icon_con up_btn" ng-click="move('orderup')"></a>
         <a class="icon_con down_btn" ng-click="move('orderdown')"></a>
         @*<a class="icon_con right_btn" ng-click="move('leveldown')"></a>
-        <a class="icon_con left_btn" ng-click="move('levelup')"></a>*@
+            <a class="icon_con left_btn" ng-click="move('levelup')"></a>*@
         <a class="icon delete_icon" ng-click="delete()"></a>
     </div>
     <ul class="chapter_item">
-        <li ng-class="{'active':parentChapter.ChapterID==item.ChapterID}" ng-repeat="item in chapters | parentID:0 | orderBy:'Orde'">
-            <a class="first_chapter" ng-click="parentFocus(item)" ng-dblclick="chapterDblclick(item)">
-                <div ng-bind="item.Title" ng-hide="enableEdit==true && lastSelection.ChapterID==item.ChapterID"></div>
-                <i class="icon fold_btn" ng-hide="enableEdit==true && lastSelection.ChapterID==item.ChapterID"></i>
+        @*<li ng-class="{'active':parentChapter.ChapterID==item.ChapterID}" ng-repeat="item in chapters | parentID:0 | orderBy:'Orde'">
+                <a class="first_chapter">
+                    <div ng-bind="item.Title" ng-hide="enableEdit==true && lastSelection.ChapterID==item.ChapterID" ng-click="parentFocus(item)" style="padding-top:8px;"></div>
+                    <i class="icon fold_btn" ng-hide="enableEdit==true && lastSelection.ChapterID==item.ChapterID"></i>
+                    <span class="edit_box" ng-click="chapterEdit(item)">
+                        <em class="icon btn_box_edit"></em>
+                        <span>编辑</span>
+                    </span>
+                    <span class="add_box">
+                        <em class="icon btn_add"></em>
+                        <span>增加小节</span>
+                    </span>
+                    <input type="text" ng-model="lastSelection.Title" ng-blur="onEdit(item)" autofocus
+                           ng-show="enableEdit==true && lastSelection.ChapterID==item.ChapterID">
 
-                <input type="text" ng-model="parentChpater.Title" placeholder="请输入章节标题" ng-blur="onEdit(item)" autofocus
-                       ng-show="enableEdit==true && lastSelection.ChapterID==item.ChapterID">
-            </a>
-            <ul class="second_item">
-                <li ng-class="{'active':childChapter.ChapterID==child.ChapterID}" ng-repeat="child in chapters | parentID:item.ChapterID | orderBy:'Orde' ">
-                    <a class="first_chapter" ng-hide="enableEdit==true && lastSelection.ChapterID==child.ChapterID"
-                       ng-click="childFocus(child)" ng-dblclick="chapterDblclick(child)" ng-bind="child.Title"></a>
+                </a>
+                <ul class="second_item">
+                    <li ng-class="{'active':childChapter.ChapterID==child.ChapterID}" ng-repeat="child in chapters | parentID:item.ChapterID | orderBy:'Orde' ">
+                        <a class="first_chapter" ng-hide="enableEdit==true && lastSelection.ChapterID==child.ChapterID"
+                           ng-click="childFocus(child)" ng-dblclick="chapterDblclick(child)" ng-bind="child.Title"></a>
 
-                    <input type="text" ng-model="child.Title" placeholder="请输入章节标题" ng-blur="onEdit(child)" autofocus
-                           ng-show="lastSelection.ChapterID==child.ChapterID  && enableEdit==true">
-                </li>
-            </ul>
-        </li>
+                        <input type="text" ng-model="child.Title" placeholder="请输入章节标题" ng-blur="onEdit(child)" autofocus
+                               ng-show="lastSelection.ChapterID==child.ChapterID  && enableEdit==true">
+                    </li>
+                </ul>
+            </li>*@
+        <ies-chapter-item ng-repeat="item in chapters | parentID:0 | orderBy:'Orde'"
+                          chapter-selected-item="parentChapter"
+                          chapter-child-selected-item="childChapter"
+                          chapter-item="item"
+                          items="chapters"
+                          chapter-selected="parentFocus(item)">
+        </ies-chapter-item>
         <li ng-show="canAdd">
             <a class="first_chapter">
                 <input type="text" ng-model="title" placeholder="请输入章节标题" ng-blur="onBlur(title)" autofocus>

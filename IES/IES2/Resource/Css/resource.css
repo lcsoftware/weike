@@ -3260,72 +3260,18 @@
 .delete_icon {
     background-position: -37px -128px;
 }
-
-.chapter_item {
-    overflow: hidden;
-    zoom: 1;
-}
-
-    .chapter_item > li.active > .second_item {
-        display: block;
-    }
-
-    .chapter_item > li.active > a > .fold_btn {
-        background-position: -158px 0;
-    }
-
-.first_chapter {
-    display: block;
-    height: 40px;
-    line-height: 40px;
-    padding: 0 30px;
-    position: relative;
-    border-bottom: 1px solid #e4e4e4;
-    font-size: 13px;
-    color: #333;
-    font-weight: bold;
-}
-
-    .first_chapter p {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .first_chapter input {
-        width: 190px;
-        height: 24px;
-        border: 1px solid #ccc;
-    }
-
-    .first_chapter i {
-        position: absolute;
-        top: 12px;
-        left: 7px;
-    }
-
-.fold_btn {
-    background-position: -158px -16px;
-}
-
-.second_item {
-    display: none;
-}
-
-    .second_item .first_chapter {
-        font-weight: normal;
-        font-size: 12px;
-        color: #666;
-    }
-
-    .second_item li a {
-        background: #f2f2f2;
-    }
-
-        .second_item li.active a, .second_item li a:hover {
-            background: #f44f4f;
-            color: #fff;
-        }
+.chapter_item{ overflow:hidden; zoom:1;}
+.chapter_item >li.active >.second_item{ display:block;}
+.chapter_item >li.active > a > .fold_btn{ background-position:-158px 0;}
+.first_chapter p{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.first_chapter{ display:block; height:40px; line-height:40px; padding:0 30px; position:relative; border-bottom:1px solid #e4e4e4; font-size:13px; color:#333; font-weight:bold; text-overflow:ellipsis; white-space:nowrap;}
+.first_chapter input{ width:190px; height:24px; border:1px solid #ccc;}
+.first_chapter i{ position:absolute; top:12px; left:7px;}
+.fold_btn{ background-position:-158px -16px;}
+.second_item{ display:none;}
+.second_item .first_chapter{ font-weight:normal; font-size:12px; color:#666;}
+.second_item li a{ background:#f2f2f2;}
+.second_item li.active a,.second_item li a:hover{ background:#f44f4f; color:#fff;}
 
 .filter_knowledge {
     margin: 15px 20px;
@@ -3734,42 +3680,19 @@
 .icon_eye {
     background-position: -21px -128px;
 }
+.add_box{ position:absolute; right:4px; top:12px;}
+.add_box:hover span{ display:block;}
+.add_box em{ display:block; cursor:pointer;}
+.btn_add{ background-position:-158px -144px;}
+.add_box span{ display:none; position:absolute; right:0; top:17px; z-index:10; height:22px; width:70px; line-height:22px; color:#fff; text-align:center;background-color: rgba(0, 0, 0, 0.4); filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr=#66000000, endColorstr=#66000000); font-size:12px; font-weight:normal;}
 
-.add_box {
-    position: absolute;
-    right: 4px;
-    top: 12px;
-}
+.edit_box{ position:absolute; right:30px; top:12px;}
+.edit_box:hover span{ display:block;}
+.edit_box em{ display:block; cursor:pointer;}
+.btn_box_edit{ background-position: -142px -144px;}
+.edit_box span{ display:none; position:absolute; right:0; top:17px; z-index:10; height:22px; width:70px; line-height:22px; color:#fff; text-align:center;background-color: rgba(0, 0, 0, 0.4); filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr=#66000000, endColorstr=#66000000); font-size:12px; font-weight:normal;}
 
-    .add_box:hover span {
-        display: block;
-    }
 
-    .add_box em {
-        display: block;
-        cursor: pointer;
-    }
-
-.btn_add {
-    background-position: -158px -144px;
-}
-
-.add_box span {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 17px;
-    z-index: 10;
-    height: 22px;
-    width: 70px;
-    line-height: 22px;
-    color: #fff;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.4);
-    filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr=#66000000, endColorstr=#66000000);
-    font-size: 12px;
-    font-weight: normal;
-}
 
 /*新增*/
 .file_box {

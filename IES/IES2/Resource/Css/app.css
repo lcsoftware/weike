@@ -52,3 +52,7 @@ a {
 .itemHide {
     display:none;
 }
+
+.chapterHide {
+    display:none!important; 
+}

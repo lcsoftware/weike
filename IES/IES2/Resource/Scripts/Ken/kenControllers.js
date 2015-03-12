@@ -136,6 +136,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
 
         /// 添加知识点 
         $scope.ken = {};
+        $scope.originKen = {};
         //$scope.ken.name = '';
         //$scope.ken.chapter = {};
         $scope.kenSave = function (ken, keeping) {
@@ -162,6 +163,18 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
                     if (keeping) $scope.ken.Name = '';
                 });
             }
+        }
+
+        $scope.kenCancel = function () {
+            ///还原数据
+            var length = $scope.ocKens.length;
+            for (var i = 0; i < length; i++) {
+                if ($scope.ocKens[i].KenID === $scope.ken.KenID) {
+                    $scope.ocKens[i] = angular.copy($scope.originKen);
+                }
+            }
+            $scope.ken = {};
+            $scope.originKen = {};
         }
 
         /// end 添加知识点
@@ -395,7 +408,7 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
             });
         }
 
-        $scope.chapterDblclick = function (chapter) {
+        $scope.chapterEdit = function (chapter) {
             $scope.lastSelection = chapter;
             $scope.enableEdit = true;
         }
@@ -445,8 +458,26 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
             });
         }
 
+        var findFirstChild = function (chapter) {
+            var children = [];
+            angular.forEach($scope.chapters, function (item) {
+                if (item.ParentID === chapter.ChapterID) {
+                    this.push(item);
+                }
+            }, children);
+
+            if (children.length === 0) return null;
+
+            children.sort(function (a, b) {
+                return a.Orde - b.Orde;
+            });
+
+            return children[0];
+        }
+
         $scope.parentFocus = function (item) {
             $scope.parentChapter = item;
+            $scope.childChapter = findFirstChild($scope.parentChapter);
             $scope.lastSelection = item;
             $scope.$parent.kenSelection = {};
             switch ($scope.tab) {
@@ -531,6 +562,8 @@ appKnow.controller('KenTopicCtrl', ['$scope', '$state', 'resourceKenService', 'c
         $scope.orderField = '-Requirement';
 
         $scope.editKen = function (ken) {
+            ///记录旧知识点，以便取消还原
+            $scope.$parent.originKen = angular.copy(ken);
             $scope.$parent.ken = ken;
             var length = $scope.requireMents.length;
             for (var i = 0; i < length; i++) {
