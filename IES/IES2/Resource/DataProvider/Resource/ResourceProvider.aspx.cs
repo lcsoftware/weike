@@ -167,19 +167,21 @@ namespace App.Resource.DataProvider.Resource
 
             IList<FolderRelation> allFolderRelations = new List<FolderRelation>();
             //TODO
-
-            foreach (var item in allFolders)
+            if (file.FileTitle == "")
             {
-                FolderRelation fr = new FolderRelation();
-                fr.Id = item.FolderID;
-                fr.Name = item.FolderName;
-                fr.OCID = item.OCID;
-                fr.ParentID = item.ParentID;
-                fr.RelationType = FileType.Folder;
-                fr.CourseId = item.CourseID;
-                fr.CreateTime = new DateTime();
-                fr.ShareRange = item.ShareRange;
-                allFolderRelations.Add(fr);
+                foreach (var item in allFolders)
+                {
+                    FolderRelation fr = new FolderRelation();
+                    fr.Id = item.FolderID;
+                    fr.Name = item.FolderName;
+                    fr.OCID = item.OCID;
+                    fr.ParentID = item.ParentID;
+                    fr.RelationType = FileType.Folder;
+                    fr.CourseId = item.CourseID;
+                    fr.CreateTime = new DateTime();
+                    fr.ShareRange = item.ShareRange;
+                    allFolderRelations.Add(fr);
+                }
             }
             foreach (var item in allFiles)
             {
