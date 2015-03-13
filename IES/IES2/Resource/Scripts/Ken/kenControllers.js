@@ -68,6 +68,8 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
             ken.UpdateTime = new Date();
             $scope.linkFiles.length = 0;
             $scope.linkExercises.length = 0;
+            if (!ken || !ken.KenID) ken.KenID = 0;
+            if (!chapter || !chapter.ChapterID) chapter.ChapterID = 0;
             switch ($scope.tab) {
                 case 1:
                     if (from === 'fromChapter') {
@@ -417,6 +419,34 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
             $scope.enableEdit = false;
             chapterService.Chapter_Upd(chapter);
         }
+
+        $scope.$on('onEditSection', function (event, chapter) {
+            if (chapter.ChapterID > 0) {
+                chapterService.Chapter_Upd(chapter);
+            } else { 
+                chapterService.Chapter_ADD(chapter, function (data) {
+                    if (data.d) {
+                        $scope.$parent.chapters.push(data.d);
+                        var length = $scope.$parent.chapters.length;
+                        for (var i = 0; i < length; i++) {
+                            if ($scope.$parent.chapters[i].ChapterID === 0){
+                                $scope.$parent.chapters.splice(i, 1);
+                            }
+                        }
+                    }
+                });
+            }            
+        });
+
+        $scope.$on('onWillEdit', function (event, chapter) {
+            chapterService.Chapter_Upd(chapter, function (data) {
+                $scope.$broadcast('onChapterEdited', data.d);
+            });
+        });
+
+        $scope.$on('onSectionSelected', function (event, section) {
+            $scope.childChapter = section;
+        });
 
         var Ken_FileFilter_ChapterID_List = function (chapter) {
             if (!chapter.ChapterID) return;

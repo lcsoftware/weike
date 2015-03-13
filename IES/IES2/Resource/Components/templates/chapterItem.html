@@ -1,19 +1,18 @@
-﻿<li ng-class="{'active': chapterSelectedItem.ChapterID==chapterItem.ChapterID}">
+﻿<li>
     <a class="first_chapter">
         <p ng-bind="chapterItem.Title" ng-click="chapterSelected()"></p>
         <i class="icon fold_btn"></i>
-        <span class="edit_box" ng-click="chapterEdit(chapterItem)"><em class="icon btn_box_edit"></em> <span>编辑</span></span>
-        <span class="add_box" ng-click="addSection(items, chapterItem)"><em class="icon btn_add"></em> <span>增加小节</span></span>
-        <input type="text" class="itemHide" ng-model="chapterItem.Title" ng-blur="onEdit(item)">
+        <span class="edit_box"><em class="icon btn_box_edit"></em><span>编辑</span></span>
+        <span class="add_box" ng-click="willAddSection(chapterItem, items)"><em class="icon btn_add"></em> <span>增加小节</span></span>
+    </a>
+    <a class="first_chapter chapterHide">
+        <input type="text" ng-model="chapterItem.Title" style="margin-top:6px;" ng-blur="willEdit(chapterItem)">
     </a>
     <ul class="second_item"> 
-        <li ng-class="{'active': chapterChildSelectedItem.ChapterID==child.ChapterID}" ng-repeat="child in items | parentID:chapterItem.ChapterID | orderBy:'Orde' ">
-            <a class="first_chapter">
-                <p ng-bind="child.Title"></p>
-                <span class="edit_box" style="right:4px;" ng-click="childEdit(child)"><em class="icon btn_box_edit"></em><span>编辑</span></span>
-                <input type="text" class="itemHide">
-            </a>
-            <a class="first_chapter chapterHide"><input type="text" ng-model="child.Title" placeholder="请输入章节标题"></a>
-        </li>
+        <ies-chapter-section 
+                             section-chapter="child" 
+                             chapter-child-selected-item="chapterChildSelectedItem" 
+                             ng-repeat="child in items | parentID:chapterItem.ChapterID | orderBy:'Orde'"> 
+        </ies-chapter-section>
     </ul>
 </li>

@@ -515,10 +515,10 @@ app.directive('moveFolder', function () {
 
     directive.templateUrl = '/Components/templates/moveFolder.html';
 
-    
+
     directive.link = function (scope, elem, iAttrs) {
         //移动文件弹出框    
-        
+
         //$('.first_file span').bind('click', function () {
         //    if ($(this).parent().next().is(':hidden')) {
         //        $(this).html('<em>-</em>');
@@ -534,7 +534,7 @@ app.directive('moveFolder', function () {
 
         $scope.$on('$includeContentLoaded', function (a) {
             $element.find('.first_file span').unbind('click');
-            $element.find('.first_file span').bind('click', function () {                
+            $element.find('.first_file span').bind('click', function () {
                 //if ($(this).html() == '<em>-</em>') {
                 //    $(this).html('<em>+</em>');
                 //    $(this).parent().next().slideUp();
@@ -550,7 +550,7 @@ app.directive('moveFolder', function () {
                 } else {
                     //隐藏
                     $(this).html('<em>+</em>');
-                    $(this).parent().next().slideUp();                    
+                    $(this).parent().next().slideUp();
                 }
             })
         });
@@ -569,7 +569,7 @@ app.directive('moveItem', function () {
 
     directive.restrict = 'EA';
 
-    directive.scope = {        
+    directive.scope = {
         itemNode: '='
     }
 
@@ -799,7 +799,7 @@ app.directive('fileIcon', function () {
     var directive = {};
 
     directive.restrict = 'EA';
- 
+
     directive.replace = true;
 
     directive.templateUrl = '/Components/templates/file_icon.html';
@@ -834,11 +834,11 @@ app.directive('iesKenItem', function () {
         onRemove: '&'
     }
 
-    directive.link = function (scope, elem, iAttrs) { 
+    directive.link = function (scope, elem, iAttrs) {
         $('.knowledge_list dd').hover(function () {
             $(this).addClass('active').siblings().removeClass('active');
         })
-    } 
+    }
 
     return directive;
 });
@@ -868,7 +868,7 @@ app.directive('kenChapterItem', function () {
     return directive;
 });
 
-app.directive('iesChapterItem', function () {
+app.directive('iesChapterItem', ['$timeout', function ($timeout) {
     var directive = {};
 
     directive.restrict = 'EA';
@@ -886,27 +886,136 @@ app.directive('iesChapterItem', function () {
     }
 
     directive.link = function (scope, elem, iAttrs) {
-        console.log(elem.find('.second_item').length)
-        //elem.find('.second_item li').bind('click', function () { 
-        //    elem.addClass('active');
-        //}); 
+
+        ///编辑
+        elem.find('a:first span:first').bind('click', function () {
+            elem.siblings().removeClass('active');
+
+            elem.find('a:first').addClass('chapterHide');
+            elem.find('a:last').removeClass('chapterHide');
+
+            elem.siblings().find('a:first').removeClass('chapterHide');
+            elem.siblings().find('a:last').addClass('chapterHide');
+
+            elem.addClass('active');
+        });
+
+        ///增加小节
+        elem.find('a:first span:last').bind('click', function () {
+            elem.siblings().removeClass('active');
+
+            elem.find('a:first').removeClass('chapterHide');
+            elem.find('a:last').addClass('chapterHide');
+
+            elem.siblings().find('a:first').removeClass('chapterHide');
+            elem.siblings().find('a:last').addClass('chapterHide');
+
+            elem.addClass('active');
+        });
+
+        ///点选
+        elem.find('a:first p').bind('click', function () {
+            elem.siblings().removeClass('active');
+
+            elem.siblings().find('a:first').removeClass('chapterHide');
+            elem.siblings().find('a:last').addClass('chapterHide');
+
+            elem.find('.second_item li a:first').removeClass('chapterHide');
+            elem.find('.second_item li a:last').addClass('chapterHide');
+
+            elem.find('.second_item li').removeClass('active');
+            elem.find('.second_item li:first').addClass('active');
+
+            elem.addClass('active');
+        });
     }
 
     directive.controller = function ($scope, $element) {
-    
 
-        $scope.addSection = function (chapters, chapter) {
-            var section = {
-                ChapterID: 0,
-                Title: ''
-            }
-            chapters.push(section);
+        $scope.willEdit = function (chapter) {
+            $scope.$emit('onWillEdit', chapter);
         }
 
-        $scope.childEdit = function (chapter) {
-            var aFirstChapter = $element.find('.second_item li"');
-            console.log(aFirstChapter.find('.first_chapter'));
-            //console.log(aFirstChapter);
+        $scope.$on('onChapterEdited', function (event, editResult) {
+            $element.find('a:first').removeClass('chapterHide');
+            $element.find('a:last').addClass('chapterHide');
+        });
+
+        $scope.willAddSection = function (chapter, items) {
+            var section = angular.copy(chapter);
+            section.ParentID = chapter.ChapterID;
+            section.ChapterID = 0;
+            section.Title = '';
+            section.Orde = 9999;
+            items.push(section);
+
+            $timeout(function () { 
+                $element.siblings().removeClass('active');
+
+                $element.find('a:first').removeClass('chapterHide');
+                $element.find('a:last').addClass('chapterHide');
+
+                $element.siblings().find('a:first').removeClass('chapterHide');
+                $element.siblings().find('a:last').addClass('chapterHide');
+
+                $element.find('.second_item li').removeClass('active');
+                if (!$element.hasClass('active')) {
+                    $element.addClass('active');
+                }
+
+                $element.find('.second_item li:last a:first').addClass('chapterHide');
+                $element.find('.second_item li:last a:last').removeClass('chapterHide');
+                $element.find('.second_item li:last a:last input').focus();
+
+            }, 10);
+        }
+    }
+
+    return directive;
+}]);
+
+app.directive('iesChapterSection', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.replace = true;
+
+    directive.templateUrl = '/Components/templates/chapterSection.html';
+
+    directive.scope = {
+        sectionChapter: '=',
+        chapterChildSelectedItem: '='
+    }
+
+    directive.link = function (scope, elem, iAttrs) {
+        ///编辑
+        elem.find('a:first span').bind('click', function () {
+            elem.siblings().find('a:first').removeClass('chapterHide');
+            elem.siblings().find('a:last').addClass('chapterHide');
+            elem.siblings().removeClass('active');
+            elem.removeClass('active');
+            elem.find('a:first').addClass('chapterHide');
+            elem.find("a:last").removeClass('chapterHide');
+            elem.find("a:last input").focus();
+        });
+
+        ///点选
+        elem.find('a:first p').bind('click', function () {
+            elem.siblings().removeClass('active');
+            elem.addClass('active');
+            elem.find('a:first').removeClass('chapterHide');
+            elem.find("a:last").addClass('chapterHide');
+
+        });
+    }
+
+    directive.controller = function ($scope, $element) {
+        $scope.childBlur = function (chapter) {
+            $element.addClass('active');
+            $element.find('a:first').removeClass('chapterHide');
+            $element.find("a:last").addClass('chapterHide');
+            $scope.$emit('onEditSection', chapter);
         } 
     }
 
