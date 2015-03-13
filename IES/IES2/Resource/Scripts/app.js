@@ -19,7 +19,7 @@ var appModule = angular.module('app', [
 
 appModule.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', function ($stateProvider, $locationProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise('/content/resource');
+    $urlRouterProvider.otherwise('#/content/resource');
 
     $stateProvider
         //index 

@@ -1755,7 +1755,17 @@
             border: 1px solid #e4e4e4;
             color: #666;
         }
-
+         .label_item p input {
+            display: block;
+            float: left;
+            width: 165px;
+            padding: 0 5px;
+            height: 24px;
+            line-height: 24px\9;
+            vertical-align: middle;
+            border: 1px solid #e4e4e4;
+            color: #666;
+        }
         .label_item p a {
             display: block;
             width: 24px;
@@ -1793,7 +1803,6 @@
             line-height: 24px;
             background: #374760;
             color: #fff;
-            width: 62px;
             text-align: center;
         }
 
