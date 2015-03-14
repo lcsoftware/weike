@@ -151,6 +151,7 @@
     <Content Include="Components\templates\exerciseList.html" />
     <Content Include="Components\templates\exerciseUploader.html" />
     <Content Include="Components\templates\fileOperation.html" />
+    <Content Include="Components\templates\fileProperty.html" />
     <Content Include="Components\templates\fileShared.html" />
     <Content Include="Components\templates\fileShareRange.html" />
     <Content Include="Components\templates\file_icon.html" />
@@ -1336,7 +1337,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>8080</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:8083/</IISUrl>
+          <IISUrl>http://localhost:8083/Resource</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:8083/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -13,18 +13,22 @@ aService.factory('httpService', ['$http', '$q', function ($http, $q) {
 
     var service = {};
 
+    var urlPrefix = window.appPatch;
+    //var urlPrefix = '';
+
     service.get = function (url, thenFn) {
-        $http.get(url).then(thenFn);
+        $http.get(urlPrefix + url).then(thenFn);
     }
 
     service.ajaxPost = function (url, method, param, callback) {
-        var url = url + '/' + method;
-        service.post(url, param, callback);
+        var httpUrl = url + '/' + method;
+        service.post(httpUrl, param, callback);
     }
 
     //异步post
     service.post = function (url, param, thenFn, errFn) {
-        $http.post(url, param)
+        var httpUrl = urlPrefix + url;
+        $http.post(httpUrl, param)
             .success(function (data) {
                 if (thenFn) {
                     thenFn(data);
@@ -41,7 +45,7 @@ aService.factory('httpService', ['$http', '$q', function ($http, $q) {
     service.promise = function (url, param) {
         var deferred = $q.defer();
 
-        $http.post(url, param)
+        $http.post(urlPrefix + url, param)
             .success(function (data) { deferred.resolve(data); })
             .error(function (reason) { deferred.reject(reason) });
 
