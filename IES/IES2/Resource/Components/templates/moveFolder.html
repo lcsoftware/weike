@@ -4,7 +4,7 @@
     <script type="text/ng-template" id="nodes_renderer.html">
         <p class="first_file">
             <span ng-show="node.Children.length>0"><em>+</em></span>
-            <a ng-click="onSelectedMove(node)">{{node.Name}}</a>
+            <a ng-click="onSelectedMove(node)" ng-class="{'mobileSelected':node.Id==selected}">{{node.Name}}</a>
         </p>
         <ul ng-model="node.Children" style="display:none">
             <li ng-repeat="node in node.Children" ng-include="'nodes_renderer.html'">

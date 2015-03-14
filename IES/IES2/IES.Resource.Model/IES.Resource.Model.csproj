@@ -58,6 +58,7 @@
     <Compile Include="ExerciseCompInfo.cs" />
     <Compile Include="ExerciseCommon.cs" />
     <Compile Include="ExerciseType.cs" />
+    <Compile Include="FileChapterKen.cs" />
     <Compile Include="FolderRelation.cs" />
     <Compile Include="IExercise.cs" />
     <Compile Include="IFile.cs" />

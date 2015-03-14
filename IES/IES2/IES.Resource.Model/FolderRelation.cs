@@ -53,6 +53,8 @@ namespace IES.Resource.Model
 
         public string DownURL { get; set; }
 
+        public string CreateUserName { get; set; }
+
         public DateTime CreateTime { get; set; }
 
         public IList<FolderRelation> Children { get; set; }

@@ -360,7 +360,7 @@ app.directive('exerciseList', ['assistService', 'previewService', 'exerciseServi
         elem.hover(function () { $(this).find('.topic_icon').show(); },
                    function () { $(this).find('.topic_icon').hide(); }
                   );
-        elem.find('.icon.delete_topic,.icon.edit_topic').hover(
+        elem.find('.icon.delete_topic,.icon.edit_topic,.icon.icon_eye').hover(
             function () {
                 $(this).find('.icon_content').show();
                 elem.find('.icon.share_topic').find('.icon_share_content').hide();
@@ -380,7 +380,7 @@ app.directive('exerciseList', ['assistService', 'previewService', 'exerciseServi
         })
     }
 
-    directive.controller = function ($scope, assistService, previewService, exerciseService, $state) {
+    directive.controller = function ($scope, assistService, previewService, exerciseService, $state,$window) {
 
         $scope.editExercise = function (exercise) {
             $scope.$emit('onEditExercise', exercise);
@@ -441,7 +441,8 @@ app.directive('exerciseList', ['assistService', 'previewService', 'exerciseServi
 
         var goPreView = function (model) {
             previewService.exercise = angular.copy(model);
-            $state.go('preview');
+            $scope.$emit('onPreviewExercise', previewService.exercise);
+            //$state.go('preview');
         }
 
         $scope.preView = function (exercise) {
@@ -500,6 +501,27 @@ app.directive('exerciseList', ['assistService', 'previewService', 'exerciseServi
     return directive;
 }]);
 
+app.directive('preView', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.scope = {
+        exercise: '=',
+        onClose:'&'
+    }
+
+    directive.templateUrl = '/Components/templates/preView.html';
+
+
+    directive.link = function (scope, elem, iAttrs) {
+    }
+    directive.controller = function ($scope, $element) {
+    }
+
+    return directive;
+});
+
 //移动文件
 app.directive('moveFolder', function () {
     var directive = {};
@@ -517,7 +539,7 @@ app.directive('moveFolder', function () {
 
 
     directive.link = function (scope, elem, iAttrs) {
-        //移动文件弹出框    
+        //移动文件弹出框           
 
         //$('.first_file span').bind('click', function () {
         //    if ($(this).parent().next().is(':hidden')) {
@@ -557,6 +579,7 @@ app.directive('moveFolder', function () {
 
         $scope.onSelectedMove = function (node) {
             $scope.$emit('onSelectedMove', node);
+            $scope.selected = node.Id;
         }
     }
 

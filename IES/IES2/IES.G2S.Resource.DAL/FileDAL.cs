@@ -485,6 +485,23 @@ namespace IES.G2S.Resource.DAL
             }
         }
 
+        public static FileChapterKen File_Chapter_Ken(int FileID)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@FileID", FileID);
+                    return conn.Query<FileChapterKen>("File_Chapter_Ken", p, commandType: CommandType.StoredProcedure).SingleOrDefault<FileChapterKen>(); 
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
         public static bool File_Key_Edit(File model, Key key, Ken ken)
         {
 

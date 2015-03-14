@@ -187,6 +187,11 @@ namespace IES.G2S.Resource.BLL
             return FileDAL.File_Chapter_Ken_Edit(model, chapter, ken);
         }
 
+        public FileChapterKen File_Chapter_Ken(int FileID)
+        {
+            return FileDAL.File_Chapter_Ken(FileID);
+        }
+
         public bool File_ShareRange_Upd(File model)
         {
             return FileDAL.File_ShareRange_Upd(model);

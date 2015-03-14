@@ -131,6 +131,12 @@ namespace App.Resource.DataProvider.Resource
             return new FileBLL().File_Chapter_Ken_Edit(model, chapter, ken);
         }
 
+        [WebMethod]
+        public static FileChapterKen File_Chapter_Ken(int FileID)
+        {
+            return new FileBLL().File_Chapter_Ken(FileID);
+        }
+
         /// <summary>
         /// 设置共享范围
         /// </summary>
@@ -207,6 +213,7 @@ namespace App.Resource.DataProvider.Resource
                 {
                     fr.DownURL = item.DownURL;
                 }
+                fr.CreateUserName = item.CreateUserName;
                 allFolderRelations.Add(fr);
             }
 

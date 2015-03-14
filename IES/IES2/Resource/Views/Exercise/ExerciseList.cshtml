@@ -69,7 +69,10 @@
         </dd>
     </dl>
 </div> 
-
+<div class="pop_bg" ng-show="bgPreview"></div>
+<div class="pop_800" id="ePreview" style="display:none">
+    <pre-view exercise="exercisePreview" on-close="closePreview()"></pre-view>
+</div>
 <ies-dialog id="eConfirm" style="display:none"
             dialog-title="确认"
             dialog-text="您确认删除该习题吗？"
@@ -80,3 +83,4 @@
                      ocid="course.OCID"
                      course-id="course.CourseID"
                      upload-url="/DataProvider/FileUpload.ashx/?FROM=3" />
+

@@ -11,9 +11,68 @@ var appExercise = angular.module('app.exercise.controllers', [
     'app.common.services'
 ]);
 
-appExercise.controller('PreviewCtrl', ['$scope', 'previewService', function ($scope, previewService) {
-    $scope.exercise = previewService.exercise;
+appExercise.controller('PreviewCtrl', ['$scope', 'previewService', '$state', '$stateParams', function ($scope, previewService, $state, $stateParams) {
+    $scope.exercise = previewService.exercise;   
     $scope.$emit('onPreviewSwitch', true);
+    $scope.back = function () {
+        if ($scope.exercise.exercisecommon.exercise.ExerciseID == 0) {
+            window.history.back();
+            return;
+        }
+        var param = { ocid: $scope.exercise.exercisecommon.exercise.OCID, ExerciseID: $scope.exercise.exercisecommon.exercise.ExerciseID };
+        switch ($scope.exercise.exercisecommon.exercise.ExerciseType) {
+            case 18: //简答题
+                $state.go('exercise.shortanswer', param)
+                break;
+            case 4: //名词解释
+                $state.go('exercise.noun', param)
+                break;
+            case 12: //听力题
+                $state.go('exercise.listening', param)
+                break;
+            case 17: //自定义题
+                $state.go('exercise.custom', param)
+                break;
+            case 10: //问答题
+                $state.go('exercise.quesanswer', param)
+                break;
+            case 13: //写作题
+                $state.go('exercise.quesanswer', param)
+                break;
+            case 1: //判断题
+                $state.go('exercise.truefalse', param)
+                break;
+            case 5: //填空题
+                $state.go('exercise.fillblank', param)
+                break; 
+            case 6:  //连线题
+                $state.go('exercise.connection', param)
+                break;
+            case 2: //单选题
+                $state.go('exercise.radio', param)
+                break;
+            case 3: //多选题
+                $state.go('exercise.multiple', param)
+                break;
+            case 11: //翻译题
+                $state.go('exercise.translation', param)
+                break;
+            case 7: //排序题
+                $state.go('exercise.sorting', param)
+                break;
+            case 8: //分析题
+                $state.go('exercise.analysis', param)
+                break;
+            case 9: //计算题
+                $state.go('exercise.analysis', param)
+                break;
+            case 14: //阅读理解题
+                $state.go('exercise.reading', param)
+                break;
+            default:
+                break;
+        }
+    }
 }]);
 
 appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 'freezeService', 'tagService', 'resourceService', 'resourceKenService', 'exerciseService', 'contentService', 'kenService', 'assistService',
@@ -116,11 +175,12 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
 
         assistService.Resource_Dict_Diffcult_Get(function (data) {
             if (data) {
-                $scope.difficulties = angular.copy(data);
-                var item = angular.copy($scope.difficulties[0]);
-                item.id = 0;
-                item.name = '不限';
-                $scope.difficulties.insert(0, item);
+                //$scope.difficulties = angular.copy(data);
+                //var item = angular.copy($scope.difficulties[0]);
+                //item.id = 0;
+                //item.name = '不限';
+                //$scope.difficulties.insert(0, item);
+                $scope.difficulties = data;
                 $scope.data.difficult = $scope.difficulties[0];
             }
         });
@@ -209,7 +269,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
                         if (item.Kens && item.Kens.length > 0) {
                             item.Kens = item.Kens.split(/wshgkjqbwhfbxlfrh/).distinct();
                             item.Kens.splice(item.Kens.length - 1, 1);
-                        } 
+                        }
                     });
                     $scope.exercises = data.d;
                     var rowsCount = $scope.exercises[0].RowsCount;
@@ -321,7 +381,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
                 if (data.d === true) {
                     layPageFlag = false;
                     if ($scope.checks.length === $scope.exercises.length) {
-                        exerciseService.Page.Index = exerciseService.Page.Index > 1 ? exerciseService.Page.Index - 1 : 1; 
+                        exerciseService.Page.Index = exerciseService.Page.Index > 1 ? exerciseService.Page.Index - 1 : 1;
                     }
                     filterChanged();
                     $scope.checks.length = 0;
@@ -363,6 +423,19 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
             $scope.exerciseItemDelete = exercise;
             $('#eConfirm').show();
         });
+
+        $scope.bgPreview = false;
+        //显示预览页面
+        $scope.$on('onPreviewExercise', function (event,exercise) {
+            $scope.exercisePreview = exercise;
+            $('#ePreview').show();
+            $scope.bgPreview = true;
+        });
+        //关闭预览页面
+        $scope.closePreview = function () {
+            $('#ePreview').hide();
+            $scope.bgPreview = false;
+        }
 
         $scope.exerciseItemDelete = {};
         ///确认删除
@@ -504,7 +577,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
                                 item.ChapterID = 0;
                                 item.Title = '请选择章节';
                                 $scope.chapters = data.d;
-                                $scope.chapters.insert(0, item);                                
+                                $scope.chapters.insert(0, item);
                                 $scope.data.chapter = $scope.chapters[0];
                             }
                         });
@@ -546,7 +619,10 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         });
 
         assistService.Resource_Dict_Scope_Get(function (data) {
-            if (data) $scope.scopes = angular.copy(data);
+            if (data) {
+                $scope.scopes = angular.copy(data);
+                $scope.data.scopes.push($scope.scopes[0]);
+            }
         });
 
         $scope.$watch('data.exerciseType', function (v) {
@@ -679,7 +755,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         var setChapter = function (chapterID) {
             var length = $scope.chapters.length;
             if (length == 0) {
-                chapterService.Chapter_List({ OCID: $scope.data.course.OCID }, function (data) {                    
+                chapterService.Chapter_List({ OCID: $scope.data.course.OCID }, function (data) {
                     if (data.d && data.d.length > 0) {
                         var item = {};
                         angular.copy(data.d[0], item);
@@ -697,7 +773,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
                     }
                 });
             }
-            
+
         }
         var setScope = function (Scope) {
             $scope.data.scopes.length = 0;
@@ -761,14 +837,23 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         $scope.preview = function () {
             $scope.$broadcast('onPreview');
         }
-
-
+        $scope.bgPreview = false;
         $scope.$on('onBeginPreview', function (event, model) {
             model.exercisecommon.exercise.ExerciseType = $scope.data.exerciseType.id;
             $scope.data.exercise = model;
             previewService.exercise = angular.copy(model);
-            $state.go('preview');
-        });
+            //$state.go('preview');
+            $scope.exercisePreview = previewService.exercise;
+            $('#ePreview').show();
+            $scope.bgPreview = true;
+        });        
+        //关闭预览页面
+        $scope.closePreview = function () {
+            $('#ePreview').hide();
+            $scope.bgPreview = false;
+        }
+
+
         ///更新附件关联关系
         var attachmentSave = function (exerciseID) {
             if (exerciseID === -1) return;
@@ -792,10 +877,10 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         $scope.back = function () {
             var urlSource = freezeService.getFreeze(tagService.UrlSourceTag);
             if (urlSource) {
-                $state.go(urlSource.data); 
+                $state.go(urlSource.data);
             } else {
                 $state.go('content.exercise');
-            } 
+            }
         }
 
         ///删除附件
@@ -834,7 +919,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
 
         $scope.$on('onCompleteItem', function (event) {
 
-        });
+        });        
     }]);
 
 
@@ -942,7 +1027,7 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
             for (var i = 0; i < $scope.model.Children.length; i++) {
                 $scope.model.Children[i].exercisecommon.exercise.ExerciseType = 2;
                 $scope.model.Children[i].exercisecommon.exercise.ExerciseTypeName = '单选题';
-            }            
+            }
         }
         //增加子多选题
         if ($scope.isShowMultiple == 1) {
@@ -996,7 +1081,7 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
                 //    $scope.isShowMultiple = 1;
                 //if ($scope.model.ChildrenFillBlank[0].exercisecommon.exercise.ExerciseType == 18)
                 //    $scope.isShowFillBlank = 1;
-                if ($scope.model.Children.length>0)
+                if ($scope.model.Children.length > 0)
                     $scope.isShowRadio = 1;
                 if ($scope.model.ChildrenMultiple.length > 0)
                     $scope.isShowMultiple = 1;

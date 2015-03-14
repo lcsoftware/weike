@@ -39,10 +39,11 @@
                 </ul> 
             </div>
         </div>
+        <div id="preview"></div>
         <div class="paper_content">
             <div ui-view></div>
             <div class="btn_box">
-                <a dialog-show dialog-id="eExercisePreview" class="save" ng-click="preview()">预览</a>
+                <a dialog-show dialog-id="eExercisePreview" class="save" ng-click="preview()" onclick="$('html,body').animate({ scrollTop: $('#preview').offset().top }, 500)">预览</a>
                 <a href="javascript:;" class="save" ng-click="submit()">保存</a>
                 <a href="javascript:;" class="cancel" ui-sref="content.exercise">取消</a>
             </div>
@@ -50,7 +51,11 @@
 
     </div>
 </div>
+<div class="pop_bg" ng-show="bgPreview"></div>
+<div class="pop_800" id="ePreview" style="display:none;margin-top:20%;">
+    <pre-view exercise="exercisePreview" on-close="closePreview()"></pre-view>
+</div>
 
-<exercise-preview id="eExercisePreview" style="display:none" exercise="data.exercise"></exercise-preview>
+@*<exercise-preview id="eExercisePreview" style="display:none" exercise="data.exercise"></exercise-preview>*@
 <ies-file-uploader id="eIesUploader" style="display:none" upload-url="/DataProvider/FileUpload.ashx/?FROM=2" />
 

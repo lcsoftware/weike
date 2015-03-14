@@ -1,7 +1,7 @@
 ﻿<div class="all_knowledge">
     <dl class="knowledge_list">
         <dt>全部知识点</dt>
-        <ies-ken-item ng-repeat="item in ocKens | orderBy:orderField"
+        <ies-ken-item ng-repeat="item in ocKens"
                       on-remove="fireRemove(item)"
                       on-edit="editKen(item)"
                       ng-click="kenFocus(item)"

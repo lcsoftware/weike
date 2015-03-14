@@ -151,6 +151,7 @@
     <Content Include="Components\templates\exerciseList.html" />
     <Content Include="Components\templates\exerciseUploader.html" />
     <Content Include="Components\templates\fileOperation.html" />
+    <Content Include="Components\templates\fileProperty.html" />
     <Content Include="Components\templates\fileShared.html" />
     <Content Include="Components\templates\fileShareRange.html" />
     <Content Include="Components\templates\file_icon.html" />
@@ -162,7 +163,7 @@
     <Content Include="Components\templates\moreCourse.html" />
     <Content Include="Components\templates\moveFolder.html" />
     <Content Include="Components\templates\moveItem.html" />
-    <Content Include="Components\templates\preview.html" />
+    <Content Include="Components\templates\preView.html" />
     <Content Include="Components\templates\shareRange.html" />
     <Content Include="Css\app.css" />
     <Content Include="Css\common.css" />

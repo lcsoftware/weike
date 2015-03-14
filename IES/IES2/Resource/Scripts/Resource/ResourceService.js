@@ -49,6 +49,10 @@ aService.factory('resourceService', ['httpService', function (httpService) {
     service.File_Chapter_Ken_Edit = function (file, chapter, ken, callback) {
         httpService.ajaxPost(url, 'File_Chapter_Ken_Edit', { model: file, chapter: chapter, ken: ken }, callback);
     }
+    //获取该文件的知识点和章节
+    service.File_Chapter_Ken = function (fileId, callback) {
+        httpService.ajaxPost(url, 'File_Chapter_Ken', { FileID: fileId }, callback);
+    }
 
     //查询文件夹
     service.Folder_List = function (folder, callback) {

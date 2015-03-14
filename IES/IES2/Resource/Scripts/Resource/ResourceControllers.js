@@ -91,9 +91,8 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         });
     }
 
-
-
-    $scope.orderField = 'Name';
+    //$scope.orderField = 'Name';
+    $scope.orderField = 'folderRelation';
     $scope.changeOrder = function (fieldName) {
         if ($scope.orderField === fieldName) {
             $scope.orderField = '-' + fieldName;
@@ -298,7 +297,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     //$scope.selectedMove = function (item) {
     //    $scope.folder = item;
     //}
-    $scope.$on('onSelectedMove', function (event,node) {
+    $scope.$on('onSelectedMove', function (event, node) {
         $scope.folder = node;
     })
 
@@ -404,6 +403,24 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.fileProperty = function (item) {
         $scope.file = item;
         $('#fileProp').show();
+        resourceService.File_Chapter_Ken(item.Id, function (data) {
+            if (data.d != null) {
+                var chapter = {};
+                for (var i = 0; i < $scope.chapters.length; i++) {
+                    if ($scope.chapters[i].ChapterID == data.d.ChapterID) {
+                        chapter = $scope.chapters[i];
+                    }
+                }
+                var ken = {};
+                for (var i = 0; i < $scope.kens.length; i++) {
+                    if ($scope.kens[i].KenID == data.d.KenID) {
+                        ken = $scope.kens[i];
+                    }
+                }
+                $scope.chapter = chapter;
+                $scope.ken = ken;
+            }
+        })
     }
 
     $scope.$on('onPerpertySave', function (e, chapter, ken) {
@@ -412,7 +429,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         var k = { KenID: ken.KenID };
         resourceService.File_Chapter_Ken_Edit(file, c, k);
     });
-   
+
 
     var removeItem = function (item) {
         var length = $scope.folderRelations.length;
@@ -652,7 +669,17 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         }
     }
 
-    
+    //计算文件大小
+    $scope.CalculatedSize = function (size) {
+        var rs = Math.round(size / 1024);
+        if(rs < 1024){
+            return rs + 'KB';
+        } else {
+            return (rs / 1024).toFixed(2) + 'MB';
+        }
+    }
+
+
     //$scope.showLi = function (a) {
     //    if (a.$element.find('ul').is(':hidden')) {
     //        if (a.$element.find('li').length == 0) {

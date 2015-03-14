@@ -1418,7 +1418,7 @@
 
 /*题型预览*/
 .preview_box {
-    width: 1000px;
+    /*width: 1000px;*/
     margin: 55px auto 0;
     background: #fff;
     padding-bottom: 20px;
@@ -3683,7 +3683,7 @@
 }
 
 .mobileSelected {
-    background-color: #33a31e;
+    background-color: #546879;
 }
 
 .icon_eye {
