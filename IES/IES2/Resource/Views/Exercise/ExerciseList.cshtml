@@ -8,7 +8,7 @@
             <em><i class="icon"></i></em>
             <span>新建习题</span>
         </a>
-        <a class="import_exercise" href="javascript:;"><em><i class="icon"></i></em><span>导入</span></a>
+        <a class="import_exercise" dialog-show dialog-id="eExerciseUploader"><em><i class="icon"></i></em><span>导入</span></a>
         <exercise-batch checks="checks" share-ranges="shareRanges" difficults="difficulties"></exercise-batch>
         <p class="search_topic"><input type="text" ng-model="data.searchKey" placeholder="请输入您要搜索的关键字"><span class="icon" ng-click="search()"></span></p>
     </div>
@@ -75,3 +75,8 @@
             dialog-text="您确认删除该习题吗？"
             ok-title="确定"
             cancel-title="取消"></ies-dialog> 
+
+<ies-exercise-uploader id="eExerciseUploader" style="display:none"
+                     ocid="course.OCID"
+                     course-id="course.CourseID"
+                     upload-url="/DataProvider/FileUpload.ashx/?FROM=3" />

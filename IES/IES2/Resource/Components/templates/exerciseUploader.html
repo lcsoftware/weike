@@ -1,0 +1,105 @@
+﻿<div class="pop_600" style="display:block">
+    <h4>文件导入</h4>
+    <span class="icon close_pop"></span>
+    <div class="pop_box">
+        <div class="options_box">
+            <div class="options_list">
+                <label><b class="red">*</b>选择导入题型：</label>
+                <select>
+                    <option>单选题</option>
+                    <option>多选题</option>
+                    <option>单选题</option>
+                </select>
+                <a class="muban_btn" href="javascript:;">[导入模板下载]</a>
+            </div>
+            <div class="pop_uploader">
+                <h4>习题上传</h4>
+                <span class="icon close_pop"></span>
+                <div class="pop_wrap" style="height:400px">
+                    <div nv-file-drop="" uploader="iesUploader" url="uploadUrl">
+                        <input type="file" id="file" nv-file-select="" uploader="iesUploader" multiple style="display:none;" />
+                        <a class="attach_box" onclick="$('#file').click()">
+                            <i class="icon_forum icon_upload"></i>
+                            上传附件
+                        </a>
+                        <div class="col-md-12" style="margin-top: 40px">
+                            <h3 style="font-size:20px;">上传队列</h3>
+                            <p>已选择文件: {{ iesUploader.queue.length }}</p>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="50%">文件名</th>
+                                        <th ng-show="iesUploader.isHTML5">大小</th>
+                                        <th ng-show="iesUploader.isHTML5">进度</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in iesUploader.queue">
+                                        <td><strong>{{ item.file.name }}</strong></td>
+                                        <td ng-show="iesUploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                        <td ng-show="iesUploader.isHTML5">
+                                            <div class="progress" style="margin-bottom: 0;">
+                                                <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                            </div>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                上传
+                                            </button>
+                                            <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                                取消
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                                移除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div>
+                                <div>
+                                    总进度:
+                                    <div class="progress" style="">
+                                        <div class="progress-bar" role="progressbar" ng-style="{ 'width': iesUploader.progress + '%' }"></div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-success btn-s" ng-click="iesUploader.uploadAll()" ng-disabled="!iesUploader.getNotUploadedItems().length">
+                                    <span class="glyphicon glyphicon-upload"></span> 上传所有
+                                </button>
+                                <button type="button" class="btn btn-warning btn-s" ng-click="iesUploader.cancelAll()" ng-disabled="!iesUploader.isUploading">
+                                    <span class="glyphicon glyphicon-ban-circle"></span> 取消所有
+                                </button>
+                                <button type="button" class="btn btn-danger btn-s" ng-click="iesUploader.clearQueue()" ng-disabled="!iesUploader.queue.length">
+                                    <span class="glyphicon glyphicon-trash"></span> 移除所有
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="test_box">
+            <div class="test_tit">
+                <h5>导入文件数据验证</h5>
+            </div>
+            <div class="table_box">
+                <table class="data_table">
+                    <tbody>
+                        <tr>
+                            <th width="79">序号</th>
+                            <th width="119">异常数据位置</th>
+                            <th width="299">异常原因</th>
+                            <th>结果</th>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="loading_box"></div>
+            </div>
+        </div>
+        <div class="btn_box">
+            <a class="save" href="javascript:;">导入</a>
+            <a class="cancel" href="javascript:;">取消</a>
+        </div>
+    </div>
+</div>

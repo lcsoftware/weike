@@ -59,6 +59,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.tabTitles.length = 0;
         $scope.tabTitles.push({ id: 0, name: course.Name, order: $scope.order });
 
+        resetFilePropertyData(course);
     });
 
     $scope.$on('courseLoaded', function (event, course) {
@@ -69,7 +70,28 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
         $scope.order = 0;
         $scope.tabTitles.push({ id: 0, name: $scope.course.Name, order: $scope.order });
+
+        resetFilePropertyData(course);
     });
+
+    var resetFilePropertyData = function (course) {
+        //获取关联章节数据
+        chapterService.Chapter_List({ OCID: course.OCID }, function (data) {
+            if (data.d.length > 0) {
+                $scope.chapters = data.d;
+                //$scope.chapter = $scope.chapters[0];
+            }
+        });
+        //获取关联知识点数据
+        kenService.Ken_List({ OCID: course.OCID }, function (data) {
+            if (data.d.length > 0) {
+                $scope.kens = data.d;
+                //$scope.ken = $scope.kens[0];
+            }
+        });
+    }
+
+
 
     $scope.orderField = 'Name';
     $scope.changeOrder = function (fieldName) {
@@ -390,20 +412,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         var k = { KenID: ken.KenID };
         resourceService.File_Chapter_Ken_Edit(file, c, k);
     });
-    //获取关联章节数据
-    chapterService.Chapter_List({ OCID: $scope.model.OCID }, function (data) {
-        if (data.d.length > 0) {
-            $scope.chapters = data.d;
-            $scope.chapter = $scope.chapters[0];
-        }
-    });
-    //获取关联知识点数据
-    kenService.Ken_List({ OCID: $scope.model.OCID }, function (data) {
-        if (data.d.length > 0) {
-            $scope.kens = data.d;
-            $scope.ken = $scope.kens[0];
-        }
-    });
+   
 
     var removeItem = function (item) {
         var length = $scope.folderRelations.length;
