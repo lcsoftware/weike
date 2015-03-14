@@ -16,7 +16,7 @@ app.directive('moreCourse', function () {
         course: '='
     }
 
-    directive.templateUrl = '/Components/templates/moreCourse.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/moreCourse.html';
 
     directive.link = function (scope, elem, iAttrs) {
         //查看更多
@@ -52,7 +52,7 @@ app.directive('fileProperty', function () {
         kens: '=',
     }
 
-    directive.templateUrl = '/Components/templates/fileProperty.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/fileProperty.html';
 
     directive.link = function (scope, elem, iAttrs) {
         elem.find('.save,.cancel,.close_pop').bind('click', function () {
@@ -86,7 +86,7 @@ app.directive('addKnowledge', function () {
         onCancel: '&'
     }
 
-    directive.templateUrl = '/Components/templates/addKnowledge.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/addKnowledge.html';
 
     directive.link = function (scope, elem, iAttrs) {
         //弹出右键菜单
@@ -124,7 +124,7 @@ app.directive('addChapter', function () {
 
     directive.replace = true;
 
-    directive.templateUrl = '/Components/templates/addChapter.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/addChapter.html';
 
     directive.link = function (scope, elem, iAttrs) {
         //弹出右键菜单
@@ -156,7 +156,7 @@ app.directive('folder', function () {
         folderItem: '='
     }
 
-    directive.templateUrl = '/Components/templates/folder.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/folder.html';
 
     directive.link = function (scope, elem, iAttrs) {
         //重命名表现形式
@@ -189,7 +189,7 @@ app.directive('fileOperation', function () {
         ocid: '='
     }
 
-    directive.templateUrl = '/Components/templates/fileOperation.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/fileOperation.html';
 
     directive.link = function (scope, elem, iAttrs) {
         scope.rangeSelection = {};
@@ -228,7 +228,7 @@ app.directive('shareRange', function () {
         range: '='
     }
 
-    directive.templateUrl = '/Components/templates/shareRange.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/shareRange.html';
 
     directive.link = function (scope, elem, iAttrs) {
         elem.hover(function () {
@@ -252,7 +252,7 @@ app.directive('fileShareRange', function () {
         range: '='
     }
 
-    directive.templateUrl = '/Components/templates/fileShareRange.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/fileShareRange.html';
 
     directive.link = function (scope, elem, iAttrs) {
         elem.hover(function () {
@@ -277,7 +277,7 @@ app.directive('batchOperation', function () {
         ocid: '='
     }
 
-    directive.templateUrl = '/Components/templates/batchOperation.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/batchOperation.html';
 
     directive.link = function (scope, elem, iAttrs) {
         scope.shareRange = function (range) {
@@ -305,7 +305,7 @@ app.directive('exerciseBatch', function () {
         difficults: '='
     }
 
-    directive.templateUrl = '/Components/templates/exerciseBatch.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/exerciseBatch.html';
 
     directive.link = function (scope, elem, iAttrs) {
         elem.find('.batch_list li').hover(function () {
@@ -354,7 +354,7 @@ app.directive('exerciseList', ['assistService', 'previewService', 'exerciseServi
         disableDifficult: '='
     }
 
-    directive.templateUrl = '/Components/templates/exerciseList.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/exerciseList.html';
 
     directive.link = function (scope, elem, iAttrs) {
         elem.hover(function () { $(this).find('.topic_icon').show(); },
@@ -535,7 +535,7 @@ app.directive('moveFolder', function () {
         files: '='
     }
 
-    directive.templateUrl = '/Components/templates/moveFolder.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/moveFolder.html';
 
 
     directive.link = function (scope, elem, iAttrs) {
@@ -596,7 +596,7 @@ app.directive('moveItem', function () {
         itemNode: '='
     }
 
-    directive.templateUrl = '/Components/templates/moveItem.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/moveItem.html';
 
     directive.link = function (scope, elem, iAttrs) {
         //移动文件弹出框    
@@ -632,7 +632,7 @@ app.directive('editor', function () {
         editorId: '@'
     }
 
-    directive.templateUrl = '/Components/templates/editor.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/editor.html';
 
     directive.link = function (scope, elem, iAttrs) {
     }
@@ -653,7 +653,7 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
         folderObj: '='
     }
 
-    directive.templateUrl = '/Components/templates/iesFileUploader.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/iesFileUploader.html';
 
     directive.link = function (scope, elem, iAttrs) {
         elem.find('.close_pop').bind('click', function () {
@@ -780,7 +780,7 @@ app.directive('iesExerciseUploader', ['FileUploader', function (FileUploader) {
         courseId: '='
     }
 
-    directive.templateUrl = '/Components/templates/exerciseUploader.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/exerciseUploader.html';
 
     directive.link = function (scope, elem, iAttrs) {
         elem.find('.close_pop').bind('click', function () {
@@ -882,7 +882,7 @@ app.directive('attachList', function () {
 
     directive.replace = true;
 
-    directive.templateUrl = '/Components/templates/attachmentList.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/attachmentList.html';
 
     directive.scope = {
         attachments: '='
@@ -910,7 +910,7 @@ app.directive('exercisePreview', function () {
 
     directive.replace = true;
 
-    directive.templateUrl = '/Components/templates/preview.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/preview.html';
 
     directive.scope = {
         exercise: '='
@@ -932,7 +932,7 @@ app.directive('fileIcon', function () {
 
     directive.replace = true;
 
-    directive.templateUrl = '/Components/templates/file_icon.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/file_icon.html';
 
     directive.scope = {
         iconType: '=',
@@ -955,7 +955,7 @@ app.directive('iesKenItem', function () {
 
     directive.replace = true;
 
-    directive.templateUrl = '/Components/templates/kenItemList.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/kenItemList.html';
 
     directive.scope = {
         kenItem: '=',
@@ -980,7 +980,7 @@ app.directive('kenChapterItem', function () {
 
     directive.replace = true;
 
-    directive.templateUrl = '/Components/templates/kenChapterItem.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/kenChapterItem.html';
 
     directive.scope = {
         kenChapter: '=',
@@ -1005,7 +1005,7 @@ app.directive('iesChapterItem', ['$timeout', function ($timeout) {
 
     directive.replace = true;
 
-    directive.templateUrl = '/Components/templates/chapterItem.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/chapterItem.html';
 
     directive.scope = {
         chapterSelectedItem: '=',
@@ -1111,7 +1111,7 @@ app.directive('iesChapterSection', function () {
 
     directive.replace = true;
 
-    directive.templateUrl = '/Components/templates/chapterSection.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/chapterSection.html';
 
     directive.scope = {
         sectionChapter: '=',
@@ -1157,7 +1157,7 @@ app.directive('iesDialog', function () {
 
     directive.restrict = 'EA';
 
-    directive.templateUrl = '/Components/templates/confirm.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/confirm.html';
 
     directive.scope = {
         dialogTitle: '@',

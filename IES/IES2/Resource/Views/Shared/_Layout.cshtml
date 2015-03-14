@@ -33,7 +33,8 @@
         <div class="public_header">
             <div class="header_center">
                 <div class="company_logo">
-                    <img src="../../images/company_logo.png" width="70" height="30" alt="">上海卓越睿新数码科技有限公司
+                    @*<img src="../../images/company_logo.png" width="70" height="30" alt="">上海卓越睿新数码科技有限公司*@
+                    <img ng-src="{{basePath}}/images/company_logo.png" width="70" height="30" alt="">上海卓越睿新数码科技有限公司
                 </div>
                 <div class="user_box">
                     <p class="user_name">
@@ -111,7 +112,7 @@
         <a class="icon_fold" href="javascript:;" ng-show="enableSideLeft"></a> 
         <!--公用底部开始-->
         <div class="footer">
-            <p class="copyright"><img src="/images/company_logo2.png" width="70" height="30" alt="">Copyright©2003-2014，版权所有 www.able-elec.com</p>
+            <p class="copyright"><img ng-src="{{basePath}}/images/company_logo2.png" width="70" height="30" alt="">Copyright©2003-2014，版权所有 www.able-elec.com</p>
             <div class="company_info">
                 <a href="#" target="_blank">关于卓越</a>|
                 <a href="#" target="_blank">服务中心</a>|

@@ -47,7 +47,10 @@ namespace App.Resource.Routing
                         filePath = filePath += ".cshtml";
                     }
                 }
-
+                //if (!requestContext.HttpContext.Request.ApplicationPath.Equals("/"))
+                //{
+                //    filePath = filePath.Replace("~", requestContext.HttpContext.Request.ApplicationPath);
+                //}
                 var handler = WebPageHttpHandler.CreateFromVirtualPath(filePath); // returns NULL if .cshtml file wasn't found
 
                 if (handler == null)
@@ -58,6 +61,7 @@ namespace App.Resource.Routing
                 else
                 {
                     requestContext.RouteData.DataTokens.Add("templateUrl", filePath.Substring(1, filePath.Length - 8));
+                    //requestContext.RouteData.DataTokens.Add("templateUrl", filePath);
                 }
 
                 return handler;
