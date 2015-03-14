@@ -745,6 +745,113 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
 }]);
 
 
+//文件上传
+app.directive('iesExerciseUploader', ['FileUploader', function (FileUploader) {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.scope = {
+        uploadUrl: '@',
+        ocid: '=',
+        courseId: '='
+    }
+
+    directive.templateUrl = '/Components/templates/exerciseUploader.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        elem.find('.close_pop').bind('click', function () {
+            elem.hide();
+        });
+    }
+
+    directive.controller = function ($scope, $element) {
+        //----------上传文件start--------
+        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: $scope.uploadUrl });
+
+        $scope.$watch('ocid', function (v) {
+            angularFileUploader.formData.length = 0;
+            angularFileUploader.formData.push({ OCID: v });
+            angularFileUploader.formData.push({ CourseID: $scope.courseId });
+            if ($scope.folderObj) {
+                angularFileUploader.formData.push({ FolderID: $scope.folderObj.Id });
+            } else {
+                angularFileUploader.formData.push({ FolderID: 0 });
+            }
+            angularFileUploader.formData.push({ ShareRange: 2 });
+        });
+
+        $scope.$watch('courseId', function (v) {
+            angularFileUploader.formData.length = 0;
+            angularFileUploader.formData.push({ OCID: $scope.ocid });
+            angularFileUploader.formData.push({ CourseID: v });
+            if ($scope.folderObj) {
+                angularFileUploader.formData.push({ FolderID: $scope.folderObj.Id });
+            } else {
+                angularFileUploader.formData.push({ FolderID: 0 });
+            }
+            angularFileUploader.formData.push({ ShareRange: 2 });
+        });
+
+        // FILTERS
+        angularFileUploader.filters.push({
+            name: 'customFilter',
+            fn: function (item /*{File|FileLikeObject}*/, options) {
+                return this.queue.length < 10;
+            }
+        });
+
+        angularFileUploader.filters.push({
+            name: 'fileSuffix',//过滤器名称 过滤文件类型
+            fn: function (item, options) {
+                var fileName = item.name;
+                var suffix = fileName.substring(fileName.lastIndexOf('.'), fileName.length);
+                //return suffix == ".txt" || suffix == ".jpg" || suffix == ".gif";
+                return true;
+            }
+        });
+
+        // CALLBACKS 
+        angularFileUploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
+            $scope.$emit('onWhenAddingFileFailed', item, filter, options);
+        };
+        angularFileUploader.onAfterAddingFile = function (fileItem) {
+            $scope.$emit('onAfterAddingFile', fileItem);
+        };
+        angularFileUploader.onAfterAddingAll = function (addedFileItems) {
+            $scope.$emit('onAfterAddingAll', addedFileItems);
+        };
+        angularFileUploader.onBeforeUploadItem = function (item) {
+            $scope.$emit('onBeforeUploadItem', item);
+        };
+        angularFileUploader.onProgressItem = function (fileItem, progress) {
+            $scope.$emit('onProgressItem', fileItem, progress);
+        };
+        angularFileUploader.onProgressAll = function (progress) {
+            $scope.$emit('onProgressAll', progress);
+        };
+        angularFileUploader.onSuccessItem = function (fileItem, response, status, headers) {
+            $scope.$emit('onSuccessItem', fileItem, response, status, headers);
+        };
+        angularFileUploader.onErrorItem = function (fileItem, response, status, headers) {
+            $scope.$emit('onErrorItem', fileItem, response, status, headers);
+        };
+        angularFileUploader.onCancelItem = function (fileItem, response, status, headers) {
+            $scope.$emit('onCancelItem', fileItem, response, status, headers);
+        };
+        angularFileUploader.onCompleteItem = function (fileItem, response, status, headers) {
+            $scope.$emit('onCompleteItem', fileItem, response, status, headers);
+        };
+        angularFileUploader.onCompleteAll = function () {
+            angularFileUploader.clearQueue();
+            $scope.$emit('onCompleteAll');
+            $element.hide();
+        };
+    }
+
+    return directive;
+}]);
+
 app.directive('attachList', function () {
     var directive = {};
 

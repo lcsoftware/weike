@@ -149,6 +149,7 @@
     <Content Include="Components\templates\editor.html" />
     <Content Include="Components\templates\exerciseBatch.html" />
     <Content Include="Components\templates\exerciseList.html" />
+    <Content Include="Components\templates\exerciseUploader.html" />
     <Content Include="Components\templates\fileOperation.html" />
     <Content Include="Components\templates\fileShared.html" />
     <Content Include="Components\templates\fileShareRange.html" />
