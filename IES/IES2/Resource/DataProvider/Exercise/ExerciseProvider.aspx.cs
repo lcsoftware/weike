@@ -2,6 +2,7 @@
 using IES.Resource.Model;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Services;
@@ -153,6 +154,126 @@ namespace App.Resource.DataProvider.Exercise
         //        return exerciseRs;
         //    }
         //}
+
+        /// <summary>
+        /// 习题导入
+        /// </summary>
+        /// <param name="dt">要导入的数据</param>
+        /// <param name="exerciseType">习题类型</param>
+        /// <returns>true成功，false失败</returns>
+        [WebMethod]
+        public static bool ExerciseInfo_Import(DataTable dt, int exerciseType)
+        {
+            try
+            {
+                ExerciseInfo exercise;
+                string[] scopes;
+                string[] Keys;
+                string[] Kens;
+                int scope = 0;
+                string key = "";
+                string ken = "";
+                string Content = "";
+                if (dt.Rows.Count == 0) return false;
+                switch (exerciseType)
+                {
+                    case 18: //简答题
+                        break;
+                    case 4: //名词解释
+                        break;
+                    case 12: //听力题
+                        break;
+                    case 17: //自定义题
+                        break;
+                    case 10: //问答题
+                        break;
+                    case 13: //写作题
+                        break;
+                    case 1: //判断题
+                        break;
+                    case 5: //填空题
+                        break;
+                    case 6:  //连线题
+                        break;
+                    case 2: //单选题，多选题
+                    case 3: //多选题
+                        for (int i = 0; i < dt.Rows.Count; i++)
+                        {
+                            exercise = ExerciseBind(dt.Rows[i]);
+                            exercise.exercisecommon.exercise.Conten = dt.Rows[i]["习题内容"].ToString();
+                            exercise.exercisecommon.exercise.Analysis = dt.Rows[i]["习题解析"].ToString();
+                            if(dt.Rows[i]["选项1"].ToString()!="")
+                            {
+                                
+                            }
+                        }
+
+                        break;
+                    case 11: //翻译题
+                        break;
+                    case 7: //排序题
+                        break;
+                    case 8: //分析题
+                        break;
+                    case 9: //计算题
+                        break;
+                    case 14: //阅读理解题
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static ExerciseInfo ExerciseBind(DataRow dr)
+        {
+            ExerciseInfo exercise;
+            string[] scopes;
+            string[] Keys;
+            string[] Kens;
+            int scope = 0;
+            string key = "";
+            string ken = "";
+
+            exercise = new ExerciseInfo();
+            exercise.exercisecommon.exercise.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
+            exercise.exercisecommon.exercise.CreateUserName = IES.Service.UserService.CurrentUser.UserName;
+            exercise.exercisecommon.exercise.Diffcult = Convert.ToInt32(dr["难易程度"]);
+            //exercise.exercisecommon.exercise.ShareRange = Convert.ToInt32(dr["ShareRange"]);
+            //exercise.exercisecommon.exercise.OCID = Convert.ToInt32(dr["OCID"]);
+            //exercise.exercisecommon.exercise.CourseID = Convert.ToInt32(dr["CourseID"]);
+            //exercise.exercisecommon.exercise.Chapter = Convert.ToInt32(dr["Chapter"]);
+            if (dr["适用范围"] != null)
+            {
+                scopes = dr["适用范围"].ToString().Split(',');
+                for (int i = 0; i < scopes.Length; i++)
+                {
+                    scope += Convert.ToInt32(scopes.GetValue(i));
+                }
+            }
+            if (dr["关键字"] != null)
+            {
+                Keys = dr["关键字"].ToString().Split(',');
+                for (int i = 0; i < Keys.Length; i++)
+                {
+                    key += Keys.GetValue(i).ToString() + "wshgkjqbwhfbxlfrh";
+                }
+            }
+            if (dr["知识点"] != null)
+            {
+                Kens = dr["知识点"].ToString().Split(',');
+                for (int i = 0; i < Kens.Length; i++)
+                {
+                    ken += Kens.GetValue(i).ToString() + "wshgkjqbwhfbxlfrh";
+                }
+            }
+            return exercise;
+        }
 
         [WebMethod]
         public static ExerciseInfo ExerciseInfo_Get(int model)
