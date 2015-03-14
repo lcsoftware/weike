@@ -1189,3 +1189,21 @@ app.directive('iesDialog', function () {
 
     return directive;
 });
+
+//文件类型
+app.directive("fileExt", [function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            console.log(element);
+            var ext = attrs.ext.toLowerCase().replace('.', '');
+            if (ext == "file") ext = "file";
+            if (ext == "docx") ext = "doc";
+            if (ext == "pptx") ext = "ppt";
+            if (ext == "xlsx" || ext == "xls") ext = "excel";
+            if (ext == "jpg" || ext == "jpeg" || ext == "gif" || ext == "png" || ext == "bmp" || ext == "ico") ext = "pic";
+            element.addClass(ext);
+
+        }
+    };
+}])

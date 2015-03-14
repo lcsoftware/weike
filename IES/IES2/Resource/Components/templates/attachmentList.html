@@ -2,6 +2,7 @@
     <li ng-repeat="item in attachments">
         <a ng-click="remove(item)">删除</a>
         <p> 
+            <!--<i class="icon_24" file-ext ext="{{folderItem.Ext}}" ng-click="onOpen();"></i>-->
             <file-icon icon-type="folderItem.FileType" relation-type="folderItem.RelationType" ng-click="onOpen();"></file-icon>
             <a ng-href="{{item.DownURL}}" target="_blank" style="float:left; margin-left:0px;">
                 {{item.Title}}
