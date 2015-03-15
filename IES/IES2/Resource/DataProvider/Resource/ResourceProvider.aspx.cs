@@ -289,7 +289,7 @@ namespace App.Resource.DataProvider.Resource
                 fr.Name = item.FolderName;
                 fr.ParentID = item.ParentID == 0 ? item.OCID : item.ParentID;
                 fr.RelationType = FileType.Folder;
-
+                fr.OCID = item.OCID;
                 relationFolders.Add(fr);
             } 
            

@@ -573,6 +573,9 @@ app.directive('moveFolder', function () {
             $scope.$emit('onSelectedMove', node);
             $scope.selected = node.Id;
         }
+        $scope.$on('selectMoveClear', function (event, item) {
+            $scope.selected = -1;
+        });
     }
 
     return directive;

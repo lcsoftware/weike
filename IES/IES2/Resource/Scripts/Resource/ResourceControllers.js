@@ -574,6 +574,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.moveShow = false;
         $scope.propertyShow = false;
         $scope.folder = {};
+        $scope.$broadcast('selectMoveClear', $scope.folder);
     }
 
 
