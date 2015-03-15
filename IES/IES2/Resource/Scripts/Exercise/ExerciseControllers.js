@@ -625,83 +625,88 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
             }
         });
 
+
         $scope.$watch('data.exerciseType', function (v) {
             if ($scope.$stateParams.ExerciseID > 0) {
-                //console.log($scope.model);
-                //return;
-                switch (v.id) {                    
-                    case '10': //问答题
-                        $state.go('exercise.quesanswer', param)
-                        break;
-                    case '13': //写作题
-                        $state.go('exercise.quesanswer', param)
-                        break;
-                    case '8': //分析题
-                        $state.go('exercise.analysis', param)
-                        break;
-                    case '9': //计算题
-                        $state.go('exercise.analysis', param)
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                var param = { ExerciseID: $scope.$stateParams.ExerciseID };
-                switch (v.id) {
-                    case '18': //简答题
-                        $state.go('exercise.shortanswer', param)
-                        break;
-                    case '4': //名词解释
-                        $state.go('exercise.noun', param)
-                        break;
-                    case '12': //听力题
-                        $state.go('exercise.listening', param)
-                        break;
-                    case '17': //自定义题
-                        $state.go('exercise.custom', param)
-                        break;
-                    case '10': //问答题
-                        $state.go('exercise.quesanswer', param)
-                        break;
-                    case '13': //写作题
-                        $state.go('exercise.quesanswer', param)
-                        break;
-                    case '1': //判断题
-                        $state.go('exercise.truefalse', param)
-                        break;
-                    case '5': //填空题
-                        $state.go('exercise.fillblank', param)
-                        break;
-                        //case '4': //填空客观题
-                        //    $state.go('exercise.fillblank2', param)
-                        //    break;
-                    case '6':  //连线题
-                        $state.go('exercise.connection', param)
-                        break;
-                    case '2'://单选题
-                        $state.go('exercise.radio', param)
-                        break;
-                    case '3'://多选题
-                        $state.go('exercise.multiple', param)
-                        break;
-                    case '11': //翻译题
-                        $state.go('exercise.translation', param)
-                        break;
-                    case '7': //排序题
-                        $state.go('exercise.sorting', param)
-                        break;
-                    case '8': //分析题
-                        $state.go('exercise.analysis', param)
-                        break;
-                    case '9': //计算题
-                        $state.go('exercise.analysis', param)
-                        break;
-                    case '14': //阅读理解题
-                        $state.go('exercise.reading', param)
-                        break;
-                    default:
-                        break;
-                }
+                var type = $scope.data.exerciseType.id;
+                if (type == 8 && v.id==9) return;                
+                if (type == 9 && v.id == 8) return;
+
+                if (type == 10 && v.id == 13) return;
+                if (type == 13 && v.id == 10) return;
+                //switch (v.id) {                    
+                //    case '10': //问答题
+                //        $state.go('exercise.quesanswer', param)
+                //        break;
+                //    case '13': //写作题
+                //        $state.go('exercise.quesanswer', param)
+                //        break;
+                //    case '8': //分析题
+                //        $state.go('exercise.analysis', param)
+                //        break;
+                //    case '9': //计算题
+                //        $state.go('exercise.analysis', param)
+                //        break;
+                //    default:
+                //        break;
+                //}
+            }
+            var param = { ExerciseID: $scope.$stateParams.ExerciseID };
+            switch (v.id) {
+                case '18': //简答题
+                    $state.go('exercise.shortanswer', param)
+                    break;
+                case '4': //名词解释
+                    $state.go('exercise.noun', param)
+                    break;
+                case '12': //听力题
+                    $state.go('exercise.listening', param)
+                    break;
+                case '17': //自定义题
+                    $state.go('exercise.custom', param)
+                    break;
+                case '10': //问答题
+                    $state.go('exercise.quesanswer', param)
+                    break;
+                case '13': //写作题
+                    $state.go('exercise.quesanswer', param)
+                    break;
+                case '1': //判断题
+                    $state.go('exercise.truefalse', param)
+                    break;
+                case '5': //填空题
+                    $state.go('exercise.fillblank', param)
+                    break;
+                    //case '4': //填空客观题
+                    //    $state.go('exercise.fillblank2', param)
+                    //    break;
+                case '6':  //连线题
+                    $state.go('exercise.connection', param)
+                    break;
+                case '2'://单选题
+                    $state.go('exercise.radio', param)
+                    break;
+                case '3'://多选题
+                    $state.go('exercise.multiple', param)
+                    break;
+                case '11': //翻译题
+                    $state.go('exercise.translation', param)
+                    break;
+                case '7': //排序题
+                    $state.go('exercise.sorting', param)
+                    break;
+                case '8': //分析题
+                    $state.go('exercise.analysis', param)
+                    break;
+                case '9': //计算题
+                    $state.go('exercise.analysis', param)
+                    break;
+                case '14': //阅读理解题
+                    $state.go('exercise.reading', param)
+                    break;
+                default:
+                    break;
+
             }
         });
 
@@ -822,7 +827,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
             $scope.data.kens = data.exercisecommon.kenlist;
         }
 
-        $scope.willTopBind = function (model, data) {          
+        $scope.willTopBind = function (model, data) {
 
             //顶部关联项
             model.exercisecommon.exercise.ShareRange = data.shareRange.id;
