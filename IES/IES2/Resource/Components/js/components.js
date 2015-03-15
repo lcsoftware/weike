@@ -511,7 +511,7 @@ app.directive('preView', function () {
         onClose:'&'
     }
 
-    directive.templateUrl = '/Components/templates/preView.html';
+    directive.templateUrl = window.appPatch + '/Components/templates/preView.html';
 
 
     directive.link = function (scope, elem, iAttrs) {
@@ -557,14 +557,6 @@ app.directive('moveFolder', function () {
         $scope.$on('$includeContentLoaded', function (a) {
             $element.find('.first_file span').unbind('click');
             $element.find('.first_file span').bind('click', function () {
-                //if ($(this).html() == '<em>-</em>') {
-                //    $(this).html('<em>+</em>');
-                //    $(this).parent().next().slideUp();
-                //} else {
-                //    $(this).html('<em>-</em>');
-                //    $(this).parent().next().slideDown();
-                //}
-
                 if ($(this).parent().next().is(':hidden')) {
                     //展开
                     $(this).html('<em>-</em>');
@@ -636,6 +628,7 @@ app.directive('editor', function () {
 
     directive.link = function (scope, elem, iAttrs) {
     }
+   
 
     return directive;
 });
