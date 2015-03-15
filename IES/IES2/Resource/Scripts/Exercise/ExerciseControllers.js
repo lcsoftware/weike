@@ -625,11 +625,17 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
             }
         });
 
+        $scope.canChangeExerciseType = function (e) {
+            if ($scope.$stateParams.ExerciseID > 0) {
+                if (e.id == 8 || e.id == 9 || e.id == 10 || e.id == 13) return false;
+                else return true;
+            } else return false;
+        }
 
         $scope.$watch('data.exerciseType', function (v) {
             if ($scope.$stateParams.ExerciseID > 0) {
                 var type = $scope.data.exerciseType.id;
-                if (type == 8 && v.id==9) return;                
+                if (type == 8 && v.id == 9) return;
                 if (type == 9 && v.id == 8) return;
 
                 if (type == 10 && v.id == 13) return;
