@@ -21,11 +21,24 @@ namespace App.G2S.DataProvider
             var from = context.Request.QueryString["FROM"];
             if (from.Equals("2"))
             {
+                ///习题附件
                 List<IES.Resource.Model.Attachment> attachMentList = IES.Service.FileService.AttachmentUpload();
                 context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(attachMentList));
             }
+            else if (from.Equals("3"))
+            {
+                ///习题导入
+                IES.Resource.Model.File fileModel = new IES.Resource.Model.File();
+                fileModel.OCID = int.Parse(context.Request.Form["OCID"]);
+                fileModel.CourseID = int.Parse(context.Request.Form["CourseID"]);
+                //// TODO
+                ///习题导入功能 
+                List<IES.Resource.Model.File> fileList = IES.Service.FileService.ResourceFileUpload(fileModel);
+                context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(fileList));
+            }
             else
             { 
+                ///资料库文件导入
                 IES.Resource.Model.File fileModel = new IES.Resource.Model.File();
                 fileModel.OCID = int.Parse(context.Request.Form["OCID"]);
                 fileModel.CourseID = int.Parse(context.Request.Form["CourseID"]);

@@ -208,9 +208,6 @@ namespace IES.Service
             return IES.G2S.Resource.DAL.AttachmentDAL.Attachment_SourceID_Upd(attachment);
         }
 
-
-
-
         /// <summary>
         /// 资料上传
         /// </summary>

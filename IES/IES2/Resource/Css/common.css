@@ -203,5 +203,8 @@ body{ font-family:'Microsoft YaHei';}
 .pop_1000 h4{ height:40px; line-height:40px; background:#1e5975; font-size:14px; color:#fff; padding-left:13px;}
 .pop_wrap{ padding:20px; border:1px solid #ccc;}
 
+.pop_exercise_import { display:none;width:600px; position:absolute; left:50%; margin-left:-300px; top:100px; background:#fff; z-index:999; }
+.pop_exercise_import h4{ height:40px; line-height:40px; background:#1e5975; font-size:14px; color:#fff; padding-left:13px;}
+
 
 .pre{margin:0 0 10px;padding:0}

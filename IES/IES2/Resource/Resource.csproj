@@ -1003,6 +1003,7 @@
     <Content Include="Images\icon_mooc.png" />
     <Content Include="Images\icon_reverse.png" />
     <Content Include="Images\left_bg.gif" />
+    <Content Include="Images\loading.gif" />
     <Content Include="Images\lock.png" />
     <Content Include="Images\main_bg.gif" />
     <Content Include="Images\main_bg2.gif" />

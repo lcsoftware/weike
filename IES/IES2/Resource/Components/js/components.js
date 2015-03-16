@@ -659,7 +659,8 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
 
     directive.controller = function ($scope, $element) {
         //----------上传文件start--------
-        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: $scope.uploadUrl });
+        var reqUrl = window.appPatch + $scope.uploadUrl;
+        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: reqUrl });
 
         //angularFileUploader.formData.push({ OCID: $scope.ocid });
         //angularFileUploader.formData.push({ CourseID: $scope.courseId});
@@ -763,7 +764,6 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
     return directive;
 }]);
 
-
 //文件上传
 app.directive('iesExerciseUploader', ['FileUploader', function (FileUploader) {
     var directive = {};
@@ -772,8 +772,7 @@ app.directive('iesExerciseUploader', ['FileUploader', function (FileUploader) {
 
     directive.scope = {
         uploadUrl: '@',
-        ocid: '=',
-        courseId: '='
+        exerciseCourse: '='
     }
 
     directive.templateUrl = window.appPatch + '/Components/templates/exerciseUploader.html';
@@ -786,31 +785,21 @@ app.directive('iesExerciseUploader', ['FileUploader', function (FileUploader) {
 
     directive.controller = function ($scope, $element) {
         //----------上传文件start--------
-        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: $scope.uploadUrl });
+        var reqUrl = window.appPatch + $scope.uploadUrl;
+        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: reqUrl });
 
-        $scope.$watch('ocid', function (v) {
+        $scope.$watch('exerciseCourse', function (v) {
             angularFileUploader.formData.length = 0;
-            angularFileUploader.formData.push({ OCID: v });
-            angularFileUploader.formData.push({ CourseID: $scope.courseId });
-            if ($scope.folderObj) {
-                angularFileUploader.formData.push({ FolderID: $scope.folderObj.Id });
-            } else {
-                angularFileUploader.formData.push({ FolderID: 0 });
-            }
-            angularFileUploader.formData.push({ ShareRange: 2 });
-        });
+            angularFileUploader.formData.push({ OCID: $scope.exerciseCourse.OCID });
+            angularFileUploader.formData.push({ CourseID: $scope.exerciseCourse.CourseID });
+        }); 
 
-        $scope.$watch('courseId', function (v) {
-            angularFileUploader.formData.length = 0;
-            angularFileUploader.formData.push({ OCID: $scope.ocid });
-            angularFileUploader.formData.push({ CourseID: v });
-            if ($scope.folderObj) {
-                angularFileUploader.formData.push({ FolderID: $scope.folderObj.Id });
-            } else {
-                angularFileUploader.formData.push({ FolderID: 0 });
+        $scope.$watch('iesUploader.queue.length', function (v) {
+            if (v > 0) {
+                $scope.iesUploader.uploadAll();
             }
-            angularFileUploader.formData.push({ ShareRange: 2 });
-        });
+            console.log('============================', v);
+        })
 
         // FILTERS
         angularFileUploader.filters.push({
@@ -830,37 +819,10 @@ app.directive('iesExerciseUploader', ['FileUploader', function (FileUploader) {
             }
         });
 
-        // CALLBACKS 
-        angularFileUploader.onWhenAddingFileFailed = function (item /*{File|FileLikeObject}*/, filter, options) {
-            $scope.$emit('onWhenAddingFileFailed', item, filter, options);
-        };
-        angularFileUploader.onAfterAddingFile = function (fileItem) {
-            $scope.$emit('onAfterAddingFile', fileItem);
-        };
-        angularFileUploader.onAfterAddingAll = function (addedFileItems) {
-            $scope.$emit('onAfterAddingAll', addedFileItems);
-        };
-        angularFileUploader.onBeforeUploadItem = function (item) {
-            $scope.$emit('onBeforeUploadItem', item);
-        };
-        angularFileUploader.onProgressItem = function (fileItem, progress) {
-            $scope.$emit('onProgressItem', fileItem, progress);
-        };
-        angularFileUploader.onProgressAll = function (progress) {
-            $scope.$emit('onProgressAll', progress);
-        };
-        angularFileUploader.onSuccessItem = function (fileItem, response, status, headers) {
-            $scope.$emit('onSuccessItem', fileItem, response, status, headers);
-        };
-        angularFileUploader.onErrorItem = function (fileItem, response, status, headers) {
-            $scope.$emit('onErrorItem', fileItem, response, status, headers);
-        };
-        angularFileUploader.onCancelItem = function (fileItem, response, status, headers) {
-            $scope.$emit('onCancelItem', fileItem, response, status, headers);
-        };
         angularFileUploader.onCompleteItem = function (fileItem, response, status, headers) {
             $scope.$emit('onCompleteItem', fileItem, response, status, headers);
         };
+
         angularFileUploader.onCompleteAll = function () {
             angularFileUploader.clearQueue();
             $scope.$emit('onCompleteAll');
@@ -870,6 +832,7 @@ app.directive('iesExerciseUploader', ['FileUploader', function (FileUploader) {
 
     return directive;
 }]);
+
 
 app.directive('attachList', function () {
     var directive = {};
@@ -1103,9 +1066,7 @@ app.directive('iesChapterItem', ['$timeout', function ($timeout) {
 app.directive('iesChapterSection', function () {
     var directive = {};
 
-    directive.restrict = 'EA';
-
-    directive.replace = true;
+    directive.restrict = 'EA'; 
 
     directive.templateUrl = window.appPatch + '/Components/templates/chapterSection.html';
 
