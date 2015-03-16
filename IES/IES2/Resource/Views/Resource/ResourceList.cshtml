@@ -70,7 +70,8 @@
             </th>
         </tr>
     </thead>
-    <tr ng-repeat="item in folderRelations | orderBy:orderField">
+    @*<tr ng-repeat="item in folderRelations | orderBy:orderField">*@
+    <tr ng-repeat="item in folderRelations">
         <td>
             <div class="data_name">
                 <input type="checkbox" checklist-model="checks" checklist-value="item">
