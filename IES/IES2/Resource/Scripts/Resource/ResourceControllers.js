@@ -92,13 +92,50 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     }
 
     //$scope.orderField = 'Name';
+
+    //$scope.orderField = 'folderRelation';
+    //$scope.changeOrder = function (fieldName) {
+    //    if ($scope.orderField === fieldName) {
+    //        $scope.orderField = '-' + fieldName;
+    //    } else {
+    //        $scope.orderField = fieldName;
+    //    }
+    //}
+
+    //时间格式转换
+    var dateFormat = function (v) {
+        var re = /-?\d+/;
+        var m = re.exec(v);
+        var d = new Date(parseInt(m[0]));
+        // 按【2012-02-13 09:09:09】的格式返回日期
+        return d;
+    }
+
+    var orderTime = 0;
+    var order = 0;
     $scope.orderField = 'folderRelation';
-    $scope.changeOrder = function (fieldName) {
-        if ($scope.orderField === fieldName) {
-            $scope.orderField = '-' + fieldName;
-        } else {
-            $scope.orderField = fieldName;
-        }
+    $scope.changeOrder = function (filedName) {
+        $scope.folderRelations.sort(function (a, b) {
+            var resultRelationType = (a.RelationType - b.RelationType);
+            //按时间
+            if (filedName == 'CreateTime') {
+                var obj1 = dateFormat(a.CreateTime);
+                var obj2 = dateFormat(b.CreateTime);
+                if (resultRelationType == 0) {
+                    if (orderTime == 0) return obj1.valueOf() - obj2.valueOf();
+                    else return -(obj1.valueOf() - obj2.valueOf());
+                }
+            }
+            if (filedName == 'Name') {
+                if (resultRelationType == 0) {
+                    if (orderTime == 0) return a.Name.localeCompare(b.Name);
+                    else return -(a.Name.localeCompare(b.Name));
+                }                
+            }
+            return resultRelationType;
+        });
+        if (orderTime == 0) orderTime = 1;
+        else orderTime = 0;
     }
 
     $scope.tabChange = function (item) {
@@ -673,7 +710,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     //计算文件大小
     $scope.CalculatedSize = function (size) {
         var rs = Math.round(size / 1024);
-        if(rs < 1024){
+        if (rs < 1024) {
             return rs + 'KB';
         } else {
             return (rs / 1024).toFixed(2) + 'MB';
