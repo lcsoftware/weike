@@ -33,6 +33,24 @@ namespace IES.G2S.Resource.DAL
             }
 
         }
+
+        public static Attachment Attachment_Get(string AttachmentID)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@AttachmentID", AttachmentID);
+                    return conn.Query<Attachment>("Attachment_Get", p, commandType: CommandType.StoredProcedure).SingleOrDefault<Attachment>();
+                }
+            }
+            catch (Exception e)
+            {
+                return new Attachment();
+            }
+        }
+
   
         public static bool Attachment_ADD(Attachment model)
         {

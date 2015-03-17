@@ -83,6 +83,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
 
         $scope.$emit('willResetCourse', 'Exerciese');
 
+        $scope.$emit('onResetMoreTitle');
+
         //习题列表
         $scope.exercises = [];
 

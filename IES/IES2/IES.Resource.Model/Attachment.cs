@@ -39,6 +39,38 @@ namespace IES.Resource.Model
         private string _viewurl = string.Empty;
         private string _reffileid = string.Empty;
 
+        /// <summary>
+        /// 文件后缀 图片1 视频2
+        /// </summary>
+        public int FileExtType
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this.FileName))
+                {
+                    return 0;
+                }
+                else if (System.IO.Path.GetExtension(this.FileName).ToLower() == ".mp4")
+                {
+                    this.Thumbnail = System.IO.Path.ChangeExtension(this.DownURL, ".jpg");
+                    return 2;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+
+        }
+        /// <summary>
+        /// 缩略图
+        /// </summary>
+        public string Thumbnail
+        {
+            get;
+            set;
+        }
+
 		/// <summary>
 		/// 主键
 		/// </summary>

@@ -12,7 +12,7 @@ namespace IES.Service.CommonData
 
 
         /// <summary>
-        /// 获取成绩的类型
+        /// 获取成绩的类型
         /// </summary>
         /// <returns></returns>
         public static List<Dict> Dict_TestScaleType_Get()
@@ -31,6 +31,28 @@ namespace IES.Service.CommonData
 
         }
 
+        public static List<Dict> Test_ScaleType_Get()
+        {
+            return DictServcie.Resource_Dict_Get().Where(x => x.Source.Equals("Test.ScaleType")).ToList<Dict>();
 
+        }
+
+        /// <summary>
+        /// 获取内容来源
+        /// </summary>
+        /// <returns></returns>
+        public static List<Dict> Dict_Live_Get()
+        {
+            return DictServcie.Resource_Dict_Get().Where(x => x.Source.Equals("Live.Type")).ToList<Dict>();
+        }
+
+        /// <summary>
+        /// 获取处理结果
+        /// </summary>
+        /// <returns></returns>
+        public static List<Dict> Dict_Punishment_Get()
+        {
+            return DictServcie.Resource_Dict_Get().Where(x => x.Source.Equals("Punishment.Type")).ToList<Dict>();
+        }
     }
 }

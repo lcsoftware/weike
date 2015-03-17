@@ -16,6 +16,7 @@ namespace IES.Service
 {
     public class UserService
     {
+
         /// <summary>
         /// 获取用户的在线课程列表
 
@@ -29,16 +30,13 @@ namespace IES.Service
             return userbll.User_OC_List(model);
         }
 
-        /// <summary>
-        /// 获取用户的授权模块列表，模块的行为列表
-
-        /// </summary>
-        /// <param name="userid">用户编号</param>
-        /// <returns></returns>
-        public static UserAuInfo UserAuInfo_Info_Get(int userid)
+        public static List<OC> OC_Simple_List(IES.JW.Model.User model)
         {
-            return new UserAuInfo();
+            IES.G2S.OC.BLL.OC.OCBLL bll = new G2S.OC.BLL.OC.OCBLL();
+
+            return bll.OC_Simple_List( model.UserID , Int32.Parse(model.CurrentUserSpace )  );
         }
+
 
 
         /// <summary>
@@ -90,7 +88,16 @@ namespace IES.Service
         public static string User_IMG_Get(User user)
         {
             Attachment attachment = new Attachment { Source = "User" };
-            return FileService.Attachment_List(attachment).First(x => x.SourceID.Equals(user.UserID)).DownURL;
+            try
+            { 
+                return FileService.Attachment_List(attachment).First(x => x.SourceID.Equals(user.UserID)).DownURL;
+            }
+            catch
+            {
+                return "/Images/default/User_M.jpg";
+            }
+          
+        
             //return null;
         }
 
@@ -166,8 +173,7 @@ namespace IES.Service
         {
             get
             {
-                //string userid =  IESCookie.GetCookieValue("ies");
-                string userid = "1";
+                string userid = IESCookie.GetCookieValue("ies");
 
                 IES.JW.Model.User user = new IES.JW.Model.User { UserID = Int32.Parse(userid) };
                 user = UserService.User_Get(user);
@@ -177,7 +183,6 @@ namespace IES.Service
 
         /// <summary>
         /// 获取当前登录用户的图片信息
-
         /// </summary>
         public static string CurrentUserIMG
         {
@@ -188,8 +193,88 @@ namespace IES.Service
         }
 
 
+        #region 用户权限与角色
+
+        /// <summary>
+        /// 当前登录用户是否是管理员
+        /// </summary>
+        public static bool IsAdmin
+        {
+            get
+            {
+                return IES.Common.Delivery.IsInDeliveryList(2, CurrentUser.UserType, 128);
+            }
+        }
+
+        /// <summary>
+        /// 当前登录用户是否是教师
+        /// </summary>
+        public static bool IsTeacher
+        {
+            get
+            {
+                return IES.Common.Delivery.IsInDeliveryList(8, CurrentUser.UserType, 128);
+            }
+        }
+
+
+        /// <summary>
+        /// 当前登录用户是否是超级管理员
+        /// </summary>
+        public static bool IsSuperAdmin
+        {
+            get
+            {
+                return IES.Common.Delivery.IsInDeliveryList(1, CurrentUser.UserType, 128);
+            }
+        }
+
+        /// <summary>
+        /// 获取用户的授权模块列表，模块的行为列表
+        /// </summary>
+        /// <param name="userid">用户编号</param>
+        /// <returns></returns>
+        public static UserAuInfo UserAuInfo_Info_Get(int userid)
+        {
+            return new UserAuInfo();
+        }
+
+
+        /// <summary>
+        /// 当前登录用户的模块、行为列表信息
+        /// </summary>
+        public static List<AuRoleModule> CurrentUser_AuRoleModule_List
+        {
+            get
+            {
+                return AuService.AuRoleModule_ByUserRole_List().Where(x => x.UserID.Equals( CurrentUser.UserID )).ToList<AuRoleModule>();
+            }
+        }
+
+        /// <summary>
+        /// 获取当前登录用户的指定在线课程模块列表
+        /// </summary>
+        /// <param name="OCID"></param>
+        /// <returns></returns>
+        public static List<AuUserModule> AuUserModule_UserID_List( string ocid  )
+        {
+            IES.G2S.JW.BLL.AuBLL aubll = new IES.G2S.JW.BLL.AuBLL();
+            return aubll.AuUserModule_List(ocid).Where(x => x.UserID.Equals(CurrentUser.UserID)).ToList<AuUserModule>();
+        }
+
+        /// <summary>
+        /// 获取当前登录用户所有在线课程角色列表
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        public static List<OCTeam> OCTeam_UserID_List()
+        {
+            IES.G2S.OC.BLL.Team.OCTeamBLL octeambll = new G2S.OC.BLL.Team.OCTeamBLL();
+            return octeambll.OCTeam_UserID_List(CurrentUser.UserID);
+        }
 
 
 
+        #endregion
     }
 }

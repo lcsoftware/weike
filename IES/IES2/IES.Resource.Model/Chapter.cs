@@ -20,13 +20,18 @@ using System.Linq;
 namespace IES.Resource.Model
 {
     /// <summary>
-    /// 课程章节表
+    /// 课程章节表
+
     /// </summary>
     [Serializable]
     public partial class Chapter
     {
         #region 补充信息
 
+        /// <summary>
+        /// 快速设分
+        /// </summary>
+        public string FastScore { get; set; }
         public int FileNum { get; set; }
 
 
@@ -40,7 +45,7 @@ namespace IES.Resource.Model
 
         public int IsFinish { get; set; }
 
-        public List<ChapterTest> ChapterTests  { get; set; }
+        public List<ChapterTest> ChapterTests { get; set; }
 
         public int IsTest { get; set; }
         //是否允许学习
@@ -52,7 +57,7 @@ namespace IES.Resource.Model
         /// <summary>
         /// 章节下习题数量
         /// </summary>
-        public int ExerciseCount { get; set;  }
+        public int ExerciseCount { get; set; }
         /// <summary>
         /// 抽题数
         /// </summary>
@@ -61,8 +66,32 @@ namespace IES.Resource.Model
         /// 题目分数
         /// </summary>
         public int Scoreper { get; set; }
-        
-        #endregion 
+
+        /// <summary>
+        /// 开始时间
+        /// </summary>
+        public DateTime? StartDate { get; set; }
+
+        /// <summary>
+        /// 测试状态
+        /// </summary>
+        public int TestType { get; set; }
+
+        /// <summary>
+        /// 学习状态
+        /// </summary>
+        public int StudyType { get; set; }
+
+        /// <summary>
+        /// 章上绑定的测试ID
+        /// </summary>
+        public int TestID { get; set; }
+
+        /// <summary>
+        /// 学习进度
+        /// </summary>
+        public int StudyRate { get; set; }
+        #endregion
 
 
         public Chapter()
@@ -96,7 +125,8 @@ namespace IES.Resource.Model
             get { return _ocid; }
         }
         /// <summary>
-        /// 章节对应的课程编号
+        /// 章节对应的课程编号
+
         /// </summary>
         public int CourseID
         {
@@ -104,7 +134,8 @@ namespace IES.Resource.Model
             get { return _courseid; }
         }
         /// <summary>
-        /// 资源拥有人编号
+        /// 资源拥有人编号
+
         /// </summary>
         public int OwnerUserID
         {
@@ -112,7 +143,8 @@ namespace IES.Resource.Model
             get { return _owneruserid; }
         }
         /// <summary>
-        /// 创建人编号
+        /// 创建人编号
+
         /// </summary>
         public int CreateUserID
         {
@@ -147,6 +179,9 @@ namespace IES.Resource.Model
 
         public string Brief { get; set; }
 
+        /// <summary>
+        /// 计划天数
+        /// </summary>
         public int PlanDay { get; set; }
 
         public int MinHour { get; set; }
@@ -159,11 +194,11 @@ namespace IES.Resource.Model
         /// <summary>
         /// 子集
         /// </summary>
-        public List<Chapter> Children { get; set; } 
+        public List<Chapter> Children { get; set; }
 
-        
-       
- 
+
+
+
         #endregion Model
 
     }

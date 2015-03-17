@@ -345,6 +345,7 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
     function ($scope, $state, chapterService, kenService, tagService, freezeService) {
 
         //$scope.$emit('willResetCourse', 'Ken');
+        $scope.$emit('onResetMoreTitle');
 
         $scope.$parent.tab = 1;
         $scope.$parent.kenDisable = true;
@@ -577,6 +578,8 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
 
 appKnow.controller('KenTopicCtrl', ['$scope', '$state', 'resourceKenService', 'chapterService', 'kenService', 'tagService', 'freezeService',
     function ($scope, $state, resourceKenService, chapterService, kenService, tagService, freezeService) {
+
+        $scope.$emit('onResetMoreTitle');
 
         $scope.$parent.kenDisable = false;
 

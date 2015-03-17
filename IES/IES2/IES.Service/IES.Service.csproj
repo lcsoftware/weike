@@ -38,6 +38,48 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IES.Cache">
+      <HintPath>..\Lib\IES.Cache.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.CC.Model">
+      <HintPath>..\Lib\IES.CC.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.Common">
+      <HintPath>..\Lib\IES.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.CommonDAL">
+      <HintPath>..\Lib\IES.CommonDAL.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.Config">
+      <HintPath>..\Lib\IES.Config.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.G2S.JW.BLL">
+      <HintPath>..\Lib\IES.G2S.JW.BLL.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.G2S.JW.DAL">
+      <HintPath>..\Lib\IES.G2S.JW.DAL.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.G2S.JW.IBLL">
+      <HintPath>..\Lib\IES.G2S.JW.IBLL.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.G2S.OC.BLL">
+      <HintPath>..\Lib\IES.G2S.OC.BLL.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.G2S.OC.DAL">
+      <HintPath>..\Lib\IES.G2S.OC.DAL.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.G2S.OC.IBLL">
+      <HintPath>..\Lib\IES.G2S.OC.IBLL.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.JW.Model">
+      <HintPath>..\Lib\IES.JW.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.Security">
+      <HintPath>..\Lib\IES.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.Service">
+      <HintPath>..\Lib\IES.Service.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -63,46 +105,6 @@
     <Compile Include="User\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IES.Cache\IES.Cache.csproj">
-      <Project>{7a302f72-5f5f-41af-9c2a-5c27e03a47d4}</Project>
-      <Name>IES.Cache</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.CC.Model\IES.CC.Model.csproj">
-      <Project>{93a1e0e7-a049-4ea7-b349-845a81462d42}</Project>
-      <Name>IES.CC.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.CommonDAL\IES.CommonDAL.csproj">
-      <Project>{08c92fc8-f22f-4237-91a1-d191babf91a9}</Project>
-      <Name>IES.CommonDAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.Common\IES.Common.csproj">
-      <Project>{dbb225c3-ad3b-469c-a8df-ca8dfc4ae304}</Project>
-      <Name>IES.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.G2S.JW.BLL\IES.G2S.JW.BLL.csproj">
-      <Project>{0bd3295f-6ad6-4ec7-addd-77e061786181}</Project>
-      <Name>IES.G2S.JW.BLL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.G2S.JW.DAL\IES.G2S.JW.DAL.csproj">
-      <Project>{cac6bc0b-b6ef-4fb6-a249-dd29d18aa657}</Project>
-      <Name>IES.G2S.JW.DAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.G2S.JW.IBLL\IES.G2S.JW.IBLL.csproj">
-      <Project>{eda74ad7-b4d0-4c50-bab4-f8b5a7fcc34a}</Project>
-      <Name>IES.G2S.JW.IBLL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.G2S.OC.BLL\IES.G2S.OC.BLL.csproj">
-      <Project>{c4a37ea7-8eb9-4320-84f7-687f184ce520}</Project>
-      <Name>IES.G2S.OC.BLL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.G2S.OC.DAL\IES.G2S.OC.DAL.csproj">
-      <Project>{af09fa22-37a6-4659-a574-2e575ee8341d}</Project>
-      <Name>IES.G2S.OC.DAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.G2S.OC.IBLL\IES.G2S.OC.IBLL.csproj">
-      <Project>{4704f48b-4fa4-4433-a36d-2cc96663f1a0}</Project>
-      <Name>IES.G2S.OC.IBLL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IES.G2S.Resource.BLL\IES.G2S.Resource.BLL.csproj">
       <Project>{7893d3de-1517-443b-9c4a-191ec233a073}</Project>
       <Name>IES.G2S.Resource.BLL</Name>
@@ -115,17 +117,9 @@
       <Project>{972577f0-3061-4659-933c-b065185daf80}</Project>
       <Name>IES.G2S.Resource.IBLL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IES.JW.Model\IES.JW.Model.csproj">
-      <Project>{5bbc1895-4b66-4445-af6d-f6711cb3266f}</Project>
-      <Name>IES.JW.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
       <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
       <Name>IES.Resource.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.Security\IES.Security.csproj">
-      <Project>{c93539d1-c8a9-46ee-a2b9-ecf46b9da47e}</Project>
-      <Name>IES.Security</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

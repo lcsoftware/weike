@@ -47,8 +47,15 @@ contentApp.controller('ContentCtrl', ['$scope', 'contentService', function ($sco
         return null;
     }
 
-    ///课程切换
-    $scope.$on('onWillCourseChanged', function (event, course) {
+    $scope.moreTitle = '查看更多';
+
+    $scope.$on('onResetMoreTitle', function (event) {
+        $scope.moreTitle = '查看更多';
+    });
+
+    ///更多菜单 课程切换
+    $scope.$on('onWillCourseChanged', function (event, course, isMore) {
+        $scope.moreTitle = isMore === 0 ? '查看更多' : course.Name;
         $scope.course = course;
         $scope.$broadcast('willCourseChanged', $scope.course);
     });

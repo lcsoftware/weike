@@ -87,7 +87,7 @@ namespace IES.G2S.Resource.DAL
                     p.Add("@UserID", UserID);
                     p.Add("@TopNum", TopNum);
 
-                    return conn.Query<Key>("Resource_Key_List", p, commandType: CommandType.StoredProcedure).ToList();
+                    return conn.Query<Key>("Resource_KeyByExercise_List", p, commandType: CommandType.StoredProcedure).ToList();
                 }
             }
             catch (Exception e)

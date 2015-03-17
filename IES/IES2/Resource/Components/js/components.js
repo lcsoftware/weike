@@ -13,7 +13,8 @@ app.directive('moreCourse', function () {
     directive.scope = {
         courses: '=',
         courseMore: '=',
-        course: '='
+        course: '=',
+        moreTitle: '='
     }
 
     directive.templateUrl = window.appPatch + '/Components/templates/moreCourse.html';
@@ -33,8 +34,8 @@ app.directive('moreCourse', function () {
     }
 
     directive.controller = function ($scope) {
-        $scope.courseChange = function (course) {
-            $scope.$emit('onWillCourseChanged', course);
+        $scope.courseChange = function (course, isMore) { 
+            $scope.$emit('onWillCourseChanged', course, isMore);
         }
     }
     return directive;

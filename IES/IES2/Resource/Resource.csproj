@@ -52,11 +52,39 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="eWebEditorAdmin">
+      <HintPath>..\Lib\eWebEditorAdmin.dll</HintPath>
+    </Reference>
     <Reference Include="eWebEditorControl">
-      <HintPath>C:\Users\Administrator\Desktop\富文本框\eWebEditorControl.dll</HintPath>
+      <HintPath>..\Lib\eWebEditorControl.dll</HintPath>
     </Reference>
     <Reference Include="eWebEditorServer">
-      <HintPath>C:\Users\Administrator\Desktop\富文本框\eWebEditorServer.dll</HintPath>
+      <HintPath>..\Lib\eWebEditorServer.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.Cache, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\IES.Cache.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.CC.Model">
+      <HintPath>..\Lib\IES.CC.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.Common">
+      <HintPath>..\Lib\IES.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.G2S.JW.BLL">
+      <HintPath>..\Lib\IES.G2S.JW.BLL.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.G2S.JW.DAL">
+      <HintPath>..\Lib\IES.G2S.JW.DAL.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.G2S.JW.IBLL">
+      <HintPath>..\Lib\IES.G2S.JW.IBLL.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.JW.Model">
+      <HintPath>..\Lib\IES.JW.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.Security">
+      <HintPath>..\Lib\IES.Security.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.1.0.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -1266,30 +1294,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IES.Cache\IES.Cache.csproj">
-      <Project>{7a302f72-5f5f-41af-9c2a-5c27e03a47d4}</Project>
-      <Name>IES.Cache</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.CC.Model\IES.CC.Model.csproj">
-      <Project>{93a1e0e7-a049-4ea7-b349-845a81462d42}</Project>
-      <Name>IES.CC.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.CommonDAL\IES.CommonDAL.csproj">
-      <Project>{08c92fc8-f22f-4237-91a1-d191babf91a9}</Project>
-      <Name>IES.CommonDAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.Common\IES.Common.csproj">
-      <Project>{dbb225c3-ad3b-469c-a8df-ca8dfc4ae304}</Project>
-      <Name>IES.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.G2S.CourseLive.BLL\IES.G2S.CourseLive.BLL.csproj">
-      <Project>{f8e33182-c952-4e25-9548-adcc088a67d9}</Project>
-      <Name>IES.G2S.CourseLive.BLL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.G2S.CoursLive.IBLL\IES.G2S.CoursLive.IBLL.csproj">
-      <Project>{353179d4-af57-4b5b-b097-bab9e4891043}</Project>
-      <Name>IES.G2S.CoursLive.IBLL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IES.G2S.Resource.BLL\IES.G2S.Resource.BLL.csproj">
       <Project>{7893d3de-1517-443b-9c4a-191ec233a073}</Project>
       <Name>IES.G2S.Resource.BLL</Name>
@@ -1298,17 +1302,9 @@
       <Project>{972577f0-3061-4659-933c-b065185daf80}</Project>
       <Name>IES.G2S.Resource.IBLL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\IES.JW.Model\IES.JW.Model.csproj">
-      <Project>{5bbc1895-4b66-4445-af6d-f6711cb3266f}</Project>
-      <Name>IES.JW.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
       <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
       <Name>IES.Resource.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.Security\IES.Security.csproj">
-      <Project>{c93539d1-c8a9-46ee-a2b9-ecf46b9da47e}</Project>
-      <Name>IES.Security</Name>
     </ProjectReference>
     <ProjectReference Include="..\IES.Service\IES.Service.csproj">
       <Project>{3a3c9b64-1cd3-4eca-9dbd-ce5b4f3f833e}</Project>

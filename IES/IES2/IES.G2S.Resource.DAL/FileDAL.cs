@@ -386,6 +386,23 @@ namespace IES.G2S.Resource.DAL
             }
         }
 
+        public static File File_Simple_Get(string FileID)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@FileID", FileID);
+                    return conn.Query<File>("File_Simple_Get", p, commandType: CommandType.StoredProcedure).SingleOrDefault<File>();
+                }
+            }
+            catch (Exception e)
+            {
+                return new File();
+            }
+        }
+
 
         #endregion
 
@@ -512,6 +529,30 @@ namespace IES.G2S.Resource.DAL
         {
 
             return true;
+        }
+
+        /// <summary>
+        /// 更新mp4视频播放文件的时长
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static bool File_TimeLength_Upd(File model)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@FileName", model.FileName);
+                    p.Add("@TimeLength", model.TimeLength);
+                    conn.Execute("File_TimeLength_Upd", p, commandType: CommandType.StoredProcedure);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         #endregion

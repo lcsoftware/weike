@@ -18,13 +18,84 @@ using System;
 namespace IES.Resource.Model
 {
     /// <summary>
-    /// 文件表
+    /// 文件表
+
     /// </summary>
     [Serializable]
     public partial class File : IResource, IFile
     {
+
+        #region 补充字段
+
+        /// <summary>
+        /// 总数
+        /// </summary>
+        public int RowsCount { get; set; }
+
+        /// <summary>
+        /// 下载地址
+        /// </summary>
+        public string DownURL { get; set; }
+
+        /// <summary>
+        /// 浏览地址
+        /// </summary>
+        public string ViewURL { get; set; }
+
+        /// <summary>
+        /// 组织机构名称
+        /// </summary>
+        public string OrganizationName { get; set; }
+
+        /// <summary>
+        /// 使用课程名称
+        /// </summary>
+        public string CourseName { get; set; }
+
+        /// <summary>
+        /// 编号集合
+        /// </summary>
+        public string filIDs { get; set; }
+
+
+        /// <summary>
+        /// 文件后缀 图片1 视频2
+        /// </summary>
+        public int FileExtType
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this.FileName))
+                {
+                    return 0;
+                }
+                else if (System.IO.Path.GetExtension(this.FileName).ToLower() == ".mp4")
+                {
+                    this.Thumbnail = System.IO.Path.ChangeExtension(this.ViewURL, ".jpg");
+                    return 2;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+
+        }
+        /// <summary>
+        /// 缩略图
+        /// </summary>
+        public string Thumbnail
+        {
+            get;
+            set;
+        }
+
+        #endregion
+
         public File()
-        { }
+        {
+
+        }
         #region Model
         private int _fileid;
         private int _folderid;
@@ -54,9 +125,6 @@ namespace IES.Resource.Model
         private int _isdistribute = 0;
         private int _istransfer = 0;
         private bool _isdeleted = false;
-        private string _kens;
-        private string _downurl;
-        private string _viewurl;
         /// <summary>
         /// 
         /// </summary>
@@ -67,7 +135,8 @@ namespace IES.Resource.Model
         }
 
         /// <summary>
-        /// 文件夹编号
+        /// 文件夹编号
+
         /// </summary>
         public int FolderID
         {
@@ -75,7 +144,8 @@ namespace IES.Resource.Model
             get { return _folderid; }
         }
         /// <summary>
-        /// 我的资料库为0 ，>0为在线课程编号
+        /// 我的资料库为0 ，>0为在线课程编号
+
         /// </summary>
         public int OCID
         {
@@ -83,7 +153,8 @@ namespace IES.Resource.Model
             get { return _ocid; }
         }
         /// <summary>
-        /// 0 表示我的资料库，>1 表示课程的编号
+        /// 0 表示我的资料库，>1 表示课程的编号
+
         /// </summary>
         public int CourseID
         {
@@ -107,7 +178,8 @@ namespace IES.Resource.Model
             get { return _subjectid2; }
         }
         /// <summary>
-        /// 创建人编号
+        /// 创建人编号
+
         /// </summary>
         public int CreateUserID
         {
@@ -116,7 +188,8 @@ namespace IES.Resource.Model
         }
 
         /// <summary>
-        /// 文件创建人姓名
+        /// 文件创建人姓名
+
         /// </summary>
         public string CreateUserName { get; set; }
 
@@ -138,7 +211,8 @@ namespace IES.Resource.Model
             get { return _filetitle; }
         }
         /// <summary>
-        /// 文件上传的名称
+        /// 文件上传的名称
+
         /// </summary>
         public string FileName
         {
@@ -177,6 +251,12 @@ namespace IES.Resource.Model
             set { _keys = value; }
             get { return _keys; }
         }
+        public string Kens
+        {
+            get;
+            set; 
+        }
+
         /// <summary>
         /// 文件大小 字节单位
         /// </summary>
@@ -202,7 +282,8 @@ namespace IES.Resource.Model
             get { return _timelength; }
         }
         /// <summary>
-        /// 对于压缩包HTML文件，访问首页名称
+        /// 对于压缩包HTML文件，访问首页名称
+
         /// </summary>
         public string RarIndexPage
         {
@@ -282,27 +363,13 @@ namespace IES.Resource.Model
             get { return _istransfer; }
         }
         /// <summary>
-        /// 删除状态
+        /// 删除状态
+
         /// </summary>
         public bool IsDeleted
         {
             set { _isdeleted = value; }
             get { return _isdeleted; }
-        }
-        public string Kens
-        {
-            set { _kens = value; }
-            get { return _kens; }
-        }
-        public string DownURL
-        {
-            set { _downurl = value; }
-            get { return _downurl; }
-        }
-        public string ViewURL
-        {
-            set { _viewurl = value; }
-            get { return _viewurl; }
         }
         #endregion Model
 

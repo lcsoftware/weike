@@ -194,6 +194,32 @@ namespace IES.G2S.Resource.DAL
             }
         }
 
+        /// <summary>
+        /// 章节关联的文件列表
+
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static List<File> Chapter_File_List(Chapter model, Ken ken)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@ChapterID", model.ChapterID);
+                    p.Add("@UserID", model.CreateUserID);
+                    p.Add("@KenID", ken.KenID);
+                    return conn.Query<File>("Chapter_File_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
 
         #endregion
 

@@ -32,7 +32,10 @@ namespace IES.G2S.Resource.BLL
             return ExerciseDAL.Exercise_Search(model, key, keys, kens, PageSize, PageIndex);
         }
 
-
+        public List<Exercise> Exercise_Search(Exercise model, Key key, int PageSize, int PageIndex)
+        {
+            return ExerciseDAL.Exercise_Search(model, key, PageSize, PageIndex);
+        }
 
         #endregion
 

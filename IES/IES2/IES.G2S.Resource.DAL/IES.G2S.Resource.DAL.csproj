@@ -44,6 +44,9 @@
     <Reference Include="Dapper.Tvp">
       <HintPath>..\packages\Dapper.Tvp.1.0.0\lib\net45\Dapper.Tvp.dll</HintPath>
     </Reference>
+    <Reference Include="IES.DataBase">
+      <HintPath>..\Lib\IES.DataBase.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -65,13 +68,10 @@
     <Compile Include="ResourceKenDAL.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IES.DataBase\IES.DataBase.csproj">
-      <Project>{c4da068e-3dda-43e1-845c-2c3f2f6e1d48}</Project>
-      <Name>IES.DataBase</Name>
-    </ProjectReference>
     <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
       <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
       <Name>IES.Resource.Model</Name>

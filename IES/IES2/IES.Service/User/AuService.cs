@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using IES.JW.Model;
+using IES.CC.OC.Model;
 
 namespace IES.Service
 {
@@ -30,6 +31,7 @@ namespace IES.Service
                 AuRole_List();
                 AuRoleModule_List();
                 AuUserRoleOrg_List();
+                AuRoleModule_ByUserRole_List();
                 return true;
             }
             catch (Exception e)
@@ -89,6 +91,16 @@ namespace IES.Service
         }
 
         /// <summary>
+        ///获取用户模块行为角色列表
+        /// </summary>
+        /// <returns></returns>
+        public static List<AuRoleModule> AuRoleModule_ByUserRole_List()
+        {
+            IES.G2S.JW.BLL.AuBLL aubll = new IES.G2S.JW.BLL.AuBLL();
+            return aubll.AuRoleModule_ByUserRole_List();
+        }
+
+        /// <summary>
         /// 用户角色组织机构列表
         /// </summary>
         /// <returns></returns>
@@ -97,6 +109,26 @@ namespace IES.Service
             IES.G2S.JW.BLL.AuBLL aubll = new IES.G2S.JW.BLL.AuBLL();
             return aubll.AuUserRoleOrg_List();
         }
+
+
+
+
+        /// <summary>
+        /// 获取所有用户的指定在线课程模块列表
+        /// </summary>
+        /// <param name="OCID"></param>
+        /// <returns></returns>
+        public static List<AuUserModule> AuUserModule_List(string ocid)
+        {
+            IES.G2S.JW.BLL.AuBLL aubll = new IES.G2S.JW.BLL.AuBLL();
+            return aubll.AuUserModule_List(ocid);
+        }
+
+
+
+
+
+
 
         /// <summary>
         /// 获取顶部的导航菜单
@@ -123,7 +155,21 @@ namespace IES.Service
         /// <returns></returns>
         public static List<Menu> Menu_Left_List(string ParentID , int scope )
         {
-            List<Menu> leftmenulist = Menu_List().Where( x => x.ParentID.Equals(ParentID) && x.Scope == scope).ToList<Menu>();
+            //if (ParentID == "B2")
+            //{
+            //    if (!UserService.IsTeacher)
+            //    {
+            //        ParentID = "C2";
+            //        scope = 3;
+            //    }
+            //}
+
+
+            List<Menu> leftmenulist  = new List<Menu>();
+            if( ParentID != "D" )
+                    leftmenulist = Menu_List().Where( x => x.ParentID.Equals(ParentID) && x.Scope == scope).ToList<Menu>();
+            else
+                    leftmenulist = Menu_List().Where( x => x.ParentID.Equals(ParentID) ).ToList<Menu>();
 
 
             return leftmenulist;
@@ -166,6 +212,7 @@ namespace IES.Service
             Menu menu = Menu_List().Where( x => x.MenuID == MenuID ).Single<Menu>();
             return menu;
         }
+
 
     }
 }

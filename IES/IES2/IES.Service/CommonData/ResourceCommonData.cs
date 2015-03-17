@@ -105,7 +105,8 @@ namespace IES.Common.Data
         /// <returns></returns>
         public static List<ResourceDict> Resource_Dict_ShareRange_Get()
         {
-            return CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("ShareRange")).OrderByDescending(x => x.id).ToList<ResourceDict>();
+            return CommonDataDAL.ResourceDict_List().Where(x => x.source.Equals("ShareRange")).ToList<ResourceDict>();
+
         }
 
 

@@ -6,15 +6,18 @@ using System.Threading.Tasks;
 
 namespace IES.Resource.Model
 {
-   public  class ExerciseAnswerInfo
+    public class ExerciseAnswerInfo
     {
-       public ExerciseAnswerInfo() {
-           this.ExerciseAnswers = new List<ExerciseAnswer>(); 
-       }
+        public ExerciseAnswerInfo()
+        {
+            //this.ExerciseAnswers = new List<ExerciseAnswer>();
+        }
 
-       public int UseTime { get; set; }
+        //public ExerciseAnswerUser ExerciseAnswerUsers { get; set; }
 
-       public List<ExerciseAnswer> ExerciseAnswers { get; set; }
+        //public List<ExerciseAnswer> ExerciseAnswers { get; set; }
+
+        //public ResourceTestUser TestUsers { get; set; }
 
     }
 }

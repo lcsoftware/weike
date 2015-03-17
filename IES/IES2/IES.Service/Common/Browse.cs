@@ -11,11 +11,22 @@ using IES.Cache;
 using IES.Resource.Model;
 using IES.G2S.Resource.DAL;
 using IES.Security;
+using System.Web;
 
 namespace IES.Service.Common
 {
     public class Browse
     {
+
+        public static string appPatch
+        {
+            get {
+                return HttpContext.Current.Request.ApplicationPath == "/" ? "" : HttpContext.Current.Request.ApplicationPath;
+            }
+        }
+            
+
+
         /// <summary>
         /// 获取分页大小
         /// </summary>

@@ -72,6 +72,29 @@ namespace IES.G2S.Resource.DAL
 
         #region 列表
 
+
+        /// <summary>
+        /// 知识点关联列表
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static IList<ResourceKen> ResourceKen_List_OCID(int ocid)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@OCID", ocid);
+                    return conn.Query<ResourceKen>("ResourceKen_List_OCID", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
         /// <summary>
         /// 知识点关联列表
         /// </summary>
@@ -96,6 +119,28 @@ namespace IES.G2S.Resource.DAL
             }
 
         }
+
+        public static IList<Ken> ResourceKen_List(string searchKey, string source, int userId, int topNum)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@SearchKey", searchKey);
+                    p.Add("@Source", source);
+                    p.Add("@UserID", userId);
+                    p.Add("@TopNum", topNum);
+                    return conn.Query<Ken>("Resource_Ken_List", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
          /// <summary>
         /// 知识点关联列表
         /// </summary>

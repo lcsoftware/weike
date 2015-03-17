@@ -42,5 +42,18 @@ namespace IES.Service.Common
             }
         }
 
+        /// <summary>
+        /// 身份验证地址
+        /// </summary>
+        public static string CASURL
+        {
+            get 
+            {
+                return "http://192.168.4.231:6667/portal/login.aspx";
+            }
+        }
+
+
+
     }
 }

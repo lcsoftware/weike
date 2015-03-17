@@ -43,6 +43,8 @@ namespace Test
                     string ReturnUrl = Request.QueryString["ReturnUrl"];
                     Response.Redirect(ReturnUrl);
                 }
+                else
+                    Response.Redirect("~");
             }
 
         

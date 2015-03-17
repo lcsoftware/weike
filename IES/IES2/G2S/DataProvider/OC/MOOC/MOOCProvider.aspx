@@ -1,1 +1,0 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MOOCProvider.aspx.cs" Inherits="App.G2S.DataProvider.OC.MOOC.MOOCProvider" %>

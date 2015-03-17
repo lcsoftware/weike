@@ -26,6 +26,10 @@ namespace IES.Resource.Model
         #region 补充字段
         public string ExerciseTypeName { get; set; }
         public string Content { get; set; }
+        /// <summary>
+        /// 分页需要，总页数
+        /// </summary>
+        public int rowscount { get; set; }
 
         public int Chapter { get; set; }
 
@@ -33,9 +37,7 @@ namespace IES.Resource.Model
         #endregion
 
         public Exercise()
-        {
-            this.Chapter = 0;
-        }
+        { }
         #region Model
         private int _exerciseid;
         private int _courseid = 0;
@@ -47,8 +49,8 @@ namespace IES.Resource.Model
         private int _diffcult = 1;
         private int _scope = 1;
         private int _sharerange = 3;
-        private string _keys;
-        private string _kens;
+        private string _keys = "";
+        private string _kens = "";
         private string _brief;
         private string _conten;
         private string _answer;
@@ -58,6 +60,8 @@ namespace IES.Resource.Model
         private bool _isrand = false;
         private DateTime _updatetime = DateTime.Now;
         private bool _isdeleted = false;
+
+        private string _exerciseanswercomment = "";
         /// <summary>
         /// 主键
         /// </summary>
@@ -156,8 +160,8 @@ namespace IES.Resource.Model
         /// </summary>
         public string Keys
         {
-            set { _keys = value; }
             get { return _keys; }
+            set { _keys = value; }
         }
 
         /// <summary>
@@ -165,9 +169,8 @@ namespace IES.Resource.Model
         /// </summary>
         public string Kens
         {
-            set { _kens = value; }
             get { return _kens; }
-
+            set { _kens = value; }
         }
 
 

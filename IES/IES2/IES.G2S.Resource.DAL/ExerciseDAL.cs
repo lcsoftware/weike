@@ -14,6 +14,43 @@ namespace IES.G2S.Resource.DAL
     public class ExerciseDAL
     {
         #region 列表
+
+        /// <summary>
+        /// 习题查询
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="key">关键字</param>
+        /// <param name="PageSize"></param>
+        /// <param name="PageIndex"></param>
+        /// <returns></returns>
+        public static List<Exercise> Exercise_Search(Exercise model, Key key, int PageSize, int PageIndex)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@Searchkey", model.Conten);
+                    p.Add("@OCID", model.OCID);
+                    p.Add("@UserID", model.CreateUserID);
+                    p.Add("@ExerciseType", model.ExerciseType);
+                    p.Add("@Diffcult", model.Diffcult);
+                    p.Add("@Scope", model.Scope);
+                    p.Add("@PageSize", PageSize);
+                    p.Add("@PageIndex", PageIndex);
+                    p.Add("@Keys", model.Keys);
+                    p.Add("@Kens", model.Kens);
+
+                    return conn.Query<Exercise>("Exercise_Paper_Search", p, commandType: CommandType.StoredProcedure).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<Exercise>();
+            }
+
+        }
+
         /// <summary>
         /// 习题查询
         /// </summary>

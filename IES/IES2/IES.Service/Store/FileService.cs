@@ -12,6 +12,7 @@ using IES.Cache;
 using IES.Resource.Model;
 using IES.G2S.Resource.BLL;
 using IES.Common;
+using System.Security.Cryptography;
 
 
 
@@ -114,7 +115,7 @@ namespace IES.Service
         {
             try
             {
-                return Attachment_UserIMG_List().Where(x => x.SourceID == UserID).Single<Attachment>().DownURL;
+                return Attachment_UserIMG_List().Where(x => x.SourceID == UserID).ToList()[0].DownURL;
             }
             catch {
                 return "/Images/default/User_M.jpg";
@@ -145,6 +146,7 @@ namespace IES.Service
                     if (RemoteFileExists(file))
                     {
                         AttachmentBLL bll = new AttachmentBLL();
+
                         Attachment attachment = new Attachment
                         {
                             FileName = file.FileName,
@@ -208,6 +210,9 @@ namespace IES.Service
             return IES.G2S.Resource.DAL.AttachmentDAL.Attachment_SourceID_Upd(attachment);
         }
 
+
+
+
         /// <summary>
         /// 资料上传
         /// </summary>
@@ -226,6 +231,7 @@ namespace IES.Service
                     if (RemoteFileExists(file))
                     {
                         FileBLL bll = new FileBLL();
+                        file.FileType = file.GetFileType();
                         IES.Resource.Model.File resourcefile = new IES.Resource.Model.File
                         {
                             FileName = file.FileName,
@@ -238,6 +244,7 @@ namespace IES.Service
                             CreateUserID = UserService.CurrentUser.UserID,
                             CreateUserName = UserService.CurrentUser.UserName,
                             Ext = file.Ext,
+                            FileType =  file.FileType ,
                             ShareRange = model.ShareRange
                         };
                         resourcefile = bll.File_ADD(resourcefile);
@@ -324,8 +331,11 @@ namespace IES.Service
             string Ext = Path.GetExtension(fileName) ;
             string newFileName = filehead + Ext ;
 
-            string uri = string.Format("http://{0}:{1}/{2}/HttpUpload/HttpUpload.ashx?PubKey={3}&fileName={4}&UName=able&PWD=able",
-                machineName, httpPort, webFolder, PubKey, newFileName);
+            string code = IES.Common.Secret.Hash.GetMD5(newFileName + PubKey + server.ServerID.ToString());
+           
+
+            string uri = string.Format("http://{0}:{1}/{2}/HttpUpload/HttpUpload.ashx?code={3}&fileName={4}&UName=able&PWD=able&SID={5}",
+                machineName, httpPort, webFolder, code, newFileName,server.ServerID.ToString());
 
             HttpWebRequest webRequest = WebRequest.Create(uri) as HttpWebRequest;
             webRequest.ContentType = "application/x-www-form-urlencoded";
