@@ -12,7 +12,7 @@
         </ul>
     </script>
     <div class="pop_wrap">
-        <ul ng-model="mobile" class="file_box">
+        <ul ng-model="mobile" class="file_box" style="height:300px;overflow:auto;">
             <li ng-repeat="node in files" ng-include="'nodes_renderer.html'"></li>
         </ul>
     </div>
@@ -20,4 +20,5 @@
         <a class="save" ng-click="onMoveFileSubmit()">确定</a>
         <a class="cancel" ng-click="onClose()">取消</a>
     </div>
+    <br />
 </div>

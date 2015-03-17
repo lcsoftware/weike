@@ -644,7 +644,7 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
     directive.restrict = 'EA';
 
     directive.scope = {
-        uploadUrl: '@',
+        fileCatetory: '@',
         ocid: '=',
         courseId: '=',
         folderObj: '='
@@ -660,17 +660,8 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
 
     directive.controller = function ($scope, $element) {
         //----------上传文件start--------
-        var reqUrl = window.appPatch + $scope.uploadUrl;
-        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: reqUrl });
-
-        //angularFileUploader.formData.push({ OCID: $scope.ocid });
-        //angularFileUploader.formData.push({ CourseID: $scope.courseId});
-        //if ($scope.folderObj) {
-        //    angularFileUploader.formData.push({ FolderID: $scope.folderObj.Id });
-        //} else {
-        //    angularFileUploader.formData.push({ FolderID: 0 }); 
-        //}
-        //angularFileUploader.formData.push({ ShareRange: 2 });
+        var reqUrl = window.appPatch + '/DataProvider/FileUpload.ashx?FROM=' + $scope.fileCatetory;
+        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: reqUrl }); 
 
         $scope.$watch('ocid', function (v) {
             angularFileUploader.formData.length = 0;
