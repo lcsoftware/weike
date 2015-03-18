@@ -790,7 +790,6 @@ app.directive('iesExerciseUploader', ['FileUploader', function (FileUploader) {
             if (v > 0) {
                 $scope.iesUploader.uploadAll();
             }
-            console.log('============================', v);
         })
 
         // FILTERS
@@ -1144,15 +1143,13 @@ app.directive("fileExt", [function () {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
-            console.log(element);
             var ext = attrs.ext.toLowerCase().replace('.', '');
-            if (ext == "file") ext = "file";
+            if (ext == "file" || !ext) ext = "file";
             if (ext == "docx") ext = "doc";
             if (ext == "pptx") ext = "ppt";
             if (ext == "xlsx" || ext == "xls") ext = "excel";
             if (ext == "jpg" || ext == "jpeg" || ext == "gif" || ext == "png" || ext == "bmp" || ext == "ico") ext = "pic";
-            element.addClass(ext);
-
+            element.addClass(ext); 
         }
     };
 }])

@@ -930,12 +930,24 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
             }
         }
 
+        ///删除附件
+        var attachmentRemoved= function (removedAttachmentObject) {
+            var length = $scope.attachmentList.length;
+            for (var i = 0; i < length; i++) {
+                if ($scope.attachmentList[i].AttachmentID === removedAttachmentObject.AttachmentID) {
+                    $scope.attachmentList.splice(i, 1);
+                    break;
+                }
+            }
+        }
 
         $scope.$on('onRemoveAttachment', function (event, attachment) {
             attachment.Updatetime = new Date();
             resourceService.Attachment_Del(attachment, function (data) {
                 if (data.d) {
-                    $scope.$broadcast('onRemoveFinishedAttachment', attachment);
+                    attachmentRemoved(attachment);
+                    //$scope.$broadcast('onRemoveFinishedAttachment', attachment);
+
                 }
             });
         });

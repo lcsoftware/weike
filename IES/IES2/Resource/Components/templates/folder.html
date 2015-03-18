@@ -10,8 +10,8 @@
                'other':folderItem.FileType==9,
                'file': folderItem.RelationType==0}" ng-click="onOpen()">
     </i>-->
-    <!--<i class="icon_24" file-ext ext="{{folderItem.Ext}}" ng-click="onOpen();"></i>-->
-    <file-icon icon-type="folderItem.FileType" relation-type="folderItem.RelationType" ng-click="onOpen();"></file-icon>
+    <i class="icon_24" file-ext ext="{{folderItem.Ext}}" ng-click="onOpen();"></i>
+    <!--<file-icon icon-type="folderItem.FileType" relation-type="folderItem.RelationType" ng-click="onOpen();"></file-icon>-->
     <p class="data_tit" ng-bind="folderName"></p>
     <input class="rename_test" ng-model="folderName" ng-blur="onBlur()" type="text">
 </div>
