@@ -34,7 +34,7 @@ app.directive('moreCourse', function () {
     }
 
     directive.controller = function ($scope) {
-        $scope.courseChange = function (course, isMore) { 
+        $scope.courseChange = function (course, isMore) {
             $scope.$emit('onWillCourseChanged', course, isMore);
         }
     }
@@ -143,6 +143,38 @@ app.directive('addChapter', function () {
 
     return directive;
 });
+
+
+app.directive('chapterEditor', function () {
+    var directive = {};
+
+    directive.restrict = 'EA';
+
+    directive.scope = {
+        chapterName: '=',
+        onSave: '&',
+        onCancel: '&'
+    }
+
+    directive.templateUrl = window.appPatch + '/Components/templates/chapterEditor.html';
+
+    directive.link = function (scope, elem, iAttrs) {
+        //弹出右键菜单
+        var oHeight = $(document).height();
+        var oScroll = $(window).scrollTop();
+        var bgCls = '.' + scope.bgClass;
+        var popCls = '.' + scope.popClass;
+        elem.find('.pop_bg').show().css('height', oHeight);
+        elem.find('.pop_400').show().css('top', oScroll + 200);
+
+        elem.find('#btnCancel,#btnSave,.close_pop').bind('click', function () {
+            elem.hide();
+        })
+    }
+
+    return directive;
+});
+
 
 app.directive('folder', function () {
     var directive = {};
@@ -381,7 +413,7 @@ app.directive('exerciseList', ['assistService', 'previewService', 'exerciseServi
         })
     }
 
-    directive.controller = function ($scope, assistService, previewService, exerciseService, $state,$window) {
+    directive.controller = function ($scope, assistService, previewService, exerciseService, $state, $window) {
 
         $scope.editExercise = function (exercise) {
             $scope.$emit('onEditExercise', exercise);
@@ -509,7 +541,7 @@ app.directive('preView', function () {
 
     directive.scope = {
         exercise: '=',
-        onClose:'&'
+        onClose: '&'
     }
 
     directive.templateUrl = window.appPatch + '/Components/templates/preView.html';
@@ -632,7 +664,7 @@ app.directive('editor', function () {
 
     directive.link = function (scope, elem, iAttrs) {
     }
-   
+
 
     return directive;
 });
@@ -661,7 +693,7 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
     directive.controller = function ($scope, $element) {
         //----------上传文件start--------
         var reqUrl = window.appPatch + '/DataProvider/FileUpload.ashx?FROM=' + $scope.fileCatetory;
-        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: reqUrl }); 
+        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: reqUrl });
 
         $scope.$watch('ocid', function (v) {
             angularFileUploader.formData.length = 0;
@@ -784,7 +816,7 @@ app.directive('iesExerciseUploader', ['FileUploader', function (FileUploader) {
             angularFileUploader.formData.length = 0;
             angularFileUploader.formData.push({ OCID: $scope.exerciseCourse.OCID });
             angularFileUploader.formData.push({ CourseID: $scope.exerciseCourse.CourseID });
-        }); 
+        });
 
         $scope.$watch('iesUploader.queue.length', function (v) {
             if (v > 0) {
@@ -959,58 +991,39 @@ app.directive('iesChapterItem', ['$timeout', function ($timeout) {
 
     directive.scope = {
         chapterSelectedItem: '=',
-        chapterChildSelectedItem: '=',
         chapterItem: '=',
-        items: '=',
-        chapterSelected: '&'
+        childChapter: '=',
+        items:'=',
+        chapterSelected: '&',
+        onEdit:'&'
     }
 
     directive.link = function (scope, elem, iAttrs) {
 
         ///编辑
-        elem.find('a:first span:first').bind('click', function () {
-            elem.siblings().removeClass('active');
-
-            elem.find('a:first').addClass('chapterHide');
-            elem.find('a:last').removeClass('chapterHide');
-
-            elem.siblings().find('a:first').removeClass('chapterHide');
-            elem.siblings().find('a:last').addClass('chapterHide');
-
-            elem.addClass('active');
-        });
+        //elem.find('a:first span:first').bind('click', function () {
+        //    elem.siblings().removeClass('active');
+        //    elem.addClass('active');
+        //});
 
         ///增加小节
         elem.find('a:first span:last').bind('click', function () {
             elem.siblings().removeClass('active');
-
-            elem.find('a:first').removeClass('chapterHide');
-            elem.find('a:last').addClass('chapterHide');
-
-            elem.siblings().find('a:first').removeClass('chapterHide');
-            elem.siblings().find('a:last').addClass('chapterHide');
-
             elem.addClass('active');
         });
 
         ///点选
         elem.find('a:first p').bind('click', function () {
             elem.siblings().removeClass('active');
-
-            elem.siblings().find('a:first').removeClass('chapterHide');
-            elem.siblings().find('a:last').addClass('chapterHide');
-
-            elem.find('.second_item li a:first').removeClass('chapterHide');
-            elem.find('.second_item li a:last').addClass('chapterHide');
-
-            elem.find('.second_item li').removeClass('active');
-            elem.find('.second_item li:first').addClass('active');
-
             elem.addClass('active');
         });
     }
 
     directive.controller = function ($scope, $element) {
+
+        $scope.childSelected = function (child) {
+            $scope.$emit('onChildSelected', child);
+        }
 
         $scope.willEdit = function (chapter) {
             $scope.$emit('onWillEdit', chapter);
@@ -1021,33 +1034,17 @@ app.directive('iesChapterItem', ['$timeout', function ($timeout) {
             $element.find('a:last').addClass('chapterHide');
         });
 
-        $scope.willAddSection = function (chapter, items) {
-            var section = angular.copy(chapter);
-            section.ParentID = chapter.ChapterID;
-            section.ChapterID = 0;
-            section.Title = '';
-            section.Orde = 9999;
-            items.push(section);
+        $scope.willAddSection = function (chapter) { 
+            $element.addClass('active');
+            $element.siblings().removeClass('active');
 
-            $timeout(function () { 
-                $element.siblings().removeClass('active');
+            $scope.$emit('onAddChild', chapter); 
+        }
 
-                $element.find('a:first').removeClass('chapterHide');
-                $element.find('a:last').addClass('chapterHide');
-
-                $element.siblings().find('a:first').removeClass('chapterHide');
-                $element.siblings().find('a:last').addClass('chapterHide');
-
-                $element.find('.second_item li').removeClass('active');
-                if (!$element.hasClass('active')) {
-                    $element.addClass('active');
-                }
-
-                $element.find('.second_item li:last a:first').addClass('chapterHide');
-                $element.find('.second_item li:last a:last').removeClass('chapterHide');
-                $element.find('.second_item li:last a:last input').focus();
-
-            }, 10);
+        $scope.edit = function (chapter) {
+            $element.siblings().removeClass('active');
+            $element.addClass('active');
+            $scope.$emit('onEdit', chapter);
         }
     }
 
@@ -1057,7 +1054,7 @@ app.directive('iesChapterItem', ['$timeout', function ($timeout) {
 app.directive('iesChapterSection', function () {
     var directive = {};
 
-    directive.restrict = 'EA'; 
+    directive.restrict = 'EA';
 
     directive.templateUrl = window.appPatch + '/Components/templates/chapterSection.html';
 
@@ -1069,32 +1066,20 @@ app.directive('iesChapterSection', function () {
     directive.link = function (scope, elem, iAttrs) {
         ///编辑
         elem.find('a:first span').bind('click', function () {
-            elem.siblings().find('a:first').removeClass('chapterHide');
-            elem.siblings().find('a:last').addClass('chapterHide');
-            elem.siblings().removeClass('active');
-            elem.removeClass('active');
-            elem.find('a:first').addClass('chapterHide');
-            elem.find("a:last").removeClass('chapterHide');
-            elem.find("a:last input").focus();
+            //elem.siblings().find('a:first').removeClass('chapterHide');
+            //elem.siblings().find('a:last').addClass('chapterHide');
+            //elem.siblings().removeClass('active');
+            //elem.removeClass('active');
+            //elem.find('a:first').addClass('chapterHide');
+            //elem.find("a:last").removeClass('chapterHide');
+            //elem.find("a:last input").focus();
         });
 
         ///点选
-        elem.find('a:first p').bind('click', function () {
+        elem.find('a p').bind('click', function () {
             elem.siblings().removeClass('active');
             elem.addClass('active');
-            elem.find('a:first').removeClass('chapterHide');
-            elem.find("a:last").addClass('chapterHide');
-
         });
-    }
-
-    directive.controller = function ($scope, $element) {
-        $scope.childBlur = function (chapter) {
-            $element.addClass('active');
-            $element.find('a:first').removeClass('chapterHide');
-            $element.find("a:last").addClass('chapterHide');
-            $scope.$emit('onEditSection', chapter);
-        } 
     }
 
     return directive;
@@ -1149,7 +1134,7 @@ app.directive("fileExt", [function () {
             if (ext == "pptx") ext = "ppt";
             if (ext == "xlsx" || ext == "xls") ext = "excel";
             if (ext == "jpg" || ext == "jpeg" || ext == "gif" || ext == "png" || ext == "bmp" || ext == "ico") ext = "pic";
-            element.addClass(ext); 
+            element.addClass(ext);
         }
     };
 }])

@@ -29,6 +29,19 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
         $scope.requireMent = {};
         $scope.requireMents = [];
 
+        $scope.bgPreview = false;
+        //显示预览页面
+        $scope.$on('onPreviewExercise', function (event, exercise) {
+            $scope.exercisePreview = exercise;
+            $('#ePreview').show();
+            $scope.bgPreview = true;
+        });
+        //关闭预览页面
+        $scope.closePreview = function () {
+            $('#ePreview').hide();
+            $scope.bgPreview = false;
+        }
+
         ///按章节查询，同时显示知识点查询条件 
         $scope.kenDisable = true;
 
@@ -225,10 +238,10 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
         ///确认删除
         $scope.$on('onDialogOk', function (event) {
             exerciseService.Exercise_Del($scope.exerciseItemDelete.ExerciseID, function (data) {
-                var length = $scope.exercises.length;
+                var length = $scope.linkExercises.length;
                 for (var i = 0; i < length; i++) {
-                    if ($scope.exercises[i].ExerciseID == $scope.exerciseItemDelete.ExerciseID) {
-                        $scope.exercises.splice(i, 1);
+                    if ($scope.linkExercises[i].ExerciseID == $scope.exerciseItemDelete.ExerciseID) {
+                        $scope.linkExercises.splice(i, 1);
                         break;
                     }
                 }
@@ -392,58 +405,46 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
 
         ///添加章节
         $scope.addChapter = function () {
-            $scope.canAdd = true;
+            $scope.willAddedChapter = {}
+            $scope.willAddedChapter.ParentID = 0;
+            $scope.willAddedChapter.ChapterID = 0;
+            $scope.willAddedChapter.Title = '';
+            $scope.willAddedChapter.Orde = 9999;
+
+            $('#eChapter').show();
         }
 
-        ///添加章节输入框失去焦点
-        $scope.onBlur = function (title) {
-            var newChapter = {
-                OCID: $scope.course.OCID,
-                CourseID: $scope.course.OCID,
-                Title: title
-            };
-            chapterService.Chapter_ADD(newChapter, function (data) {
-                if (data.d) {
-                    $scope.$parent.chapters.push(data.d);
-                    $scope.title = '';
-                    $scope.canAdd = false;
-                }
-            });
-        }
+        $scope.save = function (chapter) {
+            var newChapter = angular.copy(chapter);
+            if (chapter.ChapterID === 0) {
+                newChapter.OCID = $scope.course.OCID;
+                newChapter.CourseID = $scope.course.OCID;
 
-        $scope.chapterEdit = function (chapter) {
-            $scope.lastSelection = chapter;
-            $scope.enableEdit = true;
-        }
-
-        $scope.onEdit = function (chapter) {
-            $scope.enableEdit = false;
-            chapterService.Chapter_Upd(chapter);
-        }
-
-        $scope.$on('onEditSection', function (event, chapter) {
-            if (chapter.ChapterID > 0) {
-                chapterService.Chapter_Upd(chapter);
-            } else { 
-                chapterService.Chapter_ADD(chapter, function (data) {
+                chapterService.Chapter_ADD(newChapter, function (data) {
                     if (data.d) {
                         $scope.$parent.chapters.push(data.d);
+                    }
+                });
+            } else {
+                chapterService.Chapter_Upd(chapter, function (data) {
+                    if (data.d) {
                         var length = $scope.$parent.chapters.length;
                         for (var i = 0; i < length; i++) {
-                            if ($scope.$parent.chapters[i].ChapterID === 0){
-                                $scope.$parent.chapters.splice(i, 1);
+                            if ($scope.$parent.chapters[i].ChapterID === newChapter.ChapterID) {
+                                $scope.$parent.chapters[i] = newChapter;
+                                break;
                             }
                         }
                     }
                 });
-            }            
-        });
+            }
+        }
 
-        $scope.$on('onWillEdit', function (event, chapter) {
-            chapterService.Chapter_Upd(chapter, function (data) {
-                $scope.$broadcast('onChapterEdited', data.d);
-            });
-        });
+        $scope.$on('onEdit', function (event, chapter) {
+            $scope.willAddedChapter = angular.copy(chapter); 
+            $('#eChapter').show();
+        }); 
+       
 
         $scope.$on('onSectionSelected', function (event, section) {
             $scope.childChapter = section;
@@ -520,8 +521,8 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
                     break;
             }
         }
-
-        $scope.childFocus = function (item) {
+        ///节被选中
+        $scope.$on('onChildSelected', function (event, item) {
             $scope.childChapter = item;
             $scope.lastSelection = item;
             switch ($scope.tab) {
@@ -532,7 +533,20 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
                     Ken_ExerciseFilter_ChapterID_List(item);
                     break;
             }
-        }
+        });
+
+        $scope.willAddedChapter = {};
+
+        ///增加小节
+        $scope.$on('onAddChild', function (event, chapter) {
+            $scope.willAddedChapter = angular.copy(chapter);
+            $scope.willAddedChapter.ParentID = chapter.ChapterID;
+            $scope.willAddedChapter.ChapterID = 0;
+            $scope.willAddedChapter.Title = '';
+            $scope.willAddedChapter.Orde = 9999;
+
+            $('#eChapter').show();
+        });
 
         $scope.$watch('tab', function (tab) {
             switch (tab) {
@@ -604,7 +618,7 @@ appKnow.controller('KenTopicCtrl', ['$scope', '$state', 'resourceKenService', 'c
                     $scope.$parent.requireMent = $scope.$parent.requireMents[i];
                     break;
                 }
-            } 
+            }
             angular.forEach($scope.$parent.chapters, function (item) {
                 if (item.ChapterID === ken.ChapterID) {
                     $scope.$parent.ken.chapter = item;

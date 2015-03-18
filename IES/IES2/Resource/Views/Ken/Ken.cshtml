@@ -15,7 +15,7 @@
                    on-save="kenSave(ken, false)"
                    on-cancel="kenCancel()">
     </add-knowledge>
-    <add-chapter id="eChapter" style="display:none;"
+    @*<add-chapter id="eChapter" style="display:none;"
                  chapter-name="chapter.name"
                  knowledge="chapter.ken"
                  knowledges="ocKens"
@@ -23,7 +23,7 @@
                  require-ments="requireMents"
                  on-save-new="chapterSave(chapter, true)"
                  on-save="chapterSave(chapter, false)">
-    </add-chapter>
+    </add-chapter>*@
     <div class="exercise_btn">
         <a class="topic_import" dialog-show dialog-id="eKen"><em><i class="icon"></i></em><span>添加知识点</span></a>
         @*<a class="topic_import" dialog-show dialog-id="eChapter"><em><i class="icon"></i></em><span>添加章节</span></a>*@
@@ -129,3 +129,13 @@
     </div>
 
 </div>
+<div class="pop_bg" ng-show="bgPreview"></div>
+<div class="pop_800" id="ePreview" style="display:none">
+    <pre-view exercise="exercisePreview" on-close="closePreview()"></pre-view>
+</div>
+
+<ies-dialog id="eConfirm" style="display:none"
+            dialog-title="确认"
+            dialog-text="您确认删除该习题吗？"
+            ok-title="确定"
+            cancel-title="取消"></ies-dialog> 

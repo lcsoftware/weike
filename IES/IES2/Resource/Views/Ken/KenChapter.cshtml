@@ -36,16 +36,15 @@
             </li>*@
         <ies-chapter-item ng-repeat="item in chapters | parentID:0 | orderBy:'Orde'"
                           chapter-selected-item="parentChapter"
-                          chapter-child-selected-item="childChapter"
                           chapter-item="item"
+                          child-chapter="childChapter"
                           items="chapters"
                           will-add-section="willAddSection(item)"
                           chapter-selected="parentFocus(item)">
         </ies-chapter-item>
-        <li ng-show="canAdd">
-            <a class="first_chapter">
-                <input type="text" ng-model="title" placeholder="请输入章节标题" ng-blur="onBlur(title)" autofocus>
-            </a>
-        </li>
     </ul>
 </div> 
+
+<chapter-editor id="eChapter" style="display:none;"
+                chapter-name="willAddedChapter.Title"
+                on-save="save(willAddedChapter)">

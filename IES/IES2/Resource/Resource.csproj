@@ -171,6 +171,7 @@
     <Content Include="Components\templates\addChapter.html" />
     <Content Include="Components\templates\addKnowledge.html" />
     <Content Include="Components\templates\attachmentList.html" />
+    <Content Include="Components\templates\chapterEditor.html" />
     <Content Include="Components\templates\chapterItem.html" />
     <Content Include="Components\templates\chapterSection.html" />
     <Content Include="Components\templates\confirm.html" />
