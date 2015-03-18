@@ -131,7 +131,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                 if (resultRelationType == 0) {
                     if (orderTime == 0) return a.Name.localeCompare(b.Name);
                     else return -(a.Name.localeCompare(b.Name));
-                }                
+                }
             }
             return resultRelationType;
         });
@@ -231,6 +231,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.filterChanged();
 
         $scope.order += 1;
+        if (item.Id == null) return;
         $scope.tabTitles.push({ id: item.Id, name: '>' + item.Name, order: $scope.order });
     }
 
