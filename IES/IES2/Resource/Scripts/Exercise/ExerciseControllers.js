@@ -2114,6 +2114,10 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
+                if ($scope.model.exercisechoicelist.length == 0) {
+                    answer = { Answer: '', Spare: '' };
+                    $scope.model.exercisechoicelist.push(answer);
+                }
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
