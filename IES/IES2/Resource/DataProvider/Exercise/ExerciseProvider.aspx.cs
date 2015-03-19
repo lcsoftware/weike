@@ -162,14 +162,18 @@ namespace App.Resource.DataProvider.Exercise
         /// <param name="exerciseType">习题类型</param>
         /// <returns>true成功，false失败</returns>
         [WebMethod]
-        public static bool ExerciseInfo_Import(DataTable dt, int exerciseType)
+        public static DataTable ExerciseInfo_Import(DataTable dt, int exerciseType)
         {
             try
             {
-                ExerciseInfo exercise;                
+                DataTable resultDt = new DataTable();
+                resultDt.Columns.Add("Conten");
+                resultDt.Columns.Add("Message");
+                resultDt.Columns.Add("Status");
+                ExerciseInfo exercise;
                 string Content = "";
-                string model ="";
-                if (dt.Rows.Count == 0) return false;
+                string model = "";
+                if (dt.Rows.Count == 0) return null;
                 switch (exerciseType)
                 {
                     case 18: //简答题
@@ -184,50 +188,78 @@ namespace App.Resource.DataProvider.Exercise
                     case 13: //写作题
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            exercise = ExerciseBind(dt.Rows[i]);
-                            exercise.exercisecommon.exercise.Conten = dt.Rows[i]["习题内容"].ToString();
-                            exercise.exercisecommon.exercise.Analysis = dt.Rows[i]["习题解析"].ToString();
-                            exercise.exercisecommon.exercise.Answer = dt.Rows[i]["答案"].ToString();
-                            model = Newtonsoft.Json.JsonConvert.SerializeObject(exercise);
-                            Exercise_Writing_M_Edit(model);
+                            try
+                            {
+                                exercise = ExerciseBind(dt.Rows[i]);
+                                exercise.exercisecommon.exercise.Conten = dt.Rows[i]["习题内容"].ToString();
+                                exercise.exercisecommon.exercise.Analysis = dt.Rows[i]["习题解析"].ToString();
+                                exercise.exercisecommon.exercise.Answer = dt.Rows[i]["答案"].ToString();
+                                model = Newtonsoft.Json.JsonConvert.SerializeObject(exercise);
+                                Exercise_Writing_M_Edit(model);
+                            }
+                            catch (Exception ex)
+                            {
+                                resultDt.Rows[i]["Conten"] = dt.Rows[i]["习题内容"].ToString();
+                                resultDt.Rows[i]["Message"] = ex.Message;
+                                resultDt.Rows[i]["Status"] = "-1";
+                            }
+
                         }
-                        break;                    
+                        break;
                     case 1: //判断题
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            exercise = ExerciseBind(dt.Rows[i]);
-                            exercise.exercisecommon.exercise.Conten = dt.Rows[i]["习题内容"].ToString();
-                            exercise.exercisecommon.exercise.Analysis = dt.Rows[i]["习题解析"].ToString();
-                            model = Newtonsoft.Json.JsonConvert.SerializeObject(exercise);
-                            Exercise_Judge_M_Edit(model);
+                            try
+                            {
+                                exercise = ExerciseBind(dt.Rows[i]);
+                                exercise.exercisecommon.exercise.Conten = dt.Rows[i]["习题内容"].ToString();
+                                exercise.exercisecommon.exercise.Analysis = dt.Rows[i]["习题解析"].ToString();
+                                model = Newtonsoft.Json.JsonConvert.SerializeObject(exercise);
+                                Exercise_Judge_M_Edit(model);
+                            }
+                            catch (Exception ex)
+                            {
+                                resultDt.Rows[i]["Conten"] = dt.Rows[i]["习题内容"].ToString();
+                                resultDt.Rows[i]["Message"] = ex.Message;
+                                resultDt.Rows[i]["Status"] = "-1";
+                            }
                         }
                         break;
                     case 5: //填空题
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            exercise = ExerciseBind(dt.Rows[i]);
-                            exercise.exercisecommon.exercise.Conten = dt.Rows[i]["习题内容"].ToString();
-                            exercise.exercisecommon.exercise.Analysis = dt.Rows[i]["习题解析"].ToString();
-                            for (int n = 0; n < 6; n++)
+                            try
                             {
-                                if (string.IsNullOrEmpty(dt.Rows[i]["答案" + (n + 1)].ToString())) continue;
-                                string alternative = dt.Rows[i]["答案" + (n + 1) + "（备选）"].ToString() == "" ? ((char)32).ToString() : dt.Rows[i]["答案" + (n + 1) + "（备选）"].ToString();
-                                //判断下一题是不是空
-                                if (!string.IsNullOrEmpty(dt.Rows[i]["答案" + (n + 1)].ToString())||
-                                    string.IsNullOrEmpty(dt.Rows[i]["答案" + (n + 2)].ToString()))
+                                exercise = ExerciseBind(dt.Rows[i]);
+                                exercise.exercisecommon.exercise.Conten = dt.Rows[i]["习题内容"].ToString();
+                                exercise.exercisecommon.exercise.Analysis = dt.Rows[i]["习题解析"].ToString();
+                                for (int n = 0; n < 6; n++)
                                 {
-                                    Content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["答案" + (n + 1)].ToString()
-                                    + "wshgkjqbwhfbxlfrh_c" + alternative;
+                                    if (string.IsNullOrEmpty(dt.Rows[i]["答案" + (n + 1)].ToString())) continue;
+                                    string alternative = dt.Rows[i]["答案" + (n + 1) + "（备选）"].ToString() == "" ? ((char)32).ToString() : dt.Rows[i]["答案" + (n + 1) + "（备选）"].ToString();
+                                    //判断下一题是不是空
+                                    if (!string.IsNullOrEmpty(dt.Rows[i]["答案" + (n + 1)].ToString()) ||
+                                        string.IsNullOrEmpty(dt.Rows[i]["答案" + (n + 2)].ToString()))
+                                    {
+                                        Content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["答案" + (n + 1)].ToString()
+                                        + "wshgkjqbwhfbxlfrh_c" + alternative;
+                                    }
+                                    else
+                                    {
+                                        Content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["答案" + (n + 1)].ToString()
+                                        + "wshgkjqbwhfbxlfrh_c" + alternative + "wshgkjqbwhfbxlfrh_a";
+                                    }
                                 }
-                                else
-                                {
-                                    Content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["答案" + (n + 1)].ToString()
-                                    + "wshgkjqbwhfbxlfrh_c" + alternative + "wshgkjqbwhfbxlfrh_a";
-                                }
-                            }
 
-                            model = Newtonsoft.Json.JsonConvert.SerializeObject(exercise);
-                            Exercise_FillInBlanks_M_Edit(model);
+                                model = Newtonsoft.Json.JsonConvert.SerializeObject(exercise);
+                                Exercise_FillInBlanks_M_Edit(model);
+                            }
+                            catch (Exception ex)
+                            {
+                                resultDt.Rows[i]["Conten"] = dt.Rows[i]["习题内容"].ToString();
+                                resultDt.Rows[i]["Message"] = ex.Message;
+                                resultDt.Rows[i]["Status"] = "-1";
+                            }
                         }
                         break;
                     case 6:  //连线题
@@ -236,44 +268,53 @@ namespace App.Resource.DataProvider.Exercise
                     case 3: //多选题
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            exercise = ExerciseBind(dt.Rows[i]);
-                            exercise.exercisecommon.exercise.Conten = dt.Rows[i]["习题内容"].ToString();
-                            exercise.exercisecommon.exercise.Analysis = dt.Rows[i]["习题解析"].ToString();
-                            int[] answer = new int[dt.Rows[i]["正确答案"].ToString().Length];
-
-                            for (int n = 0; n < dt.Rows[i]["正确答案"].ToString().Length; n++)
+                            try
                             {
-                                answer[i] = Convert.ToInt32(dt.Rows[i]["正确答案"].ToString().Substring(i, 1));
-                            }
+                                exercise = ExerciseBind(dt.Rows[i]);
+                                exercise.exercisecommon.exercise.Conten = dt.Rows[i]["习题内容"].ToString();
+                                exercise.exercisecommon.exercise.Analysis = dt.Rows[i]["习题解析"].ToString();
+                                int[] answer = new int[dt.Rows[i]["正确答案"].ToString().Length];
 
-                            for (int n = 0; n < 8; n++)
-                            {
-                                if (string.IsNullOrEmpty(dt.Rows[i]["选项" + (n + 1)].ToString())) continue;
-                                int correct = 0;
-                                foreach (var a in answer)
+                                for (int n = 0; n < dt.Rows[i]["正确答案"].ToString().Length; n++)
                                 {
-                                    if (a == (n + 1))
+                                    answer[i] = Convert.ToInt32(dt.Rows[i]["正确答案"].ToString().Substring(i, 1));
+                                }
+
+                                for (int n = 0; n < 8; n++)
+                                {
+                                    if (string.IsNullOrEmpty(dt.Rows[i]["选项" + (n + 1)].ToString())) continue;
+                                    int correct = 0;
+                                    foreach (var a in answer)
                                     {
-                                        correct = 1;
+                                        if (a == (n + 1))
+                                        {
+                                            correct = 1;
+                                        }
                                     }
-                                }
-                                //判断下一题是不是空
-                                if (!string.IsNullOrEmpty(dt.Rows[i]["选项" + (n + 1)].ToString()) || 
-                                    string.IsNullOrEmpty(dt.Rows[i]["选项" + (n + 2)].ToString()))
-                                {
-                                    Content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["选项" + (n + 1)].ToString()
-                                    + "wshgkjqbwhfbxlfrh_c" + correct;
-                                }
-                                else
-                                {
-                                    Content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["选项" + (n + 1)].ToString()
-                                    + "wshgkjqbwhfbxlfrh_c" + correct + "wshgkjqbwhfbxlfrh_a";
-                                }
+                                    //判断下一题是不是空
+                                    if (!string.IsNullOrEmpty(dt.Rows[i]["选项" + (n + 1)].ToString()) ||
+                                        string.IsNullOrEmpty(dt.Rows[i]["选项" + (n + 2)].ToString()))
+                                    {
+                                        Content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["选项" + (n + 1)].ToString()
+                                        + "wshgkjqbwhfbxlfrh_c" + correct;
+                                    }
+                                    else
+                                    {
+                                        Content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["选项" + (n + 1)].ToString()
+                                        + "wshgkjqbwhfbxlfrh_c" + correct + "wshgkjqbwhfbxlfrh_a";
+                                    }
 
+                                }
+                                exercise.exercisecommon.exercise.Content = Content;
+                                model = Newtonsoft.Json.JsonConvert.SerializeObject(exercise);
+                                Exercise_MultipleChoice_M_Edit(model);
                             }
-                            exercise.exercisecommon.exercise.Content = Content;
-                            model = Newtonsoft.Json.JsonConvert.SerializeObject(exercise);
-                            Exercise_MultipleChoice_M_Edit(model);
+                            catch (Exception ex)
+                            {
+                                resultDt.Rows[i]["Conten"] = dt.Rows[i]["习题内容"].ToString();
+                                resultDt.Rows[i]["Message"] = ex.Message;
+                                resultDt.Rows[i]["Status"] = "-1";
+                            }
                         }
                         break;
                     case 7: //排序题
@@ -287,11 +328,11 @@ namespace App.Resource.DataProvider.Exercise
                     default:
                         break;
                 }
-                return true;
+                return resultDt;
             }
             catch
             {
-                return false;
+                return null;
             }
         }
 
