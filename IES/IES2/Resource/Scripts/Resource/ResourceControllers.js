@@ -308,13 +308,15 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         $scope.orderField = 'null';
         resourceService.Folder_Get(function (data) {
             var folder = data.d;
-            folder.Name = 'NewFolder';
+            folder.Name = '请输入文件夹名称';
             folder.ParentID = $scope.model.ParentID;
             folder.OCID = $scope.model.OCID;
             //folder.folderRelation = 0;
             folder.RelationType = 0;
-            $scope.folderRelations.push(folder);
+            $scope.folderRelations.insert(0, folder);
+            //console.log($('.course_data tbody').next());
         });
+        
     }
 
     //返回上一层
@@ -711,6 +713,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     //计算文件大小
     $scope.CalculatedSize = function (size) {
+        if (size == null) return '一';
         var rs = Math.round(size / 1024);
         if (rs < 1024) {
             return rs + 'KB';
