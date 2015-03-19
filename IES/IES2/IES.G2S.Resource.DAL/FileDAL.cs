@@ -341,6 +341,24 @@ namespace IES.G2S.Resource.DAL
 
         #region 详细信息
 
+        public static File File_Simple_Get(string FileID)
+        {
+            try
+            {
+                using (var conn = DbHelper.ResourceService())
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@FileID", FileID);
+                    return conn.Query<File>("File_Simple_Get", p, commandType: CommandType.StoredProcedure).SingleOrDefault<File>();
+                }
+            }
+            catch (Exception e)
+            {
+                return new File();
+            }
+        }
+
+
         #endregion
 
         #region  新增
@@ -386,22 +404,6 @@ namespace IES.G2S.Resource.DAL
             }
         }
 
-        public static File File_Simple_Get(string FileID)
-        {
-            try
-            {
-                using (var conn = DbHelper.ResourceService())
-                {
-                    var p = new DynamicParameters();
-                    p.Add("@FileID", FileID);
-                    return conn.Query<File>("File_Simple_Get", p, commandType: CommandType.StoredProcedure).SingleOrDefault<File>();
-                }
-            }
-            catch (Exception e)
-            {
-                return new File();
-            }
-        }
 
 
         #endregion

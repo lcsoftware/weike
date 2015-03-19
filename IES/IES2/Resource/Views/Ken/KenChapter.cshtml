@@ -1,39 +1,13 @@
 ﻿<div class="chapter_knowledge">
     <div class="chapter_btn">
-        <a class="icon_con add_btn" ng-click="addChapter();"></a>
-        <a class="icon_con up_btn" ng-click="move('orderup')"></a>
-        <a class="icon_con down_btn" ng-click="move('orderdown')"></a>
+        <a class="icon_con up_btn" ng-click="move('orderup')" title="上移"></a>
+        <a class="icon_con down_btn" ng-click="move('orderdown')" title="下移"></a>
+        <a class="icon delete_icon" ng-click="delete()" title="删除章节"></a>
+        <a class="icon_con add_btn" ng-click="addChapter();" title="添加章节"></a>
         @*<a class="icon_con right_btn" ng-click="move('leveldown')"></a>
             <a class="icon_con left_btn" ng-click="move('levelup')"></a>*@
-        <a class="icon delete_icon" ng-click="delete()"></a>
     </div>
     <ul class="chapter_item">
-        @*<li ng-class="{'active':parentChapter.ChapterID==item.ChapterID}" ng-repeat="item in chapters | parentID:0 | orderBy:'Orde'">
-                <a class="first_chapter">
-                    <div ng-bind="item.Title" ng-hide="enableEdit==true && lastSelection.ChapterID==item.ChapterID" ng-click="parentFocus(item)" style="padding-top:8px;"></div>
-                    <i class="icon fold_btn" ng-hide="enableEdit==true && lastSelection.ChapterID==item.ChapterID"></i>
-                    <span class="edit_box" ng-click="chapterEdit(item)">
-                        <em class="icon btn_box_edit"></em>
-                        <span>编辑</span>
-                    </span>
-                    <span class="add_box">
-                        <em class="icon btn_add"></em>
-                        <span>增加小节</span>
-                    </span>
-                    <input type="text" ng-model="lastSelection.Title" ng-blur="onEdit(item)" autofocus
-                           ng-show="enableEdit==true && lastSelection.ChapterID==item.ChapterID">
-
-                </a>
-                <ul class="second_item">
-                    <li ng-class="{'active':childChapter.ChapterID==child.ChapterID}" ng-repeat="child in chapters | parentID:item.ChapterID | orderBy:'Orde' ">
-                        <a class="first_chapter" ng-hide="enableEdit==true && lastSelection.ChapterID==child.ChapterID"
-                           ng-click="childFocus(child)" ng-dblclick="chapterDblclick(child)" ng-bind="child.Title"></a>
-
-                        <input type="text" ng-model="child.Title" placeholder="请输入章节标题" ng-blur="onEdit(child)" autofocus
-                               ng-show="lastSelection.ChapterID==child.ChapterID  && enableEdit==true">
-                    </li>
-                </ul>
-            </li>*@
         <ies-chapter-item ng-repeat="item in chapters | parentID:0 | orderBy:'Orde'"
                           chapter-selected-item="parentChapter"
                           chapter-item="item"
@@ -43,8 +17,14 @@
                           chapter-selected="parentFocus(item)">
         </ies-chapter-item>
     </ul>
-</div> 
+</div>
 
 <chapter-editor id="eChapter" style="display:none;"
                 chapter-name="willAddedChapter.Title"
                 on-save="save(willAddedChapter)">
+
+    <ies-dialog id="eConfirm" style="display:none"
+                dialog-title="确认"
+                dialog-text="您确认删除该章节吗？"
+                ok-title="确定"
+                cancel-title="取消"></ies-dialog>

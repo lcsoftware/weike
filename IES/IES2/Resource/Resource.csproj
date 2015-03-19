@@ -1070,6 +1070,10 @@
     <Content Include="Images\yuan.png" />
     <Content Include="Images\yuan_hover.png" />
     <Content Include="login.aspx" />
+    <Content Include="Redir\Filedown.aspx" />
+    <Content Include="Redir\Fileview.aspx" />
+    <Content Include="Redir\Resource.aspx" />
+    <Content Include="Redir\TM.aspx" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\Authority\AuthService.js" />
     <Content Include="Scripts\Chapter\ChapterService.js" />
@@ -1288,6 +1292,34 @@
     </Compile>
     <Compile Include="login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Redir\Filedown.aspx.cs">
+      <DependentUpon>Filedown.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Redir\Filedown.aspx.designer.cs">
+      <DependentUpon>Filedown.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Redir\Fileview.aspx.cs">
+      <DependentUpon>Fileview.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Redir\Fileview.aspx.designer.cs">
+      <DependentUpon>Fileview.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Redir\Resource.aspx.cs">
+      <DependentUpon>Resource.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Redir\Resource.aspx.designer.cs">
+      <DependentUpon>Resource.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Redir\TM.aspx.cs">
+      <DependentUpon>TM.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Redir\TM.aspx.designer.cs">
+      <DependentUpon>TM.aspx</DependentUpon>
     </Compile>
     <Compile Include="Routing\DefaultRoute.cs" />
     <Compile Include="Routing\DefaultRouteHandler.cs" />

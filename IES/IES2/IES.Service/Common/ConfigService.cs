@@ -17,7 +17,7 @@ namespace IES.Service.Common
     /// <summary>
     /// 系统配置服务
     /// </summary>
-    public  class ConfigService
+    public class ConfigService
     {
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace IES.Service.Common
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static List<CfgSchool> CfgSchool_List( )
+        public static List<CfgSchool> CfgSchool_List()
         {
             CfgSchoolBLL cfgbll = new CfgSchoolBLL();
             return cfgbll.CfgSchool_List();
@@ -47,13 +47,35 @@ namespace IES.Service.Common
         /// </summary>
         public static string CASURL
         {
-            get 
+            get
             {
                 return "http://192.168.4.231:6667/portal/login.aspx";
             }
         }
 
+        public static string G2SURL
+        {
+            get
+            {
+                return "http://192.168.4.231:513/G2S/";
+            }
+        }
 
+        public static string ResourceURL
+        {
+            get
+            {
+                return "http://192.168.4.231:513/Resource/";
+            }
+        }
+
+        public static string AdminURL
+        {
+            get
+            {
+                return "http://192.168.4.231:513/Admin/";
+            }
+        }
 
     }
 }

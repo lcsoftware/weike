@@ -56,3 +56,8 @@ a {
 .chapterHide {
     display:none!important; 
 } 
+
+.chapterSelected {
+    background:#f44f4f; 
+    color:#fff !important;
+}

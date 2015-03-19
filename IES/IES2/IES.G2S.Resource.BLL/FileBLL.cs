@@ -129,6 +129,10 @@ namespace IES.G2S.Resource.BLL
             return FileDAL.File_Search(file).ToList();
         }
 
+        public File File_Simple_Get(string FileID)
+        {
+            return FileDAL.File_Simple_Get(FileID);
+        }
 
 
         public File File_ADD(File model)

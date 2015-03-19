@@ -2,12 +2,19 @@
 @using IES.Cache;
 @using IES.Security;
 @using IES.Service;
+@using IES.Service.Common;
 @{
     List<Menu> DropDownMenuList = AuService.Menu_UserDropDown_List();
 
     List<Menu> TopMenulist = AuService.Menu_Top_List(2);
 
     List<Menu> LeftMenu = AuService.Menu_Left_List("B2", 2);
+}
+
+@helper gethref(string url, string topmenu)
+{
+    var result = Browse.appPatch + url + "?topmenu=" + topmenu;
+    @result
 }
 
 <!DOCTYPE html>
@@ -38,10 +45,10 @@
                 </div>
                 <div class="user_box">
                     <p class="user_name">
-                        @*<img src=@UserService.CurrentUserIMG width="20" height="20" />*@
-                        <img src="/images/user.jpg" width="20" height="20" />
-                        @*@UserService.CurrentUser.UserName*@
-                        <span class="icon icon_arrow"></span>
+                        <img src=@UserService.CurrentUserIMG width="20" height="20" />
+                        @*<img src="/images/user.jpg" width="20" height="20" />*@
+                        @UserService.CurrentUser.UserName
+                        @*<span class="icon icon_arrow"></span>*@
                     </p>
                     <ul class="user_info">
                         @foreach (var menu in DropDownMenuList)
@@ -52,9 +59,17 @@
                 </div>
                 <ul class="nav_box">
 
-                    @foreach (var menu in TopMenulist)
+                    @for (int i = 0; i < TopMenulist.Count; i++)
                     {
-                        <li><a href=@menu.URL>@menu.Title</a></li>
+                        var menu = TopMenulist[i];
+                        if (menu.MenuID == "B2")
+                        {
+                            <li class="active"><a target="_self" href=@gethref( @menu.URL, @menu.MenuID )>@menu.Title</a></li>
+                        }
+                        else
+                        {
+                            <li><a target="_self" href=@gethref( @menu.URL, @menu.MenuID )>@menu.Title</a></li>
+                        }
                     }
 
                 </ul>
@@ -66,11 +81,11 @@
             <div class="side_left" ng-show="enableSideLeft">
                 <!--用户信息开始-->
                 <div class="user">
-                    @*<img src=@UserService.CurrentUserIMG width="110" height="100" />*@
-                    <img src="/images/user.png" width="110" height="100" />
+                    <img src=@UserService.CurrentUserIMG width="110" height="100" />
+                    @*<img src="/images/user.png" width="110" height="100" />*@
                     <a class="teacher_name" href="#"> @UserService.CurrentUser.UserName 	</a>
-                    <a class="switch_btn" href="#" style="width:120px;">这里是教师端<i class="icon icon_arrow"></i></a>
-                    <span class="icon_24 icon_user"></span>
+                    @*<a class="switch_btn" href="#" style="width:120px;">这里是教师端<i class="icon icon_arrow"></i></a>
+                    <span class="icon_24 icon_user"></span>*@
                 </div>
                 <!--用户信息结束-->
                 <!--侧边导航开始-->
@@ -78,8 +93,16 @@
                     <ul class="side_nav">
                         @foreach (var menu in LeftMenu)
                         {
-                            <li id="@menu.MenuID" ui-sref-active="active"><a ui-sref="@menu.URL">@menu.Title</a></li>
+                            if (menu.Title != "试卷库")
+                            {
+                                <li  id="@menu.MenuID" ui-sref-active="active"><a target="_self" ui-sref="@menu.URL">@menu.Title</a></li>
+                            }
+                            else
+                            { 
+                                <li  id="@menu.MenuID" ><a target="_self" href=@Browse.appPatch@menu.URL>@menu.Title</a></li>
+                            }
                         }
+             
                     </ul>
                 </div>
                 <!--侧边导航结束-->

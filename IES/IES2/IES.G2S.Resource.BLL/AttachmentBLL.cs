@@ -28,7 +28,10 @@ namespace IES.G2S.Resource.BLL
 
 
 
-
+        public Attachment Attachment_Get(string FileID)
+        {
+            return AttachmentDAL.Attachment_Get(FileID);
+        }
 
 
         public  bool Attachment_ADD(Attachment model)
