@@ -95,6 +95,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         $scope.exerciseTypes = [];
         //难易程度
         $scope.difficulties = [];
+        $scope.conditionDifficulties = [];
         //范围
         $scope.shareRanges = [];
         $scope.shareRangesQuery = [];
@@ -183,7 +184,14 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
                 //item.name = '不限';
                 //$scope.difficulties.insert(0, item);
                 $scope.difficulties = data;
-                $scope.data.difficult = $scope.difficulties[0];
+
+                $scope.conditionDifficulties = angular.copy(data);
+                $scope.conditionDifficulties = angular.copy(data);
+                var item = angular.copy($scope.conditionDifficulties[0]);
+                item.id = 0;
+                item.name = '不限';
+                $scope.conditionDifficulties.insert(0, item);
+                $scope.data.difficult = $scope.conditionDifficulties[0];
             }
         });
 

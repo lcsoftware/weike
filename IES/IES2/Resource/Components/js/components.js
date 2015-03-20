@@ -196,7 +196,8 @@ app.directive('folder', function () {
         var e = elem.find('.data_tit');
         e.bind('dblclick', function (e) {
             $(this).hide();
-            $(this).next().show().select();
+            elem.find('input').show().select();
+            elem.find('input').val('ddddd');
         });
     }
     return directive;

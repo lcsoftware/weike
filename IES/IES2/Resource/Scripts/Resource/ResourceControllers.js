@@ -312,6 +312,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             folder.ParentID = $scope.model.ParentID;
             folder.OCID = $scope.model.OCID;
             //folder.folderRelation = 0;
+            folder.FileType = -1;
             folder.RelationType = 0;
             $scope.folderRelations.insert(0, folder);
             //console.log($('.course_data tbody').next());

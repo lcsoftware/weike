@@ -178,6 +178,8 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
                     if (keeping) $scope.ken.Name = '';
                 });
             }
+
+            $scope.ken = {};
         }
 
         $scope.kenCancel = function () {

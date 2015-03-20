@@ -50,7 +50,10 @@
                 </tr>
                 <tr ng-repeat="item in linkFiles">
                     <td>
-                        <p class="file_data"><i class="icon_24 doc"></i><span ng-bind="item.FileTitle"></span></p>
+                        <p class="file_data">
+                            <i class="icon_24" file-ext ext="{{item.Ext}}"></i>
+                            <span ng-bind="item.FileTitle"></span>
+                        </p>
                     </td>
                     <td ng-bind="item.CreateUserName"></td>
                 </tr>
