@@ -197,7 +197,6 @@ app.directive('folder', function () {
         e.bind('dblclick', function (e) {
             $(this).hide();
             elem.find('input').show().select();
-            elem.find('input').val('ddddd');
         });
     }
     return directive;
@@ -790,13 +789,13 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
 }]);
 
 //文件上传
-app.directive('iesExerciseUploader', ['FileUploader', function (FileUploader) {
+app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', function (FileUploader, exerciseService) {
     var directive = {};
 
     directive.restrict = 'EA';
 
     directive.scope = {
-        uploadUrl: '@',
+        fileCatetory: '@',
         exerciseCourse: '='
     }
 
@@ -810,21 +809,49 @@ app.directive('iesExerciseUploader', ['FileUploader', function (FileUploader) {
 
     directive.controller = function ($scope, $element) {
         //----------上传文件start--------
-        var reqUrl = window.appPatch + $scope.uploadUrl;
+        var reqUrl = window.appPatch + '/DataProvider/FileUpload.ashx?FROM=' + $scope.fileCatetory;
         var angularFileUploader = $scope.iesUploader = new FileUploader({ url: reqUrl });
 
         $scope.$watch('exerciseCourse', function (v) {
             angularFileUploader.formData.length = 0;
             angularFileUploader.formData.push({ OCID: $scope.exerciseCourse.OCID });
             angularFileUploader.formData.push({ CourseID: $scope.exerciseCourse.CourseID });
+            angularFileUploader.formData.push({ Category: $scope.importTypeSelected.id });
+        });
+
+        $scope.$watch('importTypeSelected', function (v) {
+            angularFileUploader.formData.length = 0;
+            angularFileUploader.formData.push({ OCID: $scope.exerciseCourse.OCID });
+            angularFileUploader.formData.push({ CourseID: $scope.exerciseCourse.CourseID });
+            angularFileUploader.formData.push({ Category: $scope.importTypeSelected.id });
+            $scope.templateUrl = v.templateUrl;
         });
 
         $scope.$watch('iesUploader.queue.length', function (v) {
             if (v > 0) {
+                $scope.fileName = angularFileUploader.queue[0].file.name;
+                $scope.process = 'loading'
                 $scope.iesUploader.uploadAll();
             }
         })
 
+        $scope.importTypes = [
+            { id: 2, name: "单选题", templateUrl: window.appPatch + '/ExerciseTemplates/单选题_多选题.xls' },
+            { id: 1, name: "判断题", templateUrl: window.appPatch + '/ExerciseTemplates/判断题.xls' },
+            { id: 5, name: "填空题", templateUrl: window.appPatch + '/ExerciseTemplates/填空题.xls' },
+            { id: 10, name: "问答题", templateUrl: window.appPatch + '/ExerciseTemplates/问答题_翻译题_名词解释_写作题.xls' },
+        ]
+
+        $scope.importTypeSelected = $scope.importTypes[0];
+        $scope.templateUrl = $scope.importTypeSelected.templateUrl;
+        $scope.fileName = '';
+        $scope.process = 'initial'
+        $scope.resultTable = [];
+
+        $scope.showA = $scope.process === 'loading';
+        $scope.showB = $scope.process === 'initial' || $scope.process === 'allRight';
+        $scope.showC = $scope.process === 'partRight' || $scope.process === 'fmtError';
+        
         // FILTERS
         angularFileUploader.filters.push({
             name: 'customFilter',
@@ -838,19 +865,20 @@ app.directive('iesExerciseUploader', ['FileUploader', function (FileUploader) {
             fn: function (item, options) {
                 var fileName = item.name;
                 var suffix = fileName.substring(fileName.lastIndexOf('.'), fileName.length);
-                //return suffix == ".txt" || suffix == ".jpg" || suffix == ".gif";
-                return true;
+                return suffix == ".xls" || suffix == ".xlsx";
+                //return true;
             }
         });
 
         angularFileUploader.onCompleteItem = function (fileItem, response, status, headers) {
-            $scope.$emit('onCompleteItem', fileItem, response, status, headers);
+            $scope.resultTable = response;
+           
+            //$scope.$emit('onCompleteItem', fileItem, response, status, headers);
         };
 
         angularFileUploader.onCompleteAll = function () {
             angularFileUploader.clearQueue();
             $scope.$emit('onCompleteAll');
-            $element.hide();
         };
     }
 
@@ -994,9 +1022,9 @@ app.directive('iesChapterItem', ['$timeout', function ($timeout) {
         chapterSelectedItem: '=',
         chapterItem: '=',
         childChapter: '=',
-        items:'=',
+        items: '=',
         chapterSelected: '&',
-        onEdit:'&'
+        onEdit: '&'
     }
 
     directive.link = function (scope, elem, iAttrs) {
@@ -1035,11 +1063,11 @@ app.directive('iesChapterItem', ['$timeout', function ($timeout) {
             $element.find('a:last').addClass('chapterHide');
         });
 
-        $scope.willAddSection = function (chapter) { 
+        $scope.willAddSection = function (chapter) {
             $element.addClass('active');
             $element.siblings().removeClass('active');
 
-            $scope.$emit('onAddChild', chapter); 
+            $scope.$emit('onAddChild', chapter);
         }
 
         $scope.edit = function (chapter) {

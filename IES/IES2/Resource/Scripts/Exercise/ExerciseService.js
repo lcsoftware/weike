@@ -126,5 +126,9 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     service.Exercise_Batch_Diffcult = function (ids, diffcult, callback) {
         httpService.ajaxPost(url, 'Exercise_Batch_Diffcult', { ids: ids, diffcult: diffcult }, callback);
     }
+
+    service.ExerciseInfo_Import = function (data, exerciseCourse, exerciseType, callback) {
+        httpService.ajaxPost(url, 'ExerciseInfo_Import', { dt: data, ocid: exerciseCourse.OCID, courseId: exerciseCourse.CourseID, exerciseType: exerciseType }, callback);
+    }
     return service;
 }]);

@@ -209,10 +209,7 @@ namespace IES.Service
         {
             return IES.G2S.Resource.DAL.AttachmentDAL.Attachment_SourceID_Upd(attachment);
         }
-
-
-
-
+ 
         /// <summary>
         /// 资料上传
         /// </summary>
@@ -256,6 +253,23 @@ namespace IES.Service
             return resourcefilelist;
         }
 
+        /// <summary>
+        /// 导入习题
+        /// 每次仅上传一个文件
+        /// </summary>
+        public static System.Data.DataTable ExerciseUpload() { 
+            HttpFileCollection files = HttpContext.Current.Request.Files;
+            if (files.Count == 0) return new System.Data.DataTable();
+            HttpPostedFile postFile = files[0];
+
+            string filehead = Guid.NewGuid().ToString().Replace("-", "");
+            string Ext = Path.GetExtension(postFile.FileName) ;
+            string newFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Temp", filehead + Ext);
+            postFile.SaveAs(newFileName);
+
+            System.Data.DataTable table = NPOIHandler.ExcelToDataTable(newFileName, "Sheet1", true);
+            return table;
+        }
 
         #endregion
 

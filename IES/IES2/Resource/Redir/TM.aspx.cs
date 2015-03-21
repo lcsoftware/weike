@@ -11,7 +11,7 @@ namespace App.Resource.Redir
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Response.Redirect(IES.Service.Common.ConfigService.G2SURL + "Home/index?leftmenu=B10");
+            Response.Redirect(IES.Service.Common.ConfigService.G2SURL + "Home/index?leftmenu=B10&topmenu=B1");
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 using IES.JW.Model;
 using IES.CC.OC.Model;
 using IES.G2S.JW.DAL;
@@ -11,6 +12,7 @@ using IES.Cache;
 using IES.Resource.Model;
 using IES.G2S.Resource.DAL;
 using IES.Security;
+
 
 namespace IES.Service.Common
 {
@@ -49,7 +51,7 @@ namespace IES.Service.Common
         {
             get
             {
-                return "http://192.168.4.231:6667/portal/login.aspx";
+                return ConfigurationManager.AppSettings["CASURL"];
             }
         }
 
@@ -57,7 +59,7 @@ namespace IES.Service.Common
         {
             get
             {
-                return "http://192.168.4.231:513/G2S/";
+                return ConfigurationManager.AppSettings["G2SURL"];
             }
         }
 
@@ -65,7 +67,7 @@ namespace IES.Service.Common
         {
             get
             {
-                return "http://192.168.4.231:513/Resource/";
+                return ConfigurationManager.AppSettings["ResourceURL"];
             }
         }
 
@@ -73,7 +75,7 @@ namespace IES.Service.Common
         {
             get
             {
-                return "http://192.168.4.231:513/Admin/";
+                return ConfigurationManager.AppSettings["AdminURL"];
             }
         }
 
