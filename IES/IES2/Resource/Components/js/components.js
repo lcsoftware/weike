@@ -151,6 +151,7 @@ app.directive('chapterEditor', function () {
     directive.restrict = 'EA';
 
     directive.scope = {
+        editorTitle: '=',
         chapterName: '=',
         onSave: '&',
         onCancel: '&'
@@ -789,7 +790,7 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
 }]);
 
 //文件上传
-app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', function (FileUploader, exerciseService) {
+app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpService', function (FileUploader, exerciseService, httpService) {
     var directive = {};
 
     directive.restrict = 'EA';
@@ -801,13 +802,17 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', functio
 
     directive.templateUrl = window.appPatch + '/Components/templates/exerciseUploader.html';
 
-    directive.link = function (scope, elem, iAttrs) {
-        elem.find('.close_pop').bind('click', function () {
-            elem.hide();
-        });
-    }
+    //directive.link = function (scope, elem, iAttrs) {
+    //    elem.find('.close_pop').bind('click', function () {
+    //        elem.hide();
+    //    });
+    //}
 
     directive.controller = function ($scope, $element) {
+        $element.find('.close_pop,.pop_box .btn_box .cancel').bind('click', function () {
+            $element.hide(); 
+        }); 
+       
         //----------上传文件start--------
         var reqUrl = window.appPatch + '/DataProvider/FileUpload.ashx?FROM=' + $scope.fileCatetory;
         var angularFileUploader = $scope.iesUploader = new FileUploader({ url: reqUrl });
@@ -830,28 +835,59 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', functio
         $scope.$watch('iesUploader.queue.length', function (v) {
             if (v > 0) {
                 $scope.fileName = angularFileUploader.queue[0].file.name;
-                $scope.process = 'loading'
+                $scope.stepA = true;
                 $scope.iesUploader.uploadAll();
             }
         })
 
         $scope.importTypes = [
             { id: 2, name: "单选题", templateUrl: window.appPatch + '/ExerciseTemplates/单选题_多选题.xls' },
+            { id: 3, name: "多选题", templateUrl: window.appPatch + '/ExerciseTemplates/单选题_多选题.xls' },
             { id: 1, name: "判断题", templateUrl: window.appPatch + '/ExerciseTemplates/判断题.xls' },
             { id: 5, name: "填空题", templateUrl: window.appPatch + '/ExerciseTemplates/填空题.xls' },
             { id: 10, name: "问答题", templateUrl: window.appPatch + '/ExerciseTemplates/问答题_翻译题_名词解释_写作题.xls' },
+            { id: 11, name: "翻译题", templateUrl: window.appPatch + '/ExerciseTemplates/问答题_翻译题_名词解释_写作题.xls' },
+            { id: 4, name: "名词解释", templateUrl: window.appPatch + '/ExerciseTemplates/问答题_翻译题_名词解释_写作题.xls' },
+            { id: 13, name: "写作题", templateUrl: window.appPatch + '/ExerciseTemplates/问答题_翻译题_名词解释_写作题.xls' },
         ]
 
-        $scope.importTypeSelected = $scope.importTypes[0];
+        $scope.importTypeSelected = $scope.importTypes[3];
         $scope.templateUrl = $scope.importTypeSelected.templateUrl;
+        ///客户端文件名称
         $scope.fileName = '';
+        ///保存在服务器上的文件名称
+        $scope.serverFileName = '';
         $scope.process = 'initial'
         $scope.resultTable = [];
 
-        $scope.showA = $scope.process === 'loading';
-        $scope.showB = $scope.process === 'initial' || $scope.process === 'allRight';
-        $scope.showC = $scope.process === 'partRight' || $scope.process === 'fmtError';
-        
+        $scope.stepA = $scope.process === 'loading';
+        $scope.stepB = $scope.process === 'initial' || $scope.process === 'allRight';
+        $scope.stepC = $scope.process === 'partRight' || $scope.process === 'fmtError';
+
+        $scope.errors = 0;
+        $scope.rights = 0;
+
+        var decideStep = function (resultTable) {
+            $scope.errors = 0;
+            $scope.rights = 0;
+            var length = resultTable.length;
+            for (var i = 0; i < length; i++) {
+                $scope.rights += resultTable[i].Status === '1' ? 1 : 0;
+            }
+            $scope.errors = length - $scope.rights;
+            if ($scope.rights === length) {
+                $scope.process = 'allRight'
+            } else if ($scope.errors === length) {
+                $scope.process = 'fmtError'
+            } else {
+                $scope.process = 'partRight'
+            }
+
+            $scope.stepA = $scope.process === 'loading';
+            $scope.stepB = $scope.process === 'initial' || $scope.process === 'allRight';
+            $scope.stepC = $scope.process === 'partRight' || $scope.process === 'fmtError';
+        }
+
         // FILTERS
         angularFileUploader.filters.push({
             name: 'customFilter',
@@ -871,15 +907,31 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', functio
         });
 
         angularFileUploader.onCompleteItem = function (fileItem, response, status, headers) {
-            $scope.resultTable = response;
-           
-            //$scope.$emit('onCompleteItem', fileItem, response, status, headers);
+            $scope.resultTable = response.data;
+            $scope.serverFileName = response.fileName;
+            decideStep($scope.resultTable);
+            $scope.$emit('onExerciseImportComplete');
         };
 
         angularFileUploader.onCompleteAll = function () {
             angularFileUploader.clearQueue();
+            $scope.iesUploader.clearQueue();
             $scope.$emit('onCompleteAll');
         };
+
+        ///需要待校验逻辑实现后才能导入
+        $scope.startImport = function () { 
+            var uploadUrl = '/DataProvider/FileUpload.ashx?FROM=4';
+            uploadUrl += "&fileName=" + $scope.serverFileName;
+            uploadUrl += "&OCID=" + $scope.exerciseCourse.OCID;
+            uploadUrl += "&CourseID=" + $scope.exerciseCourse.CourseID;
+            uploadUrl += "&Category=" + $scope.importTypeSelected.id;
+            httpService.post(uploadUrl, null, function (data) {
+                console.log(data);
+            });
+
+        }
+
     }
 
     return directive;

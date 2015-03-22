@@ -12,14 +12,14 @@
                 <label><b class="red">*</b>导入文件：</label>
                 <div nv-file-drop uploader="iesUploader" filters="fileSuffix" url="uploadUrl">
                     <input type="file" id="file" nv-file-select="" uploader="iesUploader" style="display:none;" />
-                    <input class="file_input" type="text" ng-model="fileName" style="margin-left:25px;width:198px;">
+                    <input class="file_input" type="text" ng-model="fileName" style="margin-left:25px;width:198px;" readonly>
                     <a class="scan_btn" onclick="$('#file').click()" ng-disabled="!iesUploader.getNotUploadedItems().length">导入文件</a>
                 </div>
             </div>
         </div>
 
         <!-- 导入 等待过程 -->
-        <div class="test_box" ng-show="showA">
+        <div class="test_box" ng-show="stepA">
             <div class="test_tit">
                 <h5 style="line-height:40px;">导入文件数据验证</h5>
             </div>
@@ -37,10 +37,10 @@
         </div>
 
         <!-- 导入 全部正常 -->
-        <div class="test_box" ng-show="showB">
+        <div class="test_box" ng-show="stepB">
             <div class="test_tit">
                 <h5 style="line-height:40px;">导入文件数据验证</h5>
-                <p ng-show="process==='allRight'">异常数据：<span class="red">0</span>条　｜　成功数据：<span class="green">5837</span>条</p>
+                <p ng-show="process==='allRight'">异常数据：<span class="red">{{errors}}</span>条　｜　成功数据：<span class="green">{{rights}}</span>条</p>
             </div>
             <div class="table_box">
                 <table class="data_table">
@@ -59,10 +59,10 @@
             </div>
         </div>
         <!-- 导入 结果展示 -->
-        <div class="test_box" ng-show="showC">
+        <div class="test_box" ng-show="stepC">
             <div class="test_tit">
                 <h5 style="line-height:40px;">导入文件数据验证</h5>
-                <p ng-show="process==='partRight'">异常数据：<span class="red">34</span>条　｜　成功数据：<span class="green">5837</span>条</p>
+                <p ng-show="process==='partRight'">异常数据：<span class="red">{{errors}}</span>条　｜　成功数据：<span class="green">{{rights}}</span>条</p>
             </div>
             <div class="table_box">
                 <table class="data_table" ng-show="process==='partRight'">
@@ -73,10 +73,10 @@
                         <th>结果</th>
                     </tr>
                     <tr ng-repeat="item in resultTable">
-                        <td>{{$index}}</td>
-                        <td>{{item.RowNumber}}</td>
-                        <td>{{item.ErrMsg}}</td>
-                        <td><span class="red">无法导入</span></td>
+                        <td>{{$index + 1}}</td>
+                        <td>第{{item.RowNumber + 1}}行</td>
+                        <td>{{item.Message}}</td>
+                        <td><span class="red">{{item.Status}}</span></td>
                     </tr>
                 </table>
                 <div class="import_tip" ng-show="process==='fmtError'">
@@ -86,9 +86,9 @@
             </div>
         </div>
 
-        <!--<div class="btn_box">
-            <a class="save" href="javascript:;">导入</a>
+        <div class="btn_box" ng-disabled="process!=='allRight'">
+            <a class="save" ng-click="startImport()">导入</a>
             <a class="cancel" href="javascript:;">取消</a>
-        </div>-->
+        </div>
     </div>
 </div>

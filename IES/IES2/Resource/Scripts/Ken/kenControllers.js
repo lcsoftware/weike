@@ -413,6 +413,7 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
             $scope.willAddedChapter.Title = '';
             $scope.willAddedChapter.Orde = 9999;
 
+            $scope.editorTitle = '添加章节'; 
             $('#eChapter').show();
         }
 
@@ -444,6 +445,7 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
 
         $scope.$on('onEdit', function (event, chapter) {
             $scope.willAddedChapter = angular.copy(chapter); 
+            $scope.editorTitle = '编辑章节';
             $('#eChapter').show();
         }); 
        
@@ -547,6 +549,7 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
             $scope.willAddedChapter.Title = '';
             $scope.willAddedChapter.Orde = 9999;
 
+            $scope.editorTitle = '增加小节';
             $('#eChapter').show();
         });
 

@@ -363,7 +363,9 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
             freezeService.freeze(tagService.UrlSourceTag, 'content.exercise');
             $state.go('exercise.shortanswer', { ocid: $scope.data.course.OCID, ExerciseID: -1 });
         }
-
+        $scope.$on('onExerciseImportComplete', function (event) {
+            filterChanged();
+        });
         ///批量共享
         $scope.$on('onBatchShareRange', function (event, range) {
             if ($scope.checks.length === 0) {

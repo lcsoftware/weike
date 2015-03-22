@@ -1,8 +1,10 @@
-﻿using IES.G2S.Resource.BLL;
+﻿using IES.Common;
+using IES.G2S.Resource.BLL;
 using IES.Resource.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -19,7 +21,7 @@ namespace App.G2S.DataProvider
         {
             context.Response.ContentType = "text/plain";
             context.Response.AddHeader("Cache-Control", "no-cache,must-revalidate");
-            
+
             //FROM 1 资料  2 附件
             var from = context.Request.QueryString["FROM"];
             if (from.Equals("2"))
@@ -30,27 +32,60 @@ namespace App.G2S.DataProvider
             }
             else if (from.Equals("3"))
             {
-                ///习题导入功能 
-                System.Data.DataTable table = IES.Service.FileService.ExerciseUpload(); 
+                ///习题验证 
+                ///读取Excel文件内容
+                HttpFileCollection files = HttpContext.Current.Request.Files;
+                HttpPostedFile postFile = files[0];
+                string filehead = Guid.NewGuid().ToString().Replace("-", "");
+                string Ext = Path.GetExtension(postFile.FileName);
+                string newFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Temp", filehead + Ext);
+                postFile.SaveAs(newFileName);
+                System.Data.DataTable table = NPOIHandler.ExcelToDataTable(newFileName, "Sheet1", true);
 
                 IES.Resource.Model.File fileModel = new IES.Resource.Model.File();
                 fileModel.OCID = int.Parse(context.Request.Form["OCID"]);
                 fileModel.CourseID = int.Parse(context.Request.Form["CourseID"]);
                 fileModel.FileType = int.Parse(context.Request.Form["Category"]);
-                DataTable resultTable = ExerciseInfo_Import(table, fileModel.OCID, fileModel.CourseID, fileModel.FileType); 
-                context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(resultTable));
+                ///验证数据正确性 TODO 还未实现
+                //DataTable resultChecked = ExerciseInfo_Check(table, fileModel.OCID, fileModel.CourseID, fileModel.FileType);
+                ///导入数据至数据库
+                DataTable resultTable = ExerciseInfo_Import(table, fileModel.OCID, fileModel.CourseID, fileModel.FileType);
+
+                var obj = new { fileName = filehead + Ext, data = resultTable };
+                context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(obj));
+
+            }
+            else if (from.Equals("4"))
+            {
+                ///习题导入
+                string serverFileName = context.Request.QueryString["fileName"];
+                int ocid = int.Parse(context.Request.QueryString["OCID"]);
+                int courseId = int.Parse(context.Request.QueryString["CourseID"]);
+                int category = int.Parse(context.Request.QueryString["Category"]);
+                if (string.IsNullOrEmpty(serverFileName))
+                {
+                    context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(new { status = -2 })); ;
+                    return;
+                }
+
+                string newFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Temp", serverFileName);
+                System.Data.DataTable table = NPOIHandler.ExcelToDataTable(newFileName, "Sheet1", true);
+
+                ///导入数据至数据库
+                DataTable resultTable = ExerciseInfo_Import(table, ocid, courseId, category);
+                context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(new { status = 1, data = resultTable })); ;
             }
             else
-            { 
+            {
                 ///资料库文件导入
                 IES.Resource.Model.File fileModel = new IES.Resource.Model.File();
                 fileModel.OCID = int.Parse(context.Request.Form["OCID"]);
                 fileModel.CourseID = int.Parse(context.Request.Form["CourseID"]);
                 fileModel.FolderID = int.Parse(context.Request.Form["FolderID"] == "undefined" ? "0" : context.Request.Form["FolderID"]);
-                fileModel.ShareRange = int.Parse(context.Request.Form["ShareRange"]); 
+                fileModel.ShareRange = int.Parse(context.Request.Form["ShareRange"]);
                 List<IES.Resource.Model.File> fileList = IES.Service.FileService.ResourceFileUpload(fileModel);
                 context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(fileList));
-            } 
+            }
             context.Response.End();
         }
 
@@ -81,14 +116,14 @@ namespace App.G2S.DataProvider
                 case 11: //翻译题
                 case 4: //名词解释
                 case 13: //写作题
-                    return ExerciseImportA(dt, ocid, courseId);
+                    return ExerciseImportA(dt, ocid, courseId, exerciseType);
                 case 1: //判断题
-                    return ExerciseImportB(dt, ocid, courseId);
+                    return ExerciseImportB(dt, ocid, courseId, exerciseType);
                 case 5: //填空题
-                    return ExerciseImportC(dt, ocid, courseId);
+                    return ExerciseImportC(dt, ocid, courseId, exerciseType);
                 case 2: //单选题
                 case 3: //多选题
-                    return ExerciseImportC(dt, ocid, courseId);
+                    return ExerciseImportD(dt, ocid, courseId, exerciseType);
                 default:
                     break;
             }
@@ -102,77 +137,138 @@ namespace App.G2S.DataProvider
         private static DataTable BuildResultTable()
         {
             DataTable resultDt = new DataTable();
-            resultDt.Columns.Add("Conten");
+            resultDt.Columns.Add("RowNumber");
             resultDt.Columns.Add("Message");
             resultDt.Columns.Add("Status");
             return resultDt;
         }
-        private static DataTable ExerciseImportA(DataTable dt, int ocid, int courseId)
+
+        private static string GetExerciseTypeName(int exerciseType)
+        {
+            switch (exerciseType)
+            {
+                case 7: //排序题
+                    return "排序题";
+                case 8: //分析题
+                    return "分析题";
+                case 9: //计算题
+                    return "计算题";
+                case 14: //阅读理解题
+                    return "阅读理解题";
+                case 18: //简答题
+                    return "简答题";
+                case 12: //听力题
+                    return "听力题";
+                case 17: //自定义题
+                    return "自定义题";
+                case 6:  //连线题
+                    return "连线题";
+                case 10: //问答题
+                    return "问答题";
+                case 11: //翻译题
+                    return "翻译题";
+                case 4: //名词解释
+                    return "名词解释";
+                case 13: //写作题
+                    return "写作题";
+                case 1: //判断题
+                    return "判断题";
+                case 5: //填空题
+                    return "填空题";
+                case 2: //单选题
+                    return "单选题";
+                case 3: //多选题
+                    return "多选题";
+                default:
+                    return "";
+            }
+        }
+        private static DataTable ExerciseImportA(DataTable dt, int ocid, int courseId, int exerciseType)
         {
             DataTable resultTable = BuildResultTable();
             ExerciseInfo exercise;
             if (dt.Rows.Count == 0) return resultTable;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
+                var newRow = resultTable.NewRow();
+                resultTable.Rows.Add(newRow);
                 try
                 {
                     exercise = ExerciseBind(dt.Rows[i]);
+                    exercise.exercisecommon.exercise.OCID = ocid;
+                    exercise.exercisecommon.exercise.CourseID = courseId;
                     exercise.exercisecommon.exercise.Conten = dt.Rows[i]["习题内容"].ToString();
                     exercise.exercisecommon.exercise.Analysis = dt.Rows[i]["习题解析"].ToString();
                     exercise.exercisecommon.exercise.Answer = dt.Rows[i]["答案"].ToString();
+                    exercise.exercisecommon.exercise.ExerciseType = exerciseType;
+                    exercise.exercisecommon.exercise.ExerciseTypeName = GetExerciseTypeName(exerciseType);
+
                     Exercise_Writing_M_Edit(Newtonsoft.Json.JsonConvert.SerializeObject(exercise));
-                    resultTable.Rows[i]["Message"] = "导入成功";
-                    resultTable.Rows[i]["Status"] = "1";
+                    newRow["Message"] = "导入成功";
+                    newRow["Status"] = "1";
                 }
                 catch (Exception ex)
                 {
-                    resultTable.Rows[i]["Message"] = ex.Message;
-                    resultTable.Rows[i]["Status"] = "-1";
+                    newRow["Message"] = ex.Message;
+                    newRow["Status"] = "-1";
                 }
-                resultTable.Rows[i]["Conten"] = dt.Rows[i]["习题内容"].ToString();
+                newRow["RowNumber"] = i.ToString();
             }
             return resultTable;
         }
 
-        private static DataTable ExerciseImportB(DataTable dt, int ocid, int courseId)
+        private static DataTable ExerciseImportB(DataTable dt, int ocid, int courseId, int exerciseType)
         {
             DataTable resultTable = BuildResultTable();
             ExerciseInfo exercise;
             if (dt.Rows.Count == 0) return resultTable;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
+                var newRow = resultTable.NewRow();
+                resultTable.Rows.Add(newRow);
                 try
                 {
                     exercise = ExerciseBind(dt.Rows[i]);
+                    exercise.exercisecommon.exercise.OCID = ocid;
+                    exercise.exercisecommon.exercise.CourseID = courseId;
                     exercise.exercisecommon.exercise.Conten = dt.Rows[i]["习题内容"].ToString();
                     exercise.exercisecommon.exercise.Analysis = dt.Rows[i]["习题解析"].ToString();
+                    exercise.exercisecommon.exercise.ExerciseType = exerciseType;
+                    exercise.exercisecommon.exercise.ExerciseTypeName = GetExerciseTypeName(exerciseType);
+
                     Exercise_Judge_M_Edit(Newtonsoft.Json.JsonConvert.SerializeObject(exercise));
-                    resultTable.Rows[i]["Message"] = "导入成功";
-                    resultTable.Rows[i]["Status"] = "1";
+                    newRow["Message"] = "导入成功";
+                    newRow["Status"] = "1";
                 }
                 catch (Exception ex)
                 {
-                    resultTable.Rows[i]["Message"] = ex.Message;
-                    resultTable.Rows[i]["Status"] = "-1";
+                    newRow["Message"] = ex.Message;
+                    newRow["Status"] = "-1";
                 }
-                resultTable.Rows[i]["Conten"] = dt.Rows[i]["习题内容"].ToString();
+                newRow["RowNumber"] = i.ToString();
+
             }
             return resultTable;
         }
 
-        private static DataTable ExerciseImportC(DataTable dt, int ocid, int courseId)
+        private static DataTable ExerciseImportC(DataTable dt, int ocid, int courseId, int exerciseType)
         {
             DataTable resultTable = BuildResultTable();
-            ExerciseInfo exercise;
             if (dt.Rows.Count == 0) return resultTable;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
+                var newRow = resultTable.NewRow();
+                resultTable.Rows.Add(newRow);
                 try
                 {
                     string content = "";
-                    exercise = ExerciseBind(dt.Rows[i]);
+                    ExerciseInfo exercise = ExerciseBind(dt.Rows[i]);
+                    exercise.exercisecommon.exercise.OCID = ocid;
+                    exercise.exercisecommon.exercise.CourseID = courseId;
                     exercise.exercisecommon.exercise.Conten = dt.Rows[i]["习题内容"].ToString();
                     exercise.exercisecommon.exercise.Analysis = dt.Rows[i]["习题解析"].ToString();
+                    exercise.exercisecommon.exercise.ExerciseType = exerciseType;
+                    exercise.exercisecommon.exercise.ExerciseTypeName = GetExerciseTypeName(exerciseType);
                     for (int n = 0; n < 6; n++)
                     {
                         if (string.IsNullOrEmpty(dt.Rows[i]["答案" + (n + 1)].ToString())) continue;
@@ -181,48 +277,56 @@ namespace App.G2S.DataProvider
                         if (!string.IsNullOrEmpty(dt.Rows[i]["答案" + (n + 1)].ToString()) ||
                             string.IsNullOrEmpty(dt.Rows[i]["答案" + (n + 2)].ToString()))
                         {
-                            content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["答案" + (n + 1)].ToString()
-                            + "wshgkjqbwhfbxlfrh_c" + alternative;
+                            content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["答案" + (n + 1)].ToString();
+                            if (!string.IsNullOrEmpty(alternative.Trim()))
+                                content += "wshgkjqbwhfbxlfrh_c" + alternative;
                         }
                         else
                         {
-                            content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["答案" + (n + 1)].ToString()
-                            + "wshgkjqbwhfbxlfrh_c" + alternative + "wshgkjqbwhfbxlfrh_a";
+                            content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["答案" + (n + 1)].ToString();
+                            if (!string.IsNullOrEmpty(alternative.Trim()))
+                                content += "wshgkjqbwhfbxlfrh_c" + alternative + "wshgkjqbwhfbxlfrh_a";
                         }
                     }
                     exercise.exercisecommon.exercise.Content = content;
                     Exercise_FillInBlanks_M_Edit(Newtonsoft.Json.JsonConvert.SerializeObject(exercise));
-                    resultTable.Rows[i]["Message"] = "导入成功";
-                    resultTable.Rows[i]["Status"] = "1";
+                    newRow["Message"] = "导入成功";
+                    newRow["Status"] = "1";
                 }
                 catch (Exception ex)
                 {
-                    resultTable.Rows[i]["Message"] = ex.Message;
-                    resultTable.Rows[i]["Status"] = "-1";
+                    newRow["Message"] = ex.Message;
+                    newRow["Status"] = "-1";
                 }
-                resultTable.Rows[i]["Conten"] = dt.Rows[i]["习题内容"].ToString();
+                newRow["RowNumber"] = i.ToString();
             }
             return resultTable;
         }
 
-        private static DataTable ExerciseImportD(DataTable dt, int ocid, int courseId)
+        private static DataTable ExerciseImportD(DataTable dt, int ocid, int courseId, int exerciseType)
         {
             DataTable resultTable = BuildResultTable();
             ExerciseInfo exercise;
             if (dt.Rows.Count == 0) return resultTable;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
+                var newRow = resultTable.NewRow();
+                resultTable.Rows.Add(newRow);
                 try
                 {
                     string content = "";
                     exercise = ExerciseBind(dt.Rows[i]);
+                    exercise.exercisecommon.exercise.OCID = ocid;
+                    exercise.exercisecommon.exercise.CourseID = courseId;
                     exercise.exercisecommon.exercise.Conten = dt.Rows[i]["习题内容"].ToString();
                     exercise.exercisecommon.exercise.Analysis = dt.Rows[i]["习题解析"].ToString();
+                    exercise.exercisecommon.exercise.ExerciseType = exerciseType;
+                    exercise.exercisecommon.exercise.ExerciseTypeName = GetExerciseTypeName(exerciseType);
                     int[] answer = new int[dt.Rows[i]["正确答案"].ToString().Length];
 
                     for (int n = 0; n < dt.Rows[i]["正确答案"].ToString().Length; n++)
                     {
-                        answer[i] = Convert.ToInt32(dt.Rows[i]["正确答案"].ToString().Substring(i, 1));
+                        answer[n] = Convert.ToInt32(dt.Rows[i]["正确答案"].ToString().Substring(n, 1));
                     }
 
                     for (int n = 0; n < 8; n++)
@@ -252,54 +356,37 @@ namespace App.G2S.DataProvider
                     }
                     exercise.exercisecommon.exercise.Content = content;
                     Exercise_FillInBlanks_M_Edit(Newtonsoft.Json.JsonConvert.SerializeObject(exercise));
-                    resultTable.Rows[i]["Message"] = "导入成功";
-                    resultTable.Rows[i]["Status"] = "1";
+                    newRow["Message"] = "导入成功";
+                    newRow["Status"] = "1";
                 }
                 catch (Exception ex)
                 {
-                    resultTable.Rows[i]["Message"] = ex.Message;
-                    resultTable.Rows[i]["Status"] = "-1";
+                    newRow["Message"] = ex.Message;
+                    newRow["Status"] = "-1";
                 }
-                resultTable.Rows[i]["Conten"] = dt.Rows[i]["习题内容"].ToString();
+                newRow["RowNumber"] = i.ToString();
             }
             return resultTable;
         }
         private static ExerciseInfo ExerciseBind(DataRow dr)
         {
-            ExerciseInfo exercise;
-            string[] Keys;
-            string[] Kens;
-            int scope = 0;
-            string key = "";
-            string ken = "";
-
-            exercise = new ExerciseInfo();
+            ExerciseInfo exercise = new ExerciseInfo() { exercisecommon = new ExerciseCommon() { exercise = new Exercise() } };
             exercise.exercisecommon.exercise.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
             exercise.exercisecommon.exercise.CreateUserName = IES.Service.UserService.CurrentUser.UserName;
             exercise.exercisecommon.exercise.Diffcult = Convert.ToInt32(dr["难易程度"]);
-            //exercise.exercisecommon.exercise.ShareRange = Convert.ToInt32(dr["ShareRange"]);
-            //exercise.exercisecommon.exercise.OCID = Convert.ToInt32(dr["OCID"]);
-            //exercise.exercisecommon.exercise.CourseID = Convert.ToInt32(dr["CourseID"]);
-            //exercise.exercisecommon.exercise.Chapter = Convert.ToInt32(dr["Chapter"]);
             if (dr["适用范围"] != null)
             {
-                scope += Convert.ToInt32(dr["适用范围"].ToString());
+                exercise.exercisecommon.exercise.Scope = Convert.ToInt32(dr["适用范围"].ToString());
             }
-            if (dr["关键字"] != null)
+            if (!string.IsNullOrEmpty(dr["关键字"].ToString().Trim()))
             {
-                Keys = dr["关键字"].ToString().Split(',');
-                for (int i = 0; i < Keys.Length; i++)
-                {
-                    key += Keys.GetValue(i).ToString() + "wshgkjqbwhfbxlfrh";
-                }
+                exercise.exercisecommon.exercise.Keys = dr["关键字"].ToString().Replace(",", "wshgkjqbwhfbxlfrh");
+                exercise.exercisecommon.exercise.Keys += "wshgkjqbwhfbxlfrh";
             }
-            if (dr["知识点"] != null)
+            if (!string.IsNullOrEmpty(dr["知识点"].ToString()))
             {
-                Kens = dr["知识点"].ToString().Split(',');
-                for (int i = 0; i < Kens.Length; i++)
-                {
-                    ken += Kens.GetValue(i).ToString() + "wshgkjqbwhfbxlfrh";
-                }
+                exercise.exercisecommon.exercise.Keys = dr["知识点"].ToString().Replace(",", "wshgkjqbwhfbxlfrh");
+                exercise.exercisecommon.exercise.Keys += "wshgkjqbwhfbxlfrh";
             }
             return exercise;
         }
