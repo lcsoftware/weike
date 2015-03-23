@@ -15,7 +15,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
         $scope.$emit('onWizardSwitch', true);
 
         $scope.$emit('willResetCourse');
-
+        $scope.$emit('onSetAppTitle', '知识点');
         $scope.course = {};
 
         $scope.chapters = [];

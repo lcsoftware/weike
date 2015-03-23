@@ -12,7 +12,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
 
     $scope.$emit('onPreviewSwitch', false);
     $scope.$emit('onResetMoreTitle');
-
+    $scope.$emit('onSetAppTitle', '资料库');
     $scope.model = {};
     $scope.fileTypes = [];//文件类型
     $scope.timePass = [];//上传时间

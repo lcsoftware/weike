@@ -125,6 +125,10 @@ function ($templateCache, $rootScope, $state, $stateParams, httpService, assistS
     $rootScope.enableWizard = true;
     $rootScope.enableSideLeft = true;
 
+    $rootScope.$on('onSetAppTitle', function (event, title) {
+        $rootScope.appTitle = title;
+    });
+
     $rootScope.$on('onWizardSwitch', function (event, enableWizard) {
         $rootScope.enableWizard = enableWizard;
     });

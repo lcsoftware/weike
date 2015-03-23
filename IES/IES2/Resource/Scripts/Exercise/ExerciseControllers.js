@@ -85,6 +85,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
 
         $scope.$emit('onResetMoreTitle');
 
+        $scope.$emit('onSetAppTitle', '习题库');
+
         //习题列表
         $scope.exercises = [];
 
