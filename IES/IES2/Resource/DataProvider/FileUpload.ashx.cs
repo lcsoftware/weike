@@ -236,6 +236,7 @@ namespace App.G2S.DataProvider
                     exercise.exercisecommon.exercise.ExerciseType = exerciseType;
                     exercise.exercisecommon.exercise.ExerciseTypeName = GetExerciseTypeName(exerciseType);
 
+                    exercise.exercisecommon.exercise.Answer = dt.Rows[i]["答案"].ToString();
                     Exercise_Judge_M_Edit(Newtonsoft.Json.JsonConvert.SerializeObject(exercise));
                     newRow["Message"] = "导入成功";
                     newRow["Status"] = "1";
@@ -274,18 +275,16 @@ namespace App.G2S.DataProvider
                         if (string.IsNullOrEmpty(dt.Rows[i]["答案" + (n + 1)].ToString())) continue;
                         string alternative = dt.Rows[i]["答案" + (n + 1) + "（备选）"].ToString() == "" ? ((char)32).ToString() : dt.Rows[i]["答案" + (n + 1) + "（备选）"].ToString();
                         //判断下一题是不是空
-                        if (!string.IsNullOrEmpty(dt.Rows[i]["答案" + (n + 1)].ToString()) ||
-                            string.IsNullOrEmpty(dt.Rows[i]["答案" + (n + 2)].ToString()))
+                        if (!string.IsNullOrEmpty(dt.Rows[i]["答案" + (n + 2)].ToString()))
                         {
-                            content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["答案" + (n + 1)].ToString();
-                            if (!string.IsNullOrEmpty(alternative.Trim()))
-                                content += "wshgkjqbwhfbxlfrh_c" + alternative;
+                            content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["答案" + (n + 1)].ToString()
+                             + "wshgkjqbwhfbxlfrh_c" + alternative+ "wshgkjqbwhfbxlfrh_a";
                         }
                         else
                         {
-                            content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["答案" + (n + 1)].ToString();
-                            if (!string.IsNullOrEmpty(alternative.Trim()))
-                                content += "wshgkjqbwhfbxlfrh_c" + alternative + "wshgkjqbwhfbxlfrh_a";
+                            content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["答案" + (n + 1)].ToString()
+                                + "wshgkjqbwhfbxlfrh_c" + alternative;
+                            //if (!string.IsNullOrEmpty(alternative.Trim()))
                         }
                     }
                     exercise.exercisecommon.exercise.Content = content;
@@ -341,21 +340,20 @@ namespace App.G2S.DataProvider
                             }
                         }
                         //判断下一题是不是空
-                        if (!string.IsNullOrEmpty(dt.Rows[i]["选项" + (n + 1)].ToString()) ||
-                            string.IsNullOrEmpty(dt.Rows[i]["选项" + (n + 2)].ToString()))
-                        {
-                            content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["选项" + (n + 1)].ToString()
-                            + "wshgkjqbwhfbxlfrh_c" + correct;
-                        }
-                        else
+                        if (!string.IsNullOrEmpty(dt.Rows[i]["选项" + (n + 2)].ToString()))
                         {
                             content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["选项" + (n + 1)].ToString()
                             + "wshgkjqbwhfbxlfrh_c" + correct + "wshgkjqbwhfbxlfrh_a";
                         }
+                        else
+                        {
+                            content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["选项" + (n + 1)].ToString()
+                            + "wshgkjqbwhfbxlfrh_c" + correct;
+                        }
 
                     }
                     exercise.exercisecommon.exercise.Content = content;
-                    Exercise_FillInBlanks_M_Edit(Newtonsoft.Json.JsonConvert.SerializeObject(exercise));
+                    Exercise_MultipleChoice_M_Edit(Newtonsoft.Json.JsonConvert.SerializeObject(exercise));
                     newRow["Message"] = "导入成功";
                     newRow["Status"] = "1";
                 }
@@ -413,6 +411,13 @@ namespace App.G2S.DataProvider
             v.exercisecommon.exercise.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
             v.exercisecommon.exercise.CreateUserName = IES.Service.UserService.CurrentUser.UserName;
             return new ExerciseBLL().Exercise_Judge_M_Edit(v);
+        }
+        private static ExerciseInfo Exercise_MultipleChoice_M_Edit(string model)
+        {
+            ExerciseInfo v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
+            v.exercisecommon.exercise.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
+            v.exercisecommon.exercise.CreateUserName = IES.Service.UserService.CurrentUser.UserName;
+            return new ExerciseBLL().Exercise_MultipleChoice_M_Edit(v);
         }
         #endregion
 
