@@ -1905,7 +1905,7 @@ stat.controller('GradeMinutiaController', ['$scope', function ($scope) {
                 $scope.GradeCode = findGradeNo($scope.GradeCodes, rs[0].GradeNo);
                 //获取当前课程
                 var url = "/DataProvider/Statistic.aspx/GeCurrentCourse";
-                var param = { micyear: $scope.MicYear.MicYear, gradeNo: rs[0].GradeNo };
+                var param = { micyear: $scope.MicYear.MicYear, gradeNo: $scope.GradeCode.GradeNo };
                 $scope.baseService.post(url, param, function (data) {
                     $scope.GradeCourses = data.d;
                     //获得当前考试号
@@ -1954,7 +1954,7 @@ stat.controller('GradeMinutiaController', ['$scope', function ($scope) {
     var findGradeNo = function (values, GradeNo) {
         var length = values.length;
         for (var i = 0; i < length; i++) {
-            if (parseInt(values[i].GradeNo) == parseInt(GradeNo)) {
+            if (parseInt(values[i].GradeNo) == parseInt(GradeNo.substring(0, 2))) {
                 return values[i];
             }
         }
@@ -2430,7 +2430,7 @@ stat.controller('ClassScoreController', ['$scope', function ($scope) {
     var findGradeNo = function (values, GradeNo) {
         var length = values.length;
         for (var i = 0; i < length; i++) {
-            if (parseInt(values[i].GradeNo) == parseInt(GradeNo)) {
+            if (parseInt(values[i].GradeNo) == parseInt(GradeNo.substring(0, 2))) {
                 return values[i];
             }
         }
@@ -2551,7 +2551,7 @@ stat.controller('ClassMinutiaController', ['$scope', function ($scope) {
     var findGradeNo = function (values, GradeNo) {
         var length = values.length;
         for (var i = 0; i < length; i++) {
-            if (parseInt(values[i].GradeNo) == parseInt(GradeNo)) {
+            if (parseInt(values[i].GradeNo) == parseInt(GradeNo.substring(0, 2))) {
                 return values[i];
             }
         }
@@ -2782,7 +2782,7 @@ stat.controller('ClassRepController', ['$scope', function ($scope) {
     var findGradeNo = function (values, GradeNo) {
         var length = values.length;
         for (var i = 0; i < length; i++) {
-            if (parseInt(values[i].GradeNo) == parseInt(GradeNo)) {
+            if (parseInt(values[i].GradeNo) == parseInt(GradeNo.substring(0, 2))) {
                 return values[i];
             }
         }
@@ -2797,7 +2797,7 @@ stat.controller('ClassRepController', ['$scope', function ($scope) {
         $scope.baseService.post(url, param, function (data) {
             $scope.TestNos = data.d;
         });
-    }    
+    }
 
     $scope.courses = [];
     $scope.courseChange = function (courseCode) {
@@ -2811,7 +2811,7 @@ stat.controller('ClassRepController', ['$scope', function ($scope) {
         if ($scope.Semester == null) {
             $scope.dialogUtils.info('请选择学期');
             return;
-        }        
+        }
         if ($scope.TestNo == null) {
             $scope.dialogUtils.info('请选择考试号');
             return;
@@ -2926,6 +2926,25 @@ stat.controller('ClassNDController', ['$scope', function ($scope) {
             });
         });
     });
+
+    //$scope.$watch('GradeCode', function (v) {
+    //    //获得班级
+    //    var url = "/DataProvider/Statistic.aspx/gp_getClassList";
+    //    var param = { micYear: $scope.MicYear, teacherId: $scope.user, gradeCode: v };
+    //    $scope.baseService.post(url, param, function (data) {
+    //        $scope.Grades = data.d;
+    //        $scope.GradeClass = findClass($scope.Grades, $scope.Grades[0].ClassNo);
+    //    });
+    //});
+
+    //$scope.$watch('GradeClass', function (v) {
+    //    //绑定考试类型
+    //    $scope.utilService.GetTestType(function (data) {
+    //        $scope.TestTypes = data.d;
+    //    });
+    //});
+
+
     //监控考试类型，绑定考试号
     $scope.$watch('TestType', function (testType) {
         $scope.TestNos.length = 0;
@@ -2947,11 +2966,11 @@ stat.controller('ClassNDController', ['$scope', function ($scope) {
     var findGradeNo = function (values, GradeNo) {
         var length = values.length;
         for (var i = 0; i < length; i++) {
-            if (parseInt(values[i].GradeNo) == parseInt(GradeNo)) {
+            if (parseInt(values[i].GradeNo) == parseInt(GradeNo.substring(0, 2))) {
                 return values[i];
             }
         }
-    }    
+    }
 
     $scope.courses = [];
     $scope.courseChange = function (courseCode) {
@@ -3068,13 +3087,24 @@ stat.controller('ClassAdminController', ['$scope', 'appUtils', function ($scope,
                         var param = { micYear: $scope.MicYear, teacherId: $scope.user, gradeCode: $scope.GradeCode };
                         $scope.baseService.post(url, param, function (data) {
                             $scope.Grades = data.d;
-                            $scope.GradeClass = findClass($scope.Grades, $scope.Grades[0].ClassNo);                            
+                            $scope.GradeClass = findClass($scope.Grades, $scope.Grades[0].ClassNo);
                         });
                     });
                 });
             });
         });
     });
+
+    $scope.$watch('GradeCode', function () {
+        //获得班级
+        var url = "/DataProvider/Statistic.aspx/gp_getClassList";
+        var param = { micYear: $scope.MicYear, teacherId: $scope.user, gradeCode: $scope.GradeCode };
+        $scope.baseService.post(url, param, function (data) {
+            $scope.Grades = data.d;
+            $scope.GradeClass = findClass($scope.Grades, $scope.Grades[0].ClassNo);
+        });
+    });
+
     var findClass = function (values, ClassNo) {
         var length = values.length;
         for (var i = 0; i < length; i++) {
@@ -3086,7 +3116,7 @@ stat.controller('ClassAdminController', ['$scope', 'appUtils', function ($scope,
     var findGradeNo = function (values, GradeNo) {
         var length = values.length;
         for (var i = 0; i < length; i++) {
-            if (parseInt(values[i].GradeNo) == parseInt(GradeNo)) {
+            if (parseInt(values[i].GradeNo) == parseInt(GradeNo.substring(0, 2))) {
                 return values[i];
             }
         }
@@ -3129,20 +3159,17 @@ stat.controller('ClassAdminController', ['$scope', 'appUtils', function ($scope,
             var rs = "<table class='table table-striped table-bordered' style='width:100%'><thead><tr style='background-color:#808080'>";
             var len = count($scope.ColumnsName[0]);
             for (var i = 0; i < len; i++) {
-                var columnsName = $scope.ColumnsName[0][i];                
-                if (columnsName.indexOf("等第") > -1)
-                {
+                var columnsName = $scope.ColumnsName[0][i];
+                if (columnsName.indexOf("等第") > -1) {
                     rs += "<th style='text-align:center'>" + columnsName.toString().substr(0, 2) + "</th>";
                 }
-                else if (columnsName.indexOf("空") > -1)
-                {
+                else if (columnsName.indexOf("空") > -1) {
                     rs += "<th style='text-align:center'></th>";
                 }
-                else
-                {
+                else {
                     rs += "<th style='text-align:center'>" + columnsName + "</th>";
-                }                   
-                
+                }
+
             }
             rs += "</tr></thead>";
             for (var n = 0; n < $scope.Items.length; n++) {
