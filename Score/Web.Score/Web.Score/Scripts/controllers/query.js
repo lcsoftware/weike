@@ -242,11 +242,14 @@ appQuery.controller('GradeManagerController', ['$scope', 'pageService', function
         $scope.queryService.GetGradeScope($scope.user.TeacherID, function (data) {
             if (data.d == '') return;
             var rs = JSON.parse(data.d);
-            $scope.classCode = rs[0].scope;
+            //$scope.classCode = rs[0].scope;
+            if (rs.length === 0) {
+                $scope.classCode = '';
+            } else $scope.classCode = rs[0].scope;
             //根据年级获得课程
-            $scope.queryService.GetBCourse($scope.classCode, function (data) {
-                $scope.GradeCourses = data.d;
-            });
+            //$scope.queryService.GetBCourse($scope.classCode, function (data) {
+            //    $scope.GradeCourses = data.d;
+            //});
         });
     });
     //监控考试类型，绑定考试号
@@ -264,12 +267,12 @@ appQuery.controller('GradeManagerController', ['$scope', 'pageService', function
         $scope.Students.length = 0;
         if (micyear) {
             //获得班级
-            $scope.queryService.GetGradeByGradeNo($scope.MicYear.MicYear, $scope.classCode, function (data) {
-                if (data.d != '') {
-                    $scope.Grades = JSON.parse(data.d);
-                }
-            });
-            $scope.testShow = true;
+            //$scope.queryService.GetGradeByGradeNo($scope.MicYear.MicYear, $scope.classCode, function (data) {
+            //    if (data.d != '') {
+            //        $scope.Grades = JSON.parse(data.d);
+            //    }
+            //});
+            //$scope.testShow = true;
         }
     });
     $scope.query = function () {
@@ -280,6 +283,7 @@ appQuery.controller('GradeManagerController', ['$scope', 'pageService', function
             $scope.dialogUtils.info('请选择学年/学期');
             return;
         }
+        $scope.testShow = true;
         load();
     }
     var load = function () {
@@ -389,7 +393,9 @@ appQuery.controller('SchoolManagerQueryController', ['$scope', 'pageService', fu
         $scope.queryService.GetGradeScope($scope.user.TeacherID, function (data) {
             if (data.d == '') return;
             var rs = JSON.parse(data.d);
-            $scope.classCode = rs[0].scope;
+            if (rs.length === 0) {
+                $scope.classCode = '';
+            } else $scope.classCode = rs[0].scope;
         });
     });
     $scope.$watch('MicYear', function (micyear) {
@@ -533,7 +539,10 @@ appQuery.controller('SchoolHeadController', ['$scope', 'pageService', function (
         $scope.queryService.GetGradeScope($scope.user.TeacherID, function (data) {
             if (data.d == '') return;
             var rs = JSON.parse(data.d);
-            $scope.classCode = rs[0].scope;
+            if (rs.length > 0) {
+                $scope.classCode = rs[0].scope;
+            } else $scope.classCode = '';
+           
         });
     });
     $scope.$watch('MicYear', function (micyear) {

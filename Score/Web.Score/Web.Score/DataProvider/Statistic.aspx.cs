@@ -493,8 +493,9 @@ namespace App.Web.Score.DataProvider
                         DataTable tempTable = bll.FillDataTableByText(sql, new { srid = student.StudentId });
 
                         chartOption.xAxis.data.Add(tempstr);
-                        sumSeries.data.Add(tempTable.Rows[0]["OrderNo"].ToString());
+                        //sumSeries.data.Add(tempTable.Rows[0]["score"].ToString());
 
+                        var totalScore = 0.0f;
                         for (int j = 0; j < courseChecks.Count; j++)
                         {
                             var course = courseChecks[j];
@@ -518,8 +519,10 @@ namespace App.Web.Score.DataProvider
                             }
                             sql += " order by a.academicyear,cast(a.testno as int)";
                             tempTable = bll.FillDataTableByText(sql, new { srid = student.StudentId, courseCode = course.CourseCode, testNo = testNo });
-                            courseSeries.data.Add(tempTable.Rows[0]["GradeOrder"].ToString());
+                            courseSeries.data.Add(tempTable.Rows[0]["numscore"].ToString());
+                            totalScore += float.Parse(tempTable.Rows[0]["numscore"].ToString());
                         }
+                        sumSeries.data.Add(totalScore.ToString()); 
                     }
                     entry = new ResultEntry() { Code = 0, Message = chartOption };
                     results.Add(entry);

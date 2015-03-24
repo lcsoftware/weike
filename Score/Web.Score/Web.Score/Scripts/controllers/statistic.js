@@ -889,7 +889,7 @@ stat.controller('TeacherRep1Controller', ['$scope', function ($scope) {
                 $scope.GradeCode = findGradeNo($scope.GradeCodes, rs[0].GradeNo);
                 //获取当前课程
                 var url = "/DataProvider/Statistic.aspx/GeCurrentCourse";
-                var param = { micyear: $scope.MicYear.MicYear, gradeNo: rs[0].GradeNo };
+                var param = { micyear: $scope.MicYear.MicYear, gradeNo: $scope.GradeCode.GradeNo };
                 $scope.baseService.post(url, param, function (data) {
                     $scope.GradeCourses = data.d;
                     //获得当前考试号
@@ -938,7 +938,7 @@ stat.controller('TeacherRep1Controller', ['$scope', function ($scope) {
     var findGradeNo = function (values, GradeNo) {
         var length = values.length;
         for (var i = 0; i < length; i++) {
-            if (parseInt(values[i].GradeNo) == parseInt(GradeNo)) {
+            if (parseInt(values[i].GradeNo) == parseInt(GradeNo.substring(0, 2))) {
                 return values[i];
             }
         }
@@ -998,7 +998,7 @@ stat.controller('TeacherRep2Controller', ['$scope', function ($scope) {
                 $scope.GradeCode = findGradeNo($scope.GradeCodes, rs[0].GradeNo);
                 //获取当前课程
                 var url = "/DataProvider/Statistic.aspx/GeCurrentCourse";
-                var param = { micyear: $scope.MicYear.MicYear, gradeNo: rs[0].GradeNo };
+                var param = { micyear: $scope.MicYear.MicYear, gradeNo: $scope.GradeCode.GradeNo };
                 $scope.baseService.post(url, param, function (data) {
                     $scope.GradeCourses = data.d;
                     //获得当前考试号
@@ -1047,7 +1047,7 @@ stat.controller('TeacherRep2Controller', ['$scope', function ($scope) {
     var findGradeNo = function (values, GradeNo) {
         var length = values.length;
         for (var i = 0; i < length; i++) {
-            if (parseInt(values[i].GradeNo) == parseInt(GradeNo)) {
+            if (parseInt(values[i].GradeNo) == parseInt(GradeNo.substring(0, 2))) {
                 return values[i];
             }
         }

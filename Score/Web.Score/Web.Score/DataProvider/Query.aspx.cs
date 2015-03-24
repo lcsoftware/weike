@@ -208,11 +208,8 @@ namespace App.Web.Score.DataProvider
                     sql += " Order By Testno,NumScore DESC,courseName";
                 else
                     sql += " Order By ClassCode,ClassSN,courseName";
-                return JsonConvert.SerializeObject(bll.FillDataTableByText(sql,
-                    new
-                    {
-                        micyear = micyear
-                    }));
+                DataTable table = bll.FillDataTableByText(sql, new { micyear = micyear });
+                return JsonConvert.SerializeObject(table);
             }
         }
 

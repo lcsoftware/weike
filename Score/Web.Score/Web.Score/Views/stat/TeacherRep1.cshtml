@@ -6,15 +6,16 @@
                     <select class="form-control" ng-model="MicYear" ng-options="m.MicYear for m in AcademicYears"></select>
                 </div>
                 <div class="col-sm-3">
-                    <select class="form-control" ng-model="GradeCourse" ng-options="m.FullName for m in GradeCourses">
-                        <option value="">-- 请选择课程--</option>
-                    </select>
-                </div>
-                <div class="col-sm-3">
                     <select class="form-control" ng-model="GradeCode" ng-disabled="GradeCode!=null" ng-options="m.GradeName for m in GradeCodes">
                         <option value="">-- 请选择年级 --</option>
                     </select>
                 </div>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="GradeCourse" ng-options="m.FullName for m in GradeCourses">
+                        <option value="">-- 请选择课程--</option>
+                    </select>
+                </div>
+              
                 <div class="col-sm-3">
                     <select class="form-control" ng-model="TestNo" ng-options="m.TestNo for m in TestLogins">
                         <option value="">-- 请选择考试号 --</option>
