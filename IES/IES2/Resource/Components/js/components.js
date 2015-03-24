@@ -328,7 +328,7 @@ app.directive('batchOperation', function () {
 
     return directive;
 });
-app.directive('exerciseBatch', function () {
+app.directive('exerciseBatch', ['$window', 'exerciseService', function ($window, exerciseService) {
     var directive = {};
 
     directive.restrict = 'EA';
@@ -368,10 +368,24 @@ app.directive('exerciseBatch', function () {
         $scope.batchRemove = function () {
             $scope.$emit('onBatchRemove');
         }
+
+        $scope.batchPreview = function () {
+            if (!$scope.checks || $scope.checks.length === 0) return;
+            exerciseService.ExercisePreviewHttpPrefix(function (data) {
+                var prefix = data.d;
+                var browsePaper = 'Resource/Paper/BrowsePaper'
+                var exerciseIds = '?ExerciseIDs=';
+                angular.forEach($scope.checks, function (item) {
+                    exerciseIds += item.ExerciseID + ','
+                });
+                var url = prefix + browsePaper + exerciseIds.substring(0, exerciseIds.length - 1);
+                $window.open(url);
+            });
+        }
     }
 
     return directive;
-});
+}]);
 
 
 app.directive('exerciseList', ['assistService', 'previewService', 'exerciseService', '$state', function (assistService, previewService, exerciseService, $state) {
@@ -479,57 +493,67 @@ app.directive('exerciseList', ['assistService', 'previewService', 'exerciseServi
             //$state.go('preview');
         }
 
-        $scope.preView = function (exercise) {
-            switch (exercise.ExerciseType) {
-                case 5: //填空题
-                    exerciseService.Exercise_Analysis_Get(exercise.ExerciseID, function (data) {
-                        var model = data.d;
-                        for (var i = 0; i < model.exercisechoicelist.length; i++) {
-                            var a = model.exercisechoicelist[i].Answer.split('wshgkjqbwhfbxlfrh_c');
-                            model.exercisechoicelist[i].Answer = a[0];
-                            model.exercisechoicelist[i].Spare = a[1];
-                        }
-                        goPreView(model);
-                    });
-                    break;
-                case 4: //名词解释                
-                case 8: //分析题
-                case 9: //计算题
-                    exerciseService.Exercise_Analysis_Get(exercise.ExerciseID, function (data) {
-                        goPreView(data.d);
-                    });
-                    break;
-                case 12: //听力题
-                case 17: //自定义题
-                case 14: //阅读理解题
-                    exerciseService.Exercise_Custom_Get(exercise.ExerciseID, function (data) {
-                        goPreView(data.d);
-                    });
-                    break;
-                case 10: //问答题
-                case 13: //写作题
-                case 11: //翻译题
-                    exerciseService.Exercise_Writing_Get(exercise.ExerciseID, function (data) {
-                        goPreView(data.d);
-                    });
-                    break;
-                case 1: //判断题
-                    exerciseService.Exercise_Judge_Get(exercise.ExerciseID, function (data) {
-                        goPreView(data.d);
-                    });
-                    break;
-                case 6:  //连线题
-                case 2:  //单选题
-                case 3:  //多选题
-                case 7:  //排序题
-                    exerciseService.Exercise_MultipleChoice_Get(exercise.ExerciseID, function (data) {
-                        goPreView(data.d);
-                    });
-                    break;
-                default:
-                    break;
-            }
+        $scope.preview = function (exercise) {
+            exerciseService.ExercisePreviewHttpPrefix(function (data) {
+                var prefix = data.d;
+                var browsePaper = 'Resource/Paper/BrowsePaper'
+                var exerciseIds = '?ExerciseIDs=' + exercise.ExerciseID; 
+                var url = prefix + browsePaper + exerciseIds;
+                $window.open(url);
+            });
         }
+
+        //$scope.preView = function (exercise) {
+        //    switch (exercise.ExerciseType) {
+        //        case 5: //填空题
+        //            exerciseService.Exercise_Analysis_Get(exercise.ExerciseID, function (data) {
+        //                var model = data.d;
+        //                for (var i = 0; i < model.exercisechoicelist.length; i++) {
+        //                    var a = model.exercisechoicelist[i].Answer.split('wshgkjqbwhfbxlfrh_c');
+        //                    model.exercisechoicelist[i].Answer = a[0];
+        //                    model.exercisechoicelist[i].Spare = a[1];
+        //                }
+        //                goPreView(model);
+        //            });
+        //            break;
+        //        case 4: //名词解释                
+        //        case 8: //分析题
+        //        case 9: //计算题
+        //            exerciseService.Exercise_Analysis_Get(exercise.ExerciseID, function (data) {
+        //                goPreView(data.d);
+        //            });
+        //            break;
+        //        case 12: //听力题
+        //        case 17: //自定义题
+        //        case 14: //阅读理解题
+        //            exerciseService.Exercise_Custom_Get(exercise.ExerciseID, function (data) {
+        //                goPreView(data.d);
+        //            });
+        //            break;
+        //        case 10: //问答题
+        //        case 13: //写作题
+        //        case 11: //翻译题
+        //            exerciseService.Exercise_Writing_Get(exercise.ExerciseID, function (data) {
+        //                goPreView(data.d);
+        //            });
+        //            break;
+        //        case 1: //判断题
+        //            exerciseService.Exercise_Judge_Get(exercise.ExerciseID, function (data) {
+        //                goPreView(data.d);
+        //            });
+        //            break;
+        //        case 6:  //连线题
+        //        case 2:  //单选题
+        //        case 3:  //多选题
+        //        case 7:  //排序题
+        //            exerciseService.Exercise_MultipleChoice_Get(exercise.ExerciseID, function (data) {
+        //                goPreView(data.d);
+        //            });
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
     }
 
     return directive;

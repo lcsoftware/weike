@@ -130,5 +130,9 @@ aService.factory('exerciseService', ['httpService', function (httpService) {
     service.ExerciseInfo_Import = function (data, exerciseCourse, exerciseType, callback) {
         httpService.ajaxPost(url, 'ExerciseInfo_Import', { dt: data, ocid: exerciseCourse.OCID, courseId: exerciseCourse.CourseID, exerciseType: exerciseType }, callback);
     }
+
+    service.ExercisePreviewHttpPrefix = function (callback) {
+        httpService.ajaxPost(url, 'ExercisePreviewHttpPrefix', null, callback);
+    }
     return service;
 }]);

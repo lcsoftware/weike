@@ -639,5 +639,11 @@ namespace App.Resource.DataProvider.Exercise
         {
             return new ExerciseBLL().Exercise_Batch_Diffcult(ids, diffcult);
         }
+
+        [WebMethod]
+        public static String ExercisePreviewHttpPrefix()
+        {
+            return IES.Service.Common.ConfigService.G2SURL; 
+        }
     }
 }
