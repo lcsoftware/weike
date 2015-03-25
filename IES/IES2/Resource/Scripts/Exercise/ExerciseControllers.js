@@ -2490,6 +2490,15 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
             alert('请填写选项');
             return;
         }
+        var isNullCorrect = true;
+        for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
+            var isCorrect = $scope.model.exercisechoicelist[i].IsCorrect;
+            if (isCorrect) isNullCorrect = false;
+        }
+        if (isNullCorrect) {
+            alert('请选择正确答案');
+            return;
+        }
 
 
         $scope.model.exercisecommon.exercise.Content = "";
@@ -2633,6 +2642,15 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
         }
         if (isNull) {
             alert('请填写选项');
+            return;
+        }
+        var isNullCorrect = true;
+        for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
+            var isCorrect = $scope.model.exercisechoicelist[i].IsCorrect;
+            if (isCorrect) isNullCorrect = false;
+        }
+        if (isNullCorrect) {
+            alert('请选择正确答案');
             return;
         }
 
