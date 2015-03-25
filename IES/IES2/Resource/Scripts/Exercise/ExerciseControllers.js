@@ -848,7 +848,6 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         }
 
         $scope.willTopBind = function (model, data) {
-
             //顶部关联项
             model.exercisecommon.exercise.ShareRange = data.shareRange.id;
             model.exercisecommon.exercise.OCID = data.course.OCID;
@@ -876,6 +875,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
             model.exercisecommon.exercise.ExerciseType = data.exerciseType.id;
 
             model.exercisecommon.exercise.ExerciseTypeName = data.exerciseType.name;
+
         }
 
         $scope.attachmentList = [];
