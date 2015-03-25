@@ -1079,6 +1079,10 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
     $scope.$on('willRequestSave', function (event, data) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+        if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
+            alert('请填写题干');
+            return;
+        }
 
         $scope.willTopBind($scope.model, data);
         //增加子单选题
@@ -1334,6 +1338,11 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
 
+        if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
+            alert('请填写题干');
+            return;
+        }
+
         $scope.willTopBind($scope.model, data);
         //增加子单选题
         if ($scope.isShowRadio == 1) {
@@ -1587,6 +1596,10 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
     $scope.$on('willRequestSave', function (event, data) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+        if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
+            alert('请填写题干');
+            return;
+        }
 
         $scope.willTopBind($scope.model, data);
         //增加子单选题
@@ -1846,6 +1859,10 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
         var editor2 = EWEBEDITOR.Instances["editorAnswer"];
         $scope.model.exercisecommon.exercise.Answer = editor2.getHTML();
 
+        if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
+            alert('请填写题干');
+            return;
+        }
 
         $scope.willTopBind($scope.model, data);
 
@@ -1907,6 +1924,11 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
         //$scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
         $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+
+        if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
+            alert('请填写题干');
+            return;
+        }
 
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
@@ -2000,6 +2022,11 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
         $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
 
+        if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
+            alert('请填写题干');
+            return;
+        }
+
         if ($scope.model.exercisecommon.exercise.Answer == null) {
             alert('请选择正确答案');
             return;
@@ -2065,6 +2092,11 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
         $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+
+        if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
+            alert('请填写题干');
+            return;
+        }
 
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
@@ -2249,6 +2281,12 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
         $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+
+        if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
+            alert('请填写题干');
+            return;
+        }
+
         //将选项加到exercisechoicelist数组中
         $scope.model.exercisechoicelist.length = 0;
         var choice = {};
@@ -2424,6 +2462,23 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
         $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
 
+        if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
+            alert('请填写题干');
+            return;
+        }
+        var isNull = true;
+        for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
+            var answer = $scope.model.exercisechoicelist[i].Conten;
+            if (answer != '') {
+                isNull = false;
+            }
+        }
+        if (isNull) {
+            alert('请填写选项');
+            return;
+        }
+
+
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
             for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
@@ -2551,6 +2606,23 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
         $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
 
+        if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
+            alert('请填写题干');
+            return;
+        }
+
+        var isNull = true;
+        for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
+            var answer = $scope.model.exercisechoicelist[i].Conten;
+            if (answer != '') {
+                isNull = false;
+            }
+        }
+        if (isNull) {
+            alert('请填写选项');
+            return;
+        }
+
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
             for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
@@ -2675,6 +2747,11 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
         var editor2 = EWEBEDITOR.Instances["editorAnswer"];
         $scope.model.exercisecommon.exercise.Answer = editor2.getHTML();
 
+        if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
+            alert('请填写题干');
+            return;
+        }
+
         $scope.willTopBind($scope.model, data);
         var v = angular.toJson($scope.model);
         exerciseService.Exercise_Writing_M_Edit(v, function (data) {
@@ -2731,6 +2808,22 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
         $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+
+        if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
+            alert('请填写题干');
+            return;
+        }
+        var isNull = true;
+        for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
+            var answer = $scope.model.exercisechoicelist[i].Conten;
+            if (answer != '') {
+                isNull = false;
+            }
+        }
+        if (isNull) {
+            alert('请填写选项');
+            return;
+        }
 
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
@@ -2859,6 +2952,11 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
         $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+
+        if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
+            alert('请填写题干');
+            return;
+        }
 
         $scope.model.exercisecommon.exercise.Content = "";
         if ($scope.ExerciseID > 0) {
