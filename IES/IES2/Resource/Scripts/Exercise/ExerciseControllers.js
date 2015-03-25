@@ -87,6 +87,16 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
 
         $scope.$emit('onSetAppTitle', '习题库');
 
+        var isMoreCourse = function (ocid) {
+            var length = $scope.courseMore.length;
+            for (var i = 0; i < length; i++) {
+                if ($scope.courseMore[i].OCID === ocid) {
+                    return true;
+                }
+            }
+            return false;
+        } 
+
         //习题列表
         $scope.exercises = [];
 
@@ -132,6 +142,9 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
             if (freezeData) {
                 $scope.data.course = freezeData.data.course;
                 $scope.$parent.course = $scope.data.course;
+                if (isMoreCourse($scope.$parent.course.OCID)) {
+                    $scope.$parent.moreTitle = $scope.data.course.Name;
+                }
                 freezeService.unFreeze(tagService.ExerciseListTag);
             } else {
                 $scope.data.course = course;
@@ -547,6 +560,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
 
         var ocid = $stateParams.ocid ? parseInt($stateParams.ocid) : -1;
         var source = $stateParams.source;
+        $scope.courseOCID = ocid;
 
         //课程
         $scope.courses = [];
@@ -572,7 +586,6 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         $scope.data.exerciseType = {};
         $scope.data.difficult = {};
         $scope.data.chapter = {};
-
 
         ///获取在线课程 
         contentService.User_OC_List(function (data) {
@@ -943,7 +956,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         }
 
         ///删除附件
-        var attachmentRemoved= function (removedAttachmentObject) {
+        var attachmentRemoved = function (removedAttachmentObject) {
             var length = $scope.attachmentList.length;
             for (var i = 0; i < length; i++) {
                 if ($scope.attachmentList[i].AttachmentID === removedAttachmentObject.AttachmentID) {

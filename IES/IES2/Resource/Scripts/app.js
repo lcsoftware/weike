@@ -125,6 +125,10 @@ function ($templateCache, $rootScope, $state, $stateParams, httpService, assistS
     $rootScope.enableWizard = true;
     $rootScope.enableSideLeft = true;
 
+    $rootScope.switchModule = function (stateName) {
+        $state.go(stateName, { ocid: -1 });
+    }
+
     $rootScope.$on('onSetAppTitle', function (event, title) {
         $rootScope.appTitle = title;
     });
