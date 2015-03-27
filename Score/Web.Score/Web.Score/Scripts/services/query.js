@@ -15,12 +15,13 @@ aService.factory('queryService', ['baseService', 'queryProviderUrl', function (b
         baseService.post(url, param, callback);
     }
     //获取任课教师成绩列表
-    service.GetQueryTeacher = function (micyear, teacherid, gradeCourse, gradecode, testtypes, testno, stuId, callback) {
+    service.GetQueryTeacher = function (micyear, teacherid, gradeCourse, gradecode, testtypes, testno, stuId, order, callback) {
         var url = queryProviderUrl + '/GetQueryTeacher';
         var param = {
             micyear: micyear, teacherid: teacherid, gradeCourse: gradeCourse,
             gradecode: gradecode, testtypes: testtypes == null ? null : testtypes.Code,
-            testno: testno == null ? null : testno.TestNo, stuId: stuId
+            testno: testno == null ? null : testno.TestNo, stuId: stuId,
+            order: order == null ? null : order
         };
         baseService.post(url, param, callback);
     }

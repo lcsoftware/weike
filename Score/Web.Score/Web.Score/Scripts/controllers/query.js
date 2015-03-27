@@ -31,7 +31,7 @@ appQuery.controller('TeacherQueryController', ['$scope', 'pageService', function
         var fail = 0.6
         $scope.utilService.showBg();
         //成绩列表
-        $scope.queryService.GetQueryTeacher($scope.MicYear.MicYear, $scope.user.TeacherID, $scope.GradeCourse.CourseCode, $scope.GradeCode.GradeNo, $scope.TestType, $scope.TestNo, $scope.student, function (data) {
+        $scope.queryService.GetQueryTeacher($scope.MicYear.MicYear, $scope.user.TeacherID, $scope.GradeCourse.CourseCode, $scope.GradeCode.GradeNo, $scope.TestType, $scope.TestNo, $scope.student,null, function (data) {
             $scope.studentsGrid = JSON.parse(data.d);
             if ($scope.studentsGrid.length > 0) {
                 $scope.pageService.init($scope.studentsGrid, 10);
@@ -88,6 +88,25 @@ appQuery.controller('TeacherQueryController', ['$scope', 'pageService', function
         load();
     }
 
+    $scope.order = function (orderNum) {
+        $scope.utilService.showBg();
+        $scope.queryService.GetQueryTeacher($scope.MicYear.MicYear, $scope.user.TeacherID, $scope.GradeCourse.CourseCode, $scope.GradeCode.GradeNo, $scope.TestType, $scope.TestNo, $scope.student, orderNum, function (data) {
+            $scope.studentsGrid = JSON.parse(data.d);
+            $scope.pageService.init($scope.studentsGrid, 10);
+            $scope.utilService.closeBg();
+        });
+    }
+
+    var cAll = 0;
+    $scope.checkALl = function () {
+        if (cAll == 0) {
+            $("input[name=selected]").attr("checked", true);
+            cAll = 1;
+        } else {
+            $("input[name=selected]").attr("checked", false);
+            cAll = 0;
+        }
+    }
 
     $scope.$watch('MicYear', function (micyear) {
         $scope.GradeCourses = null;
@@ -448,7 +467,7 @@ appQuery.controller('SchoolManagerQueryController', ['$scope', 'pageService', fu
                 $scope.aveNumScore = $scope.utilService.getAve($scope.studentsGrid);
                 $scope.couNumScore = $scope.studentsGrid.length;
                 $scope.goodNumScore = $scope.utilService.getGood($scope.studentsGrid, good);
-                $scope.failNumScore = $scope.utilService.getFail($scope.studentsGrid, fail);                
+                $scope.failNumScore = $scope.utilService.getFail($scope.studentsGrid, fail);
             } else {
                 $scope.pageService.data.length = 0;
                 $scope.maxNumScore = 0;
@@ -542,7 +561,7 @@ appQuery.controller('SchoolHeadController', ['$scope', 'pageService', function (
             if (rs.length > 0) {
                 $scope.classCode = rs[0].scope;
             } else $scope.classCode = '';
-           
+
         });
     });
     $scope.$watch('MicYear', function (micyear) {

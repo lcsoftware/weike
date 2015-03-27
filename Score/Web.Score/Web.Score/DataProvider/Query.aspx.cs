@@ -79,7 +79,7 @@ namespace App.Web.Score.DataProvider
         /// <param name="stuId">学生ID</param>
         /// <returns></returns>
         [WebMethod]
-        public static string GetQueryTeacher(int? micyear, string teacherid, int? gradeCourse, int? gradecode, int? testtypes, int? testno, string stuId)
+        public static string GetQueryTeacher(int? micyear, string teacherid, int? gradeCourse, int? gradecode, int? testtypes, int? testno, string stuId,int? order)
         {
             using (AppBLL bll = new AppBLL())
             {
@@ -104,10 +104,18 @@ namespace App.Web.Score.DataProvider
                 if (testtypes != null) sql += " and TestType=" + testtypes + " ";
                 if (testno != null) sql += " and TestNo=" + testno + "";
                 if (stuId != "") sql += " and s_vw_ClassScoreNum.SRID in(" + stuId + ")";
-                if (stuId != "")
-                    sql += " Order By ClassCode,ClassSN";
+
+                if (order == null)
+                    if (stuId != "")
+                        sql += " Order By ClassCode,ClassSN";
+                    else
+                        sql += " Order By Testno,NumScore DESC";
+                else if (order == 0)
+                    sql += " Order By ClassCode";
                 else
-                    sql += " Order By Testno,NumScore DESC";
+                    sql += " Order By NumScore desc";
+
+                
                 return JsonConvert.SerializeObject(bll.FillDataTableByText(sql,
                     new
                     {
