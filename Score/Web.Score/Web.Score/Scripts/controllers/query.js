@@ -149,6 +149,7 @@ appQuery.controller('BTeacherQueryController', ['$scope', 'pageService', functio
     $scope.TestTypes = [];
     $scope.GradeCourses = [];
     $scope.Students = [];
+    $scope.StudentSelect = [];
     $scope.testShow = false;
     $scope.pageService = pageService;
     $scope.pageService.reset();
@@ -193,8 +194,18 @@ appQuery.controller('BTeacherQueryController', ['$scope', 'pageService', functio
             $scope.testShow = true;
         }
     });
+
+    var bindSelect = function () {
+        var rs = "";
+        for (var i = 0; i < $scope.StudentSelect.length; i++) {
+            rs += $scope.StudentSelect[i].StudentId + ",";
+        }
+        return rs.substring(0, rs.length - 1);
+    }
+
     $scope.query = function () {
-        $scope.student = $scope.utilService.getlist($('input[name=selected]'));
+        //$scope.student = $scope.utilService.getlist($('input[name=selected]'));
+        $scope.student = bindSelect();
         $scope.courseCode = $scope.utilService.getlist($('input[name=grades]'));
         if ($scope.MicYear == null) {
             $scope.dialogUtils.info('请选择学年/学期');
@@ -237,6 +248,19 @@ appQuery.controller('BTeacherQueryController', ['$scope', 'pageService', functio
             $scope.pageService.init($scope.studentsGrid, 10);
             $scope.utilService.closeBg();
         });
+    }
+    
+    var cAll = false;
+    $scope.checkALl = function () {
+        if (!cAll) {
+            for (var i = 0; i < $scope.Students.length ; i++) {
+                $scope.StudentSelect.push($scope.Students[i]);
+            }
+            cAll = true;
+        } else {
+            $scope.StudentSelect.length = 0;
+            cAll = false;
+        }
     }
 }]);
 
