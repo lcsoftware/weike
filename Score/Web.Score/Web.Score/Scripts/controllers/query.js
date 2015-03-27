@@ -10,6 +10,7 @@ appQuery.controller('TeacherQueryController', ['$scope', 'pageService', function
     $scope.GradeCodes = [];
     $scope.GradeCourses = [];
     $scope.Students = [];
+    $scope.StudentSelect = [];
     $scope.studentsGrid = [];
     $scope.TestTypes = [];
     $scope.TestLogins = [];
@@ -31,7 +32,7 @@ appQuery.controller('TeacherQueryController', ['$scope', 'pageService', function
         var fail = 0.6
         $scope.utilService.showBg();
         //成绩列表
-        $scope.queryService.GetQueryTeacher($scope.MicYear.MicYear, $scope.user.TeacherID, $scope.GradeCourse.CourseCode, $scope.GradeCode.GradeNo, $scope.TestType, $scope.TestNo, $scope.student,null, function (data) {
+        $scope.queryService.GetQueryTeacher($scope.MicYear.MicYear, $scope.user.TeacherID, $scope.GradeCourse.CourseCode, $scope.GradeCode.GradeNo, $scope.TestType, $scope.TestNo, $scope.student, null, function (data) {
             $scope.studentsGrid = JSON.parse(data.d);
             if ($scope.studentsGrid.length > 0) {
                 $scope.pageService.init($scope.studentsGrid, 10);
@@ -71,8 +72,15 @@ appQuery.controller('TeacherQueryController', ['$scope', 'pageService', function
         }
     });
 
+    var bindSelect = function () {
+        var rs = "";
+        for (var i = 0; i < $scope.StudentSelect.length; i++) {
+            rs += $scope.StudentSelect[i].StudentId + ",";
+        }
+        return rs.substring(0, rs.length - 1);
+    }
     $scope.query = function () {
-        $scope.student = $scope.utilService.getlist($('input[name=selected]'));
+        $scope.student = bindSelect();
         if ($scope.MicYear == null) {
             $scope.dialogUtils.info('请选择学年/学期');
             return;
@@ -97,14 +105,16 @@ appQuery.controller('TeacherQueryController', ['$scope', 'pageService', function
         });
     }
 
-    var cAll = 0;
+    var cAll = false;
     $scope.checkALl = function () {
-        if (cAll == 0) {
-            $("input[name=selected]").attr("checked", true);
-            cAll = 1;
+        if (!cAll) {
+            for (var i = 0; i < $scope.Students.length ; i++) {
+                $scope.StudentSelect.push($scope.Students[i]);
+            }
+            cAll = true;
         } else {
-            $("input[name=selected]").attr("checked", false);
-            cAll = 0;
+            $scope.StudentSelect.length = 0;
+            cAll = false;
         }
     }
 

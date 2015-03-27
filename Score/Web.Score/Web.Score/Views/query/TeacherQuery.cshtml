@@ -44,7 +44,8 @@
             <div class="form-group" ng-show="testShow">
                 <div class="col-sm-12">
                     <label ng-repeat="student in Students" class="checkbox checkbox-inline">                       
-                        <input type="checkbox" value="{{student.StudentId}}" name="selected" />{{student.StdName}}
+                        @*<input type="checkbox" value="{{student.StudentId}}" name="selected" />{{student.StdName}}*@
+                        <input type="checkbox" checklist-value="student" checklist-model="StudentSelect">{{student.StdName}}
                     </label>
                 </div>
             </div>
