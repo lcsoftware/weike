@@ -1,11 +1,12 @@
 ﻿<ul class="mouse_right">
-    <li class="attribute" ng-click="onProperty()" ng-show="ocid!=0&&folderRelation.RelationType==1"><p style="width:100%;"><i class="icon data_property"></i>资料属性</p></li>
+    <li class="attribute" ng-click="onProperty()" ng-show="ocid!=0&&folderRelation.RelationType==1" ng-class="{'hideAuth': !hasAuth}"><p style="width:100%;"><i class="icon data_property"></i>资料属性</p></li>
 
-    <li style="margin-top:-2px;" bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel" ng-click="onMobile()">
+    <li style="margin-top:-2px;" bg-class="pop_bg" pop-class="pop_400" cancel-class="cancel" ng-click="onMobile()"
+        ng-class="{'hideAuth': !hasAuth}">
         <p style="width:100%;"><i class="icon data_move"></i>移动资料</p>
     </li>
 
-    <li ng-show="ocid!=0" style="margin-top:-2px;">
+    <li ng-show="ocid!=0" style="margin-top:-2px;" ng-class="{'hideAuth': !hasAuth}">
         <p id="eBrowser" style="width:100%;"><i class="icon data_rights"></i>使用权限</p>
         <ul class="right_obj">
             <file-share-range style="width:130px;" ng-repeat="item in shareRanges" ng-click="shareRange(item)" range="item"></file-share-range>
@@ -18,7 +19,7 @@
             <a ng-href="{{folderRelation.DownURL}}" target="_blank" style="margin: 0px 0px 0 0; width: 100%; color:black;">下载资料</a>
         </p>
     </li>
-    <li ng-click="onRemove()" style="margin-top:-2px;"><p style="width:100%;"><i class="icon data_remove"></i>删除资料</p></li>
+    <li ng-click="onRemove()" style="margin-top:-2px;" ng-class="{'hideAuth': !hasAuth}"><p style="width:100%;"><i class="icon data_remove"></i>删除资料</p></li>
 </ul>
 
 

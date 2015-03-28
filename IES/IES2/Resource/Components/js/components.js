@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var app = angular.module('app.custom.directives', ['app.assist.services', 'ui.tree']);
+var app = angular.module('app.custom.directives', ['app.assist.services', 'ui.tree', 'app.auth.services']);
 
 
 app.directive('moreCourse', function () {
@@ -203,7 +203,7 @@ app.directive('folder', function () {
     return directive;
 });
 
-app.directive('fileOperation', function () {
+app.directive('fileOperation', ['authService', function (authService) {
     var directive = {};
 
     directive.restrict = 'EA';
@@ -220,7 +220,8 @@ app.directive('fileOperation', function () {
         onMobile: '&',
         shareRanges: '=',
         folderRelation: '=',
-        ocid: '='
+        ocid: '=',
+        creater: '='
     }
 
     directive.templateUrl = window.appPatch + '/Components/templates/fileOperation.html';
@@ -248,8 +249,12 @@ app.directive('fileOperation', function () {
         });
     }
 
+    directive.controller = function ($scope) {
+        $scope.hasAuth = authService.hasAuth($scope.creater, $scope.ocid);
+    }
+
     return directive;
-});
+}]);
 
 app.directive('shareRange', function () {
     var directive = {};
@@ -388,7 +393,8 @@ app.directive('exerciseBatch', ['$window', 'exerciseService', function ($window,
 }]);
 
 
-app.directive('exerciseList', ['assistService', 'previewService', 'exerciseService', '$state', function (assistService, previewService, exerciseService, $state) {
+app.directive('exerciseList', ['assistService', 'previewService', 'exerciseService', '$state', 'authService',
+    function (assistService, previewService, exerciseService, $state, authService) {
     var directive = {};
 
     directive.restrict = 'EA';
@@ -399,7 +405,9 @@ app.directive('exerciseList', ['assistService', 'previewService', 'exerciseServi
         exercise: '=',
         checks: '=',
         shareRanges: '=',
-        disableDifficult: '='
+        disableDifficult: '=',
+        creater: '=',
+        ocid: '='
     }
 
     directive.templateUrl = window.appPatch + '/Components/templates/exerciseList.html';
@@ -429,6 +437,8 @@ app.directive('exerciseList', ['assistService', 'previewService', 'exerciseServi
     }
 
     directive.controller = function ($scope, assistService, previewService, exerciseService, $state, $window) {
+
+        $scope.hasAuth = authService.hasAuth($scope.creater, $scope.ocid);
 
         $scope.editExercise = function (exercise) {
             $scope.$emit('onEditExercise', exercise);
@@ -1035,7 +1045,7 @@ app.directive('fileIcon', function () {
     return directive;
 });
 
-app.directive('iesKenItem', function () {
+app.directive('iesKenItem', ['authService', function (authService) {
     var directive = {};
 
     directive.restrict = 'EA';
@@ -1057,8 +1067,12 @@ app.directive('iesKenItem', function () {
         })
     }
 
+    directive.controller = function ($scope) {
+        $scope.hasAuth = authService.hasAuth($scope.kenItem.CreateUserID, $scope.kenItem.OCID);
+    }
+
     return directive;
-});
+}]);
 
 app.directive('kenChapterItem', function () {
     var directive = {};
@@ -1085,7 +1099,7 @@ app.directive('kenChapterItem', function () {
     return directive;
 });
 
-app.directive('iesChapterItem', ['$timeout', function ($timeout) {
+app.directive('iesChapterItem', ['$timeout', 'authService', function ($timeout, authService) {
     var directive = {};
 
     directive.restrict = 'EA';
@@ -1125,6 +1139,8 @@ app.directive('iesChapterItem', ['$timeout', function ($timeout) {
     }
 
     directive.controller = function ($scope, $element) {
+
+        $scope.hasChapterAuth = authService.hasChapterAuth($scope.chapterItem.OCID);
 
         $scope.childSelected = function (child) {
             $scope.$emit('onChildSelected', child);

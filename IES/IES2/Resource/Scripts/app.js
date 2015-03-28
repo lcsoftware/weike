@@ -5,6 +5,7 @@ var appModule = angular.module('app', [
     'ngSanitize',
     'app.filters',
     'app.directives',
+    'app.auth.services',
     'app.custom.directives',
     'app.assist.services',
     'app.common.services',
@@ -38,7 +39,7 @@ appModule.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', f
         .state('content.exercise', { url: '/exercise', templateUrl: window.appPatch + '/views/Exercise/ExerciseList', controller: 'ExerciseListCtrl' })
 
         //试题
-        .state('exercise', { url: '/exercise/:ocid', templateUrl: window.appPatch + '/views/Shared/Exercise', controller: 'ExerciseCtrl' })
+        .state('exercise', { url: '/exercise/:ocid', abstract: true, templateUrl: window.appPatch + '/views/Shared/Exercise', controller: 'ExerciseCtrl' })
         //预览
         .state('content.preview', { url: '/content/exercise/preview', templateUrl: window.appPatch + '/views/Exercise/Preview', controller: 'PreviewCtrl' })
         //简答题
@@ -104,8 +105,8 @@ appModule.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', f
     $locationProvider.html5Mode(false);
 }]);
 
-appModule.run(['$templateCache', '$rootScope', '$state', '$stateParams', 'httpService', 'assistService',
-function ($templateCache, $rootScope, $state, $stateParams, httpService, assistService) {
+appModule.run(['$templateCache', '$rootScope', '$state', '$stateParams', '$window', 'httpService', 'assistService', 'authService',
+function ($templateCache, $rootScope, $state, $stateParams, $window, httpService, assistService, authService) {
 
     var view = angular.element('#ui-view');
     $templateCache.put(view.data('tmpl-url'), view.html());
@@ -115,7 +116,11 @@ function ($templateCache, $rootScope, $state, $stateParams, httpService, assistS
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
 
+    $rootScope.authService = authService;
     $rootScope.basePath = window.appPatch;
+
+    ///加载用户权限
+    authService.LoadUserAuths();
 
     $rootScope.fromState = {};
     $rootScope.fromParams = {};

@@ -61,3 +61,7 @@ a {
     background:#f44f4f; 
     color:#fff !important;
 }
+
+.hideAuth {
+    display:none!important;
+}

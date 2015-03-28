@@ -45,7 +45,6 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
     $scope.model.timePass = -1;
     $scope.tabTitles = [];
 
-
     $scope.$emit('willResetCourse', 'Resource');
 
     ///课程切换

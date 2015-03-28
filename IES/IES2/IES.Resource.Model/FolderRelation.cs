@@ -49,10 +49,9 @@ namespace IES.Resource.Model
         public string Ext { get; set; }
         public int FileType { get; set; }
         public int ShareRange { get; set; }
-        public string Kens { get; set; }
-
-        public string DownURL { get; set; }
-
+        public string Kens { get; set; } 
+        public string DownURL { get; set; } 
+        public int CreateUserID { get; set; } 
         public string CreateUserName { get; set; }
 
         public DateTime CreateTime { get; set; }

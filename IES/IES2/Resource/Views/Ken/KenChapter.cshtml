@@ -1,9 +1,9 @@
 ﻿<div class="chapter_knowledge">
     <div class="chapter_btn">
-        <a class="icon_con up_btn" ng-click="move('orderup')" title="上移"></a>
-        <a class="icon_con down_btn" ng-click="move('orderdown')" title="下移"></a>
-        <a class="icon delete_icon" ng-click="delete()" title="删除章节"></a>
-        <a class="icon_con add_btn" ng-click="addChapter();" title="添加章节"></a>
+        <a class="icon_con up_btn" ng-click="move('orderup')" title="上移" ng-class="{'hideAuth': !hasChapterAuth}"></a>
+        <a class="icon_con down_btn" ng-click="move('orderdown')" title="下移" ng-class="{'hideAuth': !hasChapterAuth}"></a>
+        <a class="icon delete_icon" ng-click="delete()" title="删除章节" ng-class="{'hideAuth': !hasChapterAuth}"></a>
+        <a class="icon_con add_btn" ng-click="addChapter();" title="添加章节" ng-class="{'hideAuth': !hasChapterAuth}"></a>
         @*<a class="icon_con right_btn" ng-click="move('leveldown')"></a>
             <a class="icon_con left_btn" ng-click="move('levelup')"></a>*@
     </div>

@@ -356,8 +356,8 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
         }
     }]);
 
-appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'kenService', 'tagService', 'freezeService',
-    function ($scope, $state, chapterService, kenService, tagService, freezeService) {
+appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'kenService', 'tagService', 'freezeService', 'authService',
+    function ($scope, $state, chapterService, kenService, tagService, freezeService, authService) {
 
         //$scope.$emit('willResetCourse', 'Ken');
         $scope.$emit('onResetMoreTitle');
@@ -371,11 +371,14 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
         $scope.lastSelection = {};
         $scope.parentChapter = {};
         $scope.childChapter = {};
+        ///权限判定
+        $scope.hasChapterAuth = authService.hasChapterAuth($scope.course.OCID);;
 
         $scope.$on('willCourseChanged', function (event, course) {
             $scope.parentChapter = {};
             $scope.childChapter = {};
             $scope.$parent.tab = 1;
+            $scope.hasChapterAuth = authService.hasChapterAuth(course.OCID);
         });
 
         $scope.$on('courseLoaded', function (event, course) {
@@ -389,6 +392,7 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
                 $scope.$parent.kenSelection = freezeData.data.kenSelection;
                 freezeService.unFreeze(tagService.KenListTag);
             }
+            $scope.hasChapterAuth = authService.hasChapterAuth(course.OCID);
         });
 
         $scope.$on('onKenExerciseEdit', function (event, exercise) {
@@ -724,6 +728,8 @@ appKnow.controller('KenTopicCtrl', ['$scope', '$state', 'resourceKenService', 'c
 
         $scope.$on('willCourseChanged', function (event, course) {
             $scope.dataChapters.length = 0;
+            $scope.$parent.linkFiles.length = 0;
+            $scope.$parent.linkExercises.length = 0;
         });
 
         $scope.chapterFocus = function (item) {

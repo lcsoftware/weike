@@ -62,7 +62,7 @@
 
         <div ng-class="{'connect_item':tab!=2}">
             <ul class="topic_list">
-                <exercise-list ng-repeat="item in linkExercises" exercise="item" checks="checks" share-ranges="shareRanges" disable-difficult="true"></exercise-list>
+                <exercise-list ng-repeat="item in linkExercises" exercise="item" checks="checks" share-ranges="shareRanges" disable-difficult="true" ocid="OCID" creater="item.CreateUserID"></exercise-list>
             </ul>
         </div>
 
