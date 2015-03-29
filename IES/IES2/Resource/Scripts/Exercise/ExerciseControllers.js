@@ -664,23 +664,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
                 if (type == 9 && v.id == 8) return;
 
                 if (type == 10 && v.id == 13) return;
-                if (type == 13 && v.id == 10) return;
-                //switch (v.id) {                    
-                //    case '10': //问答题
-                //        $state.go('exercise.quesanswer', param)
-                //        break;
-                //    case '13': //写作题
-                //        $state.go('exercise.quesanswer', param)
-                //        break;
-                //    case '8': //分析题
-                //        $state.go('exercise.analysis', param)
-                //        break;
-                //    case '9': //计算题
-                //        $state.go('exercise.analysis', param)
-                //        break;
-                //    default:
-                //        break;
-                //}
+                if (type == 13 && v.id == 10) return; 
             }
             var param = { ExerciseID: $scope.$stateParams.ExerciseID };
             switch (v.id) {
@@ -1166,6 +1150,8 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+ 
+                $("#editorInput").val($scope.model.exercisecommon.exercise.Conten);
 
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
@@ -1425,6 +1411,8 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+
+                $("#editorInput").val($scope.model.exercisecommon.exercise.Conten);
 
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
@@ -2011,6 +1999,9 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+
+                $("#editorAnalysis").val($scope.model.exercisecommon.exercise.Analysis);
+
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
@@ -2081,6 +2072,9 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+
+                $("#editorAnalysis").val($scope.model.exercisecommon.exercise.Analysis);
+                
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
@@ -2193,6 +2187,9 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
                     answer = { Answer: '', Spare: '' };
                     $scope.model.exercisechoicelist.push(answer);
                 }
+
+                $("#editorInput").val($scope.model.exercisecommon.exercise.Conten);
+                $("#editorAnalysis").val($scope.model.exercisecommon.exercise.Analysis);
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -2426,6 +2423,9 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
+
+                $("#editorInput").val($scope.model.exercisecommon.exercise.Conten);
+                $("#editorAnalysis").val($scope.model.exercisecommon.exercise.Analysis);
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -2565,14 +2565,14 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
     var answer = { Conten: '', IsCorrect: 0 };
 
     var init = function () {
-        console.log(3333);
         if ($scope.ExerciseID > -1) {
             exerciseService.Exercise_MultipleChoice_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
-
+                $("#editorInput").val($scope.model.exercisecommon.exercise.Conten);
+                $("#editorAnalysis").val($scope.model.exercisecommon.exercise.Analysis);
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
@@ -2725,7 +2725,8 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
-
+                $("#editorInput").val($scope.model.exercisecommon.exercise.Conten);
+                $("#editorAnalysis").val($scope.model.exercisecommon.exercise.Analysis);
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
@@ -2821,6 +2822,11 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
                 $scope.editorAnswerText = $scope.model.exercisecommon.exercise.Answer;
+
+                $("#editorInput").val($scope.model.exercisecommon.exercise.Conten);
+                $("#editorAnswer").val($scope.model.exercisecommon.exercise.Answer);
+                $("#editorAnalysis").val($scope.model.exercisecommon.exercise.Analysis);
+
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
@@ -2935,6 +2941,10 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
                 //    $scope.model.exercisechoicelist[i].Answer = a[0];
                 //    $scope.model.exercisechoicelist[i].Spare = a[1];
                 //}
+
+                $("#editorInput").val($scope.model.exercisecommon.exercise.Conten);
+                $("#editorAnalysis").val($scope.model.exercisecommon.exercise.Analysis);
+
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
@@ -3052,6 +3062,10 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+
+                $("#editorInput").val($scope.model.exercisecommon.exercise.Conten);
+                $("#editorAnalysis").val($scope.model.exercisecommon.exercise.Analysis);
+
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }

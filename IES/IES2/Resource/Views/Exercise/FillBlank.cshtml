@@ -1,6 +1,8 @@
 ﻿<div class="paper_content">
     <div class="text_box" style="color:#F00;">
-        <editor editor-id="editorInput" editor-text="editorText"></editor>
+        <input type="hidden" name="editorInput" id="editorInput" ng-model="editorText">
+        <iframe src="Frameworks/eWebEditor/ewebeditor.htm?id=editorInput&style=coolblue"
+                frameborder="0" scrolling="no" width="850" height="300" style="display: block;"></iframe>
     </div>
     <a class="add_attach" dialog-show dialog-id="eIesUploader"><em><i class="icon"></i></em><span>添加附件</span></a>
     <attach-list attachments="attachmentList"></attach-list>
