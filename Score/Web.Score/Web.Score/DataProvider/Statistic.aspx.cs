@@ -788,9 +788,10 @@ namespace App.Web.Score.DataProvider
                             " FROM s_tb_NormalScore a LEFT JOIN tbStudentBaseInfo b ON " +
                             " a.SRID=b.SRID LEFT JOIN tbStudentClass c ON " +
                             " a.AcademicYear=c.AcademicYear  AND a.SRID=c.SRID " +
+                            " LEFT JOIN s_vw_ClassScoreNum d ON d.AcademicYear=a.AcademicYear AND d.SRID=a.SRID" +
                             " WHERE a.AcademicYear=@micyear  AND SUBSTRING(c.ClassCode,1,2)=@gradeNo " +
                             " AND a.CourseCode=@courseCode AND a.testno=@testNo";
-                if (ck == true) sql += " and a.state is null";
+                if (ck == true) sql += " and d.state is null";
 
                 DataTable dt = bll.FillDataTableByText(sql,
                     new
