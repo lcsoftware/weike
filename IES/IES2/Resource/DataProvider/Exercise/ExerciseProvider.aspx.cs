@@ -529,7 +529,14 @@ namespace App.Resource.DataProvider.Exercise
         [WebMethod]
         public static ExerciseInfo Exercise_Writing_Get(int ExerciseID)
         {
-            return new ExerciseBLL().Exercise_Writing_Get(ExerciseID);
+            try
+            {
+                return new ExerciseBLL().Exercise_Writing_Get(ExerciseID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         /// <summary>
         /// 听力，自定义信息维护
