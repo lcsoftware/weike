@@ -551,8 +551,8 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         });
     }]);
 
-appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$stateParams', 'contentService', 'exerciseService', 'chapterService', 'freezeService', 'tagService', 'previewService', 'resourceService', 'kenService', 'assistService', '$timeout',
-    function ($scope, $window, $state, $stateParams, contentService, exerciseService, chapterService, freezeService, tagService, previewService, resourceService, kenService, assistService, $timeout) {
+appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$timeout', '$state', '$stateParams', 'contentService', 'exerciseService', 'chapterService', 'freezeService', 'tagService', 'previewService', 'resourceService', 'kenService', 'assistService',
+    function ($scope, $window, $timeout, $state, $stateParams, contentService, exerciseService, chapterService, freezeService, tagService, previewService, resourceService, kenService, assistService) {
         $scope.$emit('onPreviewSwitch', false);
         $scope.$emit('onSideLeftSwitch', false);
 
@@ -991,6 +991,18 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
         $scope.$on('onCompleteItem', function (event) {
 
         });
+
+        $scope.assignEditorValues = function (arrEditorNameValues) {
+            //$("#editor01").contentWindow.setHTML($scope.editorText);
+            //$("#editor02").contentWindow.setHTML($scope.editorAnswerText);
+            //$("#editor03").contentWindow.setHTML($scope.editorAnalysisText); 
+            $timeout(function () {
+                angular.forEach(arrEditorNameValues, function (value, key) {
+                    EWEBEDITOR.Instances[key].setHTML(value);
+                });
+
+            }, 200);
+        }
     }]);
 
 
@@ -1166,7 +1178,13 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
-
+                $scope.assignEditorValues(
+                           {
+                               editorInput: $scope.editorText
+                               //editorAnswer: $scope.editorAnswerText,
+                               //editorAnalysis: $scope.editorAnalysisText
+                           }
+                       )
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
@@ -1426,6 +1444,13 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
 
+                $scope.assignEditorValues(
+                    {
+                        editorInput: $scope.editorText
+                        //editorAnswer: $scope.editorAnswerText,
+                        //editorAnalysis: $scope.editorAnalysisText
+                    });
+
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
@@ -1684,6 +1709,12 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
 
+                $scope.assignEditorValues(
+                {
+                    editorInput: $scope.editorText
+                    //editorAnswer: $scope.editorAnswerText,
+                    //editorAnalysis: $scope.editorAnalysisText
+                });
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
@@ -1857,80 +1888,112 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
 }]);
 
 //问答题
-appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$stateParams', '$state', function ($scope, exerciseService, $stateParams, $state) {
+appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$stateParams', '$state', '$timeout',
+    function ($scope, exerciseService, $stateParams, $state, $timeout) {
 
 
-    $scope.$on('willExerciseChange', function (event, changeParam) {
+        $scope.$on('willExerciseChange', function (event, changeParam) {
 
-    });
-    $scope.$on('willRequestSave', function (event, data) {
-        var editor = EWEBEDITOR.Instances["editorInput"];
-        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
-        var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
-        $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
-        var editor2 = EWEBEDITOR.Instances["editorAnswer"];
-        $scope.model.exercisecommon.exercise.Answer = editor2.getHTML();
+        });
+        $scope.$on('willRequestSave', function (event, data) {
+            var editor = EWEBEDITOR.Instances["editorInput"];
+            $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+            var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
+            $scope.model.exercisecommon.exercise.Analysis = editor1.getHTML();
+            var editor2 = EWEBEDITOR.Instances["editorAnswer"];
+            $scope.model.exercisecommon.exercise.Answer = editor2.getHTML();
 
-        if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
-            alert('请填写题干');
-            return;
+            if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
+                alert('请填写题干');
+                return;
+            }
+
+            $scope.willTopBind($scope.model, data);
+
+            var v = angular.toJson($scope.model);
+            exerciseService.Exercise_Writing_M_Edit(v, function (data) {
+                if (data.d != null) {
+                    $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
+                }
+            });
+        });
+
+        $scope.$on('onPreview', function (event) {
+            var editor = EWEBEDITOR.Instances["editorInput"];
+            $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
+            var editor2 = EWEBEDITOR.Instances["editorAnswer"];
+            $scope.model.exercisecommon.exercise.Answer = editor2.getHTML();
+            $scope.$emit('onBeginPreview', $scope.model);
+        });
+
+        $scope.model = {};//ExerciseInfo对象
+        $scope.Attachment = {};//附件对象
+        $scope.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
+
+        $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
+            $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
+        });
+        /*
+        var setEditorValue = function () {
+            //$("#editor01").contentWindow.setHTML($scope.editorText);
+            //$("#editor02").contentWindow.setHTML($scope.editorAnswerText);
+            //$("#editor03").contentWindow.setHTML($scope.editorAnalysisText); 
+
+            EWEBEDITOR.Instances["editorInput"].setHTML($scope.editorText);
+            EWEBEDITOR.Instances["editorAnswer"].setHTML($scope.editorAnswerText);
+            EWEBEDITOR.Instances["editorAnalysis"].setHTML($scope.editorAnalysisText);
         }
 
-        $scope.willTopBind($scope.model, data);
+        var setEditorValue1 = function (arrEditorNameValues) {
+            //$("#editor01").contentWindow.setHTML($scope.editorText);
+            //$("#editor02").contentWindow.setHTML($scope.editorAnswerText);
+            //$("#editor03").contentWindow.setHTML($scope.editorAnalysisText); 
 
-        var v = angular.toJson($scope.model);
-        exerciseService.Exercise_Writing_M_Edit(v, function (data) {
-            if (data.d != null) {
-                $scope.$emit('onExerciseSaved', data.d.exercisecommon.exercise.ExerciseID);
+            angular.forEach(arrEditorNameValues, function (key, value) {
+                EWEBEDITOR.Instances[key].setHTML(value);
+            });
+        }*/
+
+        $scope.$on('$viewContentLoaded', function (event) {
+            $scope.$parent.AllowedChangeExerciseType = true;
+            if ($scope.ExerciseID > -1) {
+                exerciseService.loadedCount = 1;
+                exerciseService.Exercise_Writing_Get($scope.ExerciseID, function (data) {
+                    $scope.model = data.d;
+                    $scope.willEdit($scope.model);
+                    $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
+                    $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+                    $scope.editorAnswerText = $scope.model.exercisecommon.exercise.Answer;
+                    if ($scope.model.exercisecommon.attachmentlist.length > 0) {
+                        $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
+                    }
+
+                    $scope.assignEditorValues(
+                            {
+                                editorInput: $scope.editorText,
+                                editorAnswer: $scope.editorAnswerText,
+                                editorAnalysis: $scope.editorAnalysisText
+                            }
+                        )
+                    /*
+                    $timeout(function () {
+                        //$("#editor01").contentWindow.setHTML($scope.editorText);
+                        //$("#editor02").contentWindow.setHTML($scope.editorAnswerText);
+                        //$("#editor03").contentWindow.setHTML($scope.editorAnalysisText); 
+                      
+                        EWEBEDITOR.Instances["editorInput"].setHTML($scope.editorText);
+                        EWEBEDITOR.Instances["editorAnswer"].setHTML($scope.editorAnswerText);
+                        EWEBEDITOR.Instances["editorAnalysis"].setHTML($scope.editorAnalysisText);
+                    }, 200);*/
+                });
+            } else {
+                exerciseService.Exercise_Model_Info_Get(function (data) {
+                    $scope.model = data.d;
+                    $scope.textarea = 0;//切换试题解析和得分点
+                });
             }
         });
-    });
-
-    $scope.$on('onPreview', function (event) {
-        var editor = EWEBEDITOR.Instances["editorInput"];
-        $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
-        var editor2 = EWEBEDITOR.Instances["editorAnswer"];
-        $scope.model.exercisecommon.exercise.Answer = editor2.getHTML();
-        $scope.$emit('onBeginPreview', $scope.model);
-    });
-
-    $scope.model = {};//ExerciseInfo对象
-    $scope.Attachment = {};//附件对象
-    $scope.ExerciseID = parseInt($stateParams.ExerciseID);//习题ID
-
-    $scope.$on('onRemoveFinishedAttachment', function (event, attachment) {
-        $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
-    });
-
-    $scope.$on('$viewContentLoaded', function (event) {
-        $scope.$parent.AllowedChangeExerciseType = true;
-        if ($scope.ExerciseID > -1) {
-            exerciseService.loadedCount = 1;
-            exerciseService.Exercise_Writing_Get($scope.ExerciseID, function (data) {
-                $scope.model = data.d;
-                $scope.willEdit($scope.model);
-                $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
-                $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
-                $scope.editorAnswerText = $scope.model.exercisecommon.exercise.Answer;
-                if ($scope.model.exercisecommon.attachmentlist.length > 0) {
-                    $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
-                }
-
-                //console.log('==============1' + $scope.model.exercisecommon.exercise.Conten);
-                $("#editorInput").val($scope.model.exercisecommon.exercise.Conten);
-                $("#editorAnswer").val($scope.model.exercisecommon.exercise.Answer);
-                $("#editorAnalysis").val($scope.model.exercisecommon.exercise.Analysis);
-                //EWEBEDITOR.Replace("#editorAnswer", { style: "coolblue", width: "880", height: "300" });
-            });
-        } else {
-            exerciseService.Exercise_Model_Info_Get(function (data) {
-                $scope.model = data.d;
-                $scope.textarea = 0;//切换试题解析和得分点
-            });
-        }
-    });
-
-}]);
+    }]);
 
 //名词解释
 appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams', '$state', function ($scope, exerciseService, $stateParams, $state) {
@@ -2011,6 +2074,12 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+                $scope.assignEditorValues(
+    {
+        //editorInput: $scope.editorText,
+        //editorAnswer: $scope.editorAnswerText,
+        editorAnalysis: $scope.editorAnalysisText
+    });
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
@@ -2081,6 +2150,14 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+
+                $scope.assignEditorValues(
+    {
+        editorInput: $scope.editorText,
+        //editorAnswer: $scope.editorAnswerText,
+        editorAnalysis: $scope.editorAnalysisText
+    });
+
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
@@ -2181,6 +2258,14 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+
+                $scope.assignEditorValues(
+    {
+        editorInput: $scope.editorText,
+        //editorAnswer: $scope.editorAnswerText,
+        editorAnalysis: $scope.editorAnalysisText
+    });
+
                 for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
                     var a = $scope.model.exercisechoicelist[i].Answer.split('wshgkjqbwhfbxlfrh_c');
                     $scope.model.exercisechoicelist[i].Answer = a[0];
@@ -2398,7 +2483,12 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
-
+                $scope.assignEditorValues(
+    {
+        editorInput: $scope.editorText,
+        //editorAnswer: $scope.editorAnswerText,
+        editorAnalysis: $scope.editorAnalysisText
+    });
                 for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
                     if ($scope.model.exercisechoicelist[i].Grou == 0) {
                         $scope.ganraoList.push($scope.model.exercisechoicelist[i]);
@@ -2572,7 +2662,12 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
-
+                $scope.assignEditorValues(
+    {
+        editorInput: $scope.editorText,
+        //editorAnswer: $scope.editorAnswerText,
+        editorAnalysis: $scope.editorAnalysisText
+    });
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
@@ -2725,7 +2820,12 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
-
+                $scope.assignEditorValues(
+    {
+        editorInput: $scope.editorText,
+        //editorAnswer: $scope.editorAnswerText,
+        editorAnalysis: $scope.editorAnalysisText
+    });
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
@@ -2824,6 +2924,12 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
+                $scope.assignEditorValues(
+    {
+        editorInput: $scope.editorText,
+        editorAnswer: $scope.editorAnswerText,
+        editorAnalysis: $scope.editorAnalysisText
+    });
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -2935,6 +3041,12 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
                 //    $scope.model.exercisechoicelist[i].Answer = a[0];
                 //    $scope.model.exercisechoicelist[i].Spare = a[1];
                 //}
+                $scope.assignEditorValues(
+    {
+        editorInput: $scope.editorText,
+        //editorAnswer: $scope.editorAnswerText,
+        editorAnalysis: $scope.editorAnalysisText
+    });
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
@@ -3052,6 +3164,12 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
                 $scope.willEdit($scope.model);
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
+                $scope.assignEditorValues(
+    {
+        editorInput: $scope.editorText,
+        //editorAnswer: $scope.editorAnswerText,
+        editorAnalysis: $scope.editorAnalysisText
+    });
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }

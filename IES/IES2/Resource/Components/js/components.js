@@ -685,7 +685,7 @@ app.directive('moveItem', function () {
 });
 
 //编辑器
-app.directive('editor', function () {
+app.directive('editor', ['$timeout', function ($timeout) {
     var directive = {};
 
     directive.restrict = 'EA';
@@ -697,12 +697,14 @@ app.directive('editor', function () {
 
     directive.templateUrl = window.appPatch + '/Components/templates/editor.html';
 
-    directive.link = function (scope, elem, iAttrs) {
-    }
-
-
+    directive.controller = function ($scope, $element) {
+        $scope.$on('onEditorSetValue', function (event) {
+            //$element.find("#frame01").contentWindow.setHTML($scope.editorText);
+            document.getElementById("frame01").contentWindow.setHTML($scope.editorText);
+        })
+    } 
     return directive;
-});
+}]);
 
 //文件上传
 app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {

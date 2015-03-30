@@ -32,13 +32,13 @@ namespace App.Resource
                 //"~/Frameworks/jquery/jquery-1.7.2.min.js",
                 "~/Frameworks/jquery/jquery-1.11.1.min.js",
                 "~/Frameworks/bootstrap/js/bootstrap.min.js",
+                "~/Frameworks/ewebeditor/ewebeditor.js",
                 "~/Frameworks/angular/angular.js",
                 "~/Frameworks/angular/angular-cookies.js",
                 "~/Frameworks/angular/angular-sanitize.min.js",
                 "~/Frameworks/angularTree/angular-ui-tree.min.js",
                 "~/Frameworks/checklist-model/checklist-model.js",
                 "~/Frameworks/angular/angular-ui-router.js",
-                "~/Frameworks/ewebeditor/ewebeditor.js",
                 "~/Frameworks/laypage/laypage.js",
                 "~/Frameworks/angular/angular-file-upload.js"
                 ));
