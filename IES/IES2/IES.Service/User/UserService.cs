@@ -11,6 +11,7 @@ using IES.Cache;
 using IES.Resource.Model;
 using IES.G2S.Resource.DAL;
 using IES.Security;
+using IES.G2S.OC.BLL.Team;
 
 namespace IES.Service
 {
@@ -274,6 +275,23 @@ namespace IES.Service
         }
 
 
+        /// <summary>
+        /// 获取用户的在线课程角色
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static OCTeamRole OCTeam_Role_Get(OCTeamRole model)
+        {
+            return new OCTeamRoleBLL().OCTeam_Role_Get(model);
+        }
+        /// <summary>
+        /// 获取用户所有在线课程角色
+        /// </summary>
+        /// <returns></returns>
+        public static List<OCTeam> OC_ALLRole_Get()
+        {
+            return new OCTeamRoleBLL().OC_ALLRole_Get(CurrentUser.UserID);
+        }
 
         #endregion
     }

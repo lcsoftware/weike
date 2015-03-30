@@ -205,6 +205,7 @@ namespace App.Resource.DataProvider.Resource
                 fr.FileType = item.FileType;
                 fr.ShareRange = item.ShareRange;
                 fr.Kens = item.Kens;
+                fr.CreateUserID = item.CreateUserID;
                 if (item.FileType == 1 || item.FileType == 2 || item.FileType == 4 || item.FileType == 6)
                 {
                     fr.DownURL = item.ViewURL;

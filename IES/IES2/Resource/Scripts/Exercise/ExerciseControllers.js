@@ -95,7 +95,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
                 }
             }
             return false;
-        } 
+        }
 
         //习题列表
         $scope.exercises = [];
@@ -489,7 +489,6 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         /// </summary>
         ///编辑习题
         $scope.$on('onEditExercise', function (event, exercise) {
-
             freezeService.freeze(tagService.ExerciseListTag, { course: $scope.data.course });
             freezeService.freeze(tagService.UrlSourceTag, 'content.exercise');
 
@@ -554,7 +553,6 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
 
 appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$stateParams', 'contentService', 'exerciseService', 'chapterService', 'freezeService', 'tagService', 'previewService', 'resourceService', 'kenService', 'assistService', '$timeout',
     function ($scope, $window, $state, $stateParams, contentService, exerciseService, chapterService, freezeService, tagService, previewService, resourceService, kenService, assistService, $timeout) {
-
         $scope.$emit('onPreviewSwitch', false);
         $scope.$emit('onSideLeftSwitch', false);
 
@@ -659,7 +657,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
             } else return false;
         }
 
-        $scope.$watch('data.exerciseType', function (v) {
+        $scope.changeExerciseType = function (v) {
             if ($scope.$stateParams.ExerciseID > 0) {
                 var type = $scope.data.exerciseType.id;
                 if (type == 8 && v.id == 9) return;
@@ -741,7 +739,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$state', '$statePa
                     break;
 
             }
-        });
+        }
 
         $scope.addKey = function (exerciseKey) {
             if (exerciseKey) {
@@ -1860,10 +1858,11 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
 
 //问答题
 appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$stateParams', '$state', function ($scope, exerciseService, $stateParams, $state) {
+
+
     $scope.$on('willExerciseChange', function (event, changeParam) {
 
     });
-
     $scope.$on('willRequestSave', function (event, data) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
@@ -1903,8 +1902,10 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
         $scope.removeAttachment($scope.model.exercisecommon.attachmentlist, attachment);
     });
 
-    var init = function () {
+    $scope.$on('$viewContentLoaded', function (event) {
+        $scope.$parent.AllowedChangeExerciseType = true;
         if ($scope.ExerciseID > -1) {
+            exerciseService.loadedCount = 1;
             exerciseService.Exercise_Writing_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;
                 $scope.willEdit($scope.model);
@@ -1914,6 +1915,12 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }
+
+                //console.log('==============1' + $scope.model.exercisecommon.exercise.Conten);
+                $("#editorInput").val($scope.model.exercisecommon.exercise.Conten);
+                $("#editorAnswer").val($scope.model.exercisecommon.exercise.Answer);
+                $("#editorAnalysis").val($scope.model.exercisecommon.exercise.Analysis);
+                //EWEBEDITOR.Replace("#editorAnswer", { style: "coolblue", width: "880", height: "300" });
             });
         } else {
             exerciseService.Exercise_Model_Info_Get(function (data) {
@@ -1921,9 +1928,8 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
                 $scope.textarea = 0;//切换试题解析和得分点
             });
         }
-    }
+    });
 
-    init();
 }]);
 
 //名词解释
@@ -2468,7 +2474,7 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
     $scope.$on('willExerciseChange', function (event, changeParam) {
 
     });
-
+    console.log(2222);
     $scope.$on('willRequestSave', function (event, data) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
@@ -2559,6 +2565,7 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
     var answer = { Conten: '', IsCorrect: 0 };
 
     var init = function () {
+        console.log(3333);
         if ($scope.ExerciseID > -1) {
             exerciseService.Exercise_MultipleChoice_Get($scope.ExerciseID, function (data) {
                 $scope.model = data.d;

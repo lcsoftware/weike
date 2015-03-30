@@ -1,7 +1,7 @@
 ﻿<li class="show">
     <div class="topic_label">
         <p class="question_degree simple" ng-class="{'simple':exercise.Diffcult==1,'medium':exercise.Diffcult==2,'difficult':exercise.Diffcult==3}">
-            <input type="checkbox" checklist-model="checks" checklist-value="exercise" ng-class="{'itemHide': disableDifficult}">{{getDifficultName(exercise)}}</p>
+            <input type="checkbox" checklist-model="checks" checklist-value="exercise" ng-class="{'itemHide': disableDifficult, 'hideAuth': !hasAuth}">{{getDifficultName(exercise)}}</p>
         <div class="label_list ng-cloak" ng-cloak>
            <!-- <a ng-repeat="item in exercise.Keys track by $index"><span ng-bind="item"></span></a>-->
             <a ng-repeat="item in exercise.Keys track by $index"><span ng-bind="item"></span></a>
@@ -30,18 +30,18 @@
                 <span></span><p>预览</p>
             </div>
         </a>
-        <a class="icon delete_topic" ng-click="deleteExercise(exercise)">
+        <a class="icon delete_topic" ng-click="deleteExercise(exercise)" ng-class="{'hideAuth': !hasAuth}">
             <div class="icon_content" style="display:none;">
                 <span></span><p>删除</p>
             </div>
         </a>
-        <a class="icon share_topic">
+        <a class="icon share_topic" ng-class="{'hideAuth': !hasAuth}">
             <div class="icon_share_content" style="display: none;">
                 <span></span>
                 <p ng-repeat="item in shareRanges" ng-click="shareExercise(exercise, item)">{{item.name}}</p>
             </div>
         </a>
-        <a ng-click="editExercise(exercise)" class="icon edit_topic">
+        <a ng-click="editExercise(exercise)" class="icon edit_topic" ng-class="{'hideAuth': !hasAuth}">
             <div class="icon_content" style="display:none;">
                 <span></span><p>编辑</p>
             </div>
