@@ -26,7 +26,7 @@
             <div class="resource_btn">
                 <a class="up_section" href="javascript:;"></a>
                 <a class="down_section" href="javascript:;"></a>
-                <a class="delete_section" href="javascript:;" ng-click="delRadio(children)"></a>
+                <a class="delete_section" href="javascript:;" ng-click="delRadio($index, 0)"></a>
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@
             <div class="resource_btn">
                 <a class="up_section" href="javascript:;"></a>
                 <a class="down_section" href="javascript:;"></a>
-                <a class="delete_section" href="javascript:;" ng-click="delMultiples(childrenMultiple)"></a>
+                <a class="delete_section" href="javascript:;" ng-click="delMultiples($index, 1)"></a>
             </div>
         </div>
     </div>
@@ -65,7 +65,7 @@
             <div class="resource_btn">
                 <a class="up_section" href="javascript:;"></a>
                 <a class="down_section" href="javascript:;"></a>
-                <a class="delete_section" href="javascript:;" ng-click="delFillBlank(childrenFillBlank)"></a>
+                <a class="delete_section" href="javascript:;" ng-click="delFillBlank($index, 2)"></a>
             </div>
         </div>
     </div>
@@ -76,11 +76,16 @@
         </div>*@
 </div>
 <ul class="listening_btn">
-    <li><a href="javascript:;">添加音频</a></li>
+    @*<li><a href="javascript:;">添加音频</a></li>*@
     <li><a href="javascript:;" ng-click="AddRadio()" onclick="$('html,body').animate({scrollTop:$('#radio').offset().top},500)">单选题</a></li>
     <li><a href="javascript:;" ng-click="AddMultiple()" onclick="$('html,body').animate({ scrollTop: $('#multiple').offset().top }, 500)">多选题</a></li>
     <li><a href="javascript:;" ng-click="AddFillBlank()" onclick="$('html,body').animate({ scrollTop: $('#fillBlank').offset().top }, 500)">填空题</a></li>
-    <li><a href="javascript:;">注释说明</a></li>
-    <li><a href="javascript:;">添加附件</a></li>
+    @*<li><a href="javascript:;">注释说明</a></li>
+    <li><a href="javascript:;">添加附件</a></li>*@
 </ul>
 <ies-file-uploader id="eIesUploader" style="display:none" file-catetory="2"></ies-file-uploader>
+<ies-dialog id="eConfirm" style="display:none"
+            dialog-title="确认"
+            dialog-text="您确认删除吗？"
+            ok-title="确定"
+            cancel-title="取消"></ies-dialog>

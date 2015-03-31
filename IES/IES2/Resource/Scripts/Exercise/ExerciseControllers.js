@@ -983,8 +983,8 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$timeout', '$state
             $timeout(function () {
                 angular.forEach(arrEditorNameValues, function (value, key) {
                     EWEBEDITOR.Instances[key].setHTML(value);
+                    //document.getElementById(key).contentView.setHTML(value);
                 });
-
             }, 200);
         }
     }]);
@@ -1313,31 +1313,90 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
             $scope.model.ChildrenFillBlank.push(rs.ChildrenFillBlank[0]);
         });
     }
+
+    /// 0 Radio 1 Multi 2 fillBlank
+    $scope.typeValue = -1;
+    $scope.removeIndex = -1;
+    $scope.opChildren = undefined;
+
     //删除一类题
-    $scope.delRadio = function (children) {
-        $scope.model.Children.splice(children, 1);
-        exerciseService.Exercise_Del(children.exercisecommon.exercise.ExerciseID, function (data) {
-        });
-        if ($scope.model.Children.length == 0) {
-            $scope.isShowRadio = 0;
-        }
+    //$scope.delRadio = function (children) {
+    //    $scope.model.Children.splice(children, 1);
+    //    exerciseService.Exercise_Del(children.exercisecommon.exercise.ExerciseID, function (data) {
+    //    });
+    //    if ($scope.model.Children.length == 0) {
+    //        $scope.isShowRadio = 0;
+    //    }
+    //}
+    //$scope.delMultiples = function (childrenMultiple) {
+    //    $scope.model.ChildrenMultiple.splice(childrenMultiple, 1);
+    //    exerciseService.Exercise_Del(childrenMultiple.exercisecommon.exercise.ExerciseID, function (data) {
+    //    });
+    //    if ($scope.model.ChildrenMultiple.length == 0) {
+    //        $scope.isShowMultiple = 0;
+    //    }
+    //}
+    //$scope.delFillBlank = function (childrenFillBlank) {
+    //    $scope.model.ChildrenFillBlank.splice(childrenFillBlank, 1);
+    //    exerciseService.Exercise_Del(childrenFillBlank.exercisecommon.exercise.ExerciseID, function (data) {
+    //    });
+    //    if ($scope.model.ChildrenFillBlank.length == 0) {
+    //        $scope.isShowFillBlank = 0;
+    //    }
+    //}
+    //删除一类题
+    $scope.delRadio = function (removeIndex, typeValue) {
+        $scope.typeValue = typeValue;
+        $scope.removeIndex = removeIndex;
+        $scope.opChildren = $scope.model.Children[removeIndex];
+        $('#eConfirm').toggle();
     }
-    $scope.delMultiples = function (childrenMultiple) {
-        $scope.model.ChildrenMultiple.splice(childrenMultiple, 1);
-        exerciseService.Exercise_Del(childrenMultiple.exercisecommon.exercise.ExerciseID, function (data) {
-        });
-        if ($scope.model.ChildrenMultiple.length == 0) {
-            $scope.isShowMultiple = 0;
-        }
+    $scope.delMultiples = function (removeIndex, typeValue) {
+        $scope.typeValue = typeValue;
+        $scope.removeIndex = removeIndex;
+        $scope.opChildren = $scope.model.ChildrenMultiple[removeIndex];
+        $('#eConfirm').toggle();
     }
-    $scope.delFillBlank = function (childrenFillBlank) {
-        $scope.model.ChildrenFillBlank.splice(childrenFillBlank, 1);
-        exerciseService.Exercise_Del(childrenFillBlank.exercisecommon.exercise.ExerciseID, function (data) {
-        });
-        if ($scope.model.ChildrenFillBlank.length == 0) {
-            $scope.isShowFillBlank = 0;
-        }
+    $scope.delFillBlank = function (removeIndex, typeValue) {
+        $scope.typeValue = typeValue;
+        $scope.removeIndex = removeIndex;
+        $scope.opChildren = $scope.model.ChildrenFillBlank[removeIndex];
+        $('#eConfirm').toggle();
     }
+
+    ///确认删除
+    $scope.$on('onDialogOk', function (event) {
+        switch ($scope.typeValue) {
+            case 0: /// Radio
+                $scope.model.Children.splice($scope.removeIndex, 1);
+
+                exerciseService.Exercise_Del($scope.opChildren.exercisecommon.exercise.ExerciseID, function (data) {
+                });
+                if ($scope.model.Children.length == 0) {
+                    $scope.isShowRadio = 0;
+                }
+                break;
+            case 1:  /// Multi
+                $scope.model.ChildrenMultiple.splice($scope.removeIndex, 1);
+                exerciseService.Exercise_Del($scope.opChildren.exercisecommon.exercise.ExerciseID, function (data) {
+                });
+                if ($scope.model.ChildrenMultiple.length == 0) {
+                    $scope.isShowMultiple = 0;
+                }
+                break;
+            case 2: /// FillBlank
+                $scope.model.ChildrenFillBlank.splice($scope.removeIndex, 1);
+                exerciseService.Exercise_Del($scope.opChildren.exercisecommon.exercise.ExerciseID, function (data) {
+                });
+                if ($scope.model.ChildrenFillBlank.length == 0) {
+                    $scope.isShowFillBlank = 0;
+                }
+                break;
+            default:
+                break;
+        }
+    });
+
     init();
 }]);
 
@@ -1844,31 +1903,66 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
             $scope.model.ChildrenFillBlank.push(rs.ChildrenFillBlank[0]);
         });
     }
+
+    /// 0 Radio 1 Multi 2 fillBlank
+    $scope.typeValue = -1;
+    $scope.removeIndex = -1;
+    $scope.opChildren = undefined;
+
     //删除一类题
-    $scope.delRadio = function (children) {
-        $scope.model.Children.splice(children, 1);
-        exerciseService.Exercise_Del(children.exercisecommon.exercise.ExerciseID, function (data) {
-        });
-        if ($scope.model.Children.length == 0) {
-            $scope.isShowRadio = 0;
-        }
+    $scope.delRadio = function (removeIndex, typeValue) {
+        $scope.typeValue = typeValue;
+        $scope.removeIndex = removeIndex;
+        $scope.opChildren = $scope.model.Children[removeIndex];
+        $('#eConfirm').toggle(); 
     }
-    $scope.delMultiples = function (childrenMultiple) {
-        $scope.model.ChildrenMultiple.splice(childrenMultiple, 1);
-        exerciseService.Exercise_Del(childrenMultiple.exercisecommon.exercise.ExerciseID, function (data) {
-        });
-        if ($scope.model.ChildrenMultiple.length == 0) {
-            $scope.isShowMultiple = 0;
-        }
+    $scope.delMultiples = function (removeIndex, typeValue) {
+        $scope.typeValue = typeValue;
+        $scope.removeIndex = removeIndex;
+        $scope.opChildren = $scope.model.ChildrenMultiple[removeIndex];
+        $('#eConfirm').toggle(); 
     }
-    $scope.delFillBlank = function (childrenFillBlank) {
-        $scope.model.ChildrenFillBlank.splice(childrenFillBlank, 1);
-        exerciseService.Exercise_Del(childrenFillBlank.exercisecommon.exercise.ExerciseID, function (data) {
-        });
-        if ($scope.model.ChildrenFillBlank.length == 0) {
-            $scope.isShowFillBlank = 0;
-        }
+    $scope.delFillBlank = function (removeIndex, typeValue) {
+        $scope.typeValue = typeValue;
+        $scope.removeIndex = removeIndex;
+        $scope.opChildren = $scope.model.ChildrenFillBlank[removeIndex];
+        $('#eConfirm').toggle();
     }
+
+    ///确认删除
+    $scope.$on('onDialogOk', function (event) {
+        switch ($scope.typeValue) {
+            case 0: /// Radio
+                $scope.model.Children.splice($scope.removeIndex, 1);
+
+                exerciseService.Exercise_Del($scope.opChildren.exercisecommon.exercise.ExerciseID, function (data) {
+                });
+                if ($scope.model.Children.length == 0) {
+                    $scope.isShowRadio = 0;
+                }
+                break;
+            case 1:  /// Multi
+                $scope.model.ChildrenMultiple.splice($scope.removeIndex, 1);
+                exerciseService.Exercise_Del($scope.opChildren.exercisecommon.exercise.ExerciseID, function (data) {
+                });
+                if ($scope.model.ChildrenMultiple.length == 0) {
+                    $scope.isShowMultiple = 0;
+                }
+                break;
+            case 2: /// FillBlank
+                $scope.model.ChildrenFillBlank.splice($scope.removeIndex, 1);
+                exerciseService.Exercise_Del($scope.opChildren.exercisecommon.exercise.ExerciseID, function (data) {
+                });
+                if ($scope.model.ChildrenFillBlank.length == 0) {
+                    $scope.isShowFillBlank = 0;
+                }
+                break;
+            default:
+                break; 
+        }
+        
+    });
+
     init();
 }]);
 
@@ -2209,13 +2303,23 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
         else {
             for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
                 var answer = $scope.model.exercisechoicelist[i].Answer == null ? "" : $scope.model.exercisechoicelist[i].Answer;
+                var childId = $scope.model.exercisechoicelist[i].ExerciseID == null ? 0 : $scope.model.exercisechoicelist[i].ExerciseID;
                 var spare = $scope.model.exercisechoicelist[i].Spare == null ? "" : $scope.model.exercisechoicelist[i].Spare;
+                //if ((i + 1) == $scope.model.exercisechoicelist.length) {
+                //    $scope.model.exercisecommon.exercise.Content +=
+                //    "0wshgkjqbwhfbxlfrh_b" + answer == '' ? answer.charCodeAt(32) : answer + "wshgkjqbwhfbxlfrh_c" + spare == '' ? spare.charCodeAt(32) : spare;
+                //} else {
+                //    $scope.model.exercisecommon.exercise.Content +=
+                //    "0wshgkjqbwhfbxlfrh_b" + answer == '' ? answer.charCodeAt(32) : answer + "wshgkjqbwhfbxlfrh_c" + spare == '' ? spare.charCodeAt(32) : spare + "wshgkjqbwhfbxlfrh_a";
+                //}
                 if ((i + 1) == $scope.model.exercisechoicelist.length) {
                     $scope.model.exercisecommon.exercise.Content +=
-                    "0wshgkjqbwhfbxlfrh_b" + answer == '' ? answer.charCodeAt(32) : answer + "wshgkjqbwhfbxlfrh_c" + spare == '' ? spare.charCodeAt(32) : spare;
+                    childId + "wshgkjqbwhfbxlfrh_b"
+                    + answer + "wshgkjqbwhfbxlfrh_c" + spare;
                 } else {
                     $scope.model.exercisecommon.exercise.Content +=
-                    "0wshgkjqbwhfbxlfrh_b" + answer == '' ? answer.charCodeAt(32) : answer + "wshgkjqbwhfbxlfrh_c" + spare == '' ? spare.charCodeAt(32) : spare + "wshgkjqbwhfbxlfrh_a";
+                    childId + "wshgkjqbwhfbxlfrh_b"
+                    + answer + "wshgkjqbwhfbxlfrh_c" + spare + "wshgkjqbwhfbxlfrh_a";
                 }
             }
         }
@@ -2565,7 +2669,6 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
     $scope.$on('willExerciseChange', function (event, changeParam) {
 
     });
-    console.log(2222);
     $scope.$on('willRequestSave', function (event, data) {
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
