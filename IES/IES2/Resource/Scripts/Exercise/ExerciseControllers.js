@@ -245,27 +245,27 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
 
         $scope.exerciseTypeChanged = function (item) {
             $scope.data.exerciseType = item;
-            filterChanged();
+            $scope.search()
         }
 
         $scope.difficultChanged = function (item) {
             $scope.data.difficult = item;
-            filterChanged();
+            $scope.search()
         }
 
         $scope.shareRangeChanged = function (item) {
             $scope.data.shareRange = item;
-            filterChanged();
+            $scope.search()
         }
 
         $scope.keyChanged = function (item) {
             $scope.data.key = item;
-            filterChanged();
+            $scope.search()
         }
 
         $scope.kenChanged = function (item) {
             $scope.data.ken = item;
-            filterChanged();
+            $scope.search()
         }
         $scope.pagesNum = 1;
 
@@ -2283,46 +2283,26 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
             return;
         }
 
-        $scope.model.exercisecommon.exercise.Content = "";
-        if ($scope.ExerciseID > 0) {
-            for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
-                var answer = $scope.model.exercisechoicelist[i].Answer == null ? String.fromCharCode(32) : $scope.model.exercisechoicelist[i].Answer;
-                var childId = $scope.model.exercisechoicelist[i].ExerciseID == null ? 0 : $scope.model.exercisechoicelist[i].ExerciseID;
-                var spare = $scope.model.exercisechoicelist[i].Spare == null ? String.fromCharCode(32) : $scope.model.exercisechoicelist[i].Spare;
-                if ((i + 1) == $scope.model.exercisechoicelist.length) {
-                    $scope.model.exercisecommon.exercise.Content +=
-                    childId + "wshgkjqbwhfbxlfrh_b"
-                    + answer + "wshgkjqbwhfbxlfrh_c" + spare;
-                } else {
-                    $scope.model.exercisecommon.exercise.Content +=
-                    childId + "wshgkjqbwhfbxlfrh_b"
-                    + answer + "wshgkjqbwhfbxlfrh_c" + spare + "wshgkjqbwhfbxlfrh_a";
-                }
+        var content = '';
+        var choicSplitFlag = 'wshgkjqbwhfbxlfrh_a';
+        angular.forEach($scope.model.exercisechoicelist, function (item) {
+            var answer = item.IsDeleted ? '' : item.Answer;
+            var spare = item.IsDeleted ? '' : item.Spare;
+            var exerciseId = !!item.ExerciseID ? item.ExerciseID : 0; 
+            content += exerciseId + "wshgkjqbwhfbxlfrh_b";
+            if (item.IsDeleted) {
+                content += String.fromCharCode(32);
+            } else {
+                content +=  answer + "wshgkjqbwhfbxlfrh_c" + spare;
             }
+
+            content += choicSplitFlag;
+        });
+
+        if (content.length > 0) {
+            content = content.substring(0, content.length - choicSplitFlag.length);
         }
-        else {
-            for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
-                var answer = $scope.model.exercisechoicelist[i].Answer == null ? "" : $scope.model.exercisechoicelist[i].Answer;
-                var childId = $scope.model.exercisechoicelist[i].ExerciseID == null ? 0 : $scope.model.exercisechoicelist[i].ExerciseID;
-                var spare = $scope.model.exercisechoicelist[i].Spare == null ? "" : $scope.model.exercisechoicelist[i].Spare;
-                //if ((i + 1) == $scope.model.exercisechoicelist.length) {
-                //    $scope.model.exercisecommon.exercise.Content +=
-                //    "0wshgkjqbwhfbxlfrh_b" + answer == '' ? answer.charCodeAt(32) : answer + "wshgkjqbwhfbxlfrh_c" + spare == '' ? spare.charCodeAt(32) : spare;
-                //} else {
-                //    $scope.model.exercisecommon.exercise.Content +=
-                //    "0wshgkjqbwhfbxlfrh_b" + answer == '' ? answer.charCodeAt(32) : answer + "wshgkjqbwhfbxlfrh_c" + spare == '' ? spare.charCodeAt(32) : spare + "wshgkjqbwhfbxlfrh_a";
-                //}
-                if ((i + 1) == $scope.model.exercisechoicelist.length) {
-                    $scope.model.exercisecommon.exercise.Content +=
-                    childId + "wshgkjqbwhfbxlfrh_b"
-                    + answer + "wshgkjqbwhfbxlfrh_c" + spare;
-                } else {
-                    $scope.model.exercisecommon.exercise.Content +=
-                    childId + "wshgkjqbwhfbxlfrh_b"
-                    + answer + "wshgkjqbwhfbxlfrh_c" + spare + "wshgkjqbwhfbxlfrh_a";
-                }
-            }
-        }
+        $scope.model.exercisecommon.exercise.Content = content;
 
         $scope.willTopBind($scope.model, data);
 
@@ -2396,22 +2376,8 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
         $scope.model.exercisechoicelist.push(answer);
     }
     //删除选项
-    $scope.Del = function (item) {
-        if ($scope.ExerciseID > 0) {
-            for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
-                if ($scope.model.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.exercisechoicelist[i].Answer = '';
-                    $scope.model.exercisechoicelist[i].Spare = '';
-                }
-            }
-        } else {
-            for (var i = 0; i < $scope.model.exercisechoicelist.length; i++) {
-                if ($scope.model.exercisechoicelist[i].$$hashKey == item.$$hashKey) {
-                    $scope.model.exercisechoicelist.splice(i, 1);
-                }
-            }
-        }
-
+    $scope.Del = function (index) {
+        $scope.model.exercisechoicelist[index].IsDeleted = true; 
     }
     init();
 }]);

@@ -157,3 +157,24 @@ appFilter.filter('FormatSeconds', function ($sce) {
         return $G2S.formatSeconds(seconds);
     }
 });
+
+appFilter.filter('answerFilter', function (v) {
+    return function (v) {
+        return v.Answer.length > 0;
+    }
+});
+
+
+appFilter.filter('answerFilter', function () {
+    return function (inputArray) {
+        var array = [];
+        if (inputArray != undefined) {
+            angular.forEach(inputArray, function (item) {
+                if (!item.IsDeleted) {
+                    this.push(item); 
+                }
+            }, array); 
+        }
+        return array;
+    }
+});

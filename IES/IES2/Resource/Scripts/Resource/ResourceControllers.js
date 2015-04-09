@@ -8,7 +8,8 @@ var appResource = angular.module('app.resource.controllers', [
     'ui.tree'
 ]);
 
-appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageService', 'contentService', 'chapterService', 'kenService', 'FileUploader', function ($scope, resourceService, pageService, contentService, chapterService, kenService, FileUploader) {
+appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageService', 'contentService', 'chapterService', 'kenService', 'FileUploader',
+    function ($scope, resourceService, pageService, contentService, chapterService, kenService, FileUploader) {
 
     $scope.$emit('onPreviewSwitch', false);
     $scope.$emit('onResetMoreTitle');
