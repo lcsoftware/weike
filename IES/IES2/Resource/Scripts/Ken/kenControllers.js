@@ -345,6 +345,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
             chapterService.Chapter_List({ OCID: course.OCID }, function (data) {
                 $scope.chapters = data.d;
                 if ($scope.chapters.length > 0) {
+                    chapterService.SectionFormat($scope.chapters);
                     $scope.ken.chapter = $scope.chapters[0];
                 }
             });
