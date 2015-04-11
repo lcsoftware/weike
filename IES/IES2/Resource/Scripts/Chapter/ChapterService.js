@@ -48,5 +48,21 @@ aService.factory('chapterService', ['httpService', function (httpService) {
         httpService.ajaxPost(chapterProviderUrl, 'Chapter_Move', { model: chapter, direction: direction}, callback);
     }
 
+    service.SectionFormat = function (chapters) {
+        var chapterIndex = 1;
+        var sectionIndex = 0;
+        var length = chapters.length;
+        for (var i = 0; i < length; i++) {
+            var chapter = chapters[i];
+            if (chapter.ParentID === 0) {
+                chapter.Title = '' + chapterIndex + '.' + ' ' + chapter.Title; 
+                chapterIndex++;
+                sectionIndex = 0;
+            } else {
+                sectionIndex += 1;
+                chapter.Title = '' + chapterIndex + '.' + sectionIndex + ' ' + chapter.Title; 
+            }
+        } 
+    }
     return service;
 }])

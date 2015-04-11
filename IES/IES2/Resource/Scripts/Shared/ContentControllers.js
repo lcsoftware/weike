@@ -40,8 +40,9 @@ contentApp.controller('ContentCtrl', ['$scope', 'contentService', '$stateParams'
                     var courseMore = [];
 
                     if (from === 'Resource') {
-                        var personResource = angular.copy(data.d[0]);
+                        var personResource = {};
                         personResource.OCID = 0;
+                        personResource.CourseID= 0;
                         personResource.Name = '个人资料';
                         courses.insert(0, personResource);
                     }

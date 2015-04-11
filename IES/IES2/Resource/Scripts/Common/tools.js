@@ -52,3 +52,13 @@ Array.prototype.distinct = function () {
 String.prototype.trim = function () {
     return this.replace(/(^\s*)|(\s*$)/g, "");
 }
+
+String.prototype.charLeftAll = function (bchar, alength) {
+    var xchar = '' + this;
+    for (var i = 0; i < alength; i++) {
+        xchar = bchar + xchar;
+        if (xchar.length == alength)
+            break;
+    }
+    return (xchar);
+}
