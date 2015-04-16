@@ -197,8 +197,9 @@ app.directive('folder', function () {
         var e = elem.find('.data_tit');
         e.bind('dblclick', function (e) {
             $(this).hide();
-            elem.find('input').show().select();
-        });
+            elem.find('input').css({display: 'inline-block'});
+            elem.find('input').select();
+        }); 
     }
     return directive;
 });
