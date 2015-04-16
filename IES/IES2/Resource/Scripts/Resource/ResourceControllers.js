@@ -80,7 +80,11 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
         chapterService.Chapter_List({ OCID: course.OCID }, function (data) {
             if (data.d.length > 0) {
                 $scope.chapters = data.d;
-                //$scope.chapter = $scope.chapters[0];
+                chapterService.SectionFormat($scope.chapters);
+                //var length = $scope.chapters.length;
+                //for (var i = 0; i < length; i++) {
+                //    chapterService.FormatSection($scope.chapters[i]);
+                //}
             }
         });
         //获取关联知识点数据

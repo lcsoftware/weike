@@ -155,14 +155,14 @@ namespace IES.Service
         /// <returns></returns>
         public static List<Menu> Menu_Left_List(string ParentID , int scope )
         {
-            //if (ParentID == "B2")
-            //{
-            //    if (!UserService.IsTeacher)
-            //    {
-            //        ParentID = "C2";
-            //        scope = 3;
-            //    }
-            //}
+            if (ParentID == "B2")
+            {
+                if (!UserService.IsTeacher)
+                {
+                    ParentID = "C2";
+                    scope = 3;
+                }
+            }
 
 
             List<Menu> leftmenulist  = new List<Menu>();

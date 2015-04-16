@@ -74,7 +74,7 @@
     <tr ng-repeat="item in folderRelations">
         <td>
             <div class="data_name">
-                <input type="checkbox" checklist-model="checks" checklist-value="item" ng-class="{'hideAuth': !authService.hasAuth(item.CreateUserID, model.OCID)}" >
+                <input type="checkbox" checklist-model="checks" checklist-value="item" ng-class="{'hideAuth': !authService.hasAuth(item.CreateUserID, model.OCID)}">
                 <folder file-item="item" folder-name="item.Name" folder-ext="item.Ext" folder-item="item" on-open="folderClick(item)" on-blur="updFolderName(item)"></folder>
                 <div class="file_operation">
                     <div class="more_operation">
@@ -93,7 +93,9 @@
             </div>
         </td>
         <td ng-bind="GetShareRange(item.ShareRange)" ng-show="model.OCID!=0"></td>
-        <td ng-bind="item.Kens" ng-show="model.OCID!=0"></td>
+        <td ng-show="model.OCID!=0" title="{{item.Kens}}" >
+            <p ng-bind="item.Kens" style="width:100px; float:left;white-space:nowrap; text-overflow:ellipsis; overflow:hidden;line-height:20px;"></p>
+        </td>
         <td ng-bind="item.RelationType==1?item.CreateUserName:'一'" ng-show="model.OCID!=0"></td>
         <td ng-bind="item.FileSize!=0?CalculatedSize(item.FileSize):'一'"></td>
         <td ng-bind="item.CreateTime | dateFormat"></td>
@@ -104,7 +106,7 @@
     <h4>删除</h4>
     <span class="icon close_pop" ng-click="close()"></span>
     <div class="pop_wrap">
-        <p class="confirm_tip">是否确定删除已选择的文件？</p>
+        <p class="confirm_tip">删除操作不能恢复, 继续该操作吗？</p>
         <div class="btn_box">
             <a class="save" ng-click="removeAll()">确定</a>
             <a class="cancel" ng-click="close()">取消</a>

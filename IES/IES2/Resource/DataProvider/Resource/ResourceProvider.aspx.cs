@@ -185,6 +185,7 @@ namespace App.Resource.DataProvider.Resource
                     fr.RelationType = FileType.Folder;
                     fr.CourseId = item.CourseID;
                     //fr.CreateTime = new DateTime();
+                    fr.CreateUserID = item.CreateUserID;
                     fr.CreateTime = item.CreateTime;
                     fr.ShareRange = item.ShareRange;
                     allFolderRelations.Add(fr);

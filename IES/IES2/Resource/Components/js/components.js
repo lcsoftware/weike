@@ -774,13 +774,19 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
             }
         });
 
+        var supportExts = ['mp4', 'wmv', 'asf', 'flv', 'swf', 'mp3', 'wma', 'zip', 'rar',
+            'jpg', 'jpeg', 'gif', 'png', 'bmp', 'xls', 'doc', 'ppt', 'xlsx', 'docx', 'pptx', 'pdf'];
+
         angularFileUploader.filters.push({
             name: 'fileSuffix',//过滤器名称 过滤文件类型
             fn: function (item, options) {
                 var fileName = item.name;
-                var suffix = fileName.substring(fileName.lastIndexOf('.'), fileName.length);
-                //return suffix == ".txt" || suffix == ".jpg" || suffix == ".gif";
-                return true;
+                var suffix = fileName.substring(fileName.lastIndexOf('.') + 1); 
+                var length = supportExts.length;
+                for (var i = 0; i < length; i++) {
+                    if (supportExts[i] === suffix) return true;
+                }
+                return false;
             }
         });
 
@@ -1251,14 +1257,14 @@ app.directive('iesDialog', function () {
 app.directive("fileExt", [function () {
     return {
         restrict: 'A',
-        link: function (scope, element, attrs) {
-            var ext = attrs.ext.toLowerCase().replace('.', '');
+        link: function (scope, elem, iAttrs) {
+            var ext = iAttrs.ext.toLowerCase().replace('.', '');
             if (ext == "file" || !ext) ext = "file";
             if (ext == "docx") ext = "doc";
             if (ext == "pptx") ext = "ppt";
             if (ext == "xlsx" || ext == "xls") ext = "excel";
             if (ext == "jpg" || ext == "jpeg" || ext == "gif" || ext == "png" || ext == "bmp" || ext == "ico") ext = "pic";
-            element.addClass(ext);
+            elem.addClass(ext);
         }
     };
 }])
