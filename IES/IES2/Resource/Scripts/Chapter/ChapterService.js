@@ -49,14 +49,14 @@ aService.factory('chapterService', ['httpService', function (httpService) {
     }
 
     service.SectionFormat = function (chapters) {
-        var chapterIndex = 1;
+        var chapterIndex = 0;
         var sectionIndex = 0;
         var length = chapters.length;
         for (var i = 0; i < length; i++) {
             var chapter = chapters[i];
             if (chapter.ParentID === 0) {
+                chapterIndex += 1;
                 chapter.Title = '' + chapterIndex + '.' + ' ' + chapter.Title; 
-                chapterIndex++;
                 sectionIndex = 0;
             } else {
                 sectionIndex += 1;

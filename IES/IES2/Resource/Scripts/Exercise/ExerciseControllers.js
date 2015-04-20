@@ -599,8 +599,8 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$timeout', '$state
                         $scope.data.course = courses[i];
                         $scope.chapters.length = 0;
                         chapterService.Chapter_List({ OCID: $scope.data.course.OCID }, function (data) {
-                            if ($scope.chapters.length > 0) return;
                             if (data.d && data.d.length > 0) {
+                                chapterService.SectionFormat(data.d);
                                 var item = {};
                                 angular.copy(data.d[0], item);
                                 item.ChapterID = 0;
@@ -801,7 +801,8 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$timeout', '$state
             var length = $scope.chapters.length;
             if (length == 0) {
                 chapterService.Chapter_List({ OCID: $scope.data.course.OCID }, function (data) {
-                    if (data.d && data.d.length > 0) {
+                    if (data.d && data.d.length > 0) { 
+                        chapterService.SectionFormat(data.d);
                         var item = {};
                         angular.copy(data.d[0], item);
                         item.ChapterID = 0;
@@ -817,6 +818,14 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$timeout', '$state
                         }
                     }
                 });
+            } else {
+                for (var i = 0; i < $scope.chapters.length; i++) {
+                    if ($scope.chapters[i].ChapterID == chapterID) {
+                        $scope.data.chapter = $scope.chapters[i];
+                        return;
+                    }
+                }
+
             }
 
         }
