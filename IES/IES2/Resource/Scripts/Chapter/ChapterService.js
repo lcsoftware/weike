@@ -55,14 +55,15 @@ aService.factory('chapterService', ['httpService', function (httpService) {
         for (var i = 0; i < length; i++) {
             var chapter = chapters[i];
             if (chapter.ParentID === 0) {
+                chapterIndex += 1;
                 chapter.Title = '' + chapterIndex + '.' + ' ' + chapter.Title;
-                chapterIndex++;
                 sectionIndex = 0;
             } else {
                 sectionIndex += 1;
                 chapter.Title = '' + chapterIndex + '.' + sectionIndex + ' ' + chapter.Title;
             }
         }
-    }
+    }     
+
     return service;
 }])

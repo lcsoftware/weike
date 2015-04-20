@@ -197,8 +197,11 @@ app.directive('folder', function () {
         var e = elem.find('.data_tit');
         e.bind('dblclick', function (e) {
             $(this).hide();
-            elem.find('input').css({display: 'inline-block'});
+            elem.find('input').addClass('re_show_input');
+            //elem.find('input').css({display: 'inline-block'});
             elem.find('input').select();
+
+            scope.$emit('onCopyFolder', scope.folderItem);
         }); 
     }
     return directive;
