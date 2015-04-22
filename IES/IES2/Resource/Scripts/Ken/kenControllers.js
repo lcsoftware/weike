@@ -117,6 +117,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
 
         $scope.$on('willCourseChanged', function (event, course) {
             $scope.course = course;
+            $scope.chapters.length = 0;
             $scope.loadStart($scope.course);
         });
 
@@ -240,11 +241,13 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
         $scope.exerciseItemDelete = {};
         ///确认删除
         $scope.$on('onDialogOk', function (event) {
+            if (!$scope.exerciseItemDelete.ExerciseID) return;
             exerciseService.Exercise_Del($scope.exerciseItemDelete.ExerciseID, function (data) {
                 var length = $scope.linkExercises.length;
                 for (var i = 0; i < length; i++) {
                     if ($scope.linkExercises[i].ExerciseID == $scope.exerciseItemDelete.ExerciseID) {
                         $scope.linkExercises.splice(i, 1);
+                        $scope.exerciseItemDelete = {};
                         break;
                     }
                 }
@@ -342,6 +345,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
 
         ///初始化加载数据
         $scope.loadStart = function (course) {
+            $scope.chapters.length = 0;
             chapterService.Chapter_List({ OCID: course.OCID }, function (data) {
                 $scope.chapters = data.d;
                 if ($scope.chapters.length > 0) {
@@ -577,7 +581,7 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
         });
 
         $scope.move = function (direction) {
-            if (!$scope.lastSelection) return;
+            if (!$scope.lastSelection.ChapterID) return;
             chapterService.Chapter_Move($scope.lastSelection, direction, function (data) {
                 if (data.d) {
                     $scope.$parent.chapters = data.d;
@@ -587,18 +591,26 @@ appKnow.controller('KenChapterCtrl', ['$scope', '$state', 'chapterService', 'ken
 
         $scope.delete = function () {
             if (!$scope.lastSelection.ChapterID) return;
+            $('#eChapterConfirm').show();
+        }
+
+        $scope.$on('onDialogOk', function (event) {
             chapterService.Chapter_Del($scope.lastSelection, function (data) {
                 if (data.d == true) {
                     var length = $scope.$parent.chapters.length;
                     for (var i = 0; i < length; i++) {
                         if ($scope.$parent.chapters[i].ChapterID === $scope.lastSelection.ChapterID) {
                             $scope.$parent.chapters.splice(i, 1);
+                            $scope.lastSelection = {};
                             break;
                         }
                     }
+
+                    $scope.$parent.linkFiles.length = 0;
+                    $scope.$parent.linkExercises.length = 0;
                 }
             });
-        }
+        });
     }]);
 
 appKnow.controller('KenTopicCtrl', ['$scope', '$state', 'resourceKenService', 'chapterService', 'kenService', 'tagService', 'freezeService',

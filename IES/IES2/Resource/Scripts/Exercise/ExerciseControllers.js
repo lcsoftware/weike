@@ -304,6 +304,7 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         }
 
         var changePage = function (e) { //触发分页后的回调
+            $scope.checks.length = 0;
             exerciseService.Page.Index = e.curr;
             ExerciseSearch(pageSize, exerciseService.Page.Index);
         }
@@ -757,7 +758,11 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$timeout', '$state
             }
         }
 
+        var forbidSubmit = false;
+
         $scope.submit = function () {
+            if (forbidSubmit) return;
+            forbidSubmit = true;
             $scope.$broadcast('willRequestSave', $scope.data);
         }
 
