@@ -590,32 +590,53 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$timeout', '$state
         $scope.data.difficult = {};
         $scope.data.chapter = {};
 
-        ///获取在线课程 
-        contentService.User_OC_List(function (data) {
-            if (data.d) {
-                var courses = data.d;
-                var length = courses.length;
-                for (var i = 0; i < length; i++) {
-                    if (courses[i].OCID == $stateParams.ocid) {
-                        $scope.data.course = courses[i];
-                        $scope.chapters.length = 0;
-                        chapterService.Chapter_List({ OCID: $scope.data.course.OCID }, function (data) {
-                            if (data.d && data.d.length > 0) {
-                                chapterService.SectionFormat(data.d);
-                                var item = {};
-                                angular.copy(data.d[0], item);
-                                item.ChapterID = 0;
-                                item.Title = '请选择章节';
-                                $scope.chapters = data.d;
-                                $scope.chapters.insert(0, item);
-                                $scope.data.chapter = $scope.chapters[0];
-                            }
-                        });
-                        break;
-                    }
+        ///获取章节
+        var getChapters = function (callback) {
+            chapterService.Chapter_List({ OCID: $scope.courseOCID }, function (data) {
+                if (data.d && data.d.length > 0) {
+                    chapterService.SectionFormat(data.d);
+                    var item = {};
+                    angular.copy(data.d[0], item);
+                    item.ChapterID = 0;
+                    item.Title = '请选择章节';
+                    $scope.chapters = data.d;
+                    $scope.chapters.insert(0, item);
+                    if (callback) callback();
                 }
-            }
+            });
+        }
+
+        getChapters(function () {
+            $scope.data.chapter = $scope.chapters[0];
         });
+
+        ///获取在线课程 
+        //contentService.User_OC_List(function (data) {
+        //    if (data.d) {
+        //        var courses = data.d;
+        //        var length = courses.length;
+        //        for (var i = 0; i < length; i++) {
+        //            if (courses[i].OCID == $stateParams.ocid) {
+        //                $scope.data.course = courses[i];
+        //                $scope.chapters.length = 0;
+        //                chapterService.Chapter_List({ OCID: $scope.data.course.OCID }, function (data) {
+        //                    if (data.d && data.d.length > 0) {
+        //                        chapterService.SectionFormat(data.d);
+        //                        var item = {};
+        //                        angular.copy(data.d[0], item);
+        //                        item.ChapterID = 0;
+        //                        item.Title = '请选择章节';
+        //                        $scope.chapters = data.d;
+        //                        $scope.chapters.insert(0, item);
+        //                        $scope.data.chapter = $scope.chapters[0];
+        //                        consoloe.log('tttttttttttttt');
+        //                    }
+        //                });
+        //                break;
+        //            }
+        //        }
+        //    }
+        //});
 
 
         //知识点
@@ -802,37 +823,27 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$timeout', '$state
                 }
             }
         }
-        var setChapter = function (chapterID) {
-            var length = $scope.chapters.length;
-            if (length == 0) {
-                chapterService.Chapter_List({ OCID: $scope.data.course.OCID }, function (data) {
-                    if (data.d && data.d.length > 0) { 
-                        chapterService.SectionFormat(data.d);
-                        var item = {};
-                        angular.copy(data.d[0], item);
-                        item.ChapterID = 0;
-                        item.Title = '请选择章节';
-                        $scope.chapters = data.d;
-                        $scope.chapters.insert(0, item);
-                        //$scope.data.chapter = $scope.chapters[0];
-                        for (var i = 0; i < $scope.chapters.length; i++) {
-                            if ($scope.chapters[i].ChapterID == chapterID) {
-                                $scope.data.chapter = $scope.chapters[i];
-                                return;
-                            }
+        
+        var setChapter = function (chapterID) { 
+            if ($scope.chapters.length === 0) {
+                getChapters(function () {
+                    var length = $scope.chapters.length;
+                    for (var i = 0; i < length; i++) {
+                        if ($scope.chapters[i].ChapterID == chapterID) {
+                            $scope.data.chapter = $scope.chapters[i];
+                            break;
                         }
                     }
                 });
             } else {
-                for (var i = 0; i < $scope.chapters.length; i++) {
+                var length = $scope.chapters.length;
+                for (var i = 0; i < length; i++) {
                     if ($scope.chapters[i].ChapterID == chapterID) {
                         $scope.data.chapter = $scope.chapters[i];
-                        return;
+                        break;
                     }
                 }
-
-            }
-
+            } 
         }
         var setScope = function (Scope) {
             $scope.data.scopes.length = 0;
