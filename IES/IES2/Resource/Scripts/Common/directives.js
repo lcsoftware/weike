@@ -8,20 +8,21 @@ directiveApp.directive('appVersion', ['version', function (version) {
     };
 }]);
 
-directiveApp.directive('dialogShow', function () {
+directiveApp.directive('dialogShow', ['$rootScope', function ($rootScope) {
     return {
         restrict: 'EA',
         scope: {
             dialogId: '@'
         },
-        link: function (scope, element, attrs) {
+        link: function (scope, element, attrse) {
             element.bind('click', function () {
+                $rootScope.$broadcast("onShowDialog");
                 var elem = '#' + scope.dialogId;
                 $(elem ).show();
             });
         }
     }
-}); 
+}]); 
 
 directiveApp.directive('dialogEdit', function () {
     return {

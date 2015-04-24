@@ -29,7 +29,6 @@
                         <th width="79">序号</th>
                         <th width="119">异常数据位置</th>
                         <th width="299">异常原因</th>
-                        <th>结果</th>
                     </tr>
                 </table>
                 <div class="loading_box"></div>
@@ -48,8 +47,7 @@
                         <th width="79">序号</th>
                         <th width="119">异常数据位置</th>
                         <th width="299">异常原因</th>
-                        <th>结果</th>
-                    </tr>
+                    </tr> 
                 </table>
                 <div class="import_tip">
                     <img src="images/expression2.png" width="96" height="96" alt="">
@@ -70,13 +68,11 @@
                         <th width="79">序号</th>
                         <th width="119">异常数据位置</th>
                         <th width="299">异常原因</th>
-                        <th>结果</th>
                     </tr>
                     <tr ng-repeat="item in resultTable">
                         <td>{{$index + 1}}</td>
-                        <td>第{{item.RowNumber + 1}}行</td>
+                        <td>第{{item.RowNumber}}行</td>
                         <td>{{item.Message}}</td>
-                        <td><span class="red">{{item.Status}}</span></td>
                     </tr>
                 </table>
                 <div class="import_tip" ng-show="process==='fmtError'">

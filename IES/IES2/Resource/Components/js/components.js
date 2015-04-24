@@ -202,7 +202,7 @@ app.directive('folder', function () {
             elem.find('input').select();
 
             scope.$emit('onCopyFolder', scope.folderItem);
-        }); 
+        });
     }
     return directive;
 });
@@ -399,127 +399,127 @@ app.directive('exerciseBatch', ['$window', 'exerciseService', function ($window,
 
 app.directive('exerciseList', ['assistService', 'previewService', 'exerciseService', '$state', 'authService',
     function (assistService, previewService, exerciseService, $state, authService) {
-    var directive = {};
+        var directive = {};
 
-    directive.restrict = 'EA';
+        directive.restrict = 'EA';
 
-    directive.replace = true;
+        directive.replace = true;
 
-    directive.scope = {
-        exercise: '=',
-        checks: '=',
-        shareRanges: '=',
-        disableDifficult: '=',
-        creater: '=',
-        ocid: '='
-    }
+        directive.scope = {
+            exercise: '=',
+            checks: '=',
+            shareRanges: '=',
+            disableDifficult: '=',
+            creater: '=',
+            ocid: '='
+        }
 
-    directive.templateUrl = window.appPatch + '/Components/templates/exerciseList.html';
+        directive.templateUrl = window.appPatch + '/Components/templates/exerciseList.html';
 
-    directive.link = function (scope, elem, iAttrs) {
-        elem.hover(function () { $(this).find('.topic_icon').show(); },
-                   function () { $(this).find('.topic_icon').hide(); }
-                  );
-        elem.find('.icon.delete_topic,.icon.edit_topic,.icon.icon_eye').hover(
-            function () {
-                $(this).find('.icon_content').show();
-                elem.find('.icon.share_topic').find('.icon_share_content').hide();
-            },
-            function () { $(this).find('.icon_content').hide(); }
-            );
-        elem.find('.icon.share_topic').hover(
-           function () { $(this).find('.icon_share_content').show(); },
-            function () { $(this).find('.icon_share_content').hide(); }
-           );
-        elem.find('.spread').bind('click', function () {
-            if (!elem.hasClass('show')) {
-                elem.addClass('show');
-            } else {
-                elem.removeClass('show');
+        directive.link = function (scope, elem, iAttrs) {
+            elem.hover(function () { $(this).find('.topic_icon').show(); },
+                       function () { $(this).find('.topic_icon').hide(); }
+                      );
+            elem.find('.icon.delete_topic,.icon.edit_topic,.icon.icon_eye').hover(
+                function () {
+                    $(this).find('.icon_content').show();
+                    elem.find('.icon.share_topic').find('.icon_share_content').hide();
+                },
+                function () { $(this).find('.icon_content').hide(); }
+                );
+            elem.find('.icon.share_topic').hover(
+               function () { $(this).find('.icon_share_content').show(); },
+                function () { $(this).find('.icon_share_content').hide(); }
+               );
+            elem.find('.spread').bind('click', function () {
+                if (!elem.hasClass('show')) {
+                    elem.addClass('show');
+                } else {
+                    elem.removeClass('show');
+                }
+            })
+        }
+
+        directive.controller = function ($scope, assistService, previewService, exerciseService, $state, $window) {
+
+            $scope.hasAuth = authService.hasAuth($scope.creater, $scope.ocid);
+
+            $scope.editExercise = function (exercise) {
+                $scope.$emit('onEditExercise', exercise);
             }
-        })
-    }
-
-    directive.controller = function ($scope, assistService, previewService, exerciseService, $state, $window) {
-
-        $scope.hasAuth = authService.hasAuth($scope.creater, $scope.ocid);
-
-        $scope.editExercise = function (exercise) {
-            $scope.$emit('onEditExercise', exercise);
-        }
-        $scope.shareExercise = function (exercise, range) {
-            $scope.$emit('onShareExercise', exercise, range);
-        }
-        $scope.deleteExercise = function (exercise) {
-            $scope.$emit('onDeleteExercise', exercise);
-        }
-        $scope.getDifficultName = function (exercise) {
-            var name = '';
-            assistService.Resource_Dict_Diffcult_Get(function (data) {
-                if (data.length > 0) {
-                    var length = data.length;
-                    for (var i = 0; i < length; i++) {
-                        if (data[i].id == exercise.Diffcult) {
-                            name = data[i].name;
-                            break;
+            $scope.shareExercise = function (exercise, range) {
+                $scope.$emit('onShareExercise', exercise, range);
+            }
+            $scope.deleteExercise = function (exercise) {
+                $scope.$emit('onDeleteExercise', exercise);
+            }
+            $scope.getDifficultName = function (exercise) {
+                var name = '';
+                assistService.Resource_Dict_Diffcult_Get(function (data) {
+                    if (data.length > 0) {
+                        var length = data.length;
+                        for (var i = 0; i < length; i++) {
+                            if (data[i].id == exercise.Diffcult) {
+                                name = data[i].name;
+                                break;
+                            }
                         }
                     }
-                }
-            });
-            return name;
-        }
+                });
+                return name;
+            }
 
-        $scope.getShareRange = function (exercise) {
-            var name = '';
-            assistService.Resource_Dict_ShareRange_Get(function (data) {
-                if (data.length > 0) {
-                    var length = data.length;
-                    for (var i = 0; i < length; i++) {
-                        if (data[i].id == exercise.ShareRange) {
-                            name = data[i].name;
-                            break;
+            $scope.getShareRange = function (exercise) {
+                var name = '';
+                assistService.Resource_Dict_ShareRange_Get(function (data) {
+                    if (data.length > 0) {
+                        var length = data.length;
+                        for (var i = 0; i < length; i++) {
+                            if (data[i].id == exercise.ShareRange) {
+                                name = data[i].name;
+                                break;
+                            }
                         }
                     }
-                }
-            });
-            return name;
-        }
+                });
+                return name;
+            }
 
-        $scope.getExerciseType = function (exercise) {
-            var name = '';
-            assistService.Resource_Dict_ExerciseType_Get(function (data) {
-                if (data.length > 0) {
-                    var length = data.length;
-                    for (var i = 0; i < length; i++) {
-                        if (data[i].id == exercise.ExerciseType) {
-                            name = data[i].name;
-                            break;
+            $scope.getExerciseType = function (exercise) {
+                var name = '';
+                assistService.Resource_Dict_ExerciseType_Get(function (data) {
+                    if (data.length > 0) {
+                        var length = data.length;
+                        for (var i = 0; i < length; i++) {
+                            if (data[i].id == exercise.ExerciseType) {
+                                name = data[i].name;
+                                break;
+                            }
                         }
                     }
-                }
-            });
-            return name;
+                });
+                return name;
+            }
+
+            var goPreView = function (model) {
+                previewService.exercise = angular.copy(model);
+                $scope.$emit('onPreviewExercise', previewService.exercise);
+                //$state.go('preview');
+            }
+
+            $scope.preview = function (exercise) {
+                exerciseService.ExercisePreviewHttpPrefix(function (data) {
+                    var prefix = data.d;
+                    var browsePaper = 'Resource/Paper/BrowsePaper'
+                    var exerciseIds = '?ExerciseIDs=' + exercise.ExerciseID;
+                    var url = prefix + browsePaper + exerciseIds;
+                    $window.open(url);
+                });
+            }
         }
 
-        var goPreView = function (model) {
-            previewService.exercise = angular.copy(model);
-            $scope.$emit('onPreviewExercise', previewService.exercise);
-            //$state.go('preview');
-        }
-
-        $scope.preview = function (exercise) {
-            exerciseService.ExercisePreviewHttpPrefix(function (data) {
-                var prefix = data.d;
-                var browsePaper = 'Resource/Paper/BrowsePaper'
-                var exerciseIds = '?ExerciseIDs=' + exercise.ExerciseID; 
-                var url = prefix + browsePaper + exerciseIds;
-                $window.open(url);
-            });
-        } 
-    }
-
-    return directive;
-}]);
+        return directive;
+    }]);
 
 app.directive('preView', function () {
     var directive = {};
@@ -654,7 +654,7 @@ app.directive('editor', ['$timeout', function ($timeout) {
             //$element.find("#frame01").contentWindow.setHTML($scope.editorText);
             document.getElementById("frame01").contentWindow.setHTML($scope.editorText);
         })
-    } 
+    }
     return directive;
 }]);
 
@@ -732,7 +732,7 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
             name: 'fileSuffix',//过滤器名称 过滤文件类型
             fn: function (item, options) {
                 var fileName = item.name;
-                var suffix = fileName.substring(fileName.lastIndexOf('.') + 1); 
+                var suffix = fileName.substring(fileName.lastIndexOf('.') + 1);
                 var length = supportExts.length;
                 for (var i = 0; i < length; i++) {
                     if (supportExts[i] === suffix) return true;
@@ -796,20 +796,22 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
 
     directive.templateUrl = window.appPatch + '/Components/templates/exerciseUploader.html';
 
-    //directive.link = function (scope, elem, iAttrs) {
-    //    elem.find('.close_pop').bind('click', function () {
-    //        elem.hide();
-    //    });
-    //}
-
     directive.controller = function ($scope, $element) {
         $element.find('.close_pop,.pop_box .btn_box .cancel').bind('click', function () {
-            $element.hide(); 
-        }); 
-       
+            $element.hide();
+        });
+
         //----------上传文件start--------
         var reqUrl = window.appPatch + '/DataProvider/FileUpload.ashx?FROM=' + $scope.fileCatetory;
         var angularFileUploader = $scope.iesUploader = new FileUploader({ url: reqUrl });
+
+        $scope.$on('onShowDialog', function (event) {
+            if (angularFileUploader) {
+                angularFileUploader.clearQueue();
+            }
+            $scope.resultTable.length = 0;
+            $scope.fileName = '';
+        });
 
         $scope.$watch('exerciseCourse', function (v) {
             angularFileUploader.formData.length = 0;
@@ -832,7 +834,7 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
                 $scope.stepA = true;
                 $scope.iesUploader.uploadAll();
             }
-        })
+        });
 
         $scope.importTypes = [
             { id: 2, name: "单选题", templateUrl: window.appPatch + '/ExerciseTemplates/单选题_多选题.xls' },
@@ -866,13 +868,13 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
             $scope.rights = 0;
             var length = resultTable.length;
             for (var i = 0; i < length; i++) {
-                $scope.rights += resultTable[i].Status === '1' ? 1 : 0;
+                if (resultTable[i].Status === '-1') {
+                    $scope.errors += 1;
+                }
             }
-            $scope.errors = length - $scope.rights;
+            $scope.rights = length - $scope.errors;
             if ($scope.rights === length) {
                 $scope.process = 'allRight'
-            } else if ($scope.errors === length) {
-                $scope.process = 'fmtError'
             } else {
                 $scope.process = 'partRight'
             }
@@ -914,16 +916,17 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
         };
 
         ///需要待校验逻辑实现后才能导入
-        $scope.startImport = function () { 
+        $scope.startImport = function () {
             var uploadUrl = '/DataProvider/FileUpload.ashx?FROM=4';
             uploadUrl += "&fileName=" + $scope.serverFileName;
             uploadUrl += "&OCID=" + $scope.exerciseCourse.OCID;
             uploadUrl += "&CourseID=" + $scope.exerciseCourse.CourseID;
             uploadUrl += "&Category=" + $scope.importTypeSelected.id;
             httpService.post(uploadUrl, null, function (data) {
-                console.log(data);
+                if (data.d && data.d.length > 0 && data.d[0].Status === -1) {
+                    $scope.resultTable = data.d;
+                }
             });
-
         }
 
     }

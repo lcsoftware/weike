@@ -42,14 +42,7 @@ namespace App.G2S.DataProvider
                 postFile.SaveAs(newFileName);
                 System.Data.DataTable table = NPOIHandler.ExcelToDataTable(newFileName, "Sheet1", true);
 
-                IES.Resource.Model.File fileModel = new IES.Resource.Model.File();
-                fileModel.OCID = int.Parse(context.Request.Form["OCID"]);
-                fileModel.CourseID = int.Parse(context.Request.Form["CourseID"]);
-                fileModel.FileType = int.Parse(context.Request.Form["Category"]);
-                ///验证数据正确性 TODO 还未实现
-                //DataTable resultChecked = ExerciseInfo_Check(table, fileModel.OCID, fileModel.CourseID, fileModel.FileType);
-                ///导入数据至数据库
-                DataTable resultTable = ExerciseInfo_Import(table, fileModel.OCID, fileModel.CourseID, fileModel.FileType);
+                DataTable resultTable = ImportCheck(table, int.Parse(context.Request.Form["Category"]));
 
                 var obj = new { fileName = filehead + Ext, data = resultTable };
                 context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(obj));
@@ -92,6 +85,291 @@ namespace App.G2S.DataProvider
 
         #region 习题导入
 
+        private static DataTable ImportCheck(DataTable table, int exerciseType)
+        {
+            DataTable resultTable = BuildResultTable();
+            table.Columns.Add("ErrMsg", typeof(String));
+            switch (exerciseType)
+            {
+                case 7: //排序题
+                case 8: //分析题
+                case 9: //计算题
+                case 14: //阅读理解题
+                case 18: //简答题
+                case 12: //听力题
+                case 17: //自定义题
+                case 6:  //连线题
+                    break;
+                case 10: //问答题
+                case 11: //翻译题
+                case 4: //名词解释
+                case 13: //写作题 
+                    CheckWenDa(table, resultTable);
+                    break;
+                case 1: //判断题
+                    CheckPanDuan(table, resultTable);
+                    break;
+                case 5: //填空题
+                    CheckTianKong(table, resultTable);
+                    break;
+                case 2: //单选题
+                    CheckDanXuan(table, resultTable);
+                    break;
+                case 3: //多选题
+                    CheckDuoXuan(table, resultTable);
+                    break;
+                default:
+                    break;
+            }
+            return resultTable;
+        }
+        private static void CheckWenDa(DataTable table, DataTable resultTable)
+        {
+            ///习题内容不能为空
+            ///答案不能为空
+            int index = 0;
+            foreach (DataRow dr in table.Rows)
+            {
+                index++;
+                if (string.IsNullOrEmpty(dr["习题内容"].ToString()))
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "习题内容不能为空！";
+                    newRow["Status"] = -1;
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                    continue;
+                }
+                if (string.IsNullOrEmpty(dr["答案"].ToString()))
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "答案不能为空！";
+                    newRow["Status"] = -1;
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                }
+            }
+        }
+
+        private static void CheckPanDuan(DataTable table, DataTable resultTable)
+        {
+            ///习题内容不能为空
+            ///正确答案不能为空
+            int index = 0;
+            foreach (DataRow dr in table.Rows)
+            {
+                index++;
+                if (string.IsNullOrEmpty(dr["习题内容"].ToString()))
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "习题内容不能为空！";
+                    newRow["Status"] = -1;
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                    continue;
+                }
+                if (string.IsNullOrEmpty(dr["答案"].ToString()))
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "答案不能为空！";
+                    newRow["Status"] = -1;
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                }
+            }
+        }
+
+        private static void CheckTianKong(DataTable table, DataTable resultTable)
+        {
+            ///习题内容不能为空
+            //至少有一个答案
+            int index = 0;
+            foreach (DataRow dr in table.Rows)
+            {
+                index++;
+                if (string.IsNullOrEmpty(dr["习题内容"].ToString()))
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "习题内容不能为空！";
+                    newRow["Status"] = -1;
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                    continue;
+                }
+                if (string.IsNullOrEmpty(dr["答案1"].ToString()) &&
+                     string.IsNullOrEmpty(dr["答案2"].ToString()) &&
+                     string.IsNullOrEmpty(dr["答案3"].ToString()) &&
+                     string.IsNullOrEmpty(dr["答案4"].ToString()) &&
+                     string.IsNullOrEmpty(dr["答案5"].ToString()) &&
+                     string.IsNullOrEmpty(dr["答案6"].ToString())
+                    )
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "答案不能全部为空！";
+                    newRow["Status"] = -1;
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                }
+            }
+        }
+
+        private static void CheckDanXuan(DataTable table, DataTable resultTable)
+        {
+            ///习题内容不能为空
+            ///选项1 选项2 不能为空
+            ///正确答案不能为空， 单选题只能是一个答案。
+            ///答案范围不能超出选项
+            int index = 0;
+            foreach (DataRow dr in table.Rows)
+            {
+                index++;
+                if (string.IsNullOrEmpty(dr["习题内容"].ToString()))
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "习题内容不能为空！";
+                    newRow["Status"] = -1;
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                    continue;
+                }
+                if (string.IsNullOrEmpty(dr["选项1"].ToString()) &&
+                     string.IsNullOrEmpty(dr["选项2"].ToString())
+                    )
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "选项1、选项2不能为空！";
+                    newRow["Status"] = -1;
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                    continue;
+                }
+                if (string.IsNullOrEmpty(dr["正确答案"].ToString()) ||
+                 dr["正确答案"].ToString().Trim().Length > 1
+                 )
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "正确答案不能为空且只能有一个答案！";
+                    newRow["Status"] = -1;
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                    continue;
+                }
+                int value = -1;
+                if (!int.TryParse(dr["正确答案"].ToString(), out value))
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "正确答案必须为数字！";
+                    newRow["Status"] = -1;
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                    continue;
+                }
+                var maxOptionIndex = 0;
+                var maxOptionCount = 8;
+                var optionName = "选项";
+                for (int i = 1; i <= maxOptionCount; i++)
+                {
+                    string fieldName = optionName + i.ToString();
+                    maxOptionIndex += string.IsNullOrEmpty(dr[fieldName].ToString()) ? 0 : 1;
+                }
+                if (int.Parse(dr["正确答案"].ToString()) > maxOptionIndex)
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "答案范围不能超出选项！";
+                    newRow["Status"] = -1;
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                }
+            }
+        }
+
+        private static void CheckDuoXuan(DataTable table, DataTable resultTable)
+        {
+            ///习题内容不能为空
+            ///选项1 选项2 不能为空
+            ///正确答案不能为空， 多选题有>=1个答案。
+            ///答案范围不能超出选项 
+            int index = 0;
+            foreach (DataRow dr in table.Rows)
+            {
+                index++;
+                if (string.IsNullOrEmpty(dr["习题内容"].ToString()))
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "习题内容不能为空！";
+                    newRow["Status"] = -1;
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                    continue;
+                }
+                if (string.IsNullOrEmpty(dr["选项1"].ToString()) &&
+                     string.IsNullOrEmpty(dr["选项2"].ToString())
+                    )
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "选项1、选项2不能为空！";
+                    newRow["Status"] = -1;
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                    continue;
+                }
+                if (string.IsNullOrEmpty(dr["正确答案"].ToString()))
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "正确答案不能为空！";
+                    newRow["Status"] = -1;
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                    continue;
+                }
+                int value = -1;
+                if (!int.TryParse(dr["正确答案"].ToString(), out value))
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "正确答案必须为数字！";
+                    newRow["Status"] = -1;
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                    continue;
+                }
+                var maxOptionCount = 8;
+                var rightAnswer = dr["正确答案"].ToString();
+                for (int i = 0; i < rightAnswer.Length; i++)
+                {
+                    if (int.Parse(rightAnswer.Substring(i, 1)) > maxOptionCount)
+                    {
+                        DataRow newRow = resultTable.NewRow();
+                        newRow["Message"] = "答案范围不能超出选项！";
+                        newRow["Status"] = -1;
+                        newRow["RowNumber"] = index;
+                        resultTable.Rows.Add(newRow);
+                        break;
+                    }
+                }
+            }
+        }
+
+
+        ///难易程序如果为空则为1
+        ///适用范围如果为空则为1
+        private static void ExerciseSetDefault(DataTable table)
+        {
+            foreach (DataRow dr in table.Rows)
+            {
+                if (string.IsNullOrEmpty(dr["难易程度"].ToString()))
+                {
+                    dr["难易程度"] = 1;
+                }
+
+                if (string.IsNullOrEmpty(dr["适用范围"].ToString()))
+                {
+                    dr["适用范围"] = 1;
+                }
+            }
+        }
+
+
+
         /// <summary>
         /// 习题导入
         /// </summary>
@@ -101,6 +379,7 @@ namespace App.G2S.DataProvider
         private static DataTable ExerciseInfo_Import(DataTable dt, int ocid, int courseId, int exerciseType)
         {
             if (dt.Rows.Count == 0) return null;
+            ExerciseSetDefault(dt);
             switch (exerciseType)
             {
                 case 7: //排序题
@@ -210,7 +489,7 @@ namespace App.G2S.DataProvider
                 catch (Exception ex)
                 {
                     newRow["Message"] = ex.Message;
-                    newRow["Status"] = "-1";
+                    newRow["Status"] = "-2";
                 }
                 newRow["RowNumber"] = i.ToString();
             }
@@ -244,7 +523,7 @@ namespace App.G2S.DataProvider
                 catch (Exception ex)
                 {
                     newRow["Message"] = ex.Message;
-                    newRow["Status"] = "-1";
+                    newRow["Status"] = "-2";
                 }
                 newRow["RowNumber"] = i.ToString();
 
@@ -278,7 +557,7 @@ namespace App.G2S.DataProvider
                         if (!string.IsNullOrEmpty(dt.Rows[i]["答案" + (n + 2)].ToString()))
                         {
                             content += "0wshgkjqbwhfbxlfrh_b" + dt.Rows[i]["答案" + (n + 1)].ToString()
-                             + "wshgkjqbwhfbxlfrh_c" + alternative+ "wshgkjqbwhfbxlfrh_a";
+                             + "wshgkjqbwhfbxlfrh_c" + alternative + "wshgkjqbwhfbxlfrh_a";
                         }
                         else
                         {
@@ -295,7 +574,7 @@ namespace App.G2S.DataProvider
                 catch (Exception ex)
                 {
                     newRow["Message"] = ex.Message;
-                    newRow["Status"] = "-1";
+                    newRow["Status"] = "-2";
                 }
                 newRow["RowNumber"] = i.ToString();
             }
@@ -360,7 +639,7 @@ namespace App.G2S.DataProvider
                 catch (Exception ex)
                 {
                     newRow["Message"] = ex.Message;
-                    newRow["Status"] = "-1";
+                    newRow["Status"] = "-2";
                 }
                 newRow["RowNumber"] = i.ToString();
             }
