@@ -87,41 +87,54 @@ namespace App.G2S.DataProvider
 
         private static DataTable ImportCheck(DataTable table, int exerciseType)
         {
-            DataTable resultTable = BuildResultTable();
-            table.Columns.Add("ErrMsg", typeof(String));
-            switch (exerciseType)
+            try
             {
-                case 7: //排序题
-                case 8: //分析题
-                case 9: //计算题
-                case 14: //阅读理解题
-                case 18: //简答题
-                case 12: //听力题
-                case 17: //自定义题
-                case 6:  //连线题
-                    break;
-                case 10: //问答题
-                case 11: //翻译题
-                case 4: //名词解释
-                case 13: //写作题 
-                    CheckWenDa(table, resultTable);
-                    break;
-                case 1: //判断题
-                    CheckPanDuan(table, resultTable);
-                    break;
-                case 5: //填空题
-                    CheckTianKong(table, resultTable);
-                    break;
-                case 2: //单选题
-                    CheckDanXuan(table, resultTable);
-                    break;
-                case 3: //多选题
-                    CheckDuoXuan(table, resultTable);
-                    break;
-                default:
-                    break;
+                DataTable resultTable = BuildResultTable();
+                table.Columns.Add("ErrMsg", typeof(String));
+                switch (exerciseType)
+                {
+                    case 7: //排序题
+                    case 8: //分析题
+                    case 9: //计算题
+                    case 14: //阅读理解题
+                    case 18: //简答题
+                    case 12: //听力题
+                    case 17: //自定义题
+                    case 6:  //连线题
+                        break;
+                    case 10: //问答题
+                    case 11: //翻译题
+                    case 4: //名词解释
+                    case 13: //写作题 
+                        CheckWenDa(table, resultTable);
+                        break;
+                    case 1: //判断题
+                        CheckPanDuan(table, resultTable);
+                        break;
+                    case 5: //填空题
+                        CheckTianKong(table, resultTable);
+                        break;
+                    case 2: //单选题
+                        CheckDanXuan(table, resultTable);
+                        break;
+                    case 3: //多选题
+                        CheckDuoXuan(table, resultTable);
+                        break;
+                    default:
+                        break;
+                }
+                return resultTable;
             }
-            return resultTable;
+            catch (Exception)
+            {
+                DataTable resultTable = BuildResultTable();
+                DataRow newRow = resultTable.NewRow();
+                newRow["Message"] = "格式错误不能导入！";
+                newRow["Status"] = "-2";
+                newRow["RowNumber"] = 1;
+                resultTable.Rows.Add(newRow);
+                return resultTable;
+            }
         }
         private static void CheckWenDa(DataTable table, DataTable resultTable)
         {
@@ -135,7 +148,7 @@ namespace App.G2S.DataProvider
                 {
                     DataRow newRow = resultTable.NewRow();
                     newRow["Message"] = "习题内容不能为空！";
-                    newRow["Status"] = -1;
+                    newRow["Status"] = "-1";
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                     continue;
@@ -144,7 +157,7 @@ namespace App.G2S.DataProvider
                 {
                     DataRow newRow = resultTable.NewRow();
                     newRow["Message"] = "答案不能为空！";
-                    newRow["Status"] = -1;
+                    newRow["Status"] = "-1";
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                 }
@@ -163,7 +176,7 @@ namespace App.G2S.DataProvider
                 {
                     DataRow newRow = resultTable.NewRow();
                     newRow["Message"] = "习题内容不能为空！";
-                    newRow["Status"] = -1;
+                    newRow["Status"] = "-1";
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                     continue;
@@ -172,7 +185,15 @@ namespace App.G2S.DataProvider
                 {
                     DataRow newRow = resultTable.NewRow();
                     newRow["Message"] = "答案不能为空！";
-                    newRow["Status"] = -1;
+                    newRow["Status"] = "-1";
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                }
+                else
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "格式正确！";
+                    newRow["Status"] = "1";
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                 }
@@ -180,7 +201,7 @@ namespace App.G2S.DataProvider
         }
 
         private static void CheckTianKong(DataTable table, DataTable resultTable)
-        {
+        { 
             ///习题内容不能为空
             //至少有一个答案
             int index = 0;
@@ -191,7 +212,7 @@ namespace App.G2S.DataProvider
                 {
                     DataRow newRow = resultTable.NewRow();
                     newRow["Message"] = "习题内容不能为空！";
-                    newRow["Status"] = -1;
+                    newRow["Status"] = "-1";
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                     continue;
@@ -206,7 +227,15 @@ namespace App.G2S.DataProvider
                 {
                     DataRow newRow = resultTable.NewRow();
                     newRow["Message"] = "答案不能全部为空！";
-                    newRow["Status"] = -1;
+                    newRow["Status"] = "-1";
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                }
+                else
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "格式正确！";
+                    newRow["Status"] = "1";
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                 }
@@ -227,7 +256,7 @@ namespace App.G2S.DataProvider
                 {
                     DataRow newRow = resultTable.NewRow();
                     newRow["Message"] = "习题内容不能为空！";
-                    newRow["Status"] = -1;
+                    newRow["Status"] = "-1";
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                     continue;
@@ -238,7 +267,7 @@ namespace App.G2S.DataProvider
                 {
                     DataRow newRow = resultTable.NewRow();
                     newRow["Message"] = "选项1、选项2不能为空！";
-                    newRow["Status"] = -1;
+                    newRow["Status"] = "-1";
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                     continue;
@@ -249,7 +278,7 @@ namespace App.G2S.DataProvider
                 {
                     DataRow newRow = resultTable.NewRow();
                     newRow["Message"] = "正确答案不能为空且只能有一个答案！";
-                    newRow["Status"] = -1;
+                    newRow["Status"] = "-1";
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                     continue;
@@ -259,7 +288,7 @@ namespace App.G2S.DataProvider
                 {
                     DataRow newRow = resultTable.NewRow();
                     newRow["Message"] = "正确答案必须为数字！";
-                    newRow["Status"] = -1;
+                    newRow["Status"] = "-1";
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                     continue;
@@ -270,13 +299,24 @@ namespace App.G2S.DataProvider
                 for (int i = 1; i <= maxOptionCount; i++)
                 {
                     string fieldName = optionName + i.ToString();
-                    maxOptionIndex += string.IsNullOrEmpty(dr[fieldName].ToString()) ? 0 : 1;
+                    if (!string.IsNullOrEmpty(dr[fieldName].ToString()))
+                    {
+                        maxOptionIndex = i;
+                    }
                 }
                 if (int.Parse(dr["正确答案"].ToString()) > maxOptionIndex)
                 {
                     DataRow newRow = resultTable.NewRow();
                     newRow["Message"] = "答案范围不能超出选项！";
-                    newRow["Status"] = -1;
+                    newRow["Status"] = "-1";
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                }
+                else
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "格式正确！";
+                    newRow["Status"] = "1";
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                 }
@@ -297,7 +337,7 @@ namespace App.G2S.DataProvider
                 {
                     DataRow newRow = resultTable.NewRow();
                     newRow["Message"] = "习题内容不能为空！";
-                    newRow["Status"] = -1;
+                    newRow["Status"] = "-1";
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                     continue;
@@ -308,7 +348,7 @@ namespace App.G2S.DataProvider
                 {
                     DataRow newRow = resultTable.NewRow();
                     newRow["Message"] = "选项1、选项2不能为空！";
-                    newRow["Status"] = -1;
+                    newRow["Status"] = "-1";
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                     continue;
@@ -317,7 +357,7 @@ namespace App.G2S.DataProvider
                 {
                     DataRow newRow = resultTable.NewRow();
                     newRow["Message"] = "正确答案不能为空！";
-                    newRow["Status"] = -1;
+                    newRow["Status"] = "-1";
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                     continue;
@@ -327,24 +367,44 @@ namespace App.G2S.DataProvider
                 {
                     DataRow newRow = resultTable.NewRow();
                     newRow["Message"] = "正确答案必须为数字！";
-                    newRow["Status"] = -1;
+                    newRow["Status"] = "-1";
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                     continue;
                 }
                 var maxOptionCount = 8;
+                var maxOptionIndex = 0;
+                var optionName = "选项";
+                for (int i = 1; i <= maxOptionCount; i++)
+                {
+                    string fieldName = optionName + i.ToString();
+                    if (!string.IsNullOrEmpty(dr[fieldName].ToString())){
+                        maxOptionIndex = i;
+                    }
+                }
+                bool isRight = true;
                 var rightAnswer = dr["正确答案"].ToString();
                 for (int i = 0; i < rightAnswer.Length; i++)
                 {
-                    if (int.Parse(rightAnswer.Substring(i, 1)) > maxOptionCount)
+                    if (int.Parse(rightAnswer.Substring(i, 1)) > maxOptionIndex)
                     {
                         DataRow newRow = resultTable.NewRow();
                         newRow["Message"] = "答案范围不能超出选项！";
-                        newRow["Status"] = -1;
+                        newRow["Status"] = "-1";
                         newRow["RowNumber"] = index;
                         resultTable.Rows.Add(newRow);
+                        isRight = false;
                         break;
                     }
+                }
+
+                if (isRight)
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "格式正确！";
+                    newRow["Status"] = "1";
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
                 }
             }
         }

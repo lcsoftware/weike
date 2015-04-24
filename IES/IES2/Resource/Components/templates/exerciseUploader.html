@@ -13,7 +13,7 @@
                 <div nv-file-drop uploader="iesUploader" filters="fileSuffix" url="uploadUrl">
                     <input type="file" id="file" nv-file-select="" uploader="iesUploader" style="display:none;" />
                     <input class="file_input" type="text" ng-model="fileName" style="margin-left:25px;width:198px;" readonly>
-                    <a class="scan_btn" onclick="$('#file').click()" ng-disabled="!iesUploader.getNotUploadedItems().length">导入文件</a>
+                    <a class="scan_btn" onclick="$('#file').click();" ng-disabled="!iesUploader.getNotUploadedItems().length">导入文件</a>
                 </div>
             </div>
         </div>
@@ -69,7 +69,7 @@
                         <th width="119">异常数据位置</th>
                         <th width="299">异常原因</th>
                     </tr>
-                    <tr ng-repeat="item in resultTable">
+                    <tr ng-repeat="item in resultTable | statusError">
                         <td>{{$index + 1}}</td>
                         <td>第{{item.RowNumber}}行</td>
                         <td>{{item.Message}}</td>
@@ -83,7 +83,7 @@
         </div>
 
         <div class="btn_box" ng-disabled="process!=='allRight'">
-            <a class="save" ng-click="startImport()">导入</a>
+            <a class="save" ng-click="startImport()" ng-class="{'exercise_import_disabled': !canImport}">导入</a>
             <a class="cancel" href="javascript:;">取消</a>
         </div>
     </div>

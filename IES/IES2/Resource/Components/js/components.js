@@ -784,7 +784,7 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
 }]);
 
 //文件上传
-app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpService', function (FileUploader, exerciseService, httpService) {
+app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpService', '$templateCache', function (FileUploader, exerciseService, httpService, $templateCache) {
     var directive = {};
 
     directive.restrict = 'EA';
@@ -803,16 +803,16 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
 
         //----------上传文件start--------
         var reqUrl = window.appPatch + '/DataProvider/FileUpload.ashx?FROM=' + $scope.fileCatetory;
-        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: reqUrl });
+        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: reqUrl, removeAfterUpload: true });
 
         $scope.$on('onShowDialog', function (event) {
-            if (angularFileUploader) {
-                angularFileUploader.clearQueue();
+            if (!angularFileUploader) {
+                angularFileUploader = $scope.iesUploader = new FileUploader({ url: reqUrl, removeAfterUpload: true });
             }
-            $scope.resultTable.length = 0;
-            $scope.fileName = '';
+            reset();
+            $scope.$apply();
         });
-
+ 
         $scope.$watch('exerciseCourse', function (v) {
             angularFileUploader.formData.length = 0;
             angularFileUploader.formData.push({ OCID: $scope.exerciseCourse.OCID });
@@ -847,7 +847,7 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
             { id: 13, name: "写作题", templateUrl: window.appPatch + '/ExerciseTemplates/问答题_翻译题_名词解释_写作题.xls' },
         ]
 
-        $scope.importTypeSelected = $scope.importTypes[3];
+        $scope.importTypeSelected = $scope.importTypes[2];
         $scope.templateUrl = $scope.importTypeSelected.templateUrl;
         ///客户端文件名称
         $scope.fileName = '';
@@ -855,6 +855,7 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
         $scope.serverFileName = '';
         $scope.process = 'initial'
         $scope.resultTable = [];
+        $scope.canImport = false;
 
         $scope.stepA = $scope.process === 'loading';
         $scope.stepB = $scope.process === 'initial' || $scope.process === 'allRight';
@@ -862,6 +863,24 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
 
         $scope.errors = 0;
         $scope.rights = 0;
+
+        var reset = function () {
+            ///客户端文件名称
+            $scope.fileName = '';
+            ///保存在服务器上的文件名称
+            $scope.serverFileName = '';
+            $scope.process = 'initial'
+            $scope.resultTable.length = 0;
+
+            $scope.stepA = $scope.process === 'loading';
+            $scope.stepB = $scope.process === 'initial' || $scope.process === 'allRight';
+            $scope.stepC = $scope.process === 'partRight' || $scope.process === 'fmtError';
+
+            $scope.errors = 0;
+            $scope.rights = 0;
+        }
+
+        reset();
 
         var decideStep = function (resultTable) {
             $scope.errors = 0;
@@ -873,10 +892,14 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
                 }
             }
             $scope.rights = length - $scope.errors;
-            if ($scope.rights === length) {
+            if (resultTable.length === 1 && resultTable[0].Status === '-2') {
+                $scope.process = 'fmtError'
+            } else if ($scope.rights === length) {
                 $scope.process = 'allRight'
-            } else {
-                $scope.process = 'partRight'
+                $scope.canImport = true;
+            }
+            else {
+                $scope.process = 'partRight';
             }
 
             $scope.stepA = $scope.process === 'loading';
@@ -911,12 +934,12 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
 
         angularFileUploader.onCompleteAll = function () {
             angularFileUploader.clearQueue();
-            $scope.iesUploader.clearQueue();
             $scope.$emit('onCompleteAll');
         };
 
         ///需要待校验逻辑实现后才能导入
         $scope.startImport = function () {
+            if (!$scope.serverFileName) return;
             var uploadUrl = '/DataProvider/FileUpload.ashx?FROM=4';
             uploadUrl += "&fileName=" + $scope.serverFileName;
             uploadUrl += "&OCID=" + $scope.exerciseCourse.OCID;

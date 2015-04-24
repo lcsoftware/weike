@@ -70,3 +70,7 @@ a {
     display: inline-block!important;
     line-height:normal; 
 }
+
+.exercise_import_disabled {
+    cursor:default!important;
+}
