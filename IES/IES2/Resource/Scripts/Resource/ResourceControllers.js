@@ -70,6 +70,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             $scope.filterChanged();
 
             $scope.order = 0;
+            $scope.tabTitles.length = 0;
             $scope.tabTitles.push({ id: 0, name: $scope.course.Name, order: $scope.order });
 
             resetFilePropertyData(course);

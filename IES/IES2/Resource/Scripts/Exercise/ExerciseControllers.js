@@ -621,7 +621,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$timeout', '$state
                 var length = courses.length;
                 for (var i = 0; i < length; i++) {
                     if (courses[i].OCID == $stateParams.ocid) {
-                        $scope.data.course = courses[i]; 
+                        $scope.data.course = courses[i];
                         break;
                     }
                 }
@@ -813,8 +813,8 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$timeout', '$state
                 }
             }
         }
-        
-        var setChapter = function (chapterID) { 
+
+        var setChapter = function (chapterID) {
             if ($scope.chapters.length === 0) {
                 getChapters(function () {
                     var length = $scope.chapters.length;
@@ -833,7 +833,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$timeout', '$state
                         break;
                     }
                 }
-            } 
+            }
         }
         var setScope = function (Scope) {
             $scope.data.scopes.length = 0;
@@ -2754,12 +2754,10 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
                 $scope.editorText = $scope.model.exercisecommon.exercise.Conten;
                 $scope.editorAnalysisText = $scope.model.exercisecommon.exercise.Analysis;
 
-                $scope.assignEditorValues(
-    {
-        editorInput: $scope.editorText,
-        //editorAnswer: $scope.editorAnswerText,
-        editorAnalysis: $scope.editorAnalysisText
-    });
+                $scope.assignEditorValues( {
+                    editorInput: $scope.editorText,
+                    editorAnalysis: $scope.editorAnalysisText
+                });
                 if ($scope.model.exercisecommon.attachmentlist.length > 0) {
                     $scope.$emit('onAttachmentList', $scope.model.exercisecommon.attachmentlist);
                 }

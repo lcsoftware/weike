@@ -30,11 +30,18 @@ app.directive('moreCourse', function () {
         }, function () {
             $(this).find('i').removeClass('slide_up');
             $(this).find('.second_nav').hide();
-        })
+        }); 
     }
 
     directive.controller = function ($scope) {
+
+        $scope.isMore = 0;
+
+        $scope.moreSelected = {};
+
         $scope.courseChange = function (course, isMore) {
+            $scope.isMore = isMore;
+            $scope.moreSelected = course;
             $scope.$emit('onWillCourseChanged', course, isMore);
         }
     }
@@ -803,12 +810,9 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
 
         //----------上传文件start--------
         var reqUrl = window.appPatch + '/DataProvider/FileUpload.ashx?FROM=' + $scope.fileCatetory;
-        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: reqUrl, removeAfterUpload: true });
+        var angularFileUploader = $scope.exUploader = new FileUploader({ url: reqUrl, removeAfterUpload: true });
 
-        $scope.$on('onShowDialog', function (event) {
-            if (!angularFileUploader) {
-                angularFileUploader = $scope.iesUploader = new FileUploader({ url: reqUrl, removeAfterUpload: true });
-            }
+        $scope.$on('onShowDialog', function (event) { 
             reset();
             $scope.$apply();
         });
@@ -828,11 +832,11 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
             $scope.templateUrl = v.templateUrl;
         });
 
-        $scope.$watch('iesUploader.queue.length', function (v) {
+        $scope.$watch('exUploader.queue.length', function (v) {
             if (v > 0) {
                 $scope.fileName = angularFileUploader.queue[0].file.name;
                 $scope.stepA = true;
-                $scope.iesUploader.uploadAll();
+                $scope.exUploader.uploadAll();
             }
         });
 
@@ -957,7 +961,7 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
                     $element.hide();
                 }
             });
-        }
+        } 
 
     }
 

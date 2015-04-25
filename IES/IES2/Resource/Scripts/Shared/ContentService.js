@@ -7,6 +7,9 @@ contentApp.factory('contentService', ['httpService', function (httpService) {
 
     var url = '/DataProvider/Shared/ContentProvider.aspx';
 
+    ///当前选中课程
+    service.OCID = 0;
+
     ///在线课程列表
     service.User_OC_List = function (callback) {
         httpService.ajaxPost(url, 'User_OC_List', null, callback);
