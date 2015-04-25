@@ -812,7 +812,7 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
             reset();
             $scope.$apply();
         });
- 
+
         $scope.$watch('exerciseCourse', function (v) {
             angularFileUploader.formData.length = 0;
             angularFileUploader.formData.push({ OCID: $scope.exerciseCourse.OCID });
@@ -880,6 +880,12 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
             $scope.rights = 0;
         }
 
+        $scope.$watch('process', function (a) {
+            $scope.stepA = $scope.process === 'loading';
+            $scope.stepB = $scope.process === 'initial' || $scope.process === 'allRight';
+            $scope.stepC = $scope.process === 'partRight' || $scope.process === 'fmtError';
+        });
+
         reset();
 
         var decideStep = function (resultTable) {
@@ -929,12 +935,10 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
             $scope.resultTable = response.data;
             $scope.serverFileName = response.fileName;
             decideStep($scope.resultTable);
-            $scope.$emit('onExerciseImportComplete');
         };
 
         angularFileUploader.onCompleteAll = function () {
             angularFileUploader.clearQueue();
-            $scope.$emit('onCompleteAll');
         };
 
         ///需要待校验逻辑实现后才能导入
@@ -948,6 +952,9 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
             httpService.post(uploadUrl, null, function (data) {
                 if (data.d && data.d.length > 0 && data.d[0].Status === -1) {
                     $scope.resultTable = data.d;
+                } else { 
+                    $scope.$emit('onExerciseImportComplete');
+                    $element.hide();
                 }
             });
         }

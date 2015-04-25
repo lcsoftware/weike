@@ -32,20 +32,34 @@ namespace App.G2S.DataProvider
             }
             else if (from.Equals("3"))
             {
-                ///习题验证 
-                ///读取Excel文件内容
-                HttpFileCollection files = HttpContext.Current.Request.Files;
-                HttpPostedFile postFile = files[0];
-                string filehead = Guid.NewGuid().ToString().Replace("-", "");
-                string Ext = Path.GetExtension(postFile.FileName);
-                string newFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Temp", filehead + Ext);
-                postFile.SaveAs(newFileName);
-                System.Data.DataTable table = NPOIHandler.ExcelToDataTable(newFileName, "Sheet1", true);
+                try
+                {
+                    ///习题验证 
+                    ///读取Excel文件内容
+                    HttpFileCollection files = HttpContext.Current.Request.Files;
+                    HttpPostedFile postFile = files[0];
+                    string filehead = Guid.NewGuid().ToString().Replace("-", "");
+                    string Ext = Path.GetExtension(postFile.FileName);
+                    string newFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Temp", filehead + Ext);
+                    postFile.SaveAs(newFileName);
+                    System.Data.DataTable table = NPOIHandler.ExcelToDataTable(newFileName, "Sheet1", true);
 
-                DataTable resultTable = ImportCheck(table, int.Parse(context.Request.Form["Category"]));
+                    DataTable resultTable = ImportCheck(table, int.Parse(context.Request.Form["Category"]));
 
-                var obj = new { fileName = filehead + Ext, data = resultTable };
-                context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(obj));
+                    var obj = new { fileName = filehead + Ext, data = resultTable };
+                    context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(obj));
+                }
+                catch (Exception ex)
+                {
+                    DataTable resultTable = BuildResultTable();
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "导入文件格式错误！";
+                    newRow["Status"] = "-2";
+                    newRow["RowNumber"] = 1;
+                    resultTable.Rows.Add(newRow);
+                    var obj = new { fileName = "", data = resultTable };
+                    context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(obj));
+                }
 
             }
             else if (from.Equals("4"))
@@ -261,7 +275,7 @@ namespace App.G2S.DataProvider
                     resultTable.Rows.Add(newRow);
                     continue;
                 }
-                if (string.IsNullOrEmpty(dr["选项1"].ToString()) &&
+                if (string.IsNullOrEmpty(dr["选项1"].ToString()) ||
                      string.IsNullOrEmpty(dr["选项2"].ToString())
                     )
                 {
@@ -342,7 +356,7 @@ namespace App.G2S.DataProvider
                     resultTable.Rows.Add(newRow);
                     continue;
                 }
-                if (string.IsNullOrEmpty(dr["选项1"].ToString()) &&
+                if (string.IsNullOrEmpty(dr["选项1"].ToString()) ||
                      string.IsNullOrEmpty(dr["选项2"].ToString())
                     )
                 {

@@ -269,6 +269,10 @@ appExercise.controller('ExerciseListCtrl', ['$scope', '$state', '$stateParams', 
         }
         $scope.pagesNum = 1;
 
+        $scope.$on('onExerciseImportComplete', function (e) {
+            filterChanged();
+        });
+
         var ExerciseSearch = function (pageSize, pageIndex) {
             $scope.checkAllValue = false;
             var model = {
@@ -611,32 +615,18 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$timeout', '$state
         });
 
         ///获取在线课程 
-        //contentService.User_OC_List(function (data) {
-        //    if (data.d) {
-        //        var courses = data.d;
-        //        var length = courses.length;
-        //        for (var i = 0; i < length; i++) {
-        //            if (courses[i].OCID == $stateParams.ocid) {
-        //                $scope.data.course = courses[i];
-        //                $scope.chapters.length = 0;
-        //                chapterService.Chapter_List({ OCID: $scope.data.course.OCID }, function (data) {
-        //                    if (data.d && data.d.length > 0) {
-        //                        chapterService.SectionFormat(data.d);
-        //                        var item = {};
-        //                        angular.copy(data.d[0], item);
-        //                        item.ChapterID = 0;
-        //                        item.Title = '请选择章节';
-        //                        $scope.chapters = data.d;
-        //                        $scope.chapters.insert(0, item);
-        //                        $scope.data.chapter = $scope.chapters[0];
-        //                        consoloe.log('tttttttttttttt');
-        //                    }
-        //                });
-        //                break;
-        //            }
-        //        }
-        //    }
-        //});
+        contentService.User_OC_List(function (data) {
+            if (data.d) {
+                var courses = data.d;
+                var length = courses.length;
+                for (var i = 0; i < length; i++) {
+                    if (courses[i].OCID == $stateParams.ocid) {
+                        $scope.data.course = courses[i]; 
+                        break;
+                    }
+                }
+            }
+        });
 
 
         //知识点
@@ -873,6 +863,7 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$timeout', '$state
 
         $scope.willTopBind = function (model, data) {
             //顶部关联项
+            console.log(data.course);
             model.exercisecommon.exercise.ShareRange = data.shareRange.id;
             model.exercisecommon.exercise.OCID = data.course.OCID;
             model.exercisecommon.exercise.CourseID = data.course.CourseID;//课程编号
@@ -2222,6 +2213,8 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
     });
 
     $scope.$on('willRequestSave', function (event, data) {
+        console.log('==============');
+        console.log(data.course);
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
