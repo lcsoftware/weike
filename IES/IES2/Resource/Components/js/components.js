@@ -108,7 +108,7 @@ app.directive('addKnowledge', function () {
 
         elem.find('#btnCancel,#btnSave,.close_pop').bind('click', function () {
             elem.hide();
-        })
+        }) 
     }
 
     return directive;

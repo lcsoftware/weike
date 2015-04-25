@@ -157,6 +157,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
         //$scope.ken.name = '';
         //$scope.ken.chapter = {};
         $scope.kenSave = function (ken, keeping) {
+            if (!ken.Name || ken.Name.length === 0) return;
             var newData = {
                 OCID: $scope.course.OCID,
                 CourseID: $scope.course.CourseID,
