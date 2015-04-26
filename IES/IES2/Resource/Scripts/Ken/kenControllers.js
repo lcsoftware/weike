@@ -227,6 +227,7 @@ appKnow.controller('KenCtrl', ['$scope', '$state', '$stateParams', 'freezeServic
             exerciseService.Exercise_Batch_ShareRange(ids, range.id, function (data) {
                 if (data.d === true) {
                     //filterChanged();
+                    exercise.ShareRange = range.id;
                 } else {
                     ///TODO 统一提示框 加美化效果
                     alert('共享操作失败！');
