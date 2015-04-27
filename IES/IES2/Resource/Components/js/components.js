@@ -30,11 +30,18 @@ app.directive('moreCourse', function () {
         }, function () {
             $(this).find('i').removeClass('slide_up');
             $(this).find('.second_nav').hide();
-        })
+        }); 
     }
 
     directive.controller = function ($scope) {
+
+        $scope.isMore = 0;
+
+        $scope.moreSelected = {};
+
         $scope.courseChange = function (course, isMore) {
+            $scope.isMore = isMore;
+            $scope.moreSelected = course;
             $scope.$emit('onWillCourseChanged', course, isMore);
         }
     }
@@ -101,7 +108,7 @@ app.directive('addKnowledge', function () {
 
         elem.find('#btnCancel,#btnSave,.close_pop').bind('click', function () {
             elem.hide();
-        })
+        }) 
     }
 
     return directive;
@@ -784,7 +791,7 @@ app.directive('iesFileUploader', ['FileUploader', function (FileUploader) {
 }]);
 
 //文件上传
-app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpService', function (FileUploader, exerciseService, httpService) {
+app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpService', '$templateCache', function (FileUploader, exerciseService, httpService, $templateCache) {
     var directive = {};
 
     directive.restrict = 'EA';
@@ -803,14 +810,11 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
 
         //----------上传文件start--------
         var reqUrl = window.appPatch + '/DataProvider/FileUpload.ashx?FROM=' + $scope.fileCatetory;
-        var angularFileUploader = $scope.iesUploader = new FileUploader({ url: reqUrl });
+        var angularFileUploader = $scope.exUploader = new FileUploader({ url: reqUrl, removeAfterUpload: true });
 
-        $scope.$on('onShowDialog', function (event) {
-            if (angularFileUploader) {
-                angularFileUploader.clearQueue();
-            }
-            $scope.resultTable.length = 0;
-            $scope.fileName = '';
+        $scope.$on('onShowDialog', function (event) { 
+            reset();
+            $scope.$apply();
         });
 
         $scope.$watch('exerciseCourse', function (v) {
@@ -828,11 +832,11 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
             $scope.templateUrl = v.templateUrl;
         });
 
-        $scope.$watch('iesUploader.queue.length', function (v) {
+        $scope.$watch('exUploader.queue.length', function (v) {
             if (v > 0) {
                 $scope.fileName = angularFileUploader.queue[0].file.name;
                 $scope.stepA = true;
-                $scope.iesUploader.uploadAll();
+                $scope.exUploader.uploadAll();
             }
         });
 
@@ -847,7 +851,7 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
             { id: 13, name: "写作题", templateUrl: window.appPatch + '/ExerciseTemplates/问答题_翻译题_名词解释_写作题.xls' },
         ]
 
-        $scope.importTypeSelected = $scope.importTypes[3];
+        $scope.importTypeSelected = $scope.importTypes[2];
         $scope.templateUrl = $scope.importTypeSelected.templateUrl;
         ///客户端文件名称
         $scope.fileName = '';
@@ -855,6 +859,7 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
         $scope.serverFileName = '';
         $scope.process = 'initial'
         $scope.resultTable = [];
+        $scope.canImport = false;
 
         $scope.stepA = $scope.process === 'loading';
         $scope.stepB = $scope.process === 'initial' || $scope.process === 'allRight';
@@ -862,6 +867,30 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
 
         $scope.errors = 0;
         $scope.rights = 0;
+
+        var reset = function () {
+            ///客户端文件名称
+            $scope.fileName = '';
+            ///保存在服务器上的文件名称
+            $scope.serverFileName = '';
+            $scope.process = 'initial'
+            $scope.resultTable.length = 0;
+
+            $scope.stepA = $scope.process === 'loading';
+            $scope.stepB = $scope.process === 'initial' || $scope.process === 'allRight';
+            $scope.stepC = $scope.process === 'partRight' || $scope.process === 'fmtError';
+
+            $scope.errors = 0;
+            $scope.rights = 0;
+        }
+
+        $scope.$watch('process', function (a) {
+            $scope.stepA = $scope.process === 'loading';
+            $scope.stepB = $scope.process === 'initial' || $scope.process === 'allRight';
+            $scope.stepC = $scope.process === 'partRight' || $scope.process === 'fmtError';
+        });
+
+        reset();
 
         var decideStep = function (resultTable) {
             $scope.errors = 0;
@@ -873,10 +902,14 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
                 }
             }
             $scope.rights = length - $scope.errors;
-            if ($scope.rights === length) {
+            if (resultTable.length === 1 && resultTable[0].Status === '-2') {
+                $scope.process = 'fmtError'
+            } else if ($scope.rights === length) {
                 $scope.process = 'allRight'
-            } else {
-                $scope.process = 'partRight'
+                $scope.canImport = true;
+            }
+            else {
+                $scope.process = 'partRight';
             }
 
             $scope.stepA = $scope.process === 'loading';
@@ -906,17 +939,15 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
             $scope.resultTable = response.data;
             $scope.serverFileName = response.fileName;
             decideStep($scope.resultTable);
-            $scope.$emit('onExerciseImportComplete');
         };
 
         angularFileUploader.onCompleteAll = function () {
             angularFileUploader.clearQueue();
-            $scope.iesUploader.clearQueue();
-            $scope.$emit('onCompleteAll');
         };
 
         ///需要待校验逻辑实现后才能导入
         $scope.startImport = function () {
+            if (!$scope.serverFileName) return;
             var uploadUrl = '/DataProvider/FileUpload.ashx?FROM=4';
             uploadUrl += "&fileName=" + $scope.serverFileName;
             uploadUrl += "&OCID=" + $scope.exerciseCourse.OCID;
@@ -925,9 +956,12 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
             httpService.post(uploadUrl, null, function (data) {
                 if (data.d && data.d.length > 0 && data.d[0].Status === -1) {
                     $scope.resultTable = data.d;
+                } else { 
+                    $scope.$emit('onExerciseImportComplete');
+                    $element.hide();
                 }
             });
-        }
+        } 
 
     }
 

@@ -81,6 +81,19 @@ appFilter.filter('dateFormatYear', [function () {
     }
 }]);
 
+appFilter.filter('statusError', [function () {
+    return function (inputArray) {
+        var array = [];
+        if (inputArray != undefined) {
+            for (var i = 0; i < inputArray.length; i++) {
+                if (inputArray[i].Status !== '1') {
+                    array.push(inputArray[i]);
+                }
+            }
+        }
+        return array;
+    }
+}]);
 //秒转时分秒
 appFilter.filter('formatSeconds', ['$sce', function ($sce) {
     return function (value) {
