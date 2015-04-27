@@ -86,6 +86,10 @@
     <Reference Include="IES.Security">
       <HintPath>..\Lib\IES.Security.dll</HintPath>
     </Reference>
+    <Reference Include="IES.Service, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Resource\Resource\bin\IES.Service.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.1.0.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -1342,10 +1346,6 @@
     <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
       <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
       <Name>IES.Resource.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.Service\IES.Service.csproj">
-      <Project>{3a3c9b64-1cd3-4eca-9dbd-ce5b4f3f833e}</Project>
-      <Name>IES.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

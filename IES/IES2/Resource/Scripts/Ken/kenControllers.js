@@ -698,6 +698,7 @@ appKnow.controller('KenTopicCtrl', ['$scope', '$state', 'resourceKenService', 'c
         });
 
         $scope.$on('courseLoaded', function (event, course) {
+            $scope.dataChapters.length = 0;
             $scope.loadStart($scope.course);
             var freezeData = freezeService.getFreeze(tagService.KenListTag);
             if (freezeData) {

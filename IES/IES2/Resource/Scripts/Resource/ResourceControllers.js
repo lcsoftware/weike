@@ -156,9 +156,20 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                     arr.push($scope.tabTitles[i]);
                 }
             }
+            $scope.tabTitles.length = 0;
             $scope.tabTitles = arr;
         }
+        //单击文件夹名称方法,进入文件夹
+        $scope.folderClick = function (item) {
+            if (item.RelationType == 1) return;
+            $scope.model.ParentID = item.Id;
+            $scope.folderRelation = item;
+            $scope.filterChanged();
 
+            $scope.order += 1;
+            if (item.Id == null) return;
+            $scope.tabTitles.push({ id: item.Id, name: '>' + item.Name, order: $scope.order });
+        }
         $scope.typeChanged = function (v) {
             $scope.model.FileType = v;
             $scope.filterChanged();
@@ -228,17 +239,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             }
         }
 
-        //单击文件夹名称方法,进入文件夹
-        $scope.folderClick = function (item) {
-            if (item.RelationType == 1) return;
-            $scope.model.ParentID = item.Id;
-            $scope.folderRelation = item;
-            $scope.filterChanged();
-
-            $scope.order += 1;
-            if (item.Id == null) return;
-            $scope.tabTitles.push({ id: item.Id, name: '>' + item.Name, order: $scope.order });
-        }
+      
 
 
         //查询

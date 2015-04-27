@@ -5,10 +5,18 @@
 @using IES.Service.Common;
 @{
     List<Menu> DropDownMenuList = AuService.Menu_UserDropDown_List();
+    
+   int userspace = 3;
+   string menuid = "C2";
+   
+   if( UserService.IsTeacher )
+   {
+       userspace = 2;
+       menuid = "B2";
+   }
 
-    List<Menu> TopMenulist = AuService.Menu_Top_List(2);
-
-    List<Menu> LeftMenu = AuService.Menu_Left_List("B2", 2);
+   List<Menu> TopMenulist = AuService.Menu_Top_List(userspace);
+   List<Menu> LeftMenu = AuService.Menu_Left_List(menuid, userspace);
 }
 
 @helper gethref(string url, string topmenu)
@@ -41,8 +49,7 @@
         <div class="public_header">
             <div class="header_center">
                 <div class="company_logo">
-                    @*<img src="../../images/company_logo.png" width="70" height="30" alt="">上海卓越睿新数码科技有限公司*@
-                    @*<img src="images/company_logo.png" width="70" height="30" alt="">*@上海卓越睿新数码科技有限公司
+                    @IES.Service.Common.ConfigService.CfgSchool_CC.SchoolName
                 </div>
                 <div class="user_box">
                     <p class="user_name">
@@ -83,7 +90,6 @@
                 <!--用户信息开始-->
                 <div class="user">
                     <img src=@UserService.CurrentUserIMG width="110" height="100" />
-                    @*<img src="/images/user.png" width="110" height="100" />*@
                     <a class="teacher_name" href="#"> @UserService.CurrentUser.UserName 	</a>
                     @*<a class="switch_btn" href="#" style="width:120px;">这里是教师端<i class="icon icon_arrow"></i></a>
                     <span class="icon_24 icon_user"></span>*@

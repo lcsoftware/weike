@@ -28,6 +28,11 @@ namespace App.Resource.DataProvider.Chapter
         [WebMethod]
         public static Chapter Chapter_ADD(Chapter model)
         {
+            if (!IES.Service.UserService.OC_IsRole(model.OCID))
+            {
+                return null;
+            }
+
             model.CreateUserID = IES.Service.UserService.CurrentUser.UserID;  
             return new ChapterBLL().Chapter_ADD(model);
         }
@@ -52,12 +57,22 @@ namespace App.Resource.DataProvider.Chapter
         [WebMethod]
         public static bool Chapter_Del(Chapter model)
         {
+            if (!IES.Service.UserService.OC_IsRole(model.OCID))
+            {
+                return false ;
+            }
+
             return new ChapterBLL().Chapter_Del(model);
         } 
 
         [WebMethod]
         public static IList<Chapter> Chapter_Move(Chapter model, string direction)
         {
+            if (!IES.Service.UserService.OC_IsRole(model.OCID))
+            {
+                return null;
+            }
+
             var BLL = new ChapterBLL();
             bool moved = BLL.Chapter_Move(model.ChapterID, direction);
             return moved ? BLL.Chapter_List(model) : null; 
@@ -67,6 +82,11 @@ namespace App.Resource.DataProvider.Chapter
         [WebMethod]
         public static List<IES.Resource.Model.File> File_ChapterID_KenID_List(int chapterId, int kenId, int ocid)
         {
+            if (!IES.Service.UserService.OC_IsRole(ocid ))
+            {
+                return null;
+            }
+
             Chapter chapter = new Chapter();
             chapter.ChapterID = chapterId;
             chapter.OCID = ocid;
@@ -78,6 +98,11 @@ namespace App.Resource.DataProvider.Chapter
         [WebMethod]
         public static List<IES.Resource.Model.Exercise> Exercise_ChapterID_KenID_List(int chapterId, int kenId, int ocid)
         {
+            if (!IES.Service.UserService.OC_IsRole(ocid))
+            {
+                return null;
+            }
+
             Chapter chapter = new Chapter();
             chapter.ChapterID = chapterId;
             chapter.OCID = ocid;
@@ -89,6 +114,11 @@ namespace App.Resource.DataProvider.Chapter
         [WebMethod]
         public static IList<Exercise> Chapter_Exercise_List(int chapterId, int kenId, int ocid)
         {
+            if (!IES.Service.UserService.OC_IsRole(ocid))
+            {
+                return null;
+            }
+
             Chapter chapter = new Chapter();
             chapter.ChapterID = chapterId;
             chapter.OCID = ocid;

@@ -17,6 +17,10 @@ namespace App.Resource.DataProvider.Exercise
         [WebMethod]
         public static List<IES.Resource.Model.Exercise> Exercise_Search(IES.Resource.Model.Exercise model, Key key, string keys, string kens, int pageSize, int pageIndex)
         {
+            if (!IES.Service.UserService.OC_IsRole(model.OCID))
+            {
+                return null;
+            }
             model.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
             return new ExerciseBLL().Exercise_Search(model, key, keys, kens, pageSize, pageIndex);
         }
@@ -24,6 +28,7 @@ namespace App.Resource.DataProvider.Exercise
         [WebMethod]
         public static bool Attachment_SourceID_Upd(Attachment model)
         {
+
             return AttachmentBLL.Attachment_SourceID_Upd(model);
         }
 
@@ -159,6 +164,12 @@ namespace App.Resource.DataProvider.Exercise
         [WebMethod]
         public static DataTable ExerciseInfo_Import(DataTable dt, int ocid, int courseId, int exerciseType)
         {
+
+            if (!IES.Service.UserService.OC_IsRole(ocid))
+            {
+                return null;
+            }
+
             if (dt.Rows.Count == 0) return null;
             switch (exerciseType)
             {
@@ -429,6 +440,8 @@ namespace App.Resource.DataProvider.Exercise
         [WebMethod]
         public static ExerciseInfo Exercise_Judge_M_Edit(string model)
         {
+
+
             ExerciseInfo v = Newtonsoft.Json.JsonConvert.DeserializeObject<ExerciseInfo>(model);
             v.exercisecommon.exercise.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
             v.exercisecommon.exercise.CreateUserName = IES.Service.UserService.CurrentUser.UserName;

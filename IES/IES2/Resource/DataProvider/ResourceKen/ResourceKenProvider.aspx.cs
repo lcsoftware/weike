@@ -19,6 +19,12 @@ namespace App.Resource.DataProvider.ResourceKen
         [WebMethod]
         public static IList<IES.Resource.Model.ResourceKen> ResourceKen_List_Source(int ocid, string source)
         {
+            if (!IES.Service.UserService.OC_IsRole(ocid))
+            {
+                return null;
+            }
+
+
             IList <IES.Resource.Model.ResourceKen> kens = new ResourceKenBLL().ResourceKen_List_Source(ocid, source);
             return kens;
         }
@@ -26,6 +32,11 @@ namespace App.Resource.DataProvider.ResourceKen
         [WebMethod]
         public static IList<IES.Resource.Model.Ken> ResourceKen_List(int ocid, string searchKey, string source, int topNum)
         {
+            if (!IES.Service.UserService.OC_IsRole(ocid))
+            {
+                return null;
+            }
+
             var user = IES.Service.UserService.CurrentUser;
             return new ResourceKenBLL().ResourceKen_List(ocid, searchKey, source, user.UserID, topNum);
         }

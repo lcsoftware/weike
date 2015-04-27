@@ -329,6 +329,11 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static IList<Folder> Folder_List(Folder folder)
         {
+            if (!IES.Service.UserService.OC_IsRole(folder.OCID))
+            {
+                return null;
+            }
+
             folder.CreateUserID = IES.Service.UserService.CurrentUser.UserID;            
             IList<Folder> allFolders = new FileBLL().Folder_List(folder);
             return allFolders;
@@ -342,6 +347,10 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static Folder Folder_ADD(Folder folder)
         {
+            if (!IES.Service.UserService.OC_IsRole(folder.OCID))
+            {
+                return null;
+            }
             folder.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
             return new FileBLL().Folder_ADD(folder);
         }
@@ -353,6 +362,11 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static bool Folder_Name_Upd(Folder folder)
         {
+            if (!IES.Service.UserService.OC_IsRole(folder.OCID))
+            {
+                return false ;
+            }
+
             return new FileBLL().Folder_Name_Upd(folder);
         }
         /// <summary>
@@ -371,6 +385,11 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static Folder Folder_GetModel(Folder folder)
         {
+            if (!IES.Service.UserService.OC_IsRole(folder.OCID))
+            {
+                return null;
+            }
+
             return new FileBLL().Folder_GetModel(folder);
         }
 
@@ -382,6 +401,11 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static bool Folder_ParentID_Upd(Folder folder)
         {
+            if (!IES.Service.UserService.OC_IsRole(folder.OCID))
+            {
+                return false ;
+            }
+
             return new FileBLL().Folder_ParentID_Upd(folder);
         }
 
@@ -393,6 +417,11 @@ namespace App.Resource.DataProvider.Resource
         [WebMethod]
         public static bool Folder_Del(Folder folder)
         {
+            if (!IES.Service.UserService.OC_IsRole(folder.OCID))
+            {
+                return false ;
+            }
+
             return new FileBLL().Folder_Del(folder);
         }
 
