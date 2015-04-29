@@ -175,6 +175,14 @@ namespace App.G2S.DataProvider
                     newRow["RowNumber"] = index;
                     resultTable.Rows.Add(newRow);
                 }
+                else
+                {
+                    DataRow newRow = resultTable.NewRow();
+                    newRow["Message"] = "格式正确！";
+                    newRow["Status"] = "1";
+                    newRow["RowNumber"] = index;
+                    resultTable.Rows.Add(newRow);
+                }
             }
         }
 
