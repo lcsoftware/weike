@@ -699,7 +699,11 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             }
             if (folderIds.length > 0) {
                 folderIds = folderIds.substr(0, folderIds.length - 1);
-                resourceService.Folder_Batch_ShareRange(folderIds, range.id);
+                resourceService.Folder_Batch_ShareRange(folderIds, range.id, function () {
+                    angular.forEach($scope.checks, function (item) {
+                        if (item.RelationType === 0) item.ShareRange = range.id;
+                    });
+                });
             }
             //$scope.filterChanged();
         });
