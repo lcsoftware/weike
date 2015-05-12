@@ -25,7 +25,8 @@ namespace IES.Resource.Model
     public enum FileType
     {
         Folder = 0,
-        File = 1
+        File = 1,
+        None = -1
     }
 
     public class FolderRelation

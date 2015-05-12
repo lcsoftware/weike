@@ -254,7 +254,7 @@ namespace App.Resource.DataProvider.Resource
 
         [WebMethod]
         public static IList<FolderRelation> ResourceFolderTree(IList<FolderRelation> movedFolders)
-        { 
+        {
             var user = UserService.CurrentUser;
             //用户所有的课程
             IList<OC> ocs = UserService.User_OC_List(user);
@@ -265,7 +265,7 @@ namespace App.Resource.DataProvider.Resource
             fr.Id = 0;
             fr.Name = "个人资料";
             fr.ParentID = 0;
-            fr.RelationType = FileType.File;
+            fr.RelationType = FileType.None;
             roots.Add(fr);
 
             foreach (var item in ocs)
@@ -275,13 +275,13 @@ namespace App.Resource.DataProvider.Resource
                 fr.Name = item.Name;
                 fr.ParentID = 0;
                 fr.OCID = item.OCID;
-                fr.RelationType = FileType.File;
+                fr.RelationType = FileType.None;
                 roots.Add(fr);
             }
-            
+
             IList<FolderRelation> relationFolders = new List<FolderRelation>();
             IList<Folder> folders = new FileBLL().Folder_ALL_Tree(user.UserID);
-            
+
             foreach (var item in folders)
             {
                 var exists = from v in movedFolders where item.FolderID == v.Id && v.RelationType == FileType.Folder select v;
@@ -289,17 +289,24 @@ namespace App.Resource.DataProvider.Resource
                 fr = new FolderRelation();
                 fr.Id = item.FolderID;
                 fr.Name = item.FolderName;
-                fr.ParentID = item.ParentID == 0 ? item.OCID : item.ParentID;
+                //fr.ParentID = item.ParentID == 0 ? item.OCID : item.ParentID;
+                fr.ParentID = item.ParentID;
                 fr.RelationType = FileType.Folder;
                 fr.OCID = item.OCID;
                 relationFolders.Add(fr);
-            } 
-           
-            foreach (var root in roots)
-            {
-                BuildRelationFolder(relationFolders, root);
             }
 
+            var rootFolders = from v in relationFolders where v.ParentID == 0 select v;
+            
+            foreach (var rootFolder in rootFolders)
+            {
+                BuildRelationFolder(relationFolders, rootFolder);
+                var root = from v in roots where v.OCID == rootFolder.OCID select v;
+                if (root.Any())
+                {
+                    root.First().Children.Add(rootFolder);
+                }
+            }          
             return roots;
         }
         #endregion
@@ -334,7 +341,7 @@ namespace App.Resource.DataProvider.Resource
                 return null;
             }
 
-            folder.CreateUserID = IES.Service.UserService.CurrentUser.UserID;            
+            folder.CreateUserID = IES.Service.UserService.CurrentUser.UserID;
             IList<Folder> allFolders = new FileBLL().Folder_List(folder);
             return allFolders;
         }
@@ -364,7 +371,7 @@ namespace App.Resource.DataProvider.Resource
         {
             if (!IES.Service.UserService.OC_IsRole(folder.OCID))
             {
-                return false ;
+                return false;
             }
 
             return new FileBLL().Folder_Name_Upd(folder);
@@ -403,7 +410,7 @@ namespace App.Resource.DataProvider.Resource
         {
             if (!IES.Service.UserService.OC_IsRole(folder.OCID))
             {
-                return false ;
+                return false;
             }
 
             return new FileBLL().Folder_ParentID_Upd(folder);
@@ -419,7 +426,7 @@ namespace App.Resource.DataProvider.Resource
         {
             if (!IES.Service.UserService.OC_IsRole(folder.OCID))
             {
-                return false ;
+                return false;
             }
 
             return new FileBLL().Folder_Del(folder);

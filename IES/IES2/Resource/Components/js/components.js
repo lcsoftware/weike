@@ -598,10 +598,10 @@ app.directive('moveFolder', function () {
 
         $scope.onSelectedMove = function (node) {
             $scope.$emit('onSelectedMove', node);
-            $scope.selected = node.Id;
+            $scope.selected = node;
         }
         $scope.$on('selectMoveClear', function (event, item) {
-            $scope.selected = -1;
+            $scope.selected = null;
         });
     }
 
