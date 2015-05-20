@@ -851,7 +851,7 @@ app.directive('iesExerciseUploader', ['FileUploader', 'exerciseService', 'httpSe
             { id: 13, name: "写作题", templateUrl: window.appPatch + '/ExerciseTemplates/问答题_翻译题_名词解释_写作题.xls' },
         ]
 
-        $scope.importTypeSelected = $scope.importTypes[2];
+        $scope.importTypeSelected = $scope.importTypes[0];
         $scope.templateUrl = $scope.importTypeSelected.templateUrl;
         ///客户端文件名称
         $scope.fileName = '';
