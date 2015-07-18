@@ -21,7 +21,7 @@ namespace IES.Service.Common
     /// </summary>
     public class ConfigService
     {
-
+        public static string IndexURL = "";
         /// <summary>
         /// 获取系统的描述信息列表
         /// </summary>

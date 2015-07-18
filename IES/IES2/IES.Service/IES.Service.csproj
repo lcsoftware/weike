@@ -71,8 +71,20 @@
     <Reference Include="IES.G2S.OC.IBLL">
       <HintPath>..\Lib\IES.G2S.OC.IBLL.dll</HintPath>
     </Reference>
+    <Reference Include="IES.G2S.Resource.BLL">
+      <HintPath>..\..\..\..\..\epweike\IES-2015-06-16\Resource\bin\IES.G2S.Resource.BLL.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.G2S.Resource.DAL">
+      <HintPath>..\..\..\..\..\epweike\IES-2015-06-16\Resource\bin\IES.G2S.Resource.DAL.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.G2S.Resource.IBLL">
+      <HintPath>..\..\..\..\..\epweike\IES-2015-06-16\Resource\bin\IES.G2S.Resource.IBLL.dll</HintPath>
+    </Reference>
     <Reference Include="IES.JW.Model">
       <HintPath>..\Lib\IES.JW.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="IES.Resource.Model">
+      <HintPath>..\..\..\..\..\epweike\IES-2015-06-16\Resource\bin\IES.Resource.Model.dll</HintPath>
     </Reference>
     <Reference Include="IES.Security">
       <HintPath>..\Lib\IES.Security.dll</HintPath>
@@ -101,24 +113,6 @@
     <Compile Include="User\AuService.cs" />
     <Compile Include="User\UserAgent.cs" />
     <Compile Include="User\UserService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\IES.G2S.Resource.BLL\IES.G2S.Resource.BLL.csproj">
-      <Project>{7893d3de-1517-443b-9c4a-191ec233a073}</Project>
-      <Name>IES.G2S.Resource.BLL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.G2S.Resource.DAL\IES.G2S.Resource.DAL.csproj">
-      <Project>{97ffd6d3-8095-4592-98bd-bccd4af980d3}</Project>
-      <Name>IES.G2S.Resource.DAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.G2S.Resource.IBLL\IES.G2S.Resource.IBLL.csproj">
-      <Project>{972577f0-3061-4659-933c-b065185daf80}</Project>
-      <Name>IES.G2S.Resource.IBLL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IES.Resource.Model\IES.Resource.Model.csproj">
-      <Project>{feb7e65d-bec8-4cb9-9029-135f769dd3a1}</Project>
-      <Name>IES.Resource.Model</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

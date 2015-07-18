@@ -38,6 +38,10 @@ namespace IES.Service
             return bll.OC_Simple_List( model.UserID , Int32.Parse(model.CurrentUserSpace )  );
         }
 
+        public static bool OC_IsRole(int ocid)
+        {
+            return true;
+        }
 
 
         /// <summary>
@@ -174,7 +178,8 @@ namespace IES.Service
         {
             get
             {
-                string userid = IESCookie.GetCookieValue("ies");
+                //string userid = IESCookie.GetCookieValue("ies");
+                string userid = "1";
 
                 IES.JW.Model.User user = new IES.JW.Model.User { UserID = Int32.Parse(userid) };
                 user = UserService.User_Get(user);

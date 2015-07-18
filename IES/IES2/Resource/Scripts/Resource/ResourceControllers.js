@@ -363,7 +363,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             for (var i = 0; i < $scope.checksSelect.length; i++) {
                 if ($scope.checksSelect[i].RelationType == 0) {
                     var folder = { FolderID: $scope.checksSelect[i].Id, OCID: $scope.folder.OCID };
-                    folder.ParentID = $scope.folder.RelationType === 1 ? 0 : $scope.folder.Id;
+                    folder.ParentID = $scope.folder.RelationType === 1 || $scope.folder.RelationType === -1 ? 0 : $scope.folder.Id;
                     resourceService.Folder_ParentID_Upd(folder, function (data) {
                         if (data.d) {
                             $scope.filterChanged();
@@ -372,7 +372,7 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
                     });
                 } else {
                     var file = { OCID: $scope.folder.OCID, FileID: $scope.checksSelect[i].Id };
-                    file.FolderID = $scope.folder.RelationType === 1 ? 0 : $scope.folder.Id;
+                    file.FolderID = $scope.folder.RelationType === 1  || $scope.folder.RelationType === -1 ? 0 : $scope.folder.Id;
                     resourceService.File_FolderID_Upd(file, function (data) {
                         if (data.d) {
                             $scope.filterChanged();
@@ -699,11 +699,11 @@ appResource.controller('ResourceCtrl', ['$scope', 'resourceService', 'pageServic
             }
             if (folderIds.length > 0) {
                 folderIds = folderIds.substr(0, folderIds.length - 1);
-                resourceService.Folder_Batch_ShareRange(folderIds, range.id, function () {
-                    angular.forEach($scope.checks, function (item) {
+                resourceService.Folder_Batch_ShareRange(folderIds, range.id, function(data){
+					angular.forEach($scope.checks, function (item) {
                         if (item.RelationType === 0) item.ShareRange = range.id;
                     });
-                });
+				});
             }
             //$scope.filterChanged();
         });

@@ -673,67 +673,6 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$timeout', '$state
             } else return false;
         }
 
-        $scope.$on('$viewContentLoaded', function () {
-            if ($scope.$stateParams.ExerciseID == '-1') {
-                var param = { ExerciseID: $scope.$stateParams.ExerciseID };
-                switch ($scope.data.exerciseType.id) {
-                    case '18': //简答题
-                        $state.go('exercise.shortanswer', param)
-                        break;
-                    case '4': //名词解释
-                        $state.go('exercise.noun', param)
-                        break;
-                    case '12': //听力题
-                        $state.go('exercise.listening', param)
-                        break;
-                    case '17': //自定义题
-                        $state.go('exercise.custom', param)
-                        break;
-                    case '10': //问答题
-                        $state.go('exercise.quesanswer', param)
-                        break;
-                    case '13': //写作题
-                        $state.go('exercise.quesanswer', param)
-                        break;
-                    case '1': //判断题
-                        $state.go('exercise.truefalse', param)
-                        break;
-                    case '5': //填空题
-                        $state.go('exercise.fillblank', param)
-                        break;
-                        //case '4': //填空客观题
-                        //    $state.go('exercise.fillblank2', param)
-                        //    break;
-                    case '6':  //连线题
-                        $state.go('exercise.connection', param)
-                        break;
-                    case '2'://单选题
-                        $state.go('exercise.radio', param)
-                        break;
-                    case '3'://多选题
-                        $state.go('exercise.multiple', param)
-                        break;
-                    case '11': //翻译题
-                        $state.go('exercise.translation', param)
-                        break;
-                    case '7': //排序题
-                        $state.go('exercise.sorting', param)
-                        break;
-                    case '8': //分析题
-                        $state.go('exercise.analysis', param)
-                        break;
-                    case '9': //计算题
-                        $state.go('exercise.analysis', param)
-                        break;
-                    case '14': //阅读理解题
-                        $state.go('exercise.reading', param)
-                        break;
-                    default:
-                        break;
-                }                
-            }
-        });
-
         $scope.changeExerciseType = function (v) {
             if ($scope.$stateParams.ExerciseID > 0) {
                 var type = $scope.data.exerciseType.id;
@@ -830,16 +769,12 @@ appExercise.controller('ExerciseCtrl', ['$scope', '$window', '$timeout', '$state
             }
         }
 
-        var forbidSubmit = false;        
+        var forbidSubmit = false;
 
         $scope.submit = function () {
             if (forbidSubmit) return;
             forbidSubmit = true;
             $scope.$broadcast('willRequestSave', $scope.data);
-        }
-
-        $scope.resetForbid = function () {
-            forbidSubmit = false;
         }
 
         //var setCourse = function (OCID, courseID) {
@@ -1173,7 +1108,6 @@ appExercise.controller('ListeningCtrl', ['$scope', 'exerciseService', '$statePar
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
             alert('请填写题干');
-            $scope.$parent.resetForbid();
             return;
         }
 
@@ -1498,7 +1432,6 @@ appExercise.controller('CustomCtrl', ['$scope', 'exerciseService', '$stateParams
 
         if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
             alert('请填写题干');
-            $scope.$parent.resetForbid();
             return;
         }
 
@@ -1765,7 +1698,6 @@ appExercise.controller('ReadingCtrl', ['$scope', 'exerciseService', '$stateParam
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
             alert('请填写题干');
-            $scope.$parent.resetForbid();
             return;
         }
 
@@ -2072,7 +2004,6 @@ appExercise.controller('QuesanswerCtrl', ['$scope', 'exerciseService', '$statePa
 
             if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
                 alert('请填写题干');
-                $scope.$parent.resetForbid();
                 return;
             }
 
@@ -2185,7 +2116,6 @@ appExercise.controller('NounCtrl', ['$scope', 'exerciseService', '$stateParams',
 
         if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
             alert('请填写题干');
-            $scope.$parent.resetForbid();
             return;
         }
 
@@ -2283,7 +2213,8 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
     });
 
     $scope.$on('willRequestSave', function (event, data) {
-       
+        console.log('==============');
+        console.log(data.course);
         var editor = EWEBEDITOR.Instances["editorInput"];
         $scope.model.exercisecommon.exercise.Conten = editor.getHTML();
         var editor1 = EWEBEDITOR.Instances["editorAnalysis"];
@@ -2291,13 +2222,11 @@ appExercise.controller('TruefalseCtrl', ['$scope', 'exerciseService', '$statePar
 
         if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
             alert('请填写题干');
-            $scope.$parent.resetForbid();
             return;
         }
 
         if ($scope.model.exercisecommon.exercise.Answer == null) {
             alert('请选择正确答案');
-            $scope.$parent.resetForbid();
             return;
         }
         $scope.willTopBind($scope.model, data);
@@ -2373,7 +2302,6 @@ appExercise.controller('FillBlankCtrl', ['$scope', 'exerciseService', '$statePar
 
         if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
             alert('请填写题干');
-            $scope.$parent.resetForbid();
             return;
         }
 
@@ -2550,7 +2478,6 @@ appExercise.controller('ConnectionCtrl', ['$scope', 'exerciseService', '$statePa
 
         if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
             alert('请填写题干');
-            $scope.$parent.resetForbid();
             return;
         }
 
@@ -2738,7 +2665,6 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
 
         if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
             alert('请填写题干');
-            $scope.$parent.resetForbid();
             return;
         }
         var isNull = true;
@@ -2750,7 +2676,6 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
         }
         if (isNull) {
             alert('请填写选项');
-            $scope.$parent.resetForbid();
             return;
         }
         var isNullCorrect = true;
@@ -2760,7 +2685,6 @@ appExercise.controller('RadioCtrl', ['$scope', 'exerciseService', '$stateParams'
         }
         if (isNullCorrect) {
             alert('请选择正确答案');
-            $scope.$parent.resetForbid();
             return;
         }
 
@@ -2898,7 +2822,6 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
 
         if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
             alert('请填写题干');
-            $scope.$parent.resetForbid();
             return;
         }
 
@@ -2911,7 +2834,6 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
         }
         if (isNull) {
             alert('请填写选项');
-            $scope.$parent.resetForbid();
             return;
         }
         var isNullCorrect = true;
@@ -2921,7 +2843,6 @@ appExercise.controller('MultipleCtrl', ['$scope', 'exerciseService', '$statePara
         }
         if (isNullCorrect) {
             alert('请选择正确答案');
-            $scope.$parent.resetForbid();
             return;
         }
 
@@ -3057,7 +2978,6 @@ appExercise.controller('TranslationCtrl', ['$scope', 'exerciseService', '$stateP
 
         if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
             alert('请填写题干');
-            $scope.$parent.resetForbid();
             return;
         }
 
@@ -3131,7 +3051,6 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
 
         if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
             alert('请填写题干');
-            $scope.$parent.resetForbid();
             return;
         }
         var isNull = true;
@@ -3143,7 +3062,6 @@ appExercise.controller('SortingCtrl', ['$scope', 'exerciseService', '$stateParam
         }
         if (isNull) {
             alert('请填写选项');
-            $scope.$parent.resetForbid();
             return;
         }
 
@@ -3284,7 +3202,6 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
 
         if ($scope.model.exercisecommon.exercise.Conten == "" || $scope.model.exercisecommon.exercise.Conten == null) {
             alert('请填写题干');
-            $scope.$parent.resetForbid();
             return;
         }
 
@@ -3292,7 +3209,6 @@ appExercise.controller('AnalysisCtrl', ['$scope', 'exerciseService', '$statePara
         for (var i = 0; i < length; i++) {
             if ($scope.model.exercisechoicelist[i].Conten == "") {
                 alert('必须填写所有选项的题干');
-                $scope.$parent.resetForbid();
                 return;
             }
         }
